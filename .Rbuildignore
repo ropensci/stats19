@@ -1,4 +1,9 @@
+^\.travis\.yml$
 ^LICENSE\.md$
 ^README\.Rmd$
 ^stats19\.Rproj$
 ^\.Rproj\.user$
+^Stats19_Data_2005-2014.zip$
+^Accidents0514.csv$
+^Casualties0514.csv$
+^Vehicles0514.csv$

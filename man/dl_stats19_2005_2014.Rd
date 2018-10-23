@@ -7,7 +7,7 @@
 
   dl_stats19_2005_2014(zip_url = paste0("http://data.dft.gov.uk.s3.amazonaws.com/",
   "road-accidents-safety-data/Stats19_Data_2005-2014.zip"),
-  data_dir = tempdir())
+  data_dir = ".")
 }
 \arguments{
 \item{zip_url}{The url where the data is stored}

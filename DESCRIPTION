@@ -14,7 +14,6 @@ LazyData: true
 Imports: 
     sf,
     foreign,
-    tibble,
     readr
 Suggests: 
     knitr,

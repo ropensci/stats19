@@ -1,4 +1,7 @@
 
+[![Travis build
+status](https://travis-ci.org/ITSLeeds/stats19.svg?branch=master)](https://travis-ci.org/ITSLeeds/stats19)
+
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 # stats19
@@ -37,8 +40,8 @@ devtools::install_github("ITSLeeds/stats19")
 ## Data download
 
 **stats19** enables download of raw stats19 data with `dl_*` functions.
-The following code chunk, for example, downloads zip files containing
-Stats19 data from 2005 to 2014:
+The following code chunk, for example, downloads and unzips a .zip file
+containing Stats19 data from 2005 to 2014:
 
 ``` r
 dl_stats19_2005_2014()
