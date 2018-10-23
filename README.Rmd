@@ -28,7 +28,7 @@ It builds on previous work including:
 
 Install the latest version with:
 
-```{r install, results='hide', message=FALSE}
+```{r install, eval=FALSE}
 devtools::install_github("ITSLeeds/stats19")
 ```
 
@@ -39,12 +39,13 @@ devtools::install_github("ITSLeeds/stats19")
 <!-- install.packages("stats19") -->
 <!-- ``` -->
 
-## Example
+## Data download
 
-This is a basic example which shows you how to solve a common problem:
+**stats19** enables download of raw stats19 data with `dl_*` functions.
+The following code chunk, for example, downloads zip files containing Stats19 data from 2005 to 2014:
 
-```{r example}
-## basic example code
+```{r example, eval=FALSE}
+dl_stats19_2005_2014()
 ```
 
 ## References
