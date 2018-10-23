@@ -132,15 +132,15 @@ format_stats19_2005_2014_ac <- function(ac) {
 #'
 #' Ensure you have a fast internet connection and at least 100 Mb space.
 #'
-#' @inheritParams read_stats19_ac
+#' @inheritParams read_stats19_2005_2014_ac
 #' @export
 #' @examples
 #' \dontrun{
-#' ve <- read_stats19_ve()
+#' ve <- dl_stats19_2005_2014()
 #' }
-read_stats19_ve <- function(data_dir = tempdir(), filename = "Vehicles0514.csv") {
+read_stats19_ve <- function(data_dir = ".", filename = "Vehicles0514.csv") {
   if (!filename %in% list.files(data_dir)) {
-    dl_stats19()
+    dl_stats19_2005_2014()
   }
 
   # read the data in
@@ -241,15 +241,15 @@ format_stats19_2005_2014_ve <- function(ve) {
 #'
 #' Ensure you have a fast internet connection and at least 100 Mb space.
 #'
-#' @inheritParams read_stats19_ac
+#' @inheritParams read_stats19_2005_2014_ac
 #' @export
 #' @examples
 #' \dontrun{
 #' ca <- read_stats19_ca()
 #' }
-read_stats19_ca <- function(data_dir = tempdir(), filename = "Casualties0514.csv") {
+read_stats19_ca <- function(data_dir = ".", filename = "Casualties0514.csv") {
   if (!filename %in% list.files(data_dir)) {
-    dl_stats19()
+    dl_stats19_2005_2014()
   }
 
   # read the data in

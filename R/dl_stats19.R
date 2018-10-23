@@ -29,11 +29,11 @@ dl_stats19_2005_2014 <- function(zip_url = paste0(
     file.exists("Stats19_Data_2005-2014.zip") |
     file.exists(file.path(data_dir, "Stats19_Data_2005-2014.zip"))
   if(data_already_exists) {
-    stop("Aborting download: data already exists in data_dir")
+    stop("Aborting download: data already exists data_dir")
   }
   destfile <- file.path(data_dir, "Stats19_Data_2005-2014.zip")
-  download.file(zip_url, destfile)
-  unzip(destfile, exdir = data_dir)
+  utils::download.file(zip_url, destfile)
+  utils::unzip(destfile, exdir = data_dir)
 
   print(paste0("Data saved at: ", list.files(data_dir,
                                              pattern = "csv", full.names = TRUE
