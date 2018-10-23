@@ -1,0 +1,50 @@
+---
+output: github_document
+bibliography: references.bib
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# stats19
+
+The goal of stats19 is to ease access, processing and analysis of the UK's official road traffic casualty database.
+
+It builds on previous work including:
+
+- code in the [bikeR](https://github.com/Robinlovelace/bikeR) repo underlying an academic paper on collisions involving cyclists [@lovelace_who_2016]
+- functions in [**stplanr**](https://github.com/ropensci/stplanr/blob/master/R/load-stats19.R) for downloading Stats19 data
+- updated functions related to the [CyIPT](https://github.com/cyipt/stats19) project.
+
+## Installation
+
+Install the latest version with:
+
+```{r install, results='hide', message=FALSE}
+devtools::install_github("ITSLeeds/stats19")
+```
+
+
+<!-- You can install the released version of stats19 from [CRAN](https://CRAN.R-project.org) with: -->
+
+<!-- ``` r -->
+<!-- install.packages("stats19") -->
+<!-- ``` -->
+
+## Example
+
+This is a basic example which shows you how to solve a common problem:
+
+```{r example}
+## basic example code
+```
+
+## References
