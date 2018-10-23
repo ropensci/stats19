@@ -22,14 +22,18 @@
 dl_stats19_2005_2014 <- function(zip_url = paste0(
   "http://data.dft.gov.uk.s3.amazonaws.com/",
   "road-accidents-safety-data/Stats19_Data_2005-2014.zip"
-), data_dir = tempdir()) {
+), data_dir = ".") {
 
   # download and unzip the data if it's not present
-  if (!"Accidents0514.csv" %in% list.files(data_dir)) {
-    destfile <- file.path(data_dir, "Stats19_Data_2005-2014.zip")
-    download.file(zip_url, destfile)
-    unzip(destfile, exdir = data_dir)
+  data_already_exists <- "Accidents0514.csv" %in% list.files(data_dir) |
+    file.exists("Stats19_Data_2005-2014.zip") |
+    file.exists(file.path(data_dir, "Stats19_Data_2005-2014.zip"))
+  if(data_already_exists) {
+    stop("Aborting download: data already exists in data_dir")
   }
+  destfile <- file.path(data_dir, "Stats19_Data_2005-2014.zip")
+  download.file(zip_url, destfile)
+  unzip(destfile, exdir = data_dir)
 
   print(paste0("Data saved at: ", list.files(data_dir,
                                              pattern = "csv", full.names = TRUE
