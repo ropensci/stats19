@@ -2,6 +2,7 @@
 % Please edit documentation in R/dl_stats19.R
 \name{dl_stats19_2005_2014}
 \alias{dl_stats19_2005_2014}
+\alias{dl_stats19_2015}
 \title{Download Stats19 data}
 \usage{
 
