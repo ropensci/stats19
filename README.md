@@ -6,8 +6,9 @@ status](https://travis-ci.org/ITSLeeds/stats19.svg?branch=master)](https://travi
 
 # stats19
 
-The goal of stats19 is to ease access, processing and analysis of the
-UK’s official road traffic casualty database.
+The goal of stats19 is to make it easy to work with road crash data.
+Specifically it enables access to and processing of the UK’s official
+road traffic casualty database.
 
 It builds on previous work including:
 
