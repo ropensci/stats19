@@ -20,6 +20,8 @@ knitr::opts_chunk$set(
 
 The goal of stats19 is to ease access, processing and analysis of the UK's official road traffic casualty database.
 
+A description of the stats19 data and variables they contain can be found at: http://data.dft.gov.uk/road-accidents-safety-data/Brief-guide-to%20road-accidents-and-safety-data.doc.
+
 It builds on previous work including:
 
 - code in the [bikeR](https://github.com/Robinlovelace/bikeR) repo underlying an academic paper on collisions involving cyclists [@lovelace_who_2016]
