@@ -34,12 +34,14 @@ devtools::install_github("ITSLeeds/stats19")
 
 <!-- ``` -->
 
-## Example
+## Data download
 
-This is a basic example which shows you how to solve a common problem:
+**stats19** enables download of raw stats19 data with `dl_*` functions.
+The following code chunk, for example, downloads zip files containing
+Stats19 data from 2005 to 2014:
 
 ``` r
-## basic example code
+dl_stats19_2005_2014()
 ```
 
 ## References
