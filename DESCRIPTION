@@ -7,14 +7,16 @@ Authors@R: c(
     person("Malcolm", "Morgan", email = "m.morgan1@leeds.ac.uk", role = c("aut"))
   )
 Description: Tools to help process and analysie the UK road collision data also known as Stats19.
-Depends: R (>= 3.4.1)
+Depends: R (>= 3.5.0)
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
 Imports: 
     sf,
     foreign,
-    readr
+    readr,
+    dplyr,
+    lubridate
 Suggests: 
     knitr,
     rmarkdown
