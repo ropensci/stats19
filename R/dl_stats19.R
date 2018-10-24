@@ -8,6 +8,7 @@
 #'
 #' @param zip_url The url where the data is stored
 #' @param data_dir Directory to which to download the file
+#' @param exdir Folder where data should be unzipped to
 #' @aliases dl_stats19_2015
 #' @export
 #' @examples
@@ -20,24 +21,24 @@
 #' ve <- read_stats19_2005_2014_ve()
 #' # now you can analyse the UK's stats19 data in a single table
 #' }
-dl_stats19_2005_2014 <- function(zip_url = paste0(
-  "http://data.dft.gov.uk.s3.amazonaws.com/",
-  "road-accidents-safety-data/Stats19_Data_2005-2014.zip"
-), data_dir = ".") {
+dl_stats19_2005_2014 <- function(
+  zip_url = paste0("http://data.dft.gov.uk.s3.amazonaws.com/",
+    "road-accidents-safety-data/Stats19_Data_2005-2014.zip"),
+  data_dir = ".",
+  exdir = "Stats19_Data_2005-2014") {
 
   # download and unzip the data if it's not present
-  data_already_exists <- "Accidents0514.csv" %in% list.files(data_dir) |
-    file.exists("Stats19_Data_2005-2014.zip") |
-    file.exists(file.path(data_dir, "Stats19_Data_2005-2014.zip"))
+  destfile <- file.path(data_dir, paste0(exdir, ".zip"))
+  data_already_exists <- file.exists(destfile)
   if(data_already_exists) {
-    stop("Aborting download: data already exists data_dir")
+    message("Data already exists in data_dir, not downloading")
+  } else {
+    utils::download.file(zip_url, destfile)
   }
-  destfile <- file.path(data_dir, "Stats19_Data_2005-2014.zip")
-  utils::download.file(zip_url, destfile)
-  utils::unzip(destfile, exdir = data_dir)
+  utils::unzip(destfile, exdir = exdir)
 
-  print(paste0("Data saved at: ", list.files(data_dir,
-                                             pattern = "csv", full.names = TRUE
+  print(paste0("Data saved at: ",
+               list.files(exdir, pattern = "csv", full.names = TRUE
   )))
 }
 #' @inheritParams dl_stats19_2005_2014
@@ -45,18 +46,20 @@ dl_stats19_2005_2014 <- function(zip_url = paste0(
 dl_stats19_2015 <- function(
   zip_url = paste0("http://data.dft.gov.uk/road-accidents-safety-data/",
   "RoadSafetyData_2015.zip"),
-  data_dir = ".") {
+  data_dir = ".",
+  exdir = "RoadSafetyData_2015") {
 
   # download and unzip the data if it's not present
-  data_already_exists <- file.exists(file.path(data_dir, "RoadSafetyData_2015.zip"))
+  destfile <- file.path(data_dir, paste0(exdir, ".zip"))
+  data_already_exists <- file.exists(destfile)
   if(data_already_exists) {
-    stop("Aborting download: data already exists data_dir")
+    message("Data already exists in data_dir, not downloading")
+  } else {
+    utils::download.file(zip_url, destfile)
   }
-  destfile <- file.path(data_dir, "RoadSafetyData_2015.zip")
-  utils::download.file(zip_url, destfile)
-  utils::unzip(destfile, exdir = data_dir)
+  utils::unzip(destfile, exdir = exdir)
 
-  print(paste0("Data saved at: ", list.files(data_dir,
-                                             pattern = "_2015.csv", full.names = TRUE
-  )))
+  print(paste0("Data saved at: ",
+               list.files(exdir, pattern = "csv", full.names = TRUE
+               )))
 }
