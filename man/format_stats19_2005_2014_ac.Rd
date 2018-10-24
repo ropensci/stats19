@@ -2,12 +2,15 @@
 % Please edit documentation in R/read_stats19.R
 \name{format_stats19_2005_2014_ac}
 \alias{format_stats19_2005_2014_ac}
+\alias{format_stats19_2015_ac}
 \title{Format UK 'Stats19' road traffic casualty data}
 \usage{
-format_stats19_2005_2014_ac(ac)
+format_stats19_2005_2014_ac(ac, factorize = FALSE)
 }
 \arguments{
-\item{ac}{Dataframe representing the raw Stats19 data read-in with `read_csv()`.}
+\item{ac}{Dataframe representing the raw Stats19 data read-in with `read_csv()`}
+
+\item{factorize}{Should some results be returned as factors? `FALSE` by default}
 }
 \description{
 Format UK 'Stats19' road traffic casualty data
@@ -19,6 +22,9 @@ This is a helper function to format raw stats19 data
 
 \examples{
 \dontrun{
-ac <- format_stats19_2005_2014_ac(ac)
+ac <- read_stats19_2005_2014_ac()
+sapply(ac, class)
+ac_formatted <- format_stats19_2005_2014_ac(ac)
+sapply(ac_formatted, class)
 }
 }

@@ -66,11 +66,13 @@ Data can be read-in as follows (assuming the data download went OK):
 ``` r
 d14 = "Stats19_Data_2005-2014"
 ac_2005_2014 = read_stats19_2005_2014_ac(data_dir = d14)
+ac_2005_2014_f = format_stats19_2005_2014_ac(ac_2005_2014)
 d15 = "RoadSafetyData_2015"
 ac_2015 = read_stats19_2005_2014_ac(data_dir = d15, filename = "Accidents_2015.csv")
+ac_2015_f = format_stats19_2015_ac(ac_2015)
 summary(ac_2015$Date)
-
-ac = rbind(ac_2005_2014, ac_2015)
+ac = rbind(ac_2005_2014_f, ac_2015_f)
+unique(ac$Accident_Severity)
 ```
 
 ## References
