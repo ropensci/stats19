@@ -35,7 +35,7 @@ read_stats19_2005_2014_ac <- function(data_dir = ".", filename = "Accidents0514.
     LSOA_of_Accident_Location = readr::col_character()
   ))
 
-  # # format ac data (commented-out for modularity - RL)
+  # # format ac data (comment-out for modularity - RL)
   # ac <- format_stats19_2005_2014_ac(ac)
 
   ac
@@ -45,14 +45,18 @@ read_stats19_2005_2014_ac <- function(data_dir = ".", filename = "Accidents0514.
 #' @section Details:
 #' This is a helper function to format raw stats19 data
 #'
-#' @param ac Dataframe representing the raw Stats19 data read-in with `read_csv()`.
-#'
+#' @param ac Dataframe representing the raw Stats19 data read-in with `read_csv()`
+#' @param factorize Should some results be returned as factors? `FALSE` by default
+#' @aliases format_stats19_2015_ac
 #' @export
 #' @examples
 #' \dontrun{
-#' ac <- format_stats19_2005_2014_ac(ac)
+#' ac <- read_stats19_2005_2014_ac()
+#' sapply(ac, class)
+#' ac_formatted <- format_stats19_2005_2014_ac(ac)
+#' sapply(ac_formatted, class)
 #' }
-format_stats19_2005_2014_ac <- function(ac) {
+format_stats19_2005_2014_ac <- function(ac, factorize = FALSE) {
   ac$Accident_Severity <-
     factor(ac$Accident_Severity, labels = c("Fatal", "Serious", "Slight"))
   ac$Police_Force <-
@@ -120,7 +124,16 @@ format_stats19_2005_2014_ac <- function(ac) {
 
   names(ac)[1] <- "Accident_Index" # rename faulty index name
 
+  if(!factorize) {
+    factor_columns = sapply(ac, is.factor)
+    ac[factor_columns] <- apply(ac[factor_columns], MARGIN = 2, as.character)
+  }
   ac
+}
+#' @export
+format_stats19_2015_ac <- function(ac, factorize = FALSE) {
+  ac$Weather_Conditions[ac$Weather_Conditions == 1][1] = 10
+  format_stats19_2005_2014_ac(ac)
 }
 
 #' Import and format UK 'Stats19' road traffic casualty data
