@@ -8,12 +8,14 @@
 
   dl_stats19_2005_2014(zip_url = paste0("http://data.dft.gov.uk.s3.amazonaws.com/",
   "road-accidents-safety-data/Stats19_Data_2005-2014.zip"),
-  data_dir = ".")
+  data_dir = ".", exdir = "Stats19_Data_2005-2014")
 }
 \arguments{
 \item{zip_url}{The url where the data is stored}
 
 \item{data_dir}{Directory to which to download the file}
+
+\item{exdir}{Folder where data should be unzipped to}
 }
 \description{
 Download Stats19 data

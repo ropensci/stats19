@@ -10,6 +10,10 @@ The goal of stats19 is to make it easy to work with road crash data.
 Specifically it enables access to and processing of the UK’s official
 road traffic casualty database.
 
+A description of the stats19 data and variables they contain can be
+found at:
+<http://data.dft.gov.uk/road-accidents-safety-data/Brief-guide-to%20road-accidents-and-safety-data.doc>.
+
 It builds on previous work including:
 
   - code in the [bikeR](https://github.com/Robinlovelace/bikeR) repo
@@ -46,6 +50,27 @@ containing Stats19 data from 2005 to 2014:
 
 ``` r
 dl_stats19_2005_2014()
+```
+
+Data files from other years can be downloaded with corresponding
+functions:
+
+``` r
+dl_stats19_2015()
+```
+
+## Reading-in data
+
+Data can be read-in as follows (assuming the data download went OK):
+
+``` r
+d14 = "Stats19_Data_2005-2014"
+ac_2005_2014 = read_stats19_2005_2014_ac(data_dir = d14)
+d15 = "RoadSafetyData_2015"
+ac_2015 = read_stats19_2005_2014_ac(data_dir = d15, filename = "Accidents_2015.csv")
+summary(ac_2015$Date)
+
+ac = rbind(ac_2005_2014, ac_2015)
 ```
 
 ## References
