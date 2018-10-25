@@ -47,7 +47,7 @@ read_stats19_2005_2014_ac <- function(data_dir = ".", filename = "Accidents0514.
 #'
 #' @param ac Dataframe representing the raw Stats19 data read-in with `read_csv()`
 #' @param factorize Should some results be returned as factors? `FALSE` by default
-#' @aliases format_stats19_2015_ac
+#' @aliases format_stats19_2015_ac format_stats19_2016_ac
 #' @export
 #' @examples
 #' \dontrun{
@@ -133,6 +133,17 @@ format_stats19_2005_2014_ac <- function(ac, factorize = FALSE) {
 #' @export
 format_stats19_2015_ac <- function(ac, factorize = FALSE) {
   ac$Weather_Conditions[ac$Weather_Conditions == 1][1] = 10
+  format_stats19_2005_2014_ac(ac)
+}
+#' @export
+format_stats19_2016_ac <- function(ac, factorize = FALSE) {
+  # identify why Road_Type is failing:
+  # table(ac$Road_Type) # there is 1 value of -1
+  # hist(ac_2015$Road_Type) # compared with 0 in 2015 data
+  ac$Road_Type[ac$Road_Type == -1] = 6
+  # ac$Weather_Conditions[ac$Weather_Conditions == 1][1] = 10
+  # table(ac$Light_Conditions) # 13 with -1 values:
+  ac$Light_Conditions[ac$Light_Conditions == -1] = NA
   format_stats19_2005_2014_ac(ac)
 }
 

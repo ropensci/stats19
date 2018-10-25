@@ -9,7 +9,7 @@
 #' @param zip_url The url where the data is stored
 #' @param data_dir Directory to which to download the file
 #' @param exdir Folder where data should be unzipped to
-#' @aliases dl_stats19_2015
+#' @aliases dl_stats19_2015 dl_stats19_2016_ac
 #' @export
 #' @examples
 #' \dontrun{
@@ -63,3 +63,26 @@ dl_stats19_2015 <- function(
                list.files(exdir, pattern = "csv", full.names = TRUE
                )))
 }
+#' @inheritParams dl_stats19_2005_2014
+#' @export
+dl_stats19_2016_ac <- function(
+  zip_url = paste0("http://data.dft.gov.uk/road-accidents-safety-data/",
+                   "dftRoadSafety_Accidents_2016.zip"),
+  data_dir = ".",
+  exdir = "dftRoadSafety_Accidents_2016") {
+
+  # download and unzip the data if it's not present
+  destfile <- file.path(data_dir, paste0(exdir, ".zip"))
+  data_already_exists <- file.exists(destfile)
+  if(data_already_exists) {
+    message("Data already exists in data_dir, not downloading")
+  } else {
+    utils::download.file(zip_url, destfile)
+  }
+  utils::unzip(destfile, exdir = exdir)
+
+  print(paste0("Data saved at: ",
+               list.files(exdir, pattern = "csv", full.names = TRUE
+               )))
+}
+

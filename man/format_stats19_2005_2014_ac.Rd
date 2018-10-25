@@ -3,6 +3,7 @@
 \name{format_stats19_2005_2014_ac}
 \alias{format_stats19_2005_2014_ac}
 \alias{format_stats19_2015_ac}
+\alias{format_stats19_2016_ac}
 \title{Format UK 'Stats19' road traffic casualty data}
 \usage{
 format_stats19_2005_2014_ac(ac, factorize = FALSE)
