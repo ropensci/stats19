@@ -3,6 +3,7 @@
 \name{dl_stats19_2005_2014}
 \alias{dl_stats19_2005_2014}
 \alias{dl_stats19_2015}
+\alias{dl_stats19_2016_ac}
 \title{Download Stats19 data}
 \usage{
 

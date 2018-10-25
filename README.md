@@ -57,6 +57,7 @@ functions:
 
 ``` r
 dl_stats19_2015()
+dl_stats19_2016_ac()
 ```
 
 ## Reading-in data
@@ -71,7 +72,11 @@ d15 = "RoadSafetyData_2015"
 ac_2015 = read_stats19_2005_2014_ac(data_dir = d15, filename = "Accidents_2015.csv")
 ac_2015_f = format_stats19_2015_ac(ac_2015)
 summary(ac_2015$Date)
-ac = rbind(ac_2005_2014_f, ac_2015_f)
+d16 = "dftRoadSafety_Accidents_2016"
+ac_2016 = read_stats19_2005_2014_ac(data_dir = d16, filename = "dftRoadSafety_Accidents_2016.csv")
+ac_2016_f = format_stats19_2016_ac(ac_2016)
+summary(ac_2016$Date)
+ac = rbind(ac_2005_2014_f, ac_2015_f, ac_2016_f)
 unique(ac$Accident_Severity)
 ```
 
