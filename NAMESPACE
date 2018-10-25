@@ -3,6 +3,7 @@
 export(dl_stats19_2005_2014)
 export(dl_stats19_2015)
 export(dl_stats19_2016_ac)
+export(dl_stats19_2017_ac)
 export(format_stats19_2005_2014_ac)
 export(format_stats19_2005_2014_ca)
 export(format_stats19_2005_2014_ve)
