@@ -60,6 +60,7 @@ functions:
 ``` r
 dl_stats19_2015()
 dl_stats19_2016_ac()
+dl_stats19_2017_ac()
 ```
 
 ## Reading-in data
@@ -73,13 +74,14 @@ ac_2005_2014_f = format_stats19_2005_2014_ac(ac_2005_2014)
 d15 = "RoadSafetyData_2015"
 ac_2015 = read_stats19_2005_2014_ac(data_dir = d15, filename = "Accidents_2015.csv")
 ac_2015_f = format_stats19_2015_ac(ac_2015)
-summary(ac_2015$Date)
 d16 = "dftRoadSafety_Accidents_2016"
 ac_2016 = read_stats19_2005_2014_ac(data_dir = d16, filename = "dftRoadSafety_Accidents_2016.csv")
 ac_2016_f = format_stats19_2016_ac(ac_2016)
-summary(ac_2016$Date)
-ac = rbind(ac_2005_2014_f, ac_2015_f, ac_2016_f)
-unique(ac$Accident_Severity)
+d17 = "dftRoadSafetyData_Accidents_2017"
+ac_2017 = read_stats19_2005_2014_ac(data_dir = d17, filename = "Acc.csv")
+ac_2017_f = format_stats19_2016_ac(ac_2017)
+ac = rbind(ac_2015_f, ac_2016_f, ac_2017_f)
+table(ac$Accident_Severity)
 ```
 
 ## References
