@@ -1,9 +1,15 @@
-#' Stats19 schema
+#' Stats19 schema and variables
+#'
+#' `stats19_schema` and `stats19_variables` contain
+#' metadata on stats19 data.
+#' `stats19_schema` is a look-up table matching
+#' codes provided in the raw stats19 dataset with
+#' character strings.
 #'
 #' @docType data
 #' @keywords datasets
-#' @rdname read_schema
 #' @name stats19_schema
+#' @aliases stats19_variables
 NULL
 # Example stats19 data file
 #
