@@ -35,9 +35,9 @@ Ensure you have a fast internet connection and at least 100 Mb space
 dl_stats19_2005_2014()
 
 # Load all stats19 datasets
-ac <- read_stats19_2005_2014_ac()
-ca <- read_stats19_2005_2014_ca()
-ve <- read_stats19_2005_2014_ve()
+ac = read_stats19_2005_2014_ac()
+ca = read_stats19_2005_2014_ca()
+ve = read_stats19_2005_2014_ve()
 # now you can analyse the UK's stats19 data in a single table
 }
 }

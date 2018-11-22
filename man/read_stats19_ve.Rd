@@ -27,6 +27,6 @@ Ensure you have a fast internet connection and at least 100 Mb space.
 
 \examples{
 \dontrun{
-ve <- dl_stats19_2005_2014()
+ve = dl_stats19_2005_2014()
 }
 }
