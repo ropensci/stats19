@@ -7,4 +7,10 @@ test_that("geturl works", {
 test_that("generate_file_name works", {
   expect_equal(generate_file_name(), "dftRoadSafety_Accidents_2016")
   expect_equal(generate_file_name(zip = TRUE), "dftRoadSafety_Accidents_2016.zip")
+  expect_equal(generate_file_name(years = c("2005", "2009")),
+               "dftRoadSafety_Accidents_2005_2009")
+  expect_equal(generate_file_name(years = c("2009", "2005")),
+               "dftRoadSafety_Accidents_2005_2009")
+  expect_equal(generate_file_name(type = ""), "dftRoadSafety_2016")
+
 })

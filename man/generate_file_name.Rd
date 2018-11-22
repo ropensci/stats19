@@ -5,7 +5,8 @@
 \title{Zip file builder
 default "dftRoadSafety_Accidents_2016"}
 \usage{
-generate_file_name(years = "", type = "", dft = "dft", zip = FALSE)
+generate_file_name(years = as.integer(format(Sys.Date(), "\%Y")) - 2,
+  type = "Accidents", dft = "dft", zip = FALSE)
 }
 \arguments{
 \item{years}{Either a single year or a two year range, defaults to 2 years ago}
