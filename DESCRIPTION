@@ -19,6 +19,7 @@ Imports:
     lubridate
 Suggests: 
     knitr,
-    rmarkdown
+    rmarkdown,
+    testthat
 VignetteBuilder: knitr
 RoxygenNote: 6.1.0
