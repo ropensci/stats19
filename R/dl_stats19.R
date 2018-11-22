@@ -1,3 +1,26 @@
+#' Download Stats19 data for a year or range of two years.
+#'
+#' @section Details:
+#' This convenient function downloads and unzips UK road traffic casualty data.
+#' It results in unzipped .csv data in R's temporary directory.
+#'
+#' Ensure you have a fast internet connection and at least 100 Mb space
+#'
+#' @param years Either a single year or a two year range, defaults to 2 years ago
+#' @param type One of 'Accidents', 'Casualties', 'Vehicles'; defaults to 'Accidents'#' @export
+#' @examples
+#' \dontrun{
+#' dl_stats19()
+#' # now you can analyse the UK's stats19 data in a single table
+#' }
+dl_stats19 = function(years = "", type = "Accidents") {
+  # exdir = "Stats19_Data_2005-2014"
+  exdir = generate_file_name(years = years, type = type)
+  zip_url = get_url(paste0(exdir, ".zip"))
+  # download and unzip the data if it's not present
+  download_and_unzip(zip_url = zip_url, exdir = exdir)
+}
+
 #' Download Stats19 data
 #'
 #' @section Details:
