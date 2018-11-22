@@ -15,9 +15,9 @@
 #' @export
 #' @examples
 #' \dontrun{
-#' ac = read_stats19_2005_2014_ac()
+#' ac = read_accidents()
 #' }
-read_stats19_2005_2014_ac = function(data_dir = ".", filename = "Accidents0514.csv") {
+read_accidents = function(data_dir = ".", filename = "Accidents0514.csv") {
 
   if (!filename %in% list.files(data_dir)) {
     stop("No data found. Change data_dir or Run dl_stats19*() functions first.")
@@ -45,13 +45,13 @@ read_stats19_2005_2014_ac = function(data_dir = ".", filename = "Accidents0514.c
 #' @section Details:
 #' This is a helper function to format raw stats19 data
 #'
-#' @param ac Dataframe representing the raw Stats19 data read-in with `read_csv()`
+#' @param ac Data frame representing the raw Stats19 data read-in with `read_csv()`
 #' @param factorize Should some results be returned as factors? `FALSE` by default
 #' @aliases format_stats19_2015_ac format_stats19_2016_ac
 #' @export
 #' @examples
 #' \dontrun{
-#' ac = read_stats19_2005_2014_ac()
+#' ac = read_accidents()
 #' sapply(ac, class)
 #' ac_formatted = format_stats19_2005_2014_ac(ac)
 #' sapply(ac_formatted, class)
@@ -156,7 +156,7 @@ format_stats19_2016_ac = function(ac, factorize = FALSE) {
 #'
 #' Ensure you have a fast internet connection and at least 100 Mb space.
 #'
-#' @inheritParams read_stats19_2005_2014_ac
+#' @inheritParams read_accidents
 #' @export
 #' @examples
 #' \dontrun{
@@ -265,7 +265,7 @@ format_stats19_2005_2014_ve = function(ve) {
 #'
 #' Ensure you have a fast internet connection and at least 100 Mb space.
 #'
-#' @inheritParams read_stats19_2005_2014_ac
+#' @inheritParams read_accidents
 #' @export
 #' @examples
 #' \dontrun{
