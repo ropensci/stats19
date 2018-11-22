@@ -19,6 +19,6 @@ This is a helper function to format raw stats19 data
 
 \examples{
 \dontrun{
-ve <- format_stats19_2005_2014_ve(ve)
+ve = format_stats19_2005_2014_ve(ve)
 }
 }

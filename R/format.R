@@ -114,7 +114,7 @@ stats19_vname_switch = function(x) {
 #' This is a helper function to format raw stats19 data
 #'
 #' @export
-format_accidents <- function() {
+format_accidents = function() {
 
 }
 

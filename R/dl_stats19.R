@@ -39,20 +39,20 @@ dl_stats19 = function(years = "", type = "Accidents") {
 #' dl_stats19_2005_2014()
 #'
 #' # Load all stats19 datasets
-#' ac <- read_stats19_2005_2014_ac()
-#' ca <- read_stats19_2005_2014_ca()
-#' ve <- read_stats19_2005_2014_ve()
+#' ac = read_stats19_2005_2014_ac()
+#' ca = read_stats19_2005_2014_ca()
+#' ve = read_stats19_2005_2014_ve()
 #' # now you can analyse the UK's stats19 data in a single table
 #' }
-dl_stats19_2005_2014 <- function(
+dl_stats19_2005_2014 = function(
   zip_url = paste0("http://data.dft.gov.uk.s3.amazonaws.com/",
     "road-accidents-safety-data/Stats19_Data_2005-2014.zip"),
   data_dir = ".",
   exdir = "Stats19_Data_2005-2014") {
 
   # download and unzip the data if it's not present
-  destfile <- file.path(data_dir, paste0(exdir, ".zip"))
-  data_already_exists <- file.exists(destfile)
+  destfile = file.path(data_dir, paste0(exdir, ".zip"))
+  data_already_exists = file.exists(destfile)
   if(data_already_exists) {
     message("Data already exists in data_dir, not downloading")
   } else {
@@ -66,15 +66,15 @@ dl_stats19_2005_2014 <- function(
 }
 #' @inheritParams dl_stats19_2005_2014
 #' @export
-dl_stats19_2015 <- function(
+dl_stats19_2015 = function(
   zip_url = paste0("http://data.dft.gov.uk/road-accidents-safety-data/",
   "RoadSafetyData_2015.zip"),
   data_dir = ".",
   exdir = "RoadSafetyData_2015") {
 
   # download and unzip the data if it's not present
-  destfile <- file.path(data_dir, paste0(exdir, ".zip"))
-  data_already_exists <- file.exists(destfile)
+  destfile = file.path(data_dir, paste0(exdir, ".zip"))
+  data_already_exists = file.exists(destfile)
   if(data_already_exists) {
     message("Data already exists in data_dir, not downloading")
   } else {
@@ -88,15 +88,15 @@ dl_stats19_2015 <- function(
 }
 #' @inheritParams dl_stats19_2005_2014
 #' @export
-dl_stats19_2016_ac <- function(
+dl_stats19_2016_ac = function(
   zip_url = paste0("http://data.dft.gov.uk/road-accidents-safety-data/",
                    "dftRoadSafety_Accidents_2016.zip"),
   data_dir = ".",
   exdir = "dftRoadSafety_Accidents_2016") {
 
   # download and unzip the data if it's not present
-  destfile <- file.path(data_dir, paste0(exdir, ".zip"))
-  data_already_exists <- file.exists(destfile)
+  destfile = file.path(data_dir, paste0(exdir, ".zip"))
+  data_already_exists = file.exists(destfile)
   if(data_already_exists) {
     message("Data already exists in data_dir, not downloading")
   } else {
@@ -110,15 +110,15 @@ dl_stats19_2016_ac <- function(
 }
 #' @inheritParams dl_stats19_2005_2014
 #' @export
-dl_stats19_2017_ac <- function(
+dl_stats19_2017_ac = function(
   zip_url = paste0("http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/",
                    "dftRoadSafetyData_Accidents_2017.zip"),
   data_dir = ".",
   exdir = "dftRoadSafetyData_Accidents_2017") {
 
   # download and unzip the data if it's not present
-  destfile <- file.path(data_dir, paste0(exdir, ".zip"))
-  data_already_exists <- file.exists(destfile)
+  destfile = file.path(data_dir, paste0(exdir, ".zip"))
+  data_already_exists = file.exists(destfile)
   if(data_already_exists) {
     message("Data already exists in data_dir, not downloading")
   } else {
@@ -139,7 +139,7 @@ dl_stats19_2017_ac <- function(
 #' @examples \dontrun{
 #' dl_schema()
 #' }
-dl_schema <- function(data_dir = tempdir()) {
+dl_schema = function(data_dir = tempdir()) {
   u = "http://data.dft.gov.uk/road-accidents-safety-data/Road-Accident-Safety-Data-Guide.xls"
   utils::download.file(u, destfile = file.path(data_dir, "Road-Accident-Safety-Data-Guide.xls"))
   # download and unzip the data if it's not present

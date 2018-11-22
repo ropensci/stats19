@@ -15,16 +15,16 @@
 #' @export
 #' @examples
 #' \dontrun{
-#' ac <- read_stats19_2005_2014_ac()
+#' ac = read_stats19_2005_2014_ac()
 #' }
-read_stats19_2005_2014_ac <- function(data_dir = ".", filename = "Accidents0514.csv") {
+read_stats19_2005_2014_ac = function(data_dir = ".", filename = "Accidents0514.csv") {
 
   if (!filename %in% list.files(data_dir)) {
     stop("No data found. Change data_dir or Run dl_stats19*() functions first.")
   }
 
   # read the data in
-  ac <- readr::read_csv(file.path(data_dir, filename), col_types = readr::cols(
+  ac = readr::read_csv(file.path(data_dir, filename), col_types = readr::cols(
     .default = readr::col_integer(),
     Accident_Index = readr::col_character(),
     Longitude = readr::col_double(),
@@ -36,7 +36,7 @@ read_stats19_2005_2014_ac <- function(data_dir = ".", filename = "Accidents0514.
   ))
 
   # # format ac data (comment-out for modularity - RL)
-  # ac <- format_stats19_2005_2014_ac(ac)
+  # ac = format_stats19_2005_2014_ac(ac)
 
   ac
 }
@@ -51,15 +51,15 @@ read_stats19_2005_2014_ac <- function(data_dir = ".", filename = "Accidents0514.
 #' @export
 #' @examples
 #' \dontrun{
-#' ac <- read_stats19_2005_2014_ac()
+#' ac = read_stats19_2005_2014_ac()
 #' sapply(ac, class)
-#' ac_formatted <- format_stats19_2005_2014_ac(ac)
+#' ac_formatted = format_stats19_2005_2014_ac(ac)
 #' sapply(ac_formatted, class)
 #' }
-format_stats19_2005_2014_ac <- function(ac, factorize = FALSE) {
-  ac$Accident_Severity <-
+format_stats19_2005_2014_ac = function(ac, factorize = FALSE) {
+  ac$Accident_Severity =
     factor(ac$Accident_Severity, labels = c("Fatal", "Serious", "Slight"))
-  ac$Police_Force <-
+  ac$Police_Force =
     factor(ac$Police_Force,
            labels =
              c(
@@ -76,18 +76,18 @@ format_stats19_2005_2014_ac <- function(ac, factorize = FALSE) {
                "Fife", "Lothian and Borders", "Central", "Strathclyde", "Dumfries and Galloway"
              )
     )
-  ac$`1st_Road_Class` <-
+  ac$`1st_Road_Class` =
     factor(ac$`1st_Road_Class`,
            labels = c("Motorway", "A(M)", "A", "B", "C", "Unclassified")
     )
-  ac$Road_Type <-
+  ac$Road_Type =
     factor(ac$Road_Type,
            labels = c(
              "Roundabout", "One way street", "Dual carriageway", "Single carriageway",
              "Slip road", "Unknown"
            )
     )
-  ac$Junction_Detail <-
+  ac$Junction_Detail =
     factor(ac$Junction_Detail,
            labels =
              c(
@@ -97,14 +97,14 @@ format_stats19_2005_2014_ac <- function(ac, factorize = FALSE) {
                "Other junction"
              )
     )
-  ac$Light_Conditions <-
+  ac$Light_Conditions =
     factor(ac$Light_Conditions,
            labels = c(
              "Daylight", "Darkness - lights lit", "Darkness - lights unlit",
              "Darkness - no lighting", "Darkness - lighting unknown"
            )
     )
-  ac$Weather_Conditions <-
+  ac$Weather_Conditions =
     factor(ac$Weather_Conditions,
            labels = c(
              "Data missing or out of range", "Fine no high winds", "Raining no high winds",
@@ -112,31 +112,31 @@ format_stats19_2005_2014_ac <- function(ac, factorize = FALSE) {
              "Snowing + high winds", "Fog or mist", "Other", "Unknown"
            )
     )
-  ac$Road_Surface_Conditions <-
+  ac$Road_Surface_Conditions =
     factor(ac$Road_Surface_Conditions,
            labels = c(
              "Data missing or out of range", "Dry", "Wet or damp", "Snow",
              "Frost or ice", "Flood over 3cm. deep"
            )
     )
-  ac$Date <- lubridate::dmy(ac$Date)
+  ac$Date = lubridate::dmy(ac$Date)
   # barplot(table(lubridate::wday(ac$Date, label = TRUE)))
 
-  names(ac)[1] <- "Accident_Index" # rename faulty index name
+  names(ac)[1] = "Accident_Index" # rename faulty index name
 
   if(!factorize) {
     factor_columns = sapply(ac, is.factor)
-    ac[factor_columns] <- apply(ac[factor_columns], MARGIN = 2, as.character)
+    ac[factor_columns] = apply(ac[factor_columns], MARGIN = 2, as.character)
   }
   ac
 }
 #' @export
-format_stats19_2015_ac <- function(ac, factorize = FALSE) {
+format_stats19_2015_ac = function(ac, factorize = FALSE) {
   ac$Weather_Conditions[ac$Weather_Conditions == 1][1] = 10
   format_stats19_2005_2014_ac(ac)
 }
 #' @export
-format_stats19_2016_ac <- function(ac, factorize = FALSE) {
+format_stats19_2016_ac = function(ac, factorize = FALSE) {
   # identify why Road_Type is failing:
   # table(ac$Road_Type) # there is 1 value of -1
   # hist(ac_2015$Road_Type) # compared with 0 in 2015 data
@@ -160,20 +160,20 @@ format_stats19_2016_ac <- function(ac, factorize = FALSE) {
 #' @export
 #' @examples
 #' \dontrun{
-#' ve <- dl_stats19_2005_2014()
+#' ve = dl_stats19_2005_2014()
 #' }
-read_stats19_ve <- function(data_dir = ".", filename = "Vehicles0514.csv") {
+read_stats19_ve = function(data_dir = ".", filename = "Vehicles0514.csv") {
   if (!filename %in% list.files(data_dir)) {
     dl_stats19_2005_2014()
   }
 
   # read the data in
-  #   ac <- readr::read_csv(file.path(data_dir, "Accidents0514.csv"))
-  ve <- readr::read_csv(file.path(data_dir, "Vehicles0514.csv"))
-  #   ca <- readr::read_csv(file.path(data_dir, "Casualties0514.csv"))
+  #   ac = readr::read_csv(file.path(data_dir, "Accidents0514.csv"))
+  ve = readr::read_csv(file.path(data_dir, "Vehicles0514.csv"))
+  #   ca = readr::read_csv(file.path(data_dir, "Casualties0514.csv"))
 
   # format ac data
-  ve <- format_stats19_2005_2014_ve(ve)
+  ve = format_stats19_2005_2014_ve(ve)
 
   ve
 }
@@ -187,10 +187,10 @@ read_stats19_ve <- function(data_dir = ".", filename = "Vehicles0514.csv") {
 #' @export
 #' @examples
 #' \dontrun{
-#' ve <- format_stats19_2005_2014_ve(ve)
+#' ve = format_stats19_2005_2014_ve(ve)
 #' }
-format_stats19_2005_2014_ve <- function(ve) {
-  ve$Vehicle_Type <- factor(ve$Vehicle_Type,
+format_stats19_2005_2014_ve = function(ve) {
+  ve$Vehicle_Type = factor(ve$Vehicle_Type,
                             labels = c(
                               "Goods vehicle - unknown weight", "Pedal cycle", "Motorcycle 50cc and under",
                               "Motorcycle 125cc and under", "Motorcycle over 125cc and up to 500cc",
@@ -202,7 +202,7 @@ format_stats19_2005_2014_ve <- function(ve) {
                             )
   )
   # summary(ve$Vehicle_Type)
-  ve$Vehicle_Manoeuvre <-
+  ve$Vehicle_Manoeuvre =
     factor(ve$Vehicle_Manoeuvre,
            labels = c(
              "Data missing or out of range", "Reversing", "Parked", "Waiting to go - held up",
@@ -215,7 +215,7 @@ format_stats19_2005_2014_ve <- function(ve) {
            )
     )
   # summary(ve$Vehicle_Manoeuvre)
-  ve$Journey_Purpose_of_Driver <-
+  ve$Journey_Purpose_of_Driver =
     factor(ve$Journey_Purpose_of_Driver,
            labels = c(
              "Data missing or out of range", "Journey as part of work",
@@ -224,21 +224,21 @@ format_stats19_2005_2014_ve <- function(ve) {
            )
     )
   # summary(ve$Journey_Purpose_of_Driver)
-  ve$Sex_of_Driver <- factor(ve$Sex_of_Driver,
+  ve$Sex_of_Driver = factor(ve$Sex_of_Driver,
                              labels =
                                c("Data missing or out of range", "Male", "Female", "Not known")
   )
-  levels(ve$Sex_of_Driver)[1] <- levels(ve$Sex_of_Driver)[4]
+  levels(ve$Sex_of_Driver)[1] = levels(ve$Sex_of_Driver)[4]
   # summary(ve$Sex_of_Driver)
 
-  ve$Age_Band_of_Driver <- factor(ve$Age_Band_of_Driver,
+  ve$Age_Band_of_Driver = factor(ve$Age_Band_of_Driver,
                                   labels = c(
                                     NA, "0 - 5", "6 - 10", "11 - 15", "16 - 20", "21 - 25", "26 - 35",
                                     "37 - 45", "46 - 55", "56 - 65", "66 - 75", "Over 75"
                                   )
   )
 
-  ve$Driver_IMD_Decile <- factor(dplyr::inner_join(ve, structure(list(Driver_IMD_Decile = c(
+  ve$Driver_IMD_Decile = factor(dplyr::inner_join(ve, structure(list(Driver_IMD_Decile = c(
     1, 2, 3, 4, 5, 6, 7, 8,
     9, 10, -1
   ), IMD_Decile = c(
@@ -251,7 +251,7 @@ format_stats19_2005_2014_ve <- function(ve) {
     "IMD_Decile"
   )))$IMD_Decile)
 
-  names(ve)[1] <- "Accident_Index" # rename faulty index name
+  names(ve)[1] = "Accident_Index" # rename faulty index name
 
   ve
 }
@@ -269,20 +269,20 @@ format_stats19_2005_2014_ve <- function(ve) {
 #' @export
 #' @examples
 #' \dontrun{
-#' ca <- read_stats19_ca()
+#' ca = read_stats19_ca()
 #' }
-read_stats19_ca <- function(data_dir = ".", filename = "Casualties0514.csv") {
+read_stats19_ca = function(data_dir = ".", filename = "Casualties0514.csv") {
   if (!filename %in% list.files(data_dir)) {
     dl_stats19_2005_2014()
   }
 
   # read the data in
-  #   ac <- readr::read_csv(file.path(data_dir, "Accidents0514.csv"))
-  #   ve <- readr::read_csv(file.path(data_dir, "Vehicles0514.csv"))
-  ca <- readr::read_csv(file.path(data_dir, "Casualties0514.csv"))
+  #   ac = readr::read_csv(file.path(data_dir, "Accidents0514.csv"))
+  #   ve = readr::read_csv(file.path(data_dir, "Vehicles0514.csv"))
+  ca = readr::read_csv(file.path(data_dir, "Casualties0514.csv"))
 
   # format ca data
-  ca <- format_stats19_2005_2014_ca(ca)
+  ca = format_stats19_2005_2014_ca(ca)
 
   ca
 }
@@ -296,21 +296,21 @@ read_stats19_ca <- function(data_dir = ".", filename = "Casualties0514.csv") {
 #' @export
 #' @examples
 #' \dontrun{
-#' ca <- format_stats19_2005_2014_ca(ca)
+#' ca = format_stats19_2005_2014_ca(ca)
 #' }
-format_stats19_2005_2014_ca <- function(ca) {
+format_stats19_2005_2014_ca = function(ca) {
 
   # nrow(ca) / nrow(ac) # 1.3 casualties per incident: reasonable
-  ca$Casualty_Class <- factor(ca$Casualty_Class,
+  ca$Casualty_Class = factor(ca$Casualty_Class,
                               labels = c("Driver or rider", "Passenger", "Pedestrian")
   )
 
-  ca$Sex_of_Casualty <- factor(ca$Sex_of_Casualty,
+  ca$Sex_of_Casualty = factor(ca$Sex_of_Casualty,
                                labels = c("Data missing or out of range", "Male", "Female")
   )
-  levels(ca$Sex_of_Casualty)[1] <- "Not known"
+  levels(ca$Sex_of_Casualty)[1] = "Not known"
 
-  ca$Age_Band_of_Casualty <- factor(ca$Age_Band_of_Casualty,
+  ca$Age_Band_of_Casualty = factor(ca$Age_Band_of_Casualty,
                                     labels = c(
                                       NA, "0 - 5", "6 - 10", "11 - 15", "16 - 20", "21 - 25", "26 - 35",
                                       "36 - 45", "46 - 55", "56 - 65", "66 - 75", "Over 75"
@@ -318,12 +318,12 @@ format_stats19_2005_2014_ca <- function(ca) {
   )
 
   summary(as.factor(ca$Casualty_Severity))
-  ca$Casualty_Severity <- factor(ca$Casualty_Severity,
+  ca$Casualty_Severity = factor(ca$Casualty_Severity,
                                  labels = c("Fatal", "Serious", "Slight")
   )
 
-  ca$Casualty_Type <- as.factor(ca$Casualty_Type)
-  ca$Casualty_Type <- factor(ca$Casualty_Type,
+  ca$Casualty_Type = as.factor(ca$Casualty_Type)
+  ca$Casualty_Type = factor(ca$Casualty_Type,
                              labels = c(
                                "Pedestrian", "Cyclist", "Motorcycle 50cc and under rider or passenger",
                                "Motorcycle 125cc and under rider or passenger", "Motorcycle over 125cc and up to 500cc rider or  passenger",
@@ -338,7 +338,7 @@ format_stats19_2005_2014_ca <- function(ca) {
                              )
   )
 
-  names(ca)[1] <- "Accident_Index" # rename faulty index name
+  names(ca)[1] = "Accident_Index" # rename faulty index name
 
 
   ca
