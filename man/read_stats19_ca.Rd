@@ -27,6 +27,6 @@ Ensure you have a fast internet connection and at least 100 Mb space.
 
 \examples{
 \dontrun{
-ca <- read_stats19_ca()
+ca = read_stats19_ca()
 }
 }

@@ -28,6 +28,6 @@ Ensure you have a fast internet connection and at least 100 Mb space.
 
 \examples{
 \dontrun{
-ac <- read_stats19_2005_2014_ac()
+ac = read_stats19_2005_2014_ac()
 }
 }

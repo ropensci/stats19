@@ -78,11 +78,11 @@ generate_file_name = function(years = "",
 #'
 #' @param exdir Required zip name also used as destination of csv folder
 #' @param zip_url Required full path of file to download
-download_and_unzip <- function(exdir, zip_url) {
+download_and_unzip = function(exdir, zip_url) {
   # download and unzip the data if it's not present
   data_dir = tempdir()
-  destfile <- file.path(data_dir, paste0(exdir, ".zip"))
-  data_already_exists <- file.exists(destfile)
+  destfile = file.path(data_dir, paste0(exdir, ".zip"))
+  data_already_exists = file.exists(destfile)
   if (data_already_exists) {
     message("Data already exists in data_dir, not downloading")
   } else {

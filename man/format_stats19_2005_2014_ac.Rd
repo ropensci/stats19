@@ -23,9 +23,9 @@ This is a helper function to format raw stats19 data
 
 \examples{
 \dontrun{
-ac <- read_stats19_2005_2014_ac()
+ac = read_stats19_2005_2014_ac()
 sapply(ac, class)
-ac_formatted <- format_stats19_2005_2014_ac(ac)
+ac_formatted = format_stats19_2005_2014_ac(ac)
 sapply(ac_formatted, class)
 }
 }
