@@ -68,18 +68,23 @@ dl_stats19_2017_ac()
 Data can be read-in as follows (assuming the data download went OK):
 
 ``` r
+d17 = "dftRoadSafetyData_Accidents_2017"
+ac_2017_raw = read_accidents(data_dir = d17, filename = "Acc.csv")
+ac_2017 = format_accidents(ac_2017)
+```
+
+More data can be read-in as follows:
+
+``` r
 d14 = "Stats19_Data_2005-2014"
-ac_2005_2014 = read_stats19_2005_2014_ac(data_dir = d14)
+ac_2005_2014 = read_accidents(data_dir = d14)
 ac_2005_2014_f = format_stats19_2005_2014_ac(ac_2005_2014)
 d15 = "RoadSafetyData_2015"
-ac_2015 = read_stats19_2005_2014_ac(data_dir = d15, filename = "Accidents_2015.csv")
+ac_2015 = read_accidents(data_dir = d15, filename = "Accidents_2015.csv")
 ac_2015_f = format_stats19_2015_ac(ac_2015)
 d16 = "dftRoadSafety_Accidents_2016"
-ac_2016 = read_stats19_2005_2014_ac(data_dir = d16, filename = "dftRoadSafety_Accidents_2016.csv")
+ac_2016 = read_accidents(data_dir = d16, filename = "dftRoadSafety_Accidents_2016.csv")
 ac_2016_f = format_stats19_2016_ac(ac_2016)
-d17 = "dftRoadSafetyData_Accidents_2017"
-ac_2017 = read_stats19_2005_2014_ac(data_dir = d17, filename = "Acc.csv")
-ac_2017_f = format_stats19_2016_ac(ac_2017)
 ac = rbind(ac_2015_f, ac_2016_f, ac_2017_f)
 table(ac$Accident_Severity)
 ```

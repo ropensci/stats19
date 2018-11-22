@@ -2,15 +2,28 @@
 % Please edit documentation in R/format.R
 \name{format_accidents}
 \alias{format_accidents}
-\title{Format UK 'Stats19' road traffic casualty data}
+\title{Format stats19 'accidents' data}
 \usage{
-format_accidents()
+format_accidents(d)
+}
+\arguments{
+\item{x}{Data frame representing the raw Stats19 data read-in with `read_csv()`}
+
+\item{factorize}{Should some results be returned as factors? `FALSE` by default}
 }
 \description{
-Format UK 'Stats19' road traffic casualty data
+Format stats19 'accidents' data
 }
 \section{Details}{
 
 This is a helper function to format raw stats19 data
 }
 
+\examples{
+\dontrun{
+ac = read_stats19_2017_ac()
+sapply(ac, class)
+ac_formatted = format_stats19_2005_2014_ac(ac)
+sapply(ac_formatted, class)
+}
+}
