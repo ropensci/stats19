@@ -39,8 +39,8 @@ get_directory = function() {
 #'
 #' @examples
 #' \dontrun{
-# generate_file_name()
-# generate_file_name(zip = TRUE)
+#' generate_file_name()
+#' generate_file_name(zip = TRUE)
 #' }
 generate_file_name = function(years = "",
                               type = "",

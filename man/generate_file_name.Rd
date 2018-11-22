@@ -22,5 +22,7 @@ default "dftRoadSafety_Accidents_2016"
 }
 \examples{
 \dontrun{
+generate_file_name()
+generate_file_name(zip = TRUE)
 }
 }
