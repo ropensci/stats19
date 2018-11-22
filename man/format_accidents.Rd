@@ -4,10 +4,10 @@
 \alias{format_accidents}
 \title{Format stats19 'accidents' data}
 \usage{
-format_accidents(d)
+format_accidents(x, factorize = FALSE)
 }
 \arguments{
-\item{x}{Data frame representing the raw Stats19 data read-in with `read_csv()`}
+\item{x}{Data frame created with `read_accidents()`}
 
 \item{factorize}{Should some results be returned as factors? `FALSE` by default}
 }
@@ -21,9 +21,11 @@ This is a helper function to format raw stats19 data
 
 \examples{
 \dontrun{
-ac = read_stats19_2017_ac()
-sapply(ac, class)
-ac_formatted = format_stats19_2005_2014_ac(ac)
-sapply(ac_formatted, class)
+crashes_raw = read_accidents()
+sapply(crashes_raw, class)
+table(crashes_raw$Accident_Severity)
+crashes = format_accidents(crashes_raw)
+sapply(crashes, class)
+table(crashes$accident_severity)
 }
 }

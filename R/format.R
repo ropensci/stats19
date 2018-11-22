@@ -3,19 +3,54 @@
 #' @section Details:
 #' This is a helper function to format raw stats19 data
 #'
-#' @param x Data frame representing the raw Stats19 data read-in with `read_csv()`
+#' @param x Data frame created with `read_accidents()`
 #' @param factorize Should some results be returned as factors? `FALSE` by default
 #' @export
 #' @examples
 #' \dontrun{
-#' ac = read_stats19_2017_ac()
-#' sapply(ac, class)
-#' ac_formatted = format_stats19_2005_2014_ac(ac)
-#' sapply(ac_formatted, class)
+#' crashes_raw = read_accidents()
+#' sapply(crashes_raw, class)
+#' table(crashes_raw$Accident_Severity)
+#' crashes = format_accidents(crashes_raw)
+#' sapply(crashes, class)
+#' table(crashes$accident_severity)
 #' }
 #' @export
-format_accidents = function(d) {
+format_accidents = function(x, factorize = FALSE) {
+  old_names = names(x)
+  names(x) = format_column_names(old_names)
 
+  variables = stats19_variables$variable[stats19_variables$table == "accidents"]
+  # format 1 column for testing
+  new_col_name = "accident_severity"
+  sel_col = agrep(pattern = new_col_name, x = variables, max.distance = 5)
+  lookup_col_name = variables[sel_col]
+  lookup = stats19_schema[stats19_schema$variable == lookup_col_name, 1:2]
+  x$accident_severity = lookup$label[match(x$accident_severity, lookup$code)]
+
+
+  x
+}
+#' Format column names of raw stats19 data
+#'
+#' This function takes messy column names and returns clean ones that work well with
+#' R by default. Names that are all lower case with no R-unfriendly characters
+#' such as spaces and `-` are returned.
+#' @param column_names Column names to be cleaned
+#' @export
+#' @examples \dontrun{
+#' crashes_raw = read_accidents()
+#' column_names = names(crashes_raw)
+#' column_names
+#' format_column_names(column_names = column_names)
+#' }
+format_column_names = function(column_names) {
+  x = tolower(column_names)
+  x = gsub(pattern = "\\(|\\)", replacement = "", x = x)
+  x = gsub(pattern = "1st", replacement = "first", x = x)
+  x = gsub(pattern = "2nd", replacement = "second", x = x)
+  x = gsub(pattern = "-", replacement = "_", x = x)
+  x
 }
 #' Load stats19 schema
 #'

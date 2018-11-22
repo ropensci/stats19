@@ -1,4 +1,4 @@
-#' Import and format UK 'Stats19' road traffic casualty data
+#' Import and Stats19 data on road traffic casualties
 #'
 #' @section Details:
 #' This is a wrapper function to access and load stats 19 data in a user-friendly way.
@@ -17,7 +17,7 @@
 #' \dontrun{
 #' ac = read_accidents()
 #' }
-read_accidents = function(data_dir = ".", filename = "Accidents0514.csv") {
+read_accidents = function(data_dir = "dftRoadSafetyData_Accidents_2017", filename = "Acc.csv") {
 
   if (!filename %in% list.files(data_dir)) {
     stop("No data found. Change data_dir or Run dl_stats19*() functions first.")
@@ -35,10 +35,8 @@ read_accidents = function(data_dir = ".", filename = "Accidents0514.csv") {
     LSOA_of_Accident_Location = readr::col_character()
   ))
 
-  # # format ac data (comment-out for modularity - RL)
-  # ac = format_stats19_2005_2014_ac(ac)
-
   ac
+
 }
 #' Format UK 'Stats19' road traffic casualty data
 #'

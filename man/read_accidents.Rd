@@ -2,9 +2,10 @@
 % Please edit documentation in R/read_stats19.R
 \name{read_accidents}
 \alias{read_accidents}
-\title{Import and format UK 'Stats19' road traffic casualty data}
+\title{Import and Stats19 data on road traffic casualties}
 \usage{
-read_accidents(data_dir = ".", filename = "Accidents0514.csv")
+read_accidents(data_dir = "dftRoadSafetyData_Accidents_2017",
+  filename = "Acc.csv")
 }
 \arguments{
 \item{data_dir}{Character string representing where the data is stored.
@@ -14,7 +15,7 @@ If empty, R will attempt to download and unzip the data for you.}
 are those downloaded from the UK Department for Transport (DfT).}
 }
 \description{
-Import and format UK 'Stats19' road traffic casualty data
+Import and Stats19 data on road traffic casualties
 }
 \section{Details}{
 
