@@ -98,3 +98,4 @@ download_and_unzip = function(exdir, zip_url) {
     )
   ))
 }
+utils::globalVariables(c("stats19_variables", "stats19_schema"))
