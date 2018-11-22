@@ -16,7 +16,8 @@ Imports:
     foreign,
     readr,
     dplyr,
-    lubridate
+    lubridate,
+    readxl
 Suggests: 
     knitr,
     rmarkdown

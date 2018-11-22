@@ -107,8 +107,15 @@ dl_stats19_2017_ac <- function(
                list.files(exdir, pattern = "csv", full.names = TRUE
                )))
 }
+#' Download stats19 schema
+#'
+#' This downloads an excel spreadsheet containing variable names and categories
+#'
 #' @inheritParams dl_stats19_2005_2014
 #' @export
+#' @examples \dontrun{
+#' dl_schema()
+#' }
 dl_schema <- function(data_dir = tempdir()) {
   u = "http://data.dft.gov.uk/road-accidents-safety-data/Road-Accident-Safety-Data-Guide.xls"
   download.file(u, destfile = file.path(data_dir, "Road-Accident-Safety-Data-Guide.xls"))
