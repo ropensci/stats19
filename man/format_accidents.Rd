@@ -6,9 +6,6 @@
 \usage{
 format_accidents()
 }
-\arguments{
-\item{ve}{Dataframe representing the raw Stats19 data read-in with `read_csv()`.}
-}
 \description{
 Format UK 'Stats19' road traffic casualty data
 }
@@ -17,8 +14,3 @@ Format UK 'Stats19' road traffic casualty data
 This is a helper function to format raw stats19 data
 }
 
-\examples{
-\dontrun{
-ve <- format_stats19_2005_2014_ve(ve)
-}
-}
