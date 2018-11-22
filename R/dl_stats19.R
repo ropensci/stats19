@@ -107,3 +107,10 @@ dl_stats19_2017_ac <- function(
                list.files(exdir, pattern = "csv", full.names = TRUE
                )))
 }
+#' @inheritParams dl_stats19_2005_2014
+#' @export
+dl_schema <- function(data_dir = tempdir()) {
+  u = "http://data.dft.gov.uk/road-accidents-safety-data/Road-Accident-Safety-Data-Guide.xls"
+  download.file(u, destfile = file.path(data_dir, "Road-Accident-Safety-Data-Guide.xls"))
+  # download and unzip the data if it's not present
+}
