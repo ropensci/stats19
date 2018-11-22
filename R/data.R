@@ -11,6 +11,14 @@
 #' @name stats19_schema
 #' @aliases stats19_variables
 NULL
+#' Schema for stats19 data (UKDS)
+#'
+#' @docType data
+#' @keywords datasets
+#' @name schema_original
+#' @format A data frame
+NULL
+# work in progress:
 # Example stats19 data file
 #
 # The data was created using the xcv rust program (see vignette for details).
