@@ -18,7 +18,7 @@ dl_stats19 = function(file_name = NULL, years = "", type = "") {
   # exdir = "Stats19_Data_2005-2014"
   error = FALSE
   exdir = find_file_name(years = years, type = type)
-  zip_url = get_url(paste0(exdir, ".zip"))
+  zip_url = get_url(exdir) # no need for the .zip here
   if(!is.null(file_name)) {
     exdir = file_name
     zip_url = get_url(file_name = file_name)
@@ -31,7 +31,6 @@ dl_stats19 = function(file_name = NULL, years = "", type = "") {
       message("Please copy one into dl_stats19 or try again")
       error = TRUE
     } else if(files_found != 1) {
-      cat(files_found)
       # choose one
       message("More than one file found:")
       message("Please corresponding file number: ")
@@ -45,7 +44,7 @@ dl_stats19 = function(file_name = NULL, years = "", type = "") {
       }
       exdir = exdir[number]
       # reassign
-      zip_url = get_url(paste0(exdir, ".zip"))
+      zip_url = get_url(exdir) # no need for the .zip here
     }
     # happy
   }
@@ -82,27 +81,28 @@ dl_stats19 = function(file_name = NULL, years = "", type = "") {
 #'
 #' @param zip_url The url where the data is stored
 #' @param exdir Folder where data should be unzipped to
-#' @aliases dl_stats19_2015 dl_stats19_2016_ac dl_stats19_2016_ac dl_stats19_2017_ac
+#' @aliases dl_2015 dl_2016_accidents dl_2016_accidents dl_2017_accidents
 #' @export
 #' @examples
 #' \dontrun{
-#' dl_stats19_2005_2014()
+#' dl_2005_2014()
 #'
 #' # Load all stats19 datasets
 #' ac = read_accidents()
-#' ca = read_stats19_2005_2014_ca()
+#' ca = read_2005_2014_ca()
 #' ve = read_stats19_2005_2014_ve()
 #' # now you can analyse the UK's stats19 data in a single table
 #' }
-dl_stats19_2005_2014 = function(
+dl_2005_2014 = function(
   zip_url = paste0("http://data.dft.gov.uk.s3.amazonaws.com/",
     "road-accidents-safety-data/Stats19_Data_2005-2014.zip"),
   exdir = "Stats19_Data_2005-2014") {
   download_and_unzip(zip_url = zip_url, exdir = exdir)
 }
+
 #' @inheritParams dl_stats19_2005_2014
 #' @export
-dl_stats19_2015 = function(
+dl_2015 = function(
   zip_url = paste0("http://data.dft.gov.uk/road-accidents-safety-data/",
   "RoadSafetyData_2015.zip"),
   data_dir = ".",
@@ -111,9 +111,9 @@ dl_stats19_2015 = function(
   # download and unzip the data if it's not present
   download_and_unzip(zip_url = zip_url, exdir = exdir)
 }
-#' @inheritParams dl_stats19_2005_2014
+#' @inheritParams dl_2005_2014
 #' @export
-dl_stats19_2016_ac = function(
+dl_2016_accidents = function(
   zip_url = paste0("http://data.dft.gov.uk/road-accidents-safety-data/",
                    "dftRoadSafety_Accidents_2016.zip"),
   data_dir = ".",
@@ -124,7 +124,7 @@ dl_stats19_2016_ac = function(
 }
 #' @inheritParams dl_stats19_2005_2014
 #' @export
-dl_stats19_2017_ac = function(
+dl_2017_accidents = function(
   zip_url = paste0("http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/",
                    "dftRoadSafetyData_Accidents_2017.zip"),
   data_dir = ".",

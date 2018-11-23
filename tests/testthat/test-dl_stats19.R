@@ -1,7 +1,7 @@
 context("test-dl_stats19")
 
-test_that("dl_stats19_2017_ac works", {
-  expect_output(dl_stats19_2017_ac())
+test_that("dl_2017_accidents works", {
+  expect_output(dl_2017_accidents())
 })
 
 test_that("dl_stats19 works for junk", {
