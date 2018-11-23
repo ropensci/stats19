@@ -14,22 +14,62 @@
 #' dl_stats19()
 #' # now you can analyse the UK's stats19 data in a single table
 #' }
-dl_stats19 = function(file_name = NULL, years = "", type = "Accidents") {
+dl_stats19 = function(file_name = NULL, years = "", type = "") {
   # exdir = "Stats19_Data_2005-2014"
-  exdir = generate_file_name(years = years, type = type)
+  error = FALSE
+  exdir = find_file_name(years = years, type = type)
   zip_url = get_url(paste0(exdir, ".zip"))
   if(!is.null(file_name)) {
     exdir = file_name
     zip_url = get_url(file_name = file_name)
   }
-
-  message("Your inputs generated:")
-  message(exdir)
-  message("Will try to ownloaded from: ")
-  message(zip_url)
-  readline("happy to go (Y = enter, N = esc)?")
-  # download and unzip the data if it's not present
-  download_and_unzip(zip_url = zip_url, exdir = exdir)
+  files_found = length(exdir)
+  if(files_found >= 1) {
+    if(files_found > 5) {
+      message("Too many files found, here are first 6.")
+      print(exdir[1:6])
+      message("Please copy one into dl_stats19 or try again")
+      error = TRUE
+    } else if(files_found != 1) {
+      cat(files_found)
+      # choose one
+      message("More than one file found:")
+      message("Please corresponding file number: ")
+      for(i in 1:files_found){
+        message(sprintf("[%d] %s", i, exdir[i]))
+      }
+      number = as.numeric(readline("1 - 5: "))
+      if(is.na(number) | number < 1 | number > 5) {
+        message("You made an invalid choice")
+        error = TRUE
+      }
+      exdir = exdir[number]
+      # reassign
+      zip_url = get_url(paste0(exdir, ".zip"))
+    }
+    # happy
+  }
+  if(files_found == 0) {
+    message("For parameters: ")
+    if(!identical(years, "") & !is.null(years) & !is.na(years)) {
+      print(paste0("years: ", years))
+    }
+    if(!identical(type, "") & !is.null(type) & !is.na(years)) {
+      print(paste0("type: ", type))
+    }
+    message("No results found, please try again")
+    error = TRUE
+  }
+  if(!error) {
+    # we now have one
+    message("File to download:")
+    message(exdir)
+    message("Attempt downloading from: ")
+    message(zip_url)
+    readline("happy to go (Y = enter, N = esc)?")
+    # download and unzip the data if it's not present
+    download_and_unzip(zip_url = zip_url, exdir = exdir)
+  }
 }
 
 #' Download Stats19 data

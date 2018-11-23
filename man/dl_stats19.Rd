@@ -4,7 +4,7 @@
 \alias{dl_stats19}
 \title{Download Stats19 data for a year or range of two years.}
 \usage{
-dl_stats19(file_name = NULL, years = "", type = "Accidents")
+dl_stats19(file_name = NULL, years = "", type = "")
 }
 \arguments{
 \item{file_name}{The file name to download, above two will be ignore.}
