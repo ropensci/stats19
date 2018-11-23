@@ -4,7 +4,8 @@ Version: 0.1.0.9000
 Authors@R: c(
     person("Robin", "Lovelace", email = "rob00x@gmail.com", role = c("aut", "cre"),
     comment = c(ORCID = "0000-0001-5679-6536")),
-    person("Malcolm", "Morgan", email = "m.morgan1@leeds.ac.uk", role = c("aut"))
+    person("Malcolm", "Morgan", email = "m.morgan1@leeds.ac.uk", role = c("aut")),
+    person("Layik", "Hama", email = "layik.hama@gmail.com", role = c("aut"))
   )
 Description: Tools to help process and analysie the UK road collision data also known as Stats19.
 Depends: R (>= 3.5.0)
