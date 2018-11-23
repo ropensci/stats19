@@ -30,6 +30,30 @@ get_directory = function() {
   directory
 }
 
+#' Find a file name within stats19::file_names.
+#'
+#' Currently, there are 52 file names to download data from.
+#'
+#' @param years Provide a year, part of it or maximum range of two years. Defaults to two years ago.
+#' @param type One of 'Accidents', 'Casualties', 'Vehicles'; defaults to 'Accidents', ignores case.
+#'
+#' @example
+#' find_file_name()
+#'
+#' @export
+find_file_name = function(years = "2016", type = "") {
+  result = unlist(stats19::file_names, use.names=FALSE)
+  if(length(years) <= 2) {
+    result = result[grep(years[1], result, ignore.case = TRUE)]
+    if(length(years) == 2) {
+      result = result[grep(years[2], result, ignore.case = TRUE)]
+    }
+    return(result[grep(type, result, ignore.case = TRUE)])
+  } else {
+    stop("The file names contain ranges of one or two years")
+  }
+}
+
 #' Zip file builder
 #' default "dftRoadSafety_Accidents_2016"
 #' @param years Either a single year or a two year range, defaults to 2 years ago
