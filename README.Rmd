@@ -80,7 +80,7 @@ We read-in data on all road crashes recorded by the police in 2017 across Great 
 This means `crashes_2017` is much more usable than `crashes_2017_raw`, as shown below, which shows three records and some key variables in the messy and clean datasets:
 
 ```{r}
-key_patt = "severity|speed|light|junction_detail"
+key_patt = "severity|speed|light|human"
 key_vars = grep(key_patt, x = names(crashes_2017_raw), ignore.case = TRUE)
 random_n = sample(x = nrow(crashes_2017_raw), size = 3)
 crashes_2017_raw[random_n, key_vars]

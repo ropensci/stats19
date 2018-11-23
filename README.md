@@ -35,7 +35,7 @@ Install and attach the latest version with:
 
 ``` r
 devtools::install_github("ITSLeeds/stats19")
-#> Skipping install of 'stats19' from a github remote, the SHA1 (144ea673) has not changed since last install.
+#> Skipping install of 'stats19' from a github remote, the SHA1 (552817f9) has not changed since last install.
 #>   Use `force = TRUE` to force installation
 library(stats19)
 ```
@@ -100,23 +100,23 @@ provided by the DfT. This means `crashes_2017` is much more usable than
 key variables in the messy and clean datasets:
 
 ``` r
-key_patt = "severity|speed|light|junction_detail"
+key_patt = "severity|speed|light|human"
 key_vars = grep(key_patt, x = names(crashes_2017_raw), ignore.case = TRUE)
 random_n = sample(x = nrow(crashes_2017_raw), size = 3)
 crashes_2017_raw[random_n, key_vars]
 #> # A tibble: 3 x 4
-#>   Accident_Severity Speed_limit Junction_Detail Light_Conditions
-#>               <int>       <int>           <int>            <int>
-#> 1                 2          30               6                1
-#> 2                 3          60               0                6
-#> 3                 2          60               3                6
+#>   Accident_Severity Speed_limit `Pedestrian_Crossing-Hum… Light_Conditions
+#>               <int>       <int>                     <int>            <int>
+#> 1                 3          30                         0                4
+#> 2                 3          30                         0                4
+#> 3                 2          70                         0                1
 crashes_2017[random_n, key_vars]
 #> # A tibble: 3 x 4
-#>   accident_severity speed_limit junction_detail         light_conditions  
+#>   accident_severity speed_limit pedestrian_crossing_hu… light_conditions  
 #>   <chr>                   <int> <chr>                   <chr>             
-#> 1 Serious                    30 Crossroads              Daylight          
-#> 2 Slight                     60 Not at junction or wit… Darkness - no lig…
-#> 3 Serious                    60 T or staggered junction Darkness - no lig…
+#> 1 Slight                     30 None within 50 metres   Darkness - lights…
+#> 2 Slight                     30 None within 50 metres   Darkness - lights…
+#> 3 Serious                    70 None within 50 metres   Daylight
 ```
 
 <!-- More data can be read-in as follows: -->
