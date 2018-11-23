@@ -6,6 +6,9 @@
 \usage{
 dl_schema(data_dir = tempdir())
 }
+\arguments{
+\item{data_dir}{Location to download, defaults to `tempdir()`}
+}
 \description{
 This downloads an excel spreadsheet containing variable names and categories
 }
