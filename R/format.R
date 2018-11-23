@@ -51,8 +51,8 @@ format_accidents = function(x, factorize = FALSE) {
     # format 1 column for testing
     lookup_col_name = lkp$schema_variable[lkp$new_name == old_names[i]]
     lookup = stats19_schema[stats19_schema$variable == lookup_col_name, 1:2]
-    if(nrow(lookup) == 0) {
-      message("No match for ", lookup_col_name)
+    if(nrow(lookup) != 0) {
+      message("No single match for ", lookup_col_name)
     }
     x[[i]] = lookup$label[match(x[[i]], lookup$code)]
   }
