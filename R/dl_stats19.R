@@ -98,6 +98,7 @@ dl_stats19_2017_ac = function(
 #' This downloads an excel spreadsheet containing variable names and categories
 #'
 #' @inheritParams dl_stats19_2005_2014
+#' @param data_dir Location to download, defaults to `tempdir()`
 #' @export
 #' @examples \dontrun{
 #' dl_schema()
