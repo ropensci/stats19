@@ -1,6 +1,7 @@
 
 [![Travis build
 status](https://travis-ci.org/ITSLeeds/stats19.svg?branch=master)](https://travis-ci.org/ITSLeeds/stats19)
+[![codecov](https://codecov.io/gh/ITSLeeds/stats19/branch/master/graph/badge.svg)](https://codecov.io/gh/ITSLeeds/stats19)
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
