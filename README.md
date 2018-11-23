@@ -11,10 +11,12 @@ Specifically it enables access to and processing of the UK’s official
 road traffic casualty database, which is called
 [STATS19](https://data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data).
 The name comes from the form used by the police to record car crashes
-and other incidents resulting in casualties on the
-roads.
+and other incidents resulting in casualties on the roads.
 
-<!-- A description of the stats19 data and variables they contain can be found at: http://data.dft.gov.uk/road-accidents-safety-data/Brief-guide-to%20road-accidents-and-safety-data.doc. -->
+A description of the stats19 data and variables they contain can be
+found in a
+[document](http://data.dft.gov.uk/road-accidents-safety-data/Brief-guide-to%20road-accidents-and-safety-data.doc)
+hosted by the UK’s Department for Transport (DfT).
 
 The package builds on previous work including:
 
@@ -29,11 +31,13 @@ The package builds on previous work including:
 
 ## Installation
 
-Install the latest version
-with:
+Install and attach the latest version with:
 
 ``` r
 devtools::install_github("ITSLeeds/stats19")
+#> Skipping install of 'stats19' from a github remote, the SHA1 (2b9dec1e) has not changed since last install.
+#>   Use `force = TRUE` to force installation
+library(stats19)
 ```
 
 <!-- You can install the released version of stats19 from [CRAN](https://CRAN.R-project.org) with: -->
@@ -48,10 +52,12 @@ devtools::install_github("ITSLeeds/stats19")
 
 **stats19** enables download of raw stats19 data with `dl_*` functions.
 The following code chunk, for example, downloads and unzips a .zip file
-containing Stats19 data from 2005 to 2014:
+containing Stats19 data from 2017:
 
 ``` r
-dl_stats19_2005_2014()
+dl_stats19_2017_ac()
+#> Data already exists in data_dir, not downloading
+#> [1] "Data saved at: dftRoadSafetyData_Accidents_2017/Acc.csv"
 ```
 
 Data files from other years can be downloaded with corresponding
@@ -60,7 +66,7 @@ functions:
 ``` r
 dl_stats19_2015()
 dl_stats19_2016_ac()
-dl_stats19_2017_ac()
+dl_stats19_2005_2014()
 ```
 
 ## Reading-in data
@@ -70,7 +76,45 @@ Data can be read-in as follows (assuming the data download went OK):
 ``` r
 d17 = "dftRoadSafetyData_Accidents_2017"
 ac_2017_raw = read_accidents(data_dir = d17, filename = "Acc.csv")
-ac_2017 = format_accidents(ac_2017)
+#> Warning: 20 parsing failures.
+#>   row       col expected actual                                       file
+#> 45334 Longitude a double   NULL 'dftRoadSafetyData_Accidents_2017/Acc.csv'
+#> 45334 Latitude  a double   NULL 'dftRoadSafetyData_Accidents_2017/Acc.csv'
+#> 45721 Longitude a double   NULL 'dftRoadSafetyData_Accidents_2017/Acc.csv'
+#> 45721 Latitude  a double   NULL 'dftRoadSafetyData_Accidents_2017/Acc.csv'
+#> 46052 Longitude a double   NULL 'dftRoadSafetyData_Accidents_2017/Acc.csv'
+#> ..... ......... ........ ...... ..........................................
+#> See problems(...) for more details.
+ac_2017 = format_accidents(ac_2017_raw)
+```
+
+What just happened? We read-in the ‘raw’ Stats19 data without cleaning
+messy column names or re-categorising the outputs. `format_accidents()`
+does this hard work, automating the process of matching column names
+with variable names and labels in a [`.xls`
+file](data.dft.gov.uk/road-accidents-safety-data/Road-Accident-Safety-Data-Guide.xls)
+provided by the DfT. This means `ac_2017` is much more usable than
+`ac_2017_raw`, as shown below, which selects three records and four
+variables for messy and clean datasets:
+
+``` r
+key_patt = "severity|speed|force|light"
+key_vars = grep(key_patt, x = names(ac_2017_raw), ignore.case = TRUE)
+random_n = sample(x = nrow(ac_2017_raw), size = 3)
+ac_2017_raw[random_n, key_vars]
+#> # A tibble: 3 x 4
+#>   Police_Force Accident_Severity Speed_limit Light_Conditions
+#>          <int>             <int>       <int>            <int>
+#> 1            1                 3          40                5
+#> 2           95                 2          30                4
+#> 3           13                 2          30                1
+ac_2017[random_n, key_vars]
+#> # A tibble: 3 x 4
+#>   police_force        accident_severity speed_limit light_conditions       
+#>   <chr>               <chr>                   <int> <chr>                  
+#> 1 Metropolitan Police Slight                     40 Darkness - lights unlit
+#> 2 Lothian and Borders Serious                    30 Darkness - lights lit  
+#> 3 West Yorkshire      Serious                    30 Daylight
 ```
 
 More data can be read-in as follows:
