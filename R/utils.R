@@ -42,29 +42,25 @@ get_directory = function() {
 #' generate_file_name()
 #' generate_file_name(zip = TRUE)
 #' }
-generate_file_name = function(years = "",
-                              type = "",
+generate_file_name = function(years = as.integer(format(Sys.Date(), "%Y")) - 2,
+                              type = "Accidents", # keep the A capital
                               dft = "dft",
                               zip = FALSE) {
-  if (identical(years, "")) {
-    years = as.integer(format(Sys.Date(), "%Y")) - 2 # default to two years ago
-  } else {
-    if (length(years) == 2 | length(years) == 1) {
-      if (as.integer(years[1]) < as.integer(years[2])) {
-        years = paste0(years[2], years[1])
-      } else {
-        years = paste(years, collapse = "_")
-      }
+  if (length(years) == 2 | length(years) == 1) {
+    if (length(years) == 2 && as.integer(years[2]) < as.integer(years[1])) {
+      years = paste(years[2], years[1], sep = "_")
     } else {
-      stop("stats19 currently only takes two years.")
+      years = paste(years, collapse = "_") # dont worry about length == 1
     }
-  }
-  if (identical(type, "")) {
-    type = "Accidents" # keep the A capital
+  } else {
+    stop("stats19 currently only takes two years.")
   }
   z = ""
   if (zip) {
     z = ".zip"
+  }
+  if (identical(type, "") | is.null(type)) {
+    return(sprintf("%sRoadSafety_%s%s", dft, years, z))
   }
   return(sprintf("%sRoadSafety_%s_%s%s", dft, type, years, z))
 }
