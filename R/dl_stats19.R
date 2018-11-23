@@ -8,15 +8,26 @@
 #'
 #' @param years Either a single year or a two year range, defaults to 2 years ago
 #' @param type One of 'Accidents', 'Casualties', 'Vehicles'; defaults to 'Accidents'#' @export
+#' @param file_name The file name to download, above two will be ignore.
 #' @examples
 #' \dontrun{
 #' dl_stats19()
 #' # now you can analyse the UK's stats19 data in a single table
 #' }
-dl_stats19 = function(years = "", type = "Accidents") {
+dl_stats19 = function(file_name = NULL, years = "", type = "Accidents") {
   # exdir = "Stats19_Data_2005-2014"
   exdir = generate_file_name(years = years, type = type)
   zip_url = get_url(paste0(exdir, ".zip"))
+  if(!is.null(file_name)) {
+    exdir = file_name
+    zip_url = get_url(file_name = file_name)
+  }
+
+  message("Your inputs generated:")
+  message(exdir)
+  message("Will try to ownloaded from: ")
+  message(zip_url)
+  readline("happy to go (Y = enter, N = esc)?")
   # download and unzip the data if it's not present
   download_and_unzip(zip_url = zip_url, exdir = exdir)
 }
@@ -30,7 +41,6 @@ dl_stats19 = function(years = "", type = "Accidents") {
 #' Ensure you have a fast internet connection and at least 100 Mb space
 #'
 #' @param zip_url The url where the data is stored
-#' @param data_dir Directory to which to download the file
 #' @param exdir Folder where data should be unzipped to
 #' @aliases dl_stats19_2015 dl_stats19_2016_ac dl_stats19_2016_ac dl_stats19_2017_ac
 #' @export
@@ -47,22 +57,8 @@ dl_stats19 = function(years = "", type = "Accidents") {
 dl_stats19_2005_2014 = function(
   zip_url = paste0("http://data.dft.gov.uk.s3.amazonaws.com/",
     "road-accidents-safety-data/Stats19_Data_2005-2014.zip"),
-  data_dir = ".",
   exdir = "Stats19_Data_2005-2014") {
-
-  # download and unzip the data if it's not present
-  destfile = file.path(data_dir, paste0(exdir, ".zip"))
-  data_already_exists = file.exists(destfile)
-  if(data_already_exists) {
-    message("Data already exists in data_dir, not downloading")
-  } else {
-    utils::download.file(zip_url, destfile)
-  }
-  utils::unzip(destfile, exdir = exdir)
-
-  print(paste0("Data saved at: ",
-               list.files(exdir, pattern = "csv", full.names = TRUE
-  )))
+  download_and_unzip(zip_url = zip_url, exdir = exdir)
 }
 #' @inheritParams dl_stats19_2005_2014
 #' @export
@@ -73,18 +69,7 @@ dl_stats19_2015 = function(
   exdir = "RoadSafetyData_2015") {
 
   # download and unzip the data if it's not present
-  destfile = file.path(data_dir, paste0(exdir, ".zip"))
-  data_already_exists = file.exists(destfile)
-  if(data_already_exists) {
-    message("Data already exists in data_dir, not downloading")
-  } else {
-    utils::download.file(zip_url, destfile)
-  }
-  utils::unzip(destfile, exdir = exdir)
-
-  print(paste0("Data saved at: ",
-               list.files(exdir, pattern = "csv", full.names = TRUE
-               )))
+  download_and_unzip(zip_url = zip_url, exdir = exdir)
 }
 #' @inheritParams dl_stats19_2005_2014
 #' @export
@@ -95,18 +80,7 @@ dl_stats19_2016_ac = function(
   exdir = "dftRoadSafety_Accidents_2016") {
 
   # download and unzip the data if it's not present
-  destfile = file.path(data_dir, paste0(exdir, ".zip"))
-  data_already_exists = file.exists(destfile)
-  if(data_already_exists) {
-    message("Data already exists in data_dir, not downloading")
-  } else {
-    utils::download.file(zip_url, destfile)
-  }
-  utils::unzip(destfile, exdir = exdir)
-
-  print(paste0("Data saved at: ",
-               list.files(exdir, pattern = "csv", full.names = TRUE
-               )))
+  download_and_unzip(zip_url = zip_url, exdir = exdir)
 }
 #' @inheritParams dl_stats19_2005_2014
 #' @export
@@ -117,18 +91,7 @@ dl_stats19_2017_ac = function(
   exdir = "dftRoadSafetyData_Accidents_2017") {
 
   # download and unzip the data if it's not present
-  destfile = file.path(data_dir, paste0(exdir, ".zip"))
-  data_already_exists = file.exists(destfile)
-  if(data_already_exists) {
-    message("Data already exists in data_dir, not downloading")
-  } else {
-    utils::download.file(zip_url, destfile)
-  }
-  utils::unzip(destfile, exdir = exdir)
-
-  print(paste0("Data saved at: ",
-               list.files(exdir, pattern = "csv", full.names = TRUE
-               )))
+  download_and_unzip(zip_url = zip_url, exdir = exdir)
 }
 #' Download stats19 schema
 #'
