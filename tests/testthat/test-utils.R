@@ -14,3 +14,10 @@ test_that("generate_file_name works", {
   expect_equal(generate_file_name(type = ""), "dftRoadSafety_2016")
 
 })
+
+test_that("find_file_name works", {
+  expect_equal(find_file_name(type = "accid"),
+               "dftRoadSafety_Accidents_2016.zip")
+  expect_equal(find_file_name(years ="2015", type = "accid"),
+               "RoadSafetyData_Accidents_2015.zip")
+})
