@@ -67,7 +67,7 @@ dl_stats19 = function(file_name = NULL, years = "", type = "") {
     message(zip_url)
     readline("happy to go (Y = enter, N = esc)?")
     # download and unzip the data if it's not present
-    download_and_unzip(zip_url = zip_url, exdir = exdir)
+    download_and_unzip(zip_url = zip_url, exdir = sub(".zip", "", exdir))
   }
 }
 

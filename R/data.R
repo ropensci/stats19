@@ -43,6 +43,18 @@ NULL
 #' @name file_names
 #' @format A named list
 NULL
+#' Sample stats19 data (2016 accidents)
+#'
+#' Obtained:
+#' dl_stats19(years = "2016", type = "Accide")
+#' acc_2016 = read.csv("/tmp/RtmplOkfPW/dftRoadSafety_Accidents_2016/dftRoadSafety_Accidents_2016.csv")
+#' accidents_2016_sample = head(acc_2016, n = 2)
+#'
+#' @docType data
+#' @keywords datasets
+#' @name accidents_2016_sample
+#' @format A data frame
+NULL
 # work in progress:
 # Example stats19 data file
 #
