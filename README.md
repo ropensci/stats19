@@ -35,7 +35,7 @@ Install and attach the latest version with:
 
 ``` r
 devtools::install_github("ITSLeeds/stats19")
-#> Skipping install of 'stats19' from a github remote, the SHA1 (c89129a4) has not changed since last install.
+#> Skipping install of 'stats19' from a github remote, the SHA1 (144ea673) has not changed since last install.
 #>   Use `force = TRUE` to force installation
 library(stats19)
 ```
@@ -88,37 +88,35 @@ crashes_2017_raw = read_accidents(data_dir = d17, filename = "Acc.csv")
 crashes_2017 = format_accidents(crashes_2017_raw)
 ```
 
-What just happened? We read-in the ‘raw’ Stats19 data without cleaning
-messy column names or re-categorising the outputs. `format_accidents()`
-does this work, automating the process of matching column names with
-variable names and labels in a [`.xls`
+What just happened? We read-in data on all road crashes recorded by the
+police in 2017 across Great Britain. `read_accidents()` imports the
+‘raw’ Stats19 data without cleaning messy column names or
+re-categorising the outputs. `format_accidents()` does this work,
+automating the process of matching column names with variable names and
+labels in a [`.xls`
 file](http://data.dft.gov.uk/road-accidents-safety-data/Road-Accident-Safety-Data-Guide.xls)
 provided by the DfT. This means `crashes_2017` is much more usable than
-`crashes_2017_raw`, as shown below, which selects three records and four
-variables for messy and clean datasets:
+`crashes_2017_raw`, as shown below, which shows three records and some
+key variables in the messy and clean datasets:
 
 ``` r
-key_patt = "severity|speed|force|light|junction"
+key_patt = "severity|speed|light|junction_detail"
 key_vars = grep(key_patt, x = names(crashes_2017_raw), ignore.case = TRUE)
 random_n = sample(x = nrow(crashes_2017_raw), size = 3)
 crashes_2017_raw[random_n, key_vars]
-#> # A tibble: 3 x 6
-#>   Police_Force Accident_Severi… Speed_limit Junction_Detail
-#>          <int>            <int>       <int>           <int>
-#> 1           44                3          30               3
-#> 2           53                2          40               0
-#> 3           12                3          30               8
-#> # ... with 2 more variables: Junction_Control <int>,
-#> #   Light_Conditions <int>
+#> # A tibble: 3 x 4
+#>   Accident_Severity Speed_limit Junction_Detail Light_Conditions
+#>               <int>       <int>           <int>            <int>
+#> 1                 2          30               6                1
+#> 2                 3          60               0                6
+#> 3                 2          60               3                6
 crashes_2017[random_n, key_vars]
-#> # A tibble: 3 x 6
-#>   police_force accident_severi… speed_limit junction_detail
-#>   <chr>        <chr>                  <int> <chr>          
-#> 1 Hampshire    Slight                    30 T or staggered…
-#> 2 Gloucesters… Serious                   40 Not at junctio…
-#> 3 North Yorks… Slight                    30 Private drive …
-#> # ... with 2 more variables: junction_control <chr>,
-#> #   light_conditions <chr>
+#> # A tibble: 3 x 4
+#>   accident_severity speed_limit junction_detail         light_conditions  
+#>   <chr>                   <int> <chr>                   <chr>             
+#> 1 Serious                    30 Crossroads              Daylight          
+#> 2 Slight                     60 Not at junction or wit… Darkness - no lig…
+#> 3 Serious                    60 T or staggered junction Darkness - no lig…
 ```
 
 <!-- More data can be read-in as follows: -->
