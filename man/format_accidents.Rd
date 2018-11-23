@@ -21,10 +21,10 @@ This is a helper function to format raw stats19 data
 
 \examples{
 \dontrun{
-crashes_raw = read_accidents()
-sapply(crashes_raw, class)
-table(crashes_raw$Accident_Severity)
-crashes = format_accidents(crashes_raw)
+x = read_accidents()
+sapply(x, class)
+table(x$Accident_Severity)
+crashes = format_accidents(x)
 sapply(crashes, class)
 table(crashes$accident_severity)
 }

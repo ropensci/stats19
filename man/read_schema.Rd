@@ -28,5 +28,4 @@ The function also generates `stats19_variables`
 \dontrun{
 stats19_schema = read_schema()
 }
-
 }
