@@ -27,7 +27,7 @@ have a sufficient internet access and hard disk space.
 
 \examples{
 \dontrun{
-dl_stats19()
+dl_stats19(years = 2017)
 # now you can analyse the UK's stats19 data in a single table
 }
 }
