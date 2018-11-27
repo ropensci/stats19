@@ -37,10 +37,10 @@ get_directory = function() {
 #' @param years Provide a year, part of it or maximum range of two years. Defaults to two years ago.
 #' @param type One of 'Accidents', 'Casualties', 'Vehicles'; defaults to 'Accidents', ignores case.
 #'
-#' @example
+#' @examples
 #' find_file_name(2016)
 #' find_file_name(2016, type = "accident")
-#' find_file_name(2005)
+#' find_file_name(1979)
 #' find_file_name(2016:2017)
 #' @export
 find_file_name = function(years = "2016", type = "") {
