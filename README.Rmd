@@ -53,15 +53,15 @@ library(stats19)
 The following code chunk, for example, downloads and unzips a .zip file containing Stats19 data from 2017:
 
 ```{r example}
-dl_stats19_2017_ac()
+dl_2017_accidents()
 ```
 
 Data files from other years can be downloaded with corresponding functions:
 
 ```{r, eval=FALSE}
-dl_stats19_2015()
-dl_stats19_2016_ac()
-dl_stats19_2005_2014()
+dl_2016_accidents()
+dl_2015()
+dl_2005_2014()
 ```
 
 ## Reading-in data
