@@ -38,20 +38,19 @@ get_directory = function() {
 #' @param type One of 'Accidents', 'Casualties', 'Vehicles'; defaults to 'Accidents', ignores case.
 #'
 #' @example
-#' find_file_name()
-#'
+#' find_file_name(2016)
+#' find_file_name(2005)
+#' find_file_name(2016:2017)
 #' @export
 find_file_name = function(years = "2016", type = "") {
-  result = unlist(stats19::file_names, use.names=FALSE)
-  if(length(years) <= 2) {
-    result = result[grep(years[1], result, ignore.case = TRUE)]
-    if(length(years) == 2) {
-      result = result[grep(years[2], result, ignore.case = TRUE)]
-    }
-    return(result[grep(type, result, ignore.case = TRUE)])
-  } else {
-    stop("The file names contain ranges of one or two years")
+  stopifnot(length(years) <= 2)
+  file_names_vec = unlist(stats19::file_names, use.names = FALSE)
+  result = file_names_vec[grep(years[1], file_names_vec, ignore.case = TRUE)]
+  if (length(years) == 2) {
+    result2 = file_names_vec[grep(years[2], file_names_vec, ignore.case = TRUE)]
+    result = c(result, result2)
   }
+  return(result)
 }
 
 #' Zip file builder
