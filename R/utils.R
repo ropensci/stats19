@@ -118,7 +118,7 @@ download_and_unzip = function(exdir, zip_url) {
     )
   ))
 }
-utils::globalVariables(c("stats19_variables", "stats19_schema"))
+utils::globalVariables(c("stats19_variables", "stats19_schema", "skip"))
 
 # To run download functions you need an internet connection.
 # pref a fast one
