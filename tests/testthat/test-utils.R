@@ -21,7 +21,7 @@ test_that("find_file_name works", {
                "dftRoadSafety_Accidents_2016.zip")
   expect_equal(find_file_name(years ="2015", type = "accid"),
                "RoadSafetyData_Accidents_2015.zip")
-  expect_equal(find_file_name(years = c("2005", "2014")),
+  expect_equal(find_file_name(years = c("2005", "2006")),
                "Stats19_Data_2005-2014.zip")
   expect_error(find_file_name(years = c("2009", "2014", "2015")))
 })

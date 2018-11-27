@@ -39,6 +39,7 @@ get_directory = function() {
 #'
 #' @example
 #' find_file_name(2016)
+#' find_file_name(2016, type = "accident")
 #' find_file_name(2005)
 #' find_file_name(2016:2017)
 #' @export
@@ -50,7 +51,7 @@ find_file_name = function(years = "2016", type = "") {
     result2 = file_names_vec[grep(years[2], file_names_vec, ignore.case = TRUE)]
     result = c(result, result2)
   }
-  return(result)
+  return(result[grep(type, result, ignore.case = TRUE)])
 }
 
 #' Zip file builder
