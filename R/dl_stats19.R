@@ -13,8 +13,9 @@
 #' @export
 #' @examples
 #' \dontrun{
-#' dl_stats19(years = 2017)
-#' # now you can analyse the UK's stats19 data in a single table
+#' dl_stats19(years = 2017) # interactively select files...
+#' # now you can read-in the data
+#' dl_stats19(years = 2004)
 #' }
 dl_stats19 = function(file_name = NULL, years = "", type = "") {
   error = FALSE
