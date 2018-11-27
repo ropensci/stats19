@@ -119,3 +119,11 @@ download_and_unzip = function(exdir, zip_url) {
   ))
 }
 utils::globalVariables(c("stats19_variables", "stats19_schema"))
+
+# To run download functions you need an internet connection.
+# pref a fast one
+skip_download = function() {
+  connected = !is.null(curl::nslookup("r-project.org", error = FALSE))
+  if(!connected | identical(Sys.getenv("DONT_DOWNLOAD_ANYTHING"), "true"))
+    skip("No connection to run download function.")
+}
