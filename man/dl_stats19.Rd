@@ -18,10 +18,11 @@ Download Stats19 data for a year or range of two years.
 }
 \section{Details}{
 
-This convenient function downloads and unzips UK road traffic casualty data.
-It results in unzipped .csv data in R's temporary directory.
+This convenience function downloads and unzips UK road crash data.
+It results in unzipped .csv files in the [base::tempdir()].
 
-Ensure you have a fast internet connection and at least 100 Mb space
+The `dl_*` functions can download lots of data so ensure you
+have a sufficient internet access and hard disk space.
 }
 
 \examples{
