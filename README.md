@@ -36,7 +36,7 @@ Install and attach the latest version with:
 
 ``` r
 devtools::install_github("ITSLeeds/stats19")
-#> Skipping install of 'stats19' from a github remote, the SHA1 (552817f9) has not changed since last install.
+#> Skipping install of 'stats19' from a github remote, the SHA1 (c0e30261) has not changed since last install.
 #>   Use `force = TRUE` to force installation
 library(stats19)
 ```
@@ -56,18 +56,17 @@ The following code chunk, for example, downloads and unzips a .zip file
 containing Stats19 data from 2017:
 
 ``` r
-dl_stats19_2017_ac()
-#> Data already exists in data_dir, not downloading
-#> [1] "Data saved at: dftRoadSafetyData_Accidents_2017/Acc.csv"
+dl_2017_accidents()
+#> [1] "Data saved at: /tmp/RtmpIJoh56/dftRoadSafetyData_Accidents_2017/Acc.csv"
 ```
 
 Data files from other years can be downloaded with corresponding
 functions:
 
 ``` r
-dl_stats19_2015()
-dl_stats19_2016_ac()
-dl_stats19_2005_2014()
+dl_2016_accidents()
+dl_2015()
+dl_2005_2014()
 ```
 
 ## Reading-in data
@@ -108,16 +107,16 @@ crashes_2017_raw[random_n, key_vars]
 #> # A tibble: 3 x 4
 #>   Accident_Severity Speed_limit `Pedestrian_Crossing-Hum… Light_Conditions
 #>               <int>       <int>                     <int>            <int>
-#> 1                 3          30                         0                4
-#> 2                 3          30                         0                4
-#> 3                 2          70                         0                1
+#> 1                 3          70                         0                1
+#> 2                 3          30                         0                7
+#> 3                 3          60                         0                1
 crashes_2017[random_n, key_vars]
 #> # A tibble: 3 x 4
-#>   accident_severity speed_limit pedestrian_crossing_hu… light_conditions  
-#>   <chr>                   <int> <chr>                   <chr>             
-#> 1 Slight                     30 None within 50 metres   Darkness - lights…
-#> 2 Slight                     30 None within 50 metres   Darkness - lights…
-#> 3 Serious                    70 None within 50 metres   Daylight
+#>   accident_severity speed_limit pedestrian_crossing_h… light_conditions   
+#>   <chr>                   <int> <chr>                  <chr>              
+#> 1 Slight                     70 None within 50 metres  Daylight           
+#> 2 Slight                     30 None within 50 metres  Darkness - lightin…
+#> 3 Slight                     60 None within 50 metres  Daylight
 ```
 
 <!-- More data can be read-in as follows: -->
