@@ -13,4 +13,5 @@ test_that("read_stats19 works", {
   )
   raw_read = read.csv(file.path(path, sub(".zip", ".csv", acc_2016)))
   expect_equal(nrow(read), nrow(raw_read))
+  expect_error(read_accidents("junk"))
 })
