@@ -1,13 +1,5 @@
 context("test-dl_stats19")
 
-# To run download functions you need an internet connection.
-# pref a fast one
-skip_download = function() {
-  connected = !is.null(curl::nslookup("r-project.org", error = FALSE))
-  if(!connected)
-    skip("No connection to run download function.")
-}
-
 test_that("dl_2017_accidents works", {
   skip_download()
   expect_output(dl_2017_accidents())

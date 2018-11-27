@@ -9,10 +9,12 @@ read_schema(data_dir = tempdir(),
 }
 \arguments{
 \item{data_dir}{Character string representing where the data is stored.
-If empty, R will attempt to download and unzip the data for you.}
+Default value assumes in recent session `tempdir` there is
+a `dftRoadSafetyData_Accidents_2017` directory.}
 
 \item{filename}{Character string of the filename of the .csv to read in - default values
-are those downloaded from the UK Department for Transport (DfT).}
+are those downloaded from the UK Department for Transport (DfT).
+Default value is `Acc.csv` under above default `data_dir`.}
 
 \item{sheet}{integer to be added if you want to download a single sheet}
 }
