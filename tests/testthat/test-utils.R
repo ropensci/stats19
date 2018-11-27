@@ -25,11 +25,3 @@ test_that("find_file_name works", {
                "Stats19_Data_2005-2014.zip")
   expect_error(find_file_name(years = c("2009", "2014", "2015")))
 })
-
-context("mock")
-test_that("FINALLY!", {
-  with_mock(
-    "stats19:::dl_stats19" = function(x) x - 1,
-    expect_equal(dl_stats19(2), 1)
-  )
-})
