@@ -4,15 +4,17 @@
 \alias{read_accidents}
 \title{Import and Stats19 data on road traffic casualties}
 \usage{
-read_accidents(data_dir = "dftRoadSafetyData_Accidents_2017",
-  filename = "Acc.csv")
+read_accidents(data_dir = file.path(tempdir(),
+  "dftRoadSafetyData_Accidents_2017"), filename = "Acc.csv")
 }
 \arguments{
 \item{data_dir}{Character string representing where the data is stored.
-If empty, R will attempt to download and unzip the data for you.}
+Default value assumes in recent session `tempdir` there is
+a `dftRoadSafetyData_Accidents_2017` directory.}
 
 \item{filename}{Character string of the filename of the .csv to read in - default values
-are those downloaded from the UK Department for Transport (DfT).}
+are those downloaded from the UK Department for Transport (DfT).
+Default value is `Acc.csv` under above default `data_dir`.}
 }
 \description{
 Import and Stats19 data on road traffic casualties
@@ -22,8 +24,6 @@ Import and Stats19 data on road traffic casualties
 This is a wrapper function to access and load stats 19 data in a user-friendly way.
 The function returns a data frame, in which each record is a reported incident in the
 stats19 dataset.
-
-Ensure you have a fast internet connection and at least 100 Mb space.
 }
 
 \examples{
