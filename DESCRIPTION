@@ -18,7 +18,8 @@ Imports:
     readr,
     dplyr,
     lubridate,
-    readxl
+    readxl,
+    curl (>= 3.2)
 Suggests: 
     knitr,
     rmarkdown,
