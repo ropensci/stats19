@@ -12,6 +12,7 @@ test_that("generate_file_name works", {
   expect_equal(generate_file_name(years = c("2009", "2005")),
                "dftRoadSafety_Accidents_2005_2009")
   expect_equal(generate_file_name(type = ""), "dftRoadSafety_2016")
+  expect_error(generate_file_name(years = c("2005", "2009", "2010")))
 
 })
 
