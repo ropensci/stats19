@@ -10,13 +10,13 @@
 #' @param years Either a single year or a two year range, defaults to 2 years ago
 #' @param type One of 'Accidents', 'Casualties', 'Vehicles'; defaults to 'Accidents'#' @export
 #' @param file_name The file name to download, above two will be ignore.
+#' @export
 #' @examples
 #' \dontrun{
-#' dl_stats19()
+#' dl_stats19(years = 2017)
 #' # now you can analyse the UK's stats19 data in a single table
 #' }
 dl_stats19 = function(file_name = NULL, years = "", type = "") {
-  # exdir = "Stats19_Data_2005-2014"
   error = FALSE
   exdir = find_file_name(years = years, type = type)
   zip_url = get_url(exdir) # no need for the .zip here
