@@ -70,10 +70,10 @@ format_accidents = function(x, factorize = FALSE) {
 #' \dontrun{
 #' x = read_casualties()
 #' sapply(x, class)
-#' table(x$Accident_Severity)
+#' table(x$Casualty_Severity)
 #' casualties = format_casualties(x)
-#' sapply(crashes, class)
-#' table(crashes$accident_severity)
+#' sapply(casualties, class)
+#' table(casualties$casualty_severity)
 #' }
 #' @export
 format_casualties = function(x, factorize = FALSE) {
@@ -88,10 +88,12 @@ format_casualties = function(x, factorize = FALSE) {
   lkp$new_name = gsub(pattern = " ", replacement = "_", lkp$schema_variable)
   lkp$new_name = stats19_vname_raw(lkp$new_name)
 
-  vars_to_change = which(old_names %in% lkp$new_name)
-  # old_names[vars_to_change]
+  vkeep = old_names %in% lkp$new_name
+  vars_to_change = which(vkeep)
 
   # # testing:
+  message("Changing these variables: ", old_names[vkeep])
+  message("Not changing these variables: ", old_names[!vkeep])
   # perfect_matches = lkp$new_name %in% old_names
   # summary(perfect_matches)
   # lkp$new_name[perfect_matches]
