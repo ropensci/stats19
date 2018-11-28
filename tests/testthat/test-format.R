@@ -17,6 +17,7 @@ context("test-format: vehicles")
 
 test_that("format_vehicles works", {
   fn = stats19::file_names$dftRoadSafetyData_Vehicles_2017.zip
+  skip_download()
   dl_stats19(file_name = fn)
   path = file.path(
     tempdir(), sub(".zip", "", fn))
@@ -33,6 +34,7 @@ context("test-format: casualties")
 
 test_that("format_casualties works", {
   fn = stats19::file_names$dftRoadSafetyData_Casualties_2017.zip
+  skip_download()
   dl_stats19(file_name = fn)
   path = file.path(
     tempdir(), sub(".zip", "", fn))
