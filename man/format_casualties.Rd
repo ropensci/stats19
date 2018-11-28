@@ -23,9 +23,9 @@ This function formats raw stats19 data
 \dontrun{
 x = read_casualties()
 sapply(x, class)
-table(x$Accident_Severity)
+table(x$Casualty_Severity)
 casualties = format_casualties(x)
-sapply(crashes, class)
-table(crashes$accident_severity)
+sapply(casualties, class)
+table(casualties$casualty_severity)
 }
 }
