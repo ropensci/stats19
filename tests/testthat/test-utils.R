@@ -27,6 +27,9 @@ test_that("find_file_name works", {
 })
 
 test_that("locate_files works", {
+  # from clean start
+  unlink(tempdir(), recursive = TRUE)
+  dir.create(tempdir())
   expect_message(locate_files())
   fn = stats19::file_names$dftRoadSafetyData_Casualties_2017.zip
   skip_download()
