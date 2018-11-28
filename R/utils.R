@@ -43,7 +43,8 @@ get_directory = function() {
 #' find_file_name(1979)
 #' find_file_name(2016:2017)
 #' @export
-find_file_name = function(years = "2016", type = "") {
+find_file_name = function(years =  as.integer(format(Sys.Date(), "%Y")) - 2,
+                          type = "") {
   stopifnot(length(years) <= 2)
   file_names_vec = unlist(stats19::file_names, use.names = FALSE)
   result = file_names_vec[grep(years[1], file_names_vec, ignore.case = TRUE)]
@@ -52,6 +53,67 @@ find_file_name = function(years = "2016", type = "") {
     result = c(result, result2)
   }
   return(result[grep(type, result, ignore.case = TRUE)])
+}
+
+#' Locate a file on disk
+#'
+#' Helper function to locate files. Given below params, the function
+#' returns 0 or more files found at location/names given.
+#'
+#' @param years Provide a year, part of it or maximum range of two years.
+#' @param type One of 'Accidents', 'Casualties', 'Vehicles'; defaults to 'Accidents', ignores case.
+#' @param data_dir super directory where dataset(s) were first downloaded to.
+#'
+#' @examples
+#' locate_files(years = 2016)
+#' @export
+locate_files = function(data_dir = tempdir(),
+                        type = "",
+                        years = "") {
+  stopifnot(length(years) <= 2)
+  # does data_dir exists?
+  stopifnot(dir.exists(data_dir))
+  # does downloaded directory exists?
+  file_names_found = find_file_name(years = years, type = type)
+  # see if any of these has been downloaded
+  count = length(file_names_found)
+  if(count == 1) {
+    path = file.path(data_dir, sub(".zip", "", file_names_found))
+    if(dir.exists(path)) {
+      x = list.files(path)
+      if(length(x) == 0) {
+        message("Destination directory is empty")
+      } else {
+        return(x)
+      }
+    } else {
+      message("No files downloaded at: ")
+      message(path)
+    }
+  }
+  # just show list of destination directories & contents.
+  all_empty = TRUE
+  downloaded_files_count = 0
+  downloaded_file_path = NULL
+  for (x in file_names_found) {
+    path = file.path(data_dir, sub(".zip", "", x))
+    if(dir.exists(path)) {
+      all_empty = FALSE
+      downloaded_files_count = downloaded_files_count + 1
+      print(path)
+      lf = list.files(path)
+      downloaded_file_path =  file.path(path, lf[1]) # no harm if downloaded_files_count != 1
+      print("File(s) found: ")
+      print(lf)
+    }
+  }
+  # just in case one is found
+  if(downloaded_files_count == 1 && !is.null(downloaded_file_path))
+    return(downloaded_file_path)
+  if(all_empty) {
+    message("Looks like nothing has been downloaded at: ")
+    message(data_dir)
+  }
 }
 
 #' Zip file builder

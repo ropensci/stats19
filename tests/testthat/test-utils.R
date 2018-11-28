@@ -25,3 +25,12 @@ test_that("find_file_name works", {
                "Stats19_Data_2005-2014.zip")
   expect_error(find_file_name(years = c("2009", "2014", "2015")))
 })
+
+test_that("locate_files works", {
+  expect_message(locate_files())
+  fn = stats19::file_names$dftRoadSafetyData_Casualties_2017.zip
+  skip_download()
+  dl_stats19(file_name = fn)
+  x = locate_files()
+  expect_true(length(x) > 0)
+})
