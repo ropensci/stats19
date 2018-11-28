@@ -91,24 +91,13 @@ format_casualties = function(x, factorize = FALSE) {
   vkeep = old_names %in% lkp$new_name
   vars_to_change = which(vkeep)
 
-  # # testing:
+  # # testing: - todo: remove these when function works for all vars
   message("Changing these variables: ", old_names[vkeep])
   message("Not changing these variables: ", old_names[!vkeep])
-  # perfect_matches = lkp$new_name %in% old_names
-  # summary(perfect_matches)
-  # lkp$new_name[perfect_matches]
-  # lkp$new_name[!perfect_matches]
 
-  # format 1 column for testing
-  # col_name_tmp = "accident_severity"
-  # sel_col = agrep(pattern = col_name_tmp, x = stats19_schema$variable, max.distance = 3)
-  # lookup_col_name = stats19_schema$variable[sel_col]
-  # lookup = stats19_schema[stats19_schema$variable == lookup_col_name, 1:2]
-  # x$accident_severity = lookup$label[match(x$accident_severity, lookup$code)]
-
-  # doing it as a for loop for now as easier to debug - could convert to lapply
-  i = 1 # for testing
-  i = 6 # for testing
+  # # doing it as a for loop for now as easier to debug - could convert to lapply
+  # i = 1 # for testing
+  # i = 6 # for testing
   for(i in vars_to_change) {
     # format 1 column for testing
     lookup_col_name = lkp$schema_variable[lkp$new_name == old_names[i]]
