@@ -22,10 +22,10 @@ Install and attach the latest version with:
 
 ``` r
 devtools::install_github("ITSLeeds/stats19")
-#> Using GitHub PAT from envvar GITHUB_PAT
 #> Downloading GitHub repo ITSLeeds/stats19@master
 #> from URL https://api.github.com/repos/ITSLeeds/stats19/zipball/master
-#> Installation failed: Bad credentials (401)
+#> Installing stats19
+#> ...
 library(stats19)
 ```
 
@@ -45,7 +45,7 @@ dl_stats19(years = 2017, type = "Accidents")
 #> Attempt downloading from:
 #> http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Accidents_2017.zip
 #> happy to go (Y = enter, N = esc)?
-#> [1] "Data saved at: /tmp/Rtmpek9a6A/dftRoadSafetyData_Accidents_2017/Acc.csv"
+#> [1] "Data saved at: /tmp/RtmpC654bb/dftRoadSafetyData_Accidents_2017/Acc.csv"
 ```
 
 Currently, these files are downloaded to a default location of "tempdir" which is a platform independent "safe" location to download the data in. Once downloaded, they are unzipped under original DfT file names. The function prints out the location and final file name(s) of unzipped files(s) as shown above.
@@ -59,7 +59,7 @@ dl_stats19(years = 2017)
 #> [1] dftRoadSafetyData_Vehicles_2017.zip
 #> [2] dftRoadSafetyData_Casualties_2017.zip
 #> [3] dftRoadSafetyData_Accidents_2017.zip
-#> 1 - 5:
+#> 1 - 3:
 #> You made an invalid choice
 ```
 
@@ -77,15 +77,15 @@ dl_stats19(file_name = paste0(d17, ".zip"))
 #> http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Accidents_2017.zip
 #> happy to go (Y = enter, N = esc)?
 #> Data already exists in data_dir, not downloading
-#> [1] "Data saved at: /tmp/Rtmpek9a6A/dftRoadSafetyData_Accidents_2017/Acc.csv"
+#> [1] "Data saved at: /tmp/RtmpC654bb/dftRoadSafetyData_Accidents_2017/Acc.csv"
 crashes_2017_raw = read_accidents(data_dir = file.path(tempdir(), d17), filename = "Acc.csv")
 #> Warning: 20 parsing failures.
 #>   row       col expected actual                                                       file
-#> 45334 Longitude a double   NULL '/tmp/Rtmpek9a6A/dftRoadSafetyData_Accidents_2017/Acc.csv'
-#> 45334 Latitude  a double   NULL '/tmp/Rtmpek9a6A/dftRoadSafetyData_Accidents_2017/Acc.csv'
-#> 45721 Longitude a double   NULL '/tmp/Rtmpek9a6A/dftRoadSafetyData_Accidents_2017/Acc.csv'
-#> 45721 Latitude  a double   NULL '/tmp/Rtmpek9a6A/dftRoadSafetyData_Accidents_2017/Acc.csv'
-#> 46052 Longitude a double   NULL '/tmp/Rtmpek9a6A/dftRoadSafetyData_Accidents_2017/Acc.csv'
+#> 45334 Longitude a double   NULL '/tmp/RtmpC654bb/dftRoadSafetyData_Accidents_2017/Acc.csv'
+#> 45334 Latitude  a double   NULL '/tmp/RtmpC654bb/dftRoadSafetyData_Accidents_2017/Acc.csv'
+#> 45721 Longitude a double   NULL '/tmp/RtmpC654bb/dftRoadSafetyData_Accidents_2017/Acc.csv'
+#> 45721 Latitude  a double   NULL '/tmp/RtmpC654bb/dftRoadSafetyData_Accidents_2017/Acc.csv'
+#> 46052 Longitude a double   NULL '/tmp/RtmpC654bb/dftRoadSafetyData_Accidents_2017/Acc.csv'
 #> ..... ......... ........ ...... ..........................................................
 #> See problems(...) for more details.
 crashes_2017 = format_accidents(crashes_2017_raw)
@@ -101,15 +101,15 @@ crashes_2017_raw[random_n, key_vars]
 #> # A tibble: 3 x 4
 #>   Accident_Severity Speed_limit `Pedestrian_Crossing-Hum… Light_Conditions
 #>               <int>       <int>                     <int>            <int>
-#> 1                 2          40                         0                4
-#> 2                 3          30                         0                1
+#> 1                 3          30                         0                4
+#> 2                 3          60                         0                1
 #> 3                 3          30                         0                1
 crashes_2017[random_n, key_vars]
 #> # A tibble: 3 x 4
 #>   accident_severity speed_limit pedestrian_crossing_hu… light_conditions  
 #>   <chr>                   <int> <chr>                   <chr>             
-#> 1 Serious                    40 None within 50 metres   Darkness - lights…
-#> 2 Slight                     30 None within 50 metres   Daylight          
+#> 1 Slight                     30 None within 50 metres   Darkness - lights…
+#> 2 Slight                     60 None within 50 metres   Daylight          
 #> 3 Slight                     30 None within 50 metres   Daylight
 ```
 
