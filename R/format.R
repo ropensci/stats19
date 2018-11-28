@@ -58,6 +58,66 @@ format_accidents = function(x, factorize = FALSE) {
   }
   x
 }
+#' Format stats19 casualties
+#'
+#' @section Details:
+#' This function formats raw stats19 data
+#'
+#' @param x Data frame created with `read_casualties()`
+#' @param factorize Should some results be returned as factors? `FALSE` by default
+#' @export
+#' @examples
+#' \dontrun{
+#' x = read_casualties()
+#' sapply(x, class)
+#' table(x$Accident_Severity)
+#' crashes = format_accidents(x)
+#' sapply(crashes, class)
+#' table(crashes$accident_severity)
+#' }
+#' @export
+format_accidents = function(x, factorize = FALSE) {
+  old_names = names(x)
+  new_names = format_column_names(old_names)
+  names(x) = new_names
+
+  # create lookup table
+  lkp = stats19_variables[stats19_variables$table == "accidents", ]
+  lkp = lkp[lkp$type == "character", ]
+  lkp$schema_variable = stats19_vname_switch(lkp$variable)
+  lkp$new_name = gsub(pattern = " ", replacement = "_", lkp$schema_variable)
+  lkp$new_name = stats19_vname_raw(lkp$new_name)
+
+  vars_to_change = which(old_names %in% lkp$new_name)
+  # old_names[vars_to_change]
+
+  # # testing:
+  # perfect_matches = lkp$new_name %in% old_names
+  # summary(perfect_matches)
+  # lkp$new_name[perfect_matches]
+  # lkp$new_name[!perfect_matches]
+
+  # format 1 column for testing
+  # col_name_tmp = "accident_severity"
+  # sel_col = agrep(pattern = col_name_tmp, x = stats19_schema$variable, max.distance = 3)
+  # lookup_col_name = stats19_schema$variable[sel_col]
+  # lookup = stats19_schema[stats19_schema$variable == lookup_col_name, 1:2]
+  # x$accident_severity = lookup$label[match(x$accident_severity, lookup$code)]
+
+  # doing it as a for loop for now as easier to debug - could convert to lapply
+  i = 1 # for testing
+  i = 6 # for testing
+  for(i in vars_to_change) {
+    # format 1 column for testing
+    lookup_col_name = lkp$schema_variable[lkp$new_name == old_names[i]]
+    lookup = stats19_schema[stats19_schema$variable == lookup_col_name, 1:2]
+    if(length(lookup_col_name) != 1) {
+      message("No single match for ", lookup_col_name)
+    }
+    x[[i]] = lookup$label[match(x[[i]], lookup$code)]
+  }
+  x
+}
 #' Format column names of raw stats19 data
 #'
 #' This function takes messy column names and returns clean ones that work well with

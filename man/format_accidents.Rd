@@ -5,23 +5,42 @@
 \title{Format stats19 'accidents' data}
 \usage{
 format_accidents(x, factorize = FALSE)
+
+format_accidents(x, factorize = FALSE)
 }
 \arguments{
 \item{x}{Data frame created with `read_accidents()`}
 
 \item{factorize}{Should some results be returned as factors? `FALSE` by default}
+
+\item{x}{Data frame created with `read_casualties()`}
+
+\item{factorize}{Should some results be returned as factors? `FALSE` by default}
 }
 \description{
 Format stats19 'accidents' data
+
+Format stats19 casualties
 }
 \section{Details}{
 
 This is a helper function to format raw stats19 data
+
+
+This function formats raw stats19 data
 }
 
 \examples{
 \dontrun{
 x = read_accidents()
+sapply(x, class)
+table(x$Accident_Severity)
+crashes = format_accidents(x)
+sapply(crashes, class)
+table(crashes$accident_severity)
+}
+\dontrun{
+x = read_casualties()
 sapply(x, class)
 table(x$Accident_Severity)
 crashes = format_accidents(x)
