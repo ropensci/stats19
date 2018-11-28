@@ -45,8 +45,8 @@ dl_stats19 = function(file_name = NULL, years = "", type = "") {
       for(i in 1:files_found){
         message(sprintf("[%d] %s", i, exdir[i]))
       }
-      number = as.numeric(readline("1 - 5: "))
-      if(is.na(number) | number < 1 | number > 5) {
+      number = as.numeric(readline(sprintf("1 - %s: ", files_found)))
+      if(is.na(number) | number < 1 | number > files_found) {
         message("You made an invalid choice")
         error = TRUE
       }
