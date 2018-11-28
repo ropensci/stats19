@@ -5,7 +5,7 @@
 \title{Import and Stats19 data on casualties}
 \usage{
 read_casualties(data_dir = file.path(tempdir(),
-  "dftRoadSafetyData_Casualties_2017"), filename = "Veh.csv")
+  "dftRoadSafetyData_Casualties_2017"), filename = "Cas.csv")
 }
 \arguments{
 \item{data_dir}{Character string representing where the data is stored.
@@ -25,6 +25,7 @@ in the stats19 dataset.
 
 \examples{
 \dontrun{
+dl_stats19(years = 2017, type = "casualties")
 casualties = read_casualties()
 }
 }

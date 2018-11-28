@@ -71,18 +71,18 @@ format_accidents = function(x, factorize = FALSE) {
 #' x = read_casualties()
 #' sapply(x, class)
 #' table(x$Accident_Severity)
-#' crashes = format_accidents(x)
+#' casualties = format_casualties(x)
 #' sapply(crashes, class)
 #' table(crashes$accident_severity)
 #' }
 #' @export
-format_accidents = function(x, factorize = FALSE) {
+format_casualties = function(x, factorize = FALSE) {
   old_names = names(x)
   new_names = format_column_names(old_names)
   names(x) = new_names
 
   # create lookup table
-  lkp = stats19_variables[stats19_variables$table == "accidents", ]
+  lkp = stats19_variables[stats19_variables$table == "casualties", ]
   lkp = lkp[lkp$type == "character", ]
   lkp$schema_variable = stats19_vname_switch(lkp$variable)
   lkp$new_name = gsub(pattern = " ", replacement = "_", lkp$schema_variable)
