@@ -45,7 +45,7 @@ Robin is best placed for this part.
 Install and attach the latest development version with:
 
 ```{r install}
-devtools::install_github("ITSLeeds/stats19")
+# devtools::install_github("ITSLeeds/stats19")
 library(stats19)
 ```
 
