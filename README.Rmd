@@ -53,24 +53,25 @@ library(stats19)
 The following code chunk, for example, downloads and unzips a .zip file containing Stats19 data from 2017:
 
 ```{r example}
-dl_2017_accidents()
+dl_stats19(years = 2017, type = "Accidents")
 ```
 
-Data files from other years can be downloaded with corresponding functions:
+Currently, these files are downloaded to a default location of "tempdir" which is a platform independent "safe" location to download the data in. Once downloaded, they are unzipped under original DfT file names. The function prints out the location and final file name(s) of unzipped files(s) as shown above.
 
-```{r, eval=FALSE}
-dl_2016_accidents()
-dl_2015()
-dl_2005_2014()
+Data files from other years can be downloaded in an interactive manner, providing just the year for example, would result in options presented to you:
+
+```{r, eval=TRUE}
+dl_stats19(years = 2017)
 ```
 
 ## Reading-in data
 
-Data can be read-in as follows (assuming the data download went OK):
+Downloaded data can then be read-in as follows (assuming the data download went OK):
 
 ```{r}
 d17 = "dftRoadSafetyData_Accidents_2017"
-crashes_2017_raw = read_accidents(data_dir = d17, filename = "Acc.csv")
+dl_stats19(file_name = paste0(d17, ".zip"))
+crashes_2017_raw = read_accidents(data_dir = file.path(tempdir(), d17), filename = "Acc.csv")
 crashes_2017 = format_accidents(crashes_2017_raw)
 ```
 
