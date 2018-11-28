@@ -19,7 +19,8 @@ Format convert stats19 data into spatial (sf) object
 \examples{
 \dontrun{
 x = read_accidents()
-x_sf = format_sf(x)
-sf:::plot.sf(x)
+x_formatted = format_accidents(x)
+x_sf = format_sf(x_formatted)
+sf:::plot.sf(x_sf["accident_severity"])
 }
 }
