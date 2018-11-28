@@ -222,3 +222,37 @@ stats19_vname_raw = function(x) {
 schema_to_variable = function(x) {
   x = gsub()
 }
+#' Format convert stats19 data into spatial (sf) object
+#'
+#' @param x Data frame created with `read_accidents()`
+#' @param lonlat Should the results be returned in longitude/latitude?
+#' By default `FALSE`, meaning the British National Grid (EPSG code: 27700)
+#' is used.
+#'
+#' @export
+#' @examples
+#' \dontrun{
+#' x = read_accidents()
+#' x_formatted = format_accidents(x)
+#' x_sf = format_sf(x_formatted)
+#' sf:::plot.sf(x_sf["accident_severity"])
+#' }
+#' @export
+format_sf = function(x, lonlat = FALSE) {
+  n = names(x)
+  if(lonlat) {
+    coords = n[grep(pattern = "longitude|latitude", x = n, ignore.case = TRUE)]
+    coord_null = is.na(x[[coords[1]]] | x[[coords[2]]])
+    x = x[!coord_null, ]
+    message(sum(coord_null), " rows removed with no coordinates")
+    x_sf = sf::st_as_sf(x, coords = coords, crs = 4326)
+  } else {
+    coords = n[grep(pattern = "easting|northing", x = n, ignore.case = TRUE)]
+    coord_null = is.na(x[[coords[1]]] | x[[coords[2]]])
+    message(sum(coord_null), " rows removed with no coordinates")
+    x = x[!coord_null, ]
+    x_sf = sf::st_as_sf(x, coords = coords, crs = 27700)
+  }
+  x_sf
+}
+

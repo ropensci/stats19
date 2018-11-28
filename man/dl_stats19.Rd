@@ -19,15 +19,21 @@ Download Stats19 data for a year or range of two years.
 \section{Details}{
 
 This convenience function downloads and unzips UK road crash data.
-It results in unzipped .csv files in the [base::tempdir()].
+It results in unzipped .csv files that are put
+in the temporary directory specified by `tempdir()`.
 
-The `dl_*` functions can download lots of data so ensure you
+If you move the files into your current working directory
+and run the same command again, the file will not
+downloaded.
+
+The `dl_*` functions can download many MB of data so ensure you
 have a sufficient internet access and hard disk space.
 }
 
 \examples{
 \dontrun{
 dl_stats19(years = 2017) # interactively select files...
+
 # now you can read-in the data
 dl_stats19(years = 2004)
 }
