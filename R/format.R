@@ -109,6 +109,57 @@ format_casualties = function(x, factorize = FALSE) {
   }
   x
 }
+#' Format stats19 vehicles data
+#'
+#' @section Details:
+#' This function formats raw stats19 data
+#'
+#' @param x Data frame created with `read_vehicles()`
+#' @param factorize Should some results be returned as factors? `FALSE` by default
+#' @export
+#' @examples
+#' \dontrun{
+#' x = read_vehicles()
+#' sapply(x, class)
+#' table(x$Vehicle_Type)
+#' vehicles = format_vehicles(x)
+#' sapply(vehicles, class)
+#' table(vehicles$vehicle_type)
+#' }
+#' @export
+format_vehicles = function(x, factorize = FALSE) {
+  old_names = names(x)
+  new_names = format_column_names(old_names)
+  names(x) = new_names
+
+  # create lookup table
+  lkp = stats19_variables[stats19_variables$table == "vehicles", ]
+  lkp = lkp[lkp$type == "character", ]
+  lkp$schema_variable = stats19_vname_switch(lkp$variable)
+  lkp$new_name = gsub(pattern = " ", replacement = "_", lkp$schema_variable)
+  lkp$new_name = stats19_vname_raw(lkp$new_name)
+
+  vkeep = old_names %in% lkp$new_name
+  vars_to_change = which(vkeep)
+
+  # # testing: - todo: remove these when function works for all vars
+  message("Changing these variables: ", old_names[vkeep])
+  message("Not changing these variables: ", old_names[!vkeep])
+
+  # # doing it as a for loop for now as easier to debug - could convert to lapply
+  # i = 1 # for testing
+  # i = 6 # for testing
+  for(i in vars_to_change) {
+    # format 1 column for testing
+    lookup_col_name = lkp$schema_variable[lkp$new_name == old_names[i]]
+    lookup = stats19_schema[stats19_schema$variable == lookup_col_name, 1:2]
+    if(length(lookup_col_name) != 1) {
+      message("No single match for ", lookup_col_name)
+    }
+    x[[i]] = lookup$label[match(x[[i]], lookup$code)]
+  }
+  x
+}
 #' Format column names of raw stats19 data
 #'
 #' This function takes messy column names and returns clean ones that work well with
