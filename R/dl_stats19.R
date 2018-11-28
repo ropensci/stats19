@@ -79,68 +79,6 @@ dl_stats19 = function(file_name = NULL, years = "", type = "") {
   }
 }
 
-#' Download Stats19 data
-#'
-#' @section Details:
-#' This convenience function downloads and unzips UK road traffic casualty data.
-#' It results in unzipped .csv data in R's temporary directory.
-#'
-#' Ensure you have a fast internet connection and at least 100 Mb space
-#'
-#' @param zip_url The url where the data is stored
-#' @param exdir Folder where data should be unzipped to
-#' @aliases dl_2015 dl_2016_accidents dl_2016_accidents dl_2017_accidents
-#' @export
-#' @examples
-#' \dontrun{
-#' dl_2005_2014()
-#'
-#' # Load all stats19 datasets
-#' ac = read_accidents()
-#' ca = read_2005_2014_ca()
-#' ve = read_stats19_2005_2014_ve()
-#' # now you can analyse the UK's stats19 data in a single table
-#' }
-dl_2005_2014 = function(
-  zip_url = paste0("http://data.dft.gov.uk.s3.amazonaws.com/",
-    "road-accidents-safety-data/Stats19_Data_2005-2014.zip"),
-  exdir = "Stats19_Data_2005-2014") {
-  download_and_unzip(zip_url = zip_url, exdir = exdir)
-}
-
-#' @inheritParams dl_stats19_2005_2014
-#' @export
-dl_2015 = function(
-  zip_url = paste0("http://data.dft.gov.uk/road-accidents-safety-data/",
-  "RoadSafetyData_2015.zip"),
-  data_dir = ".",
-  exdir = "RoadSafetyData_2015") {
-
-  # download and unzip the data if it's not present
-  download_and_unzip(zip_url = zip_url, exdir = exdir)
-}
-#' @inheritParams dl_2005_2014
-#' @export
-dl_2016_accidents = function(
-  zip_url = paste0("http://data.dft.gov.uk/road-accidents-safety-data/",
-                   "dftRoadSafety_Accidents_2016.zip"),
-  data_dir = ".",
-  exdir = "dftRoadSafety_Accidents_2016") {
-
-  # download and unzip the data if it's not present
-  download_and_unzip(zip_url = zip_url, exdir = exdir)
-}
-#' @inheritParams dl_stats19_2005_2014
-#' @export
-dl_2017_accidents = function(
-  zip_url = paste0("http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/",
-                   "dftRoadSafetyData_Accidents_2017.zip"),
-  data_dir = ".",
-  exdir = "dftRoadSafetyData_Accidents_2017") {
-
-  # download and unzip the data if it's not present
-  download_and_unzip(zip_url = zip_url, exdir = exdir)
-}
 #' Download stats19 schema
 #'
 #' This downloads an excel spreadsheet containing variable names and categories
