@@ -86,10 +86,11 @@ read_vehicles = function(data_dir = file.path(tempdir(), "dftRoadSafetyData_Vehi
 #' @export
 #' @examples
 #' \dontrun{
+#' dl_stats19(years = 2017, type = "casualties")
 #' casualties = read_casualties()
 #' }
 read_casualties = function(data_dir = file.path(tempdir(), "dftRoadSafetyData_Casualties_2017"),
-                         filename = "Veh.csv") {
+                         filename = "Cas.csv") {
 
   if (!filename %in% list.files(data_dir)) {
     stop("No data found. Change data_dir or Run dl_stats19*() functions first.")
