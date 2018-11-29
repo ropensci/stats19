@@ -71,7 +71,7 @@ Downloaded data can then be read-in as follows (assuming the data download went 
 ```{r}
 d17 = "dftRoadSafetyData_Accidents_2017"
 dl_stats19(file_name = paste0(d17, ".zip"))
-crashes_2017_raw = read_accidents(data_dir = file.path(tempdir(), d17), filename = "Acc.csv")
+crashes_2017_raw = read_accidents(years = 2017, filename = "Acc.csv")
 crashes_2017 = format_accidents(crashes_2017_raw)
 ```
 
