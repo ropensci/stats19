@@ -4,17 +4,15 @@
 \alias{read_accidents}
 \title{Import and Stats19 data on road traffic casualties}
 \usage{
-read_accidents(data_dir = file.path(tempdir(),
-  "dftRoadSafetyData_Accidents_2017"), filename = "Acc.csv")
+read_accidents(filename = "", data_dir = tempdir(), years = "")
 }
 \arguments{
-\item{data_dir}{Character string representing where the data is stored.
-Default value assumes in recent session `tempdir` there is
-a `dftRoadSafetyData_Accidents_2017` directory.}
+\item{filename}{Character string of the filename of the .csv to read, if this is given, type and
+years determin whether there is a target to read, otherwise disk scan would be needed.}
 
-\item{filename}{Character string of the filename of the .csv to read in - default values
-are those downloaded from the UK Department for Transport (DfT).
-Default value is `Acc.csv` under above default `data_dir`.}
+\item{data_dir}{Where sets of downloaded data would be found.}
+
+\item{years}{Either a single year or a two year range, defaults to 2 years ago}
 }
 \description{
 Import and Stats19 data on road traffic casualties

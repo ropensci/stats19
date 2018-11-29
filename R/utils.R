@@ -62,14 +62,21 @@ find_file_name = function(years =  as.integer(format(Sys.Date(), "%Y")) - 2,
 #'
 #' @param years Provide a year, part of it or maximum range of two years.
 #' @param type One of 'Accidents', 'Casualties', 'Vehicles'; defaults to 'Accidents', ignores case.
-#' @param data_dir super directory where dataset(s) were first downloaded to.
+#' @param data_dir Super directory where dataset(s) were first downloaded to.
+#' @param return If you want the found files returned pass TRUE
+#' @param quiet Print out messages (files found)
+#'
+#' @return Depending on @param return: full path of a single file found, list of directories
+#' where data from DfT (stats19::filenames) have been downloaded to or NULL.
 #'
 #' @examples
 #' locate_files(years = 2016)
 #' @export
 locate_files = function(data_dir = tempdir(),
                         type = "",
-                        years = "") {
+                        years = "",
+                        return = FALSE,
+                        quiet = FALSE) {
   stopifnot(length(years) <= 2)
   # does data_dir exists?
   stopifnot(dir.exists(data_dir))
@@ -80,40 +87,106 @@ locate_files = function(data_dir = tempdir(),
   if(count == 1) {
     path = file.path(data_dir, sub(".zip", "", file_names_found))
     if(dir.exists(path)) {
-      x = list.files(path)
-      if(length(x) == 0) {
-        message("Destination directory is empty")
+      ls = list.files(path)
+      if(length(ls) == 0) {
+        if(!quiet)
+          message("Destination directory is empty")
       } else {
-        return(x)
+        if(length(ls) > 1 && !quiet) {
+          print(path)
+          print("File(s) found: ")
+          print(ls)
+        }
+        # return first file
+        # TODO: let user know!
+        if(return) return(file.path(path, ls[1])) # first file from ownloaded DfT filename
       }
     } else {
-      message("No files downloaded at: ")
-      message(path)
+      if(!quiet) {
+        message("No files downloaded at: ")
+        print(path)
+      }
     }
   }
-  # just show list of destination directories & contents.
-  all_empty = TRUE
-  downloaded_files_count = 0
-  downloaded_file_path = NULL
+  # just show list of destination directories & contents and return
+  # one found or
+  # vector of found downloads
+  i = 1
+  valid_paths = c()
   for (x in file_names_found) {
     path = file.path(data_dir, sub(".zip", "", x))
     if(dir.exists(path)) {
       all_empty = FALSE
-      downloaded_files_count = downloaded_files_count + 1
-      print(path)
-      lf = list.files(path)
-      downloaded_file_path =  file.path(path, lf[1]) # no harm if downloaded_files_count != 1
-      print("File(s) found: ")
-      print(lf)
+      i = i + 1
+      valid_paths = c(valid_paths, path)
+      ls = list.files(path)
+      if(!quiet) {
+        print(path)
+        print("File(s) found: ")
+        print(ls)
+      }
     }
   }
-  # just in case one is found
-  if(downloaded_files_count == 1 && !is.null(downloaded_file_path))
-    return(downloaded_file_path)
-  if(all_empty) {
+  if(length(valid_paths) == 0 & !quiet) {
     message("Looks like nothing has been downloaded at: ")
     message(data_dir)
   }
+  if(return && length(valid_paths) > 0) {
+    ls = list.files(valid_paths)
+    if(length(valid_paths) == 1 && length(ls) == 1) {
+      return(file.path(valid_paths, ls)) # return the full path of single file
+    } else {
+      # TODO: return list of files in the single path?
+      return(valid_paths) # return path(s)
+    }
+    return(NULL)
+  }
+}
+
+#' Pin down a file on disk from four parameters.
+#'
+#' @param filename Character string of the filename of the .csv to read, if this is given, type and
+#' years determin whether there is a target to read, otherwise disk scan would be needed.
+#' @param data_dir Where sets of downloaded data would be found.
+#' @param years Either a single year or a two year range, defaults to 2 years ago
+#' @param type One of: 'Accidents', 'Casualties', 'Vehicles'; defaults to 'Accidents', ignores case.
+#'
+#' @return One of: path for one file, a message `More than one file found` or NULL
+#' @export
+#' @examples \dontrun{
+#' locate_one_file()
+#' locate_one_file(filename = "Cas.csv")
+#' }
+locate_one_file = function(filename = "",
+                           data_dir = tempdir(),
+                           years = "",
+                           type = "accidents") {
+  # first of all see if locate_files can pin it down
+  path = locate_files(data_dir = data_dir,
+                      type = type,
+                      years = years,
+                      return = TRUE,
+                      quiet = TRUE)
+  if(length(path) == 1 && endsWith(path, filename)) { # endsWith("foo/Acc.csv","") or endsWith("foo/Acc.csv", "Acc.csv")
+    # got it
+    return(path)
+  } else {
+    # did locate_files returned multiple locations? is there a filename?
+    if(length(path) > 1 & length(filename) > 1) {
+      for (p in path) {
+        ls = list.files(p)
+        for (file in ls) {
+          if(identical(file, filename)) { # matched filename?
+            return(file.path(p, file))
+          }
+        }
+      }
+    }
+  }
+  if(length(list.files(path)) > 1) {
+    return("More than one file found") # I cannot, give me a filename to match.
+  }
+  return(NULL)
 }
 
 #' Zip file builder

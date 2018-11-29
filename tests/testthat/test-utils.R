@@ -26,14 +26,16 @@ test_that("find_file_name works", {
   expect_error(find_file_name(years = c("2009", "2014", "2015")))
 })
 
-test_that("locate_files works", {
+test_that("locate_files & locate_one_file works", {
+  fn = stats19::file_names$dftRoadSafetyData_Casualties_2017.zip
+  # skip_download()
+  dl_stats19(file_name = fn)
+  x = locate_files(return = TRUE)
+  expect_true(length(x) > 0) # other files would have been downloaded already
+  x1 = locate_one_file(filename = "Cas.csv", type = "casualties")
+  expect_true(length(x1) == 1)
   # from clean start
   unlink(tempdir(), recursive = TRUE)
   dir.create(tempdir())
   expect_message(locate_files())
-  fn = stats19::file_names$dftRoadSafetyData_Casualties_2017.zip
-  skip_download()
-  dl_stats19(file_name = fn)
-  x = locate_files()
-  expect_true(length(x) > 0)
 })

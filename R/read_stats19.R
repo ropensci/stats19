@@ -5,28 +5,34 @@
 #' The function returns a data frame, in which each record is a reported incident in the
 #' stats19 dataset.
 #'
-#'
-#' @param data_dir Character string representing where the data is stored.
-#' Default value assumes in recent session `tempdir` there is
-#' a `dftRoadSafetyData_Accidents_2017` directory.
-#' @param filename Character string of the filename of the .csv to read in - default values
-#' are those downloaded from the UK Department for Transport (DfT).
-#' Default value is `Acc.csv` under above default `data_dir`.
+#' @param filename Character string of the filename of the .csv to read, if this is given, type and
+#' years determin whether there is a target to read, otherwise disk scan would be needed.
+#' @param data_dir Where sets of downloaded data would be found.
+#' @param years Either a single year or a two year range, defaults to 2 years ago
 #'
 #' @export
 #' @examples
 #' \dontrun{
 #' ac = read_accidents()
 #' }
-read_accidents = function(data_dir = file.path(tempdir(), "dftRoadSafetyData_Accidents_2017"),
-                          filename = "Acc.csv") {
-
-  if (!filename %in% list.files(data_dir)) {
-    stop("No data found. Change data_dir or Run dl_stats19*() functions first.")
+read_accidents = function(filename = "",
+                          data_dir = tempdir(),
+                          years = "") {
+  path = locate_one_file(
+    # type = "accidents", # default
+    filename = filename,
+    data_dir = data_dir,
+    years = years
+  )
+  # have we NOT found a csv to read?
+  if (!endsWith(path, ".csv") | !file.exists(path)) {
+    # locate_files malfunctioned or just foo/bar path returned with no filename
+    message(path)
+    stop("Change data_dir, filename, years or run dl_stats19() first.")
   }
 
   # read the data in
-  ac = readr::read_csv(file.path(data_dir, filename), col_types = readr::cols(
+  ac = readr::read_csv(path, col_types = readr::cols(
     .default = readr::col_integer(),
     Accident_Index = readr::col_character(),
     Longitude = readr::col_double(),
