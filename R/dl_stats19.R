@@ -13,7 +13,7 @@
 #' have a sufficient internet access and hard disk space.
 #'
 #' @param years Either a single year or a two year range, defaults to 2 years ago
-#' @param type One of 'Accidents', 'Casualties', 'Vehicles'; defaults to 'Accidents'#' @export
+#' @param type One of 'Accidents', 'Casualties', 'Vehicles'; defaults to 'Accidents'#'
 #' @param file_name The file name to download, above two will be ignore.
 #' @export
 #' @examples

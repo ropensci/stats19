@@ -11,7 +11,7 @@ dl_stats19(file_name = NULL, years = "", type = "")
 
 \item{years}{Either a single year or a two year range, defaults to 2 years ago}
 
-\item{type}{One of 'Accidents', 'Casualties', 'Vehicles'; defaults to 'Accidents'#' @export}
+\item{type}{One of 'Accidents', 'Casualties', 'Vehicles'; defaults to 'Accidents'#'}
 }
 \description{
 Download Stats19 data for a year or range of two years.

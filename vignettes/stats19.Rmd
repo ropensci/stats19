@@ -85,7 +85,7 @@ In a similar approach to the download section before, we can read files download
 ```{r}
 d17 = "dftRoadSafetyData_Accidents_2017"
 dl_stats19(file_name = paste0(d17, ".zip"))
-crashes_2017_raw = read_accidents(data_dir = file.path(tempdir(), d17), filename = "Acc.csv")
+crashes_2017_raw = read_accidents(data_dir = tempdir(), filename = "Acc.csv")
 ```
 
 ### 2.3 Format the data
@@ -96,8 +96,8 @@ That is why the package provides this heavy work formatting for convenience. Thi
 ```{r}
 d17 = "dftRoadSafetyData_Accidents_2017"
 dl_stats19(file_name = paste0(d17, ".zip"))
-crashes_2017_raw = read_accidents(data_dir = file.path(tempdir(), d17), filename = "Acc.csv")
-crashes_2017 = format_accidents(crashes_2017_raw)
+crashes_2017 = read_accidents(data_dir = tempdir(), years = 2017,filename = "Acc.csv")
+crashes_2017 = format_accidents(crashes_2017)
 ```
 
 ### 2.4 Analyzing the data

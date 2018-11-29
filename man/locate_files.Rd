@@ -4,14 +4,23 @@
 \alias{locate_files}
 \title{Locate a file on disk}
 \usage{
-locate_files(data_dir = tempdir(), type = "", years = "")
+locate_files(data_dir = tempdir(), type = "", years = "",
+  return = FALSE, quiet = FALSE)
 }
 \arguments{
-\item{data_dir}{super directory where dataset(s) were first downloaded to.}
+\item{data_dir}{Super directory where dataset(s) were first downloaded to.}
 
 \item{type}{One of 'Accidents', 'Casualties', 'Vehicles'; defaults to 'Accidents', ignores case.}
 
 \item{years}{Provide a year, part of it or maximum range of two years.}
+
+\item{return}{If you want the found files returned pass TRUE}
+
+\item{quiet}{Print out messages (files found)}
+}
+\value{
+Depending on @param return: full path of a single file found, list of directories
+where data from DfT (stats19::filenames) have been downloaded to or NULL.
 }
 \description{
 Helper function to locate files. Given below params, the function
