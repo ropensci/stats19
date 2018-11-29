@@ -7,7 +7,11 @@ test_that("read_accidents works", {
   dl_stats19(file_name = acc_2016)
   # make sure we have a csv file to read
   path = locate_one_file(
-    tempdir(), years = 2016, filename = sub(".zip", ".csv", acc_2016))
+    tempdir(),
+    type = "accidents",
+    years = 2016,
+    filename = sub(".zip", ".csv", acc_2016)
+  )
   # read it
   read = read_accidents(
     years = 2016, # make it unique
