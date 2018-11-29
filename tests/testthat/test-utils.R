@@ -34,9 +34,18 @@ test_that("locate_files & locate_one_file works", {
   expect_true(length(x) > 0) # other files would have been downloaded already
   x1 = locate_one_file(filename = "Cas.csv", type = "casualties")
   expect_true(length(x1) == 1)
+  # now multiple
+  fn = stats19::file_names$dftRoadSafetyData_Casualties_2016.zip
+  dl_stats19(file_name = fn)
+  x2 = locate_one_file(filename = "Cas.csv")
+  expect_true(length(x1) == 1)
+  # more tests on locate_files
+  expect_output(locate_files())
+  expect_silent(locate_files(quiet = TRUE))
   # from clean start
   unlink(tempdir(), recursive = TRUE)
   dir.create(tempdir())
+  expect_null(locate_files(return = TRUE))
   expect_message(locate_files())
   expect_error(locate_files(data_dir = "/junking"))
 })

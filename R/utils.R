@@ -161,7 +161,7 @@ locate_files = function(data_dir = tempdir(),
 locate_one_file = function(filename = "",
                            data_dir = tempdir(),
                            years = "",
-                           type = "accidents") {
+                           type = "") {
   # see if locate_files can pin it down
   path = locate_files(data_dir = data_dir,
                       type = type,
@@ -173,7 +173,7 @@ locate_one_file = function(filename = "",
     return(path)
   } else {
     # did locate_files returned multiple locations? is there a filename?
-    if(length(path) > 1 & length(filename) > 1) {
+    if(length(path) > 1 & endsWith(filename, ".csv")) {
       for (p in path) {
         ls = list.files(p)
         for (file in ls) {

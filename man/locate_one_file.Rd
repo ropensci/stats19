@@ -5,7 +5,7 @@
 \title{Pin down a file on disk from four parameters.}
 \usage{
 locate_one_file(filename = "", data_dir = tempdir(), years = "",
-  type = "accidents")
+  type = "")
 }
 \arguments{
 \item{filename}{Character string of the filename of the .csv to read, if this is given, type and
