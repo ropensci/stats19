@@ -28,7 +28,7 @@ test_that("find_file_name works", {
 
 test_that("locate_files & locate_one_file works", {
   fn = stats19::file_names$dftRoadSafetyData_Casualties_2017.zip
-  # skip_download()
+  skip_download()
   dl_stats19(file_name = fn)
   x = locate_files(return = TRUE)
   expect_true(length(x) > 0) # other files would have been downloaded already
@@ -38,4 +38,5 @@ test_that("locate_files & locate_one_file works", {
   unlink(tempdir(), recursive = TRUE)
   dir.create(tempdir())
   expect_message(locate_files())
+  expect_error(locate_files(data_dir = "/junking"))
 })

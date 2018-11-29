@@ -4,15 +4,15 @@
 \alias{read_vehicles}
 \title{Import and Stats19 data on vehicles}
 \usage{
-read_vehicles(data_dir = file.path(tempdir(),
-  "dftRoadSafetyData_Vehicles_2017"), filename = "Veh.csv")
+read_vehicles(filename = "", data_dir = tempdir(), years = "")
 }
 \arguments{
-\item{data_dir}{Character string representing where the data is stored.
-If empty, R will attempt to download and unzip the data for you.}
+\item{filename}{Character string of the filename of the .csv to read, if this is given, type and
+years determine whether there is a target to read, otherwise disk scan would be needed.}
 
-\item{filename}{Character string of the filename of the .csv to read in - default value
-is `Veh.csv` from default data_dir}
+\item{data_dir}{Where sets of downloaded data would be found.}
+
+\item{years}{Either a single year or a two year range, defaults to 2 years ago}
 }
 \description{
 Import and Stats19 data on vehicles

@@ -16,14 +16,13 @@ test_that("format_accidents works", {
 context("test-format: vehicles")
 
 test_that("format_vehicles works", {
-  fn = stats19::file_names$dftRoadSafetyData_Vehicles_2017.zip
+  fn = stats19::file_names$dftRoadSafetyData_Vehicles_2016.zip
   skip_download()
   dl_stats19(file_name = fn)
-  path = file.path(
-    tempdir(), sub(".zip", "", fn))
   # read it
   read = read_vehicles(
-    data_dir = path,
+    years = 2016,
+    data_dir = tempdir(),
     filename = "Veh.csv"
   )
   df = format_vehicles(head(read))
@@ -33,14 +32,13 @@ test_that("format_vehicles works", {
 context("test-format: casualties")
 
 test_that("format_casualties works", {
-  fn = stats19::file_names$dftRoadSafetyData_Casualties_2017.zip
+  fn = stats19::file_names$dftRoadSafetyData_Casualties_2016.zip
   skip_download()
   dl_stats19(file_name = fn)
-  path = file.path(
-    tempdir(), sub(".zip", "", fn))
   # read it
   read = read_casualties(
-    data_dir = path,
+    years = 2016,
+    data_dir = tempdir(),
     filename = "Cas.csv"
   )
   df = format_casualties(head(read))

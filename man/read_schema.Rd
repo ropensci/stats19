@@ -11,7 +11,7 @@ read_schema(data_dir = tempdir(),
 \item{data_dir}{Where sets of downloaded data would be found.}
 
 \item{filename}{Character string of the filename of the .csv to read, if this is given, type and
-years determin whether there is a target to read, otherwise disk scan would be needed.}
+years determine whether there is a target to read, otherwise disk scan would be needed.}
 
 \item{sheet}{integer to be added if you want to download a single sheet}
 }

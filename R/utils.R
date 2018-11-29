@@ -107,39 +107,40 @@ locate_files = function(data_dir = tempdir(),
         print(path)
       }
     }
-  }
-  # just show list of destination directories & contents and return
-  # one found or
-  # vector of found downloads
-  i = 1
-  valid_paths = c()
-  for (x in file_names_found) {
-    path = file.path(data_dir, sub(".zip", "", x))
-    if(dir.exists(path)) {
-      all_empty = FALSE
-      i = i + 1
-      valid_paths = c(valid_paths, path)
-      ls = list.files(path)
-      if(!quiet) {
-        print(path)
-        print("File(s) found: ")
-        print(ls)
+  } else {
+    # just show list of destination directories & contents and return
+    # one found or
+    # vector of found downloads
+    i = 1
+    valid_paths = c()
+    for (x in file_names_found) {
+      path = file.path(data_dir, sub(".zip", "", x))
+      if(dir.exists(path)) {
+        all_empty = FALSE
+        i = i + 1
+        valid_paths = c(valid_paths, path)
+        ls = list.files(path)
+        if(!quiet) {
+          print(path)
+          print("File(s) found: ")
+          print(ls)
+        }
       }
     }
-  }
-  if(length(valid_paths) == 0 & !quiet) {
-    message("Looks like nothing has been downloaded at: ")
-    message(data_dir)
-  }
-  if(return && length(valid_paths) > 0) {
-    ls = list.files(valid_paths)
-    if(length(valid_paths) == 1 && length(ls) == 1) {
-      return(file.path(valid_paths, ls)) # return the full path of single file
-    } else {
-      # TODO: return list of files in the single path?
-      return(valid_paths) # return path(s)
+    if(length(valid_paths) == 0 & !quiet) {
+      message("Looks like nothing has been downloaded at: ")
+      message(data_dir)
     }
-    return(NULL)
+    if(return && length(valid_paths) > 0) {
+      ls = list.files(valid_paths)
+      if(length(valid_paths) == 1 && length(ls) == 1) {
+        return(file.path(valid_paths, ls)) # return the full path of single file
+      } else {
+        # TODO: return list of files in the single path?
+        return(valid_paths) # return path(s)
+      }
+      return(NULL)
+    }
   }
 }
 
@@ -161,7 +162,7 @@ locate_one_file = function(filename = "",
                            data_dir = tempdir(),
                            years = "",
                            type = "accidents") {
-  # first of all see if locate_files can pin it down
+  # see if locate_files can pin it down
   path = locate_files(data_dir = data_dir,
                       type = type,
                       years = years,

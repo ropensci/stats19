@@ -6,7 +6,7 @@
 #' stats19 dataset.
 #'
 #' @param filename Character string of the filename of the .csv to read, if this is given, type and
-#' years determin whether there is a target to read, otherwise disk scan would be needed.
+#' years determine whether there is a target to read, otherwise disk scan would be needed.
 #' @param data_dir Where sets of downloaded data would be found.
 #' @param years Either a single year or a two year range, defaults to 2 years ago
 #'
@@ -18,19 +18,13 @@
 read_accidents = function(filename = "",
                           data_dir = tempdir(),
                           years = "") {
-  path = locate_one_file(
-    # type = "accidents", # default
+  # check inputs
+  path = check_input_file(
     filename = filename,
+    type = "accidents",
     data_dir = data_dir,
     years = years
   )
-  # have we NOT found a csv to read?
-  if (!endsWith(path, ".csv") | !file.exists(path)) {
-    # locate_files malfunctioned or just foo/bar path returned with no filename
-    message(path)
-    stop("Change data_dir, filename, years or run dl_stats19() first.")
-  }
-
   # read the data in
   ac = readr::read_csv(path, col_types = readr::cols(
     .default = readr::col_integer(),
@@ -53,25 +47,28 @@ read_accidents = function(filename = "",
 #' stats19 dataset for the data_dir and filename provided.
 #'
 #'
-#' @param data_dir Character string representing where the data is stored.
-#' If empty, R will attempt to download and unzip the data for you.
-#' @param filename Character string of the filename of the .csv to read in - default value
-#' is `Veh.csv` from default data_dir
+#' @param filename Character string of the filename of the .csv to read, if this is given, type and
+#' years determine whether there is a target to read, otherwise disk scan would be needed.
+#' @param data_dir Where sets of downloaded data would be found.
+#' @param years Either a single year or a two year range, defaults to 2 years ago
 #'
 #' @export
 #' @examples
 #' \dontrun{
 #' ve = read_vehicles()
 #' }
-read_vehicles = function(data_dir = file.path(tempdir(), "dftRoadSafetyData_Vehicles_2017"),
-                          filename = "Veh.csv") {
-
-  if (!filename %in% list.files(data_dir)) {
-    stop("No data found. Change data_dir or Run dl_stats19*() functions first.")
-  }
-
+read_vehicles = function(filename = "",
+                         data_dir = tempdir(),
+                         years = "") {
+  # check inputs
+  path = check_input_file(
+    filename = filename,
+    type = "vehicles",
+    data_dir = data_dir,
+    years = years
+  )
   # read the data in
-  ve = readr::read_csv(file.path(data_dir, filename), col_types = readr::cols(
+  ve = readr::read_csv(path, col_types = readr::cols(
     .default = readr::col_integer(),
     Accident_Index = readr::col_character()
   ))
@@ -83,11 +80,10 @@ read_vehicles = function(data_dir = file.path(tempdir(), "dftRoadSafetyData_Vehi
 #' The function returns a data frame, in which each record is a reported casualty
 #' in the stats19 dataset.
 #'
-#'
-#' @param data_dir Character string representing where the data is stored.
-#' If empty, R will attempt to download and unzip the data for you.
-#' @param filename Character string of the filename of the .csv to read in - default value
-#' is `Veh.csv` from default data_dir
+#' @param filename Character string of the filename of the .csv to read, if this is given, type and
+#' years determine whether there is a target to read, otherwise disk scan would be needed.
+#' @param data_dir Where sets of downloaded data would be found.
+#' @param years Either a single year or a two year range, defaults to 2 years ago
 #'
 #' @export
 #' @examples
@@ -95,17 +91,49 @@ read_vehicles = function(data_dir = file.path(tempdir(), "dftRoadSafetyData_Vehi
 #' dl_stats19(years = 2017, type = "casualties")
 #' casualties = read_casualties()
 #' }
-read_casualties = function(data_dir = file.path(tempdir(), "dftRoadSafetyData_Casualties_2017"),
-                         filename = "Cas.csv") {
+read_casualties = function(filename = "",
+                           data_dir = tempdir(),
+                           years = "") {
 
-  if (!filename %in% list.files(data_dir)) {
-    stop("No data found. Change data_dir or Run dl_stats19*() functions first.")
-  }
-
+  # check inputs
+  path = check_input_file(
+    filename = filename,
+    type = "casualties",
+    data_dir = data_dir,
+    years = years
+  )
   # read the data in
-  ca = readr::read_csv(file.path(data_dir, filename), col_types = readr::cols(
+  ca = readr::read_csv(path, col_types = readr::cols(
     .default = readr::col_integer(),
     Accident_Index = readr::col_character()
   ))
   ca
+}
+
+#' Local helper to be reused.
+#'
+#' @param filename Character string of the filename of the .csv to read, if this is given, type and
+#' years determine whether there is a target to read, otherwise disk scan would be needed.
+#' @param data_dir Where sets of downloaded data would be found.
+#' @param years Either a single year or a two year range, defaults to 2 years ago
+#' @param type One of 'Accidents', 'Casualties', 'Vehicles'; defaults to 'Accidents'#'
+#'
+check_input_file = function(filename = NULL,
+                            type = NULL,
+                            data_dir = NULL,
+                            years = NULL) {
+  # TODO: sanitations
+  path = locate_one_file(
+    type = type,
+    filename = filename,
+    data_dir = data_dir,
+    years = years
+  )
+  # have we NOT found a csv to read?
+  if (!endsWith(path, ".csv") | !file.exists(path)) {
+    # locate_files malfunctioned or just foo/bar path returned with no filename
+    message(path)
+    stop("Change data_dir, filename, years or run dl_stats19() first.")
+  }
+  return(path)
 }

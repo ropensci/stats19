@@ -26,6 +26,7 @@
 #' dl_stats19(years = 2004)
 #' }
 dl_stats19 = function(file_name = NULL, years = "", type = "", data_dir = tempdir()) {
+  # TODO: sanitation checks
   error = FALSE
   exdir = find_file_name(years = years, type = type)
   zip_url = get_url(exdir) # no need for the .zip here
