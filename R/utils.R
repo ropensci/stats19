@@ -233,9 +233,10 @@ generate_file_name = function(years = as.integer(format(Sys.Date(), "%Y")) - 2,
 #'
 #' @param exdir Required zip name also used as destination of csv folder
 #' @param zip_url Required full path of file to download
-download_and_unzip = function(exdir, zip_url) {
+#' @param data_dir Parent directory of exdir
+download_and_unzip = function(exdir, zip_url, data_dir = tempdir()) {
   # download and unzip the data if it's not present
-  data_dir = tempdir()
+  data_dir = data_dir
   destfile = file.path(data_dir, paste0(exdir, ".zip"))
   data_already_exists = file.exists(destfile)
   if (data_already_exists) {

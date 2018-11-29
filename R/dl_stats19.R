@@ -12,9 +12,11 @@
 #' The `dl_*` functions can download many MB of data so ensure you
 #' have a sufficient internet access and hard disk space.
 #'
+#' @param file_name The file name to download, above two will be ignore.
 #' @param years Either a single year or a two year range, defaults to 2 years ago
 #' @param type One of 'Accidents', 'Casualties', 'Vehicles'; defaults to 'Accidents'#'
-#' @param file_name The file name to download, above two will be ignore.
+#' @param data_dir Parent directory for all downloaded files. Defaults to `tempdir()`
+#'
 #' @export
 #' @examples
 #' \dontrun{
@@ -23,7 +25,7 @@
 #' # now you can read-in the data
 #' dl_stats19(years = 2004)
 #' }
-dl_stats19 = function(file_name = NULL, years = "", type = "") {
+dl_stats19 = function(file_name = NULL, years = "", type = "", data_dir = tempdir()) {
   error = FALSE
   exdir = find_file_name(years = years, type = type)
   zip_url = get_url(exdir) # no need for the .zip here
@@ -75,7 +77,9 @@ dl_stats19 = function(file_name = NULL, years = "", type = "") {
     message(zip_url)
     readline("happy to go (Y = enter, N = esc)?")
     # download and unzip the data if it's not present
-    download_and_unzip(zip_url = zip_url, exdir = sub(".zip", "", exdir))
+    download_and_unzip(zip_url = zip_url,
+                       exdir = sub(".zip", "", exdir),
+                       data_dir = data_dir)
   }
 }
 
