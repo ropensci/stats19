@@ -25,6 +25,8 @@ read_accidents = function(filename = "",
     data_dir = data_dir,
     years = years
   )
+  message("Reading in: ")
+  message(path)
   # read the data in
   ac = readr::read_csv(path, col_types = readr::cols(
     .default = readr::col_integer(),
