@@ -108,15 +108,14 @@ locate_files = function(data_dir = tempdir(),
       }
     }
   } else {
-    # just show list of destination directories & contents and return
+    # show list of destination directories & contents and return
     # one found or
-    # vector of found downloads
+    # vector of found downloaded locations in data_dir
     i = 1
     valid_paths = c()
     for (x in file_names_found) {
       path = file.path(data_dir, sub(".zip", "", x))
       if(dir.exists(path)) {
-        all_empty = FALSE
         i = i + 1
         valid_paths = c(valid_paths, path)
         ls = list.files(path)
@@ -127,11 +126,7 @@ locate_files = function(data_dir = tempdir(),
         }
       }
     }
-    if(length(valid_paths) == 0 & !quiet) {
-      message("Looks like nothing has been downloaded at: ")
-      message(data_dir)
-    }
-    if(return && length(valid_paths) > 0) {
+    if(length(valid_paths) > 0 && return) {
       ls = list.files(valid_paths)
       if(length(valid_paths) == 1 && length(ls) == 1) {
         return(file.path(valid_paths, ls)) # return the full path of single file
@@ -140,6 +135,10 @@ locate_files = function(data_dir = tempdir(),
         return(valid_paths) # return path(s)
       }
       return(NULL)
+    }
+    if(length(valid_paths) == 0 & !quiet) {
+      message("Looks like nothing has been downloaded at: ")
+      message(data_dir)
     }
   }
 }
@@ -188,41 +187,6 @@ locate_one_file = function(filename = "",
     return("More than one file found") # I cannot, give me a filename to match.
   }
   return(NULL)
-}
-
-#' Zip file builder
-#' default "dftRoadSafety_Accidents_2016"
-#' @param years Either a single year or a two year range, defaults to 2 years ago
-#' @param type One of 'Accidents', 'Casualties', 'Vehicles'; defaults to 'Accidents'
-#' @param dft The prefix with the file name 'dft'
-#' @param zip Add the '.zip' to the file name? Defaults to `FALSE`
-#'
-#' @examples
-#' \dontrun{
-#' generate_file_name()
-#' generate_file_name(zip = TRUE)
-#' }
-generate_file_name = function(years = as.integer(format(Sys.Date(), "%Y")) - 2,
-                              type = "Accidents", # keep the A capital
-                              dft = "dft",
-                              zip = FALSE) {
-  if (length(years) == 2 | length(years) == 1) {
-    if (length(years) == 2 && as.integer(years[2]) < as.integer(years[1])) {
-      years = paste(years[2], years[1], sep = "_")
-    } else {
-      years = paste(years, collapse = "_") # dont worry about length == 1
-    }
-  } else {
-    stop("stats19 currently only takes two years.")
-  }
-  z = ""
-  if (zip) {
-    z = ".zip"
-  }
-  if (identical(type, "") | is.null(type)) {
-    return(sprintf("%sRoadSafety_%s%s", dft, years, z))
-  }
-  return(sprintf("%sRoadSafety_%s_%s%s", dft, type, years, z))
 }
 
 #' Download and unzip given appropriate params
