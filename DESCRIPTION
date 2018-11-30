@@ -1,5 +1,5 @@
 Package: stats19
-Title: Work with open road traffic casualty data from Great Britain
+Title: Work with Open Road Traffic Casualty Data from Great Britain
 Version: 0.1
 Authors@R: c(
     person("Robin", "Lovelace", email = "rob00x@gmail.com", role = c("aut", "cre"),
