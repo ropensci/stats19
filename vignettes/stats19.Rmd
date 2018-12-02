@@ -20,17 +20,17 @@ knitr::opts_chunk$set(
 
 ## 1. Introduction
 
-The goal of **stats19** is to make it easy to work with road crash data.
-Specifically it enables access to and processing of the UK's official road traffic casualty database, which is called [STATS19](https://data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data).
-The name comes from the form used by the police to record car crashes and other incidents resulting in casualties on the roads.
+**stats19** enables access to and processing of the UK's official road traffic casualty database, [STATS19](https://data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data).
 
 A description of the stats19 data and variables they contain can be found in a [document](http://data.dft.gov.uk/road-accidents-safety-data/Brief-guide-to%20road-accidents-and-safety-data.doc) hosted by the UK's Department for Transport (DfT).
+This vignette focusses on how to use this package to work with STATS19 data.
 
-The package builds on previous work including:
+The development version is hosted on [GitHub](https://github.com/ITSLeeds/stats19).
+It can be installed as follows:
 
-- code in the [bikeR](https://github.com/Robinlovelace/bikeR) repo underlying an academic paper on collisions involving cyclists [@lovelace_who_2016]
-- functions in [**stplanr**](https://github.com/ropensci/stplanr/blob/master/R/load-stats19.R) for downloading Stats19 data
-- updated functions related to the [CyIPT](https://github.com/cyipt/stats19) project
+```{r, eval=FALSE}
+devtools::install_github("ITSLeeds/stats19")
+```
 
 ### 1.1 package layout
 
