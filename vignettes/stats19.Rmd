@@ -18,42 +18,53 @@ knitr::opts_chunk$set(
 )
 ```
 
-## 1. Introduction
+## Introduction
 
-**stats19** enables access to and processing of the UK's official road traffic casualty database, [STATS19](https://data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data).
+**stats19** enables access to and processing of the UK's official road traffic casualty database, [STATS19](https://data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data). 
+A description of variables in the database can be found in a [document](http://data.dft.gov.uk/road-accidents-safety-data/Brief-guide-to%20road-accidents-and-safety-data.doc) hosted by the UK's Department for Transport (DfT).
+The datasets are collectively called STATS19 after the form used to report them, which can be found [here](http://docs.adrn.ac.uk/888043/mrdoc/pdf/888043_stats19-road-accident-injury-statistics-report-form.pdf). 
+This vignette focusses on how to use the **stats19** package to work with STATS19 data.
 
-A description of the stats19 data and variables they contain can be found in a [document](http://data.dft.gov.uk/road-accidents-safety-data/Brief-guide-to%20road-accidents-and-safety-data.doc) hosted by the UK's Department for Transport (DfT).
-This vignette focusses on how to use this package to work with STATS19 data.
-
-The development version is hosted on [GitHub](https://github.com/ITSLeeds/stats19).
-It can be installed as follows:
+The development version is hosted on [GitHub](https://github.com/ITSLeeds/stats19) and can be installed and attached as follows:
 
 ```{r, eval=FALSE}
 devtools::install_github("ITSLeeds/stats19")
 ```
 
-### 1.1 package layout
-
-The work in this package has been divided into four main sections which will be discussed in detail in section (2) of this manuscript. Currently basics of `dl_stats19` which deals with downloading datasets, `read_*` functions and `format_` functions have been written. The aim is to also dedicated a section to analyzing the datasets. We also plan to combine the datasets with other datasets from [CDRC](www.cdrc.ac.uk) and other sources, but that may not be part of this package per se.
-
-### 1.2 outputs
-
-Robin is best placed for this part.
-
-## 2. Get stats19
-
-Install and attach the latest development version with:
-
-```{r install}
-# devtools::install_github("ITSLeeds/stats19")
+```{r}
 library(stats19)
 ```
 
-As stated in the introduction the package enables you to download road safety datasets published by the Department of Transport (DfT) of United Kingdom officially called [STATS19](https://data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data).
+The package has 3 main types of functions, corresponding with the main tasks undertaken by the package:
 
-### 2.1 Download files
+- Download functions beginning with `dl_`
+- Read functions beginning with `read_`
+- Format functions beginning with `format_`
 
-The main function to download individual datasets published by the DfT, is to use `dl_stats19`. The function takes three parameters. If `file_name` has been provided, this means the user is aware of what to download and the other two parameters will be ignored. Otherwise, you can use `years` and `type` to "search" through the file names which are also included in the package for convenience, called `stats19::file_names` as a named list.
+Multiple functions are needed for each step because of the structure of STATS19 data, which are divided into 3 tables, as described in an article that analyses 2005-2015 STATS19 data with reproducible R code by Christoph Freier ([2018](https://kawameicha.gitlab.io/inCodeWeTrust/2018/01/10-years-and-3.3-million-accidented-vehicles-in-the-uk/)):
+
+1. "accident circumstances, with details about location, severity, weather, etc; 
+2. casualties, referencing knowledge about the victims; and
+3. vehicles, which contains more information about the vehicle type and maneuvers, as well the some information about the driver."
+
+The data can be downloaded for many years.
+Datasets since 1979 are broadly consistent, meaning that STATS19 data represents a very rich historic geographic, as stated in the DfT's road casualties report in [2017](https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/744077/reported-road-casualties-annual-report-2017.pdf):
+
+> The current set of definitions and detail of information 
+goes back to 1979, providing a long period for comparison.
+
+## Download STATS19 data
+
+The main function to download individual files `dl_stats19`.
+The function takes three parameters.
+If `file_name` has been provided, this means the user is aware of what to download and the other two parameters will be ignored.
+You can also use `years` and `type` to "search" through the file names, which are stored in a datset called `stats19::file_names`.
+You can find out the names of files that can be downloaded with `names(stats19::file_names)`, an example of which is shown below:
+
+```{r}
+stats19::file_names$dftRoadSafetyData_Vehicles_2017.zip
+```
+
 
 The following code chunk, downloads and unzips a .zip file containing stats19 data from 2017:
 
@@ -78,7 +89,7 @@ key_vars = grep(key_patt, x = names(stats19::accidents_2016_sample), ignore.case
 knitr::kable(stats19::accidents_2016_sample[, key_vars])
 ```
 
-### 2.2 Read files
+## Read STATS19 data
 
 In a similar approach to the download section before, we can read files downloaded using a `data_dir` location of the file and the `filename` to read. The chunk below, will download and read in the `dftRoadSafetyData_Accidents_2017.zip` file from the DfT servers and reads them. We use the R function `tempdir` to save the downloads on disk.
 
@@ -88,7 +99,7 @@ dl_stats19(file_name = paste0(d17, ".zip"))
 crashes_2017_raw = read_accidents(data_dir = tempdir(), filename = "Acc.csv")
 ```
 
-### 2.3 Format the data
+## Format STATS19 data
 
 A [`.xls` file](http://data.dft.gov.uk/road-accidents-safety-data/Road-Accident-Safety-Data-Guide.xls) provided by the DfT includes the column names for the datasets provided. This package has automated (almost fully) the process of cleaning and formatting the downloaded files based on the data found in the excel file. 
 That is why the package provides this heavy work formatting for convenience. This is both data cleaning and also applying a consistent approach to the entire dataset. In the two sections previously we first downloaded a file, then we both downloaded and read in a file and now we can go to the third step of formatting the read in data:
@@ -100,14 +111,13 @@ crashes_2017 = read_accidents(data_dir = tempdir(), years = 2017,filename = "Acc
 crashes_2017 = format_accidents(crashes_2017)
 ```
 
-### 2.4 Analyzing the data
-
-## 3. Using the data
-
-### 3.1 Bike crashes in Leeds
+## Analysis: an example of pedestrians hurt in Leeds
 
 
-## 4. Related packages.
+## Further work
 
+There is much potential to extend the package, beyond downloading, reading and formatting STATS19 data, to help with analysis.
+There is also great potential to add value to and gain insight from the data by joining the datasets with open data, for example from the Consumer Data Research Centre ([CDRC](www.cdrc.ac.uk), which funded this research), OpenStreetMap and the UK's Ordnance Survey.
+If you have any suggestions on priorities for these future directions of (hopefully safe) travel, please get in touch on at [github.com/ITSLeeds/stats19/issues](https://github.com/ITSLeeds/stats19/issues).
 
-## 5. References
+## References
