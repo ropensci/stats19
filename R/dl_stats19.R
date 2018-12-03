@@ -25,7 +25,10 @@
 #' # now you can read-in the data
 #' dl_stats19(years = 2004)
 #' }
-dl_stats19 = function(file_name = NULL, years = "", type = "", data_dir = tempdir()) {
+dl_stats19 = function(file_name = NULL,
+                      years = "",
+                      type = "",
+                      data_dir = tempdir()) {
   # TODO: sanitation checks
   error = FALSE
   final_result = find_file_name(years = years, type = type)
@@ -101,7 +104,11 @@ dl_stats19 = function(file_name = NULL, years = "", type = "", data_dir = tempdi
 #' dl_schema()
 #' }
 dl_schema = function(data_dir = tempdir()) {
-  u = "http://data.dft.gov.uk/road-accidents-safety-data/Road-Accident-Safety-Data-Guide.xls"
-  utils::download.file(u, destfile = file.path(data_dir, "Road-Accident-Safety-Data-Guide.xls"))
+  u = paste0(
+    "http://data.dft.gov.uk/road-accidents-safety-data/",
+    "Road-Accident-Safety-Data-Guide.xls"
+  )
+  destfile = file.path(data_dir, "Road-Accident-Safety-Data-Guide.xls")
+  utils::download.file(u, destfile = destfile)
   # download and unzip the data if it's not present
 }

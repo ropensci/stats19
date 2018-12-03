@@ -8,12 +8,9 @@
 #' @export
 #' @examples
 #' \dontrun{
+#' dl_stats19(years = 2017, type = "accident")
 #' x = read_accidents()
-#' sapply(x, class)
-#' table(x$Accident_Severity)
 #' crashes = format_accidents(x)
-#' sapply(crashes, class)
-#' table(crashes$accident_severity)
 #' }
 #' @export
 format_accidents = function(x, factorize = FALSE) {
@@ -37,16 +34,7 @@ format_accidents = function(x, factorize = FALSE) {
   # lkp$new_name[perfect_matches]
   # lkp$new_name[!perfect_matches]
 
-  # format 1 column for testing
-  # col_name_tmp = "accident_severity"
-  # sel_col = agrep(pattern = col_name_tmp, x = stats19_schema$variable, max.distance = 3)
-  # lookup_col_name = stats19_schema$variable[sel_col]
-  # lookup = stats19_schema[stats19_schema$variable == lookup_col_name, 1:2]
-  # x$accident_severity = lookup$label[match(x$accident_severity, lookup$code)]
-
   # doing it as a for loop for now as easier to debug - could convert to lapply
-  i = 1 # for testing
-  i = 6 # for testing
   for(i in vars_to_change) {
     # format 1 column for testing
     lookup_col_name = lkp$schema_variable[lkp$new_name == old_names[i]]
@@ -68,12 +56,9 @@ format_accidents = function(x, factorize = FALSE) {
 #' @export
 #' @examples
 #' \dontrun{
+#' dl_stats19(years = 2017, type = "casualties")
 #' x = read_casualties()
-#' sapply(x, class)
-#' table(x$Casualty_Severity)
 #' casualties = format_casualties(x)
-#' sapply(casualties, class)
-#' table(casualties$casualty_severity)
 #' }
 #' @export
 format_casualties = function(x, factorize = FALSE) {
@@ -95,9 +80,6 @@ format_casualties = function(x, factorize = FALSE) {
   message("Changing these variables: ", old_names[vkeep])
   message("Not changing these variables: ", old_names[!vkeep])
 
-  # # doing it as a for loop for now as easier to debug - could convert to lapply
-  # i = 1 # for testing
-  # i = 6 # for testing
   for(i in vars_to_change) {
     # format 1 column for testing
     lookup_col_name = lkp$schema_variable[lkp$new_name == old_names[i]]
@@ -119,12 +101,9 @@ format_casualties = function(x, factorize = FALSE) {
 #' @export
 #' @examples
 #' \dontrun{
-#' x = read_vehicles()
-#' sapply(x, class)
-#' table(x$Vehicle_Type)
+#' dl_stats19(years = 2017, type = "vehicles")
+#' vehicles_raw = read_vehicles()
 #' vehicles = format_vehicles(x)
-#' sapply(vehicles, class)
-#' table(vehicles$vehicle_type)
 #' }
 #' @export
 format_vehicles = function(x, factorize = FALSE) {
@@ -146,9 +125,6 @@ format_vehicles = function(x, factorize = FALSE) {
   message("Changing these variables: ", old_names[vkeep])
   message("Not changing these variables: ", old_names[!vkeep])
 
-  # # doing it as a for loop for now as easier to debug - could convert to lapply
-  # i = 1 # for testing
-  # i = 6 # for testing
   for(i in vars_to_change) {
     # format 1 column for testing
     lookup_col_name = lkp$schema_variable[lkp$new_name == old_names[i]]
@@ -200,18 +176,21 @@ read_schema = function(
   data_dir = tempdir(),
   filename = "Road-Accident-Safety-Data-Guide.xls",
   sheet = NULL
-  ) {
+) {
+
   file_path = file.path(data_dir, filename)
   if (!file.exists(file_path)) {
     dl_schema()
   }
-  if(is.null(sheet)) {
-    export_variables = readxl::read_xls(path = file_path, sheet = 2, skip = 2)
+  if (is.null(sheet)) {
+    export_variables = readxl::read_xls(path = file_path,
+                                        sheet = 2,
+                                        skip = 2)
     export_variables_accidents = data.frame(
       stringsAsFactors = FALSE,
       table = "accidents",
       variable = export_variables$`Accident Circumstances`
-        )
+    )
     export_variables_vehicles = data.frame(
       stringsAsFactors = FALSE,
       table = "vehicles",
@@ -228,7 +207,6 @@ read_schema = function(
       export_variables_vehicles
     )
     stats19_variables = stats::na.omit(export_variables_long)
-    # stats19_variables$variable_name = format_column_names(stats19_variables$variable)
     stats19_variables$type = stats19_vtype(stats19_variables$variable)
 
     # export result:
@@ -244,7 +222,7 @@ read_schema = function(
     character_vars = stats19_vname_switch(character_vars)
 
     schema_list = lapply(
-      X = 1:length(character_vars),
+      X = seq_along(character_vars),
       FUN = function(i) {
         x = readxl::read_xls(path = file_path, sheet = character_vars[i])
         # x$code = as.character(x$code)
@@ -254,15 +232,14 @@ read_schema = function(
     )
 
     stats19_schema = do.call(what = rbind, args = schema_list)
-    n_categories = sapply(schema_list, nrow)
+    n_categories = vapply(schema_list, nrow, FUN.VALUE = integer(1))
     stats19_schema$variable = rep(character_vars, n_categories)
 
     # test result
-    sel_schema_in_variables = stats19_schema$variable %in% stats19_variables$variable
-    sel_variables_in_schema = stats19_variables$variable %in% stats19_schema$variable
-    unique(stats19_schema$variable[!sel_schema_in_variables]) # variables have better names
-    unique(stats19_variables$variable[!sel_variables_in_schema])
-
+    sel_schema_in_variables = stats19_schema$variable %in%
+      stats19_variables$variable
+    sel_variables_in_schema = stats19_variables$variable %in%
+      stats19_schema$variable
   } else {
     stats19_schema = readxl::read_xls(path = file_path, sheet = sheet)
   }
@@ -288,7 +265,10 @@ stats19_vtype = function(x) {
   variable_types[sel_location] = "location"
   # remove other variables with no lookup: no weather ?!
   sel_other = grepl(
-    pattern = "Did|Lower|Accident*.Ind|Reference|Restricted|Leaving|Hit|Age*.Band*.of*.D|Driver*.[H|I]",
+    pattern = paste0(
+      "Did|Lower|Accident*.Ind|Reference|Restricted|",
+      "Leaving|Hit|Age*.Band*.of*.D|Driver*.[H|I]"
+    ),
     x = x
   )
   variable_types[sel_other] = "other"
@@ -297,8 +277,16 @@ stats19_vtype = function(x) {
 
 stats19_vname_switch = function(x) {
   x = gsub(pattern = " Authority - ONS code", "", x = x)
-  x = gsub(pattern = "Pedestrian Crossing-Human Control", "Ped Cross - Human", x = x)
-  x = gsub(pattern = "Pedestrian Crossing-Physical Facilities", "Ped Cross - Physical", x = x)
+  x = gsub(
+    pattern = "Pedestrian Crossing-Human Control",
+    "Ped Cross - Human",
+    x = x
+    )
+  x = gsub(
+    pattern = "Pedestrian Crossing-Physical Facilities",
+    "Ped Cross - Physical",
+    x = x
+    )
   x = gsub(pattern = "r Conditions", "r", x = x)
   x = gsub(pattern = "e Conditions", "e", x = x)
   x = gsub(pattern = " Area|or ", "", x = x)
@@ -313,8 +301,12 @@ stats19_vname_switch = function(x) {
 }
 
 stats19_vname_raw = function(x) {
-  x = gsub(pattern = "Ped_Cross_-_Human", "Pedestrian_Crossing-Human_Control", x = x)
-  x = gsub(pattern = "Ped_Cross_-_Physical", "Pedestrian_Crossing-Physical_Facilities", x = x)
+  x = gsub(pattern = "Ped_Cross_-_Human",
+           "Pedestrian_Crossing-Human_Control",
+           x = x)
+  x = gsub(pattern = "Ped_Cross_-_Physical",
+           "Pedestrian_Crossing-Physical_Facilities",
+           x = x)
   x = gsub(pattern = "Weather", "Weather_Conditions", x = x)
   x = gsub(pattern = "Road_Surface", "Road_Surface_Conditions", x = x)
   x = gsub(pattern = "Urban_Rural", "Urban_or_Rural_Area", x = x)
@@ -343,13 +335,17 @@ schema_to_variable = function(x) {
 format_sf = function(x, lonlat = FALSE) {
   n = names(x)
   if(lonlat) {
-    coords = n[grep(pattern = "longitude|latitude", x = n, ignore.case = TRUE)]
+    coords = n[grep(pattern = "longitude|latitude",
+                    x = n,
+                    ignore.case = TRUE)]
     coord_null = is.na(x[[coords[1]]] | x[[coords[2]]])
     x = x[!coord_null, ]
     message(sum(coord_null), " rows removed with no coordinates")
     x_sf = sf::st_as_sf(x, coords = coords, crs = 4326)
   } else {
-    coords = n[grep(pattern = "easting|northing", x = n, ignore.case = TRUE)]
+    coords = n[grep(pattern = "easting|northing",
+                    x = n,
+                    ignore.case = TRUE)]
     coord_null = is.na(x[[coords[1]]] | x[[coords[2]]])
     message(sum(coord_null), " rows removed with no coordinates")
     x = x[!coord_null, ]
