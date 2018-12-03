@@ -45,14 +45,17 @@ get_directory = function() {
 #' @export
 find_file_name = function(years =  as.integer(format(Sys.Date(), "%Y")) - 2,
                           type = "") {
-  stopifnot(length(years) <= 2)
+  stopifnot(is.numeric(years))
   file_names_vec = unlist(stats19::file_names, use.names = FALSE)
-  result = file_names_vec[grep(years[1], file_names_vec, ignore.case = TRUE)]
-  if (length(years) == 2) {
-    result2 = file_names_vec[grep(years[2], file_names_vec, ignore.case = TRUE)]
-    result = c(result, result2)
-  }
-  return(result[grep(type, result, ignore.case = TRUE)])
+  index = unlist(lapply(years, function(i) grep(i, file_names_vec,
+                                                ignore.case = TRUE)))
+  if (length(index) < 1)
+    stop("No files of those years exist")
+  result = file_names_vec[index]
+  result = result[grep(type, result, ignore.case = TRUE)]
+  if (length(result) < 1)
+    stop("No files of that type exist")
+  return(result)
 }
 
 #' Locate a file on disk
@@ -196,28 +199,21 @@ locate_one_file = function(filename = "",
 #' /tmp/blahDIR/dftRoadSafety_2016_Accidents
 #' and lists what is in it.
 #'
-#' @param exdir Required zip name also used as destination of csv folder
+#' @param fname Required zip name also used as destination of csv folder
 #' @param zip_url Required full path of file to download
-#' @param data_dir Parent directory of exdir
-download_and_unzip = function(exdir, zip_url, data_dir = tempdir()) {
+#' @param data_dir Parent directory of fname
+download_and_unzip = function(fname, zip_url, data_dir = tempdir()) {
   # download and unzip the data if it's not present
-  data_dir = data_dir
-  destfile = file.path(data_dir, paste0(exdir, ".zip"))
+  destfile = file.path(data_dir, paste0(fname, ".zip"))
   data_already_exists = file.exists(destfile)
   if (data_already_exists) {
     message("Data already exists in data_dir, not downloading")
   } else {
     utils::download.file(zip_url, destfile = destfile)
   }
-  utils::unzip(destfile, exdir = file.path(data_dir, exdir))
-  print(paste0(
-    "Data saved at: ",
-    list.files(
-      file.path(data_dir, exdir),
-      pattern = "csv",
-      full.names = TRUE
-    )
-  ))
+  zipfiles <- utils::unzip(destfile, list = TRUE)$Name
+  utils::unzip(destfile, exdir = data_dir)
+  invisible(file.remove(destfile))
 }
 utils::globalVariables(c("stats19_variables", "stats19_schema", "skip"))
 

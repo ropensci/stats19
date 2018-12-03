@@ -14,7 +14,8 @@
 #'
 #' @param file_name The file name to download, above two will be ignore.
 #' @param years Either a single year or a two year range, defaults to 2 years ago
-#' @param type One of 'Accidents', 'Casualties', 'Vehicles'; defaults to 'Accidents'#'
+#' @param type One of 'Accidents', 'Casualties', or 'Vehicles' in any
+#' umambiguous form, so just 'a', 'c', or 'v' will suffice.
 #' @param data_dir Parent directory for all downloaded files. Defaults to `tempdir()`
 #'
 #' @export
@@ -25,41 +26,18 @@
 #' # now you can read-in the data
 #' dl_stats19(years = 2004)
 #' }
-dl_stats19 = function(file_name = NULL, years = "", type = "", data_dir = tempdir()) {
-  # TODO: sanitation checks
-  error = FALSE
-  exdir = find_file_name(years = years, type = type)
-  zip_url = get_url(exdir) # no need for the .zip here
-  if(!is.null(file_name)) {
-    exdir = file_name
+dl_stats19 = function(file_name = NULL, years = 2017, type = "acc", data_dir = tempdir()) {
+  type = convert_type_param(type)
+
+  if (is.null(file_name)) {
+    fnames = find_file_name(years = years, type = type)
+    zip_url = get_url(fnames) # no need for the .zip here
+  } else {
+    fnames = file_name
     zip_url = get_url(file_name = file_name)
   }
-  files_found = length(exdir)
-  if(files_found >= 1) {
-    if(files_found > 5) {
-      message("Too many files found, here are first 6.")
-      print(exdir[1:6])
-      message("Please copy one into dl_stats19 or try again")
-      error = TRUE
-    } else if(files_found != 1) {
-      # choose one
-      message("More than one file found:")
-      message("Please corresponding file number: ")
-      for(i in 1:files_found){
-        message(sprintf("[%d] %s", i, exdir[i]))
-      }
-      number = as.numeric(readline(sprintf("1 - %s: ", files_found)))
-      if(is.na(number) | number < 1 | number > files_found) {
-        message("You made an invalid choice")
-        error = TRUE
-      }
-      exdir = exdir[number]
-      # reassign
-      zip_url = get_url(exdir) # no need for the .zip here
-    }
-    # happy
-  }
-  if(files_found == 0) {
+  nfiles_found = length(fnames)
+  if(length(nfiles_found) == 0) {
     message("For parameters: ")
     if(!identical(years, "") & !is.null(years) & !is.na(years)) {
       print(paste0("years: ", years))
@@ -67,21 +45,50 @@ dl_stats19 = function(file_name = NULL, years = "", type = "", data_dir = tempdi
     if(!identical(type, "") & !is.null(type) & !is.na(years)) {
       print(paste0("type: ", type))
     }
-    message("No results found, please try again")
-    error = TRUE
+    stop("No results found, please try again")
   }
-  if(!error) {
-    # we now have one
-    message("File to download:")
-    message(exdir)
-    message("Attempt downloading from: ")
-    message(zip_url)
-    readline("happy to go (Y = enter, N = esc)?")
-    # download and unzip the data if it's not present
-    download_and_unzip(zip_url = zip_url,
-                       exdir = sub(".zip", "", exdir),
+  pl <- ""
+  if(length(fnames) > 1)
+    pl <- "s"
+  message(paste0("File", pl, " to download:"))
+  message(paste0("   ", fnames, collapse = "\n"))
+  message("Attempt downloading from: ")
+  message(paste0("   ", zip_url, collapse = "\n"))
+  resp = readline(phrase(data_dir))
+  if (tolower (substr (resp, 1, 1)) != "y")
+    stop("Stopping as requested")
+
+  if (!dir.exists (data_dir))
+    dir.create (data_dir, recursive = TRUE)
+  # download and unzip the data if it's not present
+  for (i in seq (zip_url))
+    download_and_unzip(zip_url = zip_url[i],
+                       fname = tools::file_path_sans_ext(fnames[i]),
                        data_dir = data_dir)
-  }
+  message ("Data saved at:\n",
+           paste0 ("   ", list.files (data_dir, full.names = TRUE),
+                   collapse = "\n"))
+}
+
+phrase <- function(data_dir)
+{
+  if (!dir.exists (data_dir))
+    message ("data_dir \'", data_dir,
+             "\' will also be created as it does not exist")
+  txt <- c ("Happy to go",
+            "Good to go",
+            "Download now",
+            "Wanna do it")
+  paste0 (txt [ceiling (runif (1) * length(txt))],
+          " (y = enter, n = esc)? ")
+}
+
+# convert 'type' parameter is any form to text as given on official file names:
+convert_type_param <- function(type)
+{
+  types = c("a", "c", "v")
+  type = match.arg(substring (tolower(type), 1, 1), types)
+  c("Accidents", "Casualties", "Vehicles") [match(type, types)]
 }
 
 #' Download stats19 schema
