@@ -35,11 +35,13 @@ The package builds on previous work including:
 
 Install and attach the latest version with:
 
-```{r install}
+```{r install, eval=FALSE}
 devtools::install_github("ITSLeeds/stats19")
-library(stats19)
 ```
 
+```{r attach}
+library(stats19)
+```
 
 <!-- You can install the released version of stats19 from [CRAN](https://CRAN.R-project.org) with: -->
 
