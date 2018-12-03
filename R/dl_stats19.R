@@ -44,9 +44,9 @@ dl_stats19 = function(file_name = NULL, years = "", type = "", data_dir = tempdi
     } else if(files_found != 1) {
       # choose one
       message("More than one file found:")
-      message("Please corresponding file number: ")
+      message("Please type corresponding file number: ")
       for(i in 1:files_found){
-        message(sprintf("[%d] %s", i, exdir[i]))
+        message(sprintf("    [%d] %s", i, exdir[i]))
       }
       number = as.numeric(readline(sprintf("1 - %s: ", files_found)))
       if(is.na(number) | number < 1 | number > files_found) {
