@@ -26,6 +26,7 @@ stats19 dataset.
 
 \examples{
 \dontrun{
-ac = read_accidents()
+dl_stats19(years = 2017, type = "Accidents")
+ac = read_accidents(years = "2017")
 }
 }

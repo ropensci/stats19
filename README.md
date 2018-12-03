@@ -31,40 +31,14 @@ The package builds on previous work including:
 
 ## Installation
 
-Install and attach the latest version with:
+Install and attach the latest version
+with:
 
 ``` r
 devtools::install_github("ITSLeeds/stats19")
-#> Downloading GitHub repo ITSLeeds/stats19@master
-#> Skipping 1 packages ahead of CRAN: sf
-#>   
-   checking for file ‘/tmp/Rtmp5TFmDP/remotes755e6b0c2ae9/ITSLeeds-stats19-753e0e6/DESCRIPTION’ ...
-  
-✔  checking for file ‘/tmp/Rtmp5TFmDP/remotes755e6b0c2ae9/ITSLeeds-stats19-753e0e6/DESCRIPTION’
-#> 
-  
-─  preparing ‘stats19’:
-#> 
-  
-   checking DESCRIPTION meta-information ...
-  
-✔  checking DESCRIPTION meta-information
-#> 
-  
-─  checking for LF line-endings in source and make files and shell scripts
-#> 
-  
-─  checking for empty or unneeded directories
-#> ─  looking to see if a ‘data/datalist’ file should be added
-#> 
-  
-─  building ‘stats19_0.1.tar.gz’
-#> 
-  
-   
-#> 
-#> Installing package into '/home/robin/R/x86_64-pc-linux-gnu-library/3.5'
-#> (as 'lib' is unspecified)
+```
+
+``` r
 library(stats19)
 ```
 
@@ -89,7 +63,7 @@ dl_stats19(years = 2017, type = "Accidents")
 #> Attempt downloading from:
 #> http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Accidents_2017.zip
 #> happy to go (Y = enter, N = esc)?
-#> [1] "Data saved at: /tmp/Rtmp5TFmDP/dftRoadSafetyData_Accidents_2017/Acc.csv"
+#> [1] "Data saved at: /tmp/Rtmp3zMtBR/dftRoadSafetyData_Accidents_2017/Acc.csv"
 ```
 
 Currently, these files are downloaded to a default location of “tempdir”
@@ -127,19 +101,10 @@ dl_stats19(file_name = paste0(d17, ".zip"))
 #> http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Accidents_2017.zip
 #> happy to go (Y = enter, N = esc)?
 #> Data already exists in data_dir, not downloading
-#> [1] "Data saved at: /tmp/Rtmp5TFmDP/dftRoadSafetyData_Accidents_2017/Acc.csv"
+#> [1] "Data saved at: /tmp/Rtmp3zMtBR/dftRoadSafetyData_Accidents_2017/Acc.csv"
 crashes_2017_raw = read_accidents(years = 2017, filename = "Acc.csv")
 #> Reading in:
-#> /tmp/Rtmp5TFmDP/dftRoadSafetyData_Accidents_2017/Acc.csv
-#> Warning: 20 parsing failures.
-#>   row       col expected actual                                                       file
-#> 45334 Longitude a double   NULL '/tmp/Rtmp5TFmDP/dftRoadSafetyData_Accidents_2017/Acc.csv'
-#> 45334 Latitude  a double   NULL '/tmp/Rtmp5TFmDP/dftRoadSafetyData_Accidents_2017/Acc.csv'
-#> 45721 Longitude a double   NULL '/tmp/Rtmp5TFmDP/dftRoadSafetyData_Accidents_2017/Acc.csv'
-#> 45721 Latitude  a double   NULL '/tmp/Rtmp5TFmDP/dftRoadSafetyData_Accidents_2017/Acc.csv'
-#> 46052 Longitude a double   NULL '/tmp/Rtmp5TFmDP/dftRoadSafetyData_Accidents_2017/Acc.csv'
-#> ..... ......... ........ ...... ..........................................................
-#> See problems(...) for more details.
+#> /tmp/Rtmp3zMtBR/dftRoadSafetyData_Accidents_2017/Acc.csv
 crashes_2017 = format_accidents(crashes_2017_raw)
 ```
 
@@ -162,16 +127,16 @@ crashes_2017_raw[random_n, key_vars]
 #> # A tibble: 3 x 4
 #>   Accident_Severity Speed_limit `Pedestrian_Crossing-Hum… Light_Conditions
 #>               <int>       <int>                     <int>            <int>
-#> 1                 3          30                         0                1
-#> 2                 3          30                         0                7
-#> 3                 1          30                         0                4
+#> 1                 3          30                         0                7
+#> 2                 3          30                         0                1
+#> 3                 3          30                         0                1
 crashes_2017[random_n, key_vars]
 #> # A tibble: 3 x 4
 #>   accident_severity speed_limit pedestrian_crossing_h… light_conditions   
 #>   <chr>                   <int> <chr>                  <chr>              
-#> 1 Slight                     30 None within 50 metres  Daylight           
-#> 2 Slight                     30 None within 50 metres  Darkness - lightin…
-#> 3 Fatal                      30 None within 50 metres  Darkness - lights …
+#> 1 Slight                     30 None within 50 metres  Darkness - lightin…
+#> 2 Slight                     30 None within 50 metres  Daylight           
+#> 3 Slight                     30 None within 50 metres  Daylight
 ```
 
 <!-- More data can be read-in as follows: -->
