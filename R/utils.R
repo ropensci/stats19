@@ -45,16 +45,20 @@ get_directory = function() {
 #' @export
 find_file_name = function(years =  as.integer(format(Sys.Date(), "%Y")) - 2,
                           type = "") {
+
   # semantically accept years between 1974 and 2003 inclusive
   # see https://github.com/ITSLeeds/stats19/issues/21
   # TODO: not pure function, changing parameter value
   # first OR last value are between 1974 and 2004
-  if((!is.na(as.integer(years[1])) &&
-      1974 <= as.integer(years[1]) && as.integer(years[1]) <= 2004) |
-     (!is.na(as.integer(years[length(years)])) &&
-      1974 <= as.integer(years[length(years)]) && as.integer(years[length(years)]) <= 2004)) {
-    if(as.integer(years[1]) != 2004)
-      # ignore subsequent years and reassignment is fine if is.element(2004, years)
+  if ((!is.na(as.integer(years[1])) &&
+       1974 <= as.integer(years[1]) &&
+       as.integer(years[1]) <= 2004) |
+      (!is.na(as.integer(years[length(years)])) &&
+       1974 <= as.integer(years[length(years)]) &&
+       as.integer(years[length(years)]) <= 2004)) {
+    if (as.integer(years[1]) != 2004)
+      # ignore subsequent years
+      # and reassignment is fine if is.element(2004, years)
       years = 2004
   }
   stopifnot(length(years) <= 2)
@@ -111,7 +115,8 @@ locate_files = function(data_dir = tempdir(),
         }
         # return first file
         # TODO: let user know!
-        if(return) return(file.path(path, ls[1])) # first file from ownloaded DfT filename
+        # first file from ownloaded DfT filename
+        if(return) return(file.path(path, ls[1]))
       }
     } else {
       if(!quiet) {
@@ -179,7 +184,8 @@ locate_one_file = function(filename = "",
                       years = years,
                       return = TRUE,
                       quiet = TRUE)
-  if(length(path) == 1 && endsWith(path, filename)) { # endsWith("foo/Acc.csv","") or endsWith("foo/Acc.csv", "Acc.csv")
+  if(length(path) == 1 && endsWith(path, filename)) {
+    # endsWith("foo/Acc.csv","") or endsWith("foo/Acc.csv", "Acc.csv")
     # got it
     return(path)
   } else {
