@@ -17,10 +17,7 @@ Encoding: UTF-8
 LazyData: true
 Imports: 
     sf,
-    foreign,
     readr,
-    dplyr,
-    lubridate,
     readxl,
     curl (>= 3.2)
 Suggests: 
