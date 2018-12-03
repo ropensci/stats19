@@ -28,17 +28,17 @@
 dl_stats19 = function(file_name = NULL, years = "", type = "", data_dir = tempdir()) {
   # TODO: sanitation checks
   error = FALSE
-  exdir = find_file_name(years = years, type = type)
-  zip_url = get_url(exdir) # no need for the .zip here
+  final_result = find_file_name(years = years, type = type)
+  zip_url = get_url(final_result) # no need for the .zip here
   if(!is.null(file_name)) {
-    exdir = file_name
+    final_result = file_name
     zip_url = get_url(file_name = file_name)
   }
-  files_found = length(exdir)
+  files_found = length(final_result)
   if(files_found >= 1) {
     if(files_found > 5) {
       message("Too many files found, here are first 6.")
-      print(exdir[1:6])
+      print(final_result[1:6])
       message("Please copy one into dl_stats19 or try again")
       error = TRUE
     } else if(files_found != 1) {
@@ -46,16 +46,16 @@ dl_stats19 = function(file_name = NULL, years = "", type = "", data_dir = tempdi
       message("More than one file found:")
       message("Please type corresponding file number: ")
       for(i in 1:files_found){
-        message(sprintf("    [%d] %s", i, exdir[i]))
+        message(sprintf("    [%d] %s", i, final_result[i]))
       }
       number = as.numeric(readline(sprintf("1 - %s: ", files_found)))
       if(is.na(number) | number < 1 | number > files_found) {
         message("You made an invalid choice")
         error = TRUE
       }
-      exdir = exdir[number]
+      final_result = final_result[number]
       # reassign
-      zip_url = get_url(exdir) # no need for the .zip here
+      zip_url = get_url(final_result) # no need for the .zip here
     }
     # happy
   }
@@ -73,13 +73,19 @@ dl_stats19 = function(file_name = NULL, years = "", type = "", data_dir = tempdi
   if(!error) {
     # we now have one
     message("File to download:")
-    message(exdir)
+    message(final_result)
     message("Attempt downloading from: ")
     message(zip_url)
+    # 240mb 1.8gb unzipped warning
+    if(identical(final_result, "Stats19-Data1979-2004.zip")) {
+      # extra warnings
+      message("\033[31mThis file is over 240 MB in size.\033[39m")
+      message("\033[31mOnce unzipped it is over 1.8 GB.\033[39m")
+    }
     readline("happy to go (Y = enter, N = esc)?")
     # download and unzip the data if it's not present
     download_and_unzip(zip_url = zip_url,
-                       exdir = sub(".zip", "", exdir),
+                       exdir = sub(".zip", "", final_result),
                        data_dir = data_dir)
   }
 }
