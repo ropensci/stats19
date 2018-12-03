@@ -110,14 +110,75 @@ class(crashes_2017_raw)
 
 ## Format STATS19 data
 
-A [`.xls` file](http://data.dft.gov.uk/road-accidents-safety-data/Road-Accident-Safety-Data-Guide.xls) provided by the DfT includes the column names for the datasets provided. This package has automated (almost fully) the process of cleaning and formatting the downloaded files based on the data found in the excel file. 
-That is why the package provides this heavy work formatting for convenience. This is both data cleaning and also applying a consistent approach to the entire dataset. In the two sections previously we first downloaded a file, then we both downloaded and read in a file and now we can go to the third step of formatting the read in data:
+A [`.xls` file](http://data.dft.gov.uk/road-accidents-safety-data/Road-Accident-Safety-Data-Guide.xls) provided by the DfT includes the column names for the datasets provided.
+The packaged datasets `stats19_variables` and `stats19_schema` provide summary information about the contents of this data guide.
+These contain the full variable names in the guide (`stats19_variables`) and a complete lookup table relating integer values the the .csv files provided by the DfT and their labels (`stats19_schema`).
+The first 3 and first 10 rows of each dataset are shown below:
 
 ```{r}
-d17 = "dftRoadSafetyData_Accidents_2017"
-dl_stats19(file_name = paste0(d17, ".zip"))
-crashes_2017 = read_accidents(data_dir = tempdir(), years = 2017,filename = "Acc.csv")
-crashes_2017 = format_accidents(crashes_2017)
+stats19_variables[1:3, ]
+stats19_schema
+```
+
+The code that generated these small datasets can be found in their help pages (accessed with `?stats19_variables` and `?stats19_schema` respectively).
+`stats19_schema` is used internally to automate the process of formatting the downloaded .csv files.
+Column names are formated by the function `format_column_names()`, as illustrated below:
+
+```{r}
+format_column_names(stats19_variables$variable[1:3])
+```
+
+Previous approaches to data formatting `STATS19` data involved hard-coding results.
+This more automated approach to data cleaning is more consistent and fail-safe.
+Three functions, `format_accidents()`, `format_vehicles()` and `format_casualties()` do the data formatting on data frames.
+These take a tibble in and return a tibble, as illustrated below:
+
+```{r}
+crashes_2017 = format_accidents(crashes_2017_raw)
+```
+
+In the previous sections we first downloaded and read-in STATS19 data.
+Now we can go to the third step of formatting the data (we will first download vehicle and casualty data for 2017):
+
+```{r}
+# vehicle data for 2017
+dl_stats19(years = 2017, type = "vehicles")
+vehicles_2017_raw = read_vehicles(years = 2017)
+vehicles_2017 = format_vehicles(vehicles_2017_raw)
+
+# casualties data for 2017
+dl_stats19(years = 2017, type = "casualties")
+casualties_2017_raw = read_casualties(years = 2017)
+casualties_2017 = format_casualties(casualties_2017_raw)
+```
+
+A summary of the outputs for each of the the three tables is shown below.
+
+```{r}
+summarise_stats19 = function(x) {
+  data.frame(row.names = 1:length(x),
+    name = substr(names(x), 1, 19),
+    class = sapply(x, class),
+    n_unique = sapply(x, function(v) length(unique(v))),
+    first_label = sapply(x, function(v) substr(unique(v)[1], 1, 9)),
+    second_label = sapply(x, function(v) substr(unique(v)[2], 1, 9))
+  )
+}
+```
+
+```{r}
+knitr::kable(summarise_stats19(crashes_2017), 
+             caption = "Summary of formatted crash data.")
+```
+
+```{r}
+knitr::kable(summarise_stats19(vehicles_2017), 
+             caption = "Summary of formatted vehicles data.")
+```
+
+```{r}
+knitr::kable(summarise_stats19(casualties_2017), 
+             caption = "Summary of formatted casualty data.")
 ```
 
 For testing and other purposes, a sample from the accidents table is provided in the package.
@@ -138,7 +199,7 @@ There is much potential to extend the package, beyond downloading, reading and f
 The greatest potential is to provide functions that will help with analysis of STATS19 data, to help with road safety research.
 Much academic research has been done using the data, a few examples of which are highlighted below to demonstrate the wide potential for further work.
 
-- Research exploring the effectiveness of road safety policies such as speed limits. An example in this area is @grundy_effect_2009, who found that areas with 20mph speed limits were safer. This raises the question: can the same result be repeated using reproducible methods? Does the finding hold for more recent 20 mph zones? Is the recent finding of DfT's ([2018](https://www.gov.uk/government/publications/20-mph-speed-limits-on-roads)) research, that 20 mph zones alone do not reduce crash rates, supported by reproducible analysis? What are the factors that make speed limits more or less effective?
+- Research exploring the effectiveness of road safety policies such as speed limits. An example in this area is @grundy_effect_2009, who found that areas with 20mph speed limits were safer. This raises the question: can the same result be repeated using reproducible methods? Does the finding hold for more recent 20 mph zones? Is the recent finding of DfT's ([2018](https://www.gov.uk/government/publications/20-mph-speed-limits-on-roads)) research, that 20 mph zones alone do not reduce crash rates, supported by reproducible analysis? What are the factors that make speed limits more or less effective [see @sarkar_street_2018 for example]?
 - Research into weather as a contributing factor to road traffic casualties [e.g. @edwards_relationship_1998]. This raises the question: could matching crash data from the **stats19** data with historic weather data from other R packages help advance knowledge in this area?
 - Assesment of crash rates normalised by estimated exposure rates (risk). An example of this type of research by an author of the package found substantial spatial variation in the number of cyclist casualties across West Yorkshire [@lovelace_who_2016]. This raises the questions: are similar spatial differences found in other regions? What are the factors leading to relatively high and low rates of different types of crash? 
 
