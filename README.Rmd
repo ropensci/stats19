@@ -27,7 +27,7 @@ A description of the stats19 data and variables they contain can be found in a [
 
 The package builds on previous work including:
 
-- code in the [bikeR](https://github.com/Robinlovelace/bikeR) repo underlying an academic paper on collisions involving cyclists [@lovelace_who_2016]
+- code in the [bikeR](https://github.com/Robinlovelace/bikeR) repo underlying an academic paper on collisions involving cyclists
 - functions in [**stplanr**](https://github.com/ropensci/stplanr/blob/master/R/load-stats19.R) for downloading Stats19 data
 - updated functions related to the [CyIPT](https://github.com/cyipt/stats19) project
 
@@ -105,5 +105,3 @@ crashes_2016_f = format_stats19_2016_ac(crashes_2016)
 all_crashes = rbind(crashes_2015_f, crashes_2016_f, crashes_2017_f)
 table(ac$Accident_Severity)
 ```
-
-## References

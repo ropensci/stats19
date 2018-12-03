@@ -65,29 +65,31 @@ You can find out the names of files that can be downloaded with `names(stats19::
 stats19::file_names$dftRoadSafetyData_Vehicles_2017.zip
 ```
 
-
-The following code chunk, downloads and unzips a .zip file containing stats19 data from 2017:
+To see how `file_names` was created, see `?file_names`.
+The following code chunk downloads and unzips a .zip file containing STATS19 data from 2017:
 
 ```{r example}
 dl_stats19(years = 2017, type = "Accidents")
 ```
 
-Data files from other years can be downloaded in an interactive manner, providing just the year for example, would result in options (from `file_names`) presented to you:
+Data files from other years can be selected interactively.
+Just provide the year, for example, presents the user with multiple options (from `file_names`), illustrated below:
 
 ```{r, eval=TRUE}
 dl_stats19(years = 2017)
-# or
+```
+
+When R is running interactively, you can select which of the 3 matching files to download:
+those relating to vehicles, casualties of accidents in 2017.
+You can also search for file names, as illustrated below:
+
+```{r}
 d17 = "dftRoadSafetyData_Accidents_2017"
 dl_stats19(file_name = paste0(d17, ".zip"))
 ```
 
-The way the list of `file_names` obtained has been documented in the appropriate R package style and were last scraped from DfT in November 2018. A sample of the 2016 accidents has been added to the package and gives an outline of what is included in such a dataset. Few columns of the two row sample is shown below:
-
-```{r, echo=FALSE, results='asis'}
-key_patt = "severity|speed|light|human"
-key_vars = grep(key_patt, x = names(stats19::accidents_2016_sample), ignore.case = TRUE)
-knitr::kable(stats19::accidents_2016_sample[, key_vars])
-```
+Note that this is the same file (containing the 'accidents' table from 2017) downloaded previously with the command `dl_stats19(years = 2017, type = "Accidents")`.
+If the file is already present, `dl_stats19()` will skip the download process.
 
 ## Read STATS19 data
 
@@ -97,6 +99,13 @@ In a similar approach to the download section before, we can read files download
 d17 = "dftRoadSafetyData_Accidents_2017"
 dl_stats19(file_name = paste0(d17, ".zip"))
 crashes_2017_raw = read_accidents(data_dir = tempdir(), filename = "Acc.csv")
+```
+
+**stats19** imports data with `readr::read_csv()` which results in a 'tibble' object: a data frame with more user-friendly printing and a few other features.
+This can be verified by querying the class of the newly read-in object:
+
+```{r}
+class(crashes_2017_raw)
 ```
 
 ## Format STATS19 data
@@ -111,13 +120,32 @@ crashes_2017 = read_accidents(data_dir = tempdir(), years = 2017,filename = "Acc
 crashes_2017 = format_accidents(crashes_2017)
 ```
 
-## Analysis: an example of pedestrians hurt in Leeds
+For testing and other purposes, a sample from the accidents table is provided in the package.
+A few columns from the two-row sample is shown below:
+
+```{r, echo=FALSE, results='asis'}
+key_patt = "severity|speed|light|human"
+key_vars = grep(key_patt, x = names(stats19::accidents_2016_sample), ignore.case = TRUE)
+knitr::kable(stats19::accidents_2016_sample[, key_vars])
+```
+
+<!-- ## Analysis: an example of pedestrians hurt in Leeds -->
 
 
 ## Further work
 
-There is much potential to extend the package, beyond downloading, reading and formatting STATS19 data, to help with analysis.
-There is also great potential to add value to and gain insight from the data by joining the datasets with open data, for example from the Consumer Data Research Centre ([CDRC](www.cdrc.ac.uk), which funded this research), OpenStreetMap and the UK's Ordnance Survey.
+There is much potential to extend the package, beyond downloading, reading and formatting STATS19 data.
+The greatest potential is to provide functions that will help with analysis of STATS19 data, to help with road safety research.
+Much academic research has been done using the data, a few examples of which are highlighted below to demonstrate the wide potential for further work.
+
+- Research exploring the effectiveness of road safety policies such as speed limits. An example in this area is @grundy_effect_2009, who found that areas with 20mph speed limits were safer. This raises the question: can the same result be repeated using reproducible methods? Does the finding hold for more recent 20 mph zones? Is the recent finding of DfT's ([2018](https://www.gov.uk/government/publications/20-mph-speed-limits-on-roads)) research, that 20 mph zones alone do not reduce crash rates, supported by reproducible analysis? What are the factors that make speed limits more or less effective?
+- Research into weather as a contributing factor to road traffic casualties [e.g. @edwards_relationship_1998]. This raises the question: could matching crash data from the **stats19** data with historic weather data from other R packages help advance knowledge in this area?
+- Assesment of crash rates normalised by estimated exposure rates (risk). An example of this type of research by an author of the package found substantial spatial variation in the number of cyclist casualties across West Yorkshire [@lovelace_who_2016]. This raises the questions: are similar spatial differences found in other regions? What are the factors leading to relatively high and low rates of different types of crash? 
+
+The broader point is that the **stats19** could help road safety research, by making open access data on road crashes more accessible to researchers worldwide.
+By easing the data download and cleaning stages of research, it could also encourage reproducible analysis in the field.
+
+There is great potential to add value to and gain insight from the data by joining the datasets with open data, for example from the Consumer Data Research Centre ([CDRC](www.cdrc.ac.uk), which funded this research), OpenStreetMap and the UK's Ordnance Survey.
 If you have any suggestions on priorities for these future directions of (hopefully safe) travel, please get in touch on at [github.com/ITSLeeds/stats19/issues](https://github.com/ITSLeeds/stats19/issues).
 
 ## References
