@@ -102,7 +102,11 @@ convert_type_param <- function(type)
 #' dl_schema()
 #' }
 dl_schema = function(data_dir = tempdir()) {
-  u = "http://data.dft.gov.uk/road-accidents-safety-data/Road-Accident-Safety-Data-Guide.xls"
-  utils::download.file(u, destfile = file.path(data_dir, "Road-Accident-Safety-Data-Guide.xls"))
+  u = paste0(
+    "http://data.dft.gov.uk/road-accidents-safety-data/",
+    "Road-Accident-Safety-Data-Guide.xls"
+  )
+  destfile = file.path(data_dir, "Road-Accident-Safety-Data-Guide.xls")
+  utils::download.file(u, destfile = destfile)
   # download and unzip the data if it's not present
 }

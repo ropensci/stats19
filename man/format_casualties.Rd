@@ -21,11 +21,8 @@ This function formats raw stats19 data
 
 \examples{
 \dontrun{
+dl_stats19(years = 2017, type = "casualties")
 x = read_casualties()
-sapply(x, class)
-table(x$Casualty_Severity)
 casualties = format_casualties(x)
-sapply(casualties, class)
-table(casualties$casualty_severity)
 }
 }

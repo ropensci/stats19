@@ -15,6 +15,23 @@ test_that("find_file_name works", {
   expect_equal(find_file_name(years = c("2005", "2006")),
                "Stats19_Data_2005-2014.zip")
   expect_error(find_file_name(years = c("2009", "2014", "2015")))
+  # cover https://github.com/ITSLeeds/stats19/issues/21
+  files_found = find_file_name(years = 1980:2001)
+  expect_equal(length(files_found), 2)
+  # start OR end year is between 74 and 04
+  files_found = find_file_name(years = 1974:2004)
+  expect_equal(length(files_found), 2)
+  files_found = find_file_name(years = 1974:2005)
+  expect_equal(length(files_found), 2)
+  # wrongs
+  files_found = find_file_name(years = 1973:1972)
+  expect_equal(length(files_found), 0)
+  files_found = find_file_name(years = -1)
+  expect_equal(length(files_found), 0)
+  files_found = find_file_name(years = "testing")
+  expect_equal(length(files_found), 0)
+  files_found = find_file_name(years = 1973)
+  expect_equal(length(files_found), 0)
 })
 
 test_that("locate_files & locate_one_file works", {

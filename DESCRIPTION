@@ -11,14 +11,13 @@ Authors@R: c(
 Description: Tools to help process and analysie the UK road collision data also known as STATS19.
 Depends: R (>= 3.5.0)
 License: GPL-3
+URL: https://github.com/ITSLeeds/stats19
+BugReports: https://github.com/ITSLeeds/stats19/issues
 Encoding: UTF-8
 LazyData: true
 Imports: 
     sf,
-    foreign,
     readr,
-    dplyr,
-    lubridate,
     readxl,
     curl (>= 3.2)
 Suggests: 

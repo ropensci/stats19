@@ -4,14 +4,14 @@
 \alias{download_and_unzip}
 \title{Download and unzip given appropriate params}
 \usage{
-download_and_unzip(exdir, zip_url, data_dir = tempdir())
+download_and_unzip(fname, zip_url, data_dir = tempdir())
 }
 \arguments{
-\item{exdir}{Required zip name also used as destination of csv folder}
+\item{fname}{Required zip name also used as destination of csv folder}
 
 \item{zip_url}{Required full path of file to download}
 
-\item{data_dir}{Parent directory of exdir}
+\item{data_dir}{Parent directory of fname}
 }
 \description{
 Downloads dftRoadSafety_2016_Accidents.zip to /tmp/blahDIR
