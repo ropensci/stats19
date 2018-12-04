@@ -2,6 +2,8 @@
 [![Travis build
 status](https://travis-ci.org/ITSLeeds/stats19.svg?branch=master)](https://travis-ci.org/ITSLeeds/stats19)
 [![codecov](https://codecov.io/gh/ITSLeeds/stats19/branch/master/graph/badge.svg)](https://codecov.io/gh/ITSLeeds/stats19)
+[![Gitter
+chat](https://badges.gitter.im/ITSLeeds/stats19.png)](https://gitter.im/stats19/Lobby?source=orgpage)
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
@@ -31,8 +33,7 @@ The package builds on previous work including:
 
 ## Installation
 
-Install and attach the latest version
-with:
+Install and attach the latest version with:
 
 ``` r
 devtools::install_github("ITSLeeds/stats19")
@@ -40,6 +41,9 @@ devtools::install_github("ITSLeeds/stats19")
 
 ``` r
 library(stats19)
+#> Data provided under the conditions of the Open Government License.
+#> If you use data accessed from this package, please acknowledge the Department for Transport and link to:
+#> www.nationalarchives.gov.uk/doc/open-government-licence/version/3/.
 ```
 
 <!-- You can install the released version of stats19 from [CRAN](https://CRAN.R-project.org) with: -->
@@ -63,7 +67,7 @@ dl_stats19(years = 2017, type = "Accidents")
 #> Attempt downloading from:
 #> http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Accidents_2017.zip
 #> happy to go (Y = enter, N = esc)?
-#> [1] "Data saved at: /tmp/Rtmp3zMtBR/dftRoadSafetyData_Accidents_2017/Acc.csv"
+#> [1] "Data saved at: /tmp/RtmpSz9JUm/dftRoadSafetyData_Accidents_2017/Acc.csv"
 ```
 
 Currently, these files are downloaded to a default location of “tempdir”
@@ -79,10 +83,10 @@ to you:
 ``` r
 dl_stats19(years = 2017)
 #> More than one file found:
-#> Please corresponding file number:
-#> [1] dftRoadSafetyData_Vehicles_2017.zip
-#> [2] dftRoadSafetyData_Casualties_2017.zip
-#> [3] dftRoadSafetyData_Accidents_2017.zip
+#> Please type corresponding file number:
+#>     [1] dftRoadSafetyData_Vehicles_2017.zip
+#>     [2] dftRoadSafetyData_Casualties_2017.zip
+#>     [3] dftRoadSafetyData_Accidents_2017.zip
 #> 1 - 3:
 #> You made an invalid choice
 ```
@@ -101,10 +105,10 @@ dl_stats19(file_name = paste0(d17, ".zip"))
 #> http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Accidents_2017.zip
 #> happy to go (Y = enter, N = esc)?
 #> Data already exists in data_dir, not downloading
-#> [1] "Data saved at: /tmp/Rtmp3zMtBR/dftRoadSafetyData_Accidents_2017/Acc.csv"
+#> [1] "Data saved at: /tmp/RtmpSz9JUm/dftRoadSafetyData_Accidents_2017/Acc.csv"
 crashes_2017_raw = read_accidents(years = 2017, filename = "Acc.csv")
 #> Reading in:
-#> /tmp/Rtmp3zMtBR/dftRoadSafetyData_Accidents_2017/Acc.csv
+#> /tmp/RtmpSz9JUm/dftRoadSafetyData_Accidents_2017/Acc.csv
 crashes_2017 = format_accidents(crashes_2017_raw)
 ```
 
@@ -127,16 +131,16 @@ crashes_2017_raw[random_n, key_vars]
 #> # A tibble: 3 x 4
 #>   Accident_Severity Speed_limit `Pedestrian_Crossing-Hum… Light_Conditions
 #>               <int>       <int>                     <int>            <int>
-#> 1                 3          30                         0                7
+#> 1                 3          30                         0                1
 #> 2                 3          30                         0                1
-#> 3                 3          30                         0                1
+#> 3                 3          50                         0                1
 crashes_2017[random_n, key_vars]
 #> # A tibble: 3 x 4
-#>   accident_severity speed_limit pedestrian_crossing_h… light_conditions   
-#>   <chr>                   <int> <chr>                  <chr>              
-#> 1 Slight                     30 None within 50 metres  Darkness - lightin…
-#> 2 Slight                     30 None within 50 metres  Daylight           
-#> 3 Slight                     30 None within 50 metres  Daylight
+#>   accident_severity speed_limit pedestrian_crossing_huma… light_conditions
+#>   <chr>                   <int> <chr>                     <chr>           
+#> 1 Slight                     30 None within 50 metres     Daylight        
+#> 2 Slight                     30 None within 50 metres     Daylight        
+#> 3 Slight                     50 None within 50 metres     Daylight
 ```
 
 <!-- More data can be read-in as follows: -->
