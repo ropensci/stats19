@@ -7,18 +7,18 @@ test_that("dl_stats19 works for junk", {
 
 test_that("dl_stats19 works for default", {
   skip_download()
-  expect_output(dl_stats19())
+  expect_message(dl_stats19())
 })
 
 test_that("dl_stats19 works for 2017", {
   skip_download()
-  expect_output(dl_stats19(years = "2017"))
+  expect_message(dl_stats19(years = "2017"))
   # already downloaded
-  expect_output(dl_stats19(years = "2017"))
+  expect_message(dl_stats19(years = "2017"))
 })
 
 test_that("dl_stats19 works for chosen file name", {
   skip_download()
-  expect_output(dl_stats19(
+  expect_message(dl_stats19(
     file_name = stats19::file_names$DfTRoadSafety_Accidents_2009.zip))
 })

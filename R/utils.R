@@ -65,7 +65,7 @@ find_file_name = function(years =  as.integer(format(Sys.Date(), "%Y")) - 2,
   if (length(result) < 1)
     stop("No files of that type exist")
 
-  return (result)
+  return (unique (result))
 }
 
 #' Locate a file on disk
@@ -76,7 +76,6 @@ find_file_name = function(years =  as.integer(format(Sys.Date(), "%Y")) - 2,
 #' @param years Provide a year, part of it or maximum range of two years.
 #' @param type One of 'Accidents', 'Casualties', 'Vehicles'; defaults to 'Accidents', ignores case.
 #' @param data_dir Super directory where dataset(s) were first downloaded to.
-#' @param return If you want the found files returned pass TRUE
 #' @param quiet Print out messages (files found)
 #'
 #' @return Depending on @param return: full path of a single file found, list of directories
@@ -86,75 +85,18 @@ find_file_name = function(years =  as.integer(format(Sys.Date(), "%Y")) - 2,
 #' locate_files(years = 2016)
 #' @export
 locate_files = function(data_dir = tempdir(),
-                        type = "",
-                        years = "",
-                        return = FALSE,
+                        type = "Accidents",
+                        years = as.integer(format(Sys.Date(), "%Y")) - 2,
                         quiet = FALSE) {
-  stopifnot(length(years) <= 2)
-  # does data_dir exists?
   stopifnot(dir.exists(data_dir))
-  # does downloaded directory exists?
-  file_names_found = find_file_name(years = years, type = type)
-  # see if any of these has been downloaded
-  count = length(file_names_found)
-  if(count == 1) {
-    path = file.path(data_dir, sub(".zip", "", file_names_found))
-    if(dir.exists(path)) {
-      ls = list.files(path)
-      if(length(ls) == 0) {
-        if(!quiet)
-          message("Destination directory is empty")
-      } else {
-        if(length(ls) > 1 && !quiet) {
-          print(path)
-          print("File(s) found: ")
-          print(ls)
-        }
-        # return first file
-        # TODO: let user know!
-        # first file from ownloaded DfT filename
-        if(return) return(file.path(path, ls[1]))
-      }
-    } else {
-      if(!quiet) {
-        message("No files downloaded at: ")
-        print(path)
-      }
-    }
-  } else {
-    # show list of destination directories & contents and return
-    # one found or
-    # vector of found downloaded locations in data_dir
-    i = 1
-    valid_paths = c()
-    for (x in file_names_found) {
-      path = file.path(data_dir, sub(".zip", "", x))
-      if(dir.exists(path)) {
-        i = i + 1
-        valid_paths = c(valid_paths, path)
-        ls = list.files(path)
-        if(!quiet) {
-          print(path)
-          print("File(s) found: ")
-          print(ls)
-        }
-      }
-    }
-    if(length(valid_paths) > 0 && return) {
-      ls = list.files(valid_paths)
-      if(length(valid_paths) == 1 && length(ls) == 1) {
-        return(file.path(valid_paths, ls)) # return the full path of single file
-      } else {
-        # TODO: return list of files in the single path?
-        return(valid_paths) # return path(s)
-      }
-      return(NULL)
-    }
-    if(length(valid_paths) == 0 & !quiet) {
-      message("Looks like nothing has been downloaded at: ")
-      message(data_dir)
-    }
-  }
+  file_names = find_file_name(years = years, type = type)
+  file_names <- tools::file_path_sans_ext (file_names)
+  dir_files <- list.dirs (data_dir)
+  files_on_disk <- NULL
+  if (any (grepl (file_names, dir_files)))
+    files_on_disk <- dir_files [grep (file_names, dir_files)]
+
+  return (files_on_disk)
 }
 
 #' Pin down a file on disk from four parameters.
@@ -171,37 +113,28 @@ locate_files = function(data_dir = tempdir(),
 #' locate_one_file()
 #' locate_one_file(filename = "Cas.csv")
 #' }
-locate_one_file = function(filename = "",
+locate_one_file = function(filename = NULL,
                            data_dir = tempdir(),
-                           years = "",
-                           type = "") {
+                           years = as.integer(format(Sys.Date(), "%Y")) - 2,
+                           type = "Accidents") {
   # see if locate_files can pin it down
   path = locate_files(data_dir = data_dir,
                       type = type,
                       years = years,
-                      return = TRUE,
                       quiet = TRUE)
-  if(length(path) == 1 && endsWith(path, filename)) {
-    # endsWith("foo/Acc.csv","") or endsWith("foo/Acc.csv", "Acc.csv")
-    # got it
-    return(path)
-  } else {
-    # did locate_files returned multiple locations? is there a filename?
-    if(length(path) > 1 & endsWith(filename, ".csv")) {
-      for (p in path) {
-        ls = list.files(p)
-        for (file in ls) {
-          if(identical(file, filename)) { # matched filename?
-            return(file.path(p, file))
-          }
-        }
-      }
-    }
+
+  if (length (path) == 0)
+    stop ("folder not found") # TODO: Delete this?
+
+  scan1 <- function (path, type)
+  {
+    lf <- list.files (path, full.names = TRUE, pattern = ".csv$")
+    lf [grep (type, lf, ignore.case = TRUE)]
   }
-  if(length(list.files(path)) > 1) {
-    return("More than one file found") # I cannot, give me a filename to match.
-  }
-  return(NULL)
+  res <- unlist (lapply (path, function (i) scan1 (i, type)))
+  if (!is.null (filename))
+    res <- res [grep (filename, res)]
+  return (res)
 }
 
 #' Download and unzip given appropriate params

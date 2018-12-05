@@ -57,10 +57,10 @@ dl_stats19 = function(file_name = NULL,
   }
   message("Attempt downloading from: ")
   message(paste0("   ", zip_url, collapse = "\n"))
-  resp = readline(phrase(data_dir))
-  if (tolower(substr(resp, 1, 1)) != "y") {
-    stop("Stopping as requested")
-  }
+  #resp = readline(phrase(data_dir))
+  #if (tolower(substr(resp, 1, 1)) != "y") {
+  #  stop("Stopping as requested")
+  #}
 
   if (!dir.exists(data_dir)) {
     dir.create(data_dir, recursive = TRUE)
