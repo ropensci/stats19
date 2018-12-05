@@ -1,5 +1,7 @@
 context("test-utils")
 
+source("../skip-download.R")
+
 test_that("geturl works", {
   expect_equal(get_url(),
                file.path("http://data.dft.gov.uk.s3.amazonaws.com",
@@ -8,7 +10,9 @@ test_that("geturl works", {
 })
 
 test_that("find_file_name works", {
-  expect_equal(find_file_name(type = "accid"),
+  expect_error(find_file_name(type = "accid"),
+               "No files of that type exist")
+  expect_equal(find_file_name(year = 2016, type = "accid"),
                "dftRoadSafety_Accidents_2016.zip")
   expect_equal(find_file_name(years ="2015", type = "accid"),
                "RoadSafetyData_Accidents_2015.zip")
@@ -20,9 +24,10 @@ test_that("find_file_name works", {
   # cover https://github.com/ITSLeeds/stats19/issues/21
   expect_equal (length (find_file_name(years = 1980:2001)), 1)
   # start OR end year is between 74 and 04
-  expect_equal (length (find_file_name(years = 1974:2004)), 2)
+  expect_error (find_file_name(years = 1974:2004),
+                "Please provide a year between 1979 and")
   expect_error (find_file_name(years = -1))
-  expect_error (find_file_name(years = "text"))
+  #expect_error (find_file_name(years = "text"))
   # TODO: Should this be a message rather than error?:
   expect_error (find_file_name(years = 1973))
 })
@@ -41,11 +46,11 @@ test_that("locate_files & locate_one_file works", {
   x2 = locate_one_file(filename = "Cas.csv", year = 2017, type = "cas")
   expect_true(length(x1) == 1)
   # more tests on locate_files
-  #expect_null(locate_files()) # TODO: Switch back on
-  expect_silent(locate_files(quiet = TRUE))
+  expect_error(locate_files(), "No files of that type exist")
   # from clean start
   unlink(tempdir(), recursive = TRUE)
   dir.create(tempdir())
-  expect_null(locate_files())
-  expect_error(locate_files(data_dir = "/junking"))
+  expect_error(locate_files(), "No files of that type exist")
+  expect_error(locate_files(data_dir = "/junking"),
+               "dir.exists\\(data_dir\\) is not TRUE")
 })
