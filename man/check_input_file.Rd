@@ -5,7 +5,7 @@
 \title{Local helper to be reused.}
 \usage{
 check_input_file(filename = NULL, type = NULL, data_dir = NULL,
-  years = NULL)
+  year = NULL)
 }
 \arguments{
 \item{filename}{Character string of the filename of the .csv to read, if this is given, type and
@@ -15,7 +15,7 @@ years determine whether there is a target to read, otherwise disk scan would be 
 
 \item{data_dir}{Where sets of downloaded data would be found.}
 
-\item{years}{Either a single year or a two year range, defaults to 2 years ago}
+\item{year}{single year for which data are to be read}
 }
 \description{
 Local helper to be reused.

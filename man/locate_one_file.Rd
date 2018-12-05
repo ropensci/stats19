@@ -4,16 +4,17 @@
 \alias{locate_one_file}
 \title{Pin down a file on disk from four parameters.}
 \usage{
-locate_one_file(filename = "", data_dir = tempdir(), years = "",
-  type = "")
+locate_one_file(filename = NULL, data_dir = tempdir(), year = NULL,
+  type = "Accidents")
 }
 \arguments{
-\item{filename}{Character string of the filename of the .csv to read, if this is given, type and
-years determin whether there is a target to read, otherwise disk scan would be needed.}
+\item{filename}{Character string of the filename of the .csv to read, if this
+is given, type and years determin whether there is a target to read,
+otherwise disk scan would be needed.}
 
 \item{data_dir}{Where sets of downloaded data would be found.}
 
-\item{years}{Either a single year or a two year range, defaults to 2 years ago}
+\item{year}{Single year for which file is to be found.}
 
 \item{type}{One of: 'Accidents', 'Casualties', 'Vehicles'; defaults to 'Accidents', ignores case.}
 }

@@ -4,7 +4,7 @@
 \alias{read_accidents}
 \title{Import and Stats19 data on road traffic casualties}
 \usage{
-read_accidents(filename = "", data_dir = tempdir(), years = "")
+read_accidents(filename = "", data_dir = tempdir(), year = NULL)
 }
 \arguments{
 \item{filename}{Character string of the filename of the .csv to read, if this is given, type and
@@ -12,7 +12,7 @@ years determine whether there is a target to read, otherwise disk scan would be 
 
 \item{data_dir}{Where sets of downloaded data would be found.}
 
-\item{years}{Either a single year or a two year range, defaults to 2 years ago}
+\item{year}{Single year for which data are to be read}
 }
 \description{
 Import and Stats19 data on road traffic casualties
@@ -26,7 +26,7 @@ stats19 dataset.
 
 \examples{
 \dontrun{
-dl_stats19(years = 2017, type = "Accidents")
-ac = read_accidents(years = "2017")
+dl_stats19(year = 2017, type = "Accidents")
+ac = read_accidents(year = 2017)
 }
 }

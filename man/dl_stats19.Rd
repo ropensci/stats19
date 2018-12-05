@@ -4,13 +4,13 @@
 \alias{dl_stats19}
 \title{Download Stats19 data for a year or range of two years.}
 \usage{
-dl_stats19(file_name = NULL, years = as.integer(format(Sys.Date(),
-  "\%Y")) - 2, type = "Accidents", data_dir = tempdir())
+dl_stats19(file_name = NULL, year = NULL, type = "Accidents",
+  data_dir = tempdir())
 }
 \arguments{
 \item{file_name}{The file name to download, above two will be ignore.}
 
-\item{years}{Either a single year or a two year range, defaults to 2 years ago}
+\item{year}{Single year for which file is to be downloaded}
 
 \item{type}{One of 'Accidents', 'Casualties', 'Vehicles'; defaults to 'Accidents'#'}
 
@@ -35,9 +35,9 @@ have a sufficient internet access and hard disk space.
 
 \examples{
 \dontrun{
-dl_stats19(years = 2017) # interactively select files...
+dl_stats19(year = 2017) # interactively select files...
 
 # now you can read-in the data
-dl_stats19(years = 2004)
+dl_stats19(year = 2004)
 }
 }
