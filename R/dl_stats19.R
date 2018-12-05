@@ -21,7 +21,7 @@
 #' @examples
 #' \dontrun{
 #' dl_stats19(year = 2017) # interactively select files...
-#'
+#' 
 #' # now you can read-in the data
 #' dl_stats19(year = 2009)
 #' }
@@ -31,7 +31,7 @@ dl_stats19 = function(file_name = NULL,
                       data_dir = tempdir()) {
 
   if (!is.null (year))
-    year <- check_year (year)
+    year = check_year (year)
   else if (is.null (file_name))
     stop("Either file_name or year must be specified")
   type = convert_type_param(type)

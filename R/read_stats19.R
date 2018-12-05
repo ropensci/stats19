@@ -21,7 +21,7 @@ read_accidents = function(filename = "",
                           year = NULL) {
   # check inputs
   if (!is.null (year))
-    year <- check_year (year)
+    year = check_year (year)
   path = check_input_file(
     filename = filename,
     type = "accidents",
@@ -68,7 +68,7 @@ read_vehicles = function(filename = NULL,
                          data_dir = tempdir(),
                          year = NULL) {
   # check inputs
-  year <- check_year (year)
+  year = check_year (year)
   path = check_input_file(
     filename = filename,
     type = "vehicles",
@@ -102,7 +102,7 @@ read_casualties = function(filename = NULL,
                            year = NULL) {
 
   # check inputs
-  year <- check_year (year)
+  year = check_year (year)
   path = check_input_file(
     filename = filename,
     type = "casualties",
@@ -129,7 +129,7 @@ check_input_file = function(filename = NULL,
                             type = NULL,
                             data_dir = NULL,
                             year = NULL) {
-  year <- check_year (year)
+  year = check_year (year)
   path = locate_one_file(
     type = type,
     filename = filename,
