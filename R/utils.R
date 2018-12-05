@@ -52,7 +52,7 @@ find_file_name = function(years =  as.integer(format(Sys.Date(), "%Y")) - 2,
   file_names_vec = unlist(stats19::file_names, use.names = FALSE)
   result <- NULL
   # see https://github.com/ITSLeeds/stats19/issues/21
-  if (years %in% 1979:2004) {
+  if (any (years %in% 1979:2004)) {
       result <- c (result, file_names_vec [grep ("1979", file_names_vec)])
   }
   index = unlist(lapply(years, function(i) grep(i, file_names_vec,
