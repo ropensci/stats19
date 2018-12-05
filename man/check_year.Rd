@@ -6,6 +6,9 @@
 \usage{
 check_year(year)
 }
+\arguments{
+\item{year}{Single year for which file is to be downloaded}
+}
 \description{
 check and convert year argument
 }

@@ -31,6 +31,7 @@ get_directory = function() {
 }
 
 #' check and convert year argument
+#' @inheritParams dl_stats19
 check_year <- function (year) {
   if (is.null (year) | length (year) > 1)
     stop ("Please specify a single year between 1979 and ",

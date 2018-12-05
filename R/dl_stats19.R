@@ -101,7 +101,7 @@ phrase = function(data_dir) {
     "Wanna do it"
   )
   paste0(
-    txt [ceiling(runif(1) * length(txt))],
+    txt [ceiling(stats::runif(1) * length(txt))],
     " (y = enter, n = esc)? "
   )
 }
