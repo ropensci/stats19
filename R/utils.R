@@ -32,12 +32,12 @@ get_directory = function() {
 
 #' check and convert year argument
 #' @inheritParams dl_stats19
-check_year <- function (year) {
+check_year = function (year) {
   if (is.null (year) | length (year) > 1)
     stop ("Please specify a single year between 1979 and ",
           format (format(Sys.Date(), "%Y")))
-  year <- as.numeric (year)
-  current_year <- as.numeric (format(Sys.Date(), "%Y"))
+  year = as.numeric (year)
+  current_year = as.numeric (format(Sys.Date(), "%Y"))
   if (!year %in% 1979:current_year)
     stop ("Please provide a year between 1979 and ", current_year)
 
@@ -59,15 +59,15 @@ check_year <- function (year) {
 #' @export
 find_file_name = function(years = NULL, type = NULL) {
 
-  years <- vapply (years, check_year, numeric (1))
+  years = vapply (years, check_year, numeric (1))
   file_names_vec = unlist(stats19::file_names, use.names = FALSE)
-  result <- NULL
+  result = NULL
   # see https://github.com/ITSLeeds/stats19/issues/21
   if (any (years %in% 1979:2004)) {
-      result <- c (result, file_names_vec [grep ("1979", file_names_vec)])
+      result = c (result, file_names_vec [grep ("1979", file_names_vec)])
   }
   if (is.null (years))
-      index <- seq (file_names_vec)
+      index = seq (file_names_vec)
   else
       index = unlist(lapply(years, function(i) grep(i, file_names_vec,
                                                     ignore.case = TRUE)))
@@ -104,17 +104,17 @@ locate_files = function(data_dir = tempdir(),
                         quiet = FALSE) {
   stopifnot(dir.exists(data_dir))
   file_names = find_file_name(years = years, type = type)
-  file_names <- tools::file_path_sans_ext (file_names)
-  dir_files <- list.dirs (data_dir)
-  files_on_disk <- NULL
+  file_names = tools::file_path_sans_ext (file_names)
+  dir_files = list.dirs (data_dir)
+  files_on_disk = NULL
   # check is any file names match those on disk
-  gr <- vapply (file_names, function (i) any (grepl (i, dir_files)),
+  gr = vapply (file_names, function (i) any (grepl (i, dir_files)),
                 logical (1))
   if (any (gr)) { # return those on disk which match file names
-    gr <- names (gr [which (gr)])
-    index <- vapply (gr, function (i) grepl (i, dir_files),
+    gr = names (gr [which (gr)])
+    index = vapply (gr, function (i) grepl (i, dir_files),
                      logical (length (dir_files)))
-    files_on_disk <- dir_files [index]
+    files_on_disk = dir_files [index]
   }
 
   return (files_on_disk)
@@ -131,7 +131,8 @@ locate_files = function(data_dir = tempdir(),
 #'
 #' @return One of: path for one file, a message `More than one file found` or NULL
 #' @export
-#' @examples \dontrun{
+#' @examples
+#' \dontrun{
 #' locate_one_file()
 #' locate_one_file(filename = "Cas.csv")
 #' }
@@ -139,7 +140,7 @@ locate_one_file = function(filename = NULL,
                            data_dir = tempdir(),
                            year = NULL,
                            type = "Accidents") {
-  year <- check_year (year)
+  year = check_year (year)
   # see if locate_files can pin it down
   path = locate_files(data_dir = data_dir,
                       type = type,
@@ -149,15 +150,15 @@ locate_one_file = function(filename = NULL,
   if (length (path) == 0)
     stop ("folder not found") # TODO: Delete this?
 
-  scan1 <- function (path, type) {
-    lf <- list.files (path, full.names = TRUE, pattern = ".csv$")
+  scan1 = function (path, type) {
+    lf = list.files (path, full.names = TRUE, pattern = ".csv$")
     if (!is.null (type))
-      lf <- lf [grep (type, lf, ignore.case = TRUE)]
+      lf = lf [grep (type, lf, ignore.case = TRUE)]
     return (lf)
   }
-  res <- unlist (lapply (path, function (i) scan1 (i, type)))
+  res = unlist (lapply (path, function (i) scan1 (i, type)))
   if (!is.null (filename))
-    res <- res [grep (filename, res)]
+    res = res [grep (filename, res)]
   return (res)
 }
 
@@ -180,7 +181,7 @@ download_and_unzip = function(exdir, zip_url, data_dir = tempdir()) {
   } else {
     utils::download.file(zip_url, destfile = destfile)
   }
-  zipfiles <- file.path (destfile, utils::unzip(destfile, list = TRUE)$Name)
+  zipfiles = file.path (destfile, utils::unzip(destfile, list = TRUE)$Name)
   utils::unzip(destfile, exdir = file.path(data_dir, exdir))
   return (zipfiles)
 }

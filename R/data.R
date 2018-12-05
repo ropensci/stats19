@@ -62,4 +62,3 @@ NULL
 # The raw csv file is stored as `ac_2005_2014_100.csv`
 # @rdname ac_2005_2014_100
 # "ac_2005_2014_100"
-

@@ -143,7 +143,8 @@ format_vehicles = function(x, factorize = FALSE) {
 #' such as spaces and `-` are returned.
 #' @param column_names Column names to be cleaned
 #' @export
-#' @examples \dontrun{
+#' @examples
+#' \dontrun{
 #' crashes_raw = read_accidents()
 #' column_names = names(crashes_raw)
 #' column_names
@@ -169,7 +170,8 @@ format_column_names = function(column_names) {
 #' @inheritParams read_accidents
 #' @param sheet integer to be added if you want to download a single sheet
 #' @export
-#' @examples \dontrun{
+#' @examples
+#' \dontrun{
 #' stats19_schema = read_schema()
 #' }
 read_schema = function(
@@ -353,4 +355,3 @@ format_sf = function(x, lonlat = FALSE) {
   }
   x_sf
 }
-
