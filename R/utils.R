@@ -86,7 +86,7 @@ find_file_name = function(years = NULL, type = NULL) {
 #' Helper function to locate files. Given below params, the function
 #' returns 0 or more files found at location/names given.
 #'
-#' @param year Years for which data are to be found
+#' @param years Years for which data are to be found
 #' @param type One of 'Accidents', 'Casualties', 'Vehicles'; defaults to 'Accidents', ignores case.
 #' @param data_dir Super directory where dataset(s) were first downloaded to.
 #' @param quiet Print out messages (files found)

@@ -23,7 +23,7 @@
 #' dl_stats19(year = 2017) # interactively select files...
 #'
 #' # now you can read-in the data
-#' dl_stats19(year = 2004)
+#' dl_stats19(year = 2009)
 #' }
 dl_stats19 = function(file_name = NULL,
                       year = NULL,

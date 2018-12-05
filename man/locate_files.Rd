@@ -12,9 +12,9 @@ locate_files(data_dir = tempdir(), type = "Accidents", years = NULL,
 
 \item{type}{One of 'Accidents', 'Casualties', 'Vehicles'; defaults to 'Accidents', ignores case.}
 
-\item{quiet}{Print out messages (files found)}
+\item{years}{Years for which data are to be found}
 
-\item{year}{Years for which data are to be found}
+\item{quiet}{Print out messages (files found)}
 }
 \value{
 Depending on @param return: full path of a single file found, list of directories
