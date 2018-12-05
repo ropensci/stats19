@@ -3,7 +3,7 @@ context("test-read_stats19")
 test_that("read_accidents works", {
   skip_download()
   # download real data
-  acc_2016 = file_names$dftRoadSafety_Accidents_2016.zip
+  acc_2016 = stats19::file_names$dftRoadSafety_Accidents_2016.zip
   dl_stats19(file_name = acc_2016)
   # make sure we have a csv file to read
   path = locate_one_file(
@@ -26,7 +26,7 @@ test_that("read_accidents works", {
 test_that("read_vehicles works", {
   skip_download()
   # download real data
-  veh_2016 = file_names$dftRoadSafetyData_Vehicles_2016.zip
+  veh_2016 = stats19::file_names$dftRoadSafetyData_Vehicles_2016.zip
   dl_stats19(file_name = veh_2016)
   path = locate_one_file(
     data_dir = tempdir(),
@@ -50,7 +50,7 @@ test_that("read_vehicles works", {
 test_that("read_casualties works", {
   skip_download()
   # download real data
-  cas_2016 = file_names$dftRoadSafetyData_Casualties_2016.zip
+  cas_2016 = stats19::file_names$dftRoadSafetyData_Casualties_2016.zip
   dl_stats19(file_name = cas_2016)
   path = locate_one_file(
     type = "Casualties",

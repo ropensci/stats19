@@ -4,8 +4,8 @@
 \alias{locate_files}
 \title{Locate a file on disk}
 \usage{
-locate_files(data_dir = tempdir(), type = "", years = "",
-  return = FALSE, quiet = FALSE)
+locate_files(data_dir = tempdir(), type = "Accidents",
+  years = as.integer(format(Sys.Date(), "\%Y")) - 2, quiet = FALSE)
 }
 \arguments{
 \item{data_dir}{Super directory where dataset(s) were first downloaded to.}
@@ -13,8 +13,6 @@ locate_files(data_dir = tempdir(), type = "", years = "",
 \item{type}{One of 'Accidents', 'Casualties', 'Vehicles'; defaults to 'Accidents', ignores case.}
 
 \item{years}{Provide a year, part of it or maximum range of two years.}
-
-\item{return}{If you want the found files returned pass TRUE}
 
 \item{quiet}{Print out messages (files found)}
 }

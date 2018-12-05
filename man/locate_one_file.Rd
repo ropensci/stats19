@@ -4,8 +4,9 @@
 \alias{locate_one_file}
 \title{Pin down a file on disk from four parameters.}
 \usage{
-locate_one_file(filename = "", data_dir = tempdir(), years = "",
-  type = "")
+locate_one_file(filename = NULL, data_dir = tempdir(),
+  years = as.integer(format(Sys.Date(), "\%Y")) - 2,
+  type = "Accidents")
 }
 \arguments{
 \item{filename}{Character string of the filename of the .csv to read, if this is given, type and
