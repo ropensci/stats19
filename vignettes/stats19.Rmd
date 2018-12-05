@@ -69,14 +69,14 @@ To see how `file_names` was created, see `?file_names`.
 The following code chunk downloads and unzips a .zip file containing STATS19 data from 2017:
 
 ```{r example}
-dl_stats19(years = 2017, type = "Accidents")
+dl_stats19(year = 2017, type = "Accidents")
 ```
 
 Data files from other years can be selected interactively.
 Just provide the year, for example, presents the user with multiple options (from `file_names`), illustrated below:
 
 ```{r, eval=TRUE}
-dl_stats19(years = 2017)
+dl_stats19(year = 2017)
 ```
 
 When R is running interactively, you can select which of the 3 matching files to download:
@@ -88,7 +88,7 @@ d17 = "dftRoadSafetyData_Accidents_2017"
 dl_stats19(file_name = paste0(d17, ".zip"))
 ```
 
-Note that this is the same file (containing the 'accidents' table from 2017) downloaded previously with the command `dl_stats19(years = 2017, type = "Accidents")`.
+Note that this is the same file (containing the 'accidents' table from 2017) downloaded previously with the command `dl_stats19(year = 2017, type = "Accidents")`.
 If the file is already present, `dl_stats19()` will skip the download process.
 
 ## Read STATS19 data
@@ -98,7 +98,9 @@ In a similar approach to the download section before, we can read files download
 ```{r}
 d17 = "dftRoadSafetyData_Accidents_2017"
 dl_stats19(file_name = paste0(d17, ".zip"))
-crashes_2017_raw = read_accidents(data_dir = tempdir(), filename = "Acc.csv")
+crashes_2017_raw = read_accidents(data_dir = tempdir(),
+                                  year = 2017,
+                                  filename = "Acc.csv")
 ```
 
 **stats19** imports data with `readr::read_csv()` which results in a 'tibble' object: a data frame with more user-friendly printing and a few other features.
@@ -142,13 +144,13 @@ Now we can go to the third step of formatting the data (we will first download v
 
 ```{r}
 # vehicle data for 2017
-dl_stats19(years = 2017, type = "vehicles")
-vehicles_2017_raw = read_vehicles(years = 2017)
+dl_stats19(year = 2017, type = "vehicles")
+vehicles_2017_raw = read_vehicles(year = 2017)
 vehicles_2017 = format_vehicles(vehicles_2017_raw)
 
 # casualties data for 2017
-dl_stats19(years = 2017, type = "casualties")
-casualties_2017_raw = read_casualties(years = 2017)
+dl_stats19(year = 2017, type = "casualties")
+casualties_2017_raw = read_casualties(year = 2017)
 casualties_2017 = format_casualties(casualties_2017_raw)
 ```
 
