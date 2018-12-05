@@ -69,7 +69,7 @@ dl_stats19 = function(file_name = NULL,
   # download and unzip the data if it's not present
   f = download_and_unzip(
     zip_url = zip_url,
-    exdir = sub(".zip", "", final_result),
+    exdir = sub(".zip", "", fnames),
     data_dir = data_dir
   )
   message("Data saved as ", f)
