@@ -5,7 +5,7 @@
 \title{Find a file name within stats19::file_names.}
 \usage{
 find_file_name(years = as.integer(format(Sys.Date(), "\%Y")) - 2,
-  type = "")
+  type = NULL)
 }
 \arguments{
 \item{years}{Provide a year, part of it or maximum range of two years. Defaults to two years ago.}

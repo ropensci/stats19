@@ -26,10 +26,10 @@
 #' dl_stats19(years = 2004)
 #' }
 dl_stats19 = function(file_name = NULL,
-                      years =  as.integer(format(Sys.Date(), "%Y")) - 2,
-                      type = NULL,
-                      data_dir = tempdir()) {
-  type <- convert_type_param (type)
+                       years = as.integer(format(Sys.Date(), "%Y")) - 2,
+                       type = "Accidents",
+                       data_dir = tempdir()) {
+  type = convert_type_param(type)
   if (is.null(file_name)) {
     fnames = find_file_name(years = years, type = type)
     zip_url = get_url(fnames) # no need for the .zip here
@@ -37,22 +37,20 @@ dl_stats19 = function(file_name = NULL,
     fnames = file_name
     zip_url = get_url(file_name = file_name)
   }
-  
+
   nfiles_found = length(fnames)
-  if(length(nfiles_found) == 0) {
+  if (length(nfiles_found) == 0) {
     message("For parameters: ")
-    if(!identical(years, "") & !is.null(years) & !is.na(years)) {
+    if (!identical(years, "") & !is.null(years) & !is.na(years)) {
       print(paste0("years: ", years))
     }
-    if(!identical(type, "") & !is.null(type) & !is.na(years)) {
+    if (!identical(type, "") & !is.null(type) & !is.na(years)) {
       print(paste0("type: ", type))
     }
     stop("No results found, please try again")
   }
-  message(paste0("File", pl, " to download:"))
-  message(paste0("   ", fnames, collapse = "\n"))
-  # 240mb 1.8gb unzipped warning
-  if(identical(final_result, "Stats19-Data1979-2004.zip")) {
+  message("File to download: ", fnames)
+  if (identical(fnames, "Stats19-Data1979-2004.zip")) {
     # extra warnings
     message("\033[31mThis file is over 240 MB in size.\033[39m")
     message("\033[31mOnce unzipped it is over 1.8 GB.\033[39m")
@@ -60,38 +58,47 @@ dl_stats19 = function(file_name = NULL,
   message("Attempt downloading from: ")
   message(paste0("   ", zip_url, collapse = "\n"))
   resp = readline(phrase(data_dir))
-  if (tolower (substr (resp, 1, 1)) != "y")
+  if (tolower(substr(resp, 1, 1)) != "y") {
     stop("Stopping as requested")
+  }
 
-  if (!dir.exists (data_dir))
-    dir.create (data_dir, recursive = TRUE)
+  if (!dir.exists(data_dir)) {
+    dir.create(data_dir, recursive = TRUE)
+  }
 
   # download and unzip the data if it's not present
-  f <- download_and_unzip(zip_url = zip_url,
-                          exdir = sub(".zip", "", final_result),
-                          data_dir = data_dir)
-  message ("Data saved as ", f)
+  f = download_and_unzip(
+    zip_url = zip_url,
+    exdir = sub(".zip", "", final_result),
+    data_dir = data_dir
+  )
+  message("Data saved as ", f)
 }
 
 # convert 'type' parameter is any form to text as given on official file names:
-convert_type_param <- function(type)
-{
+convert_type_param = function(type) {
   types = c("a", "c", "v")
-  type = match.arg(substring (tolower(type), 1, 1), types)
+  type = match.arg(substring(tolower(type), 1, 1), types)
   c("Accidents", "Casualties", "Vehicles") [match(type, types)]
 }
 
-phrase <- function(data_dir)
-{
-  if (!dir.exists (data_dir))
-    message ("data_dir \'", data_dir,
-             "\' will also be created as it does not exist")
-  txt <- c ("Happy to go",
-            "Good to go",
-            "Download now",
-            "Wanna do it")
-  paste0 (txt [ceiling (runif (1) * length(txt))],
-          " (y = enter, n = esc)? ")
+phrase = function(data_dir) {
+  if (!dir.exists(data_dir)) {
+    message(
+      "data_dir \'", data_dir,
+      "\' will also be created as it does not exist"
+    )
+  }
+  txt = c(
+    "Happy to go",
+    "Good to go",
+    "Download now",
+    "Wanna do it"
+  )
+  paste0(
+    txt [ceiling(runif(1) * length(txt))],
+    " (y = enter, n = esc)? "
+  )
 }
 
 #' Download stats19 schema
@@ -101,7 +108,8 @@ phrase <- function(data_dir)
 #' @inheritParams dl_stats19_2005_2014
 #' @param data_dir Location to download, defaults to `tempdir()`
 #' @export
-#' @examples \dontrun{
+#' @examples
+#' \dontrun{
 #' dl_schema()
 #' }
 dl_schema = function(data_dir = tempdir()) {
