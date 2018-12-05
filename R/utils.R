@@ -44,31 +44,28 @@ get_directory = function() {
 #' find_file_name(2016:2017)
 #' @export
 find_file_name = function(years =  as.integer(format(Sys.Date(), "%Y")) - 2,
-                          type = "") {
+                          type = NULL) {
 
-  # semantically accept years between 1974 and 2003 inclusive
-  # see https://github.com/ITSLeeds/stats19/issues/21
-  # TODO: not pure function, changing parameter value
-  # first OR last value are between 1974 and 2004
-  if ((!is.na(as.integer(years[1])) &&
-       1974 <= as.integer(years[1]) &&
-       as.integer(years[1]) <= 2004) |
-      (!is.na(as.integer(years[length(years)])) &&
-       1974 <= as.integer(years[length(years)]) &&
-       as.integer(years[length(years)]) <= 2004)) {
-    if (as.integer(years[1]) != 2004)
-      # ignore subsequent years
-      # and reassignment is fine if is.element(2004, years)
-      years = 2004
-  }
-  stopifnot(length(years) <= 2)
+  current_year <- format(Sys.Date(), "%Y")
+  if (!any (years %in% 1979:current_year))
+    stop("stats19 data are only available from 1979 onwards")
   file_names_vec = unlist(stats19::file_names, use.names = FALSE)
-  result = file_names_vec[grep(years[1], file_names_vec, ignore.case = TRUE)]
-  if (length(years) == 2) {
-    result2 = file_names_vec[grep(years[2], file_names_vec, ignore.case = TRUE)]
-    result = c(result, result2)
+  result <- NULL
+  # see https://github.com/ITSLeeds/stats19/issues/21
+  if (years %in% 1979:2004) {
+      result <- c (result, file_names_vec [grep ("1979", file_names_vec)])
   }
-  return(result[grep(type, result, ignore.case = TRUE)])
+  index = unlist(lapply(years, function(i) grep(i, file_names_vec,
+                                                ignore.case = TRUE)))
+  result = c (result, file_names_vec[index])
+
+  if (!is.null (type))
+      result = result[grep(type, result, ignore.case = TRUE)]
+
+  if (length(result) < 1)
+    stop("No files of that type exist")
+
+  return (result)
 }
 
 #' Locate a file on disk
@@ -217,9 +214,8 @@ locate_one_file = function(filename = "",
 #' @param exdir Required zip name also used as destination of csv folder
 #' @param zip_url Required full path of file to download
 #' @param data_dir Parent directory of exdir
+#' @return Names of file added to `data_dir`
 download_and_unzip = function(exdir, zip_url, data_dir = tempdir()) {
-  # download and unzip the data if it's not present
-  data_dir = data_dir
   destfile = file.path(data_dir, paste0(exdir, ".zip"))
   data_already_exists = file.exists(destfile)
   if (data_already_exists) {
@@ -227,22 +223,17 @@ download_and_unzip = function(exdir, zip_url, data_dir = tempdir()) {
   } else {
     utils::download.file(zip_url, destfile = destfile)
   }
+  zipfiles <- file.path (data_dir, utils::unzip(destfile, list = TRUE)$Name)
   utils::unzip(destfile, exdir = file.path(data_dir, exdir))
-  print(paste0(
-    "Data saved at: ",
-    list.files(
-      file.path(data_dir, exdir),
-      pattern = "csv",
-      full.names = TRUE
-    )
-  ))
+  message("Data saved as ", zipfiles)
+  return (zipfiles)
 }
 utils::globalVariables(c("stats19_variables", "stats19_schema", "skip"))
 
 # To run download functions you need an internet connection.
 # pref a fast one
 skip_download = function() {
-  connected = !is.null(curl::nslookup("r-project.org", error = FALSE))
-  if(!connected | identical(Sys.getenv("DONT_DOWNLOAD_ANYTHING"), "true"))
+  if(!curl::has_internet() |
+     identical(Sys.getenv("DONT_DOWNLOAD_ANYTHING"), "true"))
     skip("No connection to run download function.")
 }
