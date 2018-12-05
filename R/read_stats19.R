@@ -20,7 +20,8 @@ read_accidents = function(filename = "",
                           data_dir = tempdir(),
                           year = NULL) {
   # check inputs
-  year <- check_year (year)
+  if (!is.null (year))
+    year <- check_year (year)
   path = check_input_file(
     filename = filename,
     type = "accidents",
