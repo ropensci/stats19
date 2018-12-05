@@ -2,13 +2,12 @@
 % Please edit documentation in R/utils.R
 \name{find_file_name}
 \alias{find_file_name}
-\title{Find a file name within stats19::file_names.}
+\title{Find file names within stats19::file_names.}
 \usage{
-find_file_name(years = as.integer(format(Sys.Date(), "\%Y")) - 2,
-  type = NULL)
+find_file_name(years = NULL, type = NULL)
 }
 \arguments{
-\item{years}{Provide a year, part of it or maximum range of two years. Defaults to two years ago.}
+\item{years}{Years for which data are to be found}
 
 \item{type}{One of 'Accidents', 'Casualties', 'Vehicles'; defaults to 'Accidents', ignores case.}
 }

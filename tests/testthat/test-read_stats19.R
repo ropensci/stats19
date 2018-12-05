@@ -1,5 +1,7 @@
 context("test-read_stats19")
 
+source("../skip-download.R")
+
 test_that("read_accidents works", {
   skip_download()
   # download real data
@@ -9,12 +11,12 @@ test_that("read_accidents works", {
   path = locate_one_file(
     tempdir(),
     type = "accidents",
-    years = 2016,
+    year = 2016,
     filename = sub(".zip", ".csv", acc_2016)
   )
   # read it
   read = read_accidents(
-    years = 2016, # make it unique
+    year = 2016, # make it unique
     data_dir = tempdir(),
     filename = sub(".zip", ".csv", acc_2016)
   )
@@ -31,11 +33,11 @@ test_that("read_vehicles works", {
   path = locate_one_file(
     data_dir = tempdir(),
     type = "vehicles",
-    years = 2016,
+    year = 2016,
     filename = "Veh.csv")
   # read it
   read = read_vehicles(
-    years = 2016,
+    year = 2016,
     data_dir = tempdir(),
     filename = "Veh.csv"
   )
@@ -55,11 +57,11 @@ test_that("read_casualties works", {
   path = locate_one_file(
     type = "Casualties",
     data_dir = tempdir(),
-    years = 2016,
+    year = 2016,
     filename = "Cas.csv")
   # read it
   read = read_casualties(
-    years = 2016, # make it unique
+    year = 2016, # make it unique
     data_dir = tempdir(),
     filename = "Cas.csv"
   )
