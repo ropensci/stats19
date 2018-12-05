@@ -1,5 +1,7 @@
 context("test-format-read_schema")
 
+source("../skip-download.R")
+
 test_that("read_schema works", {
   skip_download()
   t = stats19::read_schema()
@@ -21,7 +23,7 @@ test_that("format_vehicles works", {
   dl_stats19(file_name = fn)
   # read it
   read = read_vehicles(
-    years = 2016,
+    year = 2016,
     data_dir = tempdir(),
     filename = "Veh.csv"
   )
@@ -37,7 +39,7 @@ test_that("format_casualties works", {
   dl_stats19(file_name = fn)
   # read it
   read = read_casualties(
-    years = 2016,
+    year = 2016,
     data_dir = tempdir(),
     filename = "Cas.csv"
   )

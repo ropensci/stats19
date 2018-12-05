@@ -13,25 +13,30 @@
 #' have a sufficient internet access and hard disk space.
 #'
 #' @param file_name The file name to download, above two will be ignore.
-#' @param years Either a single year or a two year range, defaults to 2 years ago
+#' @param year Single year for which file is to be downloaded
 #' @param type One of 'Accidents', 'Casualties', 'Vehicles'; defaults to 'Accidents'#'
 #' @param data_dir Parent directory for all downloaded files. Defaults to `tempdir()`
 #'
 #' @export
 #' @examples
 #' \dontrun{
-#' dl_stats19(years = 2017) # interactively select files...
+#' dl_stats19(year = 2017) # interactively select files...
 #'
 #' # now you can read-in the data
-#' dl_stats19(years = 2004)
+#' dl_stats19(year = 2004)
 #' }
 dl_stats19 = function(file_name = NULL,
-                       years = as.integer(format(Sys.Date(), "%Y")) - 2,
-                       type = "Accidents",
-                       data_dir = tempdir()) {
+                      year = NULL,
+                      type = "Accidents",
+                      data_dir = tempdir()) {
+
+  if (!is.null (year))
+    year <- check_year (year)
+  else if (is.null (file_name))
+    stop("Either file_name or year must be specified")
   type = convert_type_param(type)
   if (is.null(file_name)) {
-    fnames = find_file_name(years = years, type = type)
+    fnames = find_file_name(years = year, type = type)
     zip_url = get_url(fnames) # no need for the .zip here
   } else {
     fnames = file_name
@@ -41,10 +46,10 @@ dl_stats19 = function(file_name = NULL,
   nfiles_found = length(fnames)
   if (length(nfiles_found) == 0) {
     message("For parameters: ")
-    if (!identical(years, "") & !is.null(years) & !is.na(years)) {
-      print(paste0("years: ", years))
+    if (!is.null(year)) {
+      print(paste0("year: ", year))
     }
-    if (!identical(type, "") & !is.null(type) & !is.na(years)) {
+    if (!is.null(type)) {
       print(paste0("type: ", type))
     }
     stop("No results found, please try again")
@@ -57,10 +62,10 @@ dl_stats19 = function(file_name = NULL,
   }
   message("Attempt downloading from: ")
   message(paste0("   ", zip_url, collapse = "\n"))
-  resp = readline(phrase(data_dir))
-  if (tolower(substr(resp, 1, 1)) != "y") {
-    stop("Stopping as requested")
-  }
+  #resp = readline(phrase(data_dir))
+  #if (tolower(substr(resp, 1, 1)) != "y") {
+  #  stop("Stopping as requested")
+  #}
 
   if (!dir.exists(data_dir)) {
     dir.create(data_dir, recursive = TRUE)
@@ -69,10 +74,10 @@ dl_stats19 = function(file_name = NULL,
   # download and unzip the data if it's not present
   f = download_and_unzip(
     zip_url = zip_url,
-    exdir = sub(".zip", "", final_result),
+    exdir = sub(".zip", "", fnames),
     data_dir = data_dir
   )
-  message("Data saved as ", f)
+  message("Data saved at ", f)
 }
 
 # convert 'type' parameter is any form to text as given on official file names:
