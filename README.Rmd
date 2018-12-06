@@ -3,9 +3,12 @@ output: github_document
 bibliography: vignettes/references.bib
 ---
 
+[![The API of a maturing package has been roughed out, but finer details likely to change.](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 [![Travis build status](https://travis-ci.org/ITSLeeds/stats19.svg?branch=master)](https://travis-ci.org/ITSLeeds/stats19)
 [![codecov](https://codecov.io/gh/ITSLeeds/stats19/branch/master/graph/badge.svg)](https://codecov.io/gh/ITSLeeds/stats19)
 [![Gitter chat](https://badges.gitter.im/ITSLeeds/stats19.png)](https://gitter.im/stats19/Lobby?source=orgpage)
+[![](http://www.r-pkg.org/badges/version/stats19)](http://www.r-pkg.org/pkg/stats19)
+[![CRAN RStudio mirror downloads](http://cranlogs.r-pkg.org/badges/stats19)](http://www.r-pkg.org/pkg/stats19)
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
@@ -56,7 +59,7 @@ library(stats19)
 The following code chunk, for example, downloads and unzips a .zip file containing Stats19 data from 2017:
 
 ```{r example}
-dl_stats19(years = 2017, type = "Accidents")
+dl_stats19(year = 2017, type = "Accidents")
 ```
 
 Currently, these files are downloaded to a default location of "tempdir" which is a platform independent "safe" location to download the data in. Once downloaded, they are unzipped under original DfT file names. The function prints out the location and final file name(s) of unzipped files(s) as shown above.
@@ -64,7 +67,7 @@ Currently, these files are downloaded to a default location of "tempdir" which i
 Data files from other years can be downloaded in an interactive manner, providing just the year for example, would result in options presented to you:
 
 ```{r, eval=TRUE}
-dl_stats19(years = 2017)
+dl_stats19(year = 2017)
 ```
 
 ## Reading-in data
@@ -74,7 +77,7 @@ Downloaded data can then be read-in as follows (assuming the data download went 
 ```{r}
 d17 = "dftRoadSafetyData_Accidents_2017"
 dl_stats19(file_name = paste0(d17, ".zip"))
-crashes_2017_raw = read_accidents(years = 2017, filename = "Acc.csv")
+crashes_2017_raw = read_accidents(year = 2017, filename = "Acc.csv")
 crashes_2017 = format_accidents(crashes_2017_raw)
 ```
 
