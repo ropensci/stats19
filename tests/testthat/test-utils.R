@@ -24,8 +24,7 @@ test_that("find_file_name works", {
   # cover https://github.com/ITSLeeds/stats19/issues/21
   expect_equal (length (find_file_name(years = 1980:2001)), 1)
   # start OR end year is between 74 and 04
-  expect_error (find_file_name(years = 1974:2004),
-                "Please provide a year between 1979 and")
+  expect_error (find_file_name(years = 1974:2004))
   expect_error (find_file_name(years = -1))
   #expect_error (find_file_name(years = "text"))
   # TODO: Should this be a message rather than error?:

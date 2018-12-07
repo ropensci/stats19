@@ -31,18 +31,22 @@ get_directory = function() {
 }
 
 #' check and convert year argument
+#' @examples
+#' # check_year("2018") # fails
+#' # check_year(2017)
 #' @inheritParams dl_stats19
 check_year = function (year) {
-  if (is.null (year) | length (year) > 1)
-    stop ("Please specify a single year between 1979 and ",
-          format (format(Sys.Date(), "%Y")))
-  year = as.numeric (year)
-  current_year = as.numeric (format(Sys.Date(), "%Y"))
-  if (!year %in% 1979:current_year)
-    stop ("Please provide a year between 1979 and ", current_year)
-
-  return (year)
+  year = as.integer(year)
+  is_year = all(year %in% 1979:(current_year() - 1))
+  if(!is_year) {
+    msg = paste0("Years must be in range 1979:", current_year() - 1)
+    stop(msg)
+  }
+  year
 }
+
+# current_year()
+current_year = function() as.integer(format(format(Sys.Date(), "%Y")))
 
 #' Find file names within stats19::file_names.
 #'
