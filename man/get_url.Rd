@@ -29,7 +29,5 @@ Last updated: 22nd Nov 2018.
 Files available from the s3 url in the default `domain` argument.
 }
 \examples{
-\dontrun{
-get_url(find_file_name(1985))
-}
+# get_url(find_file_name(1985))
 }
