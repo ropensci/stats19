@@ -14,9 +14,7 @@
 #' @param domain the domain from where the data will be downloaded
 #' @param directory the subdirectory of the url
 #' @examples
-#' \dontrun{
-#' get_url(find_file_name(1985))
-#' }
+#' # get_url(find_file_name(1985))
 get_url = function(file_name = "",
                    domain = "http://data.dft.gov.uk.s3.amazonaws.com",
                    directory = "road-accidents-safety-data"
@@ -29,6 +27,7 @@ get_url = function(file_name = "",
 #' @examples
 #' # check_year("2018") # fails
 #' # check_year(2017)
+#' # check_year(1985)
 #' @inheritParams dl_stats19
 check_year = function (year) {
   year = as.integer(year)
@@ -37,7 +36,11 @@ check_year = function (year) {
     msg = paste0("Years must be in range 1979:", current_year() - 1)
     stop(msg)
   }
-  year
+  if(year %in% 1980:2003) {
+    message("Year not in range, changing to 1979")
+    year = 1979
+  }
+  as.integer(year)
 }
 
 # current_year()
@@ -52,35 +55,36 @@ current_year = function() as.integer(format(format(Sys.Date(), "%Y")))
 #'
 #' @examples
 #' find_file_name(2016)
-#' find_file_name(2016, type = "accident")
-#' find_file_name(2004)
-#' find_file_name(1985)
+#' find_file_name(2016, type = "Accidents")
+#' find_file_name(1985, type = "Accidents")
 #' find_file_name(1979)
 #' find_file_name(2016:2017)
 #' @export
 find_file_name = function(years = NULL, type = NULL) {
 
-  years = vapply (years, check_year, numeric (1))
-  file_names_vec = unlist(stats19::file_names, use.names = FALSE)
   result = NULL
-  # see https://github.com/ITSLeeds/stats19/issues/21
-  if (any (years %in% 1979:2004)) {
-      result = c (result, file_names_vec [grep ("1979", file_names_vec)])
-  }
-  if (is.null (years))
-      index = seq (file_names_vec)
-  else
-      index = unlist(lapply(years, function(i) grep(i, file_names_vec,
-                                                    ignore.case = TRUE)))
-  result = c (result, file_names_vec[index])
 
-  if (!is.null (type))
-      result = result[grep(type, result, ignore.case = TRUE)]
+  if(!is.null(years)) {
+    years = vapply (years, check_year, integer(1)) # todo: vectorise?
+    file_names_vec = unlist(stats19::file_names, use.names = FALSE)
+    years_regex = paste0(years, collapse = "|")
+    result = c(result, file_names_vec [grep(years_regex, file_names_vec)])
+  }
+
+  # see https://github.com/ITSLeeds/stats19/issues/21
+
+  if(!is.null(type)) {
+    result_type = result[grep(type, result, ignore.case = TRUE)]
+    if(length(result_type) > 0) {
+      result = result_type
+    } else {
+      message("No files of that type found, showing all files for the year")
+    }
+  }
 
   if (length(result) < 1)
     stop("No files of that type exist")
-
-  return (unique (result))
+  unique(result)
 }
 
 #' Locate a file on disk
