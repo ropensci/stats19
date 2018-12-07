@@ -2,18 +2,34 @@
 % Please edit documentation in R/utils.R
 \name{get_url}
 \alias{get_url}
-\title{Build the API endpoints}
+\title{Convert file names to urls}
 \usage{
-get_url(file_name = "")
+get_url(file_name = "",
+  domain = "http://data.dft.gov.uk.s3.amazonaws.com",
+  directory = "road-accidents-safety-data")
 }
 \arguments{
-\item{file_name}{(Optional) to add to the url returned.}
+\item{file_name}{(Optional) to add to the url returned}
+
+\item{domain}{the domain from where the data will be downloaded}
+
+\item{directory}{the subdirectory of the url}
 }
 \description{
-Build the API endpoints
+Convert file names to urls
+}
+\details{
+This function returns urls that allow data to be downloaded from the pages:
+
+http://data.dft.gov.uk/road-accidents-safety-data/road-accidents-safety-data/RoadSafetyData_2015.zip
+
+http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafety_Accidents_2016
+
+Last updated: 22nd Nov 2018.
+Files available from the s3 url in the default `domain` argument.
 }
 \examples{
 \dontrun{
-get_url()
+get_url(find_file_name(1985))
 }
 }
