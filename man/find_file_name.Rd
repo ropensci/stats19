@@ -17,6 +17,8 @@ Currently, there are 52 file names to download data from.
 \examples{
 find_file_name(2016)
 find_file_name(2016, type = "accident")
+find_file_name(2004)
+find_file_name(1985)
 find_file_name(1979)
 find_file_name(2016:2017)
 }

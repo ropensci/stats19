@@ -1,33 +1,28 @@
-#' Static values
-#' Main location of any changes from upstream
-#' On 22nd Nov 2018 tested both
+#' Convert file names to urls
+#'
+#' @details
+#' This function returns urls that allow data to be downloaded from the pages:
+#'
 #' http://data.dft.gov.uk/road-accidents-safety-data/road-accidents-safety-data/RoadSafetyData_2015.zip
-#' and
+#'
 #' http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafety_Accidents_2016
-#' both were available from the s3 url below, so decided to make it the
-#' main domain URL of the stats19
-domain = "http://data.dft.gov.uk.s3.amazonaws.com"
-directory = "road-accidents-safety-data"
-
-#' Build the API endpoints
-#' @param file_name (Optional) to add to the url returned.
+#'
+#' Last updated: 22nd Nov 2018.
+#' Files available from the s3 url in the default `domain` argument.
+#'
+#' @param file_name (Optional) to add to the url returned
+#' @param domain the domain from where the data will be downloaded
+#' @param directory the subdirectory of the url
 #' @examples
 #' \dontrun{
-#' get_url()
+#' get_url(find_file_name(1985))
 #' }
-get_url = function(file_name = "") {
-  path = file.path(get_domain(), get_directory(), file_name)
+get_url = function(file_name = "",
+                   domain = "http://data.dft.gov.uk.s3.amazonaws.com",
+                   directory = "road-accidents-safety-data"
+                   ) {
+  path = file.path(domain, directory, file_name)
   path
-}
-
-#' Return only the domain
-get_domain = function() {
-  domain
-}
-
-#' Return only the directory
-get_directory = function() {
-  directory
 }
 
 #' check and convert year argument
@@ -58,6 +53,8 @@ current_year = function() as.integer(format(format(Sys.Date(), "%Y")))
 #' @examples
 #' find_file_name(2016)
 #' find_file_name(2016, type = "accident")
+#' find_file_name(2004)
+#' find_file_name(1985)
 #' find_file_name(1979)
 #' find_file_name(2016:2017)
 #' @export
