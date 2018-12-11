@@ -36,8 +36,9 @@ dl_stats19 = function(year = NULL,
   }
   if(is.null(file_name)) {
     fnames = find_file_name(years = year, type = type)
-    # todo: add menu here...
-    if(length(fnames) > 1) {
+    nfiles_found = length(fnames)
+    many_found = nfiles_found > 1
+    if(many_found) {
       if(interactive()) {
         fnames = select_file(fnames)
       } else {
@@ -45,13 +46,14 @@ dl_stats19 = function(year = NULL,
         fnames = fnames[1]
       }
     }
-    zip_url = get_url(fnames) # no need for the .zip here
+    zip_url = get_url(fnames)
   } else {
+    many_found = FALSE
     fnames = file_name
+    nfiles_found = length(fnames)
     zip_url = get_url(file_name = file_name)
   }
 
-  nfiles_found = length(fnames)
   if (length(nfiles_found) == 0) {
     message("For parameters ", "year: ", year, ", type: ", type)
     stop("No results found, please try again")
@@ -62,17 +64,17 @@ dl_stats19 = function(year = NULL,
     message("\033[31mThis file is over 240 MB in size.\033[39m")
     message("\033[31mOnce unzipped it is over 1.8 GB.\033[39m")
   }
+  if(interactive() & !many_found) {
+    resp = readline(phrase(data_dir))
+    if (resp != "" | grepl(pattern = "yes|y", x = resp)) {
+      stop("Stopping as requested")
+    }
+  }
   message("Attempt downloading from: ")
   message(paste0("   ", zip_url, collapse = "\n"))
-  resp = readline(phrase(data_dir))
-  if (resp != "") {
-   stop("Stopping as requested")
-  }
-
   if (!dir.exists(data_dir)) {
     dir.create(data_dir, recursive = TRUE)
   }
-
 
   # download and unzip the data if it's not present
   f = download_and_unzip(

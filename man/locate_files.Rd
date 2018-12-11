@@ -4,7 +4,7 @@
 \alias{locate_files}
 \title{Locate a file on disk}
 \usage{
-locate_files(data_dir = tempdir(), type = "Accidents", years = NULL,
+locate_files(data_dir = tempdir(), type = NULL, years = NULL,
   quiet = FALSE)
 }
 \arguments{
