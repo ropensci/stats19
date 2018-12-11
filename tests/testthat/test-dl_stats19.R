@@ -26,5 +26,5 @@ test_that("dl_stats19 works for chosen file name", {
   skip_download()
   expect_message(dl_stats19(
     file_name = stats19::file_names$DfTRoadSafety_Accidents_2009.zip),
-                 "File to download")
+                 "Files identified: DfTRoadSafety_Accidents_2009.zip")
 })
