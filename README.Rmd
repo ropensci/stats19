@@ -66,8 +66,19 @@ Currently, these files are downloaded to a default location of "tempdir" which i
 
 Data files from other years can be downloaded in an interactive manner, providing just the year for example, would result in options presented to you:
 
-```{r, eval=TRUE}
+```{r, eval=FALSE}
 dl_stats19(year = 2017)
+```
+
+```
+Multiple matches. Which do you want to download?
+
+1: dftRoadSafetyData_Vehicles_2017.zip
+2: dftRoadSafetyData_Casualties_2017.zip
+3: dftRoadSafetyData_Accidents_2017.zip
+
+Selection: 
+Enter an item from the menu, or 0 to exit
 ```
 
 ## Reading-in data
