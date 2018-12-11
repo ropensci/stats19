@@ -10,8 +10,7 @@ test_that("geturl works", {
 })
 
 test_that("find_file_name works", {
-  expect_error(find_file_name(type = "accid"),
-               "No files of that type exist")
+  expect_true(length(find_file_name(type = "accid")) > 12)
   expect_equal(find_file_name(year = 2016, type = "accid"),
                "dftRoadSafety_Accidents_2016.zip")
   expect_equal(find_file_name(years ="2015", type = "accid"),
