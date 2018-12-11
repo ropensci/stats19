@@ -57,28 +57,33 @@ current_year = function() as.integer(format(format(Sys.Date(), "%Y")))
 #' find_file_name(2016)
 #' find_file_name(2016, type = "Accidents")
 #' find_file_name(1985, type = "Accidents")
+#' find_file_name(type = "cas")
+#' find_file_name(type = "accid")
 #' find_file_name(1979)
 #' find_file_name(2016:2017)
 #' @export
 find_file_name = function(years = NULL, type = NULL) {
 
-  result = NULL
+  stopifnot(!(is.null(years) & is.null(type)))
+  result = unlist(stats19::file_names, use.names = FALSE)
 
   if(!is.null(years)) {
     years = vapply (years, check_year, integer(1)) # todo: vectorise?
-    file_names_vec = unlist(stats19::file_names, use.names = FALSE)
     years_regex = paste0(years, collapse = "|")
-    result = c(result, file_names_vec [grep(years_regex, file_names_vec)])
+    result = result[grep(pattern = years_regex, x = result)]
   }
 
   # see https://github.com/ITSLeeds/stats19/issues/21
-
   if(!is.null(type)) {
-    result_type = result[grep(type, result, ignore.case = TRUE)]
+    result_type = result[grep(pattern = type, result, ignore.case = TRUE)]
     if(length(result_type) > 0) {
       result = result_type
     } else {
-      message("No files of that type found, showing all files for the year")
+      if(is.null(years)) {
+       stop("No files of that type found")
+      } else {
+        message("No files of that type found for that year.")
+      }
     }
   }
 

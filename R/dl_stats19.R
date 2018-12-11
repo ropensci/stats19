@@ -21,10 +21,10 @@
 #' @examples
 #' \dontrun{
 #' dl_stats19(year = 2017) # interactively select files...
-#'
 #' # now you can read-in the data
 #' dl_stats19(year = 2009)
 #' dl_stats19(year = 2009, type = "casualties")
+#' dl_stats19(type = "casualties")
 #' dl_stats19(year = 1985)
 #' }
 dl_stats19 = function(year = NULL,
@@ -33,9 +33,6 @@ dl_stats19 = function(year = NULL,
                       file_name = NULL) {
   if(!is.null (year)) {
     year = check_year(year)
-  }
-  if(!is.null(type)) {
-    type = match_type(type)
   }
   if(is.null(file_name)) {
     fnames = find_file_name(years = year, type = type)
@@ -108,29 +105,6 @@ phrase = function(data_dir) {
     " (y = enter, n = esc)? "
   )
 }
-
-#' Match type to types provided by stats19
-#' @inheritParams dl_stats19
-#' @examples
-#' stats19:::match_type(type = "accidents")
-#' stats19:::match_type(type = "nomatch")
-match_type = function(type) {
-  match_found = grepl(pattern = "ac|ca|ve", x = type, ignore.case = TRUE)
-  if(match_found) {
-    # capitalise type - see https://stackoverflow.com/questions/18509527
-    type = paste(
-      toupper(substr(type, 1, 1)),
-      substr(type, 2, nchar(type)),
-      sep = ""
-    )
-    match_table = c("Accidents", "Casualties", "Vehicles")
-    type = match.arg(arg = type, choices = match_table)
-  } else {
-    warning("Type should be one of Accidents, Casualties or Vehicles")
-  }
-  type
-}
-
 #' Download stats19 schema
 #'
 #' This downloads an excel spreadsheet containing variable names and categories
