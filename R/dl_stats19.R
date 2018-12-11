@@ -32,22 +32,22 @@ dl_stats19 = function(year = NULL,
                       data_dir = tempdir(),
                       file_name = NULL) {
   if(!is.null (year)) {
-    year = stats19:::check_year(year)
+    year = check_year(year)
   }
   if(!is.null(type)) {
     type = match_type(type)
   }
   if(is.null(file_name)) {
-    fnames = stats19:::find_file_name(years = year, type = type)
+    fnames = find_file_name(years = year, type = type)
     # todo: add menu here...
     if(length(fnames) > 1) {
       message("Heads-up: more than one file found, select one:")
       fnames = fnames[1]
     }
-    zip_url = stats19:::get_url(fnames) # no need for the .zip here
+    zip_url = get_url(fnames) # no need for the .zip here
   } else {
     fnames = file_name
-    zip_url = stats19:::get_url(file_name = file_name)
+    zip_url = get_url(file_name = file_name)
   }
 
   nfiles_found = length(fnames)
@@ -74,7 +74,7 @@ dl_stats19 = function(year = NULL,
 
 
   # download and unzip the data if it's not present
-  f = stats19:::download_and_unzip(
+  f = download_and_unzip(
     zip_url = zip_url,
     exdir = sub(".zip", "", fnames),
     data_dir = data_dir
@@ -83,6 +83,7 @@ dl_stats19 = function(year = NULL,
 }
 
 #' Generate a phrase for data download purposes
+#' @inheritParams dl_stats19
 #' @examples
 #' stats19:::phrase(tempdir())
 phrase = function(data_dir) {
@@ -105,6 +106,7 @@ phrase = function(data_dir) {
 }
 
 #' Match type to types provided by stats19
+#' @inheritParams dl_stats19
 #' @examples
 #' stats19:::match_type(type = "accidents")
 #' stats19:::match_type(type = "nomatch")
