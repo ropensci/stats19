@@ -43,7 +43,7 @@ check_year = function(year) {
   }
   if(year %in% 2006:2013) {
     message("Year not in range, changing to match 2005:2014 data")
-    year = 1979
+    year = 2005
   }
   as.integer(year)
 }
