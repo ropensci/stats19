@@ -6,6 +6,9 @@
 \usage{
 match_type(type)
 }
+\arguments{
+\item{type}{One of 'Accidents', 'Casualties', 'Vehicles'; defaults to 'Accidents'#'}
+}
 \description{
 Match type to types provided by stats19
 }
