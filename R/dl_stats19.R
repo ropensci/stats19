@@ -24,38 +24,38 @@
 #'
 #' # now you can read-in the data
 #' dl_stats19(year = 2009)
+#' dl_stats19(year = 2009, type = "casualties")
 #' dl_stats19(year = 1985)
 #' }
-dl_stats19 = function(file_name = NULL,
-                      year = NULL,
-                      type = "Accidents",
-                      data_dir = tempdir()) {
-
-  if (!is.null (year))
-    year = check_year (year)
-  else if (is.null (file_name))
-    stop("Either file_name or year must be specified")
-  type = convert_type_param(type)
-  if (is.null(file_name)) {
-    fnames = find_file_name(years = year, type = type)
-    zip_url = get_url(fnames) # no need for the .zip here
+dl_stats19 = function(year = NULL,
+                      type = NULL,
+                      data_dir = tempdir(),
+                      file_name = NULL) {
+  if(!is.null (year)) {
+    year = stats19:::check_year(year)
+  }
+  if(!is.null(type)) {
+    type = match_type(type)
+  }
+  if(is.null(file_name)) {
+    fnames = stats19:::find_file_name(years = year, type = type)
+    # todo: add menu here...
+    if(length(fnames) > 1) {
+      message("Heads-up: more than one file found, select one:")
+      fnames = fnames[1]
+    }
+    zip_url = stats19:::get_url(fnames) # no need for the .zip here
   } else {
     fnames = file_name
-    zip_url = get_url(file_name = file_name)
+    zip_url = stats19:::get_url(file_name = file_name)
   }
 
   nfiles_found = length(fnames)
   if (length(nfiles_found) == 0) {
-    message("For parameters: ")
-    if (!is.null(year)) {
-      print(paste0("year: ", year))
-    }
-    if (!is.null(type)) {
-      print(paste0("type: ", type))
-    }
+    message("For parameters ", "year: ", year, ", type: ", type)
     stop("No results found, please try again")
   }
-  message("File to download: ", fnames)
+  message("Files identified: ", paste0(fnames, "\n"))
   if (identical(fnames, "Stats19-Data1979-2004.zip")) {
     # extra warnings
     message("\033[31mThis file is over 240 MB in size.\033[39m")
@@ -63,17 +63,18 @@ dl_stats19 = function(file_name = NULL,
   }
   message("Attempt downloading from: ")
   message(paste0("   ", zip_url, collapse = "\n"))
-  #resp = readline(phrase(data_dir))
-  #if (tolower(substr(resp, 1, 1)) != "y") {
-  #  stop("Stopping as requested")
-  #}
+  resp = readline(phrase(data_dir))
+  if (resp != "") {
+   stop("Stopping as requested")
+  }
 
   if (!dir.exists(data_dir)) {
     dir.create(data_dir, recursive = TRUE)
   }
 
+
   # download and unzip the data if it's not present
-  f = download_and_unzip(
+  f = stats19:::download_and_unzip(
     zip_url = zip_url,
     exdir = sub(".zip", "", fnames),
     data_dir = data_dir
@@ -81,13 +82,9 @@ dl_stats19 = function(file_name = NULL,
   message("Data saved at ", f)
 }
 
-# convert 'type' parameter is any form to text as given on official file names:
-convert_type_param = function(type) {
-  types = c("a", "c", "v")
-  type = match.arg(substring(tolower(type), 1, 1), types)
-  c("Accidents", "Casualties", "Vehicles") [match(type, types)]
-}
-
+#' Generate a phrase for data download purposes
+#' @examples
+#' stats19:::phrase(tempdir())
 phrase = function(data_dir) {
   if (!dir.exists(data_dir)) {
     message(
@@ -105,6 +102,27 @@ phrase = function(data_dir) {
     txt [ceiling(stats::runif(1) * length(txt))],
     " (y = enter, n = esc)? "
   )
+}
+
+#' Match type to types provided by stats19
+#' @examples
+#' stats19:::match_type(type = "accidents")
+#' stats19:::match_type(type = "nomatch")
+match_type = function(type) {
+  match_found = grepl(pattern = "ac|ca|ve", x = type, ignore.case = TRUE)
+  if(match_found) {
+    # capitalise type - see https://stackoverflow.com/questions/18509527
+    type = paste(
+      toupper(substr(type, 1, 1)),
+      substr(type, 2, nchar(type)),
+      sep = ""
+    )
+    match_table = c("Accidents", "Casualties", "Vehicles")
+    type = match.arg(arg = type, choices = match_table)
+  } else {
+    warning("Type should be one of Accidents, Casualties or Vehicles")
+  }
+  type
 }
 
 #' Download stats19 schema

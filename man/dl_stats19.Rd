@@ -4,17 +4,17 @@
 \alias{dl_stats19}
 \title{Download Stats19 data for a year or range of two years.}
 \usage{
-dl_stats19(file_name = NULL, year = NULL, type = "Accidents",
-  data_dir = tempdir())
+dl_stats19(year = NULL, type = NULL, data_dir = tempdir(),
+  file_name = NULL)
 }
 \arguments{
-\item{file_name}{The file name to download, above two will be ignore.}
-
 \item{year}{Single year for which file is to be downloaded}
 
 \item{type}{One of 'Accidents', 'Casualties', 'Vehicles'; defaults to 'Accidents'#'}
 
 \item{data_dir}{Parent directory for all downloaded files. Defaults to `tempdir()`}
+
+\item{file_name}{The file name to download, above two will be ignore.}
 }
 \description{
 Download Stats19 data for a year or range of two years.
@@ -39,6 +39,7 @@ dl_stats19(year = 2017) # interactively select files...
 
 # now you can read-in the data
 dl_stats19(year = 2009)
+dl_stats19(year = 2009, type = "casualties")
 dl_stats19(year = 1985)
 }
 }
