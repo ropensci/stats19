@@ -27,6 +27,7 @@ get_url = function(file_name = "",
 #' @examples
 #' # check_year("2018") # fails
 #' # check_year(2017)
+#' # check_year(2006)
 #' # check_year(1985)
 #' @inheritParams dl_stats19
 check_year = function(year) {
@@ -37,7 +38,11 @@ check_year = function(year) {
     stop(msg)
   }
   if(year %in% 1980:2003) {
-    message("Year not in range, changing to 1979")
+    message("Year not in range, changing to match 1979:2004 data")
+    year = 1979
+  }
+  if(year %in% 2006:2013) {
+    message("Year not in range, changing to match 2005:2014 data")
     year = 1979
   }
   as.integer(year)
@@ -59,7 +64,7 @@ current_year = function() as.integer(format(format(Sys.Date(), "%Y")))
 #' find_file_name(1985, type = "Accidents")
 #' find_file_name(type = "cas")
 #' find_file_name(type = "accid")
-#' find_file_name(1979)
+#' find_file_name(2006)
 #' find_file_name(2016:2017)
 #' @export
 find_file_name = function(years = NULL, type = NULL) {
