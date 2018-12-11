@@ -29,7 +29,7 @@ get_url = function(file_name = "",
 #' # check_year(2017)
 #' # check_year(1985)
 #' @inheritParams dl_stats19
-check_year = function (year) {
+check_year = function(year) {
   year = as.integer(year)
   is_year = all(year %in% 1979:(current_year() - 1))
   if(!is_year) {
@@ -68,7 +68,7 @@ find_file_name = function(years = NULL, type = NULL) {
   result = unlist(stats19::file_names, use.names = FALSE)
 
   if(!is.null(years)) {
-    years = vapply (years, check_year, integer(1)) # todo: vectorise?
+    years = vapply(years, check_year, integer(1)) # todo: vectorise?
     years_regex = paste0(years, collapse = "|")
     result = result[grep(pattern = years_regex, x = result)]
   }
@@ -87,7 +87,7 @@ find_file_name = function(years = NULL, type = NULL) {
     }
   }
 
-  if (length(result) < 1)
+  if(length(result) < 1)
     stop("No files of that type exist")
   unique(result)
 }
@@ -109,25 +109,24 @@ find_file_name = function(years = NULL, type = NULL) {
 #' locate_files(years = 2016)
 #' @export
 locate_files = function(data_dir = tempdir(),
-                        type = "Accidents",
+                        type = NULL,
                         years = NULL,
                         quiet = FALSE) {
   stopifnot(dir.exists(data_dir))
   file_names = find_file_name(years = years, type = type)
-  file_names = tools::file_path_sans_ext (file_names)
-  dir_files = list.dirs (data_dir)
+  file_names = tools::file_path_sans_ext(file_names)
+  dir_files = list.dirs(data_dir)
   files_on_disk = NULL
   # check is any file names match those on disk
-  gr = vapply (file_names, function (i) any (grepl (i, dir_files)),
-                logical (1))
-  if (any (gr)) { # return those on disk which match file names
-    gr = names (gr [which (gr)])
-    index = vapply (gr, function (i) grepl (i, dir_files),
-                     logical (length (dir_files)))
-    files_on_disk = dir_files [index]
+  gr = vapply(file_names, function(i) any(grepl(i, dir_files)),
+                logical(1))
+  if(any(gr)) { # return those on disk which match file names
+    gr = names(gr[which(gr)])
+    index = vapply(gr, function(i) grepl(i, dir_files),
+                     logical(length(dir_files)))
+    files_on_disk = dir_files[index]
   }
-
-  return (files_on_disk)
+  return(files_on_disk)
 }
 
 #' Pin down a file on disk from four parameters.
@@ -150,26 +149,26 @@ locate_one_file = function(filename = NULL,
                            data_dir = tempdir(),
                            year = NULL,
                            type = "Accidents") {
-  year = check_year (year)
+  year = check_year(year)
   # see if locate_files can pin it down
   path = locate_files(data_dir = data_dir,
                       type = type,
                       years = year,
                       quiet = TRUE)
 
-  if (length (path) == 0)
-    stop ("folder not found") # TODO: Delete this?
+  if(length(path) == 0)
+    stop("folder not found") # TODO: Delete this?
 
-  scan1 = function (path, type) {
-    lf = list.files (path, full.names = TRUE, pattern = ".csv$")
-    if (!is.null (type))
-      lf = lf [grep (type, lf, ignore.case = TRUE)]
-    return (lf)
+  scan1 = function(path, type) {
+    lf = list.files(path, full.names = TRUE, pattern = ".csv$")
+    if(!is.null(type))
+      lf = lf [grep(type, lf, ignore.case = TRUE)]
+    return(lf)
   }
-  res = unlist (lapply (path, function (i) scan1 (i, type)))
-  if (!is.null (filename))
-    res = res [grep (filename, res)]
-  return (res)
+  res = unlist(lapply(path, function(i) scan1(i, type)))
+  if(!is.null(filename))
+    res = res [grep(filename, res)]
+  return(res)
 }
 
 #' Download and unzip given appropriate params
@@ -186,13 +185,13 @@ locate_one_file = function(filename = NULL,
 download_and_unzip = function(exdir, zip_url, data_dir = tempdir()) {
   destfile = file.path(data_dir, paste0(exdir, ".zip"))
   data_already_exists = file.exists(destfile)
-  if (data_already_exists) {
+  if(data_already_exists) {
     message("Data already exists in data_dir, not downloading")
   } else {
     utils::download.file(zip_url, destfile = destfile)
   }
-  zipfiles = file.path (destfile, utils::unzip(destfile, list = TRUE)$Name)
+  zipfiles = file.path(destfile, utils::unzip(destfile, list = TRUE)$Name)
   utils::unzip(destfile, exdir = file.path(data_dir, exdir))
-  return (zipfiles)
+  return(zipfiles)
 }
 utils::globalVariables(c("stats19_variables", "stats19_schema", "skip"))
