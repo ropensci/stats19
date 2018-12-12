@@ -4,12 +4,10 @@
 \alias{format_accidents}
 \title{Format stats19 'accidents' data}
 \usage{
-format_accidents(x, factorize = FALSE)
+format_accidents(x)
 }
 \arguments{
 \item{x}{Data frame created with `read_accidents()`}
-
-\item{factorize}{Should some results be returned as factors? `FALSE` by default}
 }
 \description{
 Format stats19 'accidents' data
