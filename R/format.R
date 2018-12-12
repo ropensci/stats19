@@ -212,6 +212,9 @@ read_schema = function(
     stats19_variables = stats::na.omit(export_variables_long)
     stats19_variables$type = stats19_vtype(stats19_variables$variable)
 
+    # add variable linking to names in formatted data
+    names_accidents =
+
     # export result:
     # usethis::use_data(stats19_variables, overwrite = TRUE)
 
