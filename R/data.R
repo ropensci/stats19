@@ -43,16 +43,22 @@ NULL
 #' @name file_names
 #' @format A named list
 NULL
-#' Sample stats19 data (2016 accidents)
+#' Sample of stats19 data (2017 accidents)
 #'
-#' Obtained:
-#' dl_stats19(years = "2016", type = "Accide")
-#' acc_2016 = read.csv("/tmp/RtmplOkfPW/dftRoadSafety_Accidents_2016/dftRoadSafety_Accidents_2016.csv")
-#' accidents_2016_sample = head(acc_2016, n = 2)
-#'
+#' @examples
+#' \dontrun{
+#' # Obtained with:
+#' dl_stats19(year = 2017, type = "Accide")
+#' accidents_2017_raw = read_accidents(year = 2017)
+#' set.seed(350)
+#' sel = sample(nrow(accidents_2017_raw), 3)
+#' accidents_sample_raw = accidents_2017_raw[sel, ]
+#' accidents_sample = format_accidents(accidents_sample_raw)
+#' }
 #' @docType data
 #' @keywords datasets
-#' @name accidents_2016_sample
+#' @name accidents_sample
+#' @aliases accidents_sample_raw
 #' @format A data frame
 NULL
 # work in progress:
