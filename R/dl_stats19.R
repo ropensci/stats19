@@ -85,28 +85,6 @@ dl_stats19 = function(year = NULL,
   message("Data saved at ", f)
 }
 
-#' Generate a phrase for data download purposes
-#' @inheritParams dl_stats19
-#' @examples
-#' stats19:::phrase(tempdir())
-phrase = function(data_dir) {
-  if (!dir.exists(data_dir)) {
-    message(
-      "data_dir \'", data_dir,
-      "\' will also be created as it does not exist"
-    )
-  }
-  txt = c(
-    "Happy to go",
-    "Good to go",
-    "Download now",
-    "Wanna do it"
-  )
-  paste0(
-    txt [ceiling(stats::runif(1) * length(txt))],
-    " (y = enter, n = esc)? "
-  )
-}
 #' Download stats19 schema
 #'
 #' This downloads an excel spreadsheet containing variable names and categories
@@ -126,15 +104,4 @@ dl_schema = function(data_dir = tempdir()) {
   destfile = file.path(data_dir, "Road-Accident-Safety-Data-Guide.xls")
   utils::download.file(u, destfile = destfile)
   # download and unzip the data if it's not present
-}
-
-#' Interactively select from options
-#' @param fnames File names to select from
-#' @examples
-#' # fnames = c("f1", "f2")
-#' # stats19:::select_file(fnames)
-select_file = function(fnames) {
-  message("Multiple matches. Which do you want to download?")
-  selection = utils::menu(choices = fnames)
-  fnames[selection]
 }
