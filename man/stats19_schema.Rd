@@ -12,4 +12,9 @@ metadata on stats19 data.
 codes provided in the raw stats19 dataset with
 character strings.
 }
+\examples{
+\dontrun{
+stats19_schema = read_schema()
+}
+}
 \keyword{datasets}

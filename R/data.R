@@ -10,6 +10,10 @@
 #' @keywords datasets
 #' @name stats19_schema
 #' @aliases stats19_variables
+#' @examples
+#' \dontrun{
+#' stats19_schema = read_schema()
+#' }
 NULL
 #' Schema for stats19 data (UKDS)
 #'
