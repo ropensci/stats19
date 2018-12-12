@@ -12,7 +12,7 @@ context("test-format: accidents")
 
 test_that("format_accidents works", {
   df = format_accidents(stats19::accidents_sample_raw)
-  expect_equal(nrow(df), 2)
+  expect_equal(nrow(df), nrow(stats19::accidents_sample_raw))
 })
 
 context("test-format: vehicles")
@@ -57,8 +57,8 @@ test_that("format_sf works", {
   rd = format_accidents(stats19::accidents_sample_raw)
   df1 = format_sf(rd)
   df2 = format_sf(rd, lonlat = TRUE)
-  expect_equal(nrow(df1), 2)
-  expect_equal(nrow(df2), 2)
+  expect_equal(nrow(df1), nrow(rd))
+  expect_equal(nrow(df2), nrow(rd))
   expect_true(is(df1, "sf"))
   expect_true(is(df2, "sf"))
 })
