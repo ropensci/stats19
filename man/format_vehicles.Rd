@@ -4,12 +4,10 @@
 \alias{format_vehicles}
 \title{Format stats19 vehicles data}
 \usage{
-format_vehicles(x, factorize = FALSE)
+format_vehicles(x)
 }
 \arguments{
 \item{x}{Data frame created with `read_vehicles()`}
-
-\item{factorize}{Should some results be returned as factors? `FALSE` by default}
 }
 \description{
 Format stats19 vehicles data

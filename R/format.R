@@ -4,7 +4,6 @@
 #' This is a helper function to format raw stats19 data
 #'
 #' @param x Data frame created with `read_accidents()`
-#' @param factorize Should some results be returned as factors? `FALSE` by default
 #' @export
 #' @examples
 #' \dontrun{
@@ -13,7 +12,7 @@
 #' crashes = format_accidents(x)
 #' }
 #' @export
-format_accidents = function(x, factorize = FALSE) {
+format_accidents = function(x) {
   old_names = names(x)
   new_names = format_column_names(old_names)
   names(x) = new_names
@@ -52,38 +51,39 @@ format_accidents = function(x, factorize = FALSE) {
 #' This function formats raw stats19 data
 #'
 #' @param x Data frame created with `read_casualties()`
-#' @param factorize Should some results be returned as factors? `FALSE` by default
 #' @export
 #' @examples
 #' \dontrun{
-#' dl_stats19(years = 2017, type = "casualties")
-#' x = read_casualties()
+#' dl_stats19(year = 2017, type = "casualties")
+#' x = read_casualties(year = 2017)
 #' casualties = format_casualties(x)
 #' }
 #' @export
-format_casualties = function(x, factorize = FALSE) {
+format_casualties = function(x) {
   old_names = names(x)
   new_names = format_column_names(old_names)
   names(x) = new_names
 
   # create lookup table
   lkp = stats19_variables[stats19_variables$table == "casualties", ]
-  lkp = lkp[lkp$type == "character", ]
+  lkp = lkp[lkp$type == "character", ] # old solution
+
   lkp$schema_variable = stats19_vname_switch(lkp$variable)
   lkp$new_name = gsub(pattern = " ", replacement = "_", lkp$schema_variable)
   lkp$new_name = stats19_vname_raw(lkp$new_name)
 
-  vkeep = old_names %in% lkp$new_name
+  # vkeep = old_names %in% lkp$new_name # old way with summary(vkeep) 5 true
+  vkeep = new_names %in% lkp$column_name # new way with summary(vkeep) 12 true
   vars_to_change = which(vkeep)
 
   # # testing: - todo: remove these when function works for all vars
-  message("Changing these variables: ", old_names[vkeep])
-  message("Not changing these variables: ", old_names[!vkeep])
+  # message("Changing these variables: ", paste(old_names[vkeep], collapse = ", "))
+  message("Changing these variables: ", paste(old_names[!vkeep], collapse = ", "))
 
   for(i in vars_to_change) {
     # format 1 column for testing
-    lookup_col_name = lkp$schema_variable[lkp$new_name == old_names[i]]
-    lookup = stats19_schema[stats19_schema$variable == lookup_col_name, 1:2]
+    lookup_col_name = lkp$column_name[lkp$column_name == new_names[i]]
+    lookup = stats19_schema[stats19_schema$variable_formatted == lookup_col_name, 1:2]
     if(length(lookup_col_name) != 1) {
       message("No single match for ", lookup_col_name)
     }
@@ -97,7 +97,6 @@ format_casualties = function(x, factorize = FALSE) {
 #' This function formats raw stats19 data
 #'
 #' @param x Data frame created with `read_vehicles()`
-#' @param factorize Should some results be returned as factors? `FALSE` by default
 #' @export
 #' @examples
 #' \dontrun{
@@ -106,7 +105,7 @@ format_casualties = function(x, factorize = FALSE) {
 #' vehicles = format_vehicles(x)
 #' }
 #' @export
-format_vehicles = function(x, factorize = FALSE) {
+format_vehicles = function(x) {
   old_names = names(x)
   new_names = format_column_names(old_names)
   names(x) = new_names
