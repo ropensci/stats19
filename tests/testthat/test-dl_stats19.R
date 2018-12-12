@@ -14,12 +14,27 @@ test_that("dl_stats19 requires year", {
                )
 })
 
+test_that("dl_stats19 works for no data_dir", {
+  # this test is bound to the next
+  skip_download()
+  # remove tempdir
+  unlink(tempdir(), recursive = TRUE)
+  expect_message(dl_stats19(year = "2017"))
+  # tempdir created.
+})
+
 test_that("dl_stats19 works for 2017", {
   skip_download()
-  expect_message(dl_stats19(year = "2017"))
   # already downloaded
   expect_message(dl_stats19(year = "2017"),
                  "Data already exists in data_dir")
+})
+
+test_that("dl_stats19 works for a type", {
+  skip_download()
+  # already downloaded
+  expect_message(dl_stats19(type = "accid"),
+                 "More than one file found, selecting the first")
 })
 
 test_that("dl_stats19 works for chosen file name", {
