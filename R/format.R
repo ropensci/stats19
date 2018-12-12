@@ -190,18 +190,15 @@ read_schema = function(
     export_variables = readxl::read_xls(path = file_path,
                                         sheet = 2,
                                         skip = 2)
-    export_variables_accidents = data.frame(
-      stringsAsFactors = FALSE,
+    export_variables_accidents = tibble::tibble(
       table = "accidents",
       variable = export_variables$`Accident Circumstances`
     )
-    export_variables_vehicles = data.frame(
-      stringsAsFactors = FALSE,
+    export_variables_vehicles =  tibble::tibble(
       table = "vehicles",
       variable = export_variables$Vehicle
     )
-    export_variables_casualties = data.frame(
-      stringsAsFactors = FALSE,
+    export_variables_casualties =  tibble::tibble(
       table = "casualties",
       variable = export_variables$Casualty
     )
@@ -221,8 +218,10 @@ read_schema = function(
 
     variables_lower = schema_to_variable(stats19_variables$variable)
     # test result
-    variables_lower[!variables_lower %in% names_all]
-    names_all[!names_all %in% variables_lower]
+    # variables_lower[!variables_lower %in% names_all]
+    # names_all[!names_all %in% variables_lower]
+    stats19_variables$column_name = variables_lower
+    # head(stats19_variables)
 
     # export result:
     # usethis::use_data(stats19_variables, overwrite = TRUE)
@@ -270,7 +269,10 @@ schema_to_variable = function(x) {
   x = gsub(pattern = "_england_&_wales_only", replacement = "", x)
   x = gsub(pattern = "_cc", replacement = "", x)
   x = gsub(pattern = "vehicle_propulsion_code", replacement = "propulsion_code", x)
-  x = gsub(pattern = "vehicle_propulsion_code", replacement = "propulsion_code", x)
+  x = gsub(pattern = "pedestrian_road_maintenance_worker_from_2011",
+           replacement = "pedestrian_road_maintenance_worker", x)
+  x = gsub(pattern = "engine_capacity", replacement = "engine_capacity_cc", x)
+  x = gsub(pattern = "age_of_vehicle_manufacture", replacement = "age_of_vehicle", x)
   x
 }
 
