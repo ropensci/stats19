@@ -72,7 +72,7 @@ dl_stats19(year = 2017, type = "Accidents")
 #> Files identified: dftRoadSafetyData_Accidents_2017.zip
 #> Attempt downloading from:
 #>    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Accidents_2017.zip
-#> Data saved at /tmp/RtmpXdUCj8/dftRoadSafetyData_Accidents_2017.zip/Acc.csv
+#> Data saved at /tmp/RtmpvOe1Yt/dftRoadSafetyData_Accidents_2017.zip/Acc.csv
 ```
 
 Currently, these files are downloaded to a default location of “tempdir”
@@ -104,16 +104,9 @@ Downloaded data can then be read-in as follows (assuming the data
 download went OK):
 
 ``` r
-d17 = "dftRoadSafetyData_Accidents_2017"
-dl_stats19(file_name = paste0(d17, ".zip"))
-#> Files identified: dftRoadSafetyData_Accidents_2017.zip
-#> Attempt downloading from:
-#>    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Accidents_2017.zip
-#> Data already exists in data_dir, not downloading
-#> Data saved at /tmp/RtmpXdUCj8/dftRoadSafetyData_Accidents_2017.zip/Acc.csv
-crashes_2017_raw = read_accidents(year = 2017, filename = "Acc.csv")
+crashes_2017_raw = read_accidents(year = 2017)
 #> Reading in:
-#> /tmp/RtmpXdUCj8/dftRoadSafetyData_Accidents_2017/Acc.csv
+#> /tmp/RtmpvOe1Yt/dftRoadSafetyData_Accidents_2017/Acc.csv
 crashes_2017 = format_accidents(crashes_2017_raw)
 ```
 
@@ -136,16 +129,16 @@ crashes_2017_raw[random_n, key_vars]
 #> # A tibble: 3 x 4
 #>   Accident_Severity Speed_limit `Pedestrian_Crossing-Hum… Light_Conditions
 #>               <int>       <int>                     <int>            <int>
-#> 1                 2          30                         0                4
+#> 1                 3          30                         0                1
 #> 2                 3          30                         0                1
-#> 3                 3          20                         0                4
+#> 3                 2          30                         0                1
 crashes_2017[random_n, key_vars]
 #> # A tibble: 3 x 4
-#>   accident_severity speed_limit pedestrian_crossing_hu… light_conditions  
-#>   <chr>                   <int> <chr>                   <chr>             
-#> 1 Serious                    30 None within 50 metres   Darkness - lights…
-#> 2 Slight                     30 None within 50 metres   Daylight          
-#> 3 Slight                     20 None within 50 metres   Darkness - lights…
+#>   accident_severity speed_limit pedestrian_crossing_huma… light_conditions
+#>   <chr>                   <int> <chr>                     <chr>           
+#> 1 Slight                     30 None within 50 metres     Daylight        
+#> 2 Slight                     30 None within 50 metres     Daylight        
+#> 3 Serious                    30 None within 50 metres     Daylight
 ```
 
 <!-- More data can be read-in as follows: -->

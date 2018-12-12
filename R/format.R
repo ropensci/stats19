@@ -25,9 +25,6 @@ format_accidents = function(x) {
   vkeep = new_names %in% stats19_schema$variable_formatted # new way with summary(vkeep) 12 true
   vars_to_change = which(vkeep)
 
-  # # testing: - todo: remove these when function works for all vars
-  message("Keeping these variables: ", paste(old_names[!vkeep], collapse = ", "))
-
   for(i in vars_to_change) {
     lookup_col_name = lkp$column_name[lkp$column_name == new_names[i]]
     lookup = stats19_schema[stats19_schema$variable_formatted == lookup_col_name, 1:2]
@@ -54,15 +51,9 @@ format_casualties = function(x) {
   new_names = format_column_names(old_names)
   names(x) = new_names
 
-  # create lookup table
   lkp = stats19_variables[stats19_variables$table == "casualties", ]
-
-  # vkeep = old_names %in% lkp$new_name # old way with summary(vkeep) 5 true
   vkeep = new_names %in% stats19_schema$variable_formatted # new way with summary(vkeep) 12 true
   vars_to_change = which(vkeep)
-
-  # # testing: - todo: remove these when function works for all vars
-  message("Keeping these variables: ", paste(old_names[!vkeep], collapse = ", "))
 
   for(i in vars_to_change) {
     lookup_col_name = lkp$column_name[lkp$column_name == new_names[i]]
@@ -97,12 +88,8 @@ format_vehicles = function(x) {
 
   # create lookup table
   lkp = stats19_variables[stats19_variables$table == "vehicles",]
-
   vkeep = new_names %in% stats19_schema$variable_formatted
   vars_to_change = which(vkeep)
-
-  # # testing: - todo: remove these when function works for all vars
-  message("Keeping these variables: ", paste(new_names[!vkeep], collapse = ", "))
 
   for(i in vars_to_change) {
     lookup_col_name = lkp$column_name[lkp$column_name == new_names[i]]
