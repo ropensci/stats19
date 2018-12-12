@@ -54,18 +54,10 @@ dl_stats19 = function(year = NULL,
     zip_url = get_url(file_name = file_name)
   }
 
-  if (length(nfiles_found) == 0) {
-    message("For parameters ", "year: ", year, ", type: ", type)
-    stop("No results found, please try again")
-  }
   message("Files identified: ", paste0(fnames, "\n"))
-  if (identical(fnames, "Stats19-Data1979-2004.zip")) {
-    # extra warnings
-    message("\033[31mThis file is over 240 MB in size.\033[39m")
-    message("\033[31mOnce unzipped it is over 1.8 GB.\033[39m")
-  }
+
   if(interactive() & !many_found) {
-    resp = readline(phrase(data_dir))
+    resp = readline(phrase())
     if (resp != "" | grepl(pattern = "yes|y", x = resp)) {
       stop("Stopping as requested")
     }

@@ -4,14 +4,11 @@
 \alias{phrase}
 \title{Generate a phrase for data download purposes}
 \usage{
-phrase(data_dir)
-}
-\arguments{
-\item{data_dir}{Parent directory for all downloaded files. Defaults to `tempdir()`}
+phrase()
 }
 \description{
 Generate a phrase for data download purposes
 }
 \examples{
-stats19:::phrase(tempdir())
+stats19:::phrase()
 }

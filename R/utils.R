@@ -91,6 +91,11 @@ find_file_name = function(years = NULL, type = NULL) {
       }
     }
   }
+  if (any(grepl("Stats19-Data1979-2004.zip", result))) {
+    # extra warnings
+    message("\033[31mThis file is over 240 MB in size.\033[39m")
+    message("\033[31mOnce unzipped it is over 1.8 GB.\033[39m")
+  }
 
   if(length(result) < 1)
     stop("No files of that type exist")
@@ -201,16 +206,9 @@ download_and_unzip = function(exdir, zip_url, data_dir = tempdir()) {
 }
 utils::globalVariables(c("stats19_variables", "stats19_schema", "skip"))
 #' Generate a phrase for data download purposes
-#' @inheritParams dl_stats19
 #' @examples
-#' stats19:::phrase(tempdir())
-phrase = function(data_dir) {
-  if (!dir.exists(data_dir)) {
-    message(
-      "data_dir \'", data_dir,
-      "\' will also be created as it does not exist"
-    )
-  }
+#' stats19:::phrase()
+phrase = function() {
   txt = c(
     "Happy to go",
     "Good to go",
