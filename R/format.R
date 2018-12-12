@@ -7,40 +7,30 @@
 #' @export
 #' @examples
 #' \dontrun{
-#' dl_stats19(years = 2017, type = "accident")
-#' x = read_accidents()
+#' dl_stats19(year = 2017, type = "accident")
+#' x = read_accidents(year = 2017)
 #' crashes = format_accidents(x)
 #' }
 #' @export
 format_accidents = function(x) {
+
+  # rename colums
   old_names = names(x)
   new_names = format_column_names(old_names)
   names(x) = new_names
 
   # create lookup table
-  lkp = stats19_variables[stats19_variables$table == "accidents", ]
-  lkp = lkp[lkp$type == "character", ]
-  lkp$schema_variable = stats19_vname_switch(lkp$variable)
-  lkp$new_name = gsub(pattern = " ", replacement = "_", lkp$schema_variable)
-  lkp$new_name = stats19_vname_raw(lkp$new_name)
+  lkp = stats19_variables[stats19_variables$table == "accidents",]
 
-  vars_to_change = which(old_names %in% lkp$new_name)
-  # old_names[vars_to_change]
+  vkeep = new_names %in% stats19_schema$variable_formatted # new way with summary(vkeep) 12 true
+  vars_to_change = which(vkeep)
 
-  # # testing:
-  # perfect_matches = lkp$new_name %in% old_names
-  # summary(perfect_matches)
-  # lkp$new_name[perfect_matches]
-  # lkp$new_name[!perfect_matches]
+  # # testing: - todo: remove these when function works for all vars
+  message("Keeping these variables: ", paste(old_names[!vkeep], collapse = ", "))
 
-  # doing it as a for loop for now as easier to debug - could convert to lapply
   for(i in vars_to_change) {
-    # format 1 column for testing
-    lookup_col_name = lkp$schema_variable[lkp$new_name == old_names[i]]
-    lookup = stats19_schema[stats19_schema$variable == lookup_col_name, 1:2]
-    if(length(lookup_col_name) != 1) {
-      message("No single match for ", lookup_col_name)
-    }
+    lookup_col_name = lkp$column_name[lkp$column_name == new_names[i]]
+    lookup = stats19_schema[stats19_schema$variable_formatted == lookup_col_name, 1:2]
     x[[i]] = lookup$label[match(x[[i]], lookup$code)]
   }
   x
@@ -66,22 +56,15 @@ format_casualties = function(x) {
 
   # create lookup table
   lkp = stats19_variables[stats19_variables$table == "casualties", ]
-  lkp = lkp[lkp$type == "character", ] # old solution
-
-  lkp$schema_variable = stats19_vname_switch(lkp$variable)
-  lkp$new_name = gsub(pattern = " ", replacement = "_", lkp$schema_variable)
-  lkp$new_name = stats19_vname_raw(lkp$new_name)
 
   # vkeep = old_names %in% lkp$new_name # old way with summary(vkeep) 5 true
-  vkeep = new_names %in% lkp$column_name # new way with summary(vkeep) 12 true
+  vkeep = new_names %in% stats19_schema$variable_formatted # new way with summary(vkeep) 12 true
   vars_to_change = which(vkeep)
 
   # # testing: - todo: remove these when function works for all vars
-  # message("Changing these variables: ", paste(old_names[vkeep], collapse = ", "))
-  message("Changing these variables: ", paste(old_names[!vkeep], collapse = ", "))
+  message("Keeping these variables: ", paste(old_names[!vkeep], collapse = ", "))
 
   for(i in vars_to_change) {
-    # format 1 column for testing
     lookup_col_name = lkp$column_name[lkp$column_name == new_names[i]]
     lookup = stats19_schema[stats19_schema$variable_formatted == lookup_col_name, 1:2]
     if(length(lookup_col_name) != 1) {
@@ -100,37 +83,30 @@ format_casualties = function(x) {
 #' @export
 #' @examples
 #' \dontrun{
-#' dl_stats19(years = 2017, type = "vehicles")
-#' vehicles_raw = read_vehicles()
+#' dl_stats19(year = 2017, type = "vehicles")
+#' x = read_vehicles(year = 2017)
 #' vehicles = format_vehicles(x)
 #' }
 #' @export
 format_vehicles = function(x) {
+
+  # rename colums
   old_names = names(x)
   new_names = format_column_names(old_names)
   names(x) = new_names
 
   # create lookup table
-  lkp = stats19_variables[stats19_variables$table == "vehicles", ]
-  lkp = lkp[lkp$type == "character", ]
-  lkp$schema_variable = stats19_vname_switch(lkp$variable)
-  lkp$new_name = gsub(pattern = " ", replacement = "_", lkp$schema_variable)
-  lkp$new_name = stats19_vname_raw(lkp$new_name)
+  lkp = stats19_variables[stats19_variables$table == "vehicles",]
 
-  vkeep = old_names %in% lkp$new_name
+  vkeep = new_names %in% stats19_schema$variable_formatted
   vars_to_change = which(vkeep)
 
   # # testing: - todo: remove these when function works for all vars
-  message("Changing these variables: ", old_names[vkeep])
-  message("Not changing these variables: ", old_names[!vkeep])
+  message("Keeping these variables: ", paste(new_names[!vkeep], collapse = ", "))
 
   for(i in vars_to_change) {
-    # format 1 column for testing
-    lookup_col_name = lkp$schema_variable[lkp$new_name == old_names[i]]
-    lookup = stats19_schema[stats19_schema$variable == lookup_col_name, 1:2]
-    if(length(lookup_col_name) != 1) {
-      message("No single match for ", lookup_col_name)
-    }
+    lookup_col_name = lkp$column_name[lkp$column_name == new_names[i]]
+    lookup = stats19_schema[stats19_schema$variable_formatted == lookup_col_name, 1:2]
     x[[i]] = lookup$label[match(x[[i]], lookup$code)]
   }
   x
@@ -145,7 +121,7 @@ format_vehicles = function(x) {
 #' @export
 #' @examples
 #' \dontrun{
-#' crashes_raw = read_accidents()
+#' crashes_raw = read_accidents(year = 2017)
 #' column_names = names(crashes_raw)
 #' column_names
 #' format_column_names(column_names = column_names)
@@ -222,15 +198,9 @@ read_schema = function(
     stats19_variables$column_name = variables_lower
     # head(stats19_variables)
 
-    # export result:
-    # usethis::use_data(stats19_variables, overwrite = TRUE)
-
-    # test results:
-    # sheet_name = stats19_variables$variable[2]
-    # schema_1 = readxl::read_xls(path = file_path, sheet = sheet_name)
+    # export result: usethis::use_data(stats19_variables, overwrite = TRUE)
 
     sel_character = stats19_variables$type == "character"
-
     character_vars = stats19_variables$variable[sel_character]
     character_vars = stats19_vname_switch(character_vars)
 
@@ -238,7 +208,6 @@ read_schema = function(
       X = seq_along(character_vars),
       FUN = function(i) {
         x = readxl::read_xls(path = file_path, sheet = character_vars[i])
-        # x$code = as.character(x$code)
         names(x) = c("code", "label")
         x
       }
@@ -251,13 +220,6 @@ read_schema = function(
     character_cols = stats19_variables$column_name[sel_character]
     stats19_schema$variable_formatted = rep(character_cols, n_categories)
 
-    # test result
-    # sel_schema_in_variables = stats19_schema$variable %in%
-    #   stats19_variables$variable
-    # summary(sel_schema_in_variables)
-    # sel_variables_in_schema = stats19_variables$variable %in%
-    #   stats19_schema$variable
-    # summary(sel_variables_in_schema)
   } else {
     stats19_schema = readxl::read_xls(path = file_path, sheet = sheet)
   }
@@ -332,19 +294,6 @@ stats19_vname_switch = function(x) {
   x = gsub(pattern = "Casualty Home Type", "Home Area Type", x = x)
   x = gsub(pattern = "Casualty IMD Decile", "IMD Decile", x = x)
   x = gsub(pattern = "Journey Purpose of Driver", "Journey Purpose", x = x)
-  x
-}
-
-stats19_vname_raw = function(x) {
-  x = gsub(pattern = "Ped_Cross_-_Human",
-           "Pedestrian_Crossing-Human_Control",
-           x = x)
-  x = gsub(pattern = "Ped_Cross_-_Physical",
-           "Pedestrian_Crossing-Physical_Facilities",
-           x = x)
-  x = gsub(pattern = "Weather", "Weather_Conditions", x = x)
-  x = gsub(pattern = "Road_Surface", "Road_Surface_Conditions", x = x)
-  x = gsub(pattern = "Urban_Rural", "Urban_or_Rural_Area", x = x)
   x
 }
 

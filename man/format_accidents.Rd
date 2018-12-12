@@ -19,8 +19,8 @@ This is a helper function to format raw stats19 data
 
 \examples{
 \dontrun{
-dl_stats19(years = 2017, type = "accident")
-x = read_accidents()
+dl_stats19(year = 2017, type = "accident")
+x = read_accidents(year = 2017)
 crashes = format_accidents(x)
 }
 }
