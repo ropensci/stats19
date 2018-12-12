@@ -11,7 +11,7 @@ test_that("read_schema works", {
 context("test-format: accidents")
 
 test_that("format_accidents works", {
-  df = format_accidents(stats19::accidents_2016_sample)
+  df = format_accidents(stats19::accidents_sample_raw)
   expect_equal(nrow(df), 2)
 })
 
@@ -50,11 +50,11 @@ test_that("format_casualties works", {
 context("test-format: sf")
 test_that("format_column_names works", {
   # basic
-  rd = names(stats19::accidents_2016_sample)
+  rd = names(stats19::accidents_sample_raw)
   expect_equal(nrow(rd), nrow(format_column_names(rd)))
 })
 test_that("format_sf works", {
-  rd = format_accidents(stats19::accidents_2016_sample)
+  rd = format_accidents(stats19::accidents_sample_raw)
   df1 = format_sf(rd)
   df2 = format_sf(rd, lonlat = TRUE)
   expect_equal(nrow(df1), 2)
