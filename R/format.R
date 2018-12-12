@@ -249,11 +249,16 @@ read_schema = function(
     n_categories = vapply(schema_list, nrow, FUN.VALUE = integer(1))
     stats19_schema$variable = rep(character_vars, n_categories)
 
+    character_cols = stats19_variables$column_name[sel_character]
+    stats19_schema$variable_formatted = rep(character_cols, n_categories)
+
     # test result
-    sel_schema_in_variables = stats19_schema$variable %in%
-      stats19_variables$variable
-    sel_variables_in_schema = stats19_variables$variable %in%
-      stats19_schema$variable
+    # sel_schema_in_variables = stats19_schema$variable %in%
+    #   stats19_variables$variable
+    # summary(sel_schema_in_variables)
+    # sel_variables_in_schema = stats19_variables$variable %in%
+    #   stats19_schema$variable
+    # summary(sel_variables_in_schema)
   } else {
     stats19_schema = readxl::read_xls(path = file_path, sheet = sheet)
   }
