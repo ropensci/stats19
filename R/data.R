@@ -61,10 +61,39 @@ NULL
 #' @aliases accidents_sample_raw
 #' @format A data frame
 NULL
-# work in progress:
-# Example stats19 data file
-#
-# The data was created using the xcv rust program (see vignette for details).
-# The raw csv file is stored as `ac_2005_2014_100.csv`
-# @rdname ac_2005_2014_100
-# "ac_2005_2014_100"
+#' Sample of stats19 data (2017 casualties)
+#'
+#' @examples
+#' \dontrun{
+#' # Obtained with:
+#' dl_stats19(year = 2017, type = "cas")
+#' casualties_2017_raw = read_casualties(year = 2017)
+#' set.seed(350)
+#' sel = sample(nrow(casualties_2017_raw), 3)
+#' casualties_sample_raw = casualties_2017_raw[sel, ]
+#' casualties_sample = format_casualties(casualties_sample_raw)
+#' }
+#' @docType data
+#' @keywords datasets
+#' @name casualties_sample
+#' @aliases casualties_sample_raw
+#' @format A data frame
+NULL
+#' Sample of stats19 data (2017 vehicles)
+#'
+#' @examples
+#' \dontrun{
+#' # Obtained with:
+#' dl_stats19(year = 2017, type = "veh")
+#' vehicles_2017_raw = read_vehicles(year = 2017)
+#' set.seed(350)
+#' sel = sample(nrow(vehicles_2017_raw), 3)
+#' vehicles_sample_raw = vehicles_2017_raw[sel, ]
+#' vehicles_sample = format_vehicles(vehicles_sample_raw)
+#' }
+#' @docType data
+#' @keywords datasets
+#' @name vehicles_sample
+#' @aliases vehicles_sample_raw
+#' @format A data frame
+NULL
