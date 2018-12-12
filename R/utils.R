@@ -204,7 +204,10 @@ download_and_unzip = function(exdir, zip_url, data_dir = tempdir()) {
   utils::unzip(destfile, exdir = file.path(data_dir, exdir))
   return(zipfiles)
 }
-utils::globalVariables(c("stats19_variables", "stats19_schema", "skip"))
+utils::globalVariables(
+  c("stats19_variables", "stats19_schema", "skip", "accidents_sample",
+    "accidents_sample_raw", "casualties_sample", "casualties_sample_raw",
+    "vehicles_sample", "vehicles_sample_raw"))
 #' Generate a phrase for data download purposes
 #' @examples
 #' stats19:::phrase()

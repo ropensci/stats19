@@ -158,6 +158,7 @@ format_column_names = function(column_names) {
   x = gsub(pattern = "1st", replacement = "first", x = x)
   x = gsub(pattern = "2nd", replacement = "second", x = x)
   x = gsub(pattern = "-", replacement = "_", x = x)
+  x = gsub(pattern = "\\?", replacement = "", x)
   x
 }
 #' Load stats19 schema
@@ -213,7 +214,15 @@ read_schema = function(
     stats19_variables$type = stats19_vtype(stats19_variables$variable)
 
     # add variable linking to names in formatted data
-    names_accidents =
+    names_acc = names(accidents_sample)
+    names_veh = names(vehicles_sample)
+    names_cas = names(casualties_sample)
+    names_all = c(names_acc, names_veh, names_cas)
+
+    variables_lower = schema_to_variable(stats19_variables$variable)
+    # test result
+    variables_lower[!variables_lower %in% names_all]
+    names_all[!names_all %in% variables_lower]
 
     # export result:
     # usethis::use_data(stats19_variables, overwrite = TRUE)
@@ -251,6 +260,20 @@ read_schema = function(
   }
   stats19_schema
 }
+schema_to_variable = function(x) {
+  x = format_column_names(x)
+  x = gsub(pattern = " ", replacement = "_", x = x)
+  x = gsub(pattern = "_null_if_not_known", replacement = "", x)
+  x = gsub(pattern = "_dd/mm/yyyy|_hh:mm", replacement = "", x)
+  x = gsub(pattern = "highway_authority___ons_code", replacement = "highway", x)
+  x = gsub(pattern = "lower_super_ouput_area", replacement = "lsoa", x)
+  x = gsub(pattern = "_england_&_wales_only", replacement = "", x)
+  x = gsub(pattern = "_cc", replacement = "", x)
+  x = gsub(pattern = "vehicle_propulsion_code", replacement = "propulsion_code", x)
+  x = gsub(pattern = "vehicle_propulsion_code", replacement = "propulsion_code", x)
+  x
+}
+
 # Return type of variable of stats19 data - informal test:
 # variable_types = stats19_vtype(stats19_variables$variable)
 # names(variable_types) = stats19_variables$variable
@@ -319,9 +342,6 @@ stats19_vname_raw = function(x) {
   x
 }
 
-schema_to_variable = function(x) {
-  x = gsub()
-}
 #' Format convert stats19 data into spatial (sf) object
 #'
 #' @param x Data frame created with `read_accidents()`
