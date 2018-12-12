@@ -4,12 +4,10 @@
 \alias{format_casualties}
 \title{Format stats19 casualties}
 \usage{
-format_casualties(x, factorize = FALSE)
+format_casualties(x)
 }
 \arguments{
 \item{x}{Data frame created with `read_casualties()`}
-
-\item{factorize}{Should some results be returned as factors? `FALSE` by default}
 }
 \description{
 Format stats19 casualties
@@ -21,8 +19,8 @@ This function formats raw stats19 data
 
 \examples{
 \dontrun{
-dl_stats19(years = 2017, type = "casualties")
-x = read_casualties()
+dl_stats19(year = 2017, type = "casualties")
+x = read_casualties(year = 2017)
 casualties = format_casualties(x)
 }
 }

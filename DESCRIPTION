@@ -20,7 +20,8 @@ Imports:
     sf,
     readr,
     readxl,
-    curl (>= 3.2)
+    curl (>= 3.2),
+    tibble
 Suggests: 
     knitr,
     rmarkdown,
