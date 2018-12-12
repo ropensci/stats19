@@ -142,6 +142,7 @@ format_vehicles = function(x, factorize = FALSE) {
 #' R by default. Names that are all lower case with no R-unfriendly characters
 #' such as spaces and `-` are returned.
 #' @param column_names Column names to be cleaned
+#' @return Column names cleaned.
 #' @export
 #' @examples
 #' \dontrun{

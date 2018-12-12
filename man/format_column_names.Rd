@@ -9,6 +9,9 @@ format_column_names(column_names)
 \arguments{
 \item{column_names}{Column names to be cleaned}
 }
+\value{
+Column names cleaned.
+}
 \description{
 This function takes messy column names and returns clean ones that work well with
 R by default. Names that are all lower case with no R-unfriendly characters

@@ -48,7 +48,11 @@ test_that("format_casualties works", {
 })
 
 context("test-format: sf")
-
+test_that("format_column_names works", {
+  # basic
+  rd = names(stats19::accidents_2016_sample)
+  expect_equal(nrow(rd), nrow(format_column_names(rd)))
+})
 test_that("format_sf works", {
   rd = format_accidents(stats19::accidents_2016_sample)
   df1 = format_sf(rd)
