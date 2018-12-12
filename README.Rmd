@@ -86,9 +86,7 @@ Enter an item from the menu, or 0 to exit
 Downloaded data can then be read-in as follows (assuming the data download went OK):
 
 ```{r}
-d17 = "dftRoadSafetyData_Accidents_2017"
-dl_stats19(file_name = paste0(d17, ".zip"))
-crashes_2017_raw = read_accidents(year = 2017, filename = "Acc.csv")
+crashes_2017_raw = read_accidents(year = 2017)
 crashes_2017 = format_accidents(crashes_2017_raw)
 ```
 
