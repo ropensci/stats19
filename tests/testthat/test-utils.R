@@ -18,7 +18,7 @@ test_that("find_file_name works", {
   expect_equal(find_file_name(years = c("2005", "2006")),
                "Stats19_Data_2005-2014.zip")
   expect_silent(find_file_name(years = c("2014", "2015")))
-  expect_message(find_file_name(years = 2009))
+  expect_silent(find_file_name(years = 2009))
   expect_equal(length(find_file_name(years = c("2014", "2015"),
                                       type = "Accident")), 2)
   # cover https://github.com/ITSLeeds/stats19/issues/21
