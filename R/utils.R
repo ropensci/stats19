@@ -41,7 +41,10 @@ check_year = function(year) {
     message("Year not in range, changing to match 1979:2004 data")
     year = 1979
   }
-  if(year %in% 2006:2013) {
+  # we have an overlap of year 2009 to 2014 as
+  # individual zip files and
+  # bundled within 2005-2014
+  if(year %in% 2006:2008) {
     message("Year not in range, changing to match 2005:2014 data")
     year = 2005
   }
