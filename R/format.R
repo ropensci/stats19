@@ -13,24 +13,7 @@
 #' }
 #' @export
 format_accidents = function(x) {
-
-  # rename colums
-  old_names = names(x)
-  new_names = format_column_names(old_names)
-  names(x) = new_names
-
-  # create lookup table
-  lkp = stats19_variables[stats19_variables$table == "accidents",]
-
-  vkeep = new_names %in% stats19_schema$variable_formatted # new way with summary(vkeep) 12 true
-  vars_to_change = which(vkeep)
-
-  for(i in vars_to_change) {
-    lookup_col_name = lkp$column_name[lkp$column_name == new_names[i]]
-    lookup = stats19_schema[stats19_schema$variable_formatted == lookup_col_name, 1:2]
-    x[[i]] = lookup$label[match(x[[i]], lookup$code)]
-  }
-  x
+  format_stats19(x, type = "accidents")
 }
 #' Format stats19 casualties
 #'
@@ -47,23 +30,7 @@ format_accidents = function(x) {
 #' }
 #' @export
 format_casualties = function(x) {
-  old_names = names(x)
-  new_names = format_column_names(old_names)
-  names(x) = new_names
-
-  lkp = stats19_variables[stats19_variables$table == "casualties", ]
-  vkeep = new_names %in% stats19_schema$variable_formatted # new way with summary(vkeep) 12 true
-  vars_to_change = which(vkeep)
-
-  for(i in vars_to_change) {
-    lookup_col_name = lkp$column_name[lkp$column_name == new_names[i]]
-    lookup = stats19_schema[stats19_schema$variable_formatted == lookup_col_name, 1:2]
-    if(length(lookup_col_name) != 1) {
-      message("No single match for ", lookup_col_name)
-    }
-    x[[i]] = lookup$label[match(x[[i]], lookup$code)]
-  }
-  x
+  format_stats19(x, type = "casualties")
 }
 #' Format stats19 vehicles data
 #'
@@ -80,15 +47,19 @@ format_casualties = function(x) {
 #' }
 #' @export
 format_vehicles = function(x) {
+  format_stats19(x, type = "vehicles")
+}
 
+format_stats19 = function(x, type) {
   # rename colums
   old_names = names(x)
   new_names = format_column_names(old_names)
   names(x) = new_names
 
   # create lookup table
-  lkp = stats19_variables[stats19_variables$table == "vehicles",]
-  vkeep = new_names %in% stats19_schema$variable_formatted
+  lkp = stats19_variables[stats19_variables$table == type,]
+
+  vkeep = new_names %in% stats19_schema$variable_formatted # new way with summary(vkeep) 12 true
   vars_to_change = which(vkeep)
 
   for(i in vars_to_change) {
@@ -98,6 +69,7 @@ format_vehicles = function(x) {
   }
   x
 }
+
 #' Format column names of raw stats19 data
 #'
 #' This function takes messy column names and returns clean ones that work well with
