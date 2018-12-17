@@ -17,10 +17,15 @@ test_that("read_accidents works", {
   # read it
   read = read_accidents(
     year = 2016, # make it unique
-    data_dir = tempdir(),
-    filename = sub(".zip", ".csv", acc_2016)
+    data_dir = tempdir()
+    # filename = sub(".zip", ".csv", acc_2016)
   )
   raw_read = read.csv(path)
+  expect_equal(nrow(read), nrow(raw_read))
+  # read with just file name
+  read = read_accidents(
+    filename = sub(".zip", ".csv", acc_2016)
+  )
   expect_equal(nrow(read), nrow(raw_read))
   expect_error(read_accidents("junk"))
 })
@@ -46,6 +51,14 @@ test_that("read_vehicles works", {
     class(read$Accident_Index),
     class(raw_read$Accident_Index)
     ))
+  # read it using file name only
+  read = read_vehicles(
+    filename = "Veh.csv"
+  )
+  expect_false(identical(
+    class(read$Accident_Index),
+    class(raw_read$Accident_Index)
+  ))
   expect_error(read_vehicles("junk"))
 })
 
