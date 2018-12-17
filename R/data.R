@@ -25,20 +25,24 @@ NULL
 #' File names for easy access
 #'
 #' URL encoded file names. Generated as follows:
-#' Visit URL from Chrome/Firefox
-#' https://data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data
 #'
-#' Enter the browser JavaScript console and run:
-#' filenames = []
-#' list = document.getElementsByClassName("dgu-datafile")
-#' for (var i = 0; i < list.length; i++) {
-#'  filenames.push(list[i].firstElementChild.children[0].href.split("/")[4]);
+#' library(rvest)
+#' #> Loading required package: xml2
+#' library(stringr)
+#' page <- read_html("https://data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data")
+#'
+#' r = page %>%
+#'   html_nodes("a") %>%       # find all links
+#'   html_attr("href") %>%     # get the url
+#'   str_subset("\\.zip")
+#'
+#' dr = c()
+#' for(i in 1:length(r)) {
+#'   dr[i] = sub("http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/",
+#'               "", URLdecode(r[i]))
+#'   dr[i] = sub("http://data.dft.gov.uk/road-accidents-safety-data/",
+#'               "", dr[i])
 #' }
-#' now copy to clipboard
-#' copy(filenames)
-#'
-#' paste into Rstudio and create a vector (file_names)
-#' then
 #' file_names = setNames(as.list(file_names), file_names)
 #' usethis::use_data(file_names)
 #'
