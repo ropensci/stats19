@@ -33,10 +33,11 @@ get_url = function(file_name = "",
 check_year = function(year) {
   year = as.integer(year)
   is_year = all(year %in% 1979:(current_year() - 1))
-  if(!is_year) {
+  if(!is_year || is.na(year) || length(year) == 0) {
     msg = paste0("Years must be in range 1979:", current_year() - 1)
     stop(msg)
   }
+  # valid year, continue
   if(year %in% 1980:2003) {
     message("Year not in range, changing to match 1979:2004 data")
     year = 1979
@@ -162,7 +163,6 @@ locate_one_file = function(filename = NULL,
                            data_dir = tempdir(),
                            year = NULL,
                            type = "Accidents") {
-  year = check_year(year)
   # see if locate_files can pin it down
   path = locate_files(data_dir = data_dir,
                       type = type,
@@ -170,7 +170,7 @@ locate_one_file = function(filename = NULL,
                       quiet = TRUE)
 
   if(length(path) == 0)
-    stop("folder not found") # TODO: Delete this?
+    stop("No files found under: ", data_dir)
 
   scan1 = function(path, type) {
     lf = list.files(path, full.names = TRUE, pattern = ".csv$")
