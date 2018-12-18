@@ -24,6 +24,3 @@ where data from DfT (stats19::filenames) have been downloaded to or NULL.
 Helper function to locate files. Given below params, the function
 returns 0 or more files found at location/names given.
 }
-\examples{
-locate_files(years = 2016)
-}
