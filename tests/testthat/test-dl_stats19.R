@@ -7,13 +7,6 @@ test_that("dl_stats19 works for junk", {
   expect_error(dl_stats19(year = "2999", type = "junk"))
 })
 
-test_that("dl_stats19 requires year", {
-  skip_download()
-  expect_error(dl_stats19()
-               # "Either file_name or year must be specified"
-               )
-})
-
 test_that("dl_stats19 works for no data_dir", {
   # this test is bound to the next
   skip_download()
