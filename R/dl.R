@@ -74,7 +74,7 @@ dl_stats19 = function(year = NULL,
     exdir = sub(".zip", "", fnames),
     data_dir = data_dir
   )
-  message("Data saved at ", f)
+  message("Data saved at ", sub(".zip", "",f))
 }
 
 #' Download stats19 schema

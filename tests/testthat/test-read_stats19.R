@@ -35,11 +35,11 @@ test_that("read_vehicles works", {
   # download real data
   veh_2016 = stats19::file_names$dftRoadSafetyData_Vehicles_2016.zip
   dl_stats19(file_name = veh_2016)
-  path = locate_one_file(
+
+  path = locate_one_file( # need it for raw_read
     data_dir = tempdir(),
     type = "vehicles",
-    year = 2016,
-    filename = "Veh.csv")
+    year = 2016)
   # read it
   read = read_vehicles(
     year = 2016,
@@ -51,7 +51,11 @@ test_that("read_vehicles works", {
     class(read$Accident_Index),
     class(raw_read$Accident_Index)
     ))
-  # read it using file name only
+  # read it using file name only IF only one is Veh.csv is downloaded.
+  # thefore start from clean
+  unlink(tempdir(), recursive = TRUE)
+  dir.create(tempdir())
+  dl_stats19(file_name = veh_2016)
   read = read_vehicles(
     filename = "Veh.csv"
   )
