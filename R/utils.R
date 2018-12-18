@@ -73,7 +73,6 @@ current_year = function() as.integer(format(format(Sys.Date(), "%Y")))
 #' @export
 find_file_name = function(years = NULL, type = NULL) {
 
-  stopifnot(!(is.null(years) & is.null(type)))
   result = unlist(stats19::file_names, use.names = FALSE)
 
   if(!is.null(years)) {
@@ -127,15 +126,11 @@ locate_files = function(data_dir = tempdir(),
   file_names = find_file_name(years = years, type = type)
   file_names = tools::file_path_sans_ext(file_names)
   dir_files = list.dirs(data_dir)
-  files_on_disk = NULL
   # check is any file names match those on disk
-  gr = vapply(file_names, function(i) any(grepl(i, dir_files)),
+  files_on_disk = vapply(file_names, function(i) any(grepl(i, dir_files)),
                 logical(1))
-  if(any(gr)) { # return those on disk which match file names
-    gr = names(gr[which(gr)])
-    index = vapply(gr, function(i) grepl(i, dir_files),
-                     logical(length(dir_files)))
-    files_on_disk = dir_files[index]
+  if(any(files_on_disk)) { # return those on disk which match file names
+    files_on_disk = names(files_on_disk[files_on_disk])
   }
   return(files_on_disk)
 }
@@ -149,7 +144,7 @@ locate_files = function(data_dir = tempdir(),
 #' @param year Single year for which file is to be found.
 #' @param type One of: 'Accidents', 'Casualties', 'Vehicles'; defaults to 'Accidents', ignores case.
 #'
-#' @return One of: path for one file, a message `More than one file found` or NULL
+#' @return One of: path for one file, a message `More than one file found` or error if none found.
 #' @export
 #' @examples
 #' \dontrun{
@@ -159,18 +154,17 @@ locate_files = function(data_dir = tempdir(),
 locate_one_file = function(filename = NULL,
                            data_dir = tempdir(),
                            year = NULL,
-                           type = "Accidents") {
+                           type = NULL) {
   # see if locate_files can pin it down
   path = locate_files(data_dir = data_dir,
                       type = type,
                       years = year,
                       quiet = TRUE)
-
   if(length(path) == 0)
     stop("No files found under: ", data_dir)
 
   scan1 = function(path, type) {
-    lf = list.files(path, full.names = TRUE, pattern = ".csv$")
+    lf = list.files(file.path(data_dir, path), full.names = TRUE, pattern = ".csv$")
     if(!is.null(type))
       lf = lf [grep(type, lf, ignore.case = TRUE)]
     return(lf)
@@ -178,6 +172,8 @@ locate_one_file = function(filename = NULL,
   res = unlist(lapply(path, function(i) scan1(i, type)))
   if(!is.null(filename))
     res = res [grep(filename, res)]
+  if(length(res) > 1)
+    return("More than one file found.")
   return(res)
 }
 
