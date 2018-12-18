@@ -119,9 +119,6 @@ find_file_name = function(years = NULL, type = NULL) {
 #' @return Depending on @param return: full path of a single file found, list of directories
 #' where data from DfT (stats19::filenames) have been downloaded to or NULL.
 #'
-#' @examples
-#' locate_files(years = 2016)
-#' @export
 locate_files = function(data_dir = tempdir(),
                         type = NULL,
                         years = NULL,
