@@ -133,7 +133,7 @@ locate_files = function(data_dir = tempdir(),
   files_on_disk = vapply(file_names, function(i) any(grepl(i, dir_files)),
                 logical(1))
   if(any(files_on_disk)) { # return those on disk which match file names
-    files_on_disk = names(files_on_disk[which(files_on_disk)])
+    files_on_disk = names(files_on_disk[files_on_disk])
   }
   return(files_on_disk)
 }
