@@ -45,7 +45,7 @@ test_that("locate_files & locate_one_file works", {
   x2 = locate_one_file(filename = "Cas.csv", year = 2017, type = "cas")
   expect_true(length(x1) == 1)
   # more tests on locate_files
-  expect_error(locate_files())
+  expect_error(locate_files(year = 2045))
   # from clean start
   unlink(tempdir(), recursive = TRUE)
   dir.create(tempdir())
