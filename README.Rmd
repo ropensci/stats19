@@ -252,7 +252,7 @@ cas_types = casualties_leeds %>%
   summarise(n = sum(n)) %>% 
   spread(casualty_type, n, fill = 0) 
 cas_types$Total = rowSums(cas_types[-1])
-crashes_joined = left_join(crashes_leeds[1], cas_types)
+crashes_joined = left_join(crashes_leeds, cas_types)
 ```
 
 What just happened? We found the subset of casualties that took place in Leeds with reference to the `accident_index` variable.
@@ -270,15 +270,49 @@ plot(crashes_joined[crashes_joined$`Car occupant` > 0, "Car occupant"])
 It is clear from the previous plot that pedestrians, cyclists and car occupants tend to get hurt in different places.
 Car occupant casulaties, for example, are comparatively common on the outskirts of Leeds, where speed limits tend to be higher and where there are comparatively high volumes of motor traffic, compared with the city centre.
 
-Another way of visualising the data, in this case to show the spatial distribution of crashes causing pedestrian casualties by numbers of pedestrians hurt, is with **ggplot2**:
+Another way of visualising the data, in this case to show the spatial distribution of crashes causing pedestrian casualties by number of pedestrians hurt and crash severity, is with **ggplot2**:
 
 ```{r ggplot}
 ggplot(crashes_joined, aes(colour = Total)) +
   geom_sf() +
-  facet_wrap(vars(Pedestrian))
+  facet_grid(vars(accident_severity), vars(Pedestrian))
 ```
 
 Note: Both figures show that pedestrian casualties tend to happen more frequently near the city centre, compared with other types of casualty.
+
+## Time series analysis
+
+We can explore weekly and seasonal trends in crashes by aggregating crashes by day of the year:
+
+```{r dates}
+crashes_dates = crashes_joined %>% 
+  st_set_geometry(NULL) %>% 
+  group_by(date = lubridate::dmy(date)) %>% 
+  summarise(Pedestrian = sum(Pedestrian), Cyclist = sum(Cyclist),
+            `Car occupant` = sum(`Car occupant`)) %>% 
+  gather(mode, casualties, -date)
+ggplot(crashes_dates, aes(date, casualties)) +
+  geom_smooth(aes(colour = mode)) +
+  ylab("Casualties per day")
+```
+
+
+Different types of crashes also tend to happen at different times of day.
+This is illustrated in the plot below, which shows the times of day when people who were travelling by different modes were most commonly injured.
+
+```{r times}
+crash_times = crashes_joined %>% 
+  st_set_geometry(NULL) %>% 
+  group_by(hour = as.numeric(str_sub(time, 1, 2))) %>% 
+  summarise(Pedestrian = sum(Pedestrian), Cyclist = sum(Cyclist),
+            `Car occupant` = sum(`Car occupant`)) %>% 
+  gather(mode, casualties, -hour)
+ggplot(crash_times, aes(hour, casualties)) +
+  geom_line(aes(colour = mode))
+  
+```
+
+Note the morning peak in cycling [see @lovelace_who_2016 form more on this].
 
 ## Next steps
 
@@ -286,7 +320,7 @@ There is much important research that needs to be done to help make the transpor
 Even if you're not working with UK data, we hope that the data provided by **stats19** data can help safety researchers develop new methods to better understand the reasons why people are needlessly hurt and killed on the roads.
 
 The next step is to gain a deeper understanding of **stats19** and the data it provides.
-Then it's time to pose interesting research questions, some of which could provide an evidence-base in support policies that save lives.
+Then it's time to pose interesting research questions, some of which could provide an evidence-base in support policies that save lives [e.g. @sarkar_street_2018].
 For more on these next steps, see the package's introductory vignette.
 
 ## Further information
@@ -296,3 +330,6 @@ The **stats19** package builds on previous work, including:
 - code in the [bikeR](https://github.com/Robinlovelace/bikeR) repo underlying an academic paper on collisions involving cyclists
 - functions in [**stplanr**](https://github.com/ropensci/stplanr/blob/master/R/load-stats19.R) for downloading Stats19 data
 - updated functions related to the [CyIPT](https://github.com/cyipt/stats19) project
+
+## References
+

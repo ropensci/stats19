@@ -98,7 +98,7 @@ dl_stats19(year = 2017, type = "Accidents")
 #> Files identified: dftRoadSafetyData_Accidents_2017.zip
 #> Attempt downloading from:
 #>    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Accidents_2017.zip
-#> Data saved at /tmp/Rtmp1K5WYn/dftRoadSafetyData_Accidents_2017/Acc.csv
+#> Data saved at /tmp/RtmpsAf5xr/dftRoadSafetyData_Accidents_2017/Acc.csv
 ```
 
 Currently, these files are downloaded to a default location of “tempdir”
@@ -146,7 +146,7 @@ section), they can then be read-in as follows:
 ``` r
 crashes_2017_raw = read_accidents(year = 2017)
 #> Reading in:
-#> /tmp/Rtmp1K5WYn/dftRoadSafetyData_Accidents_2017/Acc.csv
+#> /tmp/RtmpsAf5xr/dftRoadSafetyData_Accidents_2017/Acc.csv
 nrow(crashes_2017_raw)
 #> [1] 129982
 ncol(crashes_2017_raw)
@@ -258,7 +258,7 @@ dl_stats19(year = 2017, type = "casualties")
 #> Files identified: dftRoadSafetyData_Casualties_2017.zip
 #> Attempt downloading from:
 #>    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Casualties_2017.zip
-#> Data saved at /tmp/Rtmp1K5WYn/dftRoadSafetyData_Casualties_2017/Cas.csv
+#> Data saved at /tmp/RtmpsAf5xr/dftRoadSafetyData_Casualties_2017/Cas.csv
 casualties_2017_raw = read_casualties(year = 2017)
 nrow(casualties_2017_raw)
 #> [1] 170993
@@ -322,7 +322,7 @@ dl_stats19(year = 2017, type = "vehicles")
 #> Files identified: dftRoadSafetyData_Vehicles_2017.zip
 #> Attempt downloading from:
 #>    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Vehicles_2017.zip
-#> Data saved at /tmp/Rtmp1K5WYn/dftRoadSafetyData_Vehicles_2017/Veh.csv
+#> Data saved at /tmp/RtmpsAf5xr/dftRoadSafetyData_Vehicles_2017/Veh.csv
 vehicles_2017_raw = read_vehicles(year = 2017)
 nrow(vehicles_2017_raw)
 #> [1] 238926
@@ -429,7 +429,7 @@ cas_types = casualties_leeds %>%
   summarise(n = sum(n)) %>% 
   spread(casualty_type, n, fill = 0) 
 cas_types$Total = rowSums(cas_types[-1])
-crashes_joined = left_join(crashes_leeds[1], cas_types)
+crashes_joined = left_join(crashes_leeds, cas_types)
 #> Joining, by = "accident_index"
 ```
 
@@ -458,19 +458,60 @@ speed limits tend to be higher and where there are comparatively high
 volumes of motor traffic, compared with the city centre.
 
 Another way of visualising the data, in this case to show the spatial
-distribution of crashes causing pedestrian casualties by numbers of
-pedestrians hurt, is with **ggplot2**:
+distribution of crashes causing pedestrian casualties by number of
+pedestrians hurt and crash severity, is with **ggplot2**:
 
 ``` r
 ggplot(crashes_joined, aes(colour = Total)) +
   geom_sf() +
-  facet_wrap(vars(Pedestrian))
+  facet_grid(vars(accident_severity), vars(Pedestrian))
 ```
 
 <img src="man/figures/README-ggplot-1.png" width="100%" />
 
 Note: Both figures show that pedestrian casualties tend to happen more
 frequently near the city centre, compared with other types of casualty.
+
+## Time series analysis
+
+We can explore weekly and seasonal trends in crashes by aggregating
+crashes by day of the year:
+
+``` r
+crashes_dates = crashes_joined %>% 
+  st_set_geometry(NULL) %>% 
+  group_by(date = lubridate::dmy(date)) %>% 
+  summarise(Pedestrian = sum(Pedestrian), Cyclist = sum(Cyclist),
+            `Car occupant` = sum(`Car occupant`)) %>% 
+  gather(mode, casualties, -date)
+ggplot(crashes_dates, aes(date, casualties)) +
+  geom_smooth(aes(colour = mode)) +
+  ylab("Casualties per day")
+#> `geom_smooth()` using method = 'loess' and formula 'y ~ x'
+```
+
+<img src="man/figures/README-dates-1.png" width="100%" />
+
+Different types of crashes also tend to happen at different times of
+day. This is illustrated in the plot below, which shows the times of day
+when people who were travelling by different modes were most commonly
+injured.
+
+``` r
+crash_times = crashes_joined %>% 
+  st_set_geometry(NULL) %>% 
+  group_by(hour = as.numeric(str_sub(time, 1, 2))) %>% 
+  summarise(Pedestrian = sum(Pedestrian), Cyclist = sum(Cyclist),
+            `Car occupant` = sum(`Car occupant`)) %>% 
+  gather(mode, casualties, -hour)
+ggplot(crash_times, aes(hour, casualties)) +
+  geom_line(aes(colour = mode))
+```
+
+<img src="man/figures/README-times-1.png" width="100%" />
+
+Note the morning peak in cycling (see Lovelace, Roberts, and Kellar 2016
+form more on this).
 
 ## Next steps
 
@@ -483,8 +524,8 @@ why people are needlessly hurt and killed on the roads.
 The next step is to gain a deeper understanding of **stats19** and the
 data it provides. Then it’s time to pose interesting research questions,
 some of which could provide an evidence-base in support policies that
-save lives. For more on these next steps, see the package’s introductory
-vignette.
+save lives (e.g. Sarkar, Webster, and Kumari 2018). For more on these
+next steps, see the package’s introductory vignette.
 
 ## Further information
 
@@ -497,3 +538,28 @@ The **stats19** package builds on previous work, including:
     for downloading Stats19 data
   - updated functions related to the
     [CyIPT](https://github.com/cyipt/stats19) project
+
+## References
+
+<div id="refs" class="references">
+
+<div id="ref-lovelace_who_2016">
+
+Lovelace, Robin, Hannah Roberts, and Ian Kellar. 2016. “Who, Where,
+When: The Demographic and Geographic Distribution of Bicycle Crashes in
+West Yorkshire.” *Transportation Research Part F: Traffic Psychology and
+Behaviour*, Bicycling and bicycle safety, 41, Part B.
+<https://doi.org/10.1016/j.trf.2015.02.010>.
+
+</div>
+
+<div id="ref-sarkar_street_2018">
+
+Sarkar, Chinmoy, Chris Webster, and Sarika Kumari. 2018. “Street
+Morphology and Severity of Road Casualties: A 5-Year Study of Greater
+London.” *International Journal of Sustainable Transportation* 12 (7):
+510–25. <https://doi.org/10.1080/15568318.2017.1402972>.
+
+</div>
+
+</div>
