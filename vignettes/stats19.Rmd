@@ -1,11 +1,11 @@
 ---
-title: "stats19"
+title: "Introducing stats19"
 author: 
   - "R Lovelace, M Morgan, L Hama and M Padgam"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{stats19}
+  %\VignetteIndexEntry{stats19-intro}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 bibliography: references.bib
