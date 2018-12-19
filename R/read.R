@@ -132,6 +132,8 @@ check_input_file = function(filename = NULL,
     data_dir = data_dir,
     year = year
   )
+  if(identical(path, "More than one csv file found."))
+    stop("Your parameters return identical filenames under different directories.")
   # have we NOT found a csv to read?
   if (is.null(path) || length(path) == 0 || !endsWith(path, ".csv")
       || !file.exists(path)) {
@@ -139,7 +141,5 @@ check_input_file = function(filename = NULL,
     message(path)
     stop("Change data_dir, filename, year or run dl_stats19() first.")
   }
-  if(identical(path, "More than one csv file found."))
-    stop("Your parameters return identical filenames under different directories.")
   return(path)
 }
