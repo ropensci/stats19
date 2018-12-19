@@ -29,6 +29,12 @@ test_that("read_accidents works", {
     filename = sub(".zip", ".csv", acc_2016)
   )
   expect_equal(nrow(read), nrow(raw_read))
+  # read with just file name and format
+  read = read_accidents(
+    filename = sub(".zip", ".csv", acc_2016),
+    format = TRUE
+  )
+  expect_equal(nrow(read), nrow(raw_read))
   expect_error(read_accidents("junk"))
 })
 
@@ -53,6 +59,16 @@ test_that("read_vehicles works", {
     class(read$Accident_Index),
     class(raw_read$Accident_Index)
     ))
+  read_formatted = read_vehicles(
+    year = 2016,
+    data_dir = tempdir(),
+    filename = "Veh.csv",
+    format = TRUE
+  )
+  expect_false(identical(
+    class(names(read)[1]),
+    class(names(read_formatted[1]))
+  ))
   # read it using file name only IF only one is Veh.csv is downloaded.
   # thefore start from clean
   unlink(tempdir(), recursive = TRUE)
@@ -92,6 +108,16 @@ test_that("read_casualties works", {
   expect_false(identical(
     class(read$Accident_Index),
     class(raw_read$Accident_Index)
+  ))
+  read_formatted = read_casualties(
+    year = 2016,
+    data_dir = tempdir(),
+    filename = "Veh.csv",
+    format = TRUE
+  )
+  expect_false(identical(
+    class(names(read)[1]),
+    class(names(read_formatted[1]))
   ))
   expect_error(read_vehicles("junk"))
 })
