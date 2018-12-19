@@ -19,3 +19,5 @@
 ^dftRoadSafetyData_Accidents_2017$
 ^dftRoadSafetyData_Accidents_2017.zip$
 responses*
+^paper\.md$
+^paper\.bib$
