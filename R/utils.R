@@ -173,7 +173,7 @@ locate_one_file = function(filename = NULL,
   if(!is.null(filename))
     res = res [grep(filename, res)]
   if(length(res) > 1)
-    return("More than one file found.")
+    return("More than one csv file found.")
   return(res)
 }
 
