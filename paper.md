@@ -17,7 +17,7 @@ authors:
  - name: M Padgam
    affiliations: 2
 affiliations:
- - name: ITS/LIDA, University of Leeds
+ - name: Insititute for Transport Studies (ITS) and Leeds Institute for Data Analytics (LIDA), University of Leeds
    index: 1
  - name: ATFutures GmbH.
    index: 2

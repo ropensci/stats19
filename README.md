@@ -15,27 +15,53 @@ downloads](http://cranlogs.r-pkg.org/badges/stats19)](http://www.r-pkg.org/pkg/s
 
 # stats19
 
-The goal of **stats19** is to make it easy to work with road crash data.
-Specifically it enables access to and processing of the UK’s official
-road traffic casualty database, which is called
-[STATS19](https://data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data).
-The name comes from the form used by the police to record car crashes
-and other incidents resulting in casualties on the roads.
+**stats19** provides functions to download and format road crash data.
+Specifically, it enables access to the UK’s official road traffic
+casualty database,
+[STATS19](https://data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data)
+(the name comes from the form used by the police to record car crashes
+and other incidents resulting in casualties on the roads).
 
-A description of the stats19 data and variables they contain can be
+The data, in its original form, is provided as a series of .csv files
+that are stored in dozens of `.zip` files. Finding, reading-in and
+formatting the data for research can be a time consuming process subject
+to human error. **stats19** speeds-up this vital data access and
+cleaning stage of the research process, enabling reproducibility, but
+streamlining the work into 3 stages:
+
+  - **Download**: This stage is taken care of by the `dl_stats19()`
+    function. `year`, `type` and `filename` arguments make it easy to
+    find the right file for your research question.
+
+  - **Read**: STATS19 data is provided in a particular format that
+    benefits from being read-in with pre-specified column types. This is
+    taken care of with `read_*()` functions corresponding to the 3 main
+    tables in STATS19 data:
+    
+      - `read_accidents()` reads-in the crash data (which has one row
+        per incident)
+      - `read_casualties()` reads-in the casualty data (which has one
+        row per person injured or killed)
+      - `read_vehicles()` reads-in the vehicles table, which contains
+        information on the vehicles involved in the crashes (one row per
+        vehicle)
+
+  - **Format**: in this stage labels are added to the tables. The raw
+    data provided by the DfT contains only integers. Running the
+    following commands converts these integer values to the
+    corresponding character variables, for each of the three tables:
+    
+      - `read_accidents()` adds labels to the accidents table. The
+        values in the `accident_severity` column, for example, are
+        converted from `1`, `2` and `3` into `Slight`, `Serious` or
+        `Fatal`.
+      - `read_casualties()` formats the casualty data
+      - `read_vehicles()`formats the vehicle data
+
+A full description of the stats19 data and variables they contain can be
 found in a
 [document](http://data.dft.gov.uk/road-accidents-safety-data/Brief-guide-to%20road-accidents-and-safety-data.doc)
 hosted by the UK’s Department for Transport (DfT).
-
-The package builds on previous work including:
-
-  - code in the [bikeR](https://github.com/Robinlovelace/bikeR) repo
-    underlying an academic paper on collisions involving cyclists
-  - functions in
-    [**stplanr**](https://github.com/ropensci/stplanr/blob/master/R/load-stats19.R)
-    for downloading Stats19 data
-  - updated functions related to the
-    [CyIPT](https://github.com/cyipt/stats19) project
 
 ## Installation
 
@@ -72,7 +98,7 @@ dl_stats19(year = 2017, type = "Accidents")
 #> Files identified: dftRoadSafetyData_Accidents_2017.zip
 #> Attempt downloading from:
 #>    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Accidents_2017.zip
-#> Data saved at /tmp/RtmpvOe1Yt/dftRoadSafetyData_Accidents_2017.zip/Acc.csv
+#> Data saved at /tmp/RtmpRFicvs/dftRoadSafetyData_Accidents_2017/Acc.csv
 ```
 
 Currently, these files are downloaded to a default location of “tempdir”
@@ -106,7 +132,7 @@ download went OK):
 ``` r
 crashes_2017_raw = read_accidents(year = 2017)
 #> Reading in:
-#> /tmp/RtmpvOe1Yt/dftRoadSafetyData_Accidents_2017/Acc.csv
+#> /tmp/RtmpRFicvs/dftRoadSafetyData_Accidents_2017/Acc.csv
 crashes_2017 = format_accidents(crashes_2017_raw)
 ```
 
@@ -127,18 +153,30 @@ key_vars = grep(key_patt, x = names(crashes_2017_raw), ignore.case = TRUE)
 random_n = sample(x = nrow(crashes_2017_raw), size = 3)
 crashes_2017_raw[random_n, key_vars]
 #> # A tibble: 3 x 4
-#>   Accident_Severity Speed_limit `Pedestrian_Crossing-Hum… Light_Conditions
-#>               <int>       <int>                     <int>            <int>
-#> 1                 3          30                         0                1
-#> 2                 3          30                         0                1
-#> 3                 2          30                         0                1
+#>   Accident_Severity Speed_limit `Pedestrian_Crossing-Huma… Light_Conditions
+#>               <int>       <int>                      <int>            <int>
+#> 1                 3          30                          0                1
+#> 2                 3          30                          0                7
+#> 3                 3          30                          0                1
 crashes_2017[random_n, key_vars]
 #> # A tibble: 3 x 4
-#>   accident_severity speed_limit pedestrian_crossing_huma… light_conditions
-#>   <chr>                   <int> <chr>                     <chr>           
-#> 1 Slight                     30 None within 50 metres     Daylight        
-#> 2 Slight                     30 None within 50 metres     Daylight        
-#> 3 Serious                    30 None within 50 metres     Daylight
+#>   accident_severity speed_limit pedestrian_crossing_h… light_conditions    
+#>   <chr>                   <int> <chr>                  <chr>               
+#> 1 Slight                     30 None within 50 metres  Daylight            
+#> 2 Slight                     30 None within 50 metres  Darkness - lighting…
+#> 3 Slight                     30 None within 50 metres  Daylight
 ```
 
 <!-- More data can be read-in as follows: -->
+
+## Further information
+
+The **stats19** package builds on previous work, including:
+
+  - code in the [bikeR](https://github.com/Robinlovelace/bikeR) repo
+    underlying an academic paper on collisions involving cyclists
+  - functions in
+    [**stplanr**](https://github.com/ropensci/stplanr/blob/master/R/load-stats19.R)
+    for downloading Stats19 data
+  - updated functions related to the
+    [CyIPT](https://github.com/cyipt/stats19) project
