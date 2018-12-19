@@ -28,7 +28,7 @@ Specifically, it enables access to the UK's official road traffic casualty datab
 
 The data, in its original form, is provided as a series of .csv files that are stored in dozens of `.zip` files.
 Finding, reading-in and formatting the data for research can be a time consuming process subject to human error.
-**stats19** speeds-up this vital data access and cleaning stage of the research process, enabling reproducibility, but streamlining the work into 3 stages:
+**stats19** speeds-up these vital data access and cleaning stages of the research process, enabling reproducibility, by streamlining the work into 3 stages:
 
 - **Download**: This stage is taken care of by the `dl_stats19()` function. `year`, `type` and `filename` arguments make it easy to find the right file for your research question.
 
