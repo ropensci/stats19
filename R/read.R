@@ -1,4 +1,4 @@
-#' Import and Stats19 data on road traffic casualties
+#' Read in stats19 road safety data from .csv files downloaded.
 #'
 #' @section Details:
 #' This is a wrapper function to access and load stats 19 data in a user-friendly way.
@@ -48,7 +48,7 @@ read_accidents = function(year = NULL,
 
 }
 
-#' Import and Stats19 data on vehicles
+#' Read in stats19 road safety data from .csv files downloaded.
 #'
 #' @section Details:
 #' The function returns a data frame, in which each record is a reported vehicle in the
@@ -79,7 +79,7 @@ read_vehicles = function(year = NULL,
   ve
 }
 
-#' Import and Stats19 data on casualties
+#' Read in stats19 road safety data from .csv files downloaded.
 #'
 #' @section Details:
 #' The function returns a data frame, in which each record is a reported casualty

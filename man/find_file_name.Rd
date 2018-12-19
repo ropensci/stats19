@@ -12,7 +12,7 @@ find_file_name(years = NULL, type = NULL)
 \item{type}{One of 'Accidents', 'Casualties', 'Vehicles'; defaults to 'Accidents', ignores case.}
 }
 \description{
-Currently, there are 52 file names to download data from.
+Currently, there are 52 file names to download/read data from.
 }
 \examples{
 find_file_name(2016)

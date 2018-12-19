@@ -10,7 +10,7 @@ dl_schema(data_dir = tempdir())
 \item{data_dir}{Location to download, defaults to `tempdir()`}
 }
 \description{
-This downloads an excel spreadsheet containing variable names and categories
+This function downloads an excel spreadsheet containing variable names and categories
 }
 \examples{
 \dontrun{
