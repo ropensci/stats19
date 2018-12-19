@@ -58,6 +58,10 @@ streamlining the work into 3 stages:
       - `read_casualties()` formats the casualty data
       - `read_vehicles()`formats the vehicle data
 
+By default, stages 2 and 3 are done automatically in the `read_*()`
+functions. To read-in the raw data, without formatting, set `format =
+FALSE`.
+
 A full description of the stats19 data and variables they contain can be
 found in a
 [document](http://data.dft.gov.uk/road-accidents-safety-data/Brief-guide-to%20road-accidents-and-safety-data.doc)
@@ -98,7 +102,7 @@ dl_stats19(year = 2017, type = "Accidents")
 #> Files identified: dftRoadSafetyData_Accidents_2017.zip
 #> Attempt downloading from:
 #>    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Accidents_2017.zip
-#> Data saved at /tmp/RtmpsAf5xr/dftRoadSafetyData_Accidents_2017/Acc.csv
+#> Data saved at /tmp/Rtmp3vAbgg/dftRoadSafetyData_Accidents_2017/Acc.csv
 ```
 
 Currently, these files are downloaded to a default location of “tempdir”
@@ -129,12 +133,11 @@ dl_stats19(year = 2017)
 As mentioned above STATS19 contains 3 main tables:
 
   - Accidents, the main table which contains information on the crash
-    time, location and other variables (`ncol(accidents_sample)` columns
-    in total)
-  - Casualties, with data on the people hurt or killed in each crash
-    (`ncol(casualties_sample)` columns in total)
+    time, location and other variables (32 columns in total)
+  - Casualties, with data on the people hurt or killed in each crash (16
+    columns in total)
   - Vehicles, with data on the vehicles involved in or causing each
-    crash (`ncol(vehicles_sample)` columns in total)
+    crash (23 columns in total)
 
 Code to read-in and format each of these tables is demonstrated below.
 
@@ -144,14 +147,14 @@ After raw data files have been downloaded (as described in the previous
 section), they can then be read-in as follows:
 
 ``` r
-crashes_2017_raw = read_accidents(year = 2017)
+crashes_2017_raw = read_accidents(year = 2017, format = FALSE)
 #> Reading in:
-#> /tmp/RtmpsAf5xr/dftRoadSafetyData_Accidents_2017/Acc.csv
+#> /tmp/Rtmp3vAbgg/dftRoadSafetyData_Accidents_2017/Acc.csv
+crashes_2017 = format_accidents(crashes_2017_raw)
 nrow(crashes_2017_raw)
 #> [1] 129982
 ncol(crashes_2017_raw)
 #> [1] 32
-crashes_2017 = format_accidents(crashes_2017_raw)
 ```
 
 What just happened? We read-in data on all road crashes recorded by the
@@ -160,8 +163,9 @@ police in 2017 across Great Britain. The dataset contains 32 columns
 
 This work was done by `read_accidents()`, which imported the ‘raw’
 Stats19 data without cleaning messy column names or re-categorising the
-outputs. `format_accidents()` does the formatting work, automating the
-process of matching column names with variable names and labels in a
+outputs (by default `format = TRUE`, meaning the datasets are formated
+when read-in). `format_accidents()` does the formatting work, automating
+the process of matching column names with variable names and labels in a
 [`.xls`
 file](http://data.dft.gov.uk/road-accidents-safety-data/Road-Accident-Safety-Data-Guide.xls)
 provided by the DfT. This means `crashes_2017` is much more usable than
@@ -201,43 +205,8 @@ crashes_2017[c(7, 18, 23, 25)]
 #> # ... with 129,972 more rows
 ```
 
-The full list of column names in the `crashes` dataset is:
-
-``` r
-names(crashes_2017)
-#>  [1] "accident_index"                             
-#>  [2] "location_easting_osgr"                      
-#>  [3] "location_northing_osgr"                     
-#>  [4] "longitude"                                  
-#>  [5] "latitude"                                   
-#>  [6] "police_force"                               
-#>  [7] "accident_severity"                          
-#>  [8] "number_of_vehicles"                         
-#>  [9] "number_of_casualties"                       
-#> [10] "date"                                       
-#> [11] "day_of_week"                                
-#> [12] "time"                                       
-#> [13] "local_authority_district"                   
-#> [14] "local_authority_highway"                    
-#> [15] "first_road_class"                           
-#> [16] "first_road_number"                          
-#> [17] "road_type"                                  
-#> [18] "speed_limit"                                
-#> [19] "junction_detail"                            
-#> [20] "junction_control"                           
-#> [21] "second_road_class"                          
-#> [22] "second_road_number"                         
-#> [23] "pedestrian_crossing_human_control"          
-#> [24] "pedestrian_crossing_physical_facilities"    
-#> [25] "light_conditions"                           
-#> [26] "weather_conditions"                         
-#> [27] "road_surface_conditions"                    
-#> [28] "special_conditions_at_site"                 
-#> [29] "carriageway_hazards"                        
-#> [30] "urban_or_rural_area"                        
-#> [31] "did_police_officer_attend_scene_of_accident"
-#> [32] "lsoa_of_accident_location"
-```
+For the full list of columns, run `names(crashes)` or see the
+vignette.
 
 <!-- This means `crashes_2017` is much more usable than `crashes_2017_raw`, as shown below, which shows three records and some key variables in the messy and clean datasets: -->
 
@@ -258,13 +227,12 @@ dl_stats19(year = 2017, type = "casualties")
 #> Files identified: dftRoadSafetyData_Casualties_2017.zip
 #> Attempt downloading from:
 #>    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Casualties_2017.zip
-#> Data saved at /tmp/RtmpsAf5xr/dftRoadSafetyData_Casualties_2017/Cas.csv
-casualties_2017_raw = read_casualties(year = 2017)
-nrow(casualties_2017_raw)
+#> Data saved at /tmp/Rtmp3vAbgg/dftRoadSafetyData_Casualties_2017/Cas.csv
+casualties_2017 = read_casualties(year = 2017)
+nrow(casualties_2017)
 #> [1] 170993
-ncol(casualties_2017_raw)
+ncol(casualties_2017)
 #> [1] 16
-casualties_2017 = format_casualties(casualties_2017_raw)
 ```
 
 The results show that there were 170993 casualties reported by the
@@ -322,13 +290,12 @@ dl_stats19(year = 2017, type = "vehicles")
 #> Files identified: dftRoadSafetyData_Vehicles_2017.zip
 #> Attempt downloading from:
 #>    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Vehicles_2017.zip
-#> Data saved at /tmp/RtmpsAf5xr/dftRoadSafetyData_Vehicles_2017/Veh.csv
-vehicles_2017_raw = read_vehicles(year = 2017)
-nrow(vehicles_2017_raw)
+#> Data saved at /tmp/Rtmp3vAbgg/dftRoadSafetyData_Vehicles_2017/Veh.csv
+vehicles_2017 = read_vehicles(year = 2017)
+nrow(vehicles_2017)
 #> [1] 238926
-ncol(vehicles_2017_raw)
+ncol(vehicles_2017)
 #> [1] 23
-vehicles_2017 = format_vehicles(vehicles_2017_raw)
 ```
 
 The results show that there were 238926 vehicles involved in crashes

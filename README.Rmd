@@ -44,6 +44,9 @@ Finding, reading-in and formatting the data for research can be a time consuming
   - `read_casualties()` formats the casualty data
   - `read_vehicles()`formats the vehicle data
 
+By default, stages 2 and 3 are done automatically in the `read_*()` functions.
+To read-in the raw data, without formatting, set `format = FALSE`.
+
 A full description of the stats19 data and variables they contain can be found in a [document](http://data.dft.gov.uk/road-accidents-safety-data/Brief-guide-to%20road-accidents-and-safety-data.doc) hosted by the UK's Department for Transport (DfT).
 
 ## Installation
@@ -96,9 +99,9 @@ Enter an item from the menu, or 0 to exit
 
 As mentioned above STATS19 contains 3 main tables:
 
-- Accidents, the main table which contains information on the crash time, location and other variables (`ncol(accidents_sample)` columns in total)
-- Casualties, with data on the people hurt or killed in each crash (`ncol(casualties_sample)` columns in total)
-- Vehicles, with data on the vehicles involved in or causing each crash (`ncol(vehicles_sample)` columns in total)
+- Accidents, the main table which contains information on the crash time, location and other variables (`r ncol(accidents_sample)` columns in total)
+- Casualties, with data on the people hurt or killed in each crash (`r ncol(casualties_sample)` columns in total)
+- Vehicles, with data on the vehicles involved in or causing each crash (`r ncol(vehicles_sample)` columns in total)
 
 Code to read-in and format each of these tables is demonstrated below.
 
@@ -107,17 +110,17 @@ Code to read-in and format each of these tables is demonstrated below.
 After raw data files have been downloaded (as described in the previous section), they can then be read-in as follows:
 
 ```{r}
-crashes_2017_raw = read_accidents(year = 2017)
+crashes_2017_raw = read_accidents(year = 2017, format = FALSE)
+crashes_2017 = format_accidents(crashes_2017_raw)
 nrow(crashes_2017_raw)
 ncol(crashes_2017_raw)
-crashes_2017 = format_accidents(crashes_2017_raw)
 ```
 
 What just happened?
 We read-in data on all road crashes recorded by the police in 2017 across Great Britain.
 The dataset contains `r ncol(crashes_2017_raw)` columns (variables) for `r nrow(crashes_2017_raw)` crashes.
 
-This work was done by `read_accidents()`, which imported the 'raw' Stats19 data without cleaning messy column names or re-categorising the outputs.
+This work was done by `read_accidents()`, which imported the 'raw' Stats19 data without cleaning messy column names or re-categorising the outputs (by default `format = TRUE`, meaning the datasets are formated when read-in).
 `format_accidents()` does the formatting work, automating the process of matching column names with variable names and labels in a [`.xls` file](http://data.dft.gov.uk/road-accidents-safety-data/Road-Accident-Safety-Data-Guide.xls) provided by the DfT.
 This means `crashes_2017` is much more usable than `crashes_2017_raw`, as shown below, which shows some key variables in the messy and clean datasets:
 
@@ -126,11 +129,7 @@ crashes_2017_raw[c(7, 18, 23, 25)]
 crashes_2017[c(7, 18, 23, 25)]
 ```
 
-The full list of column names in the `crashes` dataset is:
-
-```{r}
-names(crashes_2017)
-```
+For the full list of columns, run `names(crashes)` or see the vignette.
 
 <!-- This means `crashes_2017` is much more usable than `crashes_2017_raw`, as shown below, which shows three records and some key variables in the messy and clean datasets: -->
 
@@ -152,14 +151,13 @@ As with `crashes_2017`, casualty data for 2017 can be downloaded, read-in and fo
 
 ```{r}
 dl_stats19(year = 2017, type = "casualties")
-casualties_2017_raw = read_casualties(year = 2017)
-nrow(casualties_2017_raw)
-ncol(casualties_2017_raw)
-casualties_2017 = format_casualties(casualties_2017_raw)
+casualties_2017 = read_casualties(year = 2017)
+nrow(casualties_2017)
+ncol(casualties_2017)
 ```
 
-The results show that there were `r nrow(casualties_2017_raw)` casualties reported by the police in the STATS19 dataset in 2017.
-There are `r ncol(casualties_2017_raw)` columns (variables) on these casualties.
+The results show that there were `r nrow(casualties_2017)` casualties reported by the police in the STATS19 dataset in 2017.
+There are `r ncol(casualties_2017)` columns (variables) on these casualties.
 Values for a sample of these columns is shown below:
 
 ```{r}
@@ -178,14 +176,13 @@ As before, vehicles data for 2017 can be downloaded, read-in and formated as fol
 
 ```{r}
 dl_stats19(year = 2017, type = "vehicles")
-vehicles_2017_raw = read_vehicles(year = 2017)
-nrow(vehicles_2017_raw)
-ncol(vehicles_2017_raw)
-vehicles_2017 = format_vehicles(vehicles_2017_raw)
+vehicles_2017 = read_vehicles(year = 2017)
+nrow(vehicles_2017)
+ncol(vehicles_2017)
 ```
 
-The results show that there were `r nrow(vehicles_2017_raw)` vehicles involved in crashes reported by the police in the STATS19 dataset in 2017.
-There are `r ncol(vehicles_2017_raw)` columns (variables) on these vehicles.
+The results show that there were `r nrow(vehicles_2017)` vehicles involved in crashes reported by the police in the STATS19 dataset in 2017.
+There are `r ncol(vehicles_2017)` columns (variables) on these vehicles.
 Values for a sample of these columns is shown below:
 
 ```{r}
