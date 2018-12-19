@@ -1,0 +1,90 @@
+---
+output: github_document
+---
+
+## Responses to review 1 of stats19
+
+Thanks for the review.
+We've had a chance, after making some changes and fixes to the package, to take-in and act on each of the comments.
+The code-base has evolved substantially since the review, but the fundamental design of the package, with its 3 stage api mirroring workflows that happened before the package was developed, remains unchanged.
+That is:
+
+- `dl_stats19()` downloads files from the DfT. Good news: we have spoken to the relevant people at the Department for Transport and they assured us that the endpoints are stable. The function now uses `menu()` to provide a menu of download options for any year/type combinations and now finds files outside those explicitly mentioned in the file names.
+E.g.:
+
+```{r, eval=FALSE}
+dl_stats19(year = 2017)
+# Multiple matches. Which do you want to download?
+# 
+# 1: dftRoadSafetyData_Vehicles_2017.zip
+# 2: dftRoadSafetyData_Casualties_2017.zip
+# 3: dftRoadSafetyData_Accidents_2017.zip
+dl_stats19(year = 2017, type = "ac")
+# Files identified: dftRoadSafetyData_Accidents_2017.zip
+# 
+# Wanna do it (y = enter, n = esc)? 
+dl_stats19(year = 1985)
+# Year not in range, changing to match 1979:2004 data
+# This file is over 240 MB in size.
+# Once unzipped it is over 1.8 GB.
+# Files identified: Stats19-Data1979-2004.zip
+# 
+# Wanna do it (y = enter, n = esc)?
+```
+
+- `read_*()` these functions remain unchanged, except the order of arguments has changed.
+Like `dl_stats19()`, `year` is now the first argument, which is more intuitive.
+
+- `format_*()` functions have been refactored. Each now uses `format_stats19()` behind the scenes reducing duplication.
+The results are now better: more variables are now labelled.
+
+We'll focus on areas flagged in the review for the rest of this response:
+
+> I would tease a bit more of what's in these data sets. I wasn't entirely sure until I downloaded and opened the supporting documentation. If I were searching for this kind of data, and I didn't know what STATS19 was, I'd like to know I'm in the right place after scanning the README. Maybe a map?
+
+TODO: add a map and a time series plot showing the scale of the data. Also show a sample of the additional casualty and vehicle tables.
+
+> I couldn't load the vignette from the console:
+
+We also could not see the vignette even when installing with `build_vignettes = TRUE`. Is this linked to https://github.com/STAT545-UBC/Discussion/issues/68#issuecomment-67113218 ?
+
+This was the code we ran:
+
+```{r}
+devtools::install_github("ITSLeeds/stats19", build_vignettes = TRUE)
+vignette(package = "stats19")
+```
+
+> Several of the examples failed:
+
+These have now been fixed - thanks for testing and reporting.
+
+> I couldn't find any explicit contributing guidelines in the README, and there is no CONTRIBUTING document.
+
+> The package has an obvious research application according to JOSS's definition
+
+> There is no paper.md.
+
+We will add one with:
+
+- A short summary describing the high-level functionality of the software
+- Authors: A list of authors with their affiliations
+- A statement of need clearly stating problems the software is designed to solve and its target audience.
+- References: with DOIs for all those that have one (e.g. papers, datasets, software).
+
+Review Comments
+
+> A superb and essential package--we need this data and we need it in these formats. The download-format-read-explore workflow is intuitive and relatively frictionless. I have only some brief comments:
+
+> I wonder you could possibly merge the formatting and reading step with a raw = TRUE or format = TRUE argument in the read_* functions. But perhaps that's my tendency towards abstraction. Something like ac = read_accidents(year = 2017, format = TRUE)
+
+> My personal preference would be to have the schema from dl_schema lazily loaded with the package.
+
+> According to the vignette, the dl_* functions are interactive, although the interactivity is commented out in the code. Will the interactivity be returning? Or does the vignette need to be updated?
+
+> Out of curiosity, what's happening with https://github.com/cyipt/stats19? It was updated recently.
+
+> I confess I wish the package name was more expressive--stats19 sounds like an introductory statistics class.
+
+> This data will be used to make many maps. I personally would love a nudge in that direction in either the README or the vignette.
+
