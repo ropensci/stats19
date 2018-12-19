@@ -16,9 +16,9 @@
 #' dl_stats19(year = 2017, type = "Accidents")
 #' ac = read_accidents(year = 2017)
 #' }
-read_accidents = function(filename = "",
-                          data_dir = tempdir(),
-                          year = NULL) {
+read_accidents = function(year = NULL,
+                          filename = "",
+                          data_dir = tempdir()) {
   path = check_input_file(
     filename = filename,
     type = "accidents",
@@ -61,9 +61,9 @@ read_accidents = function(filename = "",
 #' \dontrun{
 #' ve = read_vehicles()
 #' }
-read_vehicles = function(filename = NULL,
-                         data_dir = tempdir(),
-                         year = NULL) {
+read_vehicles = function(year = NULL,
+                         filename = "",
+                         data_dir = tempdir()) {
   # check inputs
   path = check_input_file(
     filename = filename,
@@ -93,9 +93,9 @@ read_vehicles = function(filename = NULL,
 #' dl_stats19(years = 2017, type = "casualties")
 #' casualties = read_casualties()
 #' }
-read_casualties = function(filename = NULL,
-                           data_dir = tempdir(),
-                           year = NULL) {
+read_casualties = function(year = NULL,
+                           filename = "",
+                           data_dir = tempdir()) {
 
   # check inputs
   path = check_input_file(

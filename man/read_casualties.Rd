@@ -4,15 +4,15 @@
 \alias{read_casualties}
 \title{Import and Stats19 data on casualties}
 \usage{
-read_casualties(filename = NULL, data_dir = tempdir(), year = NULL)
+read_casualties(year = NULL, filename = "", data_dir = tempdir())
 }
 \arguments{
+\item{year}{Single year for which data are to be read}
+
 \item{filename}{Character string of the filename of the .csv to read, if this is given, type and
 years determine whether there is a target to read, otherwise disk scan would be needed.}
 
 \item{data_dir}{Where sets of downloaded data would be found.}
-
-\item{year}{Single year for which data are to be read}
 }
 \description{
 Import and Stats19 data on casualties
