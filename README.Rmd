@@ -215,6 +215,80 @@ all_crashes = rbind(crashes_2015_f, crashes_2016_f, crashes_2017_f)
 table(ac$Accident_Severity)
 ```
 
+## Creating geographic crash data
+
+An important feature of STATS19 data is that the 'accidents' table contains geographic coordinates.
+These are provided at ~10m resolution in the UK's official coordinate reference system (the Ordnance Survey National Grid, EPSG code 27700).
+**stats19** converts the non-geographic tables created by `format_accidents()` into a geographic (`sf`) data form with the function `format_sf()` as follows:
+
+```{r}
+crashes_sf = format_sf(crashes_2017)
+```
+
+Note: rows without coordinates are removed, NAs are not permitted in `sf` coordinates.
+Once the data is in this form you can do geographic operations on it.
+The following code chunk, for example, returns all crashes in the Leeds local authority (requires the **ukboundaries** GitHub package):
+
+```{r}
+library(sf)
+leeds_osgb = st_transform(ukboundaries::leeds, crs = 27700)
+crashes_leeds = crashes_sf[leeds_osgb, ]
+```
+
+
+## Joining tables
+
+The three tables we have just read-in can be joined by shared key variables.
+This is demonstrated in the code chunk below, which subsets all casualties that took place in Leeds, and counts the number of casualties by severity for each crash:
+
+```{r}
+sel = casualties_2017$accident_index %in% crashes_leeds$accident_index
+casualties_leeds = casualties_2017[sel, ]
+library(tidyverse)
+cas_types = casualties_leeds %>% 
+  select(accident_index, casualty_type) %>% 
+  mutate(n = 1) %>% 
+  group_by(accident_index, casualty_type) %>% 
+  summarise(n = sum(n)) %>% 
+  spread(casualty_type, n, fill = 0) 
+cas_types$Total = rowSums(cas_types[-1])
+crashes_joined = left_join(crashes_leeds[1], cas_types)
+```
+
+What just happened? We found the subset of casualties that took place in Leeds with reference to the `accident_index` variable.
+Then we used functions from the **tidyverse** package **dplyr** (and `spread()` from **tidyr**) to create a dataset with a column for each casualty type.
+We then joined the updated casualty data onto the `crashes_leeds` dataset.
+The result is a spatial (`sf`) data frame of crashes in Leeds, with columns counting how many road users of different types were hurt.
+We can now explore the spatial distribution of different casualty types as follows:
+
+```{r sfplot, fig.show='hold', out.width="33%"}
+plot(crashes_joined[crashes_joined$Pedestrian > 0, "Pedestrian"])
+plot(crashes_joined[crashes_joined$Cyclist > 0, "Cyclist"])
+plot(crashes_joined[crashes_joined$`Car occupant` > 0, "Car occupant"])
+```
+
+It is clear from the previous plot that pedestrians, cyclists and car occupants tend to get hurt in different places.
+Car occupant casulaties, for example, are comparatively common on the outskirts of Leeds, where speed limits tend to be higher and where there are comparatively high volumes of motor traffic, compared with the city centre.
+
+Another way of visualising the data, in this case to show the spatial distribution of crashes causing pedestrian casualties by numbers of pedestrians hurt, is with **ggplot2**:
+
+```{r ggplot}
+ggplot(crashes_joined, aes(colour = Total)) +
+  geom_sf() +
+  facet_wrap(vars(Pedestrian))
+```
+
+Note: Both figures show that pedestrian casualties tend to happen more frequently near the city centre, compared with other types of casualty.
+
+## Next steps
+
+There is much important research that needs to be done to help make the transport systems in many cities safer.
+Even if you're not working with UK data, we hope that the data provided by **stats19** data can help safety researchers develop new methods to better understand the reasons why people are needlessly hurt and killed on the roads.
+
+The next step is to gain a deeper understanding of **stats19** and the data it provides.
+Then it's time to pose interesting research questions, some of which could provide an evidence-base in support policies that save lives.
+For more on these next steps, see the package's introductory vignette.
+
 ## Further information
 
 The **stats19** package builds on previous work, including:

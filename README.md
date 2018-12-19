@@ -98,7 +98,7 @@ dl_stats19(year = 2017, type = "Accidents")
 #> Files identified: dftRoadSafetyData_Accidents_2017.zip
 #> Attempt downloading from:
 #>    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Accidents_2017.zip
-#> Data saved at /tmp/RtmpIzUU39/dftRoadSafetyData_Accidents_2017/Acc.csv
+#> Data saved at /tmp/Rtmp1K5WYn/dftRoadSafetyData_Accidents_2017/Acc.csv
 ```
 
 Currently, these files are downloaded to a default location of “tempdir”
@@ -146,7 +146,7 @@ section), they can then be read-in as follows:
 ``` r
 crashes_2017_raw = read_accidents(year = 2017)
 #> Reading in:
-#> /tmp/RtmpIzUU39/dftRoadSafetyData_Accidents_2017/Acc.csv
+#> /tmp/Rtmp1K5WYn/dftRoadSafetyData_Accidents_2017/Acc.csv
 nrow(crashes_2017_raw)
 #> [1] 129982
 ncol(crashes_2017_raw)
@@ -258,7 +258,7 @@ dl_stats19(year = 2017, type = "casualties")
 #> Files identified: dftRoadSafetyData_Casualties_2017.zip
 #> Attempt downloading from:
 #>    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Casualties_2017.zip
-#> Data saved at /tmp/RtmpIzUU39/dftRoadSafetyData_Casualties_2017/Cas.csv
+#> Data saved at /tmp/Rtmp1K5WYn/dftRoadSafetyData_Casualties_2017/Cas.csv
 casualties_2017_raw = read_casualties(year = 2017)
 nrow(casualties_2017_raw)
 #> [1] 170993
@@ -322,7 +322,7 @@ dl_stats19(year = 2017, type = "vehicles")
 #> Files identified: dftRoadSafetyData_Vehicles_2017.zip
 #> Attempt downloading from:
 #>    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Vehicles_2017.zip
-#> Data saved at /tmp/RtmpIzUU39/dftRoadSafetyData_Vehicles_2017/Veh.csv
+#> Data saved at /tmp/Rtmp1K5WYn/dftRoadSafetyData_Vehicles_2017/Veh.csv
 vehicles_2017_raw = read_vehicles(year = 2017)
 nrow(vehicles_2017_raw)
 #> [1] 238926
@@ -373,6 +373,118 @@ names(vehicles_2017)
 ```
 
 <!-- More data can be read-in as follows: -->
+
+## Creating geographic crash data
+
+An important feature of STATS19 data is that the ‘accidents’ table
+contains geographic coordinates. These are provided at ~10m resolution
+in the UK’s official coordinate reference system (the Ordnance Survey
+National Grid, EPSG code 27700). **stats19** converts the non-geographic
+tables created by `format_accidents()` into a geographic (`sf`) data
+form with the function `format_sf()` as follows:
+
+``` r
+crashes_sf = format_sf(crashes_2017)
+#> 19 rows removed with no coordinates
+```
+
+Note: rows without coordinates are removed, NAs are not permitted in
+`sf` coordinates. Once the data is in this form you can do geographic
+operations on it. The following code chunk, for example, returns all
+crashes in the Leeds local authority (requires the **ukboundaries**
+GitHub package):
+
+``` r
+library(sf)
+#> Linking to GEOS 3.6.2, GDAL 2.2.3, PROJ 4.9.3
+leeds_osgb = st_transform(ukboundaries::leeds, crs = 27700)
+#> Using default data cache directory ~/.ukboundaries/cache 
+#> Use cache_dir() to change it.
+crashes_leeds = crashes_sf[leeds_osgb, ]
+```
+
+## Joining tables
+
+The three tables we have just read-in can be joined by shared key
+variables. This is demonstrated in the code chunk below, which subsets
+all casualties that took place in Leeds, and counts the number of
+casualties by severity for each crash:
+
+``` r
+sel = casualties_2017$accident_index %in% crashes_leeds$accident_index
+casualties_leeds = casualties_2017[sel, ]
+library(tidyverse)
+#> ── Attaching packages ───────────────────────────────────────────── tidyverse 1.2.1 ──
+#> ✔ ggplot2 3.1.0     ✔ purrr   0.2.5
+#> ✔ tibble  1.4.2     ✔ dplyr   0.7.8
+#> ✔ tidyr   0.8.2     ✔ stringr 1.3.1
+#> ✔ readr   1.3.0     ✔ forcats 0.3.0
+#> ── Conflicts ──────────────────────────────────────────────── tidyverse_conflicts() ──
+#> ✖ dplyr::filter() masks stats::filter()
+#> ✖ dplyr::lag()    masks stats::lag()
+cas_types = casualties_leeds %>% 
+  select(accident_index, casualty_type) %>% 
+  mutate(n = 1) %>% 
+  group_by(accident_index, casualty_type) %>% 
+  summarise(n = sum(n)) %>% 
+  spread(casualty_type, n, fill = 0) 
+cas_types$Total = rowSums(cas_types[-1])
+crashes_joined = left_join(crashes_leeds[1], cas_types)
+#> Joining, by = "accident_index"
+```
+
+What just happened? We found the subset of casualties that took place in
+Leeds with reference to the `accident_index` variable. Then we used
+functions from the **tidyverse** package **dplyr** (and `spread()` from
+**tidyr**) to create a dataset with a column for each casualty type. We
+then joined the updated casualty data onto the `crashes_leeds` dataset.
+The result is a spatial (`sf`) data frame of crashes in Leeds, with
+columns counting how many road users of different types were hurt. We
+can now explore the spatial distribution of different casualty types as
+follows:
+
+``` r
+plot(crashes_joined[crashes_joined$Pedestrian > 0, "Pedestrian"])
+plot(crashes_joined[crashes_joined$Cyclist > 0, "Cyclist"])
+plot(crashes_joined[crashes_joined$`Car occupant` > 0, "Car occupant"])
+```
+
+<img src="man/figures/README-sfplot-1.png" width="33%" /><img src="man/figures/README-sfplot-2.png" width="33%" /><img src="man/figures/README-sfplot-3.png" width="33%" />
+
+It is clear from the previous plot that pedestrians, cyclists and car
+occupants tend to get hurt in different places. Car occupant casulaties,
+for example, are comparatively common on the outskirts of Leeds, where
+speed limits tend to be higher and where there are comparatively high
+volumes of motor traffic, compared with the city centre.
+
+Another way of visualising the data, in this case to show the spatial
+distribution of crashes causing pedestrian casualties by numbers of
+pedestrians hurt, is with **ggplot2**:
+
+``` r
+ggplot(crashes_joined, aes(colour = Total)) +
+  geom_sf() +
+  facet_wrap(vars(Pedestrian))
+```
+
+<img src="man/figures/README-ggplot-1.png" width="100%" />
+
+Note: Both figures show that pedestrian casualties tend to happen more
+frequently near the city centre, compared with other types of casualty.
+
+## Next steps
+
+There is much important research that needs to be done to help make the
+transport systems in many cities safer. Even if you’re not working with
+UK data, we hope that the data provided by **stats19** data can help
+safety researchers develop new methods to better understand the reasons
+why people are needlessly hurt and killed on the roads.
+
+The next step is to gain a deeper understanding of **stats19** and the
+data it provides. Then it’s time to pose interesting research questions,
+some of which could provide an evidence-base in support policies that
+save lives. For more on these next steps, see the package’s introductory
+vignette.
 
 ## Further information
 
