@@ -5,7 +5,7 @@
 \title{Read in stats19 road safety data from .csv files downloaded.}
 \usage{
 read_casualties(year = NULL, filename = "", data_dir = tempdir(),
-  format = FALSE)
+  format = TRUE)
 }
 \arguments{
 \item{year}{Single year for which data are to be read}

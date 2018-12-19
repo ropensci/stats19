@@ -63,11 +63,11 @@ test_that("read_vehicles works", {
     year = 2016,
     data_dir = tempdir(),
     filename = "Veh.csv",
-    format = TRUE
+    format = FALSE
   )
   expect_false(identical(
-    class(names(read)[1]),
-    class(names(read_formatted[1]))
+    names(read)[1],
+    names(read_formatted[1])
   ))
   # read it using file name only IF only one is Veh.csv is downloaded.
   # thefore start from clean
@@ -102,7 +102,8 @@ test_that("read_casualties works", {
   read = read_casualties(
     year = 2016, # make it unique
     data_dir = tempdir(),
-    filename = "Cas.csv"
+    filename = "Cas.csv",
+    format = FALSE
   )
   raw_read = read.csv(path)
   expect_false(identical(
@@ -112,12 +113,11 @@ test_that("read_casualties works", {
   read_formatted = read_casualties(
     year = 2016,
     data_dir = tempdir(),
-    filename = "Veh.csv",
     format = TRUE
   )
   expect_false(identical(
-    class(names(read)[1]),
-    class(names(read_formatted[1]))
+    names(read)[1],
+    names(read_formatted[1])
   ))
   expect_error(read_vehicles("junk"))
 })
