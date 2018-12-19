@@ -102,7 +102,7 @@ dl_stats19(year = 2017, type = "Accidents")
 #> Files identified: dftRoadSafetyData_Accidents_2017.zip
 #> Attempt downloading from:
 #>    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Accidents_2017.zip
-#> Data saved at /tmp/Rtmp3vAbgg/dftRoadSafetyData_Accidents_2017/Acc.csv
+#> Data saved at /tmp/Rtmp8ha1WV/dftRoadSafetyData_Accidents_2017/Acc.csv
 ```
 
 Currently, these files are downloaded to a default location of “tempdir”
@@ -149,7 +149,7 @@ section), they can then be read-in as follows:
 ``` r
 crashes_2017_raw = read_accidents(year = 2017, format = FALSE)
 #> Reading in:
-#> /tmp/Rtmp3vAbgg/dftRoadSafetyData_Accidents_2017/Acc.csv
+#> /tmp/Rtmp8ha1WV/dftRoadSafetyData_Accidents_2017/Acc.csv
 crashes_2017 = format_accidents(crashes_2017_raw)
 nrow(crashes_2017_raw)
 #> [1] 129982
@@ -211,8 +211,8 @@ vignette.
 <!-- This means `crashes_2017` is much more usable than `crashes_2017_raw`, as shown below, which shows three records and some key variables in the messy and clean datasets: -->
 
 **Note**: The Department for Transport calls this table ‘accidents’ but
-a more appropriate term may be more appropriate, according to road
-safety advocacy groups such as
+‘crashes’ is a more appropriate terms, according to road safety
+advocacy groups such as
 [RoadPeace](http://www.roadpeace.org/take-action/crash-not-accident/).
 For this reason we are faithful to the name provided in the data’s
 official documentation but call the resulting datset `crashes`.
@@ -227,7 +227,7 @@ dl_stats19(year = 2017, type = "casualties")
 #> Files identified: dftRoadSafetyData_Casualties_2017.zip
 #> Attempt downloading from:
 #>    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Casualties_2017.zip
-#> Data saved at /tmp/Rtmp3vAbgg/dftRoadSafetyData_Casualties_2017/Cas.csv
+#> Data saved at /tmp/Rtmp8ha1WV/dftRoadSafetyData_Casualties_2017/Cas.csv
 casualties_2017 = read_casualties(year = 2017)
 nrow(casualties_2017)
 #> [1] 170993
@@ -290,7 +290,7 @@ dl_stats19(year = 2017, type = "vehicles")
 #> Files identified: dftRoadSafetyData_Vehicles_2017.zip
 #> Attempt downloading from:
 #>    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Vehicles_2017.zip
-#> Data saved at /tmp/Rtmp3vAbgg/dftRoadSafetyData_Vehicles_2017/Veh.csv
+#> Data saved at /tmp/Rtmp8ha1WV/dftRoadSafetyData_Vehicles_2017/Veh.csv
 vehicles_2017 = read_vehicles(year = 2017)
 nrow(vehicles_2017)
 #> [1] 238926
