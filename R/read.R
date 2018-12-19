@@ -133,7 +133,7 @@ check_input_file = function(filename = NULL,
     year = year
   )
   # have we NOT found a csv to read?
-  if (is.null(path) || length(path) != 1 || !endsWith(path, ".csv")
+  if (is.null(path) || length(path) == 0 || !endsWith(path, ".csv")
       || !file.exists(path)) {
     # locate_files malfunctioned or just path returned with no filename
     message(path)
