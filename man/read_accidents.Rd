@@ -4,7 +4,8 @@
 \alias{read_accidents}
 \title{Read in stats19 road safety data from .csv files downloaded.}
 \usage{
-read_accidents(year = NULL, filename = "", data_dir = tempdir())
+read_accidents(year = NULL, filename = "", data_dir = tempdir(),
+  format = TRUE)
 }
 \arguments{
 \item{year}{Single year for which data are to be read}
@@ -13,6 +14,8 @@ read_accidents(year = NULL, filename = "", data_dir = tempdir())
 years determine whether there is a target to read, otherwise disk scan would be needed.}
 
 \item{data_dir}{Where sets of downloaded data would be found.}
+
+\item{format}{Switch to return raw read from file, default is `FALSE`.}
 }
 \description{
 Read in stats19 road safety data from .csv files downloaded.

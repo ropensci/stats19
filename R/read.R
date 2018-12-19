@@ -9,6 +9,7 @@
 #' years determine whether there is a target to read, otherwise disk scan would be needed.
 #' @param data_dir Where sets of downloaded data would be found.
 #' @param year Single year for which data are to be read
+#' @param format Switch to return raw read from file, default is `FALSE`.
 #'
 #' @export
 #' @examples
@@ -18,7 +19,8 @@
 #' }
 read_accidents = function(year = NULL,
                           filename = "",
-                          data_dir = tempdir()) {
+                          data_dir = tempdir(),
+                          format = TRUE) {
   path = check_input_file(
     filename = filename,
     type = "accidents",
@@ -44,6 +46,8 @@ read_accidents = function(year = NULL,
     )
   })
 
+  if(format)
+    return(format_accidents(ac))
   ac
 
 }
@@ -63,7 +67,8 @@ read_accidents = function(year = NULL,
 #' }
 read_vehicles = function(year = NULL,
                          filename = "",
-                         data_dir = tempdir()) {
+                         data_dir = tempdir(),
+                         format = FALSE) {
   # check inputs
   path = check_input_file(
     filename = filename,
@@ -76,6 +81,8 @@ read_vehicles = function(year = NULL,
     .default = readr::col_integer(),
     Accident_Index = readr::col_character()
   ))
+  if(format)
+    return(format_vehicles(ve))
   ve
 }
 
@@ -95,7 +102,8 @@ read_vehicles = function(year = NULL,
 #' }
 read_casualties = function(year = NULL,
                            filename = "",
-                           data_dir = tempdir()) {
+                           data_dir = tempdir(),
+                           format = FALSE) {
 
   # check inputs
   path = check_input_file(
@@ -109,6 +117,8 @@ read_casualties = function(year = NULL,
     .default = readr::col_integer(),
     Accident_Index = readr::col_character()
   ))
+  if(format)
+    return(format_casualties(ca))
   ca
 }
 
