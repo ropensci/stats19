@@ -3,6 +3,8 @@ context("test-read_stats19")
 source("../skip-download.R")
 
 test_that("read_accidents works", {
+  # expect error for clean data_dir
+  expect_error(read_accidents(year = 2016))
   skip_download()
   # download real data
   acc_2016 = stats19::file_names$dftRoadSafety_Accidents_2016.zip
@@ -64,6 +66,10 @@ test_that("read_vehicles works", {
     class(raw_read$Accident_Index)
   ))
   expect_error(read_vehicles("junk"))
+  # "Your parameters return identical filenames under different directories."
+  dl_stats19(year = 2017, type = 2017)
+  # Now 2016 and 2017 file named `Veh.csv` in.
+  expect_error(read_accidents(filename = "Veh.csv"))
 })
 
 test_that("read_casualties works", {
