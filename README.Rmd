@@ -92,9 +92,19 @@ Selection:
 Enter an item from the menu, or 0 to exit
 ```
 
-## Reading-in data
+## Reading-in and formatting STATS19 data
 
-Downloaded data can then be read-in as follows (assuming the data download went OK):
+As mentioned above STATS19 contains 3 main tables:
+
+- Accidents, the main table which contains information on the crash time, location and other variables (`ncol(accidents_sample)` columns in total)
+- Casualties, with data on the people hurt or killed in each crash (`ncol(casualties_sample)` columns in total)
+- Vehicles, with data on the vehicles involved in or causing each crash (`ncol(vehicles_sample)` columns in total)
+
+Code to read-in and format each of these tables is demonstrated below.
+
+### Crash data
+
+After raw data files have been downloaded (as described in the previous section), they can then be read-in as follows:
 
 ```{r}
 crashes_2017_raw = read_accidents(year = 2017)
@@ -114,6 +124,14 @@ random_n = sample(x = nrow(crashes_2017_raw), size = 3)
 crashes_2017_raw[random_n, key_vars]
 crashes_2017[random_n, key_vars]
 ```
+
+**Note**: The Department for Transport calls this table 'accidents' but a more appropriate term may be more appropriate, according to road safety advocacy groups such as [RoadPeace](http://www.roadpeace.org/take-action/crash-not-accident/).
+For this reason we are faithful to the name provided in the data's official documentation but call the resulting datset `crashes`.
+
+## Casualties data
+
+## Vehicles data
+
 
 <!-- More data can be read-in as follows: -->
 
