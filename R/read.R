@@ -68,7 +68,7 @@ read_accidents = function(year = NULL,
 read_vehicles = function(year = NULL,
                          filename = "",
                          data_dir = tempdir(),
-                         format = FALSE) {
+                         format = TRUE) {
   # check inputs
   path = check_input_file(
     filename = filename,
@@ -103,7 +103,7 @@ read_vehicles = function(year = NULL,
 read_casualties = function(year = NULL,
                            filename = "",
                            data_dir = tempdir(),
-                           format = FALSE) {
+                           format = TRUE) {
 
   # check inputs
   path = check_input_file(
