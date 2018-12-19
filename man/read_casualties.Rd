@@ -2,7 +2,7 @@
 % Please edit documentation in R/read.R
 \name{read_casualties}
 \alias{read_casualties}
-\title{Import and Stats19 data on casualties}
+\title{Read in stats19 road safety data from .csv files downloaded.}
 \usage{
 read_casualties(year = NULL, filename = "", data_dir = tempdir())
 }
@@ -15,7 +15,7 @@ years determine whether there is a target to read, otherwise disk scan would be 
 \item{data_dir}{Where sets of downloaded data would be found.}
 }
 \description{
-Import and Stats19 data on casualties
+Read in stats19 road safety data from .csv files downloaded.
 }
 \section{Details}{
 

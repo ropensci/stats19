@@ -57,7 +57,7 @@ current_year = function() as.integer(format(format(Sys.Date(), "%Y")))
 
 #' Find file names within stats19::file_names.
 #'
-#' Currently, there are 52 file names to download data from.
+#' Currently, there are 52 file names to download/read data from.
 #'
 #' @param years Years for which data are to be found
 #' @param type One of 'Accidents', 'Casualties', 'Vehicles'; defaults to 'Accidents', ignores case.
@@ -142,7 +142,7 @@ locate_files = function(data_dir = tempdir(),
 #' otherwise disk scan would be needed.
 #' @param data_dir Where sets of downloaded data would be found.
 #' @param year Single year for which file is to be found.
-#' @param type One of: 'Accidents', 'Casualties', 'Vehicles'; defaults to 'Accidents', ignores case.
+#' @param type One of: 'Accidents', 'Casualties', 'Vehicles'; ignores case.
 #'
 #' @return One of: path for one file, a message `More than one file found` or error if none found.
 #' @export
