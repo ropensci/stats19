@@ -15,8 +15,8 @@ downloads](http://cranlogs.r-pkg.org/badges/stats19)](http://www.r-pkg.org/pkg/s
 
 # stats19
 
-**stats19** provides functions to download and format road crash data.
-Specifically, it enables access to the UK’s official road traffic
+**stats19** provides functions for downloading and formatting road crash
+data. Specifically, it enables access to the UK’s official road traffic
 casualty database,
 [STATS19](https://data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data)
 (the name comes from the form used by the police to record car crashes
@@ -25,8 +25,8 @@ and other incidents resulting in casualties on the roads).
 The data, in its original form, is provided as a series of .csv files
 that are stored in dozens of `.zip` files. Finding, reading-in and
 formatting the data for research can be a time consuming process subject
-to human error. **stats19** speeds-up this vital data access and
-cleaning stage of the research process, enabling reproducibility, but
+to human error. **stats19** speeds-up these vital data access and
+cleaning stages of the research process, enabling reproducibility, by
 streamlining the work into 3 stages:
 
   - **Download**: This stage is taken care of by the `dl_stats19()`
@@ -98,7 +98,7 @@ dl_stats19(year = 2017, type = "Accidents")
 #> Files identified: dftRoadSafetyData_Accidents_2017.zip
 #> Attempt downloading from:
 #>    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Accidents_2017.zip
-#> Data saved at /tmp/RtmpRFicvs/dftRoadSafetyData_Accidents_2017/Acc.csv
+#> Data saved at /tmp/RtmphiBH2G/dftRoadSafetyData_Accidents_2017/Acc.csv
 ```
 
 Currently, these files are downloaded to a default location of “tempdir”
@@ -124,15 +124,29 @@ dl_stats19(year = 2017)
     Selection: 
     Enter an item from the menu, or 0 to exit
 
-## Reading-in data
+## Reading-in and formatting STATS19 data
 
-Downloaded data can then be read-in as follows (assuming the data
-download went OK):
+As mentioned above STATS19 contains 3 main tables:
+
+  - Accidents, the main table which contains information on the crash
+    time, location and other variables (`ncol(accidents_sample)` columns
+    in total)
+  - Casualties, with data on the people hurt or killed in each crash
+    (`ncol(casualties_sample)` columns in total)
+  - Vehicles, with data on the vehicles involved in or causing each
+    crash (`ncol(vehicles_sample)` columns in total)
+
+Code to read-in and format each of these tables is demonstrated below.
+
+### Crash data
+
+After raw data files have been downloaded (as described in the previous
+section), they can then be read-in as follows:
 
 ``` r
 crashes_2017_raw = read_accidents(year = 2017)
 #> Reading in:
-#> /tmp/RtmpRFicvs/dftRoadSafetyData_Accidents_2017/Acc.csv
+#> /tmp/RtmphiBH2G/dftRoadSafetyData_Accidents_2017/Acc.csv
 crashes_2017 = format_accidents(crashes_2017_raw)
 ```
 
@@ -156,16 +170,27 @@ crashes_2017_raw[random_n, key_vars]
 #>   Accident_Severity Speed_limit `Pedestrian_Crossing-Huma… Light_Conditions
 #>               <int>       <int>                      <int>            <int>
 #> 1                 3          30                          0                1
-#> 2                 3          30                          0                7
-#> 3                 3          30                          0                1
+#> 2                 2          30                          0                1
+#> 3                 3          60                          0                1
 crashes_2017[random_n, key_vars]
 #> # A tibble: 3 x 4
-#>   accident_severity speed_limit pedestrian_crossing_h… light_conditions    
-#>   <chr>                   <int> <chr>                  <chr>               
-#> 1 Slight                     30 None within 50 metres  Daylight            
-#> 2 Slight                     30 None within 50 metres  Darkness - lighting…
-#> 3 Slight                     30 None within 50 metres  Daylight
+#>   accident_severity speed_limit pedestrian_crossing_human… light_conditions
+#>   <chr>                   <int> <chr>                      <chr>           
+#> 1 Slight                     30 None within 50 metres      Daylight        
+#> 2 Serious                    30 None within 50 metres      Daylight        
+#> 3 Slight                     60 None within 50 metres      Daylight
 ```
+
+**Note**: The Department for Transport calls this table ‘accidents’ but
+a more appropriate term may be more appropriate, according to road
+safety advocacy groups such as
+[RoadPeace](http://www.roadpeace.org/take-action/crash-not-accident/).
+For this reason we are faithful to the name provided in the data’s
+official documentation but call the resulting datset `crashes`.
+
+## Casualties data
+
+## Vehicles data
 
 <!-- More data can be read-in as follows: -->
 
