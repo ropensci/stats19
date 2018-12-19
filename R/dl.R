@@ -1,21 +1,21 @@
 #' Download Stats19 data for a year or range of two years.
 #'
 #' @section Details:
-#' This convenience function downloads and unzips UK road crash data.
+#' This function downloads and unzips UK road crash data.
 #' It results in unzipped .csv files that are put
-#' in the temporary directory specified by `tempdir()`.
+#' in the temporary directory specified by `tempdir()` or provided `data_dir`.
 #'
-#' If you move the files into your current working directory
-#' and run the same command again, the file will not
-#' downloaded.
+#' The file downloaded would be for a specific year (e.g 2017).
+#' It could also be a file containing data for a range of two (e.g 2005-2014).
 #'
 #' The `dl_*` functions can download many MB of data so ensure you
 #' have a sufficient internet access and hard disk space.
 #'
-#' @param file_name The file name to download, above two will be ignore.
-#' @param year Single year for which file is to be downloaded
-#' @param type One of 'Accidents', 'Casualties', 'Vehicles'; defaults to 'Accidents'#'
-#' @param data_dir Parent directory for all downloaded files. Defaults to `tempdir()`
+#' @param file_name The file name (DfT named) to download.
+#' @param year Single year for which file is to be downloaded.
+#' @param type One of 'Accidents', 'Casualties', 'Vehicles'; defaults to 'Accidents'.
+#' Or any variation of to search the file names with such as "acc" or "accid".
+#' @param data_dir Parent directory for all downloaded files. Defaults to `tempdir()`.
 #'
 #' @export
 #' @examples
@@ -79,7 +79,7 @@ dl_stats19 = function(year = NULL,
 
 #' Download stats19 schema
 #'
-#' This downloads an excel spreadsheet containing variable names and categories
+#' This function downloads an excel spreadsheet containing variable names and categories
 #'
 #' @inheritParams dl_stats19_2005_2014
 #' @param data_dir Location to download, defaults to `tempdir()`

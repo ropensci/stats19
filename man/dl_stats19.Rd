@@ -8,26 +8,26 @@ dl_stats19(year = NULL, type = NULL, data_dir = tempdir(),
   file_name = NULL)
 }
 \arguments{
-\item{year}{Single year for which file is to be downloaded}
+\item{year}{Single year for which file is to be downloaded.}
 
-\item{type}{One of 'Accidents', 'Casualties', 'Vehicles'; defaults to 'Accidents'#'}
+\item{type}{One of 'Accidents', 'Casualties', 'Vehicles'; defaults to 'Accidents'.
+Or any variation of to search the file names with such as "acc" or "accid".}
 
-\item{data_dir}{Parent directory for all downloaded files. Defaults to `tempdir()`}
+\item{data_dir}{Parent directory for all downloaded files. Defaults to `tempdir()`.}
 
-\item{file_name}{The file name to download, above two will be ignore.}
+\item{file_name}{The file name (DfT named) to download.}
 }
 \description{
 Download Stats19 data for a year or range of two years.
 }
 \section{Details}{
 
-This convenience function downloads and unzips UK road crash data.
+This function downloads and unzips UK road crash data.
 It results in unzipped .csv files that are put
-in the temporary directory specified by `tempdir()`.
+in the temporary directory specified by `tempdir()` or provided `data_dir`.
 
-If you move the files into your current working directory
-and run the same command again, the file will not
-downloaded.
+The file downloaded would be for a specific year (e.g 2017).
+It could also be a file containing data for a range of two (e.g 2005-2014).
 
 The `dl_*` functions can download many MB of data so ensure you
 have a sufficient internet access and hard disk space.
