@@ -3,12 +3,16 @@
 \docType{data}
 \name{file_names}
 \alias{file_names}
-\title{File names for easy access}
+\title{stats19 file names for easy access}
 \format{A named list}
 \description{
-URL encoded file names. Generated as follows:
+URL decoded file names. Currently there are 52 file names
+released by the DfT and the details include
+how these were obtained and would be kept up to date.
 }
 \details{
+The file names were generated as follows:
+
 library(rvest)
 #> Loading required package: xml2
 library(stringr)

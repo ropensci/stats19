@@ -22,9 +22,13 @@ NULL
 #' @name schema_original
 #' @format A data frame
 NULL
-#' File names for easy access
+#' stats19 file names for easy access
 #'
-#' URL encoded file names. Generated as follows:
+#' URL decoded file names. Currently there are 52 file names
+#' released by the DfT and the details include
+#' how these were obtained and would be kept up to date.
+#'
+#' The file names were generated as follows:
 #'
 #' library(rvest)
 #' #> Loading required package: xml2
