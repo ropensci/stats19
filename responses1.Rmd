@@ -95,11 +95,32 @@ Back in, as stated above.
 
 > Out of curiosity, what's happening with https://github.com/cyipt/stats19? It was updated recently.
 
-@mem48 answered this: cyipt/stats19 is actually not an R package. It is a repo which is used for CyIPT project, it has different sources (UK DS), and usage so there is no current need to adapt the use to this package. Malcolm is one of the contributors to this package.
+@mem48 answered this: cyipt/stats19 is not actually a proper R package. It is a repo containing scripts for CyIPT project, it has different sources (UK DS), and usage so there is no current need to adapt the use to this package. Malcolm is one of the contributors to this package.
 
 > I confess I wish the package name was more expressive--stats19 sounds like an introductory statistics class.
 
-Internal discussions are ongoing. 
+This a reasonable point that we have thought of and discussed.
+We are open minded about changing the name but, as with so many things, there are +s and -s (outlined for some options below):
+
+- **stats19data**
+  - + clarifies that it's about data
+  - - longer, suffers from some of the same issues that **stats19** suffers from, the package is more about data formatting than data provision
+
+- **roadcrashesUK**
+  - + explicit, makes region of data access transparent
+  - - there are other types of road crash data, also the data currently provided is technically for Great Britain, but **roadcrashesGB** doesn't work so well, and we may want to add data access options for Northern Ireland at some point also
+
+- **roadSafetyData**
+  - + Matches DfT's [webpage](https://data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data) title on the topic
+  - - longer and, again, is less specific.
+  
+The main benefit we can see of changing the name would be making the package easier to find.
+We think good documentation and clear description and some write-ups of the package and what it does could address these issues.
+We've explored **stat19** name and it links directly to (and is almost synonymous with) road crash data.
+See https://en.wikipedia.org/wiki/STATS19 for an excellent example (we plan to add this link to the README)
+
+so the name is OK for we think, but we're open minded to alternative names mentioned above and perhaps names we've not thought of.
+
 
 > This data will be used to make many maps. I personally would love a nudge in that direction in either the README or the vignette.
 
