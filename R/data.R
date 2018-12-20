@@ -14,14 +14,14 @@
 #' @aliases stats19_variables
 #' @examples
 #' \dontrun{
-#' WARNING: this does not work on Windows.
-#' Load stats19 schema
+#' # WARNING: this does not work on Windows.
+#' # Load stats19 schema
 #'
-#' This function generates the data object `stats19_schema` in a reproducible way
-#' using DfT's schema definition (see function [dl_schema()]).
+#' # This function generates the data object `stats19_schema` in a reproducible way
+#' # using DfT's schema definition (see function [dl_schema()]).
 #'
-#' The function also generates `stats19_variables`
-#' (see the function's source code for details).
+#' # The function also generates `stats19_variables`
+#' # (see the function's source code for details).
 #'
 #' read_schema = function(
 #'   data_dir = tempdir(),
