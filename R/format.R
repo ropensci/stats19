@@ -105,10 +105,9 @@ format_column_names = function(column_names) {
 #'
 #' @inheritParams read_accidents
 #' @param sheet integer to be added if you want to download a single sheet
-#' @export
 #' @examples
 #' \dontrun{
-#' stats19_schema = read_schema()
+#' stats19_schema = stats19::read_schema()
 #' }
 read_schema = function(
   data_dir = tempdir(),

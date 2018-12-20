@@ -25,6 +25,6 @@ The function also generates `stats19_variables`
 }
 \examples{
 \dontrun{
-stats19_schema = read_schema()
+stats19_schema = stats19::read_schema()
 }
 }
