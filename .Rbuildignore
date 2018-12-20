@@ -21,3 +21,4 @@
 responses*
 ^paper\.md$
 ^paper\.bib$
+^contributing\.md$
