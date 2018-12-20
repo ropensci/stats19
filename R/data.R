@@ -7,8 +7,14 @@
 #' character strings.
 #'
 #'
-#' The data was generated using the following functions
-#' \code{
+#'
+#' @docType data
+#' @keywords datasets
+#' @name stats19_schema
+#' @aliases stats19_variables
+#' @examples
+#' \dontrun{
+#' WARNING: this does not work on Windows.
 #' Load stats19 schema
 #'
 #' This function generates the data object `stats19_schema` in a reproducible way
@@ -17,12 +23,6 @@
 #' The function also generates `stats19_variables`
 #' (see the function's source code for details).
 #'
-#' @inheritParams read_accidents
-#' @param sheet integer to be added if you want to download a single sheet
-#' @examples
-#' # \dontrun{
-#' # stats19_schema = stats19::read_schema()
-#' # }
 #' read_schema = function(
 #'   data_dir = tempdir(),
 #'   filename = "Road-Accident-Safety-Data-Guide.xls",
@@ -168,14 +168,7 @@
 #'   x = gsub(pattern = "Journey Purpose of Driver", "Journey Purpose", x = x)
 #'   x
 #' }
-#' }
 #'
-#' @docType data
-#' @keywords datasets
-#' @name stats19_schema
-#' @aliases stats19_variables
-#' @examples
-#' \dontrun{
 #' stats19_schema = read_schema()
 #' }
 #'
