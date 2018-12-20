@@ -61,7 +61,7 @@ These have now been fixed - thanks for testing and reporting.
 
 > I couldn't find any explicit contributing guidelines in the README, and there is no CONTRIBUTING document.
 
-A CONTRIBUTING will be added at some point.
+A CONTRIBUTING is added now. Than you.
 
 > The package has an obvious research application according to JOSS's definition
 
@@ -86,7 +86,7 @@ Done, appreciate your input.
 
 > My personal preference would be to have the schema from dl_schema lazily loaded with the package.
 
-TODO
+DESCRIPTION: has the line LazyData which means stats19_schema is lazy loaded.
 
 > According to the vignette, the dl_* functions are interactive, although the interactivity is commented out in the code. Will the interactivity be returning? Or does the vignette need to be updated?
 
@@ -94,7 +94,7 @@ Back in, as stated above.
 
 > Out of curiosity, what's happening with https://github.com/cyipt/stats19? It was updated recently.
 
-As it used for CyIPT project, it might still stay where it is, but clearly this package is taking over and it is just a matter of adapting the use by the CyIPT and other users.
+@mem48 answered this: cyipt/stats19 is actually not an R pacakge. It is a repo which is used for CyIPT project, it has different sources (UK DS), and usage so there is no current need to adapt the use to this package. Malcom is one of the contributors to this package.
 
 > I confess I wish the package name was more expressive--stats19 sounds like an introductory statistics class.
 
