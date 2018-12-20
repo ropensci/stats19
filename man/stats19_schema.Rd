@@ -5,6 +5,9 @@
 \alias{stats19_schema}
 \alias{stats19_variables}
 \title{Stats19 schema and variables}
+\arguments{
+\item{sheet}{integer to be added if you want to download a single sheet}
+}
 \description{
 `stats19_schema` and `stats19_variables` contain
 metadata on stats19 data.
@@ -16,5 +19,6 @@ character strings.
 \dontrun{
 stats19_schema = read_schema()
 }
+
 }
 \keyword{datasets}
