@@ -142,7 +142,8 @@ crashes_2017_raw[random_n, key_vars]
 crashes_2017[random_n, key_vars]
 ```
 
-**Note**: The Department for Transport calls this table 'accidents' but 'crashes' is a more appropriate terms, according to road safety advocacy groups such as [RoadPeace](http://www.roadpeace.org/take-action/crash-not-accident/).
+**Note**: The Department for Transport calls this table 'accidents', but 'crashes' is a more appropriate term.
+See the 'crash not accident' arguments of road safety advocacy groups such as [RoadPeace](http://www.roadpeace.org/take-action/crash-not-accident/) for an explanation.
 For this reason we are faithful to the name provided in the data's official documentation but call the resulting datset `crashes`.
 
 ## Casualties data
