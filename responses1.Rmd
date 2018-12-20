@@ -62,7 +62,7 @@ These have now been fixed - thanks for testing and reporting.
 
 > I couldn't find any explicit contributing guidelines in the README, and there is no CONTRIBUTING document.
 
-A CONTRIBUTING is added now. Than you.
+A CONTRIBUTING is added now. Thank you.
 
 > The package has an obvious research application according to JOSS's definition
 
