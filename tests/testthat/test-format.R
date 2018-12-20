@@ -1,5 +1,3 @@
-context("test-format-read_schema")
-
 source("../skip-download.R")
 
 context("test-format: accidents")
