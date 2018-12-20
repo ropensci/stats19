@@ -6,7 +6,7 @@ output: github_document
 
 Thanks for the review.
 We've had a chance, after making some changes and fixes to the package, to take-in and act on each of the comments.
-The code-base has evolved substantially since the review, but the fundamental design of the package, with its 3 stage api mirroring workflows that happened before the package was developed, remains unchanged.
+The code-base has evolved substantially since the review, but the fundamental design of the package, with its 3 stage API mirroring workflows that happened before the package was developed, remains unchanged.
 That is:
 
 - `dl_stats19()` downloads files from the DfT. Good news: we have spoken to the relevant people at the Department for Transport and they assured us that the endpoints are stable. The function now uses `menu()` to provide a menu of download options for any year/type combinations and now finds files outside those explicitly mentioned in the file names.
@@ -42,11 +42,12 @@ We'll focus on areas flagged in the review for the rest of this response:
 
 > I would tease a bit more of what's in these data sets. I wasn't entirely sure until I downloaded and opened the supporting documentation. If I were searching for this kind of data, and I didn't know what STATS19 was, I'd like to know I'm in the right place after scanning the README. Maybe a map?
 
-TODO: add a map and a time series plot showing the scale of the data. Also show a sample of the additional casualty and vehicle tables.
+We have added a map (well technically 9 maps!) and a couple of time series plots showing the scale of the data.
+Also show a sample of the additional casualty and vehicle tables has been added to show more clearly the richness of data provided.
 
 > I couldn't load the vignette from the console:
 
-We also could not see the vignette when installing using `devtools::install_github(build_vignettes = TRUE`. But we can see the vignette if we intall locally.
+We also could not see the vignette when installing using `devtools::install_github(build_vignettes = TRUE`. But we can see the vignette if we install locally.
 
 This was the code we ran:
 
@@ -94,7 +95,7 @@ Back in, as stated above.
 
 > Out of curiosity, what's happening with https://github.com/cyipt/stats19? It was updated recently.
 
-@mem48 answered this: cyipt/stats19 is actually not an R pacakge. It is a repo which is used for CyIPT project, it has different sources (UK DS), and usage so there is no current need to adapt the use to this package. Malcom is one of the contributors to this package.
+@mem48 answered this: cyipt/stats19 is actually not an R package. It is a repo which is used for CyIPT project, it has different sources (UK DS), and usage so there is no current need to adapt the use to this package. Malcolm is one of the contributors to this package.
 
 > I confess I wish the package name was more expressive--stats19 sounds like an introductory statistics class.
 
