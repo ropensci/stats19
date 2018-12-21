@@ -174,7 +174,7 @@ names(casualties_2017)
 
 Data for vehicles involved in crashes in 2017 can be downloaded, read-in and formated as follows:
 
-```{r, dl2017-vehicles}
+```{r dl2017-vehicles}
 dl_stats19(year = 2017, type = "vehicles")
 vehicles_2017 = read_vehicles(year = 2017)
 nrow(vehicles_2017)

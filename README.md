@@ -102,7 +102,7 @@ dl_stats19(year = 2017, type = "Accidents")
 #> Files identified: dftRoadSafetyData_Accidents_2017.zip
 #> Attempt downloading from:
 #>    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Accidents_2017.zip
-#> Data saved at /tmp/Rtmp2GCAwb/dftRoadSafetyData_Accidents_2017/Acc.csv
+#> Data saved at /tmp/RtmpjsJsN9/dftRoadSafetyData_Accidents_2017/Acc.csv
 ```
 
 Currently, these files are downloaded to a default location of `tempdir`
@@ -147,7 +147,7 @@ section, they can then be read-in as follows:
 ``` r
 crashes_2017_raw = read_accidents(year = 2017, format = FALSE)
 #> Reading in:
-#> /tmp/Rtmp2GCAwb/dftRoadSafetyData_Accidents_2017/Acc.csv
+#> /tmp/RtmpjsJsN9/dftRoadSafetyData_Accidents_2017/Acc.csv
 crashes_2017 = format_accidents(crashes_2017_raw)
 nrow(crashes_2017_raw)
 #> [1] 129982
@@ -227,7 +227,7 @@ dl_stats19(year = 2017, type = "casualties")
 #> Files identified: dftRoadSafetyData_Casualties_2017.zip
 #> Attempt downloading from:
 #>    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Casualties_2017.zip
-#> Data saved at /tmp/Rtmp2GCAwb/dftRoadSafetyData_Casualties_2017/Cas.csv
+#> Data saved at /tmp/RtmpjsJsN9/dftRoadSafetyData_Casualties_2017/Cas.csv
 casualties_2017 = read_casualties(year = 2017)
 nrow(casualties_2017)
 #> [1] 170993
@@ -289,7 +289,7 @@ dl_stats19(year = 2017, type = "vehicles")
 #> Files identified: dftRoadSafetyData_Vehicles_2017.zip
 #> Attempt downloading from:
 #>    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Vehicles_2017.zip
-#> Data saved at /tmp/Rtmp2GCAwb/dftRoadSafetyData_Vehicles_2017/Veh.csv
+#> Data saved at /tmp/RtmpjsJsN9/dftRoadSafetyData_Vehicles_2017/Veh.csv
 vehicles_2017 = read_vehicles(year = 2017)
 nrow(vehicles_2017)
 #> [1] 238926
