@@ -22,3 +22,4 @@ responses*
 ^paper\.md$
 ^paper\.bib$
 ^contributing\.md$
+^azure-pipelines.yml$
