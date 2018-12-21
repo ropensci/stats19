@@ -28,6 +28,7 @@ Suggests:
     testthat,
     tidyr,
     dplyr,
-    ggplot2
+    ggplot2,
+    stringr
 VignetteBuilder: knitr
 RoxygenNote: 6.1.1
