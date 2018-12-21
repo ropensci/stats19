@@ -1,4 +1,3 @@
-
 [![The API of a maturing package has been roughed out, but finer details
 likely to
 change.](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
@@ -18,58 +17,59 @@ downloads](http://cranlogs.r-pkg.org/badges/stats19)](http://www.r-pkg.org/pkg/s
 **stats19** provides functions for downloading and formatting road crash
 data. Specifically, it enables access to the UK’s official road traffic
 casualty database,
-[STATS19](https://data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data)
-(the name comes from the form used by the police to record car crashes
+[STATS19](https://data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data).
+(The name comes from the form used by the police to record car crashes
 and other incidents resulting in casualties on the roads).
 
-The data, in its original form, is provided as a series of .csv files
-that are stored in dozens of `.zip` files. Finding, reading-in and
-formatting the data for research can be a time consuming process subject
-to human error. **stats19** speeds-up these vital data access and
-cleaning stages of the research process, enabling reproducibility, by
-streamlining the work into 3 stages:
+**Note**: The Department for Transport refers to “accidents”, but
+“crashes” is a more appropriate term, as emphasised in the “crash not
+accident” arguments of road safety advocacy groups such as
+[RoadPeace](http://www.roadpeace.org/take-action/crash-not-accident/).
+We use the term “accidents” only in reference to nomenclature within the
+data as provided.
 
-  - **Download**: This stage is taken care of by the `dl_stats19()`
-    function. `year`, `type` and `filename` arguments make it easy to
-    find the right file for your research question.
+The data is provided by the UK’s Department for Transport (DfT) as a
+series of `.csv` files that are stored in dozens of `.zip` files.
+Finding, reading-in and formatting the data for research can be a time
+consuming process subject to human error. **stats19** speeds up these
+vital data access and cleaning stages of the research process, enabling
+reproducibility, by streamlining the work into 3 stages:
+
+  - **Download**: This single `dl_stats19()` function accepts `year`,
+    `type` and `filename` arguments to make it easy to find the right
+    file for your research question.
 
   - **Read**: STATS19 data is provided in a particular format that
     benefits from being read-in with pre-specified column types. This is
-    taken care of with `read_*()` functions corresponding to the 3 main
-    tables in STATS19 data:
+    taken care of with `read_*()` functions providing access to the 3
+    main tables in STATS19 data:
     
       - `read_accidents()` reads-in the crash data (which has one row
         per incident)
       - `read_casualties()` reads-in the casualty data (which has one
         row per person injured or killed)
       - `read_vehicles()` reads-in the vehicles table, which contains
-        information on the vehicles involved in the crashes (one row per
-        vehicle)
+        information on the vehicles involved in the crashes (and has one
+        row per vehicle)
 
-  - **Format**: in this stage labels are added to the tables. The raw
-    data provided by the DfT contains only integers. Running the
-    following commands converts these integer values to the
-    corresponding character variables, for each of the three tables:
-    
-      - `read_accidents()` adds labels to the accidents table. The
-        values in the `accident_severity` column, for example, are
-        converted from `1`, `2` and `3` into `Slight`, `Serious` or
-        `Fatal`.
-      - `read_casualties()` formats the casualty data
-      - `read_vehicles()`formats the vehicle data
-
-By default, stages 2 and 3 are done automatically in the `read_*()`
-functions. To read-in the raw data, without formatting, set `format =
-FALSE`.
+  - **Format**: Each of the `read_*()` functions has a `format`
+    parameter which, when `TRUE`, adds labels to the tables. The raw
+    data provided by the DfT contains only integers. Running
+    `read_*(..., format = TRUE)` converts these integer values to the
+    corresponding character variables for each of the three tables. For
+    example, `read_accidents(format = TRUE)` converts values in the
+    `accident_severity` column from `1`, `2` and `3` to `Slight`,
+    `Serious` and `Fatal`. To read-in raw data without formatting, set
+    `format = FALSE`.
 
 A full description of the stats19 data and variables they contain can be
 found in a
 [document](http://data.dft.gov.uk/road-accidents-safety-data/Brief-guide-to%20road-accidents-and-safety-data.doc)
-hosted by the UK’s Department for Transport (DfT).
+provided by the UK’s Department for Transport (DfT).
 
 ## Installation
 
-Install and attach the latest version with:
+Install and load the latest version with:
 
 ``` r
 devtools::install_github("ITSLeeds/stats19")
@@ -102,18 +102,16 @@ dl_stats19(year = 2017, type = "Accidents")
 #> Files identified: dftRoadSafetyData_Accidents_2017.zip
 #> Attempt downloading from:
 #>    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Accidents_2017.zip
-#> Data saved at /tmp/Rtmp8ha1WV/dftRoadSafetyData_Accidents_2017/Acc.csv
+#> Data saved at /tmp/Rtmp2GCAwb/dftRoadSafetyData_Accidents_2017/Acc.csv
 ```
 
-Currently, these files are downloaded to a default location of “tempdir”
-which is a platform independent “safe” location to download the data in.
-Once downloaded, they are unzipped under original DfT file names. The
-function prints out the location and final file name(s) of unzipped
-files(s) as shown above.
-
-Data files from other years can be downloaded in an interactive manner,
-providing just the year for example, would result in options presented
-to you:
+Currently, these files are downloaded to a default location of `tempdir`
+which is a platform independent “safe” but temporary location to
+download the data in. Once downloaded, they are unzipped under original
+DfT file names. The `dl_stats19()` function prints out the location and
+final file name(s) of unzipped files(s) as shown above. Data files from
+other years can be downloaded in an interactive manner. Providing just
+the year for example, would present the following options:
 
 ``` r
 dl_stats19(year = 2017)
@@ -134,39 +132,41 @@ As mentioned above STATS19 contains 3 main tables:
 
   - Accidents, the main table which contains information on the crash
     time, location and other variables (32 columns in total)
-  - Casualties, with data on the people hurt or killed in each crash (16
-    columns in total)
-  - Vehicles, with data on the vehicles involved in or causing each
+  - Casualties, containing data on people hurt or killed in each crash
+    (16 columns in total)
+  - Vehicles, containing data on vehicles involved in or causing each
     crash (23 columns in total)
 
-Code to read-in and format each of these tables is demonstrated below.
+Code to read-in and format each of these tables is now demonstrated.
 
 ### Crash data
 
-After raw data files have been downloaded (as described in the previous
-section), they can then be read-in as follows:
+After raw data files have been downloaded as described in the previous
+section, they can then be read-in as follows:
 
 ``` r
 crashes_2017_raw = read_accidents(year = 2017, format = FALSE)
 #> Reading in:
-#> /tmp/Rtmp8ha1WV/dftRoadSafetyData_Accidents_2017/Acc.csv
+#> /tmp/Rtmp2GCAwb/dftRoadSafetyData_Accidents_2017/Acc.csv
 crashes_2017 = format_accidents(crashes_2017_raw)
 nrow(crashes_2017_raw)
 #> [1] 129982
 ncol(crashes_2017_raw)
 #> [1] 32
+nrow(crashes_2017)
+#> [1] 129982
+ncol(crashes_2017)
+#> [1] 32
 ```
 
 What just happened? We read-in data on all road crashes recorded by the
 police in 2017 across Great Britain. The dataset contains 32 columns
-(variables) for 129982 crashes.
+(variables) for 129,982 crashes.
 
-This work was done by `read_accidents()`, which imported the ‘raw’
-Stats19 data without cleaning messy column names or re-categorising the
-outputs (by default `format = TRUE`, meaning the datasets are formated
-when read-in). `format_accidents()` does the formatting work, automating
-the process of matching column names with variable names and labels in a
-[`.xls`
+This work was done by `read_accidents(format = FALSE)`, which imported
+the “raw” Stats19 data without cleaning messy column names or
+re-categorising the outputs. `format_accidents()` automates the process
+of matching column names with variable names and labels in a [`.xls`
 file](http://data.dft.gov.uk/road-accidents-safety-data/Road-Accident-Safety-Data-Guide.xls)
 provided by the DfT. This means `crashes_2017` is much more usable than
 `crashes_2017_raw`, as shown below, which shows some key variables in
@@ -205,17 +205,17 @@ crashes_2017[c(7, 18, 23, 25)]
 #> # ... with 129,972 more rows
 ```
 
-For the full list of columns, run `names(crashes)` or see the
+By default, `format = TRUE`, meaning that the two stages of
+`read_accidents(format = FALSE)` and `format_accidents()` yield the same
+result as `read_accidents(format = TRUE)`. For the full list of columns,
+run `names(crashes_2017)` or see the
 vignette.
 
 <!-- This means `crashes_2017` is much more usable than `crashes_2017_raw`, as shown below, which shows three records and some key variables in the messy and clean datasets: -->
 
-**Note**: The Department for Transport calls this table ‘accidents’ but
-‘crashes’ is a more appropriate terms, according to road safety
-advocacy groups such as
-[RoadPeace](http://www.roadpeace.org/take-action/crash-not-accident/).
-For this reason we are faithful to the name provided in the data’s
-official documentation but call the resulting datset `crashes`.
+**Note**: As indicated above, the term “accidents” is only used as
+directly provided by the DfT; “crashes” is a more appropriate term,
+hence we call our resultant datasets `crashes_*`.
 
 ## Casualties data
 
@@ -227,7 +227,7 @@ dl_stats19(year = 2017, type = "casualties")
 #> Files identified: dftRoadSafetyData_Casualties_2017.zip
 #> Attempt downloading from:
 #>    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Casualties_2017.zip
-#> Data saved at /tmp/Rtmp8ha1WV/dftRoadSafetyData_Casualties_2017/Cas.csv
+#> Data saved at /tmp/Rtmp2GCAwb/dftRoadSafetyData_Casualties_2017/Cas.csv
 casualties_2017 = read_casualties(year = 2017)
 nrow(casualties_2017)
 #> [1] 170993
@@ -235,10 +235,9 @@ ncol(casualties_2017)
 #> [1] 16
 ```
 
-The results show that there were 170993 casualties reported by the
-police in the STATS19 dataset in 2017. There are 16 columns (variables)
-on these casualties. Values for a sample of these columns is shown
-below:
+The results show that there were 170,993 casualties reported by the
+police in the STATS19 dataset in 2017, and 16 columns (variables).
+Values for a sample of these columns are shown below:
 
 ``` r
 casualties_2017[c(4, 5, 6, 14)]
@@ -282,15 +281,15 @@ names(casualties_2017)
 
 ## Vehicles data
 
-As before, vehicles data for 2017 can be downloaded, read-in and
-formated as follows:
+Data for vehicles involved in crashes in 2017 can be downloaded, read-in
+and formated as follows:
 
 ``` r
 dl_stats19(year = 2017, type = "vehicles")
 #> Files identified: dftRoadSafetyData_Vehicles_2017.zip
 #> Attempt downloading from:
 #>    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Vehicles_2017.zip
-#> Data saved at /tmp/Rtmp8ha1WV/dftRoadSafetyData_Vehicles_2017/Veh.csv
+#> Data saved at /tmp/Rtmp2GCAwb/dftRoadSafetyData_Vehicles_2017/Veh.csv
 vehicles_2017 = read_vehicles(year = 2017)
 nrow(vehicles_2017)
 #> [1] 238926
@@ -298,10 +297,9 @@ ncol(vehicles_2017)
 #> [1] 23
 ```
 
-The results show that there were 238926 vehicles involved in crashes
-reported by the police in the STATS19 dataset in 2017. There are 23
-columns (variables) on these vehicles. Values for a sample of these
-columns is shown below:
+The results show that there were 238,926 vehicles involved in crashes
+reported by the police in the STATS19 dataset in 2017, with 23 columns
+(variables). Values for a sample of these columns are shown below:
 
 ``` r
 vehicles_2017[c(3, 14:16)]
@@ -343,52 +341,57 @@ names(vehicles_2017)
 
 ## Creating geographic crash data
 
-An important feature of STATS19 data is that the ‘accidents’ table
-contains geographic coordinates. These are provided at ~10m resolution
+An important feature of STATS19 data is that the “accidents” table
+contains geographic coordinates. These are provided at \~10m resolution
 in the UK’s official coordinate reference system (the Ordnance Survey
 National Grid, EPSG code 27700). **stats19** converts the non-geographic
-tables created by `format_accidents()` into a geographic (`sf`) data
-form with the function `format_sf()` as follows:
+tables created by `format_accidents()` into the geographic data form of
+the [`sf` package](https://cran.r-project.org/package=sf) with the
+function `format_sf()` as follows:
 
 ``` r
 crashes_sf = format_sf(crashes_2017)
 #> 19 rows removed with no coordinates
 ```
 
-Note: rows without coordinates are removed, NAs are not permitted in
-`sf` coordinates. Once the data is in this form you can do geographic
-operations on it. The following code chunk, for example, returns all
-crashes in the Leeds local authority (requires the **ukboundaries**
-GitHub package):
+The note arises because `NA` values are not permitted in `sf`
+coordinates, and so rows containing no coordinates are automatically
+removed. Having the data in a standard geographic form allows various
+geographic operations to be performed on it. The following code chunk,
+for example, returns all crashes within the boundary of the Leeds local
+authority. This requires the **ukboundaries** GitHub package:
+
+``` r
+devtools::install_github("Robinlovelace/ukboundaries")
+```
 
 ``` r
 library(sf)
-#> Linking to GEOS 3.6.2, GDAL 2.2.3, PROJ 4.9.3
+#> Linking to GEOS 3.7.0, GDAL 2.3.2, PROJ 5.2.0
 leeds_osgb = st_transform(ukboundaries::leeds, crs = 27700)
 #> Using default data cache directory ~/.ukboundaries/cache 
 #> Use cache_dir() to change it.
 crashes_leeds = crashes_sf[leeds_osgb, ]
+nrow(crashes_sf)
+#> [1] 129963
+nrow(crashes_leeds)
+#> [1] 1713
 ```
+
+This subsetting has selected the 1,713 crashes which occurred within the
+Leeds boundary.
 
 ## Joining tables
 
-The three tables we have just read-in can be joined by shared key
+The three main tables we have just read-in can be joined by shared key
 variables. This is demonstrated in the code chunk below, which subsets
 all casualties that took place in Leeds, and counts the number of
 casualties by severity for each crash:
 
 ``` r
+library(tidyverse)
 sel = casualties_2017$accident_index %in% crashes_leeds$accident_index
 casualties_leeds = casualties_2017[sel, ]
-library(tidyverse)
-#> ── Attaching packages ───────────────────────────────────────────── tidyverse 1.2.1 ──
-#> ✔ ggplot2 3.1.0     ✔ purrr   0.2.5
-#> ✔ tibble  1.4.2     ✔ dplyr   0.7.8
-#> ✔ tidyr   0.8.2     ✔ stringr 1.3.1
-#> ✔ readr   1.3.0     ✔ forcats 0.3.0
-#> ── Conflicts ──────────────────────────────────────────────── tidyverse_conflicts() ──
-#> ✖ dplyr::filter() masks stats::filter()
-#> ✖ dplyr::lag()    masks stats::lag()
 cas_types = casualties_leeds %>% 
   select(accident_index, casualty_type) %>% 
   mutate(n = 1) %>% 
@@ -396,8 +399,7 @@ cas_types = casualties_leeds %>%
   summarise(n = sum(n)) %>% 
   spread(casualty_type, n, fill = 0) 
 cas_types$Total = rowSums(cas_types[-1])
-crashes_joined = left_join(crashes_leeds, cas_types)
-#> Joining, by = "accident_index"
+crashes_joined = left_join(crashes_leeds, cas_types, by = "accident_index")
 ```
 
 What just happened? We found the subset of casualties that took place in
@@ -406,9 +408,119 @@ functions from the **tidyverse** package **dplyr** (and `spread()` from
 **tidyr**) to create a dataset with a column for each casualty type. We
 then joined the updated casualty data onto the `crashes_leeds` dataset.
 The result is a spatial (`sf`) data frame of crashes in Leeds, with
-columns counting how many road users of different types were hurt. We
-can now explore the spatial distribution of different casualty types as
-follows:
+columns counting how many road users of different types were hurt. The
+original and joined data look like this:
+
+``` r
+crashes_leeds
+#> Simple feature collection with 1713 features and 30 fields
+#> geometry type:  POINT
+#> dimension:      XY
+#> bbox:           xmin: 415248 ymin: 423230 xmax: 445477 ymax: 449559
+#> epsg (SRID):    27700
+#> proj4string:    +proj=tmerc +lat_0=49 +lon_0=-2 +k=0.9996012717 +x_0=400000 +y_0=-100000 +ellps=airy +towgs84=446.448,-125.157,542.06,0.15,0.247,0.842,-20.489 +units=m +no_defs
+#> # A tibble: 1,713 x 31
+#>    accident_index longitude latitude police_force accident_severi…
+#>    <chr>              <dbl>    <dbl> <chr>        <chr>           
+#>  1 2017120223550      -1.31     53.9 North Yorks… Slight          
+#>  2 2017133AP0313      -1.60     53.8 West Yorksh… Serious         
+#>  3 2017133BE0850      -1.53     53.8 West Yorksh… Slight          
+#>  4 2017134110858      -1.56     53.8 West Yorksh… Slight          
+#>  5 2017134111495      -1.55     53.8 West Yorksh… Slight          
+#>  6 2017134111706      -1.46     53.8 West Yorksh… Slight          
+#>  7 2017134120471      -1.34     53.8 West Yorksh… Slight          
+#>  8 2017134121054      -1.36     53.8 West Yorksh… Serious         
+#>  9 2017134121066      -1.54     53.8 West Yorksh… Slight          
+#> 10 2017134121358      -1.52     53.8 West Yorksh… Serious         
+#> # ... with 1,703 more rows, and 26 more variables:
+#> #   number_of_vehicles <int>, number_of_casualties <int>, date <chr>,
+#> #   day_of_week <chr>, time <chr>, local_authority_district <chr>,
+#> #   local_authority_highway <chr>, first_road_class <chr>,
+#> #   first_road_number <int>, road_type <chr>, speed_limit <int>,
+#> #   junction_detail <chr>, junction_control <chr>,
+#> #   second_road_class <chr>, second_road_number <int>,
+#> #   pedestrian_crossing_human_control <chr>,
+#> #   pedestrian_crossing_physical_facilities <chr>, light_conditions <chr>,
+#> #   weather_conditions <chr>, road_surface_conditions <chr>,
+#> #   special_conditions_at_site <chr>, carriageway_hazards <chr>,
+#> #   urban_or_rural_area <chr>,
+#> #   did_police_officer_attend_scene_of_accident <int>,
+#> #   lsoa_of_accident_location <chr>, geometry <POINT [m]>
+cas_types
+#> # A tibble: 1,713 x 17
+#> # Groups:   accident_index [1,713]
+#>    accident_index `Bus or coach o… `Car occupant` Cyclist `Goods vehicle …
+#>    <chr>                     <dbl>          <dbl>   <dbl>            <dbl>
+#>  1 2017120223550                 0              0       2                0
+#>  2 2017133AP0313                 0              0       0                0
+#>  3 2017133BE0850                 0              0       1                0
+#>  4 2017134110858                 0              2       0                0
+#>  5 2017134111495                 0              1       0                0
+#>  6 2017134111706                 0              1       0                0
+#>  7 2017134120471                 0              2       0                0
+#>  8 2017134121054                 0              3       0                0
+#>  9 2017134121066                 0              0       0                0
+#> 10 2017134121358                 0              0       0                0
+#> # ... with 1,703 more rows, and 12 more variables: `Goods vehicle (over
+#> #   3.5t. and under 7.5t.) occupant` <dbl>, `Minibus (8 - 16 passenger
+#> #   seats) occupant` <dbl>, `Motorcycle - unknown cc rider or
+#> #   passenger` <dbl>, `Motorcycle 125cc and under rider or
+#> #   passenger` <dbl>, `Motorcycle 50cc and under rider or
+#> #   passenger` <dbl>, `Motorcycle over 125cc and up to 500cc rider or
+#> #   passenger` <dbl>, `Motorcycle over 500cc rider or passenger` <dbl>,
+#> #   `Other vehicle occupant` <dbl>, Pedestrian <dbl>, `Taxi/Private hire
+#> #   car occupant` <dbl>, `Van / Goods vehicle (3.5 tonnes mgw or under)
+#> #   occupant` <dbl>, Total <dbl>
+crashes_joined
+#> Simple feature collection with 1713 features and 46 fields
+#> geometry type:  POINT
+#> dimension:      XY
+#> bbox:           xmin: 415248 ymin: 423230 xmax: 445477 ymax: 449559
+#> epsg (SRID):    27700
+#> proj4string:    +proj=tmerc +lat_0=49 +lon_0=-2 +k=0.9996012717 +x_0=400000 +y_0=-100000 +ellps=airy +towgs84=446.448,-125.157,542.06,0.15,0.247,0.842,-20.489 +units=m +no_defs
+#> # A tibble: 1,713 x 47
+#>    accident_index longitude latitude police_force accident_severi…
+#>    <chr>              <dbl>    <dbl> <chr>        <chr>           
+#>  1 2017120223550      -1.31     53.9 North Yorks… Slight          
+#>  2 2017133AP0313      -1.60     53.8 West Yorksh… Serious         
+#>  3 2017133BE0850      -1.53     53.8 West Yorksh… Slight          
+#>  4 2017134110858      -1.56     53.8 West Yorksh… Slight          
+#>  5 2017134111495      -1.55     53.8 West Yorksh… Slight          
+#>  6 2017134111706      -1.46     53.8 West Yorksh… Slight          
+#>  7 2017134120471      -1.34     53.8 West Yorksh… Slight          
+#>  8 2017134121054      -1.36     53.8 West Yorksh… Serious         
+#>  9 2017134121066      -1.54     53.8 West Yorksh… Slight          
+#> 10 2017134121358      -1.52     53.8 West Yorksh… Serious         
+#> # ... with 1,703 more rows, and 42 more variables:
+#> #   number_of_vehicles <int>, number_of_casualties <int>, date <chr>,
+#> #   day_of_week <chr>, time <chr>, local_authority_district <chr>,
+#> #   local_authority_highway <chr>, first_road_class <chr>,
+#> #   first_road_number <int>, road_type <chr>, speed_limit <int>,
+#> #   junction_detail <chr>, junction_control <chr>,
+#> #   second_road_class <chr>, second_road_number <int>,
+#> #   pedestrian_crossing_human_control <chr>,
+#> #   pedestrian_crossing_physical_facilities <chr>, light_conditions <chr>,
+#> #   weather_conditions <chr>, road_surface_conditions <chr>,
+#> #   special_conditions_at_site <chr>, carriageway_hazards <chr>,
+#> #   urban_or_rural_area <chr>,
+#> #   did_police_officer_attend_scene_of_accident <int>,
+#> #   lsoa_of_accident_location <chr>, `Bus or coach occupant (17 or more
+#> #   pass seats)` <dbl>, `Car occupant` <dbl>, Cyclist <dbl>, `Goods
+#> #   vehicle (7.5 tonnes mgw and over) occupant` <dbl>, `Goods vehicle
+#> #   (over 3.5t. and under 7.5t.) occupant` <dbl>, `Minibus (8 - 16
+#> #   passenger seats) occupant` <dbl>, `Motorcycle - unknown cc rider or
+#> #   passenger` <dbl>, `Motorcycle 125cc and under rider or
+#> #   passenger` <dbl>, `Motorcycle 50cc and under rider or
+#> #   passenger` <dbl>, `Motorcycle over 125cc and up to 500cc rider or
+#> #   passenger` <dbl>, `Motorcycle over 500cc rider or passenger` <dbl>,
+#> #   `Other vehicle occupant` <dbl>, Pedestrian <dbl>, `Taxi/Private hire
+#> #   car occupant` <dbl>, `Van / Goods vehicle (3.5 tonnes mgw or under)
+#> #   occupant` <dbl>, Total <dbl>, geometry <POINT [m]>
+```
+
+This join operation has enabled us to georeference the casualty data,
+enabling us to explore the spatial distribution of different casualty
+types as follows:
 
 ``` r
 plot(crashes_joined[crashes_joined$Pedestrian > 0, "Pedestrian"])
@@ -418,15 +530,16 @@ plot(crashes_joined[crashes_joined$`Car occupant` > 0, "Car occupant"])
 
 <img src="man/figures/README-sfplot-1.png" width="33%" /><img src="man/figures/README-sfplot-2.png" width="33%" /><img src="man/figures/README-sfplot-3.png" width="33%" />
 
-It is clear from the previous plot that pedestrians, cyclists and car
-occupants tend to get hurt in different places. Car occupant casulaties,
-for example, are comparatively common on the outskirts of Leeds, where
-speed limits tend to be higher and where there are comparatively high
-volumes of motor traffic, compared with the city centre.
+It is clear that pedestrians, cyclists and car occupants tend to get
+hurt in different places. Car occupant casualties, for example, are
+comparatively common on the outskirts of Leeds, where speed limits tend
+to be higher and where there are comparatively higher volumes of motor
+traffic, compared with the city centre.
 
-Another way of visualising the data, in this case to show the spatial
+Another way of visualising these data is to show the spatial
 distribution of crashes causing pedestrian casualties by number of
-pedestrians hurt and crash severity, is with **ggplot2**:
+pedestrians hurt and crash severity. This is easily done with
+**ggplot2**:
 
 ``` r
 ggplot(crashes_joined, aes(colour = Total)) +
@@ -434,14 +547,14 @@ ggplot(crashes_joined, aes(colour = Total)) +
   facet_grid(vars(accident_severity), vars(Pedestrian))
 ```
 
-<img src="man/figures/README-ggplot-1.png" width="100%" />
+<img src="man/figures/README-ggplot-ped-severity-1.png" width="100%" />
 
-Note: Both figures show that pedestrian casualties tend to happen more
+These figures suggest that pedestrian casualties tend to happen more
 frequently near the city centre, compared with other types of casualty.
 
 ## Time series analysis
 
-We can explore weekly and seasonal trends in crashes by aggregating
+We can also explore weekly and seasonal trends in crashes by aggregating
 crashes by day of the year:
 
 ``` r
@@ -452,12 +565,11 @@ crashes_dates = crashes_joined %>%
             `Car occupant` = sum(`Car occupant`)) %>% 
   gather(mode, casualties, -date)
 ggplot(crashes_dates, aes(date, casualties)) +
-  geom_smooth(aes(colour = mode)) +
+  geom_smooth(aes(colour = mode), method = "loess") +
   ylab("Casualties per day")
-#> `geom_smooth()` using method = 'loess' and formula 'y ~ x'
 ```
 
-<img src="man/figures/README-dates-1.png" width="100%" />
+<img src="man/figures/README-crash-date-plot-1.png" width="100%" />
 
 Different types of crashes also tend to happen at different times of
 day. This is illustrated in the plot below, which shows the times of day
@@ -472,13 +584,13 @@ crash_times = crashes_joined %>%
             `Car occupant` = sum(`Car occupant`)) %>% 
   gather(mode, casualties, -hour)
 ggplot(crash_times, aes(hour, casualties)) +
-  geom_line(aes(colour = mode))
+  geom_smooth(aes(colour = mode), method = "loess")
 ```
 
-<img src="man/figures/README-times-1.png" width="100%" />
+<img src="man/figures/README-crash-time-plot-1.png" width="100%" />
 
-Note the morning peak in cycling (see Lovelace, Roberts, and Kellar 2016
-form more on this).
+Note that cycling manifests distinct morning and afternoon peaks (see
+Lovelace, Roberts, and Kellar 2016 for more on this).
 
 ## Next steps
 
@@ -491,7 +603,7 @@ why people are needlessly hurt and killed on the roads.
 The next step is to gain a deeper understanding of **stats19** and the
 data it provides. Then it’s time to pose interesting research questions,
 some of which could provide an evidence-base in support policies that
-save lives (e.g. Sarkar, Webster, and Kumari 2018). For more on these
+save lives (e.g. Sarkar, Webster, and Kumari 2018). For more on these
 next steps, see the package’s introductory vignette.
 
 ## Further information
