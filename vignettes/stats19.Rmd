@@ -303,7 +303,8 @@ The three main tables we have just read-in can be joined by shared key variables
 This is demonstrated in the code chunk below, which subsets all casualties that took place in Leeds, and counts the number of casualties by severity for each crash:
 
 ```{r table-join, message = FALSE}
-library(tidyverse)
+library(tidyr)
+library(dplyr)
 sel = casualties_2017$accident_index %in% crashes_leeds$accident_index
 casualties_leeds = casualties_2017[sel, ]
 cas_types = casualties_leeds %>% 
@@ -340,6 +341,7 @@ Car occupant casualties, for example, are comparatively common on the outskirts 
 Another way of visualising these data is to show the spatial distribution of crashes causing pedestrian casualties by number of pedestrians hurt and crash severity. This is easily done with **ggplot2**:
 
 ```{r ggplot-ped-severity}
+library(ggplot2)
 ggplot(crashes_joined, aes(colour = Total)) +
   geom_sf() +
   facet_grid(vars(accident_severity), vars(Pedestrian))
@@ -368,6 +370,7 @@ Different types of crashes also tend to happen at different times of day.
 This is illustrated in the plot below, which shows the times of day when people who were travelling by different modes were most commonly injured.
 
 ```{r crash-time-plot}
+library(stringr)
 crash_times = crashes_joined %>% 
   st_set_geometry(NULL) %>% 
   group_by(hour = as.numeric(str_sub(time, 1, 2))) %>% 
