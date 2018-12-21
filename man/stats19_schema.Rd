@@ -97,6 +97,15 @@ read_schema = function(
   }
   stats19_schema
 }
+dl_schema = function(data_dir = tempdir()) {
+u = paste0(
+  "http://data.dft.gov.uk/road-accidents-safety-data/",
+  "Road-Accident-Safety-Data-Guide.xls"
+)
+destfile = file.path(data_dir, "Road-Accident-Safety-Data-Guide.xls")
+utils::download.file(u, destfile = destfile)
+# download and unzip the data if it's not present
+}
 schema_to_variable = function(x) {
   x = format_column_names(x)
   x = gsub(pattern = " ", replacement = "_", x = x)

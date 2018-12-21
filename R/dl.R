@@ -76,24 +76,3 @@ dl_stats19 = function(year = NULL,
   )
   message("Data saved at ", sub(".zip", "",f))
 }
-
-#' Download stats19 schema
-#'
-#' This function downloads an excel spreadsheet containing variable names and categories
-#'
-#' @inheritParams dl_stats19_2005_2014
-#' @param data_dir Location to download, defaults to `tempdir()`
-#' @export
-#' @examples
-#' \dontrun{
-#' dl_schema()
-#' }
-dl_schema = function(data_dir = tempdir()) {
-  u = paste0(
-    "http://data.dft.gov.uk/road-accidents-safety-data/",
-    "Road-Accident-Safety-Data-Guide.xls"
-  )
-  destfile = file.path(data_dir, "Road-Accident-Safety-Data-Guide.xls")
-  utils::download.file(u, destfile = destfile)
-  # download and unzip the data if it's not present
-}
