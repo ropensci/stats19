@@ -272,14 +272,27 @@ This requires the **ukboundaries** GitHub package:
 ```{r ukboundaries, eval = FALSE}
 devtools::install_github("Robinlovelace/ukboundaries")
 ```
+```{r ukboundaries-save, echo = FALSE, eval = FALSE}
+leeds <- ukboundaries::leeds
+saveRDS (leeds, file = "leeds-bdry.Rds")
+```
 
-```{r crashes-leeds}
+
+```{r crashes-leeds, eval = FALSE}
 library(sf)
 leeds_osgb = st_transform(ukboundaries::leeds, crs = 27700)
 crashes_leeds = crashes_sf[leeds_osgb, ]
 nrow(crashes_sf)
 nrow(crashes_leeds)
 ```
+```{r crashes-leeds-hidden, echo = FALSE}
+library (sf)
+leeds_osgb = st_transform(readRDS("leeds-bdry.Rds"), crs = 27700)
+crashes_leeds = crashes_sf[leeds_osgb, ]
+nrow(crashes_sf)
+nrow(crashes_leeds)
+```
+
 This subsetting has selected the `r format(nrow(crashes_leeds), big.mark = ",")`
 crashes which occurred within the Leeds boundary.
 
