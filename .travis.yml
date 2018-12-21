@@ -3,8 +3,8 @@ cache: packages
 sudo: required
 dist: trusty
 
-r_github_packages:
-    - jimhester/covr
+r_packages:
+    - covr
 
 before_install:
   - sudo add-apt-repository ppa:ubuntugis/ppa --yes
