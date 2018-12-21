@@ -23,8 +23,13 @@ Imports:
     curl (>= 3.2),
     tibble
 Suggests: 
+    dplyr,
+    ggplot2,
     knitr,
+    lubridate,
     rmarkdown,
-    testthat
+    stringr,
+    testthat,
+    tidyr
 VignetteBuilder: knitr
 RoxygenNote: 6.1.1
