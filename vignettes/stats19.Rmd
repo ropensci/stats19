@@ -1,7 +1,7 @@
 ---
 title: "Introducing stats19"
 author: 
-  - "R Lovelace, M Morgan, L Hama and M Padgam"
+  - "R Lovelace, M Morgan, L Hama and M Padgham"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
@@ -21,9 +21,12 @@ knitr::opts_chunk$set(
 ## Introduction
 
 **stats19** enables access to and processing of the UK's official road traffic casualty database, [STATS19](https://data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data). 
-A description of variables in the database can be found in a [document](http://data.dft.gov.uk/road-accidents-safety-data/Brief-guide-to%20road-accidents-and-safety-data.doc) hosted by the UK's Department for Transport (DfT).
+A description of variables in the database can be found in a [document](http://data.dft.gov.uk/road-accidents-safety-data/Brief-guide-to%20road-accidents-and-safety-data.doc) provided by the UK's Department for Transport (DfT).
 The datasets are collectively called STATS19 after the form used to report them, which can be found [here](http://docs.adrn.ac.uk/888043/mrdoc/pdf/888043_stats19-road-accident-injury-statistics-report-form.pdf). 
 This vignette focusses on how to use the **stats19** package to work with STATS19 data.
+
+**Note**: The Department for Transport refers to "accidents", but "crashes" is a more appropriate term, as emphasised in the "crash not accident" arguments of road safety advocacy groups such as [RoadPeace](http://www.roadpeace.org/take-action/crash-not-accident/).
+We use the term "accidents" only in reference to nomenclature within the data as provided.
 
 The development version is hosted on [GitHub](https://github.com/ITSLeeds/stats19) and can be installed and attached as follows:
 
@@ -37,37 +40,18 @@ library(stats19)
 
 **stats19** has three main types of functions, corresponding with the three stages of data processing:
 
-- **Download**: This stage is taken care of by the `dl_stats19()`
-    function. `year`, `type` and `filename` arguments make it easy to
-    find the right file for your research question.
-  - **Read**: STATS19 data is provided in a particular format that
-    benefits from being read-in with pre-specified column types. This is
-    taken care of with `read_*()` functions corresponding to the 3 main
-    tables in STATS19 data:
-    
-      - `read_accidents()` reads-in the crash data (which has one row
-        per incident)
-      - `read_casualties()` reads-in the casualty data (which has one
-        row per person injured or killed)
-      - `read_vehicles()` reads-in the vehicles table, which contains
-        information on the vehicles involved in the crashes (one row per
-        vehicle)
+- **Download**: This single `dl_stats19()` function accepts `year`, `type` and `filename` arguments to make it easy to find the right file for your research question.
 
-  - **Format**: in this stage labels are added to the tables. The raw
-    data provided by the DfT contains only integers. Running the
-    following commands converts these integer values to the
-    corresponding character variables, for each of the three tables:
-    
-      - `read_accidents()` adds labels to the accidents table. The
-        values in the `accident_severity` column, for example, are
-        converted from `1`, `2` and `3` into `Slight`, `Serious` or
-        `Fatal`.
-      - `read_casualties()` formats the casualty data
-      - `read_vehicles()`formats the vehicle data
+- **Read**: STATS19 data is provided in a particular format that benefits from being read-in with pre-specified column types. This is taken care of with `read_*()` functions providing access to the 3 main tables in STATS19 data:
 
-By default, stages 2 and 3 are done automatically in the `read_*()`
-functions. To read-in the raw data, without formatting, set `format =
-FALSE`.
+    - `read_accidents()` reads-in the crash data (which has one row per incident)
+    - `read_casualties()` reads-in the casualty data (which has one row per person injured or killed)
+    - `read_vehicles()` reads-in the vehicles table, which contains information on the vehicles involved in the crashes (and has one row per vehicle)
+
+- **Format**: Each of the `read_*()` functions has a `format` parameter which, when `TRUE`, adds labels to the tables. The raw data provided by the DfT contains only integers. 
+Running `read_*(..., format = TRUE)` converts these integer values to the corresponding character variables for each of the three tables.
+For example, `read_accidents(format = TRUE)` converts values in the `accident_severity` column from `1`, `2` and `3` to `Slight`, `Serious` and `Fatal`.
+To read-in raw data without formatting, set `format = FALSE`.
 
 Multiple functions are needed for each step because of the structure of STATS19 data, which are divided into 3 tables, as described in an article that analyses 2005-2015 STATS19 data with reproducible R code by Christoph Freier ([2018](https://kawameicha.gitlab.io/inCodeWeTrust/2018/01/10-years-and-3.3-million-accidented-vehicles-in-the-uk/)):
 
@@ -83,8 +67,9 @@ goes back to 1979, providing a long period for comparison.
 
 ## Download STATS19 data
 
-The function to download individual files `dl_stats19`. The function takes three parameters. If `file_name` has been provided, this means the user is aware of what to download and the other two parameters will be ignored.
-You can also use `years` and `type` to "search" through the file names, which are stored in a datset called `stats19::file_names`, which are lazy loaded.
+The function `dl_stats19` downloads individual files, and takes three parameters.
+Supplying a `file_name` is interpreted to mean that the user is aware of what to download and the other two parameters will be ignored.
+You can also use `years` and `type` to "search" through the file names, which are stored in a lazy-loaded datset called `stats19::file_names`.
 
 You can find out the names of files that can be downloaded with `names(stats19::file_names)`, an example of which is shown below:
 
@@ -95,22 +80,32 @@ stats19::file_names$dftRoadSafetyData_Vehicles_2017.zip
 To see how `file_names` was created, see `?file_names`.
 The following code chunk downloads and unzips a .zip file containing STATS19 data from 2017:
 
-```{r example}
+```{r dl2017-accidents}
 dl_stats19(year = 2017, type = "Accidents")
 ```
 
 Data files from other years can be selected interactively.
-Just provide the year, for example, presents the user with multiple options (from `file_names`), illustrated below:
+Just providing a year, for example, presents the user with multiple options (from `file_names`), illustrated below:
 
-```{r, eval=TRUE}
+```{r dl2017-all, eval=FALSE}
 dl_stats19(year = 2017)
+```
+```
+Multiple matches. Which do you want to download?
+
+1: dftRoadSafetyData_Vehicles_2017.zip
+2: dftRoadSafetyData_Casualties_2017.zip
+3: dftRoadSafetyData_Accidents_2017.zip
+
+Selection: 
+Enter an item from the menu, or 0 to exit
 ```
 
 When R is running interactively, you can select which of the 3 matching files to download:
-those relating to vehicles, casualties of accidents in 2017.
+those relating to vehicles, casualties or accidents in 2017.
 You can also search for file names, as illustrated below:
 
-```{r}
+```{r dl2017-search}
 d17 = "dftRoadSafetyData_Accidents_2017"
 dl_stats19(file_name = paste0(d17, ".zip"))
 ```
@@ -120,9 +115,11 @@ If the file is already present, `dl_stats19()` will skip the download process.
 
 ## Read STATS19 data
 
-In a similar approach to the download section before, we can read files downloaded using a `data_dir` location of the file and the `filename` to read. The chunk below, will download and read in the `dftRoadSafetyData_Accidents_2017.zip` file from the DfT servers and reads them. We use the R function `tempdir` to save the downloads on disk.
+In a similar approach to the download section before, we can read files downloaded using a `data_dir` location of the file and the `filename` to read.
+The code below will download the `dftRoadSafetyData_Accidents_2017.zip` file from the DfT servers and read its content.
+Files are saved by default in `tempdir()`, but this can be overridden to ensure permanent storage in a user-defined location.
 
-```{r}
+```{r dl2017-read}
 d17 = "dftRoadSafetyData_Accidents_2017"
 dl_stats19(file_name = paste0(d17, ".zip"))
 crashes_2017_raw = read_accidents(data_dir = tempdir(),
@@ -131,45 +128,41 @@ crashes_2017_raw = read_accidents(data_dir = tempdir(),
 ```
 
 **stats19** imports data with `readr::read_csv()` which results in a 'tibble' object: a data frame with more user-friendly printing and a few other features.
-This can be verified by querying the class of the newly read-in object:
 
-```{r}
+```{r crashes2017-class}
 class(crashes_2017_raw)
+dim(crashes_2017_raw)
 ```
 
 ## Format STATS19 data
 
-A [`.xls` file](http://data.dft.gov.uk/road-accidents-safety-data/Road-Accident-Safety-Data-Guide.xls) provided by the DfT includes the column names for the datasets provided.
+A [`.xls` file](http://data.dft.gov.uk/road-accidents-safety-data/Road-Accident-Safety-Data-Guide.xls) provided by the DfT defines the column names for the datasets provided.
 The packaged datasets `stats19_variables` and `stats19_schema` provide summary information about the contents of this data guide.
-These contain the full variable names in the guide (`stats19_variables`) and a complete lookup table relating integer values the the .csv files provided by the DfT and their labels (`stats19_schema`).
-The first 3 and first 10 rows of each dataset are shown below:
+These contain the full variable names in the guide (`stats19_variables`) and a complete lookup table relating integer values to the `.csv` files provided by the DfT and their labels (`stats19_schema`).
+The first rows of each dataset are shown below:
 
-```{r}
-stats19_variables[1:3, ]
+```{r variables-and-schema}
+stats19_variables
 stats19_schema
 ```
 
 The code that generated these small datasets can be found in their help pages (accessed with `?stats19_variables` and `?stats19_schema` respectively).
-`stats19_schema` is used internally to automate the process of formatting the downloaded .csv files.
-Column names are formated by the function `format_column_names()`, as illustrated below:
+`stats19_schema` is used internally to automate the process of formatting the downloaded `.csv` files.
+Column names are formatted by the function `format_column_names()`, as illustrated below:
 
-```{r}
+```{r format-col-names}
 format_column_names(stats19_variables$variable[1:3])
 ```
 
 Previous approaches to data formatting `STATS19` data involved hard-coding results.
 This more automated approach to data cleaning is more consistent and fail-safe.
-Three functions, `format_accidents()`, `format_vehicles()` and `format_casualties()` do the data formatting on data frames.
-These take a tibble in and return a tibble, as illustrated below:
+Three functions, `format_accidents()`, `format_vehicles()` and
+`format_casualties()` do the data formatting on the respective data frames, as
+illustrated below:
 
-```{r}
+```{r format-main}
 crashes_2017 = format_accidents(crashes_2017_raw)
-```
 
-In the previous sections we first downloaded and read-in STATS19 data.
-Now we can go to the third step of formatting the data (we will first download vehicle and casualty data for 2017):
-
-```{r}
 # vehicle data for 2017
 dl_stats19(year = 2017, type = "vehicles")
 vehicles_2017_raw = read_vehicles(year = 2017)
@@ -180,10 +173,15 @@ dl_stats19(year = 2017, type = "casualties")
 casualties_2017_raw = read_casualties(year = 2017)
 casualties_2017 = format_casualties(casualties_2017_raw)
 ```
+The package is designed to automatic this two-step `read_*` and `format_*`
+process by defaulting in all cases to `data_year = read_*(year, format = TRUE)`,
+so that the single `read_*` functions return by default the formatted data. The
+two-step process may nevertheless be important for reference to the official
+nomenclature and values as provided by the DfT.
 
-A summary of the outputs for each of the the three tables is shown below.
+A summary of the outputs for each of the three tables is shown below.
 
-```{r}
+```{r summarise-stats19}
 summarise_stats19 = function(x) {
   data.frame(row.names = 1:length(x),
     name = substr(names(x), 1, 19),
@@ -195,17 +193,17 @@ summarise_stats19 = function(x) {
 }
 ```
 
-```{r}
+```{r summarise-crashes}
 knitr::kable(summarise_stats19(crashes_2017), 
              caption = "Summary of formatted crash data.")
 ```
 
-```{r}
+```{r summarise-vehicles}
 knitr::kable(summarise_stats19(vehicles_2017), 
              caption = "Summary of formatted vehicles data.")
 ```
 
-```{r}
+```{r summarise-casualties}
 knitr::kable(summarise_stats19(casualties_2017), 
              caption = "Summary of formatted casualty data.")
 ```
