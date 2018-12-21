@@ -25,6 +25,9 @@ Imports:
 Suggests: 
     knitr,
     rmarkdown,
-    testthat
+    testthat,
+    tidyr,
+    dplyr,
+    ggplot2
 VignetteBuilder: knitr
 RoxygenNote: 6.1.1
