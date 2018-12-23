@@ -97,7 +97,7 @@ find_file_name = function(years = NULL, type = NULL) {
   if (any(grepl("Stats19-Data1979-2004.zip", result))) {
     # extra warnings
     message("\033[31mThis will download 240 MB+ (1.8 GB unzipped).\033[39m")
-    warning("Coordinates unreliable in this data.")
+    message("Coordinates unreliable in this data.")
   }
 
   if(length(result) < 1)

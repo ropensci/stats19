@@ -106,7 +106,7 @@ read_casualties = function(year = NULL,
                            format = TRUE) {
   path = check_input_file(
     filename = filename,
-    type = "casualties",
+    type = "cas",
     data_dir = data_dir,
     year = year
   )
