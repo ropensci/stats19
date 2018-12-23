@@ -29,22 +29,42 @@ read_accidents = function(year = NULL,
   )
   message("Reading in: ")
   message(path)
-  # read the data in
-  suppressWarnings({
-    ac = readr::read_csv(
-      path,
-      col_types = readr::cols(
-        .default = readr::col_integer(),
-        Accident_Index = readr::col_character(),
-        Longitude = readr::col_double(),
-        Latitude = readr::col_double(),
-        Date = readr::col_character(),
-        Time = readr::col_character(),
-        `Local_Authority_(Highway)` = readr::col_character(),
-        LSOA_of_Accident_Location = readr::col_character()
+  h = utils::read.csv(path, nrows = 1)
+  if(identical(names(h)[1], "Accident_Index")) {
+    # read the data in
+    suppressWarnings({
+      ac = readr::read_csv(
+        path,
+        col_types = readr::cols(
+          .default = readr::col_integer(),
+          Accident_Index = readr::col_character(),
+          Longitude = readr::col_double(),
+          Latitude = readr::col_double(),
+          Date = readr::col_character(),
+          Time = readr::col_character(),
+          `Local_Authority_(Highway)` = readr::col_character(),
+          LSOA_of_Accident_Location = readr::col_character()
+        )
       )
-    )
-  })
+    })
+  } else {
+    # read the data in
+    suppressWarnings({
+      ac = readr::read_csv(
+        path,
+        col_types = readr::cols(
+          .default = readr::col_integer(),
+          Acc_Index = readr::col_character(),
+          Longitude = readr::col_double(),
+          Latitude = readr::col_double(),
+          Date = readr::col_character(),
+          Time = readr::col_character(),
+          `Local_Authority_(Highway)` = readr::col_character(),
+          LSOA_of_Accident_Location = readr::col_character()
+        )
+      )
+    })
+  }
 
   if(format)
     return(format_accidents(ac))
@@ -76,6 +96,18 @@ read_vehicles = function(year = NULL,
     data_dir = data_dir,
     year = year
   )
+  h = utils::read.csv(path, nrows = 1)
+  if(identical(names(h)[1], "Accident_Index")) {
+    ve = readr::read_csv(path, col_types = readr::cols(
+      .default = readr::col_integer(),
+      Accident_Index = readr::col_character()
+    ))
+  } else {
+    ve = readr::read_csv(path, col_types = readr::cols(
+      .default = readr::col_integer(),
+      Acc_Index = readr::col_character()
+    ))
+  }
   # read the data in
   ve = readr::read_csv(path, col_types = readr::cols(
     .default = readr::col_integer(),
@@ -112,11 +144,20 @@ read_casualties = function(year = NULL,
     data_dir = data_dir,
     year = year
   )
-  # read the data in
-  ca = readr::read_csv(path, col_types = readr::cols(
-    .default = readr::col_integer(),
-    Accident_Index = readr::col_character()
-  ))
+  h = utils::read.csv(path, nrows = 1)
+  if(identical(names(h)[1], "Accident_Index")) {
+    # read the data in
+    ca = readr::read_csv(path, col_types = readr::cols(
+      .default = readr::col_integer(),
+      Accident_Index = readr::col_character()
+    ))
+  } else {
+    # read the data in
+    ca = readr::read_csv(path, col_types = readr::cols(
+      .default = readr::col_integer(),
+      Acc_Index = readr::col_character()
+    ))
+  }
   if(format)
     return(format_casualties(ca))
   ca
