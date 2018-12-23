@@ -37,7 +37,17 @@ test_that("read_accidents works", {
   expect_equal(nrow(read), nrow(raw_read))
   expect_error(read_accidents("junk"))
 })
+test_that("read_* acc_index works", {
+  veh_2009 = stats19::file_names$DfTRoadSafety_Vehicles_2009.zip
+  dl_stats19(file_name = veh_2009)
+  cas_2009 = stats19::file_names$DfTRoadSafety_Casualties_2009.zip
+  dl_stats19(file_name = cas_2009)
+  read_veh = read_vehicles(year = 2009)
+  read_cas = read_casualties(year = 2009)
+  expect_true(identical(names(read_veh)[1], "acc_index"))
+  expect_true(identical(names(read_cas)[1], "acc_index"))
 
+})
 test_that("read_vehicles works", {
   skip_download()
   # download real data
