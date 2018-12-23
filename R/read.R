@@ -63,7 +63,8 @@ read_accidents = function(year = NULL,
 #' @export
 #' @examples
 #' \dontrun{
-#' ve = read_vehicles()
+#' dl_stats19(year = 2009, type = "vehicles")
+#' ve = read_vehicles(year = 2009)
 #' }
 read_vehicles = function(year = NULL,
                          filename = "",
@@ -76,26 +77,12 @@ read_vehicles = function(year = NULL,
     data_dir = data_dir,
     year = year
   )
-  h = utils::read.csv(path, nrows = 1)
-  if(identical(names(h)[1], "Accident_Index")) {
-    ve = readr::read_csv(path, col_types = readr::cols(
-      .default = readr::col_integer(),
-      Accident_Index = readr::col_character()
-    ))
-  } else {
-    ve = readr::read_csv(path, col_types = readr::cols(
-      .default = readr::col_integer(),
-      Acc_Index = readr::col_character()
-    ))
-  }
-  # read the data in
-  ve = readr::read_csv(path, col_types = readr::cols(
-    .default = readr::col_integer(),
-    Accident_Index = readr::col_character()
-  ))
-  if(format)
+  ve = read_ve_ca(path = path)
+  if(format) {
     return(format_vehicles(ve))
-  ve
+  } else {
+    ve
+  }
 }
 
 #' Read in stats19 road safety data from .csv files downloaded.
@@ -116,28 +103,13 @@ read_casualties = function(year = NULL,
                            filename = "",
                            data_dir = tempdir(),
                            format = TRUE) {
-
-  # check inputs
   path = check_input_file(
     filename = filename,
     type = "casualties",
     data_dir = data_dir,
     year = year
   )
-  h = utils::read.csv(path, nrows = 1)
-  if(identical(names(h)[1], "Accident_Index")) {
-    # read the data in
-    ca = readr::read_csv(path, col_types = readr::cols(
-      .default = readr::col_integer(),
-      Accident_Index = readr::col_character()
-    ))
-  } else {
-    # read the data in
-    ca = readr::read_csv(path, col_types = readr::cols(
-      .default = readr::col_integer(),
-      Acc_Index = readr::col_character()
-    ))
-  }
+  ca = read_ve_ca(path = path)
   if(format)
     return(format_casualties(ca))
   ca
@@ -155,8 +127,9 @@ check_input_file = function(filename = NULL,
                             type = NULL,
                             data_dir = NULL,
                             year = NULL) {
-  if (!is.null (year))
-    year = check_year (year)
+  if(!is.null (year)) {
+    year = check_year(year)
+  }
   path = locate_one_file(
     type = type,
     filename = filename,
@@ -174,3 +147,26 @@ check_input_file = function(filename = NULL,
   }
   return(path)
 }
+
+# # informal test
+# dl_stats19(year = 2009, type = "vehicles")
+# f = "DfTRoadSafety_Vehicles_2009/DfTRoadSafety_Vehicles_2009.csv"
+# path = file.path(tempdir(), f)
+# read_ve_ca(path)
+read_ve_ca = function(path) {
+  h = utils::read.csv(path, nrows = 1)
+  if(identical(names(h)[1], "Accident_Index")) {
+    readr::read_csv(path, col_types = readr::cols(
+      .default = readr::col_integer(),
+      Accident_Index = readr::col_character()
+    ))
+  } else {
+    x = readr::read_csv(path, col_types = readr::cols(
+      .default = readr::col_integer(),
+      Acc_Index = readr::col_character()
+    ))
+    names(x)[names(x) == "Acc_Index"] = "Accident_Index"
+    x
+  }
+}
+
