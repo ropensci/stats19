@@ -44,8 +44,8 @@ test_that("read_* acc_index works", {
   dl_stats19(file_name = cas_2009)
   read_veh = read_vehicles(year = 2009)
   read_cas = read_casualties(year = 2009)
-  expect_true(identical(names(read_veh)[1], "acc_index"))
-  expect_true(identical(names(read_cas)[1], "acc_index"))
+  expect_true(identical(names(read_veh)[1], "accident_index"))
+  expect_true(identical(names(read_cas)[1], "accident_index"))
 
 })
 test_that("read_vehicles works", {
