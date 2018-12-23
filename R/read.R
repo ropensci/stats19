@@ -96,8 +96,8 @@ read_vehicles = function(year = NULL,
 #' @export
 #' @examples
 #' \dontrun{
-#' dl_stats19(years = 2017, type = "casualties")
-#' casualties = read_casualties()
+#' dl_stats19(year = 2017, type = "casualties")
+#' casualties = read_casualties(year = 2017)
 #' }
 read_casualties = function(year = NULL,
                            filename = "",
