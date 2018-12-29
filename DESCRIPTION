@@ -19,10 +19,10 @@ LazyData: true
 Imports: 
     sf,
     readr,
-    readxl,
-    curl (>= 3.2),
     tibble
 Suggests: 
+    curl (>= 3.2),
+    readxl,
     dplyr,
     ggplot2,
     knitr,

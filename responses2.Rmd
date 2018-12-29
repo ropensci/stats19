@@ -12,18 +12,26 @@ However, as long as it is properly documents, we think the benefits of a `get_st
 We would very much welcome a pull request that address some of the other issues you mention.
 
 Responses to other issues/questions/comments are provided below.
-
+We suspect that some of the comments refer to an older version of the package, which is completely understandable (the package has evolved since the initial submission!) and explains why some of the responses are short / questions.
 
 > Clearly much effort has gone into this package. I greatly support the sentiment behind making these data available in R having done the same for other data sets, myself. This package should be a great benefit to researchers in this area. I really appreciate the slim dependencies. It will make this package much easier to maintain into the future.
 
 Thanks for the comments, we have indeed tried to keep dependencies to a minimum but consider `readr` and `tibble` worthwhile.
+`readxl` and `curl` have been demoted to `Suggests`, as detailed in another comment.
 
 > I found the package to be well documented, the vignette is helpful in illustrating some use cases for the data along with how to access it and the code is clear.
 
+Thanks. If you think of other was we can communicate the value of the data, do let us know (I think the second mapping figure could be improved...).
+
 > Some of the functionality I find to be mildly confusing like downloading and then importing the files into the R session and then formatting. As a user I'd prefer it all in one step, but there are likely use cases I'm not aware of that mean that this is useful so some examples of this would be useful I think.
+
+We have long been planning to add a `get_stats19()` function as per https://github.com/ITSLeeds/stats19/issues/11 
+The review comment, combined with further discussion, has triggered us to re-prioritise it.
+It's been beneficial to polish each of the component functions first, however, and good to document each stage for maximum transparency, however, so we plan to keep the `dl`, `read` and `format` functions exported.
 
 > My general comments on the code follow and sections for the DESCRTIPTION and Vignette as well. I've commented quite a bit on grammar and spelling as I think that the polish of a package is important as it lends to the perception of the quality.
 
+Agreed.
 
 --------------------------------------------------------------------------------
 
