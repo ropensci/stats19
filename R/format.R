@@ -64,8 +64,8 @@ format_stats19 = function(x, type) {
 
   for(i in vars_to_change) {
     lkp_name = lkp$column_name[lkp$column_name == new_names[i]]
-    lkp = stats19_schema[stats19_schema$variable_formatted == lkp_name, 1:2]
-    x[[i]] = lkp$label[match(x[[i]], lkp$code)]
+    lookup = stats19_schema[stats19_schema$variable_formatted == lkp_name, 1:2]
+    x[[i]] = lookup$label[match(x[[i]], lookup$code)]
   }
   x
 }

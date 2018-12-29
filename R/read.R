@@ -138,7 +138,7 @@ check_input_file = function(filename = NULL,
     year = year
   )
   if(identical(path, "More than one csv file found."))
-    stop("Your parameters return identical filenames under different directories.")
+    stop("Multiple files with the same name found.")
   # have we NOT found a csv to read?
   if (is.null(path) || length(path) == 0 || !endsWith(path, ".csv")
       || !file.exists(path)) {

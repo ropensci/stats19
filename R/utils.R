@@ -164,7 +164,7 @@ locate_one_file = function(filename = NULL,
     stop("No files found under: ", data_dir)
 
   scan1 = function(path, type) {
-    lf = list.files(file.path(data_dir, path), full.names = TRUE, pattern = ".csv$")
+    lf = list.files(file.path(data_dir, path), ".csv$", full.names = TRUE)
     if(!is.null(type))
       lf = lf [grep(type, lf, ignore.case = TRUE)]
     return(lf)
