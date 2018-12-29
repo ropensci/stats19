@@ -64,10 +64,18 @@ As a compromise, we've shortened the startup from 4 lines to 2:
 library(stats19)
 ```
 
-
-
-
 > Avoid long lines >80 chars
+
+running `goodpractice::gp()` found the following lines with > 80 lines:
+
+```
+    R/format.R:62:1
+    R/format.R:67:1
+    R/read.R:141:1
+    R/utils.R:167:1
+```
+
+All these have been fixed - see 
 
 > Inconsistent use of white spaces in code, see `find_file_name()` `if` statements for examples.
 
