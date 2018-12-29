@@ -42,7 +42,7 @@ format_casualties = function(x) {
 #' @examples
 #' \dontrun{
 #' dl_stats19(year = 2017, type = "vehicles")
-#' x = read_vehicles(year = 2017)
+#' x = read_vehicles(year = 2017, format = FALSE)
 #' vehicles = format_vehicles(x)
 #' }
 #' @export
@@ -59,13 +59,13 @@ format_stats19 = function(x, type) {
   # create lookup table
   lkp = stats19_variables[stats19_variables$table == type,]
 
-  vkeep = new_names %in% stats19_schema$variable_formatted # new way with summary(vkeep) 12 true
+  vkeep = new_names %in% stats19_schema$variable_formatted
   vars_to_change = which(vkeep)
 
   for(i in vars_to_change) {
-    lookup_col_name = lkp$column_name[lkp$column_name == new_names[i]]
-    lookup = stats19_schema[stats19_schema$variable_formatted == lookup_col_name, 1:2]
-    x[[i]] = lookup$label[match(x[[i]], lookup$code)]
+    lkp_name = lkp$column_name[lkp$column_name == new_names[i]]
+    lkp = stats19_schema[stats19_schema$variable_formatted == lkp_name, 1:2]
+    x[[i]] = lkp$label[match(x[[i]], lkp$code)]
   }
   x
 }
