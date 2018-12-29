@@ -114,7 +114,7 @@ dl_stats19(file_name = paste0(d17, ".zip"))
 Note that this is the same file (containing the 'accidents' table from 2017) downloaded previously with the command `dl_stats19(year = 2017, type = "Accidents")`.
 If the file is already present, `dl_stats19()` will skip the download process.
 
-## Read and format STATS19 data
+## Read STATS19 data
 
 In a similar approach to the download section before, we can read files downloaded using a `data_dir` location of the file and the `filename` to read.
 The code below will download the `dftRoadSafetyData_Accidents_2017.zip` file from the DfT servers and read its content.
@@ -189,6 +189,90 @@ crashes_2017[random_n, key_vars]
 ```
 
 **Note**: As indicated above, the term "accidents" is only used as directly provided by the DfT; "crashes" is a more appropriate term, hence we call our resultant datasets `crashes_*`.
+
+## Format STATS19 data
+
+It is also possible to import the "raw" data as provided by the DfT.
+A [`.xls` file](http://data.dft.gov.uk/road-accidents-safety-data/Road-Accident-Safety-Data-Guide.xls) provided by the DfT defines the column names for the datasets provided.
+The packaged datasets `stats19_variables` and `stats19_schema` provide summary information about the contents of this data guide.
+These contain the full variable names in the guide (`stats19_variables`) and a complete lookup table relating integer values to the `.csv` files provided by the DfT and their labels (`stats19_schema`).
+The first rows of each dataset are shown below:
+
+```{r variables-and-schema}
+stats19_variables
+stats19_schema
+```
+
+The code that generated these small datasets can be found in their help pages (accessed with `?stats19_variables` and `?stats19_schema` respectively).
+`stats19_schema` is used internally to automate the process of formatting the downloaded `.csv` files.
+Column names are formatted by the function `format_column_names()`, as illustrated below:
+
+```{r format-col-names}
+format_column_names(stats19_variables$variable[1:3])
+```
+
+Previous approaches to data formatting `STATS19` data involved hard-coding results.
+This more automated approach to data cleaning is more consistent and fail-safe.
+Three functions, `format_accidents()`, `format_vehicles()` and
+`format_casualties()` do the data formatting on the respective data frames, as
+illustrated below:
+
+```{r format-main}
+crashes_2017 = format_accidents(crashes_2017_raw)
+
+# vehicle data for 2017
+dl_stats19(year = 2017, type = "vehicles")
+vehicles_2017_raw = read_vehicles(year = 2017)
+vehicles_2017 = format_vehicles(vehicles_2017_raw)
+
+# casualties data for 2017
+dl_stats19(year = 2017, type = "casualties")
+casualties_2017 = read_casualties(year = 2017)
+```
+
+The package automates this two-step `read_*` and `format_*`
+process by defaulting in all cases to `data_year = read_*(year, format = TRUE)`.
+`read_*` functions return, by default, formatted data.
+The two-step process may nevertheless be important for reference to the official
+nomenclature and values as provided by the DfT.
+
+A summary of the outputs for each of the three tables is shown below.
+
+```{r summarise-stats19}
+summarise_stats19 = function(x) {
+  data.frame(row.names = 1:length(x),
+    name = substr(names(x), 1, 19),
+    class = sapply(x, class),
+    n_unique = sapply(x, function(v) length(unique(v))),
+    first_label = sapply(x, function(v) substr(unique(v)[1], 1, 9)),
+    second_label = sapply(x, function(v) substr(unique(v)[2], 1, 9))
+  )
+}
+```
+
+```{r summarise-crashes}
+knitr::kable(summarise_stats19(crashes_2017), 
+             caption = "Summary of formatted crash data.")
+```
+
+```{r summarise-vehicles}
+knitr::kable(summarise_stats19(vehicles_2017), 
+             caption = "Summary of formatted vehicles data.")
+```
+
+```{r summarise-casualties}
+knitr::kable(summarise_stats19(casualties_2017), 
+             caption = "Summary of formatted casualty data.")
+```
+
+For testing and other purposes, a sample from the accidents table is provided in the package.
+A few columns from the two-row sample is shown below:
+
+```{r, echo=FALSE, results='asis'}
+key_patt = "severity|speed|light|human"
+key_vars = grep(key_patt, x = names(stats19::accidents_sample_raw), ignore.case = TRUE)
+knitr::kable(stats19::accidents_sample_raw[, key_vars])
+```
 
 ## Casualties data
 
@@ -267,33 +351,22 @@ crashes_sf = format_sf(crashes_2017)
 
 The note arises because `NA` values are not permitted in `sf` coordinates, and so rows containing no coordinates are automatically removed.
 Having the data in a standard geographic form allows various geographic operations to be performed on it.
-The following code chunk, for example, returns all crashes within the boundary of the Leeds local authority. 
-This requires the **ukboundaries** GitHub package:
-```{r ukboundaries, eval = FALSE}
-devtools::install_github("Robinlovelace/ukboundaries")
-```
-```{r ukboundaries-save, echo = FALSE, eval = FALSE}
-leeds <- ukboundaries::leeds
-saveRDS (leeds, file = "leeds-bdry.Rds")
+The following code chunk, for example, returns all crashes within the jurisdiction of [West Yorkshire Police](https://en.wikipedia.org/wiki/West_Yorkshire_Police):
+
+```{r ukboundaries}
+west_yorkshire =
+  police_boundaries[police_boundaries$pfa16nm == "West Yorkshire", ]
 ```
 
 
-```{r crashes-leeds, eval = FALSE}
+```{r crashes-west_yorkshire}
 library(sf)
-leeds_osgb = st_transform(ukboundaries::leeds, crs = 27700)
-crashes_leeds = crashes_sf[leeds_osgb, ]
+crashes_wy = crashes_sf[west_yorkshire, ]
 nrow(crashes_sf)
-nrow(crashes_leeds)
-```
-```{r crashes-leeds-hidden, echo = FALSE}
-library (sf)
-leeds_osgb = st_transform(readRDS("leeds-bdry.Rds"), crs = 27700)
-crashes_leeds = crashes_sf[leeds_osgb, ]
-nrow(crashes_sf)
-nrow(crashes_leeds)
+nrow(crashes_wy)
 ```
 
-This subsetting has selected the `r format(nrow(crashes_leeds), big.mark = ",")`
+This subsetting has selected the `r format(nrow(crashes_wy), big.mark = ",")`
 crashes which occurred within the Leeds boundary.
 
 
@@ -305,7 +378,7 @@ This is demonstrated in the code chunk below, which subsets all casualties that 
 ```{r table-join, message = FALSE}
 library(tidyr)
 library(dplyr)
-sel = casualties_2017$accident_index %in% crashes_leeds$accident_index
+sel = casualties_2017$accident_index %in% crashes_wy$accident_index
 casualties_leeds = casualties_2017[sel, ]
 cas_types = casualties_leeds %>% 
   select(accident_index, casualty_type) %>% 
@@ -314,16 +387,16 @@ cas_types = casualties_leeds %>%
   summarise(n = sum(n)) %>% 
   spread(casualty_type, n, fill = 0) 
 cas_types$Total = rowSums(cas_types[-1])
-crashes_joined = left_join(crashes_leeds, cas_types, by = "accident_index")
+crashes_joined = left_join(crashes_wy, cas_types, by = "accident_index")
 ```
 
 What just happened? We found the subset of casualties that took place in Leeds with reference to the `accident_index` variable.
 Then we used functions from the **tidyverse** package **dplyr** (and `spread()` from **tidyr**) to create a dataset with a column for each casualty type.
-We then joined the updated casualty data onto the `crashes_leeds` dataset.
+We then joined the updated casualty data onto the `crashes_wy` dataset.
 The result is a spatial (`sf`) data frame of crashes in Leeds, with columns counting how many road users of different types were hurt.
 The original and joined data look like this:
 ```{r table-join-examples}
-crashes_leeds
+crashes_wy
 cas_types
 crashes_joined
 ```
@@ -382,94 +455,8 @@ ggplot(crash_times, aes(hour, casualties)) +
   
 ```
 
-Note that cycling manifests distinct morning and afternoon peaks [see @lovelace_who_2016 for more on this].
+Note that bike crashes tend to have distinct morning and afternoon peaks, in-line with previous research [@lovelace_who_2016].
 
-
-## Format STATS19 data
-
-As mentioned above, it is also possible to import the "raw" data in precisely the format provided by the DfT.
-A [`.xls` file](http://data.dft.gov.uk/road-accidents-safety-data/Road-Accident-Safety-Data-Guide.xls) provided by the DfT defines the column names for the datasets provided.
-The packaged datasets `stats19_variables` and `stats19_schema` provide summary information about the contents of this data guide.
-These contain the full variable names in the guide (`stats19_variables`) and a complete lookup table relating integer values to the `.csv` files provided by the DfT and their labels (`stats19_schema`).
-The first rows of each dataset are shown below:
-
-```{r variables-and-schema}
-stats19_variables
-stats19_schema
-```
-
-The code that generated these small datasets can be found in their help pages (accessed with `?stats19_variables` and `?stats19_schema` respectively).
-`stats19_schema` is used internally to automate the process of formatting the downloaded `.csv` files.
-Column names are formatted by the function `format_column_names()`, as illustrated below:
-
-```{r format-col-names}
-format_column_names(stats19_variables$variable[1:3])
-```
-
-Previous approaches to data formatting `STATS19` data involved hard-coding results.
-This more automated approach to data cleaning is more consistent and fail-safe.
-Three functions, `format_accidents()`, `format_vehicles()` and
-`format_casualties()` do the data formatting on the respective data frames, as
-illustrated below:
-
-```{r format-main}
-crashes_2017 = format_accidents(crashes_2017_raw)
-
-# vehicle data for 2017
-dl_stats19(year = 2017, type = "vehicles")
-vehicles_2017_raw = read_vehicles(year = 2017)
-vehicles_2017 = format_vehicles(vehicles_2017_raw)
-
-# casualties data for 2017
-dl_stats19(year = 2017, type = "casualties")
-casualties_2017_raw = read_casualties(year = 2017)
-casualties_2017 = format_casualties(casualties_2017_raw)
-```
-The package is designed to automatic this two-step `read_*` and `format_*`
-process by defaulting in all cases to `data_year = read_*(year, format = TRUE)`,
-so that the single `read_*` functions return by default the formatted data. The
-two-step process may nevertheless be important for reference to the official
-nomenclature and values as provided by the DfT.
-
-A summary of the outputs for each of the three tables is shown below.
-
-```{r summarise-stats19}
-summarise_stats19 = function(x) {
-  data.frame(row.names = 1:length(x),
-    name = substr(names(x), 1, 19),
-    class = sapply(x, class),
-    n_unique = sapply(x, function(v) length(unique(v))),
-    first_label = sapply(x, function(v) substr(unique(v)[1], 1, 9)),
-    second_label = sapply(x, function(v) substr(unique(v)[2], 1, 9))
-  )
-}
-```
-
-```{r summarise-crashes}
-knitr::kable(summarise_stats19(crashes_2017), 
-             caption = "Summary of formatted crash data.")
-```
-
-```{r summarise-vehicles}
-knitr::kable(summarise_stats19(vehicles_2017), 
-             caption = "Summary of formatted vehicles data.")
-```
-
-```{r summarise-casualties}
-knitr::kable(summarise_stats19(casualties_2017), 
-             caption = "Summary of formatted casualty data.")
-```
-
-For testing and other purposes, a sample from the accidents table is provided in the package.
-A few columns from the two-row sample is shown below:
-
-```{r, echo=FALSE, results='asis'}
-key_patt = "severity|speed|light|human"
-key_vars = grep(key_patt, x = names(stats19::accidents_sample_raw), ignore.case = TRUE)
-knitr::kable(stats19::accidents_sample_raw[, key_vars])
-```
-
-<!-- ## Analysis: an example of pedestrians hurt in Leeds -->
 
 
 ## Further work
