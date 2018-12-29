@@ -9,7 +9,7 @@ Authors@R: c(
     comment = c(ORCID = "0000-0003-1912-4890")),
     person("Mark", "Padgham", role=c("aut"))
   )
-Description: Tools to help process and analysie the UK road collision data also known as STATS19.
+Description: Tools to download and format road collision datasets from the UK, to make them easier to analyse.
 Depends: R (>= 3.5.0)
 License: GPL-3
 URL: https://github.com/ITSLeeds/stats19
@@ -18,8 +18,7 @@ Encoding: UTF-8
 LazyData: true
 Imports: 
     sf,
-    readr,
-    tibble
+    readr
 Suggests: 
     curl (>= 3.2),
     readxl,
