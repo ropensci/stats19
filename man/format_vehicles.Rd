@@ -20,7 +20,7 @@ This function formats raw stats19 data
 \examples{
 \dontrun{
 dl_stats19(year = 2017, type = "vehicles")
-x = read_vehicles(year = 2017)
+x = read_vehicles(year = 2017, format = FALSE)
 vehicles = format_vehicles(x)
 }
 }
