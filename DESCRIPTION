@@ -7,9 +7,18 @@ Authors@R: c(
     person("Malcolm", "Morgan", email = "m.morgan1@leeds.ac.uk", role = c("aut")),
     person("Layik", "Hama", email = "layik.hama@gmail.com", role = c("aut"),
     comment = c(ORCID = "0000-0003-1912-4890")),
-    person("Mark", "Padgham", role=c("aut"))
+    person("Mark", "Padgham", role=c("aut"),
+     comment = c(ORCID = "0000-0003-2172-5265"))
   )
-Description: Tools to download and format road collision datasets from the UK, to make them easier to analyse.
+Description: Tools to help process and analysie the UK road collision data collected using the
+  STATS19 form.  The data are provided as 'CSV' files with detailed road safety data about the
+  circumstances of personal injury road accidents in Great Britain from 1979, the types
+  (including make and model) of vehicles involved and the consequential casualties.  The
+  statistics relate only to personal injury accidents on public roads that are reported
+  to the police, and subsequently recorded, using the STATS19 accident reporting form. See
+  the Department for Transportation website 
+  <https://data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data> for more
+  information on these data.
 Depends: R (>= 3.5.0)
 License: GPL-3
 URL: https://github.com/ITSLeeds/stats19
