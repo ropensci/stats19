@@ -30,10 +30,10 @@ read_schema = function(
 ) {
 
   file_path = file.path(data_dir, filename)
-  if (!file.exists(file_path)) {
+  if(!file.exists(file_path)) {
     dl_schema()
   }
-  if (is.null(sheet)) {
+  if(is.null(sheet)) {
     export_variables = readxl::read_xls(path = file_path,
                                         sheet = 2,
                                         skip = 2)
