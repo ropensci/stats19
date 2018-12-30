@@ -200,7 +200,7 @@ NULL
 #' library(rvest)
 #' #> Loading required package: xml2
 #' library(stringr)
-#' page <- read_html("https://data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data")
+#' page = read_html("https://data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data")
 #'
 #' r = page %>%
 #'   html_nodes("a") %>%       # find all links

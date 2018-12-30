@@ -1,9 +1,11 @@
+
 [![The API of a maturing package has been roughed out, but finer details
 likely to
 change.](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 [![Travis build
 status](https://travis-ci.org/ITSLeeds/stats19.svg?branch=master)](https://travis-ci.org/ITSLeeds/stats19)
-[![Azure Status](https://dev.azure.com/tralh/stats19/_apis/build/status/ITSLeeds.stats19?branchName=master)](https://dev.azure.com/tralh/stats19/_build/latest?definitionId=1?branchName=master)
+[![Azure
+Status](https://dev.azure.com/tralh/stats19/_apis/build/status/ITSLeeds.stats19?branchName=master)](https://dev.azure.com/tralh/stats19/_build/latest?definitionId=1?branchName=master)
 [![codecov](https://codecov.io/gh/ITSLeeds/stats19/branch/master/graph/badge.svg)](https://codecov.io/gh/ITSLeeds/stats19)
 [![Gitter
 chat](https://badges.gitter.im/ITSLeeds/stats19.png)](https://gitter.im/stats19/Lobby?source=orgpage)
@@ -78,10 +80,8 @@ devtools::install_github("ITSLeeds/stats19")
 
 ``` r
 library(stats19)
-#> Data provided under the conditions of the Open Government License.
-#> If you use data from this package, mention the source
-#> (Department for Transport), cite the package and link to:
-#> www.nationalarchives.gov.uk/doc/open-government-licence/version/3/.
+#> Data provided under OGL v3.0. Cite the source and link to:
+#> www.nationalarchives.gov.uk/doc/open-government-licence/version/3/
 ```
 
 <!-- You can install the released version of stats19 from [CRAN](https://CRAN.R-project.org) with: -->
@@ -103,7 +103,7 @@ dl_stats19(year = 2017, type = "Accidents")
 #> Files identified: dftRoadSafetyData_Accidents_2017.zip
 #> Attempt downloading from:
 #>    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Accidents_2017.zip
-#> Data saved at /tmp/RtmpjsJsN9/dftRoadSafetyData_Accidents_2017/Acc.csv
+#> Data saved at /tmp/RtmpprL8mF/dftRoadSafetyData_Accidents_2017/Acc.csv
 ```
 
 Currently, these files are downloaded to a default location of `tempdir`
@@ -148,7 +148,7 @@ section, they can then be read-in as follows:
 ``` r
 crashes_2017_raw = read_accidents(year = 2017, format = FALSE)
 #> Reading in:
-#> /tmp/RtmpjsJsN9/dftRoadSafetyData_Accidents_2017/Acc.csv
+#> /tmp/RtmpprL8mF/dftRoadSafetyData_Accidents_2017/Acc.csv
 crashes_2017 = format_accidents(crashes_2017_raw)
 nrow(crashes_2017_raw)
 #> [1] 129982
@@ -228,7 +228,7 @@ dl_stats19(year = 2017, type = "casualties")
 #> Files identified: dftRoadSafetyData_Casualties_2017.zip
 #> Attempt downloading from:
 #>    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Casualties_2017.zip
-#> Data saved at /tmp/RtmpjsJsN9/dftRoadSafetyData_Casualties_2017/Cas.csv
+#> Data saved at /tmp/RtmpprL8mF/dftRoadSafetyData_Casualties_2017/Cas.csv
 casualties_2017 = read_casualties(year = 2017)
 nrow(casualties_2017)
 #> [1] 170993
@@ -290,7 +290,7 @@ dl_stats19(year = 2017, type = "vehicles")
 #> Files identified: dftRoadSafetyData_Vehicles_2017.zip
 #> Attempt downloading from:
 #>    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Vehicles_2017.zip
-#> Data saved at /tmp/RtmpjsJsN9/dftRoadSafetyData_Vehicles_2017/Veh.csv
+#> Data saved at /tmp/RtmpprL8mF/dftRoadSafetyData_Vehicles_2017/Veh.csv
 vehicles_2017 = read_vehicles(year = 2017)
 nrow(vehicles_2017)
 #> [1] 238926
@@ -338,12 +338,10 @@ names(vehicles_2017)
 #> [23] "vehicle_imd_decile"
 ```
 
-<!-- More data can be read-in as follows: -->
-
 ## Creating geographic crash data
 
 An important feature of STATS19 data is that the “accidents” table
-contains geographic coordinates. These are provided at \~10m resolution
+contains geographic coordinates. These are provided at ~10m resolution
 in the UK’s official coordinate reference system (the Ordnance Survey
 National Grid, EPSG code 27700). **stats19** converts the non-geographic
 tables created by `format_accidents()` into the geographic data form of
@@ -363,24 +361,19 @@ for example, returns all crashes within the boundary of the Leeds local
 authority. This requires the **ukboundaries** GitHub package:
 
 ``` r
-devtools::install_github("Robinlovelace/ukboundaries")
-```
-
-``` r
 library(sf)
-#> Linking to GEOS 3.7.0, GDAL 2.3.2, PROJ 5.2.0
-leeds_osgb = st_transform(ukboundaries::leeds, crs = 27700)
-#> Using default data cache directory ~/.ukboundaries/cache 
-#> Use cache_dir() to change it.
-crashes_leeds = crashes_sf[leeds_osgb, ]
+#> Linking to GEOS 3.6.2, GDAL 2.2.3, PROJ 4.9.3
+west_yorkshire =
+  police_boundaries[police_boundaries$pfa16nm == "West Yorkshire", ]
+crashes_wy = crashes_sf[west_yorkshire, ]
 nrow(crashes_sf)
 #> [1] 129963
-nrow(crashes_leeds)
-#> [1] 1713
+nrow(crashes_wy)
+#> [1] 4371
 ```
 
-This subsetting has selected the 1,713 crashes which occurred within the
-Leeds boundary.
+This subsetting has selected the 4,371 crashes which occurred within
+West Yorksire in 2017.
 
 ## Joining tables
 
@@ -390,138 +383,53 @@ all casualties that took place in Leeds, and counts the number of
 casualties by severity for each crash:
 
 ``` r
-library(tidyverse)
-sel = casualties_2017$accident_index %in% crashes_leeds$accident_index
-casualties_leeds = casualties_2017[sel, ]
-cas_types = casualties_leeds %>% 
+library(dplyr)
+sel = casualties_2017$accident_index %in% crashes_wy$accident_index
+casualties_wy = casualties_2017[sel, ]
+cas_types = casualties_wy %>% 
   select(accident_index, casualty_type) %>% 
   mutate(n = 1) %>% 
   group_by(accident_index, casualty_type) %>% 
   summarise(n = sum(n)) %>% 
-  spread(casualty_type, n, fill = 0) 
+  tidyr::spread(casualty_type, n, fill = 0) 
 cas_types$Total = rowSums(cas_types[-1])
-crashes_joined = left_join(crashes_leeds, cas_types, by = "accident_index")
+crashes_joined = left_join(crashes_wy, cas_types, by = "accident_index")
 ```
 
 What just happened? We found the subset of casualties that took place in
-Leeds with reference to the `accident_index` variable. Then we used
-functions from the **tidyverse** package **dplyr** (and `spread()` from
-**tidyr**) to create a dataset with a column for each casualty type. We
-then joined the updated casualty data onto the `crashes_leeds` dataset.
-The result is a spatial (`sf`) data frame of crashes in Leeds, with
-columns counting how many road users of different types were hurt. The
-original and joined data look like this:
+West Yorkshire with reference to the `accident_index` variable. Then we
+used functions from the **tidyverse** package **dplyr** (and `spread()`
+from **tidyr**) to create a dataset with a column for each casualty
+type. We then joined the updated casualty data onto the `crashes_wy`
+dataset. The result is a spatial (`sf`) data frame of crashes in Leeds,
+with columns counting how many road users of different types were hurt.
+The original and joined data look like this:
 
 ``` r
-crashes_leeds
-#> Simple feature collection with 1713 features and 30 fields
-#> geometry type:  POINT
-#> dimension:      XY
-#> bbox:           xmin: 415248 ymin: 423230 xmax: 445477 ymax: 449559
-#> epsg (SRID):    27700
-#> proj4string:    +proj=tmerc +lat_0=49 +lon_0=-2 +k=0.9996012717 +x_0=400000 +y_0=-100000 +ellps=airy +towgs84=446.448,-125.157,542.06,0.15,0.247,0.842,-20.489 +units=m +no_defs
-#> # A tibble: 1,713 x 31
-#>    accident_index longitude latitude police_force accident_severi…
-#>    <chr>              <dbl>    <dbl> <chr>        <chr>           
-#>  1 2017120223550      -1.31     53.9 North Yorks… Slight          
-#>  2 2017133AP0313      -1.60     53.8 West Yorksh… Serious         
-#>  3 2017133BE0850      -1.53     53.8 West Yorksh… Slight          
-#>  4 2017134110858      -1.56     53.8 West Yorksh… Slight          
-#>  5 2017134111495      -1.55     53.8 West Yorksh… Slight          
-#>  6 2017134111706      -1.46     53.8 West Yorksh… Slight          
-#>  7 2017134120471      -1.34     53.8 West Yorksh… Slight          
-#>  8 2017134121054      -1.36     53.8 West Yorksh… Serious         
-#>  9 2017134121066      -1.54     53.8 West Yorksh… Slight          
-#> 10 2017134121358      -1.52     53.8 West Yorksh… Serious         
-#> # ... with 1,703 more rows, and 26 more variables:
-#> #   number_of_vehicles <int>, number_of_casualties <int>, date <chr>,
-#> #   day_of_week <chr>, time <chr>, local_authority_district <chr>,
-#> #   local_authority_highway <chr>, first_road_class <chr>,
-#> #   first_road_number <int>, road_type <chr>, speed_limit <int>,
-#> #   junction_detail <chr>, junction_control <chr>,
-#> #   second_road_class <chr>, second_road_number <int>,
-#> #   pedestrian_crossing_human_control <chr>,
-#> #   pedestrian_crossing_physical_facilities <chr>, light_conditions <chr>,
-#> #   weather_conditions <chr>, road_surface_conditions <chr>,
-#> #   special_conditions_at_site <chr>, carriageway_hazards <chr>,
-#> #   urban_or_rural_area <chr>,
-#> #   did_police_officer_attend_scene_of_accident <int>,
-#> #   lsoa_of_accident_location <chr>, geometry <POINT [m]>
-cas_types
-#> # A tibble: 1,713 x 17
-#> # Groups:   accident_index [1,713]
-#>    accident_index `Bus or coach o… `Car occupant` Cyclist `Goods vehicle …
-#>    <chr>                     <dbl>          <dbl>   <dbl>            <dbl>
-#>  1 2017120223550                 0              0       2                0
-#>  2 2017133AP0313                 0              0       0                0
-#>  3 2017133BE0850                 0              0       1                0
-#>  4 2017134110858                 0              2       0                0
-#>  5 2017134111495                 0              1       0                0
-#>  6 2017134111706                 0              1       0                0
-#>  7 2017134120471                 0              2       0                0
-#>  8 2017134121054                 0              3       0                0
-#>  9 2017134121066                 0              0       0                0
-#> 10 2017134121358                 0              0       0                0
-#> # ... with 1,703 more rows, and 12 more variables: `Goods vehicle (over
-#> #   3.5t. and under 7.5t.) occupant` <dbl>, `Minibus (8 - 16 passenger
-#> #   seats) occupant` <dbl>, `Motorcycle - unknown cc rider or
-#> #   passenger` <dbl>, `Motorcycle 125cc and under rider or
-#> #   passenger` <dbl>, `Motorcycle 50cc and under rider or
-#> #   passenger` <dbl>, `Motorcycle over 125cc and up to 500cc rider or
-#> #   passenger` <dbl>, `Motorcycle over 500cc rider or passenger` <dbl>,
-#> #   `Other vehicle occupant` <dbl>, Pedestrian <dbl>, `Taxi/Private hire
-#> #   car occupant` <dbl>, `Van / Goods vehicle (3.5 tonnes mgw or under)
-#> #   occupant` <dbl>, Total <dbl>
-crashes_joined
-#> Simple feature collection with 1713 features and 46 fields
-#> geometry type:  POINT
-#> dimension:      XY
-#> bbox:           xmin: 415248 ymin: 423230 xmax: 445477 ymax: 449559
-#> epsg (SRID):    27700
-#> proj4string:    +proj=tmerc +lat_0=49 +lon_0=-2 +k=0.9996012717 +x_0=400000 +y_0=-100000 +ellps=airy +towgs84=446.448,-125.157,542.06,0.15,0.247,0.842,-20.489 +units=m +no_defs
-#> # A tibble: 1,713 x 47
-#>    accident_index longitude latitude police_force accident_severi…
-#>    <chr>              <dbl>    <dbl> <chr>        <chr>           
-#>  1 2017120223550      -1.31     53.9 North Yorks… Slight          
-#>  2 2017133AP0313      -1.60     53.8 West Yorksh… Serious         
-#>  3 2017133BE0850      -1.53     53.8 West Yorksh… Slight          
-#>  4 2017134110858      -1.56     53.8 West Yorksh… Slight          
-#>  5 2017134111495      -1.55     53.8 West Yorksh… Slight          
-#>  6 2017134111706      -1.46     53.8 West Yorksh… Slight          
-#>  7 2017134120471      -1.34     53.8 West Yorksh… Slight          
-#>  8 2017134121054      -1.36     53.8 West Yorksh… Serious         
-#>  9 2017134121066      -1.54     53.8 West Yorksh… Slight          
-#> 10 2017134121358      -1.52     53.8 West Yorksh… Serious         
-#> # ... with 1,703 more rows, and 42 more variables:
-#> #   number_of_vehicles <int>, number_of_casualties <int>, date <chr>,
-#> #   day_of_week <chr>, time <chr>, local_authority_district <chr>,
-#> #   local_authority_highway <chr>, first_road_class <chr>,
-#> #   first_road_number <int>, road_type <chr>, speed_limit <int>,
-#> #   junction_detail <chr>, junction_control <chr>,
-#> #   second_road_class <chr>, second_road_number <int>,
-#> #   pedestrian_crossing_human_control <chr>,
-#> #   pedestrian_crossing_physical_facilities <chr>, light_conditions <chr>,
-#> #   weather_conditions <chr>, road_surface_conditions <chr>,
-#> #   special_conditions_at_site <chr>, carriageway_hazards <chr>,
-#> #   urban_or_rural_area <chr>,
-#> #   did_police_officer_attend_scene_of_accident <int>,
-#> #   lsoa_of_accident_location <chr>, `Bus or coach occupant (17 or more
-#> #   pass seats)` <dbl>, `Car occupant` <dbl>, Cyclist <dbl>, `Goods
-#> #   vehicle (7.5 tonnes mgw and over) occupant` <dbl>, `Goods vehicle
-#> #   (over 3.5t. and under 7.5t.) occupant` <dbl>, `Minibus (8 - 16
-#> #   passenger seats) occupant` <dbl>, `Motorcycle - unknown cc rider or
-#> #   passenger` <dbl>, `Motorcycle 125cc and under rider or
-#> #   passenger` <dbl>, `Motorcycle 50cc and under rider or
-#> #   passenger` <dbl>, `Motorcycle over 125cc and up to 500cc rider or
-#> #   passenger` <dbl>, `Motorcycle over 500cc rider or passenger` <dbl>,
-#> #   `Other vehicle occupant` <dbl>, Pedestrian <dbl>, `Taxi/Private hire
-#> #   car occupant` <dbl>, `Van / Goods vehicle (3.5 tonnes mgw or under)
-#> #   occupant` <dbl>, Total <dbl>, geometry <POINT [m]>
+crashes_wy[1:2, c(1, 5)] %>% st_drop_geometry()
+#> # A tibble: 2 x 2
+#>   accident_index accident_severity
+#> * <chr>          <chr>            
+#> 1 2017120009776  Slight           
+#> 2 2017120010412  Slight
+cas_types[1:2, c("accident_index", "Cyclist")]
+#> # A tibble: 2 x 2
+#> # Groups:   accident_index [2]
+#>   accident_index Cyclist
+#>   <chr>            <dbl>
+#> 1 2017120009776        0
+#> 2 2017120010412        1
+crashes_joined[1:2, c(1, 5, 34)] %>% st_drop_geometry()
+#> # A tibble: 2 x 3
+#>   accident_index accident_severity Cyclist
+#> * <chr>          <chr>               <dbl>
+#> 1 2017120009776  Slight                  0
+#> 2 2017120010412  Slight                  1
 ```
 
-This join operation has enabled us to georeference the casualty data,
-enabling us to explore the spatial distribution of different casualty
-types as follows:
+This join operation added a geometry column to the casualty data,
+enabling exploration the spatial distribution of different casualty
+types:
 
 ``` r
 plot(crashes_joined[crashes_joined$Pedestrian > 0, "Pedestrian"])
@@ -543,6 +451,7 @@ pedestrians hurt and crash severity. This is easily done with
 **ggplot2**:
 
 ``` r
+library(ggplot2)
 ggplot(crashes_joined, aes(colour = Total)) +
   geom_sf() +
   facet_grid(vars(accident_severity), vars(Pedestrian))
@@ -551,7 +460,7 @@ ggplot(crashes_joined, aes(colour = Total)) +
 <img src="man/figures/README-ggplot-ped-severity-1.png" width="100%" />
 
 These figures suggest that pedestrian casualties tend to happen more
-frequently near the city centre, compared with other types of casualty.
+frequently near city centres, compared with other types of casualty.
 
 ## Time series analysis
 
@@ -564,7 +473,7 @@ crashes_dates = crashes_joined %>%
   group_by(date = lubridate::dmy(date)) %>% 
   summarise(Pedestrian = sum(Pedestrian), Cyclist = sum(Cyclist),
             `Car occupant` = sum(`Car occupant`)) %>% 
-  gather(mode, casualties, -date)
+  tidyr::gather(mode, casualties, -date)
 ggplot(crashes_dates, aes(date, casualties)) +
   geom_smooth(aes(colour = mode), method = "loess") +
   ylab("Casualties per day")
@@ -580,10 +489,10 @@ injured.
 ``` r
 crash_times = crashes_joined %>% 
   st_set_geometry(NULL) %>% 
-  group_by(hour = as.numeric(str_sub(time, 1, 2))) %>% 
+  group_by(hour = as.numeric(stringr::str_sub(time, 1, 2))) %>% 
   summarise(Pedestrian = sum(Pedestrian), Cyclist = sum(Cyclist),
             `Car occupant` = sum(`Car occupant`)) %>% 
-  gather(mode, casualties, -hour)
+  tidyr::gather(mode, casualties, -hour)
 ggplot(crash_times, aes(hour, casualties)) +
   geom_smooth(aes(colour = mode), method = "loess")
 ```
@@ -604,7 +513,7 @@ why people are needlessly hurt and killed on the roads.
 The next step is to gain a deeper understanding of **stats19** and the
 data it provides. Then it’s time to pose interesting research questions,
 some of which could provide an evidence-base in support policies that
-save lives (e.g. Sarkar, Webster, and Kumari 2018). For more on these
+save lives (e.g. Sarkar, Webster, and Kumari 2018). For more on these
 next steps, see the package’s introductory vignette.
 
 ## Further information
