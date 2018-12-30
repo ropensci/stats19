@@ -132,7 +132,7 @@ crashes_2017[c(7, 18, 23, 25)]
 ```
 
 By default, `format = TRUE`, meaning that the two stages of `read_accidents(format = FALSE)` and `format_accidents()` yield the same result as `read_accidents(format = TRUE)`.
-For the full list of columns, run `names(crashes_2017)` or see the vignette.
+For the full list of columns, run `names(crashes_2017)` or see the [vignette](https://github.com/ITSLeeds/stats19/blob/master/vignettes/stats19.Rmd).
 
 <!-- This means `crashes_2017` is much more usable than `crashes_2017_raw`, as shown below, which shows three records and some key variables in the messy and clean datasets: -->
 
@@ -195,23 +195,6 @@ The full list of column names in the `vehicles` dataset is:
 names(vehicles_2017)
 ```
 
-<!-- More data can be read-in as follows: -->
-
-```{r, eval=FALSE, echo=FALSE}
-# old code to be up-dated
-d14 = "Stats19_Data_2005-2014"
-crashes_2005_2014 = read_accidents(data_dir = d14)
-crashes_2005_2014_f = format_stats19_2005_2014_ac(crashes_2005_2014)
-d15 = "RoadSafetyData_2015"
-crashes_2015 = read_accidents(data_dir = d15, filename = "Accidents_2015.csv")
-crashes_2015_f = format_stats19_2015_ac(crashes_2015)
-d16 = "dftRoadSafety_Accidents_2016"
-crashes_2016 = read_accidents(data_dir = d16, filename = "dftRoadSafety_Accidents_2016.csv")
-crashes_2016_f = format_stats19_2016_ac(crashes_2016)
-all_crashes = rbind(crashes_2015_f, crashes_2016_f, crashes_2017_f)
-table(ac$Accident_Severity)
-```
-
 ## Creating geographic crash data
 
 An important feature of STATS19 data is that the "accidents" table contains geographic coordinates.
@@ -226,19 +209,18 @@ The note arises because `NA` values are not permitted in `sf` coordinates, and s
 Having the data in a standard geographic form allows various geographic operations to be performed on it.
 The following code chunk, for example, returns all crashes within the boundary of the Leeds local authority. 
 This requires the **ukboundaries** GitHub package:
-```{r ukboundaries, eval = FALSE}
-devtools::install_github("Robinlovelace/ukboundaries")
-```
 
 ```{r crashes-leeds}
 library(sf)
-leeds_osgb = st_transform(ukboundaries::leeds, crs = 27700)
-crashes_leeds = crashes_sf[leeds_osgb, ]
+west_yorkshire =
+  police_boundaries[police_boundaries$pfa16nm == "West Yorkshire", ]
+crashes_wy = crashes_sf[west_yorkshire, ]
 nrow(crashes_sf)
-nrow(crashes_leeds)
+nrow(crashes_wy)
 ```
-This subsetting has selected the `r format(nrow(crashes_leeds), big.mark = ",")`
-crashes which occurred within the Leeds boundary.
+
+This subsetting has selected the `r format(nrow(crashes_wy), big.mark = ",")`
+crashes which occurred within West Yorksire in 2017.
 
 
 ## Joining tables
@@ -247,31 +229,34 @@ The three main tables we have just read-in can be joined by shared key variables
 This is demonstrated in the code chunk below, which subsets all casualties that took place in Leeds, and counts the number of casualties by severity for each crash:
 
 ```{r table-join, message = FALSE}
-library(tidyverse)
-sel = casualties_2017$accident_index %in% crashes_leeds$accident_index
-casualties_leeds = casualties_2017[sel, ]
-cas_types = casualties_leeds %>% 
+library(dplyr)
+sel = casualties_2017$accident_index %in% crashes_wy$accident_index
+casualties_wy = casualties_2017[sel, ]
+cas_types = casualties_wy %>% 
   select(accident_index, casualty_type) %>% 
   mutate(n = 1) %>% 
   group_by(accident_index, casualty_type) %>% 
   summarise(n = sum(n)) %>% 
-  spread(casualty_type, n, fill = 0) 
+  tidyr::spread(casualty_type, n, fill = 0) 
 cas_types$Total = rowSums(cas_types[-1])
-crashes_joined = left_join(crashes_leeds, cas_types, by = "accident_index")
+crashes_joined = left_join(crashes_wy, cas_types, by = "accident_index")
 ```
 
-What just happened? We found the subset of casualties that took place in Leeds with reference to the `accident_index` variable.
+What just happened? We found the subset of casualties that took place in West Yorkshire with reference to the `accident_index` variable.
 Then we used functions from the **tidyverse** package **dplyr** (and `spread()` from **tidyr**) to create a dataset with a column for each casualty type.
-We then joined the updated casualty data onto the `crashes_leeds` dataset.
+We then joined the updated casualty data onto the `crashes_wy` dataset.
 The result is a spatial (`sf`) data frame of crashes in Leeds, with columns counting how many road users of different types were hurt.
 The original and joined data look like this:
+
 ```{r table-join-examples}
-crashes_leeds
-cas_types
-crashes_joined
+crashes_wy[1:2, c(1, 5)] %>% st_drop_geometry()
+cas_types[1:2, c("accident_index", "Cyclist")]
+crashes_joined[1:2, c(1, 5, 34)] %>% st_drop_geometry()
 ```
-This join operation has enabled us to georeference the casualty data, enabling
-us to explore the spatial distribution of different casualty types as follows:
+
+This join operation added a geometry column to the casualty data, enabling
+exploration the spatial distribution of different casualty types:
+
 ```{r sfplot, fig.show='hold', out.width="33%"}
 plot(crashes_joined[crashes_joined$Pedestrian > 0, "Pedestrian"])
 plot(crashes_joined[crashes_joined$Cyclist > 0, "Cyclist"])
@@ -284,12 +269,13 @@ Car occupant casualties, for example, are comparatively common on the outskirts 
 Another way of visualising these data is to show the spatial distribution of crashes causing pedestrian casualties by number of pedestrians hurt and crash severity. This is easily done with **ggplot2**:
 
 ```{r ggplot-ped-severity}
+library(ggplot2)
 ggplot(crashes_joined, aes(colour = Total)) +
   geom_sf() +
   facet_grid(vars(accident_severity), vars(Pedestrian))
 ```
 
-These figures suggest that pedestrian casualties tend to happen more frequently near the city centre, compared with other types of casualty.
+These figures suggest that pedestrian casualties tend to happen more frequently near city centres, compared with other types of casualty.
 
 ## Time series analysis
 
@@ -301,7 +287,7 @@ crashes_dates = crashes_joined %>%
   group_by(date = lubridate::dmy(date)) %>% 
   summarise(Pedestrian = sum(Pedestrian), Cyclist = sum(Cyclist),
             `Car occupant` = sum(`Car occupant`)) %>% 
-  gather(mode, casualties, -date)
+  tidyr::gather(mode, casualties, -date)
 ggplot(crashes_dates, aes(date, casualties)) +
   geom_smooth(aes(colour = mode), method = "loess") +
   ylab("Casualties per day")
@@ -314,13 +300,12 @@ This is illustrated in the plot below, which shows the times of day when people 
 ```{r crash-time-plot}
 crash_times = crashes_joined %>% 
   st_set_geometry(NULL) %>% 
-  group_by(hour = as.numeric(str_sub(time, 1, 2))) %>% 
+  group_by(hour = as.numeric(stringr::str_sub(time, 1, 2))) %>% 
   summarise(Pedestrian = sum(Pedestrian), Cyclist = sum(Cyclist),
             `Car occupant` = sum(`Car occupant`)) %>% 
-  gather(mode, casualties, -hour)
+  tidyr::gather(mode, casualties, -hour)
 ggplot(crash_times, aes(hour, casualties)) +
   geom_smooth(aes(colour = mode), method = "loess")
-  
 ```
 
 Note that cycling manifests distinct morning and afternoon peaks [see @lovelace_who_2016 for more on this].
@@ -332,7 +317,7 @@ Even if you're not working with UK data, we hope that the data provided by **sta
 
 The next step is to gain a deeper understanding of **stats19** and the data it provides.
 Then it's time to pose interesting research questions, some of which could provide an evidence-base in support policies that save lives [e.g. @sarkar_street_2018].
-For more on these next steps, see the package's introductory vignette.
+For more on these next steps, see the package's introductory [vignette](https://github.com/ITSLeeds/stats19/blob/master/vignettes/stats19.Rmd).
 
 ## Further information
 

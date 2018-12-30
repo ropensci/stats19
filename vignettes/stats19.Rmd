@@ -351,6 +351,25 @@ crashes_sf = format_sf(crashes_2017)
 
 The note arises because `NA` values are not permitted in `sf` coordinates, and so rows containing no coordinates are automatically removed.
 Having the data in a standard geographic form allows various geographic operations to be performed on it.
+Spatial operations, such as spatial subsetting and spatial aggregation, can be performed, to show the relationship between STATS19 data and other geographic objects, such as roads, schools and administrative zones.
+
+An example of an administrative zone dataset of relevance to STATS19 data is the boundaries of police forces in England, which is provided in the packaged dataset `police_boundaries`.
+The following code chunk demonstrates the kind of spatial operations that can be performed on geographic STATS19 data, by counting and plotting the number of fatalities per police force:
+
+```{r nfatalities}
+library(sf)
+library(dplyr)
+crashes_sf %>% 
+  filter(accident_severity == "Fatal") %>% 
+  select(n_fatalities = accident_index) %>% 
+  aggregate(by = police_boundaries, FUN = length) %>% 
+  plot()
+```
+
+Of course, one should not draw conclusions from such analyses without care.
+In this case, denominators are needed to infer anything about road safety in any of the police regions.
+After suitable denominators have been included, performance metrics such as 'health risk' (fatalities per 100,000 people), 'traffic risk' (fatalities per billion km, f/bkm) and 'exposure risk' (fatalities per million hours, f/mh) can be calculated [@feleke_comparative_2018; @elvik_handbook_2009].
+
 The following code chunk, for example, returns all crashes within the jurisdiction of [West Yorkshire Police](https://en.wikipedia.org/wiki/West_Yorkshire_Police):
 
 ```{r ukboundaries}
@@ -360,7 +379,6 @@ west_yorkshire =
 
 
 ```{r crashes-west_yorkshire}
-library(sf)
 crashes_wy = crashes_sf[west_yorkshire, ]
 nrow(crashes_sf)
 nrow(crashes_wy)
