@@ -6,8 +6,8 @@
 #'
 #' As this function uses `dl_stats19` function, it can download
 #' many MB of data so ensure you have a sufficient disk space.
-#' @seealso \code{\link{dl_stats19}}
-#' @seealso \code{\link{read_accidents}}
+#' @seealso [dl_stats19()]
+#' @seealso [read_accidents()]
 #'
 #' @param year Single year for which file is to be downloaded.
 #' @param type One of 'Accidents', 'Casualties', 'Vehicles'; defaults to 'Accidents'.
@@ -22,9 +22,11 @@
 #' get_stats19(year = 2009)
 #' }
 get_stats19 = function(year = NULL,
-                      type = NULL,
+                      type = "accidents",
                       data_dir = tempdir(),
                       file_name = NULL) {
+  if(!exists("type"))
+    stop("Type is required")
   # download what the user wanted
   dl_stats19(year = year,
              type = type,
@@ -45,7 +47,7 @@ get_stats19 = function(year = NULL,
       year = year,
       data_dir = data_dir
     )
-  } else {
+  } else { # inline with type = "accidents" by default
     read_in = read_accidents(
       year = year,
       data_dir = data_dir
