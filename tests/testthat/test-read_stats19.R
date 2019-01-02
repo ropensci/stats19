@@ -38,6 +38,7 @@ test_that("read_accidents works", {
   expect_error(read_accidents("junk"))
 })
 test_that("read_* acc_index works", {
+  skip_download()
   veh_2009 = stats19::file_names$DfTRoadSafety_Vehicles_2009.zip
   dl_stats19(file_name = veh_2009)
   cas_2009 = stats19::file_names$DfTRoadSafety_Casualties_2009.zip

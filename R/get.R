@@ -34,9 +34,6 @@ get_stats19 = function(year = NULL,
              file_name = file_name)
   read_in = NULL
   # what did the user want?
-  # TODO: extra checks to see if user
-  # made the right choice. Or leave it to
-  # respective read_* functions to check.
   if(grepl(type, "vehicles",  ignore.case = TRUE)){
     read_in = read_vehicles(
       year = year,
