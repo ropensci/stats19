@@ -4,7 +4,7 @@
 \alias{get_stats19}
 \title{Download, read and format STATS19 data in one function.}
 \usage{
-get_stats19(year = NULL, type = NULL, data_dir = tempdir(),
+get_stats19(year = NULL, type = "accidents", data_dir = tempdir(),
   file_name = NULL)
 }
 \arguments{
@@ -36,7 +36,7 @@ get_stats19(year = 2009)
 }
 }
 \seealso{
-\code{\link{dl_stats19}}
+[dl_stats19()]
 
-\code{\link{read_accidents}}
+[read_accidents()]
 }
