@@ -7,7 +7,7 @@
 format_casualties(x)
 }
 \arguments{
-\item{x}{Data frame created with `read_casualties()`}
+\item{x}{Data frame created with \code{read_casualties()}}
 }
 \description{
 Format STATS19 casualties

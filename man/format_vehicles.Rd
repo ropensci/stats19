@@ -7,7 +7,7 @@
 format_vehicles(x)
 }
 \arguments{
-\item{x}{Data frame created with `read_vehicles()`}
+\item{x}{Data frame created with \code{read_vehicles()}}
 }
 \description{
 Format STATS19 vehicles data

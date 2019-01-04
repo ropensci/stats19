@@ -13,7 +13,7 @@ dl_stats19(year = NULL, type = NULL, data_dir = tempdir(),
 \item{type}{One of 'Accidents', 'Casualties', 'Vehicles'; defaults to 'Accidents'.
 Or any variation of to search the file names with such as "acc" or "accid".}
 
-\item{data_dir}{Parent directory for all downloaded files. Defaults to `tempdir()`.}
+\item{data_dir}{Parent directory for all downloaded files. Defaults to \code{tempdir()}.}
 
 \item{file_name}{The file name (DfT named) to download.}
 }
@@ -24,12 +24,12 @@ Download STATS19 data for a year or range of two years.
 
 This function downloads and unzips UK road crash data.
 It results in unzipped .csv files that are put
-in the temporary directory specified by `tempdir()` or provided `data_dir`.
+in the temporary directory specified by \code{tempdir()} or provided \code{data_dir}.
 
 The file downloaded would be for a specific year (e.g 2017).
 It could also be a file containing data for a range of two (e.g 2005-2014).
 
-The `dl_*` functions can download many MB of data so ensure you
+The \code{dl_*} functions can download many MB of data so ensure you
 have a sufficient internet access and hard disk space.
 }
 
@@ -42,4 +42,7 @@ dl_stats19(year = 2009, type = "casualties")
 dl_stats19(type = "casualties")
 dl_stats19(year = 1985)
 }
+}
+\seealso{
+\code{\link[=get_stats19]{get_stats19()}}
 }

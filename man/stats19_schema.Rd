@@ -6,14 +6,14 @@
 \alias{stats19_variables}
 \title{Stats19 schema and variables}
 \description{
-`stats19_schema` and `stats19_variables` contain
+\code{stats19_schema} and \code{stats19_variables} contain
 metadata on \pkg{stats19} data.
-`stats19_schema` is a look-up table matching
+\code{stats19_schema} is a look-up table matching
 codes provided in the raw stats19 dataset with
 character strings.
 }
 \note{
 The schema data can be (re-)generated using the script in the
-`data-raw` directory.
+\code{data-raw} directory.
 }
 \keyword{datasets}

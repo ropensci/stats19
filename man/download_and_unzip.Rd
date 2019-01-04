@@ -14,7 +14,7 @@ download_and_unzip(exdir, zip_url, data_dir = tempdir())
 \item{data_dir}{Parent directory of exdir}
 }
 \value{
-Names of file added to `data_dir`
+Names of file added to \code{data_dir}
 }
 \description{
 Downloads dftRoadSafety_2016_Accidents.zip to /tmp/blahDIR
