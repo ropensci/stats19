@@ -1,4 +1,4 @@
-#' Download Stats19 data for a year or range of two years.
+#' Download STATS19 data for a year or range of two years.
 #'
 #' @section Details:
 #' This function downloads and unzips UK road crash data.

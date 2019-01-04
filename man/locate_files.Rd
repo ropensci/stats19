@@ -17,8 +17,9 @@ locate_files(data_dir = tempdir(), type = NULL, years = NULL,
 \item{quiet}{Print out messages (files found)}
 }
 \value{
-Depending on @param return: full path of a single file found, list of directories
-where data from DfT (stats19::filenames) have been downloaded to or NULL.
+Character string representing the full path of a single file found,
+list of directories where data from the Department for Transport
+(stats19::filenames) have been downloaded, or NULL if no files were found.
 }
 \description{
 Helper function to locate files. Given below params, the function

@@ -7,7 +7,7 @@
 \format{A named list}
 \description{
 URL decoded file names. Currently there are 52 file names
-released by the DfT and the details include
+released by the DfT (Department for Transport) and the details include
 how these were obtained and would be kept up to date.
 }
 \details{

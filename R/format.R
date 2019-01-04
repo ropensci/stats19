@@ -1,7 +1,7 @@
-#' Format stats19 'accidents' data
+#' Format STATS19 'accidents' data
 #'
 #' @section Details:
-#' This is a helper function to format raw stats19 data
+#' This is a helper function to format raw STATS19 data
 #'
 #' @param x Data frame created with `read_accidents()`
 #' @export
@@ -15,10 +15,10 @@
 format_accidents = function(x) {
   format_stats19(x, type = "accidents")
 }
-#' Format stats19 casualties
+#' Format STATS19 casualties
 #'
 #' @section Details:
-#' This function formats raw stats19 data
+#' This function formats raw STATS19 data
 #'
 #' @param x Data frame created with `read_casualties()`
 #' @export
@@ -32,10 +32,10 @@ format_accidents = function(x) {
 format_casualties = function(x) {
   format_stats19(x, type = "casualties")
 }
-#' Format stats19 vehicles data
+#' Format STATS19 vehicles data
 #'
 #' @section Details:
-#' This function formats raw stats19 data
+#' This function formats raw STATS19 data
 #'
 #' @param x Data frame created with `read_vehicles()`
 #' @export
@@ -70,7 +70,7 @@ format_stats19 = function(x, type) {
   x
 }
 
-#' Format column names of raw stats19 data
+#' Format column names of raw STATS19 data
 #'
 #' This function takes messy column names and returns clean ones that work well with
 #' R by default. Names that are all lower case with no R-unfriendly characters
@@ -96,7 +96,7 @@ format_column_names = function(column_names) {
   x
 }
 
-#' Format convert stats19 data into spatial (sf) object
+#' Format convert STATS19 data into spatial (sf) object
 #'
 #' @param x Data frame created with `read_accidents()`
 #' @param lonlat Should the results be returned in longitude/latitude?

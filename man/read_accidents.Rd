@@ -2,7 +2,7 @@
 % Please edit documentation in R/read.R
 \name{read_accidents}
 \alias{read_accidents}
-\title{Read in stats19 road safety data from .csv files downloaded.}
+\title{Read in STATS19 road safety data from .csv files downloaded.}
 \usage{
 read_accidents(year = NULL, filename = "", data_dir = tempdir(),
   format = TRUE)
@@ -18,13 +18,13 @@ years determine whether there is a target to read, otherwise disk scan would be 
 \item{format}{Switch to return raw read from file, default is `TRUE`.}
 }
 \description{
-Read in stats19 road safety data from .csv files downloaded.
+Read in STATS19 road safety data from .csv files downloaded.
 }
 \section{Details}{
 
 This is a wrapper function to access and load stats 19 data in a user-friendly way.
 The function returns a data frame, in which each record is a reported incident in the
-stats19 dataset.
+STATS19 data.
 }
 
 \examples{

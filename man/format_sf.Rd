@@ -2,7 +2,7 @@
 % Please edit documentation in R/format.R
 \name{format_sf}
 \alias{format_sf}
-\title{Format convert stats19 data into spatial (sf) object}
+\title{Format convert STATS19 data into spatial (sf) object}
 \usage{
 format_sf(x, lonlat = FALSE)
 }
@@ -14,7 +14,7 @@ By default `FALSE`, meaning the British National Grid (EPSG code: 27700)
 is used.}
 }
 \description{
-Format convert stats19 data into spatial (sf) object
+Format convert STATS19 data into spatial (sf) object
 }
 \examples{
 \dontrun{

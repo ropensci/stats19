@@ -1,9 +1,9 @@
-#' Read in stats19 road safety data from .csv files downloaded.
+#' Read in STATS19 road safety data from .csv files downloaded.
 #'
 #' @section Details:
 #' This is a wrapper function to access and load stats 19 data in a user-friendly way.
 #' The function returns a data frame, in which each record is a reported incident in the
-#' stats19 dataset.
+#' STATS19 data.
 #'
 #' @param filename Character string of the filename of the .csv to read, if this is given, type and
 #' years determine whether there is a target to read, otherwise disk scan would be needed.
@@ -57,7 +57,7 @@ read_accidents = function(year = NULL,
 #'
 #' @section Details:
 #' The function returns a data frame, in which each record is a reported vehicle in the
-#' stats19 dataset for the data_dir and filename provided.
+#' STATS19 dataset for the data_dir and filename provided.
 #'
 #' @inheritParams read_accidents
 #'
@@ -86,11 +86,11 @@ read_vehicles = function(year = NULL,
   }
 }
 
-#' Read in stats19 road safety data from .csv files downloaded.
+#' Read in STATS19 road safety data from .csv files downloaded.
 #'
 #' @section Details:
 #' The function returns a data frame, in which each record is a reported casualty
-#' in the stats19 dataset.
+#' in the STATS19 dataset.
 #'
 #' @inheritParams read_accidents
 #'

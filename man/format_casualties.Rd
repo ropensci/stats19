@@ -2,7 +2,7 @@
 % Please edit documentation in R/format.R
 \name{format_casualties}
 \alias{format_casualties}
-\title{Format stats19 casualties}
+\title{Format STATS19 casualties}
 \usage{
 format_casualties(x)
 }
@@ -10,11 +10,11 @@ format_casualties(x)
 \item{x}{Data frame created with `read_casualties()`}
 }
 \description{
-Format stats19 casualties
+Format STATS19 casualties
 }
 \section{Details}{
 
-This function formats raw stats19 data
+This function formats raw STATS19 data
 }
 
 \examples{

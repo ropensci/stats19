@@ -115,8 +115,9 @@ find_file_name = function(years = NULL, type = NULL) {
 #' @param data_dir Super directory where dataset(s) were first downloaded to.
 #' @param quiet Print out messages (files found)
 #'
-#' @return Depending on @param return: full path of a single file found, list of directories
-#' where data from DfT (stats19::filenames) have been downloaded to or NULL.
+#' @return Character string representing the full path of a single file found,
+#' list of directories where data from the Department for Transport
+#' (stats19::filenames) have been downloaded, or NULL if no files were found.
 #'
 locate_files = function(data_dir = tempdir(),
                         type = NULL,

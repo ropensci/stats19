@@ -2,7 +2,7 @@
 % Please edit documentation in R/format.R
 \name{format_vehicles}
 \alias{format_vehicles}
-\title{Format stats19 vehicles data}
+\title{Format STATS19 vehicles data}
 \usage{
 format_vehicles(x)
 }
@@ -10,11 +10,11 @@ format_vehicles(x)
 \item{x}{Data frame created with `read_vehicles()`}
 }
 \description{
-Format stats19 vehicles data
+Format STATS19 vehicles data
 }
 \section{Details}{
 
-This function formats raw stats19 data
+This function formats raw STATS19 data
 }
 
 \examples{
