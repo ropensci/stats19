@@ -34,7 +34,7 @@ check_year = function(year) {
   is_year = all(year %in% 1979:(current_year() - 1))
   if(!is_year || is.na(year) || length(year) == 0) {
     msg = paste0("Years must be in range 1979:", current_year() - 1)
-    stop(msg)
+    stop(msg, call. = FALSE)
   }
   # valid year, continue
   if(year %in% 1980:2003) {
@@ -87,7 +87,7 @@ find_file_name = function(years = NULL, type = NULL) {
       result = result_type
     } else {
       if(is.null(years)) {
-       stop("No files of that type found")
+       stop("No files of that type found", call. = FALSE)
       } else {
         message("No files of that type found for that year.")
       }
@@ -100,7 +100,7 @@ find_file_name = function(years = NULL, type = NULL) {
   }
 
   if(length(result) < 1)
-    stop("No files of that type exist")
+    stop("No files of that type exist", call. = FALSE)
   unique(result)
 }
 
@@ -161,7 +161,7 @@ locate_one_file = function(filename = NULL,
                       years = year,
                       quiet = TRUE)
   if(length(path) == 0)
-    stop("No files found under: ", data_dir)
+    stop("No files found under: ", data_dir, call. = FALSE)
 
   scan1 = function(path, type) {
     lf = list.files(file.path(data_dir, path), ".csv$", full.names = TRUE)
