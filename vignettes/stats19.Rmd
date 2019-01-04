@@ -32,7 +32,7 @@ We use the term "accidents" only in reference to nomenclature within the data as
 The development version is hosted on [GitHub](https://github.com/ITSLeeds/stats19) and can be installed and attached as follows:
 
 ```{r, eval=FALSE}
-devtools::install_github("ITSLeeds/stats19")
+remotes::install_github("ITSLeeds/stats19")
 ```
 
 ```{r}
