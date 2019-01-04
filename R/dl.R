@@ -61,7 +61,7 @@ dl_stats19 = function(year = NULL,
   if(interactive() & !many_found) {
     resp = readline(phrase())
     if (resp != "" & !grepl(pattern = "yes|y", x = resp, ignore.case = TRUE)) {
-      stop("Stopping as requested")
+      stop("Stopping as requested", call. = FALSE)
     }
   }
   message("Attempt downloading from: ")
