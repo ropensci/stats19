@@ -9,7 +9,7 @@
 #' years determine whether there is a target to read, otherwise disk scan would be needed.
 #' @param data_dir Where sets of downloaded data would be found.
 #' @param year Single year for which data are to be read
-#' @param format Switch to return raw read from file, default is `FALSE`.
+#' @param format Switch to return raw read from file, default is `TRUE`.
 #'
 #' @export
 #' @examples
