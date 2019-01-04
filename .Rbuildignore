@@ -23,3 +23,5 @@ responses*
 ^paper\.bib$
 ^contributing\.md$
 ^azure-pipelines.yml$
+data-raw/
+makefile
