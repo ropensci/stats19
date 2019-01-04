@@ -28,7 +28,7 @@ STATS19 data.
 }
 
 \examples{
-\dontrun{
+\donttest{
 dl_stats19(year = 2017, type = "Accidents")
 ac = read_accidents(year = 2017)
 dl_stats19(year = 2009, type = "Accidents")

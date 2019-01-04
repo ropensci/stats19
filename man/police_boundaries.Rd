@@ -9,7 +9,7 @@
 See http://geoportal.statistics.gov.uk/
 }
 \examples{
-\dontrun{
+\donttest{
 # Obtained with:
 library(sf)
 u = paste0("https://opendata.arcgis.com/",

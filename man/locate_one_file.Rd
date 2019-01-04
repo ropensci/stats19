@@ -25,7 +25,7 @@ One of: path for one file, a message \code{More than one file found} or error if
 Pin down a file on disk from four parameters.
 }
 \examples{
-\dontrun{
+\donttest{
 locate_one_file()
 locate_one_file(filename = "Cas.csv")
 }
