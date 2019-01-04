@@ -5,8 +5,8 @@
 #' It results in unzipped .csv files that are put
 #' in the temporary directory specified by `tempdir()` or provided `data_dir`.
 #'
-#' The file downloaded would be for a specific year (e.g 2017).
-#' It could also be a file containing data for a range of two (e.g 2005-2014).
+#' The file downloaded would be for a specific year (e.g. 2017).
+#' It could also be a file containing data for a range of two (e.g. 2005-2014).
 #'
 #' The `dl_*` functions can download many MB of data so ensure you
 #' have a sufficient internet access and hard disk space.
