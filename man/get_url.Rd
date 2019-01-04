@@ -26,7 +26,7 @@ http://data.dft.gov.uk/road-accidents-safety-data/road-accidents-safety-data/Roa
 http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafety_Accidents_2016
 
 Last updated: 22nd Nov 2018.
-Files available from the s3 url in the default `domain` argument.
+Files available from the s3 url in the default \code{domain} argument.
 }
 \examples{
 # get_url(find_file_name(1985))

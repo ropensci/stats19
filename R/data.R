@@ -31,8 +31,9 @@ NULL
 #'
 #' The file names were generated as follows:
 #'
+#' @examples
+#' \dontrun{
 #' library(rvest)
-#' #> Loading required package: xml2
 #' library(stringr)
 #' page = read_html("https://data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data")
 #'
@@ -50,7 +51,7 @@ NULL
 #' }
 #' file_names = setNames(as.list(file_names), file_names)
 #' usethis::use_data(file_names)
-#'
+#' }
 #' @docType data
 #' @keywords datasets
 #' @name file_names

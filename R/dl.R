@@ -11,6 +11,8 @@
 #' The `dl_*` functions can download many MB of data so ensure you
 #' have a sufficient internet access and hard disk space.
 #'
+#' @seealso [get_stats19()]
+#'
 #' @param file_name The file name (DfT named) to download.
 #' @param year Single year for which file is to be downloaded.
 #' @param type One of 'Accidents', 'Casualties', 'Vehicles'; defaults to 'Accidents'.

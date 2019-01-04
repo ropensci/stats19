@@ -19,7 +19,7 @@ otherwise disk scan would be needed.}
 \item{type}{One of: 'Accidents', 'Casualties', 'Vehicles'; ignores case.}
 }
 \value{
-One of: path for one file, a message `More than one file found` or error if none found.
+One of: path for one file, a message \code{More than one file found} or error if none found.
 }
 \description{
 Pin down a file on disk from four parameters.

@@ -13,21 +13,21 @@ get_stats19(year = NULL, type = "accidents", data_dir = tempdir(),
 \item{type}{One of 'Accidents', 'Casualties', 'Vehicles'; defaults to 'Accidents'.
 Or any variation of to search the file names with such as "acc" or "accid".}
 
-\item{data_dir}{Parent directory for all downloaded files. Defaults to `tempdir()`.}
+\item{data_dir}{Parent directory for all downloaded files. Defaults to \code{tempdir()}.}
 
 \item{file_name}{The file name (DfT named) to download.}
 
-\item{format}{Switch to return raw read from file, default is `TRUE`.}
+\item{format}{Switch to return raw read from file, default is \code{TRUE}.}
 }
 \description{
 Download, read and format STATS19 data in one function.
 }
 \section{Details}{
 
-This function utilizes `dl_stats19` and `read_*` functions
+This function utilizes \code{dl_stats19} and \code{read_*} functions
 and retuns a df. The file downloaded would be for a specific year (e.g 2017).
 
-As this function uses `dl_stats19` function, it can download
+As this function uses \code{dl_stats19} function, it can download
 many MB of data so ensure you have a sufficient disk space.
 }
 
@@ -38,7 +38,7 @@ get_stats19(year = 2009)
 }
 }
 \seealso{
-[dl_stats19()]
+\code{\link[=dl_stats19]{dl_stats19()}}
 
-[read_accidents()]
+\code{\link[=read_accidents]{read_accidents()}}
 }

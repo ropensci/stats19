@@ -15,7 +15,7 @@ Column names cleaned.
 \description{
 This function takes messy column names and returns clean ones that work well with
 R by default. Names that are all lower case with no R-unfriendly characters
-such as spaces and `-` are returned.
+such as spaces and \code{-} are returned.
 }
 \examples{
 \dontrun{
