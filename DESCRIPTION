@@ -3,12 +3,15 @@ Title: Work with Open Road Traffic Casualty Data from Great Britain
 Version: 0.1
 Authors@R: c(
     person("Robin", "Lovelace", email = "rob00x@gmail.com", role = c("aut", "cre"),
-    comment = c(ORCID = "0000-0001-5679-6536")),
+      comment = c(ORCID = "0000-0001-5679-6536")),
     person("Malcolm", "Morgan", email = "m.morgan1@leeds.ac.uk", role = c("aut")),
     person("Layik", "Hama", email = "layik.hama@gmail.com", role = c("aut"),
-    comment = c(ORCID = "0000-0003-1912-4890")),
+      comment = c(ORCID = "0000-0003-1912-4890")),
     person("Mark", "Padgham", role=c("aut"),
-     comment = c(ORCID = "0000-0003-2172-5265"))
+     comment = c(ORCID = "0000-0003-2172-5265")),
+    person("David", "Ranzolin", role=c("rev")),
+    person("Adam", "Sparks", role = c("rev", "ctb"),
+      comment = c(ORCID = "0000-0002-0061-8359"))
   )
 Description: Tools to help process and analysie the UK road collision data collected using the
   STATS19 form.  The data are provided as 'CSV' files with detailed road safety data about the
