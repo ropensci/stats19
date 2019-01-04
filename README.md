@@ -28,13 +28,14 @@ A full overview of STATS19 variables be found in a
 [document](http://data.dft.gov.uk/road-accidents-safety-data/Brief-guide-to%20road-accidents-and-safety-data.doc)
 provided by the UK’s Department for Transport (DfT).
 
-The raw data is provided as a series of `.csv` files that are stored in
-dozens of `.zip` files. Finding, reading-in and formatting the data for
-research can be a time consuming process subject to human error.
-**stats19** speeds up these vital but boring and error-prone stages of
-the research process with a single function: `get_stats19()`. By
-allowing public access to properly labelled road crash data, **stats19**
-aims to make road safety research more reproducible and accessible.
+The raw data is provided as a series of `.csv` files that contain
+integers and which are stored in dozens of `.zip` files. Finding,
+reading-in and formatting the data for research can be a time consuming
+process subject to human error. **stats19** speeds up these vital but
+boring and error-prone stages of the research process with a single
+function: `get_stats19()`. By allowing public access to properly
+labelled road crash data, **stats19** aims to make road safety research
+more reproducible and accessible.
 
 For transparency and modularity, each stage can be undertaken
 seperately, as documented in the [stats19
@@ -78,9 +79,9 @@ crashes = get_stats19(year = 2017, type = "accident")
 #> Files identified: dftRoadSafetyData_Accidents_2017.zip
 #> Attempt downloading from:
 #>    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Accidents_2017.zip
-#> Data saved at /tmp/RtmpcjzbHt/dftRoadSafetyData_Accidents_2017/Acc.csv
+#> Data saved at /tmp/RtmpbUnCl0/dftRoadSafetyData_Accidents_2017/Acc.csv
 #> Reading in:
-#> /tmp/RtmpcjzbHt/dftRoadSafetyData_Accidents_2017/Acc.csv
+#> /tmp/RtmpbUnCl0/dftRoadSafetyData_Accidents_2017/Acc.csv
 ```
 
 What just happened? We read-in data on all road crashes recorded by the
@@ -98,12 +99,12 @@ casualties = get_stats19(year = 2017, type = "casualties")
 #> Files identified: dftRoadSafetyData_Casualties_2017.zip
 #> Attempt downloading from:
 #>    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Casualties_2017.zip
-#> Data saved at /tmp/RtmpcjzbHt/dftRoadSafetyData_Casualties_2017/Cas.csv
+#> Data saved at /tmp/RtmpbUnCl0/dftRoadSafetyData_Casualties_2017/Cas.csv
 vehicles = get_stats19(year = 2017, type = "vehicles")
 #> Files identified: dftRoadSafetyData_Vehicles_2017.zip
 #> Attempt downloading from:
 #>    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Vehicles_2017.zip
-#> Data saved at /tmp/RtmpcjzbHt/dftRoadSafetyData_Vehicles_2017/Veh.csv
+#> Data saved at /tmp/RtmpbUnCl0/dftRoadSafetyData_Vehicles_2017/Veh.csv
 ```
 
 The package also allows STATS19 files to be downloaded and read-in
@@ -147,48 +148,21 @@ Code to read-in and format each of these tables is demonstrated below.
 
 Crash data was downloaded and read-in using the function
 `get_stats19()`, as described above. Crash data can also be read-in as
-follows:
+follows (assuming the dataset has already been downloaded):
 
 ``` r
-crashes_2017_raw = read_accidents(year = 2017, format = FALSE)
+crashes_2017 = read_accidents(year = 2017)
 #> Reading in:
-#> /tmp/RtmpcjzbHt/dftRoadSafetyData_Accidents_2017/Acc.csv
-crashes_2017 = format_accidents(crashes_2017_raw)
-nrow(crashes_2017_raw)
-#> [1] 129982
-ncol(crashes_2017_raw)
-#> [1] 32
+#> /tmp/RtmpbUnCl0/dftRoadSafetyData_Accidents_2017/Acc.csv
 nrow(crashes_2017)
 #> [1] 129982
 ncol(crashes_2017)
 #> [1] 32
 ```
 
-The formatting work was done by `read_accidents(format = FALSE)`, which
-imported the “raw” Stats19 data without cleaning messy column names or
-re-categorising the outputs. `format_accidents()` automates the process
-of matching column names with variable names and labels in a [`.xls`
-file](http://data.dft.gov.uk/road-accidents-safety-data/Road-Accident-Safety-Data-Guide.xls)
-provided by the DfT. This means `crashes_2017` is much more usable than
-`crashes_2017_raw`, as shown below, which shows some key variables in
-the messy and clean datasets:
+Some of the key variables in this dataset include:
 
 ``` r
-crashes_2017_raw[c(7, 18, 23, 25)]
-#> # A tibble: 129,982 x 4
-#>    Accident_Severity Speed_limit `Pedestrian_Crossing-Hum… Light_Conditions
-#>                <int>       <int>                     <int>            <int>
-#>  1                 1          30                         0                4
-#>  2                 3          30                         0                4
-#>  3                 3          30                         0                4
-#>  4                 3          30                         0                4
-#>  5                 2          20                         0                4
-#>  6                 3          30                         0                4
-#>  7                 3          40                         0                4
-#>  8                 3          30                         2                4
-#>  9                 2          50                         0                4
-#> 10                 2          30                         0                4
-#> # ... with 129,972 more rows
 crashes_2017[c(7, 18, 23, 25)]
 #> # A tibble: 129,982 x 4
 #>    accident_severity speed_limit pedestrian_crossing_hu… light_conditions  
@@ -206,10 +180,7 @@ crashes_2017[c(7, 18, 23, 25)]
 #> # ... with 129,972 more rows
 ```
 
-By default, `format = TRUE`, meaning that the two stages of
-`read_accidents(format = FALSE)` and `format_accidents()` yield the same
-result as `read_accidents(format = TRUE)`. For the full list of columns,
-run `names(crashes_2017)` or see the
+For the full list of columns, run `names(crashes_2017)` or see the
 [vignette](https://github.com/ITSLeeds/stats19/blob/master/vignettes/stats19.Rmd).
 
 <!-- This means `crashes_2017` is much more usable than `crashes_2017_raw`, as shown below, which shows three records and some key variables in the messy and clean datasets: -->
@@ -225,7 +196,7 @@ dl_stats19(year = 2017, type = "casualties")
 #> Attempt downloading from:
 #>    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Casualties_2017.zip
 #> Data already exists in data_dir, not downloading
-#> Data saved at /tmp/RtmpcjzbHt/dftRoadSafetyData_Casualties_2017/Cas.csv
+#> Data saved at /tmp/RtmpbUnCl0/dftRoadSafetyData_Casualties_2017/Cas.csv
 casualties_2017 = read_casualties(year = 2017)
 nrow(casualties_2017)
 #> [1] 170993
@@ -288,7 +259,7 @@ dl_stats19(year = 2017, type = "vehicles")
 #> Attempt downloading from:
 #>    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Vehicles_2017.zip
 #> Data already exists in data_dir, not downloading
-#> Data saved at /tmp/RtmpcjzbHt/dftRoadSafetyData_Vehicles_2017/Veh.csv
+#> Data saved at /tmp/RtmpbUnCl0/dftRoadSafetyData_Vehicles_2017/Veh.csv
 vehicles_2017 = read_vehicles(year = 2017)
 nrow(vehicles_2017)
 #> [1] 238926
