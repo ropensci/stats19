@@ -10,7 +10,7 @@
 Sample of stats19 data (2017 casualties)
 }
 \examples{
-\dontrun{
+\donttest{
 # Obtained with:
 dl_stats19(year = 2017, type = "cas")
 casualties_2017_raw = read_casualties(year = 2017)

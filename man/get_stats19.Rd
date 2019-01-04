@@ -32,7 +32,7 @@ many MB of data so ensure you have a sufficient disk space.
 }
 
 \examples{
-\dontrun{
+\donttest{
 get_stats19(year = 2017)
 get_stats19(year = 2009)
 }

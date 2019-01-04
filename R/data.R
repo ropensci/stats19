@@ -61,7 +61,7 @@ NULL
 #' Sample of stats19 data (2017 accidents)
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # Obtained with:
 #' dl_stats19(year = 2017, type = "Accide")
 #' accidents_2017_raw = read_accidents(year = 2017)
@@ -80,7 +80,7 @@ NULL
 #' Sample of stats19 data (2017 casualties)
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # Obtained with:
 #' dl_stats19(year = 2017, type = "cas")
 #' casualties_2017_raw = read_casualties(year = 2017)
@@ -99,7 +99,7 @@ NULL
 #' Sample of stats19 data (2017 vehicles)
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # Obtained with:
 #' dl_stats19(year = 2017, type = "veh")
 #' vehicles_2017_raw = read_vehicles(year = 2017)
@@ -120,7 +120,7 @@ NULL
 #' See http://geoportal.statistics.gov.uk/
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # Obtained with:
 #' library(sf)
 #' u = paste0("https://opendata.arcgis.com/",

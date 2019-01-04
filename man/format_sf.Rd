@@ -17,7 +17,7 @@ is used.}
 Format convert STATS19 data into spatial (sf) object
 }
 \examples{
-\dontrun{
+\donttest{
 x = read_accidents()
 x_formatted = format_accidents(x)
 x_sf = format_sf(x_formatted)
