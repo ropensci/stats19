@@ -47,6 +47,8 @@ Running `read_*(..., format = TRUE)` converts these integer values to the corres
 For example, `read_accidents(format = TRUE)` converts values in the `accident_severity` column from `1`, `2` and `3` to `Slight`, `Serious` and `Fatal`.
 To read-in raw data without formatting, set `format = FALSE`.
 
+There is a wrapper function combining these three stages in one function called `get_stats19`.
+
 A full description of the stats19 data and variables they contain can be found in a [document](http://data.dft.gov.uk/road-accidents-safety-data/Brief-guide-to%20road-accidents-and-safety-data.doc) provided by the UK's Department for Transport (DfT).
 
 ## Installation
@@ -103,7 +105,12 @@ As mentioned above STATS19 contains 3 main tables:
 - Casualties, containing data on people hurt or killed in each crash (`r ncol(casualties_sample)` columns in total)
 - Vehicles, containing data on vehicles involved in or causing each crash (`r ncol(vehicles_sample)` columns in total)
 
-Code to read-in and format each of these tables is now demonstrated.
+Code to read-in and format each of these tables is now demonstrated. Or using the wrapper function `get_stats19` the three steps can be taken in one given `read_*` functions ability to read single CSV files for now.
+
+```{r get_stats192017, eval=FALSE}
+get_stats19(year = 2017) 
+# defaults to type = accidents and format = true
+```
 
 ### Crash data
 
