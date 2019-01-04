@@ -6,6 +6,7 @@
 #'
 #' As this function uses `dl_stats19` function, it can download
 #' many MB of data so ensure you have a sufficient disk space.
+#'
 #' @seealso [dl_stats19()]
 #' @seealso [read_accidents()]
 #'
@@ -14,6 +15,7 @@
 #' Or any variation of to search the file names with such as "acc" or "accid".
 #' @param data_dir Parent directory for all downloaded files. Defaults to `tempdir()`.
 #' @param file_name The file name (DfT named) to download.
+#' @param format Switch to return raw read from file, default is `TRUE`.
 #'
 #' @export
 #' @examples
@@ -24,7 +26,8 @@
 get_stats19 = function(year = NULL,
                       type = "accidents",
                       data_dir = tempdir(),
-                      file_name = NULL) {
+                      file_name = NULL,
+                      format = TRUE) {
   if(!exists("type"))
     stop("Type is required")
   # download what the user wanted
@@ -37,18 +40,18 @@ get_stats19 = function(year = NULL,
   if(grepl(type, "vehicles",  ignore.case = TRUE)){
     read_in = read_vehicles(
       year = year,
-      data_dir = data_dir
-      )
+      data_dir = data_dir,
+      format = format)
   } else if(grepl(type, "casualties", ignore.case = TRUE)) {
     read_in = read_casualties(
       year = year,
-      data_dir = data_dir
-    )
+      data_dir = data_dir,
+      format = format)
   } else { # inline with type = "accidents" by default
     read_in = read_accidents(
       year = year,
-      data_dir = data_dir
-    )
+      data_dir = data_dir,
+      format = format)
   }
   read_in
 }

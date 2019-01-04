@@ -15,7 +15,7 @@ years determine whether there is a target to read, otherwise disk scan would be 
 
 \item{data_dir}{Where sets of downloaded data would be found.}
 
-\item{format}{Switch to return raw read from file, default is `FALSE`.}
+\item{format}{Switch to return raw read from file, default is `TRUE`.}
 }
 \description{
 Read in stats19 road safety data from .csv files downloaded.
