@@ -121,8 +121,9 @@ read_casualties = function(year = NULL,
 #' @param filename Character string of the filename of the .csv to read, if this is given, type and
 #' years determine whether there is a target to read, otherwise disk scan would be needed.
 #' @param data_dir Where sets of downloaded data would be found.
-#' @param year single year for which data are to be read
-#' @param type One of 'Accidents', 'Casualties', 'Vehicles'; defaults to 'Accidents'#'
+#' @param year Single year for which data are to be read
+#' @param type  The type of file to be downloaded (e.g. 'Accidents', 'Casualties' or
+#' 'Vehicles'). Not case sensitive and searches using regular expressions ('acc' will work).
 #'
 check_input_file = function(filename = NULL,
                             type = NULL,

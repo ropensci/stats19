@@ -11,11 +11,12 @@ check_input_file(filename = NULL, type = NULL, data_dir = NULL,
 \item{filename}{Character string of the filename of the .csv to read, if this is given, type and
 years determine whether there is a target to read, otherwise disk scan would be needed.}
 
-\item{type}{One of 'Accidents', 'Casualties', 'Vehicles'; defaults to 'Accidents'#'}
+\item{type}{The type of file to be downloaded (e.g. 'Accidents', 'Casualties' or
+'Vehicles'). Not case sensitive and searches using regular expressions ('acc' will work).}
 
 \item{data_dir}{Where sets of downloaded data would be found.}
 
-\item{year}{single year for which data are to be read}
+\item{year}{Single year for which data are to be read}
 }
 \description{
 Local helper to be reused.

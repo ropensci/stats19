@@ -10,9 +10,9 @@
 #' Last updated: 22nd Nov 2018.
 #' Files available from the s3 url in the default `domain` argument.
 #'
-#' @param file_name (Optional) to add to the url returned
-#' @param domain the domain from where the data will be downloaded
-#' @param directory the subdirectory of the url
+#' @param file_name Optional file name to add to the url returned (empty by default)
+#' @param domain The domain from where the data will be downloaded
+#' @param directory The subdirectory of the url
 #' @examples
 #' # get_url(find_file_name(1985))
 get_url = function(file_name = "",
@@ -22,7 +22,6 @@ get_url = function(file_name = "",
   path = file.path(domain, directory, file_name)
   path
 }
-
 #' check and convert year argument
 #' @examples
 #' # check_year("2018") # fails

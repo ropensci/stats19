@@ -9,11 +9,11 @@ get_url(file_name = "",
   directory = "road-accidents-safety-data")
 }
 \arguments{
-\item{file_name}{(Optional) to add to the url returned}
+\item{file_name}{Optional file name to add to the url returned (empty by default)}
 
-\item{domain}{the domain from where the data will be downloaded}
+\item{domain}{The domain from where the data will be downloaded}
 
-\item{directory}{the subdirectory of the url}
+\item{directory}{The subdirectory of the url}
 }
 \description{
 Convert file names to urls
