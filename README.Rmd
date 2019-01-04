@@ -56,7 +56,7 @@ A full description of the stats19 data and variables they contain can be found i
 Install and load the latest version with:
 
 ```{r install, eval=FALSE}
-devtools::install_github("ITSLeeds/stats19")
+remotes::install_github("ITSLeeds/stats19")
 ```
 
 ```{r attach}
