@@ -2,7 +2,7 @@
 % Please edit documentation in R/format.R
 \name{format_column_names}
 \alias{format_column_names}
-\title{Format column names of raw stats19 data}
+\title{Format column names of raw STATS19 data}
 \usage{
 format_column_names(column_names)
 }

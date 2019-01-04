@@ -23,7 +23,7 @@ Read in stats19 road safety data from .csv files downloaded.
 \section{Details}{
 
 The function returns a data frame, in which each record is a reported vehicle in the
-stats19 dataset for the data_dir and filename provided.
+STATS19 dataset for the data_dir and filename provided.
 }
 
 \examples{

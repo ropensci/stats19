@@ -1,12 +1,12 @@
 #' Stats19 schema and variables
 #'
 #' `stats19_schema` and `stats19_variables` contain
-#' metadata on stats19 data.
+#' metadata on \pkg{stats19} data.
 #' `stats19_schema` is a look-up table matching
 #' codes provided in the raw stats19 dataset with
 #' character strings.
 #'
-#' @note The schema data can be (re-)generated using the script given in the
+#' @note The schema data can be (re-)generated using the script in the
 #' `data-raw` directory.
 #'
 #' @docType data
@@ -26,7 +26,7 @@ NULL
 #' stats19 file names for easy access
 #'
 #' URL decoded file names. Currently there are 52 file names
-#' released by the DfT and the details include
+#' released by the DfT (Department for Transport) and the details include
 #' how these were obtained and would be kept up to date.
 #'
 #' The file names were generated as follows:

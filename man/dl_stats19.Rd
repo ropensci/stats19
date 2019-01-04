@@ -2,7 +2,7 @@
 % Please edit documentation in R/dl.R
 \name{dl_stats19}
 \alias{dl_stats19}
-\title{Download Stats19 data for a year or range of two years.}
+\title{Download STATS19 data for a year or range of two years.}
 \usage{
 dl_stats19(year = NULL, type = NULL, data_dir = tempdir(),
   file_name = NULL)
@@ -18,7 +18,7 @@ Or any variation of to search the file names with such as "acc" or "accid".}
 \item{file_name}{The file name (DfT named) to download.}
 }
 \description{
-Download Stats19 data for a year or range of two years.
+Download STATS19 data for a year or range of two years.
 }
 \section{Details}{
 
