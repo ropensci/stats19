@@ -68,7 +68,17 @@ goes back to 1979, providing a long period for comparison.
 
 ## Download STATS19 data
 
-The function `dl_stats19` downloads individual files, and takes three parameters.
+**stats19** enables download of raw stats19 data with `dl_*` functions.
+The following code chunk, for example, downloads and unzips a .zip file containing Stats19 data from 2017:
+
+```{r dl2017-accidents}
+dl_stats19(year = 2017, type = "Accidents")
+```
+
+Currently, these files are downloaded to a default location of `tempdir` which is a platform independent "safe" but temporary location to download the data in. Once downloaded, they are unzipped under original DfT file names.
+The `dl_stats19()` function prints out the location and final file name(s) of unzipped files(s) as shown above.
+
+`dl_stats19()` takes three parameters.
 Supplying a `file_name` is interpreted to mean that the user is aware of what to download and the other two parameters will be ignored.
 You can also use `years` and `type` to "search" through the file names, which are stored in a lazy-loaded datset called `stats19::file_names`.
 
@@ -79,12 +89,6 @@ stats19::file_names$dftRoadSafetyData_Vehicles_2017.zip
 ```
 
 To see how `file_names` was created, see `?file_names`.
-The following code chunk downloads and unzips a .zip file containing STATS19 data from 2017:
-
-```{r dl2017-accidents}
-dl_stats19(year = 2017, type = "Accidents")
-```
-
 Data files from other years can be selected interactively.
 Just providing a year, for example, presents the user with multiple options (from `file_names`), illustrated below:
 
