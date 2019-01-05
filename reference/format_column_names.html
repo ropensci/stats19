@@ -134,12 +134,70 @@ such as spaces and <code>-</code> are returned.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='no'>crashes_raw</span> <span class='kw'>=</span> <span class='fu'><a href='read_accidents.html'>read_accidents</a></span>(<span class='kw'>year</span> <span class='kw'>=</span> <span class='fl'>2017</span>)
-<span class='no'>column_names</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/names'>names</a></span>(<span class='no'>crashes_raw</span>)
-<span class='no'>column_names</span>
-<span class='fu'>format_column_names</span>(<span class='kw'>column_names</span> <span class='kw'>=</span> <span class='no'>column_names</span>)
-<span class='co'># }</span></pre>
+    <pre class="examples"><div class='input'><span class='no'>crashes_raw</span> <span class='kw'>=</span> <span class='fu'><a href='read_accidents.html'>read_accidents</a></span>(<span class='kw'>year</span> <span class='kw'>=</span> <span class='fl'>2017</span>)</div><div class='output co'>#&gt; <span class='message'>Reading in: </span></div><div class='output co'>#&gt; <span class='message'>/tmp/RtmpKOU9Ri/dftRoadSafetyData_Accidents_2017/Acc.csv</span></div><div class='input'><span class='no'>column_names</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/names'>names</a></span>(<span class='no'>crashes_raw</span>)
+<span class='no'>column_names</span></div><div class='output co'>#&gt;  [1] "accident_index"                             
+#&gt;  [2] "location_easting_osgr"                      
+#&gt;  [3] "location_northing_osgr"                     
+#&gt;  [4] "longitude"                                  
+#&gt;  [5] "latitude"                                   
+#&gt;  [6] "police_force"                               
+#&gt;  [7] "accident_severity"                          
+#&gt;  [8] "number_of_vehicles"                         
+#&gt;  [9] "number_of_casualties"                       
+#&gt; [10] "date"                                       
+#&gt; [11] "day_of_week"                                
+#&gt; [12] "time"                                       
+#&gt; [13] "local_authority_district"                   
+#&gt; [14] "local_authority_highway"                    
+#&gt; [15] "first_road_class"                           
+#&gt; [16] "first_road_number"                          
+#&gt; [17] "road_type"                                  
+#&gt; [18] "speed_limit"                                
+#&gt; [19] "junction_detail"                            
+#&gt; [20] "junction_control"                           
+#&gt; [21] "second_road_class"                          
+#&gt; [22] "second_road_number"                         
+#&gt; [23] "pedestrian_crossing_human_control"          
+#&gt; [24] "pedestrian_crossing_physical_facilities"    
+#&gt; [25] "light_conditions"                           
+#&gt; [26] "weather_conditions"                         
+#&gt; [27] "road_surface_conditions"                    
+#&gt; [28] "special_conditions_at_site"                 
+#&gt; [29] "carriageway_hazards"                        
+#&gt; [30] "urban_or_rural_area"                        
+#&gt; [31] "did_police_officer_attend_scene_of_accident"
+#&gt; [32] "lsoa_of_accident_location"                  </div><div class='input'><span class='fu'>format_column_names</span>(<span class='kw'>column_names</span> <span class='kw'>=</span> <span class='no'>column_names</span>)</div><div class='output co'>#&gt;  [1] "accident_index"                             
+#&gt;  [2] "location_easting_osgr"                      
+#&gt;  [3] "location_northing_osgr"                     
+#&gt;  [4] "longitude"                                  
+#&gt;  [5] "latitude"                                   
+#&gt;  [6] "police_force"                               
+#&gt;  [7] "accident_severity"                          
+#&gt;  [8] "number_of_vehicles"                         
+#&gt;  [9] "number_of_casualties"                       
+#&gt; [10] "date"                                       
+#&gt; [11] "day_of_week"                                
+#&gt; [12] "time"                                       
+#&gt; [13] "local_authority_district"                   
+#&gt; [14] "local_authority_highway"                    
+#&gt; [15] "first_road_class"                           
+#&gt; [16] "first_road_number"                          
+#&gt; [17] "road_type"                                  
+#&gt; [18] "speed_limit"                                
+#&gt; [19] "junction_detail"                            
+#&gt; [20] "junction_control"                           
+#&gt; [21] "second_road_class"                          
+#&gt; [22] "second_road_number"                         
+#&gt; [23] "pedestrian_crossing_human_control"          
+#&gt; [24] "pedestrian_crossing_physical_facilities"    
+#&gt; [25] "light_conditions"                           
+#&gt; [26] "weather_conditions"                         
+#&gt; [27] "road_surface_conditions"                    
+#&gt; [28] "special_conditions_at_site"                 
+#&gt; [29] "carriageway_hazards"                        
+#&gt; [30] "urban_or_rural_area"                        
+#&gt; [31] "did_police_officer_attend_scene_of_accident"
+#&gt; [32] "lsoa_of_accident_location"                  </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

@@ -120,16 +120,13 @@
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='co'># Obtained with:</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>sf</span>)
-<span class='no'>u</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/paste'>paste0</a></span>(<span class='st'>"https://opendata.arcgis.com/"</span>,
+    <pre class="examples"><div class='input'><span class='co'># Obtained with:</span>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>sf</span>)</div><div class='output co'>#&gt; <span class='message'>Linking to GEOS 3.5.0, GDAL 2.1.0, PROJ 4.8.0</span></div><div class='input'><span class='no'>u</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/paste'>paste0</a></span>(<span class='st'>"https://opendata.arcgis.com/"</span>,
   <span class='st'>"datasets/3e5a096a8c7c456fb6d3164a3f44b005_3.kml"</span>
   )
 <span class='no'>police_boundaries_wgs</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/st_read'>read_sf</a></span>(<span class='no'>u</span>)
 <span class='no'>police_boundaries</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/st_transform'>st_transform</a></span>(<span class='no'>police_boundaries_wgs</span>, <span class='fl'>27700</span>)
-<span class='no'>police_boundaries</span> <span class='kw'>=</span> <span class='no'>police_boundaries</span>[<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"pfa16cd"</span>, <span class='st'>"pfa16nm"</span>)]
-<span class='co'># }</span></pre>
+<span class='no'>police_boundaries</span> <span class='kw'>=</span> <span class='no'>police_boundaries</span>[<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"pfa16cd"</span>, <span class='st'>"pfa16nm"</span>)]</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

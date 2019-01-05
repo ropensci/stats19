@@ -132,12 +132,7 @@ is used.</p></td>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='no'>x</span> <span class='kw'>=</span> <span class='fu'><a href='read_accidents.html'>read_accidents</a></span>()
-<span class='no'>x_formatted</span> <span class='kw'>=</span> <span class='fu'><a href='format_accidents.html'>format_accidents</a></span>(<span class='no'>x</span>)
-<span class='no'>x_sf</span> <span class='kw'>=</span> <span class='fu'>format_sf</span>(<span class='no'>x_formatted</span>)
-<span class='kw pkg'>sf</span><span class='kw ns'>:::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/plot'>plot.sf</a></span>(<span class='no'>x_sf</span>[<span class='st'>"accident_severity"</span>])
-<span class='co'># }</span></pre>
+    <pre class="examples"><div class='input'><span class='no'>x_sf</span> <span class='kw'>=</span> <span class='fu'>format_sf</span>(<span class='no'>accidents_sample</span>)</div><div class='output co'>#&gt; <span class='message'>0 rows removed with no coordinates</span></div><div class='input'><span class='kw pkg'>sf</span><span class='kw ns'>:::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/plot'>plot.sf</a></span>(<span class='no'>x_sf</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: plotting the first 9 out of 30 attributes; use max.plot = 30 to plot all</span></div><div class='img'><img src='format_sf-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
