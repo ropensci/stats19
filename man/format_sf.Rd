@@ -18,9 +18,7 @@ Format convert STATS19 data into spatial (sf) object
 }
 \examples{
 \donttest{
-x = read_accidents()
-x_formatted = format_accidents(x)
-x_sf = format_sf(x_formatted)
-sf:::plot.sf(x_sf["accident_severity"])
+x_sf = format_sf(accidents_sample)
+sf:::plot.sf(x_sf)
 }
 }
