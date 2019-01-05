@@ -25,3 +25,4 @@ responses*
 ^azure-pipelines.yml$
 data-raw/
 makefile
+^docs$

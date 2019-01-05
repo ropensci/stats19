@@ -25,38 +25,23 @@ knitr::opts_chunk$set(
 # stats19
 
 **stats19** provides functions for downloading and formatting road crash data.
-Specifically, it enables access to the UK's official road traffic casualty database, [STATS19](https://data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data). (The name comes from the form used by the police to record car crashes and other incidents resulting in casualties on the roads).
+Specifically, it enables access to the UK's official road traffic casualty database, [STATS19](https://data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data). (The name comes from the form used by the police to record car crashes and other incidents resulting in casualties on the roads.)
 
-**Note**: The Department for Transport refers to "accidents", but "crashes" is a more appropriate term, as emphasised in the "crash not accident" arguments of road safety advocacy groups such as [RoadPeace](http://www.roadpeace.org/take-action/crash-not-accident/).
-We use the term "accidents" only in reference to nomenclature within the data as provided.
+A full overview of STATS19 variables be found in a [document](http://data.dft.gov.uk/road-accidents-safety-data/Brief-guide-to%20road-accidents-and-safety-data.doc) provided by the UK's Department for Transport (DfT).
 
-The data is provided by the UK's Department for Transport (DfT) as a series of `.csv` files that are stored in dozens of `.zip` files.
+The raw data is provided as a series of `.csv` files that contain integers and which are stored in dozens of `.zip` files.
 Finding, reading-in and formatting the data for research can be a time consuming process subject to human error.
-**stats19** speeds up these vital data access and cleaning stages of the research process, enabling reproducibility, by streamlining the work into 3 stages:
+**stats19** speeds up these vital but boring and error-prone stages of the research process with a single function: `get_stats19()`.
+By allowing public access to properly labelled road crash data, **stats19** aims to make road safety research more reproducible and accessible.
 
-- **Download**: This single `dl_stats19()` function accepts `year`, `type` and `filename` arguments to make it easy to find the right file for your research question.
-
-- **Read**: STATS19 data is provided in a particular format that benefits from being read-in with pre-specified column types. This is taken care of with `read_*()` functions providing access to the 3 main tables in STATS19 data:
-
-  - `read_accidents()` reads-in the crash data (which has one row per incident)
-  - `read_casualties()` reads-in the casualty data (which has one row per person injured or killed)
-  - `read_vehicles()` reads-in the vehicles table, which contains information on the vehicles involved in the crashes (and has one row per vehicle)
-  
-- **Format**: Each of the `read_*()` functions has a `format` parameter which, when `TRUE`, adds labels to the tables. The raw data provided by the DfT contains only integers. 
-Running `read_*(..., format = TRUE)` converts these integer values to the corresponding character variables for each of the three tables.
-For example, `read_accidents(format = TRUE)` converts values in the `accident_severity` column from `1`, `2` and `3` to `Slight`, `Serious` and `Fatal`.
-To read-in raw data without formatting, set `format = FALSE`.
-
-There is a wrapper function combining these three stages in one function called `get_stats19`.
-
-A full description of the stats19 data and variables they contain can be found in a [document](http://data.dft.gov.uk/road-accidents-safety-data/Brief-guide-to%20road-accidents-and-safety-data.doc) provided by the UK's Department for Transport (DfT).
+For transparency and modularity, each stage can be undertaken seperately, as documented in the [stats19 vignette](https://itsleeds.github.io/stats19/articles/stats19.html).
 
 ## Installation
 
 Install and load the latest version with:
 
 ```{r install, eval=FALSE}
-devtools::install_github("ITSLeeds/stats19")
+remotes::install_github("ITSLeeds/stats19")
 ```
 
 ```{r attach}
@@ -69,18 +54,36 @@ library(stats19)
 <!-- install.packages("stats19") -->
 <!-- ``` -->
 
-## Data download
+## get_stats19()
 
-**stats19** enables download of raw stats19 data with `dl_*` functions.
-The following code chunk, for example, downloads and unzips a .zip file containing Stats19 data from 2017:
+`get_stats19()` requires `year` and `type` parameters, mirroring the provision of STATS19 data files, which are categorised by year (from 1979 onwards) and type (with separate tables for crashes, casualties and vehicles, as outlined below).
+The following command, for example, gets crash data from 2017 (**note**: we use the name 'crashes', following the "crash not accident" campaign of [RoadPeace](http://www.roadpeace.org/take-action/crash-not-accident/).
+):
 
-```{r dl2017-accidents}
-dl_stats19(year = 2017, type = "Accidents")
+```{r}
+crashes = get_stats19(year = 2017, type = "accident")
 ```
 
-Currently, these files are downloaded to a default location of `tempdir` which is a platform independent "safe" but temporary location to download the data in. Once downloaded, they are unzipped under original DfT file names.
-The `dl_stats19()` function prints out the location and final file name(s) of unzipped files(s) as shown above.
-Data files from other years can be downloaded in an interactive manner. Providing just the year for example, would present the following options:
+What just happened?
+We read-in data on all road crashes recorded by the police in 2017 across Great Britain.
+The dataset contains `r ncol(crashes)` columns (variables) for `r format(nrow(crashes), big.mark = ",")` crashes.
+The contents of this dataset, and other datasets provided by **stats19**, are outlined below and described in more detail in the [stats19 vignette](https://itsleeds.github.io/stats19/articles/stats19.html).
+
+The following commands get the corresponding casualty and vehicle datasets for 2017:
+
+```{r}
+casualties = get_stats19(year = 2017, type = "casualties")
+vehicles = get_stats19(year = 2017, type = "vehicles")
+```
+
+The package also allows STATS19 files to be downloaded and read-in separately, allowing more control over what you download, and subsequently read-in, e.g. with `read_accidents()`.
+
+
+## Data download
+
+Data files can be downloaded without reading them in using the function `dl_stats19()`.
+If there are multiple matches, you will be asked to choose from a range of options.
+Providing just the year, for example, will result in the following options:
 
 ```{r dl2017-all, eval=FALSE}
 dl_stats19(year = 2017)
@@ -99,60 +102,34 @@ Enter an item from the menu, or 0 to exit
 
 ## Reading-in and formatting STATS19 data
 
-As mentioned above STATS19 contains 3 main tables:
+As mentioned, STATS19 contains 3 main tables:
 
 - Accidents, the main table which contains information on the crash time, location and other variables (`r ncol(accidents_sample)` columns in total)
 - Casualties, containing data on people hurt or killed in each crash (`r ncol(casualties_sample)` columns in total)
 - Vehicles, containing data on vehicles involved in or causing each crash (`r ncol(vehicles_sample)` columns in total)
 
-Code to read-in and format each of these tables is now demonstrated. Or using the wrapper function `get_stats19` the three steps can be taken in one given `read_*` functions ability to read single CSV files for now.
-
-```{r get_stats192017, eval=FALSE}
-get_stats19(year = 2017) 
-# defaults to type = accidents and format = true
-```
+Code to read-in and format each of these tables is demonstrated below.
 
 ### Crash data
 
-After raw data files have been downloaded as described in the previous section, they can then be read-in as follows:
+Crash data was downloaded and read-in using the function `get_stats19()`, as described above.
+Crash data can also be read-in as follows (assuming the dataset has already been downloaded):
 
 ```{r read2017-raw-format}
-crashes_2017_raw = read_accidents(year = 2017, format = FALSE)
-crashes_2017 = format_accidents(crashes_2017_raw)
-nrow(crashes_2017_raw)
-ncol(crashes_2017_raw)
+crashes_2017 = read_accidents(year = 2017)
 nrow(crashes_2017)
 ncol(crashes_2017)
 ```
 
-What just happened?
-We read-in data on all road crashes recorded by the police in 2017 across Great Britain.
-The dataset contains `r ncol(crashes_2017_raw)` columns (variables) for `r format(nrow(crashes_2017_raw), big.mark = ",")` crashes.
-
-This work was done by `read_accidents(format = FALSE)`, which imported the "raw" Stats19 data without cleaning messy column names or re-categorising the outputs.
-`format_accidents()` automates the process of matching column names with variable names and labels in a [`.xls` file](http://data.dft.gov.uk/road-accidents-safety-data/Road-Accident-Safety-Data-Guide.xls) provided by the DfT.
-This means `crashes_2017` is much more usable than `crashes_2017_raw`, as shown below, which shows some key variables in the messy and clean datasets:
+Some of the key variables in this dataset include:
 
 ```{r crashes2017-columns}
-crashes_2017_raw[c(7, 18, 23, 25)]
 crashes_2017[c(7, 18, 23, 25)]
 ```
 
-By default, `format = TRUE`, meaning that the two stages of `read_accidents(format = FALSE)` and `format_accidents()` yield the same result as `read_accidents(format = TRUE)`.
 For the full list of columns, run `names(crashes_2017)` or see the [vignette](https://github.com/ITSLeeds/stats19/blob/master/vignettes/stats19.Rmd).
 
 <!-- This means `crashes_2017` is much more usable than `crashes_2017_raw`, as shown below, which shows three records and some key variables in the messy and clean datasets: -->
-
-```{r, echo=FALSE, eval=FALSE}
-# commented out as confusing...
-key_patt = "severity|speed|light|human"
-key_vars = grep(key_patt, x = names(crashes_2017_raw), ignore.case = TRUE)
-random_n = sample(x = nrow(crashes_2017_raw), size = 3)
-crashes_2017_raw[random_n, key_vars]
-crashes_2017[random_n, key_vars]
-```
-
-**Note**: As indicated above, the term "accidents" is only used as directly provided by the DfT; "crashes" is a more appropriate term, hence we call our resultant datasets `crashes_*`.
 
 ## Casualties data
 

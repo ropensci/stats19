@@ -139,13 +139,13 @@ check_input_file = function(filename = NULL,
     year = year
   )
   if(identical(path, "More than one csv file found."))
-    stop("Multiple files with the same name found.")
+    stop("Multiple files with the same name found.", call. = FALSE)
   # have we NOT found a csv to read?
   if (is.null(path) || length(path) == 0 || !endsWith(path, ".csv")
       || !file.exists(path)) {
     # locate_files malfunctioned or just path returned with no filename
     message(path)
-    stop("Change data_dir, filename, year or run dl_stats19() first.")
+    stop("Change data_dir, filename, year or run dl_stats19() first.", call. = FALSE)
   }
   return(path)
 }
