@@ -131,12 +131,15 @@ how these were obtained and would be kept up to date.</p>
     <pre class="examples"><span class='co'># NOT RUN {</span>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>rvest</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>stringr</span>)
-<span class='no'>page</span> <span class='kw'>=</span> <span class='fu'>read_html</span>(<span class='st'>"https://data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data"</span>)
+<span class='no'>u</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/paste'>paste0</a></span>(
+  <span class='st'>"https://data.gov.uk/dataset/"</span>,
+  <span class='st'>"cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data"</span>)
+<span class='no'>page</span> <span class='kw'>=</span> <span class='fu'>read_html</span>(<span class='no'>u</span>)
 
 <span class='no'>r</span> <span class='kw'>=</span> <span class='no'>page</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://www.rdocumentation.org/packages/rvest/topics/html_nodes'>html_nodes</a></span>(<span class='st'>"a"</span>) <span class='kw'>%&gt;%</span>       <span class='co'># find all links</span>
-  <span class='fu'><a href='https://www.rdocumentation.org/packages/rvest/topics/html_text'>html_attr</a></span>(<span class='st'>"href"</span>) <span class='kw'>%&gt;%</span>     <span class='co'># get the url</span>
-  <span class='fu'><a href='https://www.rdocumentation.org/packages/stringr/topics/str_subset'>str_subset</a></span>(<span class='st'>"\\.zip"</span>)
+  <span class='fu'>html_nodes</span>(<span class='st'>"a"</span>) <span class='kw'>%&gt;%</span>       <span class='co'># find all links</span>
+  <span class='fu'>html_attr</span>(<span class='st'>"href"</span>) <span class='kw'>%&gt;%</span>     <span class='co'># get the url</span>
+  <span class='fu'><a href='https://stringr.tidyverse.org/reference/str_subset.html'>str_subset</a></span>(<span class='st'>"\\.zip"</span>)
 
 <span class='no'>dr</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>()
 <span class='kw'>for</span>(<span class='no'>i</span> <span class='kw'>in</span> <span class='fl'>1</span>:<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/length'>length</a></span>(<span class='no'>r</span>)) {
