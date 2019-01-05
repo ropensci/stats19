@@ -18,7 +18,7 @@ R by default. Names that are all lower case with no R-unfriendly characters
 such as spaces and \code{-} are returned.
 }
 \examples{
-\dontrun{
+\donttest{
 crashes_raw = read_accidents(year = 2017)
 column_names = names(crashes_raw)
 column_names

@@ -34,7 +34,7 @@ have a sufficient internet access and hard disk space.
 }
 
 \examples{
-\dontrun{
+\donttest{
 dl_stats19(year = 2017) # interactively select files...
 # now you can read-in the data
 dl_stats19(year = 2009)

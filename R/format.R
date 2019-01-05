@@ -6,7 +6,7 @@
 #' @param x Data frame created with `read_accidents()`
 #' @export
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' dl_stats19(year = 2017, type = "accident")
 #' x = read_accidents(year = 2017)
 #' crashes = format_accidents(x)
@@ -23,7 +23,7 @@ format_accidents = function(x) {
 #' @param x Data frame created with `read_casualties()`
 #' @export
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' dl_stats19(year = 2017, type = "casualties")
 #' x = read_casualties(year = 2017)
 #' casualties = format_casualties(x)
@@ -40,7 +40,7 @@ format_casualties = function(x) {
 #' @param x Data frame created with `read_vehicles()`
 #' @export
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' dl_stats19(year = 2017, type = "vehicles")
 #' x = read_vehicles(year = 2017, format = FALSE)
 #' vehicles = format_vehicles(x)
@@ -79,7 +79,7 @@ format_stats19 = function(x, type) {
 #' @return Column names cleaned.
 #' @export
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' crashes_raw = read_accidents(year = 2017)
 #' column_names = names(crashes_raw)
 #' column_names
@@ -105,11 +105,9 @@ format_column_names = function(column_names) {
 #'
 #' @export
 #' @examples
-#' \dontrun{
-#' x = read_accidents()
-#' x_formatted = format_accidents(x)
-#' x_sf = format_sf(x_formatted)
-#' sf:::plot.sf(x_sf["accident_severity"])
+#' \donttest{
+#' x_sf = format_sf(accidents_sample)
+#' sf:::plot.sf(x_sf)
 #' }
 #' @export
 format_sf = function(x, lonlat = FALSE) {

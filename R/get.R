@@ -19,7 +19,7 @@
 #'
 #' @export
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' get_stats19(year = 2017)
 #' get_stats19(year = 2009)
 #' }
