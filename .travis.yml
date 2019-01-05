@@ -3,6 +3,8 @@ cache: packages
 sudo: required
 dist: trusty
 
+r_check_args: --as-cran --run-donttest
+
 r_packages:
     - covr
 
