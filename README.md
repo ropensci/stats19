@@ -79,9 +79,9 @@ crashes = get_stats19(year = 2017, type = "accident")
 #> Files identified: dftRoadSafetyData_Accidents_2017.zip
 #> Attempt downloading from:
 #>    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Accidents_2017.zip
-#> Data saved at /tmp/RtmpbUnCl0/dftRoadSafetyData_Accidents_2017/Acc.csv
+#> Data saved at /tmp/RtmpV6HXXy/dftRoadSafetyData_Accidents_2017/Acc.csv
 #> Reading in:
-#> /tmp/RtmpbUnCl0/dftRoadSafetyData_Accidents_2017/Acc.csv
+#> /tmp/RtmpV6HXXy/dftRoadSafetyData_Accidents_2017/Acc.csv
 ```
 
 What just happened? We read-in data on all road crashes recorded by the
@@ -99,12 +99,12 @@ casualties = get_stats19(year = 2017, type = "casualties")
 #> Files identified: dftRoadSafetyData_Casualties_2017.zip
 #> Attempt downloading from:
 #>    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Casualties_2017.zip
-#> Data saved at /tmp/RtmpbUnCl0/dftRoadSafetyData_Casualties_2017/Cas.csv
+#> Data saved at /tmp/RtmpV6HXXy/dftRoadSafetyData_Casualties_2017/Cas.csv
 vehicles = get_stats19(year = 2017, type = "vehicles")
 #> Files identified: dftRoadSafetyData_Vehicles_2017.zip
 #> Attempt downloading from:
 #>    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Vehicles_2017.zip
-#> Data saved at /tmp/RtmpbUnCl0/dftRoadSafetyData_Vehicles_2017/Veh.csv
+#> Data saved at /tmp/RtmpV6HXXy/dftRoadSafetyData_Vehicles_2017/Veh.csv
 ```
 
 The package also allows STATS19 files to be downloaded and read-in
@@ -153,7 +153,7 @@ follows (assuming the dataset has already been downloaded):
 ``` r
 crashes_2017 = read_accidents(year = 2017)
 #> Reading in:
-#> /tmp/RtmpbUnCl0/dftRoadSafetyData_Accidents_2017/Acc.csv
+#> /tmp/RtmpV6HXXy/dftRoadSafetyData_Accidents_2017/Acc.csv
 nrow(crashes_2017)
 #> [1] 129982
 ncol(crashes_2017)
@@ -177,7 +177,7 @@ crashes_2017[c(7, 18, 23, 25)]
 #>  8 Slight                     30 Control by other autho… Darkness - lights…
 #>  9 Serious                    50 None within 50 metres   Darkness - lights…
 #> 10 Serious                    30 None within 50 metres   Darkness - lights…
-#> # ... with 129,972 more rows
+#> # … with 129,972 more rows
 ```
 
 For the full list of columns, run `names(crashes_2017)` or see the
@@ -196,7 +196,7 @@ dl_stats19(year = 2017, type = "casualties")
 #> Attempt downloading from:
 #>    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Casualties_2017.zip
 #> Data already exists in data_dir, not downloading
-#> Data saved at /tmp/RtmpbUnCl0/dftRoadSafetyData_Casualties_2017/Cas.csv
+#> Data saved at /tmp/RtmpV6HXXy/dftRoadSafetyData_Casualties_2017/Cas.csv
 casualties_2017 = read_casualties(year = 2017)
 nrow(casualties_2017)
 #> [1] 170993
@@ -223,7 +223,7 @@ casualties_2017[c(4, 5, 6, 14)]
 #>  8 Driver or rider Male                         14 Motorcycle 125cc and un…
 #>  9 Driver or rider Female                       58 Car occupant            
 #> 10 Driver or rider Male                         27 Car occupant            
-#> # ... with 170,983 more rows
+#> # … with 170,983 more rows
 ```
 
 The full list of column names in the `casualties` dataset is:
@@ -259,7 +259,7 @@ dl_stats19(year = 2017, type = "vehicles")
 #> Attempt downloading from:
 #>    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Vehicles_2017.zip
 #> Data already exists in data_dir, not downloading
-#> Data saved at /tmp/RtmpbUnCl0/dftRoadSafetyData_Vehicles_2017/Veh.csv
+#> Data saved at /tmp/RtmpV6HXXy/dftRoadSafetyData_Vehicles_2017/Veh.csv
 vehicles_2017 = read_vehicles(year = 2017)
 nrow(vehicles_2017)
 #> [1] 238926
@@ -286,7 +286,7 @@ vehicles_2017[c(3, 14:16)]
 #>  8 Car                   Not known              Female                   37
 #>  9 Car                   Not known              Female                   29
 #> 10 Car                   Not known              Male                     78
-#> # ... with 238,916 more rows
+#> # … with 238,916 more rows
 ```
 
 The full list of column names in the `vehicles` dataset is:
@@ -396,40 +396,25 @@ crashes_joined[1:2, c(1, 5, 34)] %>% st_drop_geometry()
 #> 2 2017120010412  Slight                  1
 ```
 
-This join operation added a geometry column to the casualty data,
-enabling exploration the spatial distribution of different casualty
-types:
+## Mapping crashes
+
+The join operation added a geometry column to the casualty data,
+enabling it to be mapped (for more advanced maps, see the
+[vignette](https://itsleeds.github.io/stats19/articles/stats19.html)):
 
 ``` r
-plot(crashes_joined[crashes_joined$Pedestrian > 0, "Pedestrian"])
-plot(crashes_joined[crashes_joined$Cyclist > 0, "Cyclist"])
-plot(crashes_joined[crashes_joined$`Car occupant` > 0, "Car occupant"])
+plot(crashes_joined["Total"], pch = 3, cex = 0.1)
 ```
 
-<img src="man/figures/README-sfplot-1.png" width="33%" /><img src="man/figures/README-sfplot-2.png" width="33%" /><img src="man/figures/README-sfplot-3.png" width="33%" />
+<img src="man/figures/README-unnamed-chunk-3-1.png" width="100%" />
 
-It is clear that pedestrians, cyclists and car occupants tend to get
-hurt in different places. Car occupant casualties, for example, are
-comparatively common on the outskirts of Leeds, where speed limits tend
-to be higher and where there are comparatively higher volumes of motor
-traffic, compared with the city centre.
+The spatial distribution of crashes in West Yorkshire clearly relates to
+the region’s geography. Crashes tend to happen on busy Motorway roads
+and city centres, of Leeds and Bradford in particular. This can be seen
+by comparing the previous map with an overview of the area, from
+(Lovelace, Roberts, and Kellar 2016):
 
-Another way of visualising these data is to show the spatial
-distribution of crashes causing pedestrian casualties by number of
-pedestrians hurt and crash severity. This is easily done with
-**ggplot2**:
-
-``` r
-library(ggplot2)
-ggplot(crashes_joined, aes(colour = Total)) +
-  geom_sf() +
-  facet_grid(vars(accident_severity), vars(Pedestrian))
-```
-
-<img src="man/figures/README-ggplot-ped-severity-1.png" width="100%" />
-
-These figures suggest that pedestrian casualties tend to happen more
-frequently near city centres, compared with other types of casualty.
+<img src="wy-overview.jpg" width="100%" />
 
 ## Time series analysis
 
@@ -437,6 +422,7 @@ We can also explore weekly and seasonal trends in crashes by aggregating
 crashes by day of the year:
 
 ``` r
+library(ggplot2)
 crashes_dates = crashes_joined %>% 
   st_set_geometry(NULL) %>% 
   group_by(date = lubridate::dmy(date)) %>% 
@@ -484,7 +470,7 @@ data it provides. Then it’s time to pose interesting research questions,
 some of which could provide an evidence-base in support policies that
 save lives (e.g. Sarkar, Webster, and Kumari 2018). For more on these
 next steps, see the package’s introductory
-[vignette](https://github.com/ITSLeeds/stats19/blob/master/vignettes/stats19.Rmd).
+[vignette](https://itsleeds.github.io/stats19/articles/stats19.html).
 
 ## Further information
 

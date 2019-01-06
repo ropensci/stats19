@@ -238,34 +238,28 @@ cas_types[1:2, c("accident_index", "Cyclist")]
 crashes_joined[1:2, c(1, 5, 34)] %>% st_drop_geometry()
 ```
 
-This join operation added a geometry column to the casualty data, enabling
-exploration the spatial distribution of different casualty types:
+## Mapping crashes
 
-```{r sfplot, fig.show='hold', out.width="33%"}
-plot(crashes_joined[crashes_joined$Pedestrian > 0, "Pedestrian"])
-plot(crashes_joined[crashes_joined$Cyclist > 0, "Cyclist"])
-plot(crashes_joined[crashes_joined$`Car occupant` > 0, "Car occupant"])
+The join operation added a geometry column to the casualty data, enabling it to be mapped (for more advanced maps, see the [vignette](https://itsleeds.github.io/stats19/articles/stats19.html)):
+
+```{r}
+plot(crashes_joined["Total"], pch = 3, cex = 0.1)
 ```
 
-It is clear that pedestrians, cyclists and car occupants tend to get hurt in different places.
-Car occupant casualties, for example, are comparatively common on the outskirts of Leeds, where speed limits tend to be higher and where there are comparatively higher volumes of motor traffic, compared with the city centre.
+The spatial distribution of crashes in West Yorkshire clearly relates to the region's geography.
+Crashes tend to happen on busy Motorway roads and city centres, of Leeds and Bradford in particular.
+This can be seen by comparing the previous map with an overview of the area, from [@lovelace_who_2016]:
 
-Another way of visualising these data is to show the spatial distribution of crashes causing pedestrian casualties by number of pedestrians hurt and crash severity. This is easily done with **ggplot2**:
-
-```{r ggplot-ped-severity}
-library(ggplot2)
-ggplot(crashes_joined, aes(colour = Total)) +
-  geom_sf() +
-  facet_grid(vars(accident_severity), vars(Pedestrian))
+```{r, echo=FALSE}
+knitr::include_graphics("wy-overview.jpg")
 ```
-
-These figures suggest that pedestrian casualties tend to happen more frequently near city centres, compared with other types of casualty.
 
 ## Time series analysis
 
 We can also explore weekly and seasonal trends in crashes by aggregating crashes by day of the year:
 
 ```{r crash-date-plot}
+library(ggplot2)
 crashes_dates = crashes_joined %>% 
   st_set_geometry(NULL) %>% 
   group_by(date = lubridate::dmy(date)) %>% 
@@ -301,7 +295,7 @@ Even if you're not working with UK data, we hope that the data provided by **sta
 
 The next step is to gain a deeper understanding of **stats19** and the data it provides.
 Then it's time to pose interesting research questions, some of which could provide an evidence-base in support policies that save lives [e.g. @sarkar_street_2018].
-For more on these next steps, see the package's introductory [vignette](https://github.com/ITSLeeds/stats19/blob/master/vignettes/stats19.Rmd).
+For more on these next steps, see the package's introductory [vignette](https://itsleeds.github.io/stats19/articles/stats19.html).
 
 ## Further information
 
