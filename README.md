@@ -80,9 +80,9 @@ crashes = get_stats19(year = 2017, type = "accident")
 #> Files identified: dftRoadSafetyData_Accidents_2017.zip
 #> Attempt downloading from:
 #>    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Accidents_2017.zip
-#> Data saved at /tmp/Rtmpsc7HQK/dftRoadSafetyData_Accidents_2017/Acc.csv
+#> Data saved at /tmp/Rtmpz6teuo/dftRoadSafetyData_Accidents_2017/Acc.csv
 #> Reading in:
-#> /tmp/Rtmpsc7HQK/dftRoadSafetyData_Accidents_2017/Acc.csv
+#> /tmp/Rtmpz6teuo/dftRoadSafetyData_Accidents_2017/Acc.csv
 ```
 
 What just happened? We read-in data on all road crashes recorded by the
@@ -179,7 +179,7 @@ casualties = get_stats19(year = 2017, type = "casualties")
 #> Files identified: dftRoadSafetyData_Casualties_2017.zip
 #> Attempt downloading from:
 #>    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Casualties_2017.zip
-#> Data saved at /tmp/Rtmpsc7HQK/dftRoadSafetyData_Casualties_2017/Cas.csv
+#> Data saved at /tmp/Rtmpz6teuo/dftRoadSafetyData_Casualties_2017/Cas.csv
 nrow(casualties)
 #> [1] 170993
 ncol(casualties)
@@ -240,7 +240,7 @@ vehicles = get_stats19(year = 2017, type = "vehicles")
 #> Files identified: dftRoadSafetyData_Vehicles_2017.zip
 #> Attempt downloading from:
 #>    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Vehicles_2017.zip
-#> Data saved at /tmp/Rtmpsc7HQK/dftRoadSafetyData_Vehicles_2017/Veh.csv
+#> Data saved at /tmp/Rtmpz6teuo/dftRoadSafetyData_Vehicles_2017/Veh.csv
 nrow(vehicles)
 #> [1] 238926
 ncol(vehicles)
@@ -306,15 +306,26 @@ The note arises because `NA` values are not permitted in `sf`
 coordinates, and so rows containing no coordinates are automatically
 removed. Having the data in a standard geographic form allows various
 geographic operations to be performed on it. The following code chunk,
-for example, returns all crashes within the boundary of the Leeds local
-authority. This requires the **ukboundaries** GitHub package:
+for example, returns all crashes within the boundary of West Yorkshire
+(which is contained in the object
+[`police_boundaries`](https://itsleeds.github.io/stats19/reference/police_boundaries.html),
+an `sf` data frame containing all police jurisdictions in England and
+Wales).
 
 ``` r
 library(sf)
 #> Linking to GEOS 3.6.2, GDAL 2.2.3, PROJ 4.9.3
-west_yorkshire =
-  police_boundaries[police_boundaries$pfa16nm == "West Yorkshire", ]
-crashes_wy = crashes_sf[west_yorkshire, ]
+library(dplyr)
+#> 
+#> Attaching package: 'dplyr'
+#> The following objects are masked from 'package:stats':
+#> 
+#>     filter, lag
+#> The following objects are masked from 'package:base':
+#> 
+#>     intersect, setdiff, setequal, union
+wy = filter(police_boundaries, pfa16nm == "West Yorkshire")
+crashes_wy = crashes_sf[wy, ]
 nrow(crashes_sf)
 #> [1] 129963
 nrow(crashes_wy)
@@ -332,7 +343,6 @@ all casualties that took place in Leeds, and counts the number of
 casualties by severity for each crash:
 
 ``` r
-library(dplyr)
 sel = casualties$accident_index %in% crashes_wy$accident_index
 casualties_wy = casualties[sel, ]
 cas_types = casualties_wy %>% 

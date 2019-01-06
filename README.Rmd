@@ -180,14 +180,13 @@ crashes_sf = format_sf(crashes)
 
 The note arises because `NA` values are not permitted in `sf` coordinates, and so rows containing no coordinates are automatically removed.
 Having the data in a standard geographic form allows various geographic operations to be performed on it.
-The following code chunk, for example, returns all crashes within the boundary of the Leeds local authority. 
-This requires the **ukboundaries** GitHub package:
+The following code chunk, for example, returns all crashes within the boundary of West Yorkshire (which is contained in the object [`police_boundaries`](https://itsleeds.github.io/stats19/reference/police_boundaries.html), an `sf` data frame containing all police jurisdictions in England and Wales). 
 
 ```{r crashes-leeds}
 library(sf)
-west_yorkshire =
-  police_boundaries[police_boundaries$pfa16nm == "West Yorkshire", ]
-crashes_wy = crashes_sf[west_yorkshire, ]
+library(dplyr)
+wy = filter(police_boundaries, pfa16nm == "West Yorkshire")
+crashes_wy = crashes_sf[wy, ]
 nrow(crashes_sf)
 nrow(crashes_wy)
 ```
@@ -202,7 +201,6 @@ The three main tables we have just read-in can be joined by shared key variables
 This is demonstrated in the code chunk below, which subsets all casualties that took place in Leeds, and counts the number of casualties by severity for each crash:
 
 ```{r table-join, message = FALSE}
-library(dplyr)
 sel = casualties$accident_index %in% crashes_wy$accident_index
 casualties_wy = casualties[sel, ]
 cas_types = casualties_wy %>% 
