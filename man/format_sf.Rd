@@ -17,8 +17,6 @@ is used.}
 Format convert STATS19 data into spatial (sf) object
 }
 \examples{
-\donttest{
 x_sf = format_sf(accidents_sample)
 sf:::plot.sf(x_sf)
-}
 }
