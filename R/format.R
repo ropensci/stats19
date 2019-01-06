@@ -105,10 +105,8 @@ format_column_names = function(column_names) {
 #'
 #' @export
 #' @examples
-#' \donttest{
 #' x_sf = format_sf(accidents_sample)
 #' sf:::plot.sf(x_sf)
-#' }
 #' @export
 format_sf = function(x, lonlat = FALSE) {
   n = names(x)
