@@ -24,7 +24,7 @@ knitr::opts_chunk$set(
 **stats19** enables access to and processing of the UK's official road traffic casualty database, [STATS19](https://data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data). 
 A description of variables in the database can be found in a [document](http://data.dft.gov.uk/road-accidents-safety-data/Brief-guide-to%20road-accidents-and-safety-data.doc) provided by the UK's Department for Transport (DfT).
 The datasets are collectively called STATS19 after the form used to report them, which can be found [here](http://docs.adrn.ac.uk/888043/mrdoc/pdf/888043_stats19-road-accident-injury-statistics-report-form.pdf). 
-This vignette focusses on how to use the **stats19** package to work with STATS19 data.
+This vignette focuses on how to use the **stats19** package to work with STATS19 data.
 
 **Note**: The Department for Transport refers to "accidents", but "crashes" is a more appropriate term, as emphasised in the "crash not accident" arguments of road safety advocacy groups such as [RoadPeace](http://www.roadpeace.org/take-action/crash-not-accident/).
 We use the term "accidents" only in reference to nomenclature within the data as provided.
@@ -56,9 +56,9 @@ To read-in raw data without formatting, set `format = FALSE`.
 
 Multiple functions are needed for each step because of the structure of STATS19 data, which are divided into 3 tables, as described in an article that analyses 2005-2015 STATS19 data with reproducible R code by Christoph Freier ([2018](https://kawameicha.gitlab.io/inCodeWeTrust/2018/01/10-years-and-3.3-million-accidented-vehicles-in-the-uk/)):
 
-1. "accident circumstances, with details about location, severity, weather, etc; 
+1. "accident circumstances, with details about location, severity, weather, etc.; 
 2. casualties, referencing knowledge about the victims; and
-3. vehicles, which contains more information about the vehicle type and maneuvers, as well the some information about the driver."
+3. vehicles, which contains more information about the vehicle type and manoeuvres, as well the some information about the driver."
 
 The data can be downloaded for many years.
 Datasets since 1979 are broadly consistent, meaning that STATS19 data represents a very rich historic geographic, as stated in the DfT's road casualties report in [2017](https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/744077/reported-road-casualties-annual-report-2017.pdf):
@@ -68,8 +68,8 @@ goes back to 1979, providing a long period for comparison.
 
 ## Download STATS19 data
 
-**stats19** enables download of raw stats19 data with `dl_*` functions.
-The following code chunk, for example, downloads and unzips a .zip file containing Stats19 data from 2017:
+**stats19** enables download of raw STATS19 data with `dl_*` functions.
+The following code chunk, for example, downloads and unzips a .zip file containing STATS19 data from 2017:
 
 ```{r dl2017-accidents}
 dl_stats19(year = 2017, type = "Accidents")
@@ -80,7 +80,7 @@ The `dl_stats19()` function prints out the location and final file name(s) of un
 
 `dl_stats19()` takes three parameters.
 Supplying a `file_name` is interpreted to mean that the user is aware of what to download and the other two parameters will be ignored.
-You can also use `years` and `type` to "search" through the file names, which are stored in a lazy-loaded datset called `stats19::file_names`.
+You can also use `years` and `type` to "search" through the file names, which are stored in a lazy-loaded dataset called `stats19::file_names`.
 
 You can find out the names of files that can be downloaded with `names(stats19::file_names)`, an example of which is shown below:
 
@@ -169,7 +169,7 @@ What just happened?
 We read-in data on all road crashes recorded by the police in 2017 across Great Britain.
 The dataset contains `r ncol(crashes_2017_raw)` columns (variables) for `r format(nrow(crashes_2017_raw), big.mark = ",")` crashes.
 
-This work was done by `read_accidents(format = FALSE)`, which imported the "raw" Stats19 data without cleaning messy column names or re-categorising the outputs.
+This work was done by `read_accidents(format = FALSE)`, which imported the "raw" STATS19 data without cleaning messy column names or re-categorising the outputs.
 `format_accidents()` automates the process of matching column names with variable names and labels in a [`.xls` file](http://data.dft.gov.uk/road-accidents-safety-data/Road-Accident-Safety-Data-Guide.xls) provided by the DfT.
 This means `crashes_2017` is much more usable than `crashes_2017_raw`, as shown below, which shows some key variables in the messy and clean datasets:
 
@@ -199,7 +199,7 @@ crashes_2017[random_n, key_vars]
 It is also possible to import the "raw" data as provided by the DfT.
 A [`.xls` file](http://data.dft.gov.uk/road-accidents-safety-data/Road-Accident-Safety-Data-Guide.xls) provided by the DfT defines the column names for the datasets provided.
 The packaged datasets `stats19_variables` and `stats19_schema` provide summary information about the contents of this data guide.
-These contain the full variable names in the guide (`stats19_variables`) and a complete lookup table relating integer values to the `.csv` files provided by the DfT and their labels (`stats19_schema`).
+These contain the full variable names in the guide (`stats19_variables`) and a complete look up table relating integer values to the `.csv` files provided by the DfT and their labels (`stats19_schema`).
 The first rows of each dataset are shown below:
 
 ```{r variables-and-schema}
@@ -280,7 +280,7 @@ knitr::kable(stats19::accidents_sample_raw[, key_vars])
 
 ## Casualties data
 
-As with `crashes_2017`, casualty data for 2017 can be downloaded, read-in and formated as follows:
+As with `crashes_2017`, casualty data for 2017 can be downloaded, read-in and formatted as follows:
 
 ```{r 2017-cas}
 dl_stats19(year = 2017, type = "casualties")
@@ -304,7 +304,7 @@ names(casualties_2017)
 
 ## Vehicles data
 
-Data for vehicles involved in crashes in 2017 can be downloaded, read-in and formated as follows:
+Data for vehicles involved in crashes in 2017 can be downloaded, read-in and formatted as follows:
 
 ```{r dl2017-vehicles}
 dl_stats19(year = 2017, type = "vehicles")
@@ -422,7 +422,7 @@ crashes_wy
 cas_types
 crashes_joined
 ```
-This join operation has enabled us to georeference the casualty data, enabling
+This join operation has enabled us to geo-reference the casualty data, enabling
 us to explore the spatial distribution of different casualty types as follows:
 ```{r sfplot, fig.show='hold', out.width="33%"}
 plot(crashes_joined[crashes_joined$Pedestrian > 0, "Pedestrian"])
@@ -488,10 +488,10 @@ The greatest potential is to provide functions that will help with analysis of S
 Much academic research has been done using the data, a few examples of which are highlighted below to demonstrate the wide potential for further work.
 
 - Research exploring the effectiveness of road safety policies such as speed limits. An example in this area is @grundy_effect_2009, who found that areas with 20mph speed limits were safer. This raises the question: can the same result be repeated using reproducible methods? Does the finding hold for more recent 20 mph zones? Is the recent finding of DfT's ([2018](https://www.gov.uk/government/publications/20-mph-speed-limits-on-roads)) research, that 20 mph zones alone do not reduce crash rates, supported by reproducible analysis? What are the factors that make speed limits more or less effective [see @sarkar_street_2018 for example]?
-- Research into weather as a contributing factor to road traffic casualties [e.g. @edwards_relationship_1998]. This raises the question: could matching crash data from the **stats19** data with historic weather data from other R packages help advance knowledge in this area?
+- Research into weather as a contributing factor to road traffic casualties [e.g. @edwards_relationship_1998]. This raises the question: could matching crash data from the STATS19 data with historic weather data from other R packages help advance knowledge in this area?
 - Assesment of crash rates normalised by estimated exposure rates (risk). An example of this type of research by an author of the package found substantial spatial variation in the number of cyclist casualties across West Yorkshire [@lovelace_who_2016]. This raises the questions: are similar spatial differences found in other regions? What are the factors leading to relatively high and low rates of different types of crash? 
 
-The broader point is that the **stats19** could help road safety research, by making open access data on road crashes more accessible to researchers worldwide.
+The broader point is that the **stats19** package could help road safety research, by making open access data on road crashes more accessible to researchers worldwide.
 By easing the data download and cleaning stages of research, it could also encourage reproducible analysis in the field.
 
 There is great potential to add value to and gain insight from the data by joining the datasets with open data, for example from the Consumer Data Research Centre ([CDRC](www.cdrc.ac.uk), which funded this research), OpenStreetMap and the UK's Ordnance Survey.
