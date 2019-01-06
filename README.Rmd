@@ -251,7 +251,7 @@ Crashes tend to happen on busy Motorway roads and city centres, of Leeds and Bra
 This can be seen by comparing the previous map with an overview of the area, from [@lovelace_who_2016]:
 
 ```{r, echo=FALSE}
-knitr::include_graphics("wy-overview.jpg")
+knitr::include_graphics("https://raw.githubusercontent.com/ITSLeeds/stats19/master/vignettes/wy-overview.jpg")
 ```
 
 ## Time series analysis
