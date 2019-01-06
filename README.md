@@ -69,19 +69,20 @@ library(stats19)
 provision of STATS19 data files, which are categorised by year (from
 1979 onwards) and type (with separate tables for crashes, casualties and
 vehicles, as outlined below). The following command, for example, gets
-crash data from 2017 (**note**: we use the name ‘crashes’, following the
-“crash not accident” campaign of
-[RoadPeace](http://www.roadpeace.org/take-action/crash-not-accident/).
-):
+crash data from 2017 (**note**: we follow the “crash not accident”
+campaign of
+[RoadPeace](http://www.roadpeace.org/take-action/crash-not-accident/) in
+naming crashes, although the DfT refers to the relevant tables as
+‘accidents’ data):
 
 ``` r
 crashes = get_stats19(year = 2017, type = "accident")
 #> Files identified: dftRoadSafetyData_Accidents_2017.zip
 #> Attempt downloading from:
 #>    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Accidents_2017.zip
-#> Data saved at /tmp/RtmpfteYly/dftRoadSafetyData_Accidents_2017/Acc.csv
+#> Data saved at /tmp/RtmpTmFJL4/dftRoadSafetyData_Accidents_2017/Acc.csv
 #> Reading in:
-#> /tmp/RtmpfteYly/dftRoadSafetyData_Accidents_2017/Acc.csv
+#> /tmp/RtmpTmFJL4/dftRoadSafetyData_Accidents_2017/Acc.csv
 ```
 
 What just happened? We read-in data on all road crashes recorded by the
@@ -99,12 +100,12 @@ casualties = get_stats19(year = 2017, type = "casualties")
 #> Files identified: dftRoadSafetyData_Casualties_2017.zip
 #> Attempt downloading from:
 #>    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Casualties_2017.zip
-#> Data saved at /tmp/RtmpfteYly/dftRoadSafetyData_Casualties_2017/Cas.csv
+#> Data saved at /tmp/RtmpTmFJL4/dftRoadSafetyData_Casualties_2017/Cas.csv
 vehicles = get_stats19(year = 2017, type = "vehicles")
 #> Files identified: dftRoadSafetyData_Vehicles_2017.zip
 #> Attempt downloading from:
 #>    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Vehicles_2017.zip
-#> Data saved at /tmp/RtmpfteYly/dftRoadSafetyData_Vehicles_2017/Veh.csv
+#> Data saved at /tmp/RtmpTmFJL4/dftRoadSafetyData_Vehicles_2017/Veh.csv
 ```
 
 The package also allows STATS19 files to be downloaded and read-in
@@ -153,7 +154,7 @@ follows (assuming the dataset has already been downloaded):
 ``` r
 crashes_2017 = read_accidents(year = 2017)
 #> Reading in:
-#> /tmp/RtmpfteYly/dftRoadSafetyData_Accidents_2017/Acc.csv
+#> /tmp/RtmpTmFJL4/dftRoadSafetyData_Accidents_2017/Acc.csv
 nrow(crashes_2017)
 #> [1] 129982
 ncol(crashes_2017)
@@ -196,7 +197,7 @@ dl_stats19(year = 2017, type = "casualties")
 #> Attempt downloading from:
 #>    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Casualties_2017.zip
 #> Data already exists in data_dir, not downloading
-#> Data saved at /tmp/RtmpfteYly/dftRoadSafetyData_Casualties_2017/Cas.csv
+#> Data saved at /tmp/RtmpTmFJL4/dftRoadSafetyData_Casualties_2017/Cas.csv
 casualties_2017 = read_casualties(year = 2017)
 nrow(casualties_2017)
 #> [1] 170993
@@ -259,7 +260,7 @@ dl_stats19(year = 2017, type = "vehicles")
 #> Attempt downloading from:
 #>    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Vehicles_2017.zip
 #> Data already exists in data_dir, not downloading
-#> Data saved at /tmp/RtmpfteYly/dftRoadSafetyData_Vehicles_2017/Veh.csv
+#> Data saved at /tmp/RtmpTmFJL4/dftRoadSafetyData_Vehicles_2017/Veh.csv
 vehicles_2017 = read_vehicles(year = 2017)
 nrow(vehicles_2017)
 #> [1] 238926
