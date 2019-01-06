@@ -8,6 +8,7 @@ test_that("dl_stats19 works for junk", {
 })
 
 test_that("dl_stats19 works for no data_dir", {
+  skip_on_cran()
   # this test is bound to the next
   skip_download()
   # remove tempdir
@@ -17,6 +18,7 @@ test_that("dl_stats19 works for no data_dir", {
 })
 
 test_that("dl_stats19 works for 2017", {
+  skip_on_cran()
   skip_download()
   # already downloaded
   expect_message(dl_stats19(year = "2017"),
@@ -24,6 +26,7 @@ test_that("dl_stats19 works for 2017", {
 })
 
 test_that("dl_stats19 works for a type", {
+  skip_on_cran()
   skip_download()
   # already downloaded
   expect_message(dl_stats19(type = "accid"),
@@ -31,6 +34,7 @@ test_that("dl_stats19 works for a type", {
 })
 
 test_that("dl_stats19 works for chosen file name", {
+  skip_on_cran()
   skip_download()
   expect_message(dl_stats19(
     file_name = stats19::file_names$DfTRoadSafety_Accidents_2009.zip),
