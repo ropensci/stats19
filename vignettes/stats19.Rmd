@@ -21,7 +21,7 @@ knitr::opts_chunk$set(
 
 ## Introduction
 
-**stats19** enables access to and processing of the UK's official road traffic casualty database, [STATS19](https://data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data). 
+**stats19** enables access to and processing of Great Britain's official road traffic casualty database, [STATS19](https://data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data). 
 A description of variables in the database can be found in a [document](http://data.dft.gov.uk/road-accidents-safety-data/Brief-guide-to%20road-accidents-and-safety-data.doc) provided by the UK's Department for Transport (DfT).
 The datasets are collectively called STATS19 after the form used to report them, which can be found [here](http://docs.adrn.ac.uk/888043/mrdoc/pdf/888043_stats19-road-accident-injury-statistics-report-form.pdf). 
 This vignette focuses on how to use the **stats19** package to work with STATS19 data.
@@ -42,7 +42,13 @@ remotes::install_github("ITSLeeds/stats19")
 library(stats19)
 ```
 
-**stats19** has three main types of functions, corresponding with the three stages of data processing:
+## Functions
+
+The easiest way to get STATS19 data is with `get_stats19()`.
+This function takes 2 main arguments, `year` and `type`.
+The year can be any year between 1979 and 2017.
+The type can be one of `accidents`, `casualties` and `vehicles`, described below.
+`get_stats19()` performs 3 jobs, corresponding to three main types of functions:
 
 - **Download**: A `dl_stats19()` function accepts `year`, `type` and `filename` arguments to make it easy to find the right file to download only.
 
@@ -384,53 +390,86 @@ nrow(crashes_wy)
 ```
 
 This subsetting has selected the `r format(nrow(crashes_wy), big.mark = ",")`
-crashes which occurred within the Leeds boundary.
+crashes which occurred in West Yorkshire.
 
 
 ## Joining tables
 
 The three main tables we have just read-in can be joined by shared key variables.
-This is demonstrated in the code chunk below, which subsets all casualties that took place in Leeds, and counts the number of casualties by severity for each crash:
+This is demonstrated in the code chunk below, which subsets all casualties that took place in West Yorkshire, and counts the number of casualties by severity for each crash:
 
 ```{r table-join, message = FALSE}
 library(tidyr)
 library(dplyr)
 sel = casualties_2017$accident_index %in% crashes_wy$accident_index
-casualties_leeds = casualties_2017[sel, ]
-cas_types = casualties_leeds %>% 
+casualties_wy = casualties_2017[sel, ]
+cas_types = casualties_wy %>% 
   select(accident_index, casualty_type) %>% 
   mutate(n = 1) %>% 
   group_by(accident_index, casualty_type) %>% 
   summarise(n = sum(n)) %>% 
   spread(casualty_type, n, fill = 0) 
 cas_types$Total = rowSums(cas_types[-1])
-crashes_joined = left_join(crashes_wy, cas_types, by = "accident_index")
+crashes_joined = left_join(crashes_wy, cas_types)
 ```
 
-What just happened? We found the subset of casualties that took place in Leeds with reference to the `accident_index` variable.
+What just happened? We found the subset of casualties that took place in West Yorksire with reference to the `accident_index` variable.
 Then we used functions from the **tidyverse** package **dplyr** (and `spread()` from **tidyr**) to create a dataset with a column for each casualty type.
 We then joined the updated casualty data onto the `crashes_wy` dataset.
-The result is a spatial (`sf`) data frame of crashes in Leeds, with columns counting how many road users of different types were hurt.
-The original and joined data look like this:
+The result is a spatial (`sf`) data frame of crashes in West Yorksire, with columns counting how many road users of different types were hurt.
+The joined data has additional variables:
+
 ```{r table-join-examples}
-crashes_wy
-cas_types
-crashes_joined
-```
-This join operation has enabled us to geo-reference the casualty data, enabling us to explore the spatial distribution of different casualty types as follows:
-```{r sfplot, fig.show='hold', out.width="33%"}
-plot(crashes_joined[crashes_joined$Pedestrian > 0, "Pedestrian"])
-plot(crashes_joined[crashes_joined$Cyclist > 0, "Cyclist"])
-plot(crashes_joined[crashes_joined$`Car occupant` > 0, "Car occupant"])
+base::setdiff(names(crashes_joined), names(crashes_wy))
 ```
 
-It is clear that pedestrians, cyclists and car occupants tend to get hurt in different places.
-Car occupant casualties, for example, are comparatively common on the outskirts of Leeds, where speed limits tend to be higher and where there are comparatively higher volumes of motor traffic, compared with the city centre.
+As a simple spatial plot, we can map all the crashes that have happened in West Yorkshire in 2017, with the colour related to the total number of people hurt in each crash.
+Placing this plot next to a map of West Yorkshire provides context:
+
+```{r}
+plot(crashes_joined["Total"], pch = 3, cex = 0.1)
+```
+
+The spatial distribution of crashes in West Yorkshire clearly relates to the region's geography.
+Crashes tend to happen on busy Motorway roads and city centres, of Leeds and Bradford in particular.
+This can be seen by comparing the previous map with an overview of the area, from [@lovelace_who_2016]:
+
+```{r, echo=FALSE}
+knitr::include_graphics("wy-overview.jpg")
+```
+
+In addition to the `Total` number of people hurt/killed, `crashes_joined` contains a column for each type of casualty (cyclist, car occupant, etc.), and a number corresponding to the number of each type hurt in each crash.
+It also contains the `geometry` column from `crashes_sf`.
+In other words, joins allow the casualties and vehicles tables to be geo-referenced.
+We can then explore the spatial distribution of different casualty types.
+The following figure, for example, shows the spatial distribution of pedestrians and car passengers hurt in car crashes across West Yorkshire in 2017:
+
+```{r sfplot, fig.show='hold', out.width="100%", fig.cap="Spatial distribution of serious and fatal crashes in West Yorkshire in which pedestrians and car passengers were hurt. Colour is related to the speed limit where the crash happened (red is faster) and size is proportional to the total number of people hurt in each crash (legend not shown)."}
+library(ggplot2)
+crashes_types = crashes_joined %>% 
+  filter(accident_severity != "Slight") %>% 
+  filter(Pedestrian > 0 | `Car occupant` > 0) %>% 
+  mutate(type = case_when(
+    Pedestrian > 0 ~ "Pedestrian",
+    TRUE ~ "Passenger"
+  ))
+ggplot(crashes_types, aes(size = Total, colour = speed_limit)) +
+  geom_sf(show.legend = "point", alpha = 0.3) +
+  facet_grid(vars(type), vars(accident_severity)) +
+  scale_size(
+    breaks = c(1:3, 12),
+    labels = c(1:2, "3+", 12)
+    ) +
+  scale_color_gradientn(colours = c("blue", "yellow", "red"), ) +
+  theme(legend.position = "none")
+```
+
+It is clear that pedestrians and car occupants tend to get hurt in different places.
+Car occupant casualties, for example, are comparatively common on the outskirts of cities such as Leeds, where speed limits tend to be higher and where there are comparatively higher volumes of motor traffic, compared with the city centre.
 
 Another way of visualising these data is to show the spatial distribution of crashes causing pedestrian casualties by number of pedestrians hurt and crash severity. This is easily done with **ggplot2**:
 
 ```{r ggplot-ped-severity}
-library(ggplot2)
 ggplot(crashes_joined, aes(colour = Total)) +
   geom_sf() +
   facet_grid(vars(accident_severity), vars(Pedestrian))
