@@ -29,9 +29,12 @@ This vignette focuses on how to use the **stats19** package to work with STATS19
 **Note**: The Department for Transport refers to "accidents", but "crashes" is a more appropriate term, as emphasised in the "crash not accident" arguments of road safety advocacy groups such as [RoadPeace](http://www.roadpeace.org/take-action/crash-not-accident/).
 We use the term "accidents" only in reference to nomenclature within the data as provided.
 
-The development version is hosted on [GitHub](https://github.com/ITSLeeds/stats19) and can be installed and attached as follows:
+The development version is hosted on [GitHub](https://github.com/ITSLeeds/stats19) and can be installed and loaded as follows:
 
 ```{r, eval=FALSE}
+# from CRAN
+install.packages("stats19")
+# you can install the latest development (discoraged) using:
 remotes::install_github("ITSLeeds/stats19")
 ```
 
@@ -41,7 +44,7 @@ library(stats19)
 
 **stats19** has three main types of functions, corresponding with the three stages of data processing:
 
-- **Download**: This single `dl_stats19()` function accepts `year`, `type` and `filename` arguments to make it easy to find the right file for your research question.
+- **Download**: A `dl_stats19()` function accepts `year`, `type` and `filename` arguments to make it easy to find the right file to download only.
 
 - **Read**: STATS19 data is provided in a particular format that benefits from being read-in with pre-specified column types. This is taken care of with `read_*()` functions providing access to the 3 main tables in STATS19 data:
 
@@ -49,12 +52,12 @@ library(stats19)
     - `read_casualties()` reads-in the casualty data (which has one row per person injured or killed)
     - `read_vehicles()` reads-in the vehicles table, which contains information on the vehicles involved in the crashes (and has one row per vehicle)
 
-- **Format**: Each of the `read_*()` functions has a `format` parameter which, when `TRUE`, adds labels to the tables. The raw data provided by the DfT contains only integers. 
-Running `read_*(..., format = TRUE)` converts these integer values to the corresponding character variables for each of the three tables.
-For example, `read_accidents(format = TRUE)` converts values in the `accident_severity` column from `1`, `2` and `3` to `Slight`, `Serious` and `Fatal`.
+- **Format**: There are corresponding `format_*()` functions for each of the `read_*()` functions. These have been exported for convenience, as the two sets of functions are closely related, there is also a `format` parameter for the `read_*()` functions, which by default is `TRUE`, adds labels to the tables. 
+The raw data provided by the DfT contains only integers. Running `read_*(..., format = TRUE)` converts these integer values to the corresponding character variables for each of the three tables.
+For example, `read_accidents(format = TRUE)` converts values in the `accident_severity` column from `1`, `2` and `3` to `Slight`, `Serious` and `Fatal` using `fromat_accidents()` function.
 To read-in raw data without formatting, set `format = FALSE`.
 
-Multiple functions are needed for each step because of the structure of STATS19 data, which are divided into 3 tables, as described in an article that analyses 2005-2015 STATS19 data with reproducible R code by Christoph Freier ([2018](https://kawameicha.gitlab.io/inCodeWeTrust/2018/01/10-years-and-3.3-million-accidented-vehicles-in-the-uk/)):
+Multiple functions (`read_*` and `format_*`) are needed for each step because of the structure of STATS19 data, which are divided into 3 tables, as described in an article that analyses 2005-2015 STATS19 data with reproducible R code by Christoph Freier ([2018](https://kawameicha.gitlab.io/inCodeWeTrust/2018/01/10-years-and-3.3-million-accidented-vehicles-in-the-uk/)):
 
 1. "accident circumstances, with details about location, severity, weather, etc.; 
 2. casualties, referencing knowledge about the victims; and
@@ -144,12 +147,7 @@ There are three `read_*()` functions, corresponding to the three different class
 2. `read_casualties()`
 3. `read_vehicles()`
 
-In all cases, a default parameter `read_*(format = TRUE)` returns the data in
-formatted form, as described above. Data can also be imported in the
-form directly provided by the DfT by passing `format = FALSE`, and then
-subsequently formatted with additional `format_*()` functions, as described in a
-final section of this vignette. Each of these `read*()` functions is now
-described in more detail.
+In all cases, a default parameter `read_*(format = TRUE)` returns the data in formatted form, as described above. Data can also be imported in the form directly provided by the DfT by passing `format = FALSE`, and then subsequently formatted with additional `format_*()` functions, as described in a final section of this vignette. Each of these `read_*()` functions is now described in more detail.
 
 
 ### Crash data
@@ -170,7 +168,7 @@ We read-in data on all road crashes recorded by the police in 2017 across Great 
 The dataset contains `r ncol(crashes_2017_raw)` columns (variables) for `r format(nrow(crashes_2017_raw), big.mark = ",")` crashes.
 
 This work was done by `read_accidents(format = FALSE)`, which imported the "raw" STATS19 data without cleaning messy column names or re-categorising the outputs.
-`format_accidents()` automates the process of matching column names with variable names and labels in a [`.xls` file](http://data.dft.gov.uk/road-accidents-safety-data/Road-Accident-Safety-Data-Guide.xls) provided by the DfT.
+`format_accidents()` function automates the process of matching column names with variable names and labels in a [`.xls` file](http://data.dft.gov.uk/road-accidents-safety-data/Road-Accident-Safety-Data-Guide.xls) provided by the DfT.
 This means `crashes_2017` is much more usable than `crashes_2017_raw`, as shown below, which shows some key variables in the messy and clean datasets:
 
 ```{r crashes2017-columns}
@@ -179,7 +177,7 @@ crashes_2017[c(7, 18, 23, 25)]
 ```
 
 By default, `format = TRUE`, meaning that the two stages of `read_accidents(format = FALSE)` and `format_accidents()` yield the same result as `read_accidents(format = TRUE)`.
-For the full list of columns, run `names(crashes_2017)` or see the vignette.
+For the full list of columns, run `names(crashes_2017)`.
 
 <!-- This means `crashes_2017` is much more usable than `crashes_2017_raw`, as shown below, which shows three records and some key variables in the messy and clean datasets: -->
 
@@ -215,11 +213,9 @@ Column names are formatted by the function `format_column_names()`, as illustrat
 format_column_names(stats19_variables$variable[1:3])
 ```
 
-Previous approaches to data formatting `STATS19` data involved hard-coding results.
-This more automated approach to data cleaning is more consistent and fail-safe.
-Three functions, `format_accidents()`, `format_vehicles()` and
-`format_casualties()` do the data formatting on the respective data frames, as
-illustrated below:
+Previous approaches to data formatting `STATS19` data involved hard-coding results. This more automated approach to data cleaning is more consistent and fail-safe.
+The three functions: `format_accidents()`, `format_vehicles()` and
+`format_casualties()` do the data formatting on the respective data frames, as illustrated below:
 
 ```{r format-main}
 crashes_2017 = format_accidents(crashes_2017_raw)
@@ -237,8 +233,7 @@ casualties_2017 = read_casualties(year = 2017)
 The package automates this two-step `read_*` and `format_*`
 process by defaulting in all cases to `data_year = read_*(year, format = TRUE)`.
 `read_*` functions return, by default, formatted data.
-The two-step process may nevertheless be important for reference to the official
-nomenclature and values as provided by the DfT.
+The two-step process may nevertheless be important for reference to the official nomenclature and values as provided by the DfT.
 
 A summary of the outputs for each of the three tables is shown below.
 
@@ -422,8 +417,7 @@ crashes_wy
 cas_types
 crashes_joined
 ```
-This join operation has enabled us to geo-reference the casualty data, enabling
-us to explore the spatial distribution of different casualty types as follows:
+This join operation has enabled us to geo-reference the casualty data, enabling us to explore the spatial distribution of different casualty types as follows:
 ```{r sfplot, fig.show='hold', out.width="33%"}
 plot(crashes_joined[crashes_joined$Pedestrian > 0, "Pedestrian"])
 plot(crashes_joined[crashes_joined$Cyclist > 0, "Cyclist"])
@@ -483,7 +477,7 @@ Note that bike crashes tend to have distinct morning and afternoon peaks, in-lin
 
 ## Further work
 
-There is much potential to extend the package, beyond downloading, reading and formatting STATS19 data.
+There is much potential to extend the package beyond downloading, reading and formatting STATS19 data.
 The greatest potential is to provide functions that will help with analysis of STATS19 data, to help with road safety research.
 Much academic research has been done using the data, a few examples of which are highlighted below to demonstrate the wide potential for further work.
 
