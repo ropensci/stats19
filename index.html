@@ -109,21 +109,21 @@
 <a class="sourceLine" id="cb3-2" data-line-number="2"><span class="co">#&gt; Files identified: dftRoadSafetyData_Accidents_2017.zip</span></a>
 <a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co">#&gt; Attempt downloading from:</span></a>
 <a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">#&gt;    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Accidents_2017.zip</span></a>
-<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">#&gt; Data saved at /tmp/Rtmpa1e82i/dftRoadSafetyData_Accidents_2017/Acc.csv</span></a>
+<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">#&gt; Data saved at /tmp/RtmpzGSzj3/dftRoadSafetyData_Accidents_2017/Acc.csv</span></a>
 <a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">#&gt; Reading in:</span></a>
-<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#&gt; /tmp/Rtmpa1e82i/dftRoadSafetyData_Accidents_2017/Acc.csv</span></a></code></pre></div>
+<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#&gt; /tmp/RtmpzGSzj3/dftRoadSafetyData_Accidents_2017/Acc.csv</span></a></code></pre></div>
 <p>What just happened? We read-in data on all road crashes recorded by the police in 2017 across Great Britain. The dataset contains 32 columns (variables) for 129,982 crashes. The contents of this dataset, and other datasets provided by <strong>stats19</strong>, are outlined below and described in more detail in the <a href="https://itsleeds.github.io/stats19/articles/stats19.html">stats19 vignette</a>.</p>
 <p>The following commands get the corresponding casualty and vehicle datasets for 2017:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">casualties =<span class="st"> </span><span class="kw"><a href="reference/get_stats19.html">get_stats19</a></span>(<span class="dt">year =</span> <span class="dv">2017</span>, <span class="dt">type =</span> <span class="st">"casualties"</span>)</a>
 <a class="sourceLine" id="cb4-2" data-line-number="2"><span class="co">#&gt; Files identified: dftRoadSafetyData_Casualties_2017.zip</span></a>
 <a class="sourceLine" id="cb4-3" data-line-number="3"><span class="co">#&gt; Attempt downloading from:</span></a>
 <a class="sourceLine" id="cb4-4" data-line-number="4"><span class="co">#&gt;    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Casualties_2017.zip</span></a>
-<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="co">#&gt; Data saved at /tmp/Rtmpa1e82i/dftRoadSafetyData_Casualties_2017/Cas.csv</span></a>
+<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="co">#&gt; Data saved at /tmp/RtmpzGSzj3/dftRoadSafetyData_Casualties_2017/Cas.csv</span></a>
 <a class="sourceLine" id="cb4-6" data-line-number="6">vehicles =<span class="st"> </span><span class="kw"><a href="reference/get_stats19.html">get_stats19</a></span>(<span class="dt">year =</span> <span class="dv">2017</span>, <span class="dt">type =</span> <span class="st">"vehicles"</span>)</a>
 <a class="sourceLine" id="cb4-7" data-line-number="7"><span class="co">#&gt; Files identified: dftRoadSafetyData_Vehicles_2017.zip</span></a>
 <a class="sourceLine" id="cb4-8" data-line-number="8"><span class="co">#&gt; Attempt downloading from:</span></a>
 <a class="sourceLine" id="cb4-9" data-line-number="9"><span class="co">#&gt;    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Vehicles_2017.zip</span></a>
-<a class="sourceLine" id="cb4-10" data-line-number="10"><span class="co">#&gt; Data saved at /tmp/Rtmpa1e82i/dftRoadSafetyData_Vehicles_2017/Veh.csv</span></a></code></pre></div>
+<a class="sourceLine" id="cb4-10" data-line-number="10"><span class="co">#&gt; Data saved at /tmp/RtmpzGSzj3/dftRoadSafetyData_Vehicles_2017/Veh.csv</span></a></code></pre></div>
 <p>The package also allows STATS19 files to be downloaded and read-in separately, allowing more control over what you download, and subsequently read-in, e.g. with <code><a href="reference/read_accidents.html">read_accidents()</a></code>.</p>
 </div>
 <div id="data-download" class="section level2">
@@ -156,7 +156,7 @@ Enter an item from the menu, or 0 to exit</code></pre>
 <p>Crash data was downloaded and read-in using the function <code><a href="reference/get_stats19.html">get_stats19()</a></code>, as described above. Crash data can also be read-in as follows (assuming the dataset has already been downloaded):</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">crashes_<span class="dv">2017</span> =<span class="st"> </span><span class="kw"><a href="reference/read_accidents.html">read_accidents</a></span>(<span class="dt">year =</span> <span class="dv">2017</span>)</a>
 <a class="sourceLine" id="cb7-2" data-line-number="2"><span class="co">#&gt; Reading in:</span></a>
-<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="co">#&gt; /tmp/Rtmpa1e82i/dftRoadSafetyData_Accidents_2017/Acc.csv</span></a>
+<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="co">#&gt; /tmp/RtmpzGSzj3/dftRoadSafetyData_Accidents_2017/Acc.csv</span></a>
 <a class="sourceLine" id="cb7-4" data-line-number="4"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nrow">nrow</a></span>(crashes_<span class="dv">2017</span>)</a>
 <a class="sourceLine" id="cb7-5" data-line-number="5"><span class="co">#&gt; [1] 129982</span></a>
 <a class="sourceLine" id="cb7-6" data-line-number="6"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nrow">ncol</a></span>(crashes_<span class="dv">2017</span>)</a>
@@ -190,7 +190,7 @@ Enter an item from the menu, or 0 to exit</code></pre>
 <a class="sourceLine" id="cb9-3" data-line-number="3"><span class="co">#&gt; Attempt downloading from:</span></a>
 <a class="sourceLine" id="cb9-4" data-line-number="4"><span class="co">#&gt;    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Casualties_2017.zip</span></a>
 <a class="sourceLine" id="cb9-5" data-line-number="5"><span class="co">#&gt; Data already exists in data_dir, not downloading</span></a>
-<a class="sourceLine" id="cb9-6" data-line-number="6"><span class="co">#&gt; Data saved at /tmp/Rtmpa1e82i/dftRoadSafetyData_Casualties_2017/Cas.csv</span></a>
+<a class="sourceLine" id="cb9-6" data-line-number="6"><span class="co">#&gt; Data saved at /tmp/RtmpzGSzj3/dftRoadSafetyData_Casualties_2017/Cas.csv</span></a>
 <a class="sourceLine" id="cb9-7" data-line-number="7">casualties_<span class="dv">2017</span> =<span class="st"> </span><span class="kw"><a href="reference/read_casualties.html">read_casualties</a></span>(<span class="dt">year =</span> <span class="dv">2017</span>)</a>
 <a class="sourceLine" id="cb9-8" data-line-number="8"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nrow">nrow</a></span>(casualties_<span class="dv">2017</span>)</a>
 <a class="sourceLine" id="cb9-9" data-line-number="9"><span class="co">#&gt; [1] 170993</span></a>
@@ -240,7 +240,7 @@ Enter an item from the menu, or 0 to exit</code></pre>
 <a class="sourceLine" id="cb12-3" data-line-number="3"><span class="co">#&gt; Attempt downloading from:</span></a>
 <a class="sourceLine" id="cb12-4" data-line-number="4"><span class="co">#&gt;    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Vehicles_2017.zip</span></a>
 <a class="sourceLine" id="cb12-5" data-line-number="5"><span class="co">#&gt; Data already exists in data_dir, not downloading</span></a>
-<a class="sourceLine" id="cb12-6" data-line-number="6"><span class="co">#&gt; Data saved at /tmp/Rtmpa1e82i/dftRoadSafetyData_Vehicles_2017/Veh.csv</span></a>
+<a class="sourceLine" id="cb12-6" data-line-number="6"><span class="co">#&gt; Data saved at /tmp/RtmpzGSzj3/dftRoadSafetyData_Vehicles_2017/Veh.csv</span></a>
 <a class="sourceLine" id="cb12-7" data-line-number="7">vehicles_<span class="dv">2017</span> =<span class="st"> </span><span class="kw"><a href="reference/read_vehicles.html">read_vehicles</a></span>(<span class="dt">year =</span> <span class="dv">2017</span>)</a>
 <a class="sourceLine" id="cb12-8" data-line-number="8"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nrow">nrow</a></span>(vehicles_<span class="dv">2017</span>)</a>
 <a class="sourceLine" id="cb12-9" data-line-number="9"><span class="co">#&gt; [1] 238926</span></a>
