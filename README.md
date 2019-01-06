@@ -79,9 +79,9 @@ crashes = get_stats19(year = 2017, type = "accident")
 #> Files identified: dftRoadSafetyData_Accidents_2017.zip
 #> Attempt downloading from:
 #>    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Accidents_2017.zip
-#> Data saved at /tmp/RtmpV6HXXy/dftRoadSafetyData_Accidents_2017/Acc.csv
+#> Data saved at /tmp/RtmpfteYly/dftRoadSafetyData_Accidents_2017/Acc.csv
 #> Reading in:
-#> /tmp/RtmpV6HXXy/dftRoadSafetyData_Accidents_2017/Acc.csv
+#> /tmp/RtmpfteYly/dftRoadSafetyData_Accidents_2017/Acc.csv
 ```
 
 What just happened? We read-in data on all road crashes recorded by the
@@ -99,12 +99,12 @@ casualties = get_stats19(year = 2017, type = "casualties")
 #> Files identified: dftRoadSafetyData_Casualties_2017.zip
 #> Attempt downloading from:
 #>    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Casualties_2017.zip
-#> Data saved at /tmp/RtmpV6HXXy/dftRoadSafetyData_Casualties_2017/Cas.csv
+#> Data saved at /tmp/RtmpfteYly/dftRoadSafetyData_Casualties_2017/Cas.csv
 vehicles = get_stats19(year = 2017, type = "vehicles")
 #> Files identified: dftRoadSafetyData_Vehicles_2017.zip
 #> Attempt downloading from:
 #>    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Vehicles_2017.zip
-#> Data saved at /tmp/RtmpV6HXXy/dftRoadSafetyData_Vehicles_2017/Veh.csv
+#> Data saved at /tmp/RtmpfteYly/dftRoadSafetyData_Vehicles_2017/Veh.csv
 ```
 
 The package also allows STATS19 files to be downloaded and read-in
@@ -153,7 +153,7 @@ follows (assuming the dataset has already been downloaded):
 ``` r
 crashes_2017 = read_accidents(year = 2017)
 #> Reading in:
-#> /tmp/RtmpV6HXXy/dftRoadSafetyData_Accidents_2017/Acc.csv
+#> /tmp/RtmpfteYly/dftRoadSafetyData_Accidents_2017/Acc.csv
 nrow(crashes_2017)
 #> [1] 129982
 ncol(crashes_2017)
@@ -196,7 +196,7 @@ dl_stats19(year = 2017, type = "casualties")
 #> Attempt downloading from:
 #>    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Casualties_2017.zip
 #> Data already exists in data_dir, not downloading
-#> Data saved at /tmp/RtmpV6HXXy/dftRoadSafetyData_Casualties_2017/Cas.csv
+#> Data saved at /tmp/RtmpfteYly/dftRoadSafetyData_Casualties_2017/Cas.csv
 casualties_2017 = read_casualties(year = 2017)
 nrow(casualties_2017)
 #> [1] 170993
@@ -259,7 +259,7 @@ dl_stats19(year = 2017, type = "vehicles")
 #> Attempt downloading from:
 #>    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Vehicles_2017.zip
 #> Data already exists in data_dir, not downloading
-#> Data saved at /tmp/RtmpV6HXXy/dftRoadSafetyData_Vehicles_2017/Veh.csv
+#> Data saved at /tmp/RtmpfteYly/dftRoadSafetyData_Vehicles_2017/Veh.csv
 vehicles_2017 = read_vehicles(year = 2017)
 nrow(vehicles_2017)
 #> [1] 238926
@@ -412,9 +412,10 @@ The spatial distribution of crashes in West Yorkshire clearly relates to
 the region’s geography. Crashes tend to happen on busy Motorway roads
 and city centres, of Leeds and Bradford in particular. This can be seen
 by comparing the previous map with an overview of the area, from
-(Lovelace, Roberts, and Kellar 2016):
+(Lovelace, Roberts, and Kellar
+2016):
 
-<img src="wy-overview.jpg" width="100%" />
+<img src="https://raw.githubusercontent.com/ITSLeeds/stats19/master/vignettes/wy-overview.jpg" width="100%" />
 
 ## Time series analysis
 
