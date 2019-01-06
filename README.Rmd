@@ -68,14 +68,8 @@ We read-in data on all road crashes recorded by the police in 2017 across Great 
 The dataset contains `r ncol(crashes)` columns (variables) for `r format(nrow(crashes), big.mark = ",")` crashes.
 The contents of this dataset, and other datasets provided by **stats19**, are outlined below and described in more detail in the [stats19 vignette](https://itsleeds.github.io/stats19/articles/stats19.html).
 
-The following commands get the corresponding casualty and vehicle datasets for 2017:
-
-```{r}
-casualties = get_stats19(year = 2017, type = "casualties")
-vehicles = get_stats19(year = 2017, type = "vehicles")
-```
-
-The package also allows STATS19 files to be downloaded and read-in separately, allowing more control over what you download, and subsequently read-in, e.g. with `read_accidents()`.
+We will see below how the function also works to get the corresponding casualty and vehicle datasets for 2017.
+The package also allows STATS19 files to be downloaded and read-in separately, allowing more control over what you download, and subsequently read-in, with `read_accidents()`, `read_casualties()` and `read_vehicles()`, as described in the vignette.
 
 
 ## Data download
@@ -91,91 +85,87 @@ dl_stats19(year = 2017)
 ```
 Multiple matches. Which do you want to download?
 
-1: dftRoadSafetyData_Vehicles_2017.zip
-2: dftRoadSafetyData_Casualties_2017.zip
+1: dftRoadSafetyData_vehicles.zip
+2: dftRoadSafetyData_casualties.zip
 3: dftRoadSafetyData_Accidents_2017.zip
 
 Selection: 
 Enter an item from the menu, or 0 to exit
 ```
 
-## Reading-in and formatting STATS19 data
+## Using the data
 
-As mentioned, STATS19 contains 3 main tables:
+STATS19 data consists of 3 main tables:
 
 - Accidents, the main table which contains information on the crash time, location and other variables (`r ncol(accidents_sample)` columns in total)
 - Casualties, containing data on people hurt or killed in each crash (`r ncol(casualties_sample)` columns in total)
 - Vehicles, containing data on vehicles involved in or causing each crash (`r ncol(vehicles_sample)` columns in total)
 
-Code to read-in and format each of these tables is demonstrated below.
+The contents of each is outlined below.
 
 ### Crash data
 
 Crash data was downloaded and read-in using the function `get_stats19()`, as described above.
-Crash data can also be read-in as follows (assuming the dataset has already been downloaded):
 
 ```{r read2017-raw-format}
-crashes_2017 = read_accidents(year = 2017)
-nrow(crashes_2017)
-ncol(crashes_2017)
+nrow(crashes)
+ncol(crashes)
 ```
 
 Some of the key variables in this dataset include:
 
 ```{r crashes2017-columns}
-crashes_2017[c(7, 18, 23, 25)]
+crashes[c(7, 18, 23, 25)]
 ```
 
-For the full list of columns, run `names(crashes_2017)` or see the [vignette](https://github.com/ITSLeeds/stats19/blob/master/vignettes/stats19.Rmd).
+For the full list of columns, run `names(crashes)` or see the [vignette](https://github.com/ITSLeeds/stats19/blob/master/vignettes/stats19.Rmd).
 
-<!-- This means `crashes_2017` is much more usable than `crashes_2017_raw`, as shown below, which shows three records and some key variables in the messy and clean datasets: -->
+<!-- This means `crashes` is much more usable than `crashes_raw`, as shown below, which shows three records and some key variables in the messy and clean datasets: -->
 
-## Casualties data
+### Casualties data
 
-As with `crashes_2017`, casualty data for 2017 can be downloaded, read-in and formated as follows:
+As with `crashes`, casualty data for 2017 can be downloaded, read-in and formated as follows:
 
 ```{r 2017-cas}
-dl_stats19(year = 2017, type = "casualties")
-casualties_2017 = read_casualties(year = 2017)
-nrow(casualties_2017)
-ncol(casualties_2017)
+casualties = get_stats19(year = 2017, type = "casualties")
+nrow(casualties)
+ncol(casualties)
 ```
 
-The results show that there were `r format(nrow(casualties_2017), big.mark=",")` casualties reported by the police in the STATS19 dataset in 2017, and `r ncol(casualties_2017)` columns (variables).
+The results show that there were `r format(nrow(casualties), big.mark=",")` casualties reported by the police in the STATS19 dataset in 2017, and `r ncol(casualties)` columns (variables).
 Values for a sample of these columns are shown below:
 
 ```{r 2017-cas-columns}
-casualties_2017[c(4, 5, 6, 14)]
+casualties[c(4, 5, 6, 14)]
 ```
 
 The full list of column names in the `casualties` dataset is:
 
 ```{r 2017-cas-columns-all}
-names(casualties_2017)
+names(casualties)
 ```
 
-## Vehicles data
+### Vehicles data
 
 Data for vehicles involved in crashes in 2017 can be downloaded, read-in and formated as follows:
 
 ```{r dl2017-vehicles}
-dl_stats19(year = 2017, type = "vehicles")
-vehicles_2017 = read_vehicles(year = 2017)
-nrow(vehicles_2017)
-ncol(vehicles_2017)
+vehicles = get_stats19(year = 2017, type = "vehicles")
+nrow(vehicles)
+ncol(vehicles)
 ```
 
-The results show that there were `r format(nrow(vehicles_2017), big.mark=",")` vehicles involved in crashes reported by the police in the STATS19 dataset in 2017, with `r ncol(vehicles_2017)` columns (variables).
+The results show that there were `r format(nrow(vehicles), big.mark=",")` vehicles involved in crashes reported by the police in the STATS19 dataset in 2017, with `r ncol(vehicles)` columns (variables).
 Values for a sample of these columns are shown below:
 
 ```{r 2017-veh-columns}
-vehicles_2017[c(3, 14:16)]
+vehicles[c(3, 14:16)]
 ```
 
 The full list of column names in the `vehicles` dataset is:
 
 ```{r 2017-veh-columns-all}
-names(vehicles_2017)
+names(vehicles)
 ```
 
 ## Creating geographic crash data
@@ -185,7 +175,7 @@ These are provided at ~10m resolution in the UK's official coordinate reference 
 **stats19** converts the non-geographic tables created by `format_accidents()` into the geographic data form of the [`sf` package](https://cran.r-project.org/package=sf) with the function `format_sf()` as follows:
 
 ```{r format-crashes-sf}
-crashes_sf = format_sf(crashes_2017)
+crashes_sf = format_sf(crashes)
 ```
 
 The note arises because `NA` values are not permitted in `sf` coordinates, and so rows containing no coordinates are automatically removed.
@@ -213,8 +203,8 @@ This is demonstrated in the code chunk below, which subsets all casualties that 
 
 ```{r table-join, message = FALSE}
 library(dplyr)
-sel = casualties_2017$accident_index %in% crashes_wy$accident_index
-casualties_wy = casualties_2017[sel, ]
+sel = casualties$accident_index %in% crashes_wy$accident_index
+casualties_wy = casualties[sel, ]
 cas_types = casualties_wy %>% 
   select(accident_index, casualty_type) %>% 
   mutate(n = 1) %>% 

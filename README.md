@@ -80,9 +80,9 @@ crashes = get_stats19(year = 2017, type = "accident")
 #> Files identified: dftRoadSafetyData_Accidents_2017.zip
 #> Attempt downloading from:
 #>    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Accidents_2017.zip
-#> Data saved at /tmp/RtmpTmFJL4/dftRoadSafetyData_Accidents_2017/Acc.csv
+#> Data saved at /tmp/Rtmpsc7HQK/dftRoadSafetyData_Accidents_2017/Acc.csv
 #> Reading in:
-#> /tmp/RtmpTmFJL4/dftRoadSafetyData_Accidents_2017/Acc.csv
+#> /tmp/Rtmpsc7HQK/dftRoadSafetyData_Accidents_2017/Acc.csv
 ```
 
 What just happened? We read-in data on all road crashes recorded by the
@@ -92,25 +92,12 @@ datasets provided by **stats19**, are outlined below and described in
 more detail in the [stats19
 vignette](https://itsleeds.github.io/stats19/articles/stats19.html).
 
-The following commands get the corresponding casualty and vehicle
-datasets for 2017:
-
-``` r
-casualties = get_stats19(year = 2017, type = "casualties")
-#> Files identified: dftRoadSafetyData_Casualties_2017.zip
-#> Attempt downloading from:
-#>    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Casualties_2017.zip
-#> Data saved at /tmp/RtmpTmFJL4/dftRoadSafetyData_Casualties_2017/Cas.csv
-vehicles = get_stats19(year = 2017, type = "vehicles")
-#> Files identified: dftRoadSafetyData_Vehicles_2017.zip
-#> Attempt downloading from:
-#>    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Vehicles_2017.zip
-#> Data saved at /tmp/RtmpTmFJL4/dftRoadSafetyData_Vehicles_2017/Veh.csv
-```
-
-The package also allows STATS19 files to be downloaded and read-in
-separately, allowing more control over what you download, and
-subsequently read-in, e.g. with `read_accidents()`.
+We will see below how the function also works to get the corresponding
+casualty and vehicle datasets for 2017. The package also allows STATS19
+files to be downloaded and read-in separately, allowing more control
+over what you download, and subsequently read-in, with
+`read_accidents()`, `read_casualties()` and `read_vehicles()`, as
+described in the vignette.
 
 ## Data download
 
@@ -125,16 +112,16 @@ dl_stats19(year = 2017)
 
     Multiple matches. Which do you want to download?
     
-    1: dftRoadSafetyData_Vehicles_2017.zip
-    2: dftRoadSafetyData_Casualties_2017.zip
+    1: dftRoadSafetyData_vehicles.zip
+    2: dftRoadSafetyData_casualties.zip
     3: dftRoadSafetyData_Accidents_2017.zip
     
     Selection: 
     Enter an item from the menu, or 0 to exit
 
-## Reading-in and formatting STATS19 data
+## Using the data
 
-As mentioned, STATS19 contains 3 main tables:
+STATS19 data consists of 3 main tables:
 
   - Accidents, the main table which contains information on the crash
     time, location and other variables (32 columns in total)
@@ -143,28 +130,24 @@ As mentioned, STATS19 contains 3 main tables:
   - Vehicles, containing data on vehicles involved in or causing each
     crash (23 columns in total)
 
-Code to read-in and format each of these tables is demonstrated below.
+The contents of each is outlined below.
 
 ### Crash data
 
 Crash data was downloaded and read-in using the function
-`get_stats19()`, as described above. Crash data can also be read-in as
-follows (assuming the dataset has already been downloaded):
+`get_stats19()`, as described above.
 
 ``` r
-crashes_2017 = read_accidents(year = 2017)
-#> Reading in:
-#> /tmp/RtmpTmFJL4/dftRoadSafetyData_Accidents_2017/Acc.csv
-nrow(crashes_2017)
+nrow(crashes)
 #> [1] 129982
-ncol(crashes_2017)
+ncol(crashes)
 #> [1] 32
 ```
 
 Some of the key variables in this dataset include:
 
 ``` r
-crashes_2017[c(7, 18, 23, 25)]
+crashes[c(7, 18, 23, 25)]
 #> # A tibble: 129,982 x 4
 #>    accident_severity speed_limit pedestrian_crossing_hu… light_conditions  
 #>    <chr>                   <int> <chr>                   <chr>             
@@ -181,27 +164,25 @@ crashes_2017[c(7, 18, 23, 25)]
 #> # … with 129,972 more rows
 ```
 
-For the full list of columns, run `names(crashes_2017)` or see the
+For the full list of columns, run `names(crashes)` or see the
 [vignette](https://github.com/ITSLeeds/stats19/blob/master/vignettes/stats19.Rmd).
 
-<!-- This means `crashes_2017` is much more usable than `crashes_2017_raw`, as shown below, which shows three records and some key variables in the messy and clean datasets: -->
+<!-- This means `crashes` is much more usable than `crashes_raw`, as shown below, which shows three records and some key variables in the messy and clean datasets: -->
 
-## Casualties data
+### Casualties data
 
-As with `crashes_2017`, casualty data for 2017 can be downloaded,
-read-in and formated as follows:
+As with `crashes`, casualty data for 2017 can be downloaded, read-in and
+formated as follows:
 
 ``` r
-dl_stats19(year = 2017, type = "casualties")
+casualties = get_stats19(year = 2017, type = "casualties")
 #> Files identified: dftRoadSafetyData_Casualties_2017.zip
 #> Attempt downloading from:
 #>    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Casualties_2017.zip
-#> Data already exists in data_dir, not downloading
-#> Data saved at /tmp/RtmpTmFJL4/dftRoadSafetyData_Casualties_2017/Cas.csv
-casualties_2017 = read_casualties(year = 2017)
-nrow(casualties_2017)
+#> Data saved at /tmp/Rtmpsc7HQK/dftRoadSafetyData_Casualties_2017/Cas.csv
+nrow(casualties)
 #> [1] 170993
-ncol(casualties_2017)
+ncol(casualties)
 #> [1] 16
 ```
 
@@ -210,7 +191,7 @@ police in the STATS19 dataset in 2017, and 16 columns (variables).
 Values for a sample of these columns are shown below:
 
 ``` r
-casualties_2017[c(4, 5, 6, 14)]
+casualties[c(4, 5, 6, 14)]
 #> # A tibble: 170,993 x 4
 #>    casualty_class  sex_of_casualty age_of_casualty casualty_type           
 #>    <chr>           <chr>                     <int> <chr>                   
@@ -230,7 +211,7 @@ casualties_2017[c(4, 5, 6, 14)]
 The full list of column names in the `casualties` dataset is:
 
 ``` r
-names(casualties_2017)
+names(casualties)
 #>  [1] "accident_index"                    
 #>  [2] "vehicle_reference"                 
 #>  [3] "casualty_reference"                
@@ -249,22 +230,20 @@ names(casualties_2017)
 #> [16] "casualty_imd_decile"
 ```
 
-## Vehicles data
+### Vehicles data
 
 Data for vehicles involved in crashes in 2017 can be downloaded, read-in
 and formated as follows:
 
 ``` r
-dl_stats19(year = 2017, type = "vehicles")
+vehicles = get_stats19(year = 2017, type = "vehicles")
 #> Files identified: dftRoadSafetyData_Vehicles_2017.zip
 #> Attempt downloading from:
 #>    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Vehicles_2017.zip
-#> Data already exists in data_dir, not downloading
-#> Data saved at /tmp/RtmpTmFJL4/dftRoadSafetyData_Vehicles_2017/Veh.csv
-vehicles_2017 = read_vehicles(year = 2017)
-nrow(vehicles_2017)
+#> Data saved at /tmp/Rtmpsc7HQK/dftRoadSafetyData_Vehicles_2017/Veh.csv
+nrow(vehicles)
 #> [1] 238926
-ncol(vehicles_2017)
+ncol(vehicles)
 #> [1] 23
 ```
 
@@ -273,7 +252,7 @@ reported by the police in the STATS19 dataset in 2017, with 23 columns
 (variables). Values for a sample of these columns are shown below:
 
 ``` r
-vehicles_2017[c(3, 14:16)]
+vehicles[c(3, 14:16)]
 #> # A tibble: 238,926 x 4
 #>    vehicle_type          journey_purpose_of_dr… sex_of_driver age_of_driver
 #>    <chr>                 <chr>                  <chr>                 <int>
@@ -293,7 +272,7 @@ vehicles_2017[c(3, 14:16)]
 The full list of column names in the `vehicles` dataset is:
 
 ``` r
-names(vehicles_2017)
+names(vehicles)
 #>  [1] "accident_index"                   "vehicle_reference"               
 #>  [3] "vehicle_type"                     "towing_and_articulation"         
 #>  [5] "vehicle_manoeuvre"                "vehicle_location_restricted_lane"
@@ -319,7 +298,7 @@ the [`sf` package](https://cran.r-project.org/package=sf) with the
 function `format_sf()` as follows:
 
 ``` r
-crashes_sf = format_sf(crashes_2017)
+crashes_sf = format_sf(crashes)
 #> 19 rows removed with no coordinates
 ```
 
@@ -354,8 +333,8 @@ casualties by severity for each crash:
 
 ``` r
 library(dplyr)
-sel = casualties_2017$accident_index %in% crashes_wy$accident_index
-casualties_wy = casualties_2017[sel, ]
+sel = casualties$accident_index %in% crashes_wy$accident_index
+casualties_wy = casualties[sel, ]
 cas_types = casualties_wy %>% 
   select(accident_index, casualty_type) %>% 
   mutate(n = 1) %>% 
@@ -407,7 +386,7 @@ enabling it to be mapped (for more advanced maps, see the
 plot(crashes_joined["Total"], pch = 3, cex = 0.1)
 ```
 
-<img src="man/figures/README-unnamed-chunk-3-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-2-1.png" width="100%" />
 
 The spatial distribution of crashes in West Yorkshire clearly relates to
 the region’s geography. Crashes tend to happen on busy Motorway roads
