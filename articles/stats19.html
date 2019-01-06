@@ -83,7 +83,7 @@
 <div id="introduction" class="section level2">
 <h2 class="hasAnchor">
 <a href="#introduction" class="anchor"></a>Introduction</h2>
-<p><strong>stats19</strong> enables access to and processing of the UK’s official road traffic casualty database, <a href="https://data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data">STATS19</a>. A description of variables in the database can be found in a <a href="http://data.dft.gov.uk/road-accidents-safety-data/Brief-guide-to%20road-accidents-and-safety-data.doc">document</a> provided by the UK’s Department for Transport (DfT). The datasets are collectively called STATS19 after the form used to report them, which can be found <a href="http://docs.adrn.ac.uk/888043/mrdoc/pdf/888043_stats19-road-accident-injury-statistics-report-form.pdf">here</a>. This vignette focuses on how to use the <strong>stats19</strong> package to work with STATS19 data.</p>
+<p><strong>stats19</strong> enables access to and processing of Great Britain’s official road traffic casualty database, <a href="https://data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data">STATS19</a>. A description of variables in the database can be found in a <a href="http://data.dft.gov.uk/road-accidents-safety-data/Brief-guide-to%20road-accidents-and-safety-data.doc">document</a> provided by the UK’s Department for Transport (DfT). The datasets are collectively called STATS19 after the form used to report them, which can be found <a href="http://docs.adrn.ac.uk/888043/mrdoc/pdf/888043_stats19-road-accident-injury-statistics-report-form.pdf">here</a>. This vignette focuses on how to use the <strong>stats19</strong> package to work with STATS19 data.</p>
 <p><strong>Note</strong>: The Department for Transport refers to “accidents”, but “crashes” is a more appropriate term, as emphasised in the “crash not accident” arguments of road safety advocacy groups such as <a href="http://www.roadpeace.org/take-action/crash-not-accident/">RoadPeace</a>. We use the term “accidents” only in reference to nomenclature within the data as provided.</p>
 <p>The development version is hosted on <a href="https://github.com/ITSLeeds/stats19">GitHub</a> and can be installed and loaded as follows:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="co"># from CRAN</span></a>
@@ -93,7 +93,11 @@
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(stats19)</a>
 <a class="sourceLine" id="cb2-2" data-line-number="2"><span class="co">#&gt; Data provided under OGL v3.0. Cite the source and link to:</span></a>
 <a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co">#&gt; www.nationalarchives.gov.uk/doc/open-government-licence/version/3/</span></a></code></pre></div>
-<p><strong>stats19</strong> has three main types of functions, corresponding with the three stages of data processing:</p>
+</div>
+<div id="functions" class="section level2">
+<h2 class="hasAnchor">
+<a href="#functions" class="anchor"></a>Functions</h2>
+<p>The easiest way to get STATS19 data is with <code><a href="../reference/get_stats19.html">get_stats19()</a></code>. This function takes 2 main arguments, <code>year</code> and <code>type</code>. The year can be any year between 1979 and 2017. The type can be one of <code>accidents</code>, <code>casualties</code> and <code>vehicles</code>, described below. <code><a href="../reference/get_stats19.html">get_stats19()</a></code> performs 3 jobs, corresponding to three main types of functions:</p>
 <ul>
 <li><p><strong>Download</strong>: A <code><a href="../reference/dl_stats19.html">dl_stats19()</a></code> function accepts <code>year</code>, <code>type</code> and <code>filename</code> arguments to make it easy to find the right file to download only.</p></li>
 <li>
@@ -128,7 +132,7 @@
 <a class="sourceLine" id="cb3-2" data-line-number="2"><span class="co">#&gt; Files identified: dftRoadSafetyData_Accidents_2017.zip</span></a>
 <a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co">#&gt; Attempt downloading from:</span></a>
 <a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">#&gt;    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Accidents_2017.zip</span></a>
-<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">#&gt; Data saved at /tmp/RtmpmBEILc/dftRoadSafetyData_Accidents_2017/Acc.csv</span></a></code></pre></div>
+<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">#&gt; Data saved at /tmp/RtmpBuUw6h/dftRoadSafetyData_Accidents_2017/Acc.csv</span></a></code></pre></div>
 <p>Currently, these files are downloaded to a default location of <code>tempdir</code> which is a platform independent “safe” but temporary location to download the data in. Once downloaded, they are unzipped under original DfT file names. The <code><a href="../reference/dl_stats19.html">dl_stats19()</a></code> function prints out the location and final file name(s) of unzipped files(s) as shown above.</p>
 <p><code><a href="../reference/dl_stats19.html">dl_stats19()</a></code> takes three parameters. Supplying a <code>file_name</code> is interpreted to mean that the user is aware of what to download and the other two parameters will be ignored. You can also use <code>years</code> and <code>type</code> to “search” through the file names, which are stored in a lazy-loaded dataset called <code><a href="../reference/file_names.html">stats19::file_names</a></code>.</p>
 <p>You can find out the names of files that can be downloaded with <code><a href="https://www.rdocumentation.org/packages/base/topics/names">names(stats19::file_names)</a></code>, an example of which is shown below:</p>
@@ -151,7 +155,7 @@ Enter an item from the menu, or 0 to exit</code></pre>
 <a class="sourceLine" id="cb7-4" data-line-number="4"><span class="co">#&gt; Attempt downloading from:</span></a>
 <a class="sourceLine" id="cb7-5" data-line-number="5"><span class="co">#&gt;    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Accidents_2017.zip</span></a>
 <a class="sourceLine" id="cb7-6" data-line-number="6"><span class="co">#&gt; Data already exists in data_dir, not downloading</span></a>
-<a class="sourceLine" id="cb7-7" data-line-number="7"><span class="co">#&gt; Data saved at /tmp/RtmpmBEILc/dftRoadSafetyData_Accidents_2017/Acc.csv</span></a></code></pre></div>
+<a class="sourceLine" id="cb7-7" data-line-number="7"><span class="co">#&gt; Data saved at /tmp/RtmpBuUw6h/dftRoadSafetyData_Accidents_2017/Acc.csv</span></a></code></pre></div>
 <p>Note that this is the same file (containing the ‘accidents’ table from 2017) downloaded previously with the command <code><a href="../reference/dl_stats19.html">dl_stats19(year = 2017, type = "Accidents")</a></code>. If the file is already present, <code><a href="../reference/dl_stats19.html">dl_stats19()</a></code> will skip the download process.</p>
 </div>
 <div id="read-stats19-data" class="section level2">
@@ -164,12 +168,12 @@ Enter an item from the menu, or 0 to exit</code></pre>
 <a class="sourceLine" id="cb8-4" data-line-number="4"><span class="co">#&gt; Attempt downloading from:</span></a>
 <a class="sourceLine" id="cb8-5" data-line-number="5"><span class="co">#&gt;    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Accidents_2017.zip</span></a>
 <a class="sourceLine" id="cb8-6" data-line-number="6"><span class="co">#&gt; Data already exists in data_dir, not downloading</span></a>
-<a class="sourceLine" id="cb8-7" data-line-number="7"><span class="co">#&gt; Data saved at /tmp/RtmpmBEILc/dftRoadSafetyData_Accidents_2017/Acc.csv</span></a>
+<a class="sourceLine" id="cb8-7" data-line-number="7"><span class="co">#&gt; Data saved at /tmp/RtmpBuUw6h/dftRoadSafetyData_Accidents_2017/Acc.csv</span></a>
 <a class="sourceLine" id="cb8-8" data-line-number="8">crashes_<span class="dv">2017</span>_raw =<span class="st"> </span><span class="kw"><a href="../reference/read_accidents.html">read_accidents</a></span>(<span class="dt">data_dir =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/tempfile">tempdir</a></span>(),</a>
 <a class="sourceLine" id="cb8-9" data-line-number="9">                                  <span class="dt">year =</span> <span class="dv">2017</span>,</a>
 <a class="sourceLine" id="cb8-10" data-line-number="10">                                  <span class="dt">filename =</span> <span class="st">"Acc.csv"</span>)</a>
 <a class="sourceLine" id="cb8-11" data-line-number="11"><span class="co">#&gt; Reading in:</span></a>
-<a class="sourceLine" id="cb8-12" data-line-number="12"><span class="co">#&gt; /tmp/RtmpmBEILc/dftRoadSafetyData_Accidents_2017/Acc.csv</span></a></code></pre></div>
+<a class="sourceLine" id="cb8-12" data-line-number="12"><span class="co">#&gt; /tmp/RtmpBuUw6h/dftRoadSafetyData_Accidents_2017/Acc.csv</span></a></code></pre></div>
 <p><strong>stats19</strong> imports data with <code><a href="https://readr.tidyverse.org/reference/read_delim.html">readr::read_csv()</a></code> which results in a ‘tibble’ object: a data frame with more user-friendly printing and a few other features.</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/class">class</a></span>(crashes_<span class="dv">2017</span>_raw)</a>
 <a class="sourceLine" id="cb9-2" data-line-number="2"><span class="co">#&gt; [1] "spec_tbl_df" "tbl_df"      "tbl"         "data.frame"</span></a>
@@ -183,7 +187,7 @@ Enter an item from the menu, or 0 to exit</code></pre>
 <p>After raw data files have been downloaded as described in the previous section, they can then be read-in as follows:</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">crashes_<span class="dv">2017</span>_raw =<span class="st"> </span><span class="kw"><a href="../reference/read_accidents.html">read_accidents</a></span>(<span class="dt">year =</span> <span class="dv">2017</span>, <span class="dt">format =</span> <span class="ot">FALSE</span>)</a>
 <a class="sourceLine" id="cb10-2" data-line-number="2"><span class="co">#&gt; Reading in:</span></a>
-<a class="sourceLine" id="cb10-3" data-line-number="3"><span class="co">#&gt; /tmp/RtmpmBEILc/dftRoadSafetyData_Accidents_2017/Acc.csv</span></a>
+<a class="sourceLine" id="cb10-3" data-line-number="3"><span class="co">#&gt; /tmp/RtmpBuUw6h/dftRoadSafetyData_Accidents_2017/Acc.csv</span></a>
 <a class="sourceLine" id="cb10-4" data-line-number="4">crashes_<span class="dv">2017</span> =<span class="st"> </span><span class="kw"><a href="../reference/format_accidents.html">format_accidents</a></span>(crashes_<span class="dv">2017</span>_raw)</a>
 <a class="sourceLine" id="cb10-5" data-line-number="5"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nrow">nrow</a></span>(crashes_<span class="dv">2017</span>_raw)</a>
 <a class="sourceLine" id="cb10-6" data-line-number="6"><span class="co">#&gt; [1] 129982</span></a>
@@ -275,7 +279,7 @@ Enter an item from the menu, or 0 to exit</code></pre>
 <a class="sourceLine" id="cb14-5" data-line-number="5"><span class="co">#&gt; Files identified: dftRoadSafetyData_Vehicles_2017.zip</span></a>
 <a class="sourceLine" id="cb14-6" data-line-number="6"><span class="co">#&gt; Attempt downloading from:</span></a>
 <a class="sourceLine" id="cb14-7" data-line-number="7"><span class="co">#&gt;    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Vehicles_2017.zip</span></a>
-<a class="sourceLine" id="cb14-8" data-line-number="8"><span class="co">#&gt; Data saved at /tmp/RtmpmBEILc/dftRoadSafetyData_Vehicles_2017/Veh.csv</span></a>
+<a class="sourceLine" id="cb14-8" data-line-number="8"><span class="co">#&gt; Data saved at /tmp/RtmpBuUw6h/dftRoadSafetyData_Vehicles_2017/Veh.csv</span></a>
 <a class="sourceLine" id="cb14-9" data-line-number="9">vehicles_<span class="dv">2017</span>_raw =<span class="st"> </span><span class="kw"><a href="../reference/read_vehicles.html">read_vehicles</a></span>(<span class="dt">year =</span> <span class="dv">2017</span>)</a>
 <a class="sourceLine" id="cb14-10" data-line-number="10">vehicles_<span class="dv">2017</span> =<span class="st"> </span><span class="kw"><a href="../reference/format_vehicles.html">format_vehicles</a></span>(vehicles_<span class="dv">2017</span>_raw)</a>
 <a class="sourceLine" id="cb14-11" data-line-number="11"></a>
@@ -284,7 +288,7 @@ Enter an item from the menu, or 0 to exit</code></pre>
 <a class="sourceLine" id="cb14-14" data-line-number="14"><span class="co">#&gt; Files identified: dftRoadSafetyData_Casualties_2017.zip</span></a>
 <a class="sourceLine" id="cb14-15" data-line-number="15"><span class="co">#&gt; Attempt downloading from:</span></a>
 <a class="sourceLine" id="cb14-16" data-line-number="16"><span class="co">#&gt;    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Casualties_2017.zip</span></a>
-<a class="sourceLine" id="cb14-17" data-line-number="17"><span class="co">#&gt; Data saved at /tmp/RtmpmBEILc/dftRoadSafetyData_Casualties_2017/Cas.csv</span></a>
+<a class="sourceLine" id="cb14-17" data-line-number="17"><span class="co">#&gt; Data saved at /tmp/RtmpBuUw6h/dftRoadSafetyData_Casualties_2017/Cas.csv</span></a>
 <a class="sourceLine" id="cb14-18" data-line-number="18">casualties_<span class="dv">2017</span> =<span class="st"> </span><span class="kw"><a href="../reference/read_casualties.html">read_casualties</a></span>(<span class="dt">year =</span> <span class="dv">2017</span>)</a></code></pre></div>
 <p>The package automates this two-step <code>read_*</code> and <code>format_*</code> process by defaulting in all cases to <code>data_year = read_*(year, format = TRUE)</code>. <code>read_*</code> functions return, by default, formatted data. The two-step process may nevertheless be important for reference to the official nomenclature and values as provided by the DfT.</p>
 <p>A summary of the outputs for each of the three tables is shown below.</p>
@@ -875,7 +879,7 @@ Enter an item from the menu, or 0 to exit</code></pre>
 <a class="sourceLine" id="cb19-3" data-line-number="3"><span class="co">#&gt; Attempt downloading from:</span></a>
 <a class="sourceLine" id="cb19-4" data-line-number="4"><span class="co">#&gt;    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Casualties_2017.zip</span></a>
 <a class="sourceLine" id="cb19-5" data-line-number="5"><span class="co">#&gt; Data already exists in data_dir, not downloading</span></a>
-<a class="sourceLine" id="cb19-6" data-line-number="6"><span class="co">#&gt; Data saved at /tmp/RtmpmBEILc/dftRoadSafetyData_Casualties_2017/Cas.csv</span></a>
+<a class="sourceLine" id="cb19-6" data-line-number="6"><span class="co">#&gt; Data saved at /tmp/RtmpBuUw6h/dftRoadSafetyData_Casualties_2017/Cas.csv</span></a>
 <a class="sourceLine" id="cb19-7" data-line-number="7">casualties_<span class="dv">2017</span> =<span class="st"> </span><span class="kw"><a href="../reference/read_casualties.html">read_casualties</a></span>(<span class="dt">year =</span> <span class="dv">2017</span>)</a>
 <a class="sourceLine" id="cb19-8" data-line-number="8"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nrow">nrow</a></span>(casualties_<span class="dv">2017</span>)</a>
 <a class="sourceLine" id="cb19-9" data-line-number="9"><span class="co">#&gt; [1] 170993</span></a>
@@ -925,7 +929,7 @@ Enter an item from the menu, or 0 to exit</code></pre>
 <a class="sourceLine" id="cb22-3" data-line-number="3"><span class="co">#&gt; Attempt downloading from:</span></a>
 <a class="sourceLine" id="cb22-4" data-line-number="4"><span class="co">#&gt;    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Vehicles_2017.zip</span></a>
 <a class="sourceLine" id="cb22-5" data-line-number="5"><span class="co">#&gt; Data already exists in data_dir, not downloading</span></a>
-<a class="sourceLine" id="cb22-6" data-line-number="6"><span class="co">#&gt; Data saved at /tmp/RtmpmBEILc/dftRoadSafetyData_Vehicles_2017/Veh.csv</span></a>
+<a class="sourceLine" id="cb22-6" data-line-number="6"><span class="co">#&gt; Data saved at /tmp/RtmpBuUw6h/dftRoadSafetyData_Vehicles_2017/Veh.csv</span></a>
 <a class="sourceLine" id="cb22-7" data-line-number="7">vehicles_<span class="dv">2017</span> =<span class="st"> </span><span class="kw"><a href="../reference/read_vehicles.html">read_vehicles</a></span>(<span class="dt">year =</span> <span class="dv">2017</span>)</a>
 <a class="sourceLine" id="cb22-8" data-line-number="8"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nrow">nrow</a></span>(vehicles_<span class="dv">2017</span>)</a>
 <a class="sourceLine" id="cb22-9" data-line-number="9"><span class="co">#&gt; [1] 238926</span></a>
@@ -997,140 +1001,78 @@ Enter an item from the menu, or 0 to exit</code></pre>
 <a class="sourceLine" id="cb28-3" data-line-number="3"><span class="co">#&gt; [1] 129963</span></a>
 <a class="sourceLine" id="cb28-4" data-line-number="4"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nrow">nrow</a></span>(crashes_wy)</a>
 <a class="sourceLine" id="cb28-5" data-line-number="5"><span class="co">#&gt; [1] 4371</span></a></code></pre></div>
-<p>This subsetting has selected the 4,371 crashes which occurred within the Leeds boundary.</p>
+<p>This subsetting has selected the 4,371 crashes which occurred in West Yorkshire.</p>
 </div>
 <div id="joining-tables" class="section level2">
 <h2 class="hasAnchor">
 <a href="#joining-tables" class="anchor"></a>Joining tables</h2>
-<p>The three main tables we have just read-in can be joined by shared key variables. This is demonstrated in the code chunk below, which subsets all casualties that took place in Leeds, and counts the number of casualties by severity for each crash:</p>
+<p>The three main tables we have just read-in can be joined by shared key variables. This is demonstrated in the code chunk below, which subsets all casualties that took place in West Yorkshire, and counts the number of casualties by severity for each crash:</p>
 <div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(tidyr)</a>
 <a class="sourceLine" id="cb29-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(dplyr)</a>
 <a class="sourceLine" id="cb29-3" data-line-number="3">sel =<span class="st"> </span>casualties_<span class="dv">2017</span><span class="op">$</span>accident_index <span class="op">%in%</span><span class="st"> </span>crashes_wy<span class="op">$</span>accident_index</a>
-<a class="sourceLine" id="cb29-4" data-line-number="4">casualties_leeds =<span class="st"> </span>casualties_<span class="dv">2017</span>[sel, ]</a>
-<a class="sourceLine" id="cb29-5" data-line-number="5">cas_types =<span class="st"> </span>casualties_leeds <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb29-4" data-line-number="4">casualties_wy =<span class="st"> </span>casualties_<span class="dv">2017</span>[sel, ]</a>
+<a class="sourceLine" id="cb29-5" data-line-number="5">cas_types =<span class="st"> </span>casualties_wy <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb29-6" data-line-number="6"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(accident_index, casualty_type) <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb29-7" data-line-number="7"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="dt">n =</span> <span class="dv">1</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb29-8" data-line-number="8"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(accident_index, casualty_type) <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb29-9" data-line-number="9"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span>(<span class="dt">n =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sum">sum</a></span>(n)) <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb29-10" data-line-number="10"><span class="st">  </span><span class="kw"><a href="https://tidyr.tidyverse.org/reference/spread.html">spread</a></span>(casualty_type, n, <span class="dt">fill =</span> <span class="dv">0</span>) </a>
 <a class="sourceLine" id="cb29-11" data-line-number="11">cas_types<span class="op">$</span>Total =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/colSums">rowSums</a></span>(cas_types[<span class="op">-</span><span class="dv">1</span>])</a>
-<a class="sourceLine" id="cb29-12" data-line-number="12">crashes_joined =<span class="st"> </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/join.html">left_join</a></span>(crashes_wy, cas_types, <span class="dt">by =</span> <span class="st">"accident_index"</span>)</a></code></pre></div>
-<p>What just happened? We found the subset of casualties that took place in Leeds with reference to the <code>accident_index</code> variable. Then we used functions from the <strong>tidyverse</strong> package <strong>dplyr</strong> (and <code><a href="https://tidyr.tidyverse.org/reference/spread.html">spread()</a></code> from <strong>tidyr</strong>) to create a dataset with a column for each casualty type. We then joined the updated casualty data onto the <code>crashes_wy</code> dataset. The result is a spatial (<code>sf</code>) data frame of crashes in Leeds, with columns counting how many road users of different types were hurt. The original and joined data look like this:</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" data-line-number="1">crashes_wy</a>
-<a class="sourceLine" id="cb30-2" data-line-number="2"><span class="co">#&gt; Simple feature collection with 4371 features and 30 fields</span></a>
-<a class="sourceLine" id="cb30-3" data-line-number="3"><span class="co">#&gt; geometry type:  POINT</span></a>
-<a class="sourceLine" id="cb30-4" data-line-number="4"><span class="co">#&gt; dimension:      XY</span></a>
-<a class="sourceLine" id="cb30-5" data-line-number="5"><span class="co">#&gt; bbox:           xmin: 389917 ymin: 405148 xmax: 452413 ymax: 450954</span></a>
-<a class="sourceLine" id="cb30-6" data-line-number="6"><span class="co">#&gt; epsg (SRID):    27700</span></a>
-<a class="sourceLine" id="cb30-7" data-line-number="7"><span class="co">#&gt; proj4string:    +proj=tmerc +lat_0=49 +lon_0=-2 +k=0.9996012717 +x_0=400000 +y_0=-100000 +ellps=airy +towgs84=446.448,-125.157,542.06,0.15,0.247,0.842,-20.489 +units=m +no_defs</span></a>
-<a class="sourceLine" id="cb30-8" data-line-number="8"><span class="co">#&gt; # A tibble: 4,371 x 31</span></a>
-<a class="sourceLine" id="cb30-9" data-line-number="9"><span class="co">#&gt;    accident_index longitude latitude police_force accident_severi…</span></a>
-<a class="sourceLine" id="cb30-10" data-line-number="10"><span class="co">#&gt;    &lt;chr&gt;              &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;        &lt;chr&gt;           </span></a>
-<a class="sourceLine" id="cb30-11" data-line-number="11"><span class="co">#&gt;  1 2017120009776      -1.25     53.6 North Yorks… Slight          </span></a>
-<a class="sourceLine" id="cb30-12" data-line-number="12"><span class="co">#&gt;  2 2017120010412      -1.79     53.9 North Yorks… Slight          </span></a>
-<a class="sourceLine" id="cb30-13" data-line-number="13"><span class="co">#&gt;  3 2017120111341      -1.81     53.9 North Yorks… Serious         </span></a>
-<a class="sourceLine" id="cb30-14" data-line-number="14"><span class="co">#&gt;  4 2017120135780      -1.98     53.9 North Yorks… Slight          </span></a>
-<a class="sourceLine" id="cb30-15" data-line-number="15"><span class="co">#&gt;  5 2017120223550      -1.31     53.9 North Yorks… Slight          </span></a>
-<a class="sourceLine" id="cb30-16" data-line-number="16"><span class="co">#&gt;  6 2017130086428      -1.97     53.9 West Yorksh… Slight          </span></a>
-<a class="sourceLine" id="cb30-17" data-line-number="17"><span class="co">#&gt;  7 20171333D0295      -1.51     53.7 West Yorksh… Slight          </span></a>
-<a class="sourceLine" id="cb30-18" data-line-number="18"><span class="co">#&gt;  8 2017133AP0313      -1.60     53.8 West Yorksh… Serious         </span></a>
-<a class="sourceLine" id="cb30-19" data-line-number="19"><span class="co">#&gt;  9 2017133BE0850      -1.53     53.8 West Yorksh… Slight          </span></a>
-<a class="sourceLine" id="cb30-20" data-line-number="20"><span class="co">#&gt; 10 2017134110858      -1.56     53.8 West Yorksh… Slight          </span></a>
-<a class="sourceLine" id="cb30-21" data-line-number="21"><span class="co">#&gt; # … with 4,361 more rows, and 26 more variables: number_of_vehicles &lt;int&gt;,</span></a>
-<a class="sourceLine" id="cb30-22" data-line-number="22"><span class="co">#&gt; #   number_of_casualties &lt;int&gt;, date &lt;chr&gt;, day_of_week &lt;chr&gt;, time &lt;chr&gt;,</span></a>
-<a class="sourceLine" id="cb30-23" data-line-number="23"><span class="co">#&gt; #   local_authority_district &lt;chr&gt;, local_authority_highway &lt;chr&gt;,</span></a>
-<a class="sourceLine" id="cb30-24" data-line-number="24"><span class="co">#&gt; #   first_road_class &lt;chr&gt;, first_road_number &lt;int&gt;, road_type &lt;chr&gt;,</span></a>
-<a class="sourceLine" id="cb30-25" data-line-number="25"><span class="co">#&gt; #   speed_limit &lt;int&gt;, junction_detail &lt;chr&gt;, junction_control &lt;chr&gt;,</span></a>
-<a class="sourceLine" id="cb30-26" data-line-number="26"><span class="co">#&gt; #   second_road_class &lt;chr&gt;, second_road_number &lt;int&gt;,</span></a>
-<a class="sourceLine" id="cb30-27" data-line-number="27"><span class="co">#&gt; #   pedestrian_crossing_human_control &lt;chr&gt;,</span></a>
-<a class="sourceLine" id="cb30-28" data-line-number="28"><span class="co">#&gt; #   pedestrian_crossing_physical_facilities &lt;chr&gt;, light_conditions &lt;chr&gt;,</span></a>
-<a class="sourceLine" id="cb30-29" data-line-number="29"><span class="co">#&gt; #   weather_conditions &lt;chr&gt;, road_surface_conditions &lt;chr&gt;,</span></a>
-<a class="sourceLine" id="cb30-30" data-line-number="30"><span class="co">#&gt; #   special_conditions_at_site &lt;chr&gt;, carriageway_hazards &lt;chr&gt;,</span></a>
-<a class="sourceLine" id="cb30-31" data-line-number="31"><span class="co">#&gt; #   urban_or_rural_area &lt;chr&gt;,</span></a>
-<a class="sourceLine" id="cb30-32" data-line-number="32"><span class="co">#&gt; #   did_police_officer_attend_scene_of_accident &lt;int&gt;,</span></a>
-<a class="sourceLine" id="cb30-33" data-line-number="33"><span class="co">#&gt; #   lsoa_of_accident_location &lt;chr&gt;, geometry &lt;POINT [m]&gt;</span></a>
-<a class="sourceLine" id="cb30-34" data-line-number="34">cas_types</a>
-<a class="sourceLine" id="cb30-35" data-line-number="35"><span class="co">#&gt; # A tibble: 4,371 x 20</span></a>
-<a class="sourceLine" id="cb30-36" data-line-number="36"><span class="co">#&gt; # Groups:   accident_index [4,371]</span></a>
-<a class="sourceLine" id="cb30-37" data-line-number="37"><span class="co">#&gt;    accident_index `Agricultural v… `Bus or coach o… `Car occupant` Cyclist</span></a>
-<a class="sourceLine" id="cb30-38" data-line-number="38"><span class="co">#&gt;    &lt;chr&gt;                     &lt;dbl&gt;            &lt;dbl&gt;          &lt;dbl&gt;   &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb30-39" data-line-number="39"><span class="co">#&gt;  1 2017120009776                 0                0              1       0</span></a>
-<a class="sourceLine" id="cb30-40" data-line-number="40"><span class="co">#&gt;  2 2017120010412                 0                0              0       1</span></a>
-<a class="sourceLine" id="cb30-41" data-line-number="41"><span class="co">#&gt;  3 2017120111341                 0                0              0       1</span></a>
-<a class="sourceLine" id="cb30-42" data-line-number="42"><span class="co">#&gt;  4 2017120135780                 0                0              1       0</span></a>
-<a class="sourceLine" id="cb30-43" data-line-number="43"><span class="co">#&gt;  5 2017120223550                 0                0              0       2</span></a>
-<a class="sourceLine" id="cb30-44" data-line-number="44"><span class="co">#&gt;  6 2017130086428                 0                0              2       0</span></a>
-<a class="sourceLine" id="cb30-45" data-line-number="45"><span class="co">#&gt;  7 20171333D0295                 0                0              0       0</span></a>
-<a class="sourceLine" id="cb30-46" data-line-number="46"><span class="co">#&gt;  8 2017133AP0313                 0                0              0       0</span></a>
-<a class="sourceLine" id="cb30-47" data-line-number="47"><span class="co">#&gt;  9 2017133BE0850                 0                0              0       1</span></a>
-<a class="sourceLine" id="cb30-48" data-line-number="48"><span class="co">#&gt; 10 2017134110858                 0                0              2       0</span></a>
-<a class="sourceLine" id="cb30-49" data-line-number="49"><span class="co">#&gt; # … with 4,361 more rows, and 15 more variables: `Goods vehicle (7.5</span></a>
-<a class="sourceLine" id="cb30-50" data-line-number="50"><span class="co">#&gt; #   tonnes mgw and over) occupant` &lt;dbl&gt;, `Goods vehicle (over 3.5t. and</span></a>
-<a class="sourceLine" id="cb30-51" data-line-number="51"><span class="co">#&gt; #   under 7.5t.) occupant` &lt;dbl&gt;, `Horse rider` &lt;dbl&gt;, `Minibus (8 - 16</span></a>
-<a class="sourceLine" id="cb30-52" data-line-number="52"><span class="co">#&gt; #   passenger seats) occupant` &lt;dbl&gt;, `Mobility scooter rider` &lt;dbl&gt;,</span></a>
-<a class="sourceLine" id="cb30-53" data-line-number="53"><span class="co">#&gt; #   `Motorcycle - unknown cc rider or passenger` &lt;dbl&gt;, `Motorcycle 125cc</span></a>
-<a class="sourceLine" id="cb30-54" data-line-number="54"><span class="co">#&gt; #   and under rider or passenger` &lt;dbl&gt;, `Motorcycle 50cc and under rider</span></a>
-<a class="sourceLine" id="cb30-55" data-line-number="55"><span class="co">#&gt; #   or passenger` &lt;dbl&gt;, `Motorcycle over 125cc and up to 500cc rider or</span></a>
-<a class="sourceLine" id="cb30-56" data-line-number="56"><span class="co">#&gt; #   passenger` &lt;dbl&gt;, `Motorcycle over 500cc rider or passenger` &lt;dbl&gt;,</span></a>
-<a class="sourceLine" id="cb30-57" data-line-number="57"><span class="co">#&gt; #   `Other vehicle occupant` &lt;dbl&gt;, Pedestrian &lt;dbl&gt;, `Taxi/Private hire</span></a>
-<a class="sourceLine" id="cb30-58" data-line-number="58"><span class="co">#&gt; #   car occupant` &lt;dbl&gt;, `Van / Goods vehicle (3.5 tonnes mgw or under)</span></a>
-<a class="sourceLine" id="cb30-59" data-line-number="59"><span class="co">#&gt; #   occupant` &lt;dbl&gt;, Total &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb30-60" data-line-number="60">crashes_joined</a>
-<a class="sourceLine" id="cb30-61" data-line-number="61"><span class="co">#&gt; Simple feature collection with 4371 features and 49 fields</span></a>
-<a class="sourceLine" id="cb30-62" data-line-number="62"><span class="co">#&gt; geometry type:  POINT</span></a>
-<a class="sourceLine" id="cb30-63" data-line-number="63"><span class="co">#&gt; dimension:      XY</span></a>
-<a class="sourceLine" id="cb30-64" data-line-number="64"><span class="co">#&gt; bbox:           xmin: 389917 ymin: 405148 xmax: 452413 ymax: 450954</span></a>
-<a class="sourceLine" id="cb30-65" data-line-number="65"><span class="co">#&gt; epsg (SRID):    27700</span></a>
-<a class="sourceLine" id="cb30-66" data-line-number="66"><span class="co">#&gt; proj4string:    +proj=tmerc +lat_0=49 +lon_0=-2 +k=0.9996012717 +x_0=400000 +y_0=-100000 +ellps=airy +towgs84=446.448,-125.157,542.06,0.15,0.247,0.842,-20.489 +units=m +no_defs</span></a>
-<a class="sourceLine" id="cb30-67" data-line-number="67"><span class="co">#&gt; # A tibble: 4,371 x 50</span></a>
-<a class="sourceLine" id="cb30-68" data-line-number="68"><span class="co">#&gt;    accident_index longitude latitude police_force accident_severi…</span></a>
-<a class="sourceLine" id="cb30-69" data-line-number="69"><span class="co">#&gt;    &lt;chr&gt;              &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;        &lt;chr&gt;           </span></a>
-<a class="sourceLine" id="cb30-70" data-line-number="70"><span class="co">#&gt;  1 2017120009776      -1.25     53.6 North Yorks… Slight          </span></a>
-<a class="sourceLine" id="cb30-71" data-line-number="71"><span class="co">#&gt;  2 2017120010412      -1.79     53.9 North Yorks… Slight          </span></a>
-<a class="sourceLine" id="cb30-72" data-line-number="72"><span class="co">#&gt;  3 2017120111341      -1.81     53.9 North Yorks… Serious         </span></a>
-<a class="sourceLine" id="cb30-73" data-line-number="73"><span class="co">#&gt;  4 2017120135780      -1.98     53.9 North Yorks… Slight          </span></a>
-<a class="sourceLine" id="cb30-74" data-line-number="74"><span class="co">#&gt;  5 2017120223550      -1.31     53.9 North Yorks… Slight          </span></a>
-<a class="sourceLine" id="cb30-75" data-line-number="75"><span class="co">#&gt;  6 2017130086428      -1.97     53.9 West Yorksh… Slight          </span></a>
-<a class="sourceLine" id="cb30-76" data-line-number="76"><span class="co">#&gt;  7 20171333D0295      -1.51     53.7 West Yorksh… Slight          </span></a>
-<a class="sourceLine" id="cb30-77" data-line-number="77"><span class="co">#&gt;  8 2017133AP0313      -1.60     53.8 West Yorksh… Serious         </span></a>
-<a class="sourceLine" id="cb30-78" data-line-number="78"><span class="co">#&gt;  9 2017133BE0850      -1.53     53.8 West Yorksh… Slight          </span></a>
-<a class="sourceLine" id="cb30-79" data-line-number="79"><span class="co">#&gt; 10 2017134110858      -1.56     53.8 West Yorksh… Slight          </span></a>
-<a class="sourceLine" id="cb30-80" data-line-number="80"><span class="co">#&gt; # … with 4,361 more rows, and 45 more variables: number_of_vehicles &lt;int&gt;,</span></a>
-<a class="sourceLine" id="cb30-81" data-line-number="81"><span class="co">#&gt; #   number_of_casualties &lt;int&gt;, date &lt;chr&gt;, day_of_week &lt;chr&gt;, time &lt;chr&gt;,</span></a>
-<a class="sourceLine" id="cb30-82" data-line-number="82"><span class="co">#&gt; #   local_authority_district &lt;chr&gt;, local_authority_highway &lt;chr&gt;,</span></a>
-<a class="sourceLine" id="cb30-83" data-line-number="83"><span class="co">#&gt; #   first_road_class &lt;chr&gt;, first_road_number &lt;int&gt;, road_type &lt;chr&gt;,</span></a>
-<a class="sourceLine" id="cb30-84" data-line-number="84"><span class="co">#&gt; #   speed_limit &lt;int&gt;, junction_detail &lt;chr&gt;, junction_control &lt;chr&gt;,</span></a>
-<a class="sourceLine" id="cb30-85" data-line-number="85"><span class="co">#&gt; #   second_road_class &lt;chr&gt;, second_road_number &lt;int&gt;,</span></a>
-<a class="sourceLine" id="cb30-86" data-line-number="86"><span class="co">#&gt; #   pedestrian_crossing_human_control &lt;chr&gt;,</span></a>
-<a class="sourceLine" id="cb30-87" data-line-number="87"><span class="co">#&gt; #   pedestrian_crossing_physical_facilities &lt;chr&gt;, light_conditions &lt;chr&gt;,</span></a>
-<a class="sourceLine" id="cb30-88" data-line-number="88"><span class="co">#&gt; #   weather_conditions &lt;chr&gt;, road_surface_conditions &lt;chr&gt;,</span></a>
-<a class="sourceLine" id="cb30-89" data-line-number="89"><span class="co">#&gt; #   special_conditions_at_site &lt;chr&gt;, carriageway_hazards &lt;chr&gt;,</span></a>
-<a class="sourceLine" id="cb30-90" data-line-number="90"><span class="co">#&gt; #   urban_or_rural_area &lt;chr&gt;,</span></a>
-<a class="sourceLine" id="cb30-91" data-line-number="91"><span class="co">#&gt; #   did_police_officer_attend_scene_of_accident &lt;int&gt;,</span></a>
-<a class="sourceLine" id="cb30-92" data-line-number="92"><span class="co">#&gt; #   lsoa_of_accident_location &lt;chr&gt;, `Agricultural vehicle</span></a>
-<a class="sourceLine" id="cb30-93" data-line-number="93"><span class="co">#&gt; #   occupant` &lt;dbl&gt;, `Bus or coach occupant (17 or more pass</span></a>
-<a class="sourceLine" id="cb30-94" data-line-number="94"><span class="co">#&gt; #   seats)` &lt;dbl&gt;, `Car occupant` &lt;dbl&gt;, Cyclist &lt;dbl&gt;, `Goods vehicle</span></a>
-<a class="sourceLine" id="cb30-95" data-line-number="95"><span class="co">#&gt; #   (7.5 tonnes mgw and over) occupant` &lt;dbl&gt;, `Goods vehicle (over 3.5t.</span></a>
-<a class="sourceLine" id="cb30-96" data-line-number="96"><span class="co">#&gt; #   and under 7.5t.) occupant` &lt;dbl&gt;, `Horse rider` &lt;dbl&gt;, `Minibus (8 -</span></a>
-<a class="sourceLine" id="cb30-97" data-line-number="97"><span class="co">#&gt; #   16 passenger seats) occupant` &lt;dbl&gt;, `Mobility scooter rider` &lt;dbl&gt;,</span></a>
-<a class="sourceLine" id="cb30-98" data-line-number="98"><span class="co">#&gt; #   `Motorcycle - unknown cc rider or passenger` &lt;dbl&gt;, `Motorcycle 125cc</span></a>
-<a class="sourceLine" id="cb30-99" data-line-number="99"><span class="co">#&gt; #   and under rider or passenger` &lt;dbl&gt;, `Motorcycle 50cc and under rider</span></a>
-<a class="sourceLine" id="cb30-100" data-line-number="100"><span class="co">#&gt; #   or passenger` &lt;dbl&gt;, `Motorcycle over 125cc and up to 500cc rider or</span></a>
-<a class="sourceLine" id="cb30-101" data-line-number="101"><span class="co">#&gt; #   passenger` &lt;dbl&gt;, `Motorcycle over 500cc rider or passenger` &lt;dbl&gt;,</span></a>
-<a class="sourceLine" id="cb30-102" data-line-number="102"><span class="co">#&gt; #   `Other vehicle occupant` &lt;dbl&gt;, Pedestrian &lt;dbl&gt;, `Taxi/Private hire</span></a>
-<a class="sourceLine" id="cb30-103" data-line-number="103"><span class="co">#&gt; #   car occupant` &lt;dbl&gt;, `Van / Goods vehicle (3.5 tonnes mgw or under)</span></a>
-<a class="sourceLine" id="cb30-104" data-line-number="104"><span class="co">#&gt; #   occupant` &lt;dbl&gt;, Total &lt;dbl&gt;, geometry &lt;POINT [m]&gt;</span></a></code></pre></div>
-<p>This join operation has enabled us to geo-reference the casualty data, enabling us to explore the spatial distribution of different casualty types as follows:</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/plot">plot</a></span>(crashes_joined[crashes_joined<span class="op">$</span>Pedestrian <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>, <span class="st">"Pedestrian"</span>])</a>
-<a class="sourceLine" id="cb31-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/plot">plot</a></span>(crashes_joined[crashes_joined<span class="op">$</span>Cyclist <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>, <span class="st">"Cyclist"</span>])</a>
-<a class="sourceLine" id="cb31-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/plot">plot</a></span>(crashes_joined[crashes_joined<span class="op">$</span><span class="st">`</span><span class="dt">Car occupant</span><span class="st">`</span> <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>, <span class="st">"Car occupant"</span>])</a></code></pre></div>
-<p><img src="stats19_files/figure-html/sfplot-1.png" width="33%"><img src="stats19_files/figure-html/sfplot-2.png" width="33%"><img src="stats19_files/figure-html/sfplot-3.png" width="33%"></p>
-<p>It is clear that pedestrians, cyclists and car occupants tend to get hurt in different places. Car occupant casualties, for example, are comparatively common on the outskirts of Leeds, where speed limits tend to be higher and where there are comparatively higher volumes of motor traffic, compared with the city centre.</p>
-<p>Another way of visualising these data is to show the spatial distribution of crashes causing pedestrian casualties by number of pedestrians hurt and crash severity. This is easily done with <strong>ggplot2</strong>:</p>
+<a class="sourceLine" id="cb29-12" data-line-number="12">crashes_joined =<span class="st"> </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/join.html">left_join</a></span>(crashes_wy, cas_types)</a></code></pre></div>
+<p>What just happened? We found the subset of casualties that took place in West Yorksire with reference to the <code>accident_index</code> variable. Then we used functions from the <strong>tidyverse</strong> package <strong>dplyr</strong> (and <code><a href="https://tidyr.tidyverse.org/reference/spread.html">spread()</a></code> from <strong>tidyr</strong>) to create a dataset with a column for each casualty type. We then joined the updated casualty data onto the <code>crashes_wy</code> dataset. The result is a spatial (<code>sf</code>) data frame of crashes in West Yorksire, with columns counting how many road users of different types were hurt. The joined data has additional variables:</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" data-line-number="1">base<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sets">setdiff</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/names">names</a></span>(crashes_joined), <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/names">names</a></span>(crashes_wy))</a>
+<a class="sourceLine" id="cb30-2" data-line-number="2"><span class="co">#&gt;  [1] "Agricultural vehicle occupant"                            </span></a>
+<a class="sourceLine" id="cb30-3" data-line-number="3"><span class="co">#&gt;  [2] "Bus or coach occupant (17 or more pass seats)"            </span></a>
+<a class="sourceLine" id="cb30-4" data-line-number="4"><span class="co">#&gt;  [3] "Car occupant"                                             </span></a>
+<a class="sourceLine" id="cb30-5" data-line-number="5"><span class="co">#&gt;  [4] "Cyclist"                                                  </span></a>
+<a class="sourceLine" id="cb30-6" data-line-number="6"><span class="co">#&gt;  [5] "Goods vehicle (7.5 tonnes mgw and over) occupant"         </span></a>
+<a class="sourceLine" id="cb30-7" data-line-number="7"><span class="co">#&gt;  [6] "Goods vehicle (over 3.5t. and under 7.5t.) occupant"      </span></a>
+<a class="sourceLine" id="cb30-8" data-line-number="8"><span class="co">#&gt;  [7] "Horse rider"                                              </span></a>
+<a class="sourceLine" id="cb30-9" data-line-number="9"><span class="co">#&gt;  [8] "Minibus (8 - 16 passenger seats) occupant"                </span></a>
+<a class="sourceLine" id="cb30-10" data-line-number="10"><span class="co">#&gt;  [9] "Mobility scooter rider"                                   </span></a>
+<a class="sourceLine" id="cb30-11" data-line-number="11"><span class="co">#&gt; [10] "Motorcycle - unknown cc rider or passenger"               </span></a>
+<a class="sourceLine" id="cb30-12" data-line-number="12"><span class="co">#&gt; [11] "Motorcycle 125cc and under rider or passenger"            </span></a>
+<a class="sourceLine" id="cb30-13" data-line-number="13"><span class="co">#&gt; [12] "Motorcycle 50cc and under rider or passenger"             </span></a>
+<a class="sourceLine" id="cb30-14" data-line-number="14"><span class="co">#&gt; [13] "Motorcycle over 125cc and up to 500cc rider or  passenger"</span></a>
+<a class="sourceLine" id="cb30-15" data-line-number="15"><span class="co">#&gt; [14] "Motorcycle over 500cc rider or passenger"                 </span></a>
+<a class="sourceLine" id="cb30-16" data-line-number="16"><span class="co">#&gt; [15] "Other vehicle occupant"                                   </span></a>
+<a class="sourceLine" id="cb30-17" data-line-number="17"><span class="co">#&gt; [16] "Pedestrian"                                               </span></a>
+<a class="sourceLine" id="cb30-18" data-line-number="18"><span class="co">#&gt; [17] "Taxi/Private hire car occupant"                           </span></a>
+<a class="sourceLine" id="cb30-19" data-line-number="19"><span class="co">#&gt; [18] "Van / Goods vehicle (3.5 tonnes mgw or under) occupant"   </span></a>
+<a class="sourceLine" id="cb30-20" data-line-number="20"><span class="co">#&gt; [19] "Total"</span></a></code></pre></div>
+<p>As a simple spatial plot, we can map all the crashes that have happened in West Yorkshire in 2017, with the colour related to the total number of people hurt in each crash. Placing this plot next to a map of West Yorkshire provides context:</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/plot">plot</a></span>(crashes_joined[<span class="st">"Total"</span>], <span class="dt">pch =</span> <span class="dv">3</span>, <span class="dt">cex =</span> <span class="fl">0.1</span>)</a></code></pre></div>
+<p><img src="stats19_files/figure-html/unnamed-chunk-7-1.png" width="100%"></p>
+<p>The spatial distribution of crashes in West Yorkshire clearly relates to the region’s geography. Crashes tend to happen on busy Motorway roads and city centres, of Leeds and Bradford in particular. This can be seen by comparing the previous map with an overview of the area, from <span class="citation">(Lovelace, Roberts, and Kellar 2016)</span>:</p>
+<p><img src="wy-overview.jpg" width="100%"></p>
+<p>In addition to the <code>Total</code> number of people hurt/killed, <code>crashes_joined</code> contains a column for each type of casualty (cyclist, car occupant, etc.), and a number corresponding to the number of each type hurt in each crash. It also contains the <code>geometry</code> column from <code>crashes_sf</code>. In other words, joins allow the casualties and vehicles tables to be geo-referenced. We can then explore the spatial distribution of different casualty types. The following figure, for example, shows the spatial distribution of pedestrians and car passengers hurt in car crashes across West Yorkshire in 2017:</p>
 <div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(ggplot2)</a>
-<a class="sourceLine" id="cb32-2" data-line-number="2"><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(crashes_joined, <span class="kw"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="dt">colour =</span> Total)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb32-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html">geom_sf</a></span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb32-4" data-line-number="4"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/facet_grid.html">facet_grid</a></span>(<span class="kw"><a href="https://ggplot2.tidyverse.org/reference/vars.html">vars</a></span>(accident_severity), <span class="kw"><a href="https://ggplot2.tidyverse.org/reference/vars.html">vars</a></span>(Pedestrian))</a></code></pre></div>
+<a class="sourceLine" id="cb32-2" data-line-number="2">crashes_types =<span class="st"> </span>crashes_joined <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb32-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(accident_severity <span class="op">!=</span><span class="st"> "Slight"</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb32-4" data-line-number="4"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(Pedestrian <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span> <span class="op">|</span><span class="st"> `</span><span class="dt">Car occupant</span><span class="st">`</span> <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb32-5" data-line-number="5"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="dt">type =</span> <span class="kw"><a href="https://dplyr.tidyverse.org/reference/case_when.html">case_when</a></span>(</a>
+<a class="sourceLine" id="cb32-6" data-line-number="6">    Pedestrian <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span> <span class="op">~</span><span class="st"> "Pedestrian"</span>,</a>
+<a class="sourceLine" id="cb32-7" data-line-number="7">    <span class="ot">TRUE</span> <span class="op">~</span><span class="st"> "Passenger"</span></a>
+<a class="sourceLine" id="cb32-8" data-line-number="8">  ))</a>
+<a class="sourceLine" id="cb32-9" data-line-number="9"><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(crashes_types, <span class="kw"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="dt">size =</span> Total, <span class="dt">colour =</span> speed_limit)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb32-10" data-line-number="10"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html">geom_sf</a></span>(<span class="dt">show.legend =</span> <span class="st">"point"</span>, <span class="dt">alpha =</span> <span class="fl">0.3</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb32-11" data-line-number="11"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/facet_grid.html">facet_grid</a></span>(<span class="kw"><a href="https://ggplot2.tidyverse.org/reference/vars.html">vars</a></span>(type), <span class="kw"><a href="https://ggplot2.tidyverse.org/reference/vars.html">vars</a></span>(accident_severity)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb32-12" data-line-number="12"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/scale_size.html">scale_size</a></span>(</a>
+<a class="sourceLine" id="cb32-13" data-line-number="13">    <span class="dt">breaks =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>, <span class="dv">12</span>),</a>
+<a class="sourceLine" id="cb32-14" data-line-number="14">    <span class="dt">labels =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, <span class="st">"3+"</span>, <span class="dv">12</span>)</a>
+<a class="sourceLine" id="cb32-15" data-line-number="15">    ) <span class="op">+</span></a>
+<a class="sourceLine" id="cb32-16" data-line-number="16"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/scale_gradient.html">scale_color_gradientn</a></span>(<span class="dt">colours =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"blue"</span>, <span class="st">"yellow"</span>, <span class="st">"red"</span>), ) <span class="op">+</span></a>
+<a class="sourceLine" id="cb32-17" data-line-number="17"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span>(<span class="dt">legend.position =</span> <span class="st">"none"</span>)</a></code></pre></div>
+<div class="figure">
+<img src="stats19_files/figure-html/sfplot-1.png" alt="Spatial distribution of serious and fatal crashes in West Yorkshire in which pedestrians and car passengers were hurt. Colour is related to the speed limit where the crash happened (red is faster) and size is proportional to the total number of people hurt in each crash (legend not shown)." width="100%"><p class="caption">
+Spatial distribution of serious and fatal crashes in West Yorkshire in which pedestrians and car passengers were hurt. Colour is related to the speed limit where the crash happened (red is faster) and size is proportional to the total number of people hurt in each crash (legend not shown).
+</p>
+</div>
+<p>It is clear that pedestrians and car occupants tend to get hurt in different places. Car occupant casualties, for example, are comparatively common on the outskirts of cities such as Leeds, where speed limits tend to be higher and where there are comparatively higher volumes of motor traffic, compared with the city centre.</p>
+<p>Another way of visualising these data is to show the spatial distribution of crashes causing pedestrian casualties by number of pedestrians hurt and crash severity. This is easily done with <strong>ggplot2</strong>:</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" data-line-number="1"><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(crashes_joined, <span class="kw"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="dt">colour =</span> Total)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb33-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html">geom_sf</a></span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb33-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/facet_grid.html">facet_grid</a></span>(<span class="kw"><a href="https://ggplot2.tidyverse.org/reference/vars.html">vars</a></span>(accident_severity), <span class="kw"><a href="https://ggplot2.tidyverse.org/reference/vars.html">vars</a></span>(Pedestrian))</a></code></pre></div>
 <p><img src="stats19_files/figure-html/ggplot-ped-severity-1.png" width="100%"></p>
 <p>These figures suggest that pedestrian casualties tend to happen more frequently near the city centre, compared with other types of casualty.</p>
 </div>
@@ -1138,26 +1080,26 @@ Enter an item from the menu, or 0 to exit</code></pre>
 <h2 class="hasAnchor">
 <a href="#time-series-analysis" class="anchor"></a>Time series analysis</h2>
 <p>We can also explore weekly and seasonal trends in crashes by aggregating crashes by day of the year:</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" data-line-number="1">crashes_dates =<span class="st"> </span>crashes_joined <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb33-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/st_geometry">st_set_geometry</a></span>(<span class="ot">NULL</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb33-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(<span class="dt">date =</span> lubridate<span class="op">::</span><span class="kw"><a href="http://lubridate.tidyverse.org/reference/ymd.html">dmy</a></span>(date)) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb33-4" data-line-number="4"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span>(<span class="dt">Pedestrian =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sum">sum</a></span>(Pedestrian), <span class="dt">Cyclist =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sum">sum</a></span>(Cyclist),</a>
-<a class="sourceLine" id="cb33-5" data-line-number="5">            <span class="st">`</span><span class="dt">Car occupant</span><span class="st">`</span> =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sum">sum</a></span>(<span class="st">`</span><span class="dt">Car occupant</span><span class="st">`</span>)) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb33-6" data-line-number="6"><span class="st">  </span><span class="kw"><a href="https://tidyr.tidyverse.org/reference/gather.html">gather</a></span>(mode, casualties, <span class="op">-</span>date)</a>
-<a class="sourceLine" id="cb33-7" data-line-number="7"><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(crashes_dates, <span class="kw"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(date, casualties)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb33-8" data-line-number="8"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/geom_smooth.html">geom_smooth</a></span>(<span class="kw"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="dt">colour =</span> mode), <span class="dt">method =</span> <span class="st">"loess"</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb33-9" data-line-number="9"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span>(<span class="st">"Casualties per day"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" data-line-number="1">crashes_dates =<span class="st"> </span>crashes_joined <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb34-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/st_geometry">st_set_geometry</a></span>(<span class="ot">NULL</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb34-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(<span class="dt">date =</span> lubridate<span class="op">::</span><span class="kw"><a href="http://lubridate.tidyverse.org/reference/ymd.html">dmy</a></span>(date)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb34-4" data-line-number="4"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span>(<span class="dt">Pedestrian =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sum">sum</a></span>(Pedestrian), <span class="dt">Cyclist =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sum">sum</a></span>(Cyclist),</a>
+<a class="sourceLine" id="cb34-5" data-line-number="5">            <span class="st">`</span><span class="dt">Car occupant</span><span class="st">`</span> =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sum">sum</a></span>(<span class="st">`</span><span class="dt">Car occupant</span><span class="st">`</span>)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb34-6" data-line-number="6"><span class="st">  </span><span class="kw"><a href="https://tidyr.tidyverse.org/reference/gather.html">gather</a></span>(mode, casualties, <span class="op">-</span>date)</a>
+<a class="sourceLine" id="cb34-7" data-line-number="7"><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(crashes_dates, <span class="kw"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(date, casualties)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb34-8" data-line-number="8"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/geom_smooth.html">geom_smooth</a></span>(<span class="kw"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="dt">colour =</span> mode), <span class="dt">method =</span> <span class="st">"loess"</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb34-9" data-line-number="9"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span>(<span class="st">"Casualties per day"</span>)</a></code></pre></div>
 <p><img src="stats19_files/figure-html/crash-date-plot-1.png" width="100%"></p>
 <p>Different types of crashes also tend to happen at different times of day. This is illustrated in the plot below, which shows the times of day when people who were travelling by different modes were most commonly injured.</p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(stringr)</a>
-<a class="sourceLine" id="cb34-2" data-line-number="2">crash_times =<span class="st"> </span>crashes_joined <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb34-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/st_geometry">st_set_geometry</a></span>(<span class="ot">NULL</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb34-4" data-line-number="4"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(<span class="dt">hour =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/numeric">as.numeric</a></span>(<span class="kw"><a href="https://stringr.tidyverse.org/reference/str_sub.html">str_sub</a></span>(time, <span class="dv">1</span>, <span class="dv">2</span>))) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb34-5" data-line-number="5"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span>(<span class="dt">Pedestrian =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sum">sum</a></span>(Pedestrian), <span class="dt">Cyclist =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sum">sum</a></span>(Cyclist),</a>
-<a class="sourceLine" id="cb34-6" data-line-number="6">            <span class="st">`</span><span class="dt">Car occupant</span><span class="st">`</span> =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sum">sum</a></span>(<span class="st">`</span><span class="dt">Car occupant</span><span class="st">`</span>)) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb34-7" data-line-number="7"><span class="st">  </span><span class="kw"><a href="https://tidyr.tidyverse.org/reference/gather.html">gather</a></span>(mode, casualties, <span class="op">-</span>hour)</a>
-<a class="sourceLine" id="cb34-8" data-line-number="8"><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(crash_times, <span class="kw"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(hour, casualties)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb34-9" data-line-number="9"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/geom_smooth.html">geom_smooth</a></span>(<span class="kw"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="dt">colour =</span> mode), <span class="dt">method =</span> <span class="st">"loess"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(stringr)</a>
+<a class="sourceLine" id="cb35-2" data-line-number="2">crash_times =<span class="st"> </span>crashes_joined <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb35-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/st_geometry">st_set_geometry</a></span>(<span class="ot">NULL</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb35-4" data-line-number="4"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(<span class="dt">hour =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/numeric">as.numeric</a></span>(<span class="kw"><a href="https://stringr.tidyverse.org/reference/str_sub.html">str_sub</a></span>(time, <span class="dv">1</span>, <span class="dv">2</span>))) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb35-5" data-line-number="5"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span>(<span class="dt">Pedestrian =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sum">sum</a></span>(Pedestrian), <span class="dt">Cyclist =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sum">sum</a></span>(Cyclist),</a>
+<a class="sourceLine" id="cb35-6" data-line-number="6">            <span class="st">`</span><span class="dt">Car occupant</span><span class="st">`</span> =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sum">sum</a></span>(<span class="st">`</span><span class="dt">Car occupant</span><span class="st">`</span>)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb35-7" data-line-number="7"><span class="st">  </span><span class="kw"><a href="https://tidyr.tidyverse.org/reference/gather.html">gather</a></span>(mode, casualties, <span class="op">-</span>hour)</a>
+<a class="sourceLine" id="cb35-8" data-line-number="8"><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(crash_times, <span class="kw"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(hour, casualties)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb35-9" data-line-number="9"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/geom_smooth.html">geom_smooth</a></span>(<span class="kw"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="dt">colour =</span> mode), <span class="dt">method =</span> <span class="st">"loess"</span>)</a></code></pre></div>
 <p><img src="stats19_files/figure-html/crash-time-plot-1.png" width="100%"></p>
 <p>Note that bike crashes tend to have distinct morning and afternoon peaks, in-line with previous research <span class="citation">(Lovelace, Roberts, and Kellar 2016)</span>.</p>
 </div>
@@ -1205,6 +1147,7 @@ Enter an item from the menu, or 0 to exit</code></pre>
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
 <li><a href="#introduction">Introduction</a></li>
+      <li><a href="#functions">Functions</a></li>
       <li><a href="#download-stats19-data">Download STATS19 data</a></li>
       <li><a href="#read-stats19-data">Read STATS19 data</a></li>
       <li><a href="#format-stats19-data">Format STATS19 data</a></li>
