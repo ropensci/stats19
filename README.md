@@ -80,9 +80,9 @@ crashes = get_stats19(year = 2017, type = "accident")
 #> Files identified: dftRoadSafetyData_Accidents_2017.zip
 #> Attempt downloading from:
 #>    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Accidents_2017.zip
-#> Data saved at /tmp/Rtmpbm2SeI/dftRoadSafetyData_Accidents_2017/Acc.csv
+#> Data saved at /tmp/RtmpyrwThP/dftRoadSafetyData_Accidents_2017/Acc.csv
 #> Reading in:
-#> /tmp/Rtmpbm2SeI/dftRoadSafetyData_Accidents_2017/Acc.csv
+#> /tmp/RtmpyrwThP/dftRoadSafetyData_Accidents_2017/Acc.csv
 ```
 
 What just happened? We read-in data on all road crashes recorded by the
@@ -179,7 +179,7 @@ casualties = get_stats19(year = 2017, type = "casualties")
 #> Files identified: dftRoadSafetyData_Casualties_2017.zip
 #> Attempt downloading from:
 #>    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Casualties_2017.zip
-#> Data saved at /tmp/Rtmpbm2SeI/dftRoadSafetyData_Casualties_2017/Cas.csv
+#> Data saved at /tmp/RtmpyrwThP/dftRoadSafetyData_Casualties_2017/Cas.csv
 nrow(casualties)
 #> [1] 170993
 ncol(casualties)
@@ -240,7 +240,7 @@ vehicles = get_stats19(year = 2017, type = "vehicles")
 #> Files identified: dftRoadSafetyData_Vehicles_2017.zip
 #> Attempt downloading from:
 #>    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Vehicles_2017.zip
-#> Data saved at /tmp/Rtmpbm2SeI/dftRoadSafetyData_Vehicles_2017/Veh.csv
+#> Data saved at /tmp/RtmpyrwThP/dftRoadSafetyData_Vehicles_2017/Veh.csv
 nrow(vehicles)
 #> [1] 238926
 ncol(vehicles)
@@ -393,8 +393,8 @@ enabling it to be mapped (for more advanced maps, see the
 [vignette](https://itsleeds.github.io/stats19/articles/stats19.html)):
 
 ``` r
-pal_alpha = function(n) sf.colors(n, alpha = 0.7)
-cex = crashes_joined$Total / 5
+pal_alpha = function(n) sf.colors(n, alpha = 0.5)
+cex = crashes_joined$Total / 3
 plot(crashes_joined["speed_limit"], cex = cex, pal = pal_alpha)
 ```
 
@@ -403,9 +403,10 @@ plot(crashes_joined["speed_limit"], cex = cex, pal = pal_alpha)
 The spatial distribution of crashes in West Yorkshire clearly relates to
 the region’s geography. Crashes tend to happen on busy Motorway roads
 (with high speed limits, as shown in the map above) and city centres, of
-Leeds and Bradford in particular. This can be seen by comparing the
-previous map with an overview of the area, from (Lovelace, Roberts, and
-Kellar
+Leeds and Bradford in particular. The severity and number of people hurt
+(proportional to circle width in the map above) in crashes is related to
+the speed limit roads. This can be seen by comparing the previous map
+with an overview of the area, from (Lovelace, Roberts, and Kellar
 2016):
 
 <img src="https://raw.githubusercontent.com/ITSLeeds/stats19/master/vignettes/wy-overview.jpg" width="100%" />
