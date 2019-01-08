@@ -416,7 +416,7 @@ crashes_joined = left_join(crashes_wy, cas_types)
 What just happened? We found the subset of casualties that took place in West Yorkshire with reference to the `accident_index` variable.
 Then we used functions from the **tidyverse** package **dplyr** (and `spread()` from **tidyr**) to create a dataset with a column for each casualty type.
 We then joined the updated casualty data onto the `crashes_wy` dataset.
-The result is a spatial (`sf`) data frame of crashes in West Yorksire, with columns counting how many road users of different types were hurt.
+The result is a spatial (`sf`) data frame of crashes in West Yorkshire, with columns counting how many road users of different types were hurt.
 The joined data has additional variables:
 
 ```{r table-join-examples}
@@ -521,7 +521,7 @@ There is much potential to extend the package beyond downloading, reading and fo
 The greatest potential is to provide functions that will help with analysis of STATS19 data, to help with road safety research.
 Much academic research has been done using the data, a few examples of which are highlighted below to demonstrate the wide potential for further work.
 
-- Research exploring the effectiveness of road safety policies such as speed limits. An example in this area is @grundy_effect_2009, who found that areas with 20mph speed limits were safer. This raises the question: can the same result be repeated using reproducible methods? Does the finding hold for more recent 20 mph zones? Is the recent finding of DfT's ([2018](https://www.gov.uk/government/publications/20-mph-speed-limits-on-roads)) research, that 20 mph zones alone do not reduce crash rates, supported by reproducible analysis? What are the factors that make speed limits more or less effective [see @sarkar_street_2018 for example]?
+- Research exploring the effectiveness of road safety policies such as speed limits. An example in this area is @grundy_effect_2009, who found that areas with 20mph speed limits were safer. This raises the question: can the same result be repeated using reproducible methods? Does the finding hold for more recent 20 mph zones? Is the recent finding of the Department for Transport's ([2018](https://www.gov.uk/government/publications/20-mph-speed-limits-on-roads)) research, that 20 mph zones alone do not reduce crash rates, supported by reproducible analysis? What are the factors that make speed limits more or less effective [see @sarkar_street_2018 for example]?
 - Research into weather as a contributing factor to road traffic casualties [e.g. @edwards_relationship_1998]. This raises the question: could matching crash data from the STATS19 data with historic weather data from other R packages help advance knowledge in this area?
 - Assessment of crash rates normalised by estimated exposure rates (risk). An example of this type of research by an author of the package found substantial spatial variation in the number of cyclist casualties across West Yorkshire [@lovelace_who_2016]. This raises the questions: are similar spatial differences found in other regions? What are the factors leading to relatively high and low rates of different types of crash? 
 
