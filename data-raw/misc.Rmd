@@ -1,0 +1,71 @@
+To regenerate the file names use the following script:
+```{r}
+library(rvest)
+library(stringr)
+u = paste0(
+  "https://data.gov.uk/dataset/",
+  "cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data")
+page = read_html(u)
+#'
+r = page %>%
+  html_nodes("a") %>%       # find all links
+  html_attr("href") %>%     # get the url
+  str_subset("\\.zip")
+#'
+dr = c()
+for(i in 1:length(r)) {
+  dr[i] = sub("http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/",
+              "", URLdecode(r[i]))
+  dr[i] = sub("http://data.dft.gov.uk/road-accidents-safety-data/",
+              "", dr[i])
+}
+file_names = setNames(as.list(file_names), file_names)
+usethis::use_data(file_names)
+```
+
+The `accidents_sample_raw` can be (re)generated using:
+
+```{r}
+# Obtained with:
+dl_stats19(year = 2017, type = "Accide")
+accidents_2017_raw = read_accidents(year = 2017)
+set.seed(350)
+sel = sample(nrow(accidents_2017_raw), 3)
+accidents_sample_raw = accidents_2017_raw[sel, ]
+accidents_sample = format_accidents(accidents_sample_raw)
+```
+
+Similarly for casualites, use:
+
+```{r}
+# Obtained with:
+dl_stats19(year = 2017, type = "cas")
+casualties_2017_raw = read_casualties(year = 2017)
+set.seed(350)
+sel = sample(nrow(casualties_2017_raw), 3)
+casualties_sample_raw = casualties_2017_raw[sel, ]
+casualties_sample = format_casualties(casualties_sample_raw)
+```
+
+and for vehicles, use:
+```{r}
+# Obtained with:
+dl_stats19(year = 2017, type = "veh")
+vehicles_2017_raw = read_vehicles(year = 2017)
+set.seed(350)
+sel = sample(nrow(vehicles_2017_raw), 3)
+vehicles_sample_raw = vehicles_2017_raw[sel, ]
+vehicles_sample = format_vehicles(vehicles_sample_raw)
+```
+
+Aslso, to (re)generate the `police_boundaries` data, use:
+```{r}
+# Obtained with:
+library(geojsonsf)
+u = "https://opendata.arcgis.com/datasets/3e5a096a8c7c456fb6d3164a3f44b005_3.geojson"
+police_boundaries_wgs = geojsonsf::geojson_sf(u)
+names(police_boundaries_wgs)
+police_boundaries = st_transform(police_boundaries_wgs, 27700)
+names(police_boundaries)
+police_boundaries = police_boundaries[c("pfa16cd", "pfa16nm")]
+```
