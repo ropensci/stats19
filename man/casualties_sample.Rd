@@ -9,6 +9,10 @@
 \description{
 Sample of stats19 data (2017 casualties)
 }
+\note{
+These were generated using the script in the
+\code{data-raw} directory (\code{misc.Rmd} file).
+}
 \examples{
 \donttest{
 nrow(casualties_sample_raw)
