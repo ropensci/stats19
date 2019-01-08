@@ -87,7 +87,7 @@
 <p><strong>stats19</strong> provides functions for downloading and formatting road crash data. Specifically, it enables access to the UK’s official road traffic casualty database, <a href="https://data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data">STATS19</a>. (The name comes from the form used by the police to record car crashes and other incidents resulting in casualties on the roads.)</p>
 <p>A full overview of STATS19 variables be found in a <a href="http://data.dft.gov.uk/road-accidents-safety-data/Brief-guide-to%20road-accidents-and-safety-data.doc">document</a> provided by the UK’s Department for Transport (DfT).</p>
 <p>The raw data is provided as a series of <code>.csv</code> files that contain integers and which are stored in dozens of <code>.zip</code> files. Finding, reading-in and formatting the data for research can be a time consuming process subject to human error. <strong>stats19</strong> speeds up these vital but boring and error-prone stages of the research process with a single function: <code><a href="reference/get_stats19.html">get_stats19()</a></code>. By allowing public access to properly labelled road crash data, <strong>stats19</strong> aims to make road safety research more reproducible and accessible.</p>
-<p>For transparency and modularity, each stage can be undertaken seperately, as documented in the <a href="https://itsleeds.github.io/stats19/articles/stats19.html">stats19 vignette</a>.</p>
+<p>For transparency and modularity, each stage can be undertaken separately, as documented in the <a href="https://itsleeds.github.io/stats19/articles/stats19.html">stats19 vignette</a>.</p>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
@@ -104,14 +104,14 @@
 <div id="get_stats19" class="section level2">
 <h2 class="hasAnchor">
 <a href="#get_stats19" class="anchor"></a>get_stats19()</h2>
-<p><code><a href="reference/get_stats19.html">get_stats19()</a></code> requires <code>year</code> and <code>type</code> parameters, mirroring the provision of STATS19 data files, which are categorised by year (from 1979 onwards) and type (with separate tables for crashes, casualties and vehicles, as outlined below). The following command, for example, gets crash data from 2017 (<strong>note</strong>: we follow the “crash not accident” campaign of <a href="http://www.roadpeace.org/take-action/crash-not-accident/">RoadPeace</a> in naming crashes, although the DfT refers to the relevant tables as ‘accidents’ data):</p>
+<p><code><a href="reference/get_stats19.html">get_stats19()</a></code> requires <code>year</code> and <code>type</code> parameters, mirroring the provision of STATS19 data files, which are categorised by year (from 1979 onward) and type (with separate tables for crashes, casualties and vehicles, as outlined below). The following command, for example, gets crash data from 2017 (<strong>note</strong>: we follow the “crash not accident” campaign of <a href="http://www.roadpeace.org/take-action/crash-not-accident/">RoadPeace</a> in naming crashes, although the DfT refers to the relevant tables as ‘accidents’ data):</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">crashes =<span class="st"> </span><span class="kw"><a href="reference/get_stats19.html">get_stats19</a></span>(<span class="dt">year =</span> <span class="dv">2017</span>, <span class="dt">type =</span> <span class="st">"accident"</span>)</a>
 <a class="sourceLine" id="cb3-2" data-line-number="2"><span class="co">#&gt; Files identified: dftRoadSafetyData_Accidents_2017.zip</span></a>
 <a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co">#&gt; Attempt downloading from:</span></a>
 <a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">#&gt;    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Accidents_2017.zip</span></a>
-<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">#&gt; Data saved at /tmp/RtmpDYmQ7A/dftRoadSafetyData_Accidents_2017/Acc.csv</span></a>
+<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">#&gt; Data saved at /tmp/RtmptTVSr2/dftRoadSafetyData_Accidents_2017/Acc.csv</span></a>
 <a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">#&gt; Reading in:</span></a>
-<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#&gt; /tmp/RtmpDYmQ7A/dftRoadSafetyData_Accidents_2017/Acc.csv</span></a></code></pre></div>
+<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#&gt; /tmp/RtmptTVSr2/dftRoadSafetyData_Accidents_2017/Acc.csv</span></a></code></pre></div>
 <p>What just happened? We read-in data on all road crashes recorded by the police in 2017 across Great Britain. The dataset contains 32 columns (variables) for 129,982 crashes. The contents of this dataset, and other datasets provided by <strong>stats19</strong>, are outlined below and described in more detail in the <a href="https://itsleeds.github.io/stats19/articles/stats19.html">stats19 vignette</a>.</p>
 <p>We will see below how the function also works to get the corresponding casualty and vehicle datasets for 2017. The package also allows STATS19 files to be downloaded and read-in separately, allowing more control over what you download, and subsequently read-in, with <code><a href="reference/read_accidents.html">read_accidents()</a></code>, <code><a href="reference/read_casualties.html">read_casualties()</a></code> and <code><a href="reference/read_vehicles.html">read_vehicles()</a></code>, as described in the vignette.</p>
 </div>
@@ -174,7 +174,7 @@ Enter an item from the menu, or 0 to exit</code></pre>
 <a class="sourceLine" id="cb8-2" data-line-number="2"><span class="co">#&gt; Files identified: dftRoadSafetyData_Casualties_2017.zip</span></a>
 <a class="sourceLine" id="cb8-3" data-line-number="3"><span class="co">#&gt; Attempt downloading from:</span></a>
 <a class="sourceLine" id="cb8-4" data-line-number="4"><span class="co">#&gt;    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Casualties_2017.zip</span></a>
-<a class="sourceLine" id="cb8-5" data-line-number="5"><span class="co">#&gt; Data saved at /tmp/RtmpDYmQ7A/dftRoadSafetyData_Casualties_2017/Cas.csv</span></a>
+<a class="sourceLine" id="cb8-5" data-line-number="5"><span class="co">#&gt; Data saved at /tmp/RtmptTVSr2/dftRoadSafetyData_Casualties_2017/Cas.csv</span></a>
 <a class="sourceLine" id="cb8-6" data-line-number="6"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nrow">nrow</a></span>(casualties)</a>
 <a class="sourceLine" id="cb8-7" data-line-number="7"><span class="co">#&gt; [1] 170993</span></a>
 <a class="sourceLine" id="cb8-8" data-line-number="8"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nrow">ncol</a></span>(casualties)</a>
@@ -222,7 +222,7 @@ Enter an item from the menu, or 0 to exit</code></pre>
 <a class="sourceLine" id="cb11-2" data-line-number="2"><span class="co">#&gt; Files identified: dftRoadSafetyData_Vehicles_2017.zip</span></a>
 <a class="sourceLine" id="cb11-3" data-line-number="3"><span class="co">#&gt; Attempt downloading from:</span></a>
 <a class="sourceLine" id="cb11-4" data-line-number="4"><span class="co">#&gt;    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Vehicles_2017.zip</span></a>
-<a class="sourceLine" id="cb11-5" data-line-number="5"><span class="co">#&gt; Data saved at /tmp/RtmpDYmQ7A/dftRoadSafetyData_Vehicles_2017/Veh.csv</span></a>
+<a class="sourceLine" id="cb11-5" data-line-number="5"><span class="co">#&gt; Data saved at /tmp/RtmptTVSr2/dftRoadSafetyData_Vehicles_2017/Veh.csv</span></a>
 <a class="sourceLine" id="cb11-6" data-line-number="6"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nrow">nrow</a></span>(vehicles)</a>
 <a class="sourceLine" id="cb11-7" data-line-number="7"><span class="co">#&gt; [1] 238926</span></a>
 <a class="sourceLine" id="cb11-8" data-line-number="8"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nrow">ncol</a></span>(vehicles)</a>
