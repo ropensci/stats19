@@ -11,12 +11,12 @@ See http://geoportal.statistics.gov.uk/
 \examples{
 \donttest{
 # Obtained with:
-library(sf)
-u = paste0("https://opendata.arcgis.com/",
-  "datasets/3e5a096a8c7c456fb6d3164a3f44b005_3.kml"
-  )
-police_boundaries_wgs = read_sf(u)
+library(geojsonsf)
+u = "https://opendata.arcgis.com/datasets/3e5a096a8c7c456fb6d3164a3f44b005_3.geojson"
+police_boundaries_wgs = geojsonsf::geojson_sf(u)
+names(police_boundaries_wgs)
 police_boundaries = st_transform(police_boundaries_wgs, 27700)
+names(police_boundaries)
 police_boundaries = police_boundaries[c("pfa16cd", "pfa16nm")]
 }
 }
