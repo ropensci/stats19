@@ -138,7 +138,7 @@ locate_files = function(data_dir = tempdir(),
 #' Pin down a file on disk from four parameters.
 #'
 #' @param filename Character string of the filename of the .csv to read, if this
-#' is given, type and years determin whether there is a target to read,
+#' is given, type and years determine whether there is a target to read,
 #' otherwise disk scan would be needed.
 #' @param data_dir Where sets of downloaded data would be found.
 #' @param year Single year for which file is to be found.
