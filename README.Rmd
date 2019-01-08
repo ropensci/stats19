@@ -124,7 +124,7 @@ For the full list of columns, run `names(crashes)` or see the [vignette](https:/
 
 ### Casualties data
 
-As with `crashes`, casualty data for 2017 can be downloaded, read-in and formated as follows:
+As with `crashes`, casualty data for 2017 can be downloaded, read-in and formatted as follows:
 
 ```{r 2017-cas}
 casualties = get_stats19(year = 2017, type = "casualties")
@@ -147,7 +147,7 @@ names(casualties)
 
 ### Vehicles data
 
-Data for vehicles involved in crashes in 2017 can be downloaded, read-in and formated as follows:
+Data for vehicles involved in crashes in 2017 can be downloaded, read-in and formatted as follows:
 
 ```{r dl2017-vehicles}
 vehicles = get_stats19(year = 2017, type = "vehicles")
@@ -192,7 +192,7 @@ nrow(crashes_wy)
 ```
 
 This subsetting has selected the `r format(nrow(crashes_wy), big.mark = ",")`
-crashes which occurred within West Yorksire in 2017.
+crashes which occurred within West Yorkshire in 2017.
 
 
 ## Joining tables
