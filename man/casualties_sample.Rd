@@ -11,13 +11,8 @@ Sample of stats19 data (2017 casualties)
 }
 \examples{
 \donttest{
-# Obtained with:
-dl_stats19(year = 2017, type = "cas")
-casualties_2017_raw = read_casualties(year = 2017)
-set.seed(350)
-sel = sample(nrow(casualties_2017_raw), 3)
-casualties_sample_raw = casualties_2017_raw[sel, ]
-casualties_sample = format_casualties(casualties_sample_raw)
+nrow(casualties_sample_raw)
+casualties_sample_raw
 }
 }
 \keyword{datasets}
