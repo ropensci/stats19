@@ -61,9 +61,9 @@ vehicles_sample = format_vehicles(vehicles_sample_raw)
 Aslso, to (re)generate the `police_boundaries` data, use:
 ```{r}
 # Obtained with:
-library(geojsonsf)
+library(sf)
 u = "https://opendata.arcgis.com/datasets/3e5a096a8c7c456fb6d3164a3f44b005_3.geojson"
-police_boundaries_wgs = geojsonsf::geojson_sf(u)
+police_boundaries_wgs = sf::st_read(u)
 names(police_boundaries_wgs)
 police_boundaries = st_transform(police_boundaries_wgs, 27700)
 names(police_boundaries)
