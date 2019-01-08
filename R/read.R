@@ -146,7 +146,8 @@ check_input_file = function(filename = NULL,
       || !file.exists(path)) {
     # locate_files malfunctioned or just path returned with no filename
     message(path)
-    stop("Change data_dir, filename, year or run dl_stats19() first.", call. = FALSE)
+    stop("Change data_dir, filename, year or run dl_stats19() first.",
+         call. = FALSE)
   }
   return(path)
 }
