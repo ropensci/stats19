@@ -18,6 +18,7 @@
 #' @param type One of 'Accidents', 'Casualties', 'Vehicles'; defaults to 'Accidents'.
 #' Or any variation of to search the file names with such as "acc" or "accid".
 #' @param data_dir Parent directory for all downloaded files. Defaults to `tempdir()`.
+#' @param ask Should you be asked whether or not to download the files? `TRUE` by default.
 #'
 #' @export
 #' @examples
@@ -32,7 +33,9 @@
 dl_stats19 = function(year = NULL,
                       type = NULL,
                       data_dir = tempdir(),
-                      file_name = NULL) {
+                      file_name = NULL,
+                      ask = TRUE
+                      ) {
   if(!is.null (year)) {
     year = check_year(year)
   }
@@ -57,24 +60,33 @@ dl_stats19 = function(year = NULL,
   }
 
   message("Files identified: ", paste0(fnames, "\n"))
-
-  if(interactive() & !many_found) {
-    resp = readline(phrase())
-    if (resp != "" & !grepl(pattern = "yes|y", x = resp, ignore.case = TRUE)) {
-      stop("Stopping as requested", call. = FALSE)
-    }
-  }
-  message("Attempt downloading from: ")
   message(paste0("   ", zip_url, collapse = "\n"))
   if (!dir.exists(data_dir)) {
     dir.create(data_dir, recursive = TRUE)
   }
+  exdir = sub(".zip", "", fnames)
+  destfile = file.path(data_dir, paste0(exdir, ".zip"))
+  data_already_exists = file.exists(destfile)
+  if(data_already_exists) {
+    message("Data already exists in data_dir, not downloading")
+  } else {
+    if(interactive() & !many_found) {
+      if(ask) {
+        resp = readline(phrase())
+      } else {
+        resp = ""
+      }
+      if (resp != "" & !grepl(pattern = "yes|y", x = resp, ignore.case = TRUE)) {
+        stop("Stopping as requested", call. = FALSE)
+      }
+    }
+    message("Attempt downloading from: ")
+    utils::download.file(zip_url, destfile = destfile)
+  }
 
-  # download and unzip the data if it's not present
-  f = download_and_unzip(
-    zip_url = zip_url,
-    exdir = sub(".zip", "", fnames),
-    data_dir = data_dir
-  )
+  f = file.path(destfile, utils::unzip(destfile, list = TRUE)$Name)
+  utils::unzip(destfile, exdir = file.path(data_dir, exdir))
+
   message("Data saved at ", sub(".zip", "",f))
+
 }
