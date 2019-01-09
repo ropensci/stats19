@@ -176,30 +176,6 @@ locate_one_file = function(filename = NULL,
     return("More than one csv file found.")
   return(res)
 }
-
-#' Download and unzip given appropriate params
-#'
-#' Downloads dftRoadSafety_2016_Accidents.zip to /tmp/blahDIR
-#' Unzips dftRoadSafety_2016_Accidents.zip to
-#' /tmp/blahDIR/dftRoadSafety_2016_Accidents
-#' and lists what is in it.
-#'
-#' @param exdir Required zip name also used as destination of csv folder
-#' @param zip_url Required full path of file to download
-#' @param data_dir Parent directory of exdir
-#' @return Names of file added to `data_dir`
-download_and_unzip = function(exdir, zip_url, data_dir = tempdir()) {
-  destfile = file.path(data_dir, paste0(exdir, ".zip"))
-  data_already_exists = file.exists(destfile)
-  if(data_already_exists) {
-    message("Data already exists in data_dir, not downloading")
-  } else {
-    utils::download.file(zip_url, destfile = destfile)
-  }
-  zipfiles = file.path(destfile, utils::unzip(destfile, list = TRUE)$Name)
-  utils::unzip(destfile, exdir = file.path(data_dir, exdir))
-  return(zipfiles)
-}
 utils::globalVariables(
   c("stats19_variables", "stats19_schema", "skip", "accidents_sample",
     "accidents_sample_raw", "casualties_sample", "casualties_sample_raw",
@@ -216,7 +192,7 @@ phrase = function() {
   )
   paste0(
     txt [ceiling(stats::runif(1) * length(txt))],
-    " (y = enter, n = esc)? "
+    " (y = enter, n = N/other)? "
   )
 }
 
