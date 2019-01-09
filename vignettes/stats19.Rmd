@@ -81,9 +81,11 @@ goes back to 1979, providing a long period for comparison.
 The following code chunk, for example, downloads and unzips a .zip file containing STATS19 data from 2017:
 
 ```{r dl2017-accidents}
-dl_stats19(year = 2017, type = "Accidents")
+dl_stats19(year = 2017, type = "Accidents", ask = FALSE)
 ```
 
+Note that in the previous command, `ask = FALSE`, meaning you will not be asked.
+By default you are asked to confirm, before downloading large files.
 Currently, these files are downloaded to a default location of `tempdir` which is a platform independent "safe" but temporary location to download the data in. Once downloaded, they are unzipped under original DfT file names.
 The `dl_stats19()` function prints out the location and final file name(s) of unzipped files(s) as shown above.
 
@@ -227,12 +229,12 @@ The three functions: `format_accidents()`, `format_vehicles()` and
 crashes_2017 = format_accidents(crashes_2017_raw)
 
 # vehicle data for 2017
-dl_stats19(year = 2017, type = "vehicles")
+dl_stats19(year = 2017, type = "vehicles", ask = FALSE)
 vehicles_2017_raw = read_vehicles(year = 2017)
 vehicles_2017 = format_vehicles(vehicles_2017_raw)
 
 # casualties data for 2017
-dl_stats19(year = 2017, type = "casualties")
+dl_stats19(year = 2017, type = "casualties", ask = FALSE)
 casualties_2017 = read_casualties(year = 2017)
 ```
 
@@ -284,7 +286,7 @@ knitr::kable(stats19::accidents_sample_raw[, key_vars])
 As with `crashes_2017`, casualty data for 2017 can be downloaded, read-in and formatted as follows:
 
 ```{r 2017-cas}
-dl_stats19(year = 2017, type = "casualties")
+dl_stats19(year = 2017, type = "casualties", ask = FALSE)
 casualties_2017 = read_casualties(year = 2017)
 nrow(casualties_2017)
 ncol(casualties_2017)
@@ -308,7 +310,7 @@ names(casualties_2017)
 Data for vehicles involved in crashes in 2017 can be downloaded, read-in and formatted as follows:
 
 ```{r dl2017-vehicles}
-dl_stats19(year = 2017, type = "vehicles")
+dl_stats19(year = 2017, type = "vehicles", ask = FALSE)
 vehicles_2017 = read_vehicles(year = 2017)
 nrow(vehicles_2017)
 ncol(vehicles_2017)
