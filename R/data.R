@@ -96,15 +96,22 @@ NULL
 
 #' Police force boundaries in England (2016)
 #'
+#' This dataset represents the 43 police forces in England and Wales.
+#' These are described on the
+#' [Wikipedia page](https://en.wikipedia.org/wiki/List_of_police_forces_of_the_United_Kingdom).
+#' on UK police forces.
+#'
+#' The geographic boundary data were taken from the UK government's
+#' official geographic data portal.
 #' See http://geoportal.statistics.gov.uk/
 #'
 #' @note These were generated using the script in the
-#' `data-raw` directory (`misc.Rmd` file).
+#' `data-raw` directory (`misc.Rmd` file) in the package's GitHub repo:
+#' [github.com/ITSLeeds/stats19](https://github.com/ITSLeeds/stats19).
 #' @examples
-#' \donttest{
 #' nrow(police_boundaries)
 #' police_boundaries[police_boundaries$pfa16nm == "West Yorkshire", ]
-#' }
+#' sf:::plot.sf(police_boundaries)
 #' @docType data
 #' @keywords datasets
 #' @name police_boundaries
