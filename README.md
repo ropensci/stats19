@@ -4,8 +4,6 @@ likely to
 change.](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 [![Travis build
 status](https://travis-ci.org/ITSLeeds/stats19.svg?branch=master)](https://travis-ci.org/ITSLeeds/stats19)
-[![Azure
-Status](https://dev.azure.com/tralh/stats19/_apis/build/status/ITSLeeds.stats19?branchName=master)](https://dev.azure.com/tralh/stats19/_build/latest?definitionId=1?branchName=master)
 [![codecov](https://codecov.io/gh/ITSLeeds/stats19/branch/master/graph/badge.svg)](https://codecov.io/gh/ITSLeeds/stats19)
 [![Gitter
 chat](https://badges.gitter.im/ITSLeeds/stats19.png)](https://gitter.im/stats19/Lobby?source=orgpage)
@@ -78,11 +76,11 @@ naming crashes, although the DfT refers to the relevant tables as
 ``` r
 crashes = get_stats19(year = 2017, type = "accident")
 #> Files identified: dftRoadSafetyData_Accidents_2017.zip
-#> Attempt downloading from:
 #>    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Accidents_2017.zip
-#> Data saved at /tmp/RtmpbSXt9F/dftRoadSafetyData_Accidents_2017/Acc.csv
+#> Attempt downloading from:
+#> Data saved at /tmp/RtmpYJIHy9/dftRoadSafetyData_Accidents_2017/Acc.csv
 #> Reading in:
-#> /tmp/RtmpbSXt9F/dftRoadSafetyData_Accidents_2017/Acc.csv
+#> /tmp/RtmpYJIHy9/dftRoadSafetyData_Accidents_2017/Acc.csv
 ```
 
 What just happened? We read-in data on all road crashes recorded by the
@@ -177,9 +175,9 @@ formatted as follows:
 ``` r
 casualties = get_stats19(year = 2017, type = "casualties")
 #> Files identified: dftRoadSafetyData_Casualties_2017.zip
-#> Attempt downloading from:
 #>    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Casualties_2017.zip
-#> Data saved at /tmp/RtmpbSXt9F/dftRoadSafetyData_Casualties_2017/Cas.csv
+#> Attempt downloading from:
+#> Data saved at /tmp/RtmpYJIHy9/dftRoadSafetyData_Casualties_2017/Cas.csv
 nrow(casualties)
 #> [1] 170993
 ncol(casualties)
@@ -238,9 +236,9 @@ and formatted as follows:
 ``` r
 vehicles = get_stats19(year = 2017, type = "vehicles")
 #> Files identified: dftRoadSafetyData_Vehicles_2017.zip
-#> Attempt downloading from:
 #>    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Vehicles_2017.zip
-#> Data saved at /tmp/RtmpbSXt9F/dftRoadSafetyData_Vehicles_2017/Veh.csv
+#> Attempt downloading from:
+#> Data saved at /tmp/RtmpYJIHy9/dftRoadSafetyData_Vehicles_2017/Veh.csv
 nrow(vehicles)
 #> [1] 238926
 ncol(vehicles)
