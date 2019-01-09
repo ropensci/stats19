@@ -411,6 +411,7 @@ cas_types = casualties_wy %>%
   group_by(accident_index, casualty_type) %>% 
   summarise(n = sum(n)) %>% 
   spread(casualty_type, n, fill = 0) 
+cas_types$accident_index = as.character(cas_types$accident_index)
 cas_types$Total = rowSums(cas_types[-1])
 crashes_joined = left_join(crashes_wy, cas_types)
 ```
