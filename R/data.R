@@ -29,31 +29,13 @@ NULL
 #' released by the DfT (Department for Transport) and the details include
 #' how these were obtained and would be kept up to date.
 #'
-#' The file names were generated as follows:
+#' @note These were generated using the script in the
+#' `data-raw` directory (`misc.Rmd` file).
 #'
 #' @examples
 #' \dontrun{
-#' library(rvest)
-#' library(stringr)
-#' u = paste0(
-#'   "https://data.gov.uk/dataset/",
-#'   "cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data")
-#' page = read_html(u)
-#'
-#' r = page %>%
-#'   html_nodes("a") %>%       # find all links
-#'   html_attr("href") %>%     # get the url
-#'   str_subset("\\.zip")
-#'
-#' dr = c()
-#' for(i in 1:length(r)) {
-#'   dr[i] = sub("http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/",
-#'               "", URLdecode(r[i]))
-#'   dr[i] = sub("http://data.dft.gov.uk/road-accidents-safety-data/",
-#'               "", dr[i])
-#' }
-#' file_names = setNames(as.list(file_names), file_names)
-#' usethis::use_data(file_names)
+#'  length(file_names)
+#'  file_names$dftRoadSafetyData_Vehicles_2017.zip
 #' }
 #' @docType data
 #' @keywords datasets
@@ -63,15 +45,13 @@ NULL
 
 #' Sample of stats19 data (2017 accidents)
 #'
+#' @note These were generated using the script in the
+#' `data-raw` directory (`misc.Rmd` file).
+#'
 #' @examples
 #' \donttest{
-#' # Obtained with:
-#' dl_stats19(year = 2017, type = "Accide")
-#' accidents_2017_raw = read_accidents(year = 2017)
-#' set.seed(350)
-#' sel = sample(nrow(accidents_2017_raw), 3)
-#' accidents_sample_raw = accidents_2017_raw[sel, ]
-#' accidents_sample = format_accidents(accidents_sample_raw)
+#' nrow(accidents_sample_raw)
+#' accidents_sample_raw
 #' }
 #' @docType data
 #' @keywords datasets
@@ -82,15 +62,13 @@ NULL
 
 #' Sample of stats19 data (2017 casualties)
 #'
+#' @note These were generated using the script in the
+#' `data-raw` directory (`misc.Rmd` file).
+#'
 #' @examples
 #' \donttest{
-#' # Obtained with:
-#' dl_stats19(year = 2017, type = "cas")
-#' casualties_2017_raw = read_casualties(year = 2017)
-#' set.seed(350)
-#' sel = sample(nrow(casualties_2017_raw), 3)
-#' casualties_sample_raw = casualties_2017_raw[sel, ]
-#' casualties_sample = format_casualties(casualties_sample_raw)
+#' nrow(casualties_sample_raw)
+#' casualties_sample_raw
 #' }
 #' @docType data
 #' @keywords datasets
@@ -101,15 +79,13 @@ NULL
 
 #' Sample of stats19 data (2017 vehicles)
 #'
+#' @note These were generated using the script in the
+#' `data-raw` directory (`misc.Rmd` file).
+#'
 #' @examples
 #' \donttest{
-#' # Obtained with:
-#' dl_stats19(year = 2017, type = "veh")
-#' vehicles_2017_raw = read_vehicles(year = 2017)
-#' set.seed(350)
-#' sel = sample(nrow(vehicles_2017_raw), 3)
-#' vehicles_sample_raw = vehicles_2017_raw[sel, ]
-#' vehicles_sample = format_vehicles(vehicles_sample_raw)
+#' nrow(vehicles_sample_raw)
+#' vehicles_sample_raw
 #' }
 #' @docType data
 #' @keywords datasets
@@ -122,16 +98,12 @@ NULL
 #'
 #' See http://geoportal.statistics.gov.uk/
 #'
+#' @note These were generated using the script in the
+#' `data-raw` directory (`misc.Rmd` file).
 #' @examples
 #' \donttest{
-#' # Obtained with:
-#' library(sf)
-#' u = paste0("https://opendata.arcgis.com/",
-#'   "datasets/3e5a096a8c7c456fb6d3164a3f44b005_3.kml"
-#'   )
-#' police_boundaries_wgs = read_sf(u)
-#' police_boundaries = st_transform(police_boundaries_wgs, 27700)
-#' police_boundaries = police_boundaries[c("pfa16cd", "pfa16nm")]
+#' nrow(police_boundaries)
+#' police_boundaries[police_boundaries$pfa16nm == "West Yorkshire", ]
 #' }
 #' @docType data
 #' @keywords datasets

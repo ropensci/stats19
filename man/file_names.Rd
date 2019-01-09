@@ -10,32 +10,14 @@ URL decoded file names. Currently there are 52 file names
 released by the DfT (Department for Transport) and the details include
 how these were obtained and would be kept up to date.
 }
-\details{
-The file names were generated as follows:
+\note{
+These were generated using the script in the
+\code{data-raw} directory (\code{misc.Rmd} file).
 }
 \examples{
 \dontrun{
-library(rvest)
-library(stringr)
-u = paste0(
-  "https://data.gov.uk/dataset/",
-  "cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data")
-page = read_html(u)
-
-r = page \%>\%
-  html_nodes("a") \%>\%       # find all links
-  html_attr("href") \%>\%     # get the url
-  str_subset("\\\\.zip")
-
-dr = c()
-for(i in 1:length(r)) {
-  dr[i] = sub("http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/",
-              "", URLdecode(r[i]))
-  dr[i] = sub("http://data.dft.gov.uk/road-accidents-safety-data/",
-              "", dr[i])
-}
-file_names = setNames(as.list(file_names), file_names)
-usethis::use_data(file_names)
+ length(file_names)
+ file_names$dftRoadSafetyData_Vehicles_2017.zip
 }
 }
 \keyword{datasets}
