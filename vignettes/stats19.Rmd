@@ -451,11 +451,10 @@ The following figure, for example, shows the spatial distribution of pedestrians
 library(ggplot2)
 crashes_types = crashes_joined %>% 
   filter(accident_severity != "Slight") %>% 
-  filter(Pedestrian > 0 | `Car occupant` > 0) %>% 
-  mutate(type = case_when(
-    Pedestrian > 0 ~ "Pedestrian",
-    TRUE ~ "Passenger"
-  ))
+  filter(Pedestrian > 0 | `Car occupant` > 0)
+crashes_types$type = "Pedestrian"
+crashes_types$type[crashes_types$Pedestrian == 0] = "Passenger"
+
 ggplot(crashes_types, aes(size = Total, colour = speed_limit)) +
   geom_sf(show.legend = "point", alpha = 0.3) +
   facet_grid(vars(type), vars(accident_severity)) +
