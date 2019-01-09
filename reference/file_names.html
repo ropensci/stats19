@@ -122,34 +122,16 @@ how these were obtained and would be kept up to date.</p>
 
     <p>A named list</p>
     
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+    <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
-    <p>The file names were generated as follows:</p>
+    <p>These were generated using the script in the
+<code>data-raw</code> directory (<code>misc.Rmd</code> file).</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>rvest</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>stringr</span>)
-<span class='no'>u</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/paste'>paste0</a></span>(
-  <span class='st'>"https://data.gov.uk/dataset/"</span>,
-  <span class='st'>"cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data"</span>)
-<span class='no'>page</span> <span class='kw'>=</span> <span class='fu'>read_html</span>(<span class='no'>u</span>)
-
-<span class='no'>r</span> <span class='kw'>=</span> <span class='no'>page</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'>html_nodes</span>(<span class='st'>"a"</span>) <span class='kw'>%&gt;%</span>       <span class='co'># find all links</span>
-  <span class='fu'>html_attr</span>(<span class='st'>"href"</span>) <span class='kw'>%&gt;%</span>     <span class='co'># get the url</span>
-  <span class='fu'><a href='https://stringr.tidyverse.org/reference/str_subset.html'>str_subset</a></span>(<span class='st'>"\\.zip"</span>)
-
-<span class='no'>dr</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>()
-<span class='kw'>for</span>(<span class='no'>i</span> <span class='kw'>in</span> <span class='fl'>1</span>:<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/length'>length</a></span>(<span class='no'>r</span>)) {
-  <span class='no'>dr</span>[<span class='no'>i</span>] <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/grep'>sub</a></span>(<span class='st'>"http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/"</span>,
-              <span class='st'>""</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/URLencode'>URLdecode</a></span>(<span class='no'>r</span>[<span class='no'>i</span>]))
-  <span class='no'>dr</span>[<span class='no'>i</span>] <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/grep'>sub</a></span>(<span class='st'>"http://data.dft.gov.uk/road-accidents-safety-data/"</span>,
-              <span class='st'>""</span>, <span class='no'>dr</span>[<span class='no'>i</span>])
-}
-<span class='no'>file_names</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/setNames'>setNames</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>as.list</a></span>(<span class='no'>file_names</span>), <span class='no'>file_names</span>)
-<span class='kw pkg'>usethis</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/usethis/topics/use_data'>use_data</a></span>(<span class='no'>file_names</span>)
+ <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/length'>length</a></span>(<span class='no'>file_names</span>)
+ <span class='no'>file_names</span>$<span class='no'>dftRoadSafetyData_Vehicles_2017.zip</span>
 <span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -158,7 +140,7 @@ how these were obtained and would be kept up to date.</p>
       
       <li><a href="#format">Format</a></li>
 
-      <li><a href="#details">Details</a></li>
+      <li><a href="#note">Note</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>
