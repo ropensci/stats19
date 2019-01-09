@@ -32,7 +32,10 @@
 
 <meta property="og:title" content="Police force boundaries in England (2016) — police_boundaries" />
 
-<meta property="og:description" content="See http://geoportal.statistics.gov.uk/" />
+<meta property="og:description" content="This dataset represents the 43 police forces in England and Wales.
+These are described on the
+Wikipedia page.
+on UK police forces." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -109,7 +112,10 @@
 
     <div class="ref-description">
     
-    <p>See http://geoportal.statistics.gov.uk/</p>
+    <p>This dataset represents the 43 police forces in England and Wales.
+These are described on the
+<a href='https://en.wikipedia.org/wiki/List_of_police_forces_of_the_United_Kingdom'>Wikipedia page</a>.
+on UK police forces.</p>
     
     </div>
 
@@ -118,10 +124,17 @@
 
     <p>An sf data frame</p>
     
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>The geographic boundary data were taken from the UK government's
+official geographic data portal.
+See http://geoportal.statistics.gov.uk/</p>
+    
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
     <p>These were generated using the script in the
-<code>data-raw</code> directory (<code>misc.Rmd</code> file).</p>
+<code>data-raw</code> directory (<code>misc.Rmd</code> file) in the package's GitHub repo:
+<a href='https://github.com/ITSLeeds/stats19'>github.com/ITSLeeds/stats19</a>.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -134,13 +147,15 @@
 #&gt; # A tibble: 1 x 3
 #&gt;   pfa16cd   pfa16nm                                                     geometry
 #&gt;   &lt;chr&gt;     &lt;chr&gt;                                             &lt;MULTIPOLYGON [m]&gt;
-#&gt; 1 E23000010 West Yorks… (((408054.7 451818.9, 408045.8 450915.7, 408358.1 44989…</div></pre>
+#&gt; 1 E23000010 West Yorks… (((408054.7 451818.9, 408045.8 450915.7, 408358.1 44989…</div><div class='input'><span class='kw pkg'>sf</span><span class='kw ns'>:::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/plot'>plot.sf</a></span>(<span class='no'>police_boundaries</span>)</div><div class='img'><img src='police_boundaries-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       
       <li><a href="#format">Format</a></li>
+
+      <li><a href="#details">Details</a></li>
 
       <li><a href="#note">Note</a></li>
       
