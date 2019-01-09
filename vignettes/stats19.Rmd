@@ -81,7 +81,7 @@ goes back to 1979, providing a long period for comparison.
 The following code chunk, for example, downloads and unzips a .zip file containing STATS19 data from 2017:
 
 ```{r dl2017-accidents}
-dl_stats19(year = 2017, type = "Accidents")
+dl_stats19(year = 2017, type = "Accidents", ask = FALSE)
 ```
 
 Currently, these files are downloaded to a default location of `tempdir` which is a platform independent "safe" but temporary location to download the data in. Once downloaded, they are unzipped under original DfT file names.
