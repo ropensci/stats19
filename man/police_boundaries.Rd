@@ -8,16 +8,14 @@
 \description{
 See http://geoportal.statistics.gov.uk/
 }
+\note{
+These were generated using the script in the
+\code{data-raw} directory (\code{misc.Rmd} file).
+}
 \examples{
 \donttest{
-# Obtained with:
-library(sf)
-u = paste0("https://opendata.arcgis.com/",
-  "datasets/3e5a096a8c7c456fb6d3164a3f44b005_3.kml"
-  )
-police_boundaries_wgs = read_sf(u)
-police_boundaries = st_transform(police_boundaries_wgs, 27700)
-police_boundaries = police_boundaries[c("pfa16cd", "pfa16nm")]
+nrow(police_boundaries)
+police_boundaries[police_boundaries$pfa16nm == "West Yorkshire", ]
 }
 }
 \keyword{datasets}

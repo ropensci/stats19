@@ -9,15 +9,14 @@
 \description{
 Sample of stats19 data (2017 vehicles)
 }
+\note{
+These were generated using the script in the
+\code{data-raw} directory (\code{misc.Rmd} file).
+}
 \examples{
 \donttest{
-# Obtained with:
-dl_stats19(year = 2017, type = "veh")
-vehicles_2017_raw = read_vehicles(year = 2017)
-set.seed(350)
-sel = sample(nrow(vehicles_2017_raw), 3)
-vehicles_sample_raw = vehicles_2017_raw[sel, ]
-vehicles_sample = format_vehicles(vehicles_sample_raw)
+nrow(vehicles_sample_raw)
+vehicles_sample_raw
 }
 }
 \keyword{datasets}
