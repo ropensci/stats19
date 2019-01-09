@@ -80,9 +80,9 @@ crashes = get_stats19(year = 2017, type = "accident")
 #> Files identified: dftRoadSafetyData_Accidents_2017.zip
 #> Attempt downloading from:
 #>    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Accidents_2017.zip
-#> Data saved at /tmp/RtmpE24zVe/dftRoadSafetyData_Accidents_2017/Acc.csv
+#> Data saved at /tmp/RtmpbSXt9F/dftRoadSafetyData_Accidents_2017/Acc.csv
 #> Reading in:
-#> /tmp/RtmpE24zVe/dftRoadSafetyData_Accidents_2017/Acc.csv
+#> /tmp/RtmpbSXt9F/dftRoadSafetyData_Accidents_2017/Acc.csv
 ```
 
 What just happened? We read-in data on all road crashes recorded by the
@@ -179,7 +179,7 @@ casualties = get_stats19(year = 2017, type = "casualties")
 #> Files identified: dftRoadSafetyData_Casualties_2017.zip
 #> Attempt downloading from:
 #>    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Casualties_2017.zip
-#> Data saved at /tmp/RtmpE24zVe/dftRoadSafetyData_Casualties_2017/Cas.csv
+#> Data saved at /tmp/RtmpbSXt9F/dftRoadSafetyData_Casualties_2017/Cas.csv
 nrow(casualties)
 #> [1] 170993
 ncol(casualties)
@@ -240,7 +240,7 @@ vehicles = get_stats19(year = 2017, type = "vehicles")
 #> Files identified: dftRoadSafetyData_Vehicles_2017.zip
 #> Attempt downloading from:
 #>    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Vehicles_2017.zip
-#> Data saved at /tmp/RtmpE24zVe/dftRoadSafetyData_Vehicles_2017/Veh.csv
+#> Data saved at /tmp/RtmpbSXt9F/dftRoadSafetyData_Vehicles_2017/Veh.csv
 nrow(vehicles)
 #> [1] 238926
 ncol(vehicles)
@@ -406,7 +406,9 @@ the region’s geography. Crashes tend to happen on busy Motorway roads
 Leeds and Bradford in particular. The severity and number of people hurt
 (proportional to circle width in the map above) in crashes is related to
 the speed limit roads. This can be seen by comparing the previous map
-with an overview of the area, from (Lovelace, Roberts, and Kellar
+with an overview of the area, from an academic paper on the social,
+spatial and temporal distribution of bike crashes (Lovelace, Roberts,
+and Kellar
 2016):
 
 <img src="https://raw.githubusercontent.com/ITSLeeds/stats19/master/vignettes/wy-overview.jpg" width="100%" />
