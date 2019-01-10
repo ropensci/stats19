@@ -470,15 +470,15 @@ ggplot(crashes_types, aes(size = Total, colour = speed_limit)) +
 It is clear that pedestrians and car occupants tend to get hurt in different places.
 Car occupant casualties, for example, are comparatively common on the outskirts of cities such as Leeds, where speed limits tend to be higher and where there are comparatively higher volumes of motor traffic, compared with the city centre.
 
-Another way of visualising these data is to show the spatial distribution of crashes causing pedestrian casualties by number of pedestrians hurt and crash severity. This is easily done with **ggplot2**:
+Another way of visualising these data is to show the spatial distribution of crashes causing pedestrian casualties by crash severity. This is easily done with **ggplot2**:
 
 ```{r ggplot-ped-severity}
 ggplot(crashes_joined, aes(colour = Total)) +
   geom_sf() +
-  facet_grid(vars(accident_severity), vars(Pedestrian))
+  facet_grid(vars(accident_severity))
 ```
 
-These figures suggest that pedestrian casualties tend to happen more frequently near the city centre, compared with other types of casualty.
+These figures show the issue of pedestrian casualties in Leeds and Bradford city centres, which both have busy roads going through or around popular shopping and other destinations.
 
 ## Time series analysis
 
