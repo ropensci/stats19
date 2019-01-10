@@ -230,9 +230,8 @@ crashes_joined[1:2, c(1, 5, 34)] %>% st_drop_geometry()
 The join operation added a geometry column to the casualty data, enabling it to be mapped (for more advanced maps, see the [vignette](https://itsleeds.github.io/stats19/articles/stats19.html)):
 
 ```{r}
-pal_alpha = function(n) sf.colors(n, alpha = 0.5)
 cex = crashes_joined$Total / 3
-plot(crashes_joined["speed_limit"], cex = cex, pal = pal_alpha)
+plot(crashes_joined["speed_limit"], cex = cex)
 ```
 
 The spatial distribution of crashes in West Yorkshire clearly relates to the region's geography.
