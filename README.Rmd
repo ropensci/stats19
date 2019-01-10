@@ -235,9 +235,9 @@ plot(cj["speed_limit"], cex = cex)
 ```
 
 The spatial distribution of crashes in West Yorkshire clearly relates to the region's geography.
-Crashes tend to happen on busy Motorway roads (with high speed limits, as shown in the map above) and city centres, of Leeds and Bradford in particular.
-The severity and number of people hurt (proportional to circle width in the map above) in crashes is related to the speed limit roads.
-This can be seen by comparing the previous map with an overview of the area, from an academic paper on the social, spatial and temporal distribution of bike crashes [@lovelace_who_2016]:
+Crashes tend to happen on busy Motorway roads (with a high speed limit, of 70 miles per hour, as shown in the map above) and city centres, of Leeds and Bradford in particular.
+The severity and number of people hurt (proportional to circle width in the map above) in crashes is related to the speed limit.
+This can be seen by comparing the previous map with an overview of the area, from an academic paper on the social, spatial and temporal distribution of bike crashes in West Yorkshire [@lovelace_who_2016]:
 
 ```{r, echo=FALSE}
 knitr::include_graphics("https://raw.githubusercontent.com/ropensci/stats19/master/vignettes/wy-overview.jpg")
