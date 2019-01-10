@@ -4,11 +4,12 @@ bibliography: vignettes/references.bib
 ---
 
 [![The API of a maturing package has been roughed out, but finer details likely to change.](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
-[![Travis build status](https://travis-ci.org/ITSLeeds/stats19.svg?branch=master)](https://travis-ci.org/ITSLeeds/stats19)
-[![codecov](https://codecov.io/gh/ITSLeeds/stats19/branch/master/graph/badge.svg)](https://codecov.io/gh/ITSLeeds/stats19)
+[![Travis build status](https://travis-ci.org/ropensci/stats19.svg?branch=master)](https://travis-ci.org/ropensci/stats19)
+[![codecov](https://codecov.io/gh/ropensci/stats19/branch/master/graph/badge.svg)](https://codecov.io/gh/ropensci/stats19)
 [![Gitter chat](https://badges.gitter.im/ITSLeeds/stats19.png)](https://gitter.im/stats19/Lobby?source=orgpage)
 [![](http://www.r-pkg.org/badges/version/stats19)](http://www.r-pkg.org/pkg/stats19)
 [![CRAN RStudio mirror downloads](http://cranlogs.r-pkg.org/badges/stats19)](http://www.r-pkg.org/pkg/stats19)
+[![](https://badges.ropensci.org/266_status.svg)](https://github.com/ropensci/onboarding/issues/266)
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
@@ -40,7 +41,7 @@ For transparency and modularity, each stage can be undertaken separately, as doc
 Install and load the latest version with:
 
 ```{r install, eval=FALSE}
-remotes::install_github("ITSLeeds/stats19")
+remotes::install_github("ropensci/stats19")
 ```
 
 ```{r attach}
@@ -117,7 +118,7 @@ Some of the key variables in this dataset include:
 crashes[c(7, 18, 23, 25)]
 ```
 
-For the full list of columns, run `names(crashes)` or see the [vignette](https://github.com/ITSLeeds/stats19/blob/master/vignettes/stats19.Rmd).
+For the full list of columns, run `names(crashes)` or see the [vignette](https://github.com/ropensci/stats19/blob/master/vignettes/stats19.Rmd).
 
 <!-- This means `crashes` is much more usable than `crashes_raw`, as shown below, which shows three records and some key variables in the messy and clean datasets: -->
 
@@ -240,7 +241,7 @@ The severity and number of people hurt (proportional to circle width in the map 
 This can be seen by comparing the previous map with an overview of the area, from an academic paper on the social, spatial and temporal distribution of bike crashes [@lovelace_who_2016]:
 
 ```{r, echo=FALSE}
-knitr::include_graphics("https://raw.githubusercontent.com/ITSLeeds/stats19/master/vignettes/wy-overview.jpg")
+knitr::include_graphics("https://raw.githubusercontent.com/ropensci/stats19/master/vignettes/wy-overview.jpg")
 ```
 
 ## Time series analysis
@@ -293,6 +294,8 @@ The **stats19** package builds on previous work, including:
 - code in the [bikeR](https://github.com/Robinlovelace/bikeR) repo underlying an academic paper on collisions involving cyclists
 - functions in [**stplanr**](https://github.com/ropensci/stplanr/blob/master/R/load-stats19.R) for downloading Stats19 data
 - updated functions related to the [CyIPT](https://github.com/cyipt/stats19) project
+
+ [![ropensci_footer](https://ropensci.org/public_images/ropensci_footer.png)](https://ropensci.org)
 
 ## References
 

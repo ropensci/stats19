@@ -1,0 +1,258 @@
+{
+  "@context": ["https://doi.org/10.5063/schema/codemeta-2.0", "http://schema.org"],
+  "@type": "SoftwareSourceCode",
+  "identifier": "stats19",
+  "description": "Tools to help process and analyse the UK road collision data collected using the\n  'STATS19' form. The data are provided as 'CSV' files with detailed road safety data about the\n  circumstances of personal injury road accidents in Great Britain from 1979, the types\n  (including make and model) of vehicles involved and the consequential casualties.  The\n  statistics relate only to personal injury accidents on public roads that are reported\n  to the police, and subsequently recorded, using the 'STATS19' accident reporting form. See\n  the Department for Transportation website \n  <https://data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data> for more\n  information on these data.",
+  "name": "stats19: Work with Open Road Traffic Casualty Data from Great Britain",
+  "codeRepository": "https://github.com/ITSLeeds/stats19",
+  "issueTracker": "https://github.com/ITSLeeds/stats19/issues",
+  "license": "https://spdx.org/licenses/GPL-3.0",
+  "version": "0.1",
+  "programmingLanguage": {
+    "@type": "ComputerLanguage",
+    "name": "R",
+    "version": "3.5.2",
+    "url": "https://r-project.org"
+  },
+  "runtimePlatform": "R version 3.5.2 (2018-12-20)",
+  "author": [
+    {
+      "@type": "Person",
+      "givenName": "Robin",
+      "familyName": "Lovelace",
+      "email": "rob00x@gmail.com",
+      "@id": "https://orcid.org/0000-0001-5679-6536"
+    },
+    {
+      "@type": "Person",
+      "givenName": "Malcolm",
+      "familyName": "Morgan",
+      "email": "m.morgan1@leeds.ac.uk"
+    },
+    {
+      "@type": "Person",
+      "givenName": "Layik",
+      "familyName": "Hama",
+      "email": "layik.hama@gmail.com",
+      "@id": "https://orcid.org/0000-0003-1912-4890"
+    },
+    {
+      "@type": "Person",
+      "givenName": "Mark",
+      "familyName": "Padgham",
+      "@id": "https://orcid.org/0000-0003-2172-5265"
+    }
+  ],
+  "contributor": [
+    {
+      "@type": "Person",
+      "givenName": "Adam",
+      "familyName": "Sparks",
+      "@id": "https://orcid.org/0000-0002-0061-8359"
+    }
+  ],
+  "maintainer": [
+    {
+      "@type": "Person",
+      "givenName": "Robin",
+      "familyName": "Lovelace",
+      "email": "rob00x@gmail.com",
+      "@id": "https://orcid.org/0000-0001-5679-6536"
+    }
+  ],
+  "softwareSuggestions": [
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "curl",
+      "name": "curl",
+      "version": ">= 3.2",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=curl"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "dplyr",
+      "name": "dplyr",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=dplyr"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "ggplot2",
+      "name": "ggplot2",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=ggplot2"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "knitr",
+      "name": "knitr",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=knitr"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "lubridate",
+      "name": "lubridate",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=lubridate"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "rmarkdown",
+      "name": "rmarkdown",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=rmarkdown"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "stringr",
+      "name": "stringr",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=stringr"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "testthat",
+      "name": "testthat",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=testthat"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "tidyr",
+      "name": "tidyr",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=tidyr"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "pkgdown",
+      "name": "pkgdown",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=pkgdown"
+    }
+  ],
+  "softwareRequirements": [
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "R",
+      "name": "R",
+      "version": ">= 3.5.0"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "sf",
+      "name": "sf",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=sf"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "readr",
+      "name": "readr",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=readr"
+    }
+  ],
+  "keywords": ["stats19", "road-safety", "transport", "car-crashes", "ropensci", "data"],
+  "readme": "https://github.com/ITSLeeds/stats19/blob/master/README.md",
+  "fileSize": "1480.58KB",
+  "contIntegration": ["https://travis-ci.org/ropensci/stats19", "https://codecov.io/gh/ropensci/stats19"],
+  "citation": [
+    {
+      "@type": "CreativeWork",
+      "datePublished": "2019",
+      "author": [
+        {
+          "@type": "Person",
+          "givenName": "Robin",
+          "familyName": "Lovelace",
+          "email": "rob00x@gmail.com",
+          "@id": "https://orcid.org/0000-0001-5679-6536"
+        },
+        {
+          "@type": "Person",
+          "givenName": "Malcolm",
+          "familyName": "Morgan",
+          "email": "m.morgan1@leeds.ac.uk"
+        },
+        {
+          "@type": "Person",
+          "givenName": "Layik",
+          "familyName": "Hama",
+          "email": "layik.hama@gmail.com",
+          "@id": "https://orcid.org/0000-0003-1912-4890"
+        },
+        {
+          "@type": "Person",
+          "givenName": "Mark",
+          "familyName": "Padgham",
+          "@id": "https://orcid.org/0000-0003-2172-5265"
+        }
+      ],
+      "name": "stats19: Work with Open Road Traffic Casualty Data from Great Britain",
+      "url": "https://itsleeds.github.io/stats19/"
+    }
+  ]
+}

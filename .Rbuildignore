@@ -1,3 +1,4 @@
+^codemeta\.json$
 ^cran-comments\.md$
 ^data-raw$
 ^\.travis\.yml$
