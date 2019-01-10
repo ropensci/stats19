@@ -92,7 +92,7 @@
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>Install and load the latest version with:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">remotes<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/remotes/topics/install_github">install_github</a></span>(<span class="st">"ITSLeeds/stats19"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">remotes<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/remotes/topics/install_github">install_github</a></span>(<span class="st">"ropensci/stats19"</span>)</a></code></pre></div>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(stats19)</a>
 <a class="sourceLine" id="cb2-2" data-line-number="2"><span class="co">#&gt; Data provided under OGL v3.0. Cite the source and link to:</span></a>
 <a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co">#&gt; www.nationalarchives.gov.uk/doc/open-government-licence/version/3/</span></a></code></pre></div>
@@ -109,9 +109,9 @@
 <a class="sourceLine" id="cb3-2" data-line-number="2"><span class="co">#&gt; Files identified: dftRoadSafetyData_Accidents_2017.zip</span></a>
 <a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co">#&gt;    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Accidents_2017.zip</span></a>
 <a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">#&gt; Attempt downloading from:</span></a>
-<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">#&gt; Data saved at /tmp/RtmpZTSbZu/dftRoadSafetyData_Accidents_2017/Acc.csv</span></a>
+<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">#&gt; Data saved at /tmp/Rtmp94X1p9/dftRoadSafetyData_Accidents_2017/Acc.csv</span></a>
 <a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">#&gt; Reading in:</span></a>
-<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#&gt; /tmp/RtmpZTSbZu/dftRoadSafetyData_Accidents_2017/Acc.csv</span></a></code></pre></div>
+<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#&gt; /tmp/Rtmp94X1p9/dftRoadSafetyData_Accidents_2017/Acc.csv</span></a></code></pre></div>
 <p>What just happened? We read-in data on all road crashes recorded by the police in 2017 across Great Britain. The dataset contains 32 columns (variables) for 129,982 crashes. The contents of this dataset, and other datasets provided by <strong>stats19</strong>, are outlined below and described in more detail in the <a href="https://itsleeds.github.io/stats19/articles/stats19.html">stats19 vignette</a>.</p>
 <p>We will see below how the function also works to get the corresponding casualty and vehicle datasets for 2017. The package also allows STATS19 files to be downloaded and read-in separately, allowing more control over what you download, and subsequently read-in, with <code><a href="reference/read_accidents.html">read_accidents()</a></code>, <code><a href="reference/read_casualties.html">read_casualties()</a></code> and <code><a href="reference/read_vehicles.html">read_vehicles()</a></code>, as described in the vignette.</p>
 </div>
@@ -163,7 +163,7 @@ Enter an item from the menu, or 0 to exit</code></pre>
 <a class="sourceLine" id="cb7-13" data-line-number="13"><span class="co">#&gt;  9 Serious                    50 None within 50 metres   Darkness - lights…</span></a>
 <a class="sourceLine" id="cb7-14" data-line-number="14"><span class="co">#&gt; 10 Serious                    30 None within 50 metres   Darkness - lights…</span></a>
 <a class="sourceLine" id="cb7-15" data-line-number="15"><span class="co">#&gt; # … with 129,972 more rows</span></a></code></pre></div>
-<p>For the full list of columns, run <code><a href="https://www.rdocumentation.org/packages/base/topics/names">names(crashes)</a></code> or see the <a href="https://github.com/ITSLeeds/stats19/blob/master/vignettes/stats19.Rmd">vignette</a>.</p>
+<p>For the full list of columns, run <code><a href="https://www.rdocumentation.org/packages/base/topics/names">names(crashes)</a></code> or see the <a href="https://github.com/ropensci/stats19/blob/master/vignettes/stats19.Rmd">vignette</a>.</p>
 <!-- This means `crashes` is much more usable than `crashes_raw`, as shown below, which shows three records and some key variables in the messy and clean datasets: -->
 </div>
 <div id="casualties-data" class="section level3">
@@ -174,7 +174,7 @@ Enter an item from the menu, or 0 to exit</code></pre>
 <a class="sourceLine" id="cb8-2" data-line-number="2"><span class="co">#&gt; Files identified: dftRoadSafetyData_Casualties_2017.zip</span></a>
 <a class="sourceLine" id="cb8-3" data-line-number="3"><span class="co">#&gt;    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Casualties_2017.zip</span></a>
 <a class="sourceLine" id="cb8-4" data-line-number="4"><span class="co">#&gt; Attempt downloading from:</span></a>
-<a class="sourceLine" id="cb8-5" data-line-number="5"><span class="co">#&gt; Data saved at /tmp/RtmpZTSbZu/dftRoadSafetyData_Casualties_2017/Cas.csv</span></a>
+<a class="sourceLine" id="cb8-5" data-line-number="5"><span class="co">#&gt; Data saved at /tmp/Rtmp94X1p9/dftRoadSafetyData_Casualties_2017/Cas.csv</span></a>
 <a class="sourceLine" id="cb8-6" data-line-number="6"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nrow">nrow</a></span>(casualties)</a>
 <a class="sourceLine" id="cb8-7" data-line-number="7"><span class="co">#&gt; [1] 170993</span></a>
 <a class="sourceLine" id="cb8-8" data-line-number="8"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nrow">ncol</a></span>(casualties)</a>
@@ -222,7 +222,7 @@ Enter an item from the menu, or 0 to exit</code></pre>
 <a class="sourceLine" id="cb11-2" data-line-number="2"><span class="co">#&gt; Files identified: dftRoadSafetyData_Vehicles_2017.zip</span></a>
 <a class="sourceLine" id="cb11-3" data-line-number="3"><span class="co">#&gt;    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Vehicles_2017.zip</span></a>
 <a class="sourceLine" id="cb11-4" data-line-number="4"><span class="co">#&gt; Attempt downloading from:</span></a>
-<a class="sourceLine" id="cb11-5" data-line-number="5"><span class="co">#&gt; Data saved at /tmp/RtmpZTSbZu/dftRoadSafetyData_Vehicles_2017/Veh.csv</span></a>
+<a class="sourceLine" id="cb11-5" data-line-number="5"><span class="co">#&gt; Data saved at /tmp/Rtmp94X1p9/dftRoadSafetyData_Vehicles_2017/Veh.csv</span></a>
 <a class="sourceLine" id="cb11-6" data-line-number="6"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nrow">nrow</a></span>(vehicles)</a>
 <a class="sourceLine" id="cb11-7" data-line-number="7"><span class="co">#&gt; [1] 238926</span></a>
 <a class="sourceLine" id="cb11-8" data-line-number="8"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nrow">ncol</a></span>(vehicles)</a>
@@ -329,7 +329,7 @@ Enter an item from the menu, or 0 to exit</code></pre>
 <a class="sourceLine" id="cb18-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/plot">plot</a></span>(crashes_joined[<span class="st">"speed_limit"</span>], <span class="dt">cex =</span> cex, <span class="dt">pal =</span> pal_alpha)</a></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-2-1.png" width="100%"></p>
 <p>The spatial distribution of crashes in West Yorkshire clearly relates to the region’s geography. Crashes tend to happen on busy Motorway roads (with high speed limits, as shown in the map above) and city centres, of Leeds and Bradford in particular. The severity and number of people hurt (proportional to circle width in the map above) in crashes is related to the speed limit roads. This can be seen by comparing the previous map with an overview of the area, from an academic paper on the social, spatial and temporal distribution of bike crashes <span class="citation">(Lovelace, Roberts, and Kellar 2016)</span>:</p>
-<p><img src="https://raw.githubusercontent.com/ITSLeeds/stats19/master/vignettes/wy-overview.jpg" width="100%"></p>
+<p><img src="https://raw.githubusercontent.com/ropensci/stats19/master/vignettes/wy-overview.jpg" width="100%"></p>
 </div>
 <div id="time-series-analysis" class="section level2">
 <h2 class="hasAnchor">
@@ -373,6 +373,7 @@ Enter an item from the menu, or 0 to exit</code></pre>
 <li>functions in <a href="https://github.com/ropensci/stplanr/blob/master/R/load-stats19.R"><strong>stplanr</strong></a> for downloading Stats19 data</li>
 <li>updated functions related to the <a href="https://github.com/cyipt/stats19">CyIPT</a> project</li>
 </ul>
+<p><a href="https://ropensci.org"><img src="https://ropensci.org/public_images/ropensci_footer.png" alt="ropensci_footer"></a></p>
 </div>
 <div id="references" class="section level2 unnumbered">
 <h2 class="hasAnchor">
@@ -427,11 +428,12 @@ Enter an item from the menu, or 0 to exit</code></pre>
 <h2>Dev status</h2>
 <ul class="list-unstyled">
 <li><a href="https://www.tidyverse.org/lifecycle/#maturing"><img src="https://img.shields.io/badge/lifecycle-maturing-blue.svg" alt="The API of a maturing package has been roughed out, but finer details likely to change."></a></li>
-<li><a href="https://travis-ci.org/ITSLeeds/stats19"><img src="https://travis-ci.org/ITSLeeds/stats19.svg?branch=master" alt="Travis build status"></a></li>
-<li><a href="https://codecov.io/gh/ITSLeeds/stats19"><img src="https://codecov.io/gh/ITSLeeds/stats19/branch/master/graph/badge.svg" alt="codecov"></a></li>
+<li><a href="https://travis-ci.org/ropensci/stats19"><img src="https://travis-ci.org/ropensci/stats19.svg?branch=master" alt="Travis build status"></a></li>
+<li><a href="https://codecov.io/gh/ropensci/stats19"><img src="https://codecov.io/gh/ropensci/stats19/branch/master/graph/badge.svg" alt="codecov"></a></li>
 <li><a href="https://gitter.im/stats19/Lobby?source=orgpage"><img src="https://badges.gitter.im/ITSLeeds/stats19.png" alt="Gitter chat"></a></li>
 <li><a href="http://www.r-pkg.org/pkg/stats19"><img src="http://www.r-pkg.org/badges/version/stats19"></a></li>
 <li><a href="http://www.r-pkg.org/pkg/stats19"><img src="http://cranlogs.r-pkg.org/badges/stats19" alt="CRAN RStudio mirror downloads"></a></li>
+<li><a href="https://github.com/ropensci/onboarding/issues/266"><img src="https://badges.ropensci.org/266_status.svg"></a></li>
 </ul>
 </div>
 </div>
