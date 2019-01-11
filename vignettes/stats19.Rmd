@@ -414,8 +414,7 @@ cas_types = casualties_wy %>%
     cycling = sum(casualty_type == "Cyclist"),
     passenger = sum(casualty_type == "Car occupant")
     ) 
-cas_types$accident_index = as.character(cas_types$accident_index)
-crashes_joined = left_join(crashes_wy, cas_types)
+cj = left_join(crashes_wy, cas_types)
 ```
 
 What just happened? We found the subset of casualties that took place in West Yorkshire with reference to the `accident_index` variable.
@@ -425,17 +424,23 @@ The result is a spatial (`sf`) data frame of crashes in West Yorkshire, with col
 The joined data has additional variables:
 
 ```{r table-join-examples}
-base::setdiff(names(crashes_joined), names(crashes_wy))
+base::setdiff(names(cj), names(crashes_wy))
 ```
 
 As a simple spatial plot, we can map all the crashes that have happened in West Yorkshire in 2017, with the colour related to the total number of people hurt in each crash.
 Placing this plot next to a map of West Yorkshire provides context:
 
-```{r, out.width="33%", fig.show='hold'}
-crashes_cycling = crashes_joined[crashes_joined$cycling > 0, ]
-crashes_passenger = crashes_joined[crashes_joined$passenger > 0, ]
-plot(crashes_cycling["speed_limit"], cex = crashes_cycling$Total)
-plot(crashes_passenger["speed_limit"], cex = crashes_cycling$Total)
+```{r, out.width="90%", fig.show='hold'}
+plot(
+  cj[cj$cycling > 0, "speed_limit", ],
+  cex = cj$Total[cj$cycling > 0] / 3,
+  main = "Speed limit (cycling)"
+  )
+plot(
+  cj[cj$passenger > 0, "speed_limit", ],
+  cex = cj$Total[cj$passenger > 0] / 3,
+  main = "Speed limit (passenger)"
+  )
 ```
 
 The spatial distribution of crashes in West Yorkshire clearly relates to the region's geography.
@@ -447,7 +452,7 @@ This can be seen by comparing the previous map with an overview of the area, fro
 knitr::include_graphics("wy-overview.jpg")
 ```
 
-In addition to the `Total` number of people hurt/killed, `crashes_joined` contains a column for each type of casualty (cyclist, car occupant, etc.), and a number corresponding to the number of each type hurt in each crash.
+In addition to the `Total` number of people hurt/killed, `cj` contains a column for each type of casualty (cyclist, car occupant, etc.), and a number corresponding to the number of each type hurt in each crash.
 It also contains the `geometry` column from `crashes_sf`.
 In other words, joins allow the casualties and vehicles tables to be geo-referenced.
 We can then explore the spatial distribution of different casualty types.
@@ -455,13 +460,14 @@ The following figure, for example, shows the spatial distribution of pedestrians
 
 ```{r sfplot, fig.show='hold', out.width="100%", fig.cap="Spatial distribution of serious and fatal crashes in West Yorkshire, for cycling, walking, being a car passenger and other modes of travel. Colour is related to the speed limit where the crash happened (red is faster) and size is proportional to the total number of people hurt in each crash (legend not shown).", fig.width=9, fig.height=7}
 library(ggplot2)
-crashes_types = crashes_joined %>% 
-  filter(accident_severity != "Slight") 
-crashes_types$type = "Other"
-crashes_types$type[crashes_types$walking > 0] = "Walking"
-crashes_types$type[crashes_types$cycling > 0] = "Cycling"
-crashes_types$type[crashes_types$passenger > 0] = "Passenger"
-
+crashes_types = cj %>% 
+  filter(accident_severity != "Slight") %>% 
+  mutate(type = case_when(
+    walking > 0 ~ "Walking",
+    cycling > 0 ~ "Cycling",
+    passenger > 0 ~ "Passenger",
+    TRUE ~ "Other"
+  ))
 ggplot(crashes_types, aes(size = Total, colour = speed_limit)) +
   geom_sf(show.legend = "point", alpha = 0.3) +
   facet_grid(vars(type), vars(accident_severity)) +
@@ -479,12 +485,23 @@ Casualties to people on foot tend to happen in the city centres.
 That is not to say that cities centres are more dangerous per unit distance (typically casualties per billion kilometres, bkm, is the unit used) walked:
 there is more walking in city centres (you need a denominator to estimate risk).
 
-Another way of visualising these data is to show the spatial distribution by crash severity. This can be done with **ggplot2** as follows:
+To drill down further, we can find the spatial distribution of all pedestrian casualties, broken-down by seriousness of casualty, and light conditions.
+This can be done with **tidyvers** functions follows:
 
-```{r ggplot-ped-severity}
-ggplot(crashes_joined, aes(colour = Total)) +
+```{r ggplot-ped-severity, fig.height=5, fig.width=6}
+table(cj$light_conditions)
+cj %>% 
+  filter(walking > 0) %>% 
+  mutate(light = case_when(
+    light_conditions == "Daylight" ~ "Daylight",
+    light_conditions == "Darkness - lights lit" ~ "Lit",
+    TRUE ~ "Other/Unlit"
+  )) %>% 
+  ggplot(aes(colour = speed_limit)) +
   geom_sf() +
-  facet_grid(vars(accident_severity))
+  facet_grid(vars(light), vars(accident_severity)) +
+  scale_color_continuous(low = "blue", high = "red") +
+  theme(axis.text = element_blank(), axis.ticks = element_blank())
 ```
 
 <!-- These figures show the issue of pedestrian casualties in Leeds and Bradford city centres, which both have busy roads going through or around popular shopping and other destinations. -->
@@ -493,19 +510,17 @@ ggplot(crashes_joined, aes(colour = Total)) +
 
 We can also explore seasonal and daily trends in crashes by aggregating crashes by day of the year:
 
-```{r crash-date-plot}
-d = lubridate::dmy(crashes_joined$date)
-ud = unique(d)
-crash_dates = data.frame(
-  date = ud,
-  n = c(
-    aggregate(walking ~ d, sum, data = crashes_joined)[, 2],
-    aggregate(cycling ~ d, sum, data = crashes_joined)[, 2],
-    aggregate(passenger ~ d, sum, data = crashes_joined)[, 2]
-),
-  mode = rep(c("walking", "cycling", "passenger"), each = length(ud))
-)
-ggplot(crash_dates, aes(date, n)) +
+```{r crash-date-plot, fig.width=5, fig.height=5}
+crashes_dates = cj %>% 
+  st_set_geometry(NULL) %>% 
+  group_by(date = lubridate::dmy(date)) %>% 
+  summarise(
+    walking = sum(walking),
+    cycling = sum(cycling),
+    passenger = sum(passenger)
+    ) %>% 
+  gather(mode, casualties, -date)
+ggplot(crashes_dates, aes(date, casualties)) +
   geom_smooth(aes(colour = mode), method = "loess") +
   ylab("Casualties per day")
 ```
@@ -514,20 +529,20 @@ ggplot(crash_dates, aes(date, n)) +
 Different types of crashes also tend to happen at different times of day.
 This is illustrated in the plot below, which shows the times of day when people who were travelling by different modes were most commonly injured.
 
-```{r crash-time-plot}
+```{r crash-time-plot, fig.width=5, fig.height=5}
 library(stringr)
-h = as.numeric(str_sub(crashes_joined$time, 1, 2))
-uh = 1:24
-crash_times = data.frame(
-  hour = uh,
-  n_casualties = c(
-    aggregate(walking ~ h, sum, data = crashes_joined)[, 2],
-    aggregate(cycling ~ h, sum, data = crashes_joined)[, 2],
-    aggregate(passenger ~ h, sum, data = crashes_joined)[, 2]
-  ),
-  mode = rep(c("walking", "cycling", "passenger"), each = 24)
-)
-ggplot(crash_times, aes(hour, n_casualties)) +
+
+crash_times = cj %>% 
+  st_set_geometry(NULL) %>% 
+  group_by(hour = as.numeric(str_sub(time, 1, 2))) %>% 
+  summarise(
+    walking = sum(walking),
+    cycling = sum(cycling),
+    passenger = sum(passenger)
+    ) %>% 
+  gather(mode, casualties, -hour)
+
+ggplot(crash_times, aes(hour, casualties)) +
   geom_line(aes(colour = mode))
 ```
 
