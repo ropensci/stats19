@@ -159,7 +159,7 @@ check_input_file = function(filename = NULL,
 # read_ve_ca(path)
 read_ve_ca = function(path) {
   h = utils::read.csv(path, nrows = 1)
-  if(identical(names(h)[1], "Accident_Index")) {
+  if(grepl("Accident_Index", names(h)[1])) {
     readr::read_csv(path, col_types = readr::cols(
       .default = readr::col_integer(),
       Accident_Index = readr::col_character()
