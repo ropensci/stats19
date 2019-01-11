@@ -210,7 +210,7 @@ cas_types = casualties_wy %>%
   summarise(n = sum(n)) %>% 
   tidyr::spread(casualty_type, n, fill = 0) 
 cas_types$Total = rowSums(cas_types[-1])
-crashes_joined = left_join(crashes_wy, cas_types, by = "accident_index")
+cj = left_join(crashes_wy, cas_types, by = "accident_index")
 ```
 
 What just happened? We found the subset of casualties that took place in West Yorkshire with reference to the `accident_index` variable.
@@ -222,7 +222,7 @@ The original and joined data look like this:
 ```{r table-join-examples}
 crashes_wy[1:2, c(1, 5)] %>% st_drop_geometry()
 cas_types[1:2, c("accident_index", "Cyclist")]
-crashes_joined[1:2, c(1, 5, 34)] %>% st_drop_geometry()
+cj[1:2, c(1, 5, 34)] %>% st_drop_geometry()
 ```
 
 ## Mapping crashes
@@ -230,8 +230,8 @@ crashes_joined[1:2, c(1, 5, 34)] %>% st_drop_geometry()
 The join operation added a geometry column to the casualty data, enabling it to be mapped (for more advanced maps, see the [vignette](https://itsleeds.github.io/stats19/articles/stats19.html)):
 
 ```{r}
-cex = crashes_joined$Total / 3
-plot(crashes_joined["speed_limit"], cex = cex)
+cex = cj$Total / 3
+plot(cj["speed_limit"], cex = cex)
 ```
 
 The spatial distribution of crashes in West Yorkshire clearly relates to the region's geography.
@@ -249,11 +249,14 @@ We can also explore weekly and seasonal trends in crashes by aggregating crashes
 
 ```{r crash-date-plot}
 library(ggplot2)
-crashes_dates = crashes_joined %>% 
+crashes_dates = cj %>% 
   st_set_geometry(NULL) %>% 
   group_by(date = lubridate::dmy(date)) %>% 
-  summarise(Pedestrian = sum(Pedestrian), Cyclist = sum(Cyclist),
-            `Car occupant` = sum(`Car occupant`)) %>% 
+  summarise(
+    walking = sum(Pedestrian),
+    cycling = sum(Cyclist),
+    passenger = sum(`Car occupant`)
+    ) %>% 
   tidyr::gather(mode, casualties, -date)
 ggplot(crashes_dates, aes(date, casualties)) +
   geom_smooth(aes(colour = mode), method = "loess") +
@@ -265,14 +268,20 @@ Different types of crashes also tend to happen at different times of day.
 This is illustrated in the plot below, which shows the times of day when people who were travelling by different modes were most commonly injured.
 
 ```{r crash-time-plot}
-crash_times = crashes_joined %>% 
+library(stringr)
+
+crash_times = cj %>% 
   st_set_geometry(NULL) %>% 
-  group_by(hour = as.numeric(stringr::str_sub(time, 1, 2))) %>% 
-  summarise(Pedestrian = sum(Pedestrian), Cyclist = sum(Cyclist),
-            `Car occupant` = sum(`Car occupant`)) %>% 
+  group_by(hour = as.numeric(str_sub(time, 1, 2))) %>% 
+  summarise(
+    walking = sum(Pedestrian),
+    cycling = sum(Cyclist),
+    passenger = sum(`Car occupant`)
+    ) %>% 
   tidyr::gather(mode, casualties, -hour)
+
 ggplot(crash_times, aes(hour, casualties)) +
-  geom_smooth(aes(colour = mode), method = "loess")
+  geom_line(aes(colour = mode))
 ```
 
 Note that cycling manifests distinct morning and afternoon peaks [see @lovelace_who_2016 for more on this].
