@@ -57,7 +57,7 @@ format_stats19 = function(x, type) {
   names(x) = new_names
 
   # create lookup table
-  lkp = stats19_variables[stats19_variables$table == type,]
+  lkp = stats19::stats19_variables[stats19_variables$table == type,]
 
   vkeep = new_names %in% stats19_schema$variable_formatted
   vars_to_change = which(vkeep)
