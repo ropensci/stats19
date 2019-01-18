@@ -10,11 +10,12 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
 <script src="pkgdown.js"></script><meta property="og:title" content="Work with Open Road Traffic Casualty Data from Great Britain">
-<meta property="og:description" content="Tools to help process and analyse the UK road collision data collected using the
+<meta property="og:description" content="Tools to help download, process and analyse the UK road collision data collected using the
   'STATS19' form. The data are provided as 'CSV' files with detailed road safety data about the
-  circumstances of personal injury road accidents in Great Britain from 1979, the types
+  circumstances of car crashes and other incidents on the roads resulting in 
+  casualties in Great Britain from 1979, the types
   (including make and model) of vehicles involved and the consequential casualties.  The
-  statistics relate only to personal injury accidents on public roads that are reported
+  statistics relate only to personal casualties on public roads that are reported
   to the police, and subsequently recorded, using the 'STATS19' accident reporting form. See
   the Department for Transportation website 
   &lt;https://data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data&gt; for more
@@ -38,7 +39,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">stats19</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1.9000</span>
       </span>
     </div>
 
@@ -57,14 +58,7 @@
   <a href="reference/index.html">Reference</a>
 </li>
       </ul>
-<ul class="nav navbar-nav navbar-right">
-<li>
-  <a href="https://github.com/ITSLeeds/stats19">
-    <span class="fa fa-github fa-lg"></span>
-     
-  </a>
-</li>
-      </ul>
+<ul class="nav navbar-nav navbar-right"></ul>
 </div>
 <!--/.nav-collapse -->
   </div>
@@ -109,9 +103,9 @@
 <a class="sourceLine" id="cb3-2" data-line-number="2"><span class="co">#&gt; Files identified: dftRoadSafetyData_Accidents_2017.zip</span></a>
 <a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co">#&gt;    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Accidents_2017.zip</span></a>
 <a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">#&gt; Attempt downloading from:</span></a>
-<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">#&gt; Data saved at /tmp/Rtmp3BLHih/dftRoadSafetyData_Accidents_2017/Acc.csv</span></a>
+<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">#&gt; Data saved at /tmp/Rtmpbvh1dd/dftRoadSafetyData_Accidents_2017/Acc.csv</span></a>
 <a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">#&gt; Reading in:</span></a>
-<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#&gt; /tmp/Rtmp3BLHih/dftRoadSafetyData_Accidents_2017/Acc.csv</span></a></code></pre></div>
+<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#&gt; /tmp/Rtmpbvh1dd/dftRoadSafetyData_Accidents_2017/Acc.csv</span></a></code></pre></div>
 <p>What just happened? We read-in data on all road crashes recorded by the police in 2017 across Great Britain. The dataset contains 32 columns (variables) for 129,982 crashes. The contents of this dataset, and other datasets provided by <strong>stats19</strong>, are outlined below and described in more detail in the <a href="https://itsleeds.github.io/stats19/articles/stats19.html">stats19 vignette</a>.</p>
 <p>We will see below how the function also works to get the corresponding casualty and vehicle datasets for 2017. The package also allows STATS19 files to be downloaded and read-in separately, allowing more control over what you download, and subsequently read-in, with <code><a href="reference/read_accidents.html">read_accidents()</a></code>, <code><a href="reference/read_casualties.html">read_casualties()</a></code> and <code><a href="reference/read_vehicles.html">read_vehicles()</a></code>, as described in the vignette.</p>
 </div>
@@ -174,7 +168,7 @@ Enter an item from the menu, or 0 to exit</code></pre>
 <a class="sourceLine" id="cb8-2" data-line-number="2"><span class="co">#&gt; Files identified: dftRoadSafetyData_Casualties_2017.zip</span></a>
 <a class="sourceLine" id="cb8-3" data-line-number="3"><span class="co">#&gt;    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Casualties_2017.zip</span></a>
 <a class="sourceLine" id="cb8-4" data-line-number="4"><span class="co">#&gt; Attempt downloading from:</span></a>
-<a class="sourceLine" id="cb8-5" data-line-number="5"><span class="co">#&gt; Data saved at /tmp/Rtmp3BLHih/dftRoadSafetyData_Casualties_2017/Cas.csv</span></a>
+<a class="sourceLine" id="cb8-5" data-line-number="5"><span class="co">#&gt; Data saved at /tmp/Rtmpbvh1dd/dftRoadSafetyData_Casualties_2017/Cas.csv</span></a>
 <a class="sourceLine" id="cb8-6" data-line-number="6"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nrow">nrow</a></span>(casualties)</a>
 <a class="sourceLine" id="cb8-7" data-line-number="7"><span class="co">#&gt; [1] 170993</span></a>
 <a class="sourceLine" id="cb8-8" data-line-number="8"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nrow">ncol</a></span>(casualties)</a>
@@ -222,7 +216,7 @@ Enter an item from the menu, or 0 to exit</code></pre>
 <a class="sourceLine" id="cb11-2" data-line-number="2"><span class="co">#&gt; Files identified: dftRoadSafetyData_Vehicles_2017.zip</span></a>
 <a class="sourceLine" id="cb11-3" data-line-number="3"><span class="co">#&gt;    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Vehicles_2017.zip</span></a>
 <a class="sourceLine" id="cb11-4" data-line-number="4"><span class="co">#&gt; Attempt downloading from:</span></a>
-<a class="sourceLine" id="cb11-5" data-line-number="5"><span class="co">#&gt; Data saved at /tmp/Rtmp3BLHih/dftRoadSafetyData_Vehicles_2017/Veh.csv</span></a>
+<a class="sourceLine" id="cb11-5" data-line-number="5"><span class="co">#&gt; Data saved at /tmp/Rtmpbvh1dd/dftRoadSafetyData_Vehicles_2017/Veh.csv</span></a>
 <a class="sourceLine" id="cb11-6" data-line-number="6"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nrow">nrow</a></span>(vehicles)</a>
 <a class="sourceLine" id="cb11-7" data-line-number="7"><span class="co">#&gt; [1] 238926</span></a>
 <a class="sourceLine" id="cb11-8" data-line-number="8"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nrow">ncol</a></span>(vehicles)</a>
@@ -402,9 +396,9 @@ Enter an item from the menu, or 0 to exit</code></pre>
     <div class="links">
 <h2>Links</h2>
 <ul class="list-unstyled">
-<li>Browse source code at <br><a href="https://github.com/ITSLeeds/stats19">https://​github.com/​ITSLeeds/​stats19</a>
+<li>Download from CRAN at <br><a href="https://cloud.r-project.org/package=stats19">https://​cloud.r-project.org/​package=stats19</a>
 </li>
-<li>Report a bug at <br><a href="https://github.com/ITSLeeds/stats19/issues">https://​github.com/​ITSLeeds/​stats19/​issues</a>
+<li>Report a bug at <br><a href="https://github.com/ropensci/stats19/issues">https://​github.com/​ropensci/​stats19/​issues</a>
 </li>
 </ul>
 </div>

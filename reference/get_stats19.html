@@ -63,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">stats19</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1.9000</span>
       </span>
     </div>
 
@@ -84,12 +84,7 @@
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
-        <li>
-  <a href="https://github.com/ITSLeeds/stats19">
-    <span class="fa fa-github fa-lg"></span>
-     
-  </a>
-</li>
+        
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -103,7 +98,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Download, read and format STATS19 data in one function.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/ITSLeeds/stats19/blob/master/R/get.R'><code>R/get.R</code></a></small>
+    
     <div class="hidden name"><code>get_stats19.Rd</code></div>
     </div>
 
@@ -157,7 +152,7 @@ many MB of data so ensure you have a sufficient disk space.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>get_stats19</span>(<span class='kw'>year</span> <span class='kw'>=</span> <span class='fl'>2017</span>)</div><div class='output co'>#&gt; <span class='message'>Files identified: dftRoadSafetyData_Accidents_2017.zip</span></div><div class='output co'>#&gt; <span class='message'>   http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Accidents_2017.zip</span></div><div class='output co'>#&gt; <span class='message'>Data already exists in data_dir, not downloading</span></div><div class='output co'>#&gt; <span class='message'>Data saved at /tmp/Rtmpq5p37j/dftRoadSafetyData_Accidents_2017/Acc.csv</span></div><div class='output co'>#&gt; <span class='message'>Reading in: </span></div><div class='output co'>#&gt; <span class='message'>/tmp/Rtmpq5p37j/dftRoadSafetyData_Accidents_2017/Acc.csv</span></div><div class='output co'>#&gt; # A tibble: 129,982 x 32
+    <pre class="examples"><div class='input'><span class='fu'>get_stats19</span>(<span class='kw'>year</span> <span class='kw'>=</span> <span class='fl'>2017</span>)</div><div class='output co'>#&gt; <span class='message'>Files identified: dftRoadSafetyData_Accidents_2017.zip</span></div><div class='output co'>#&gt; <span class='message'>   http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Accidents_2017.zip</span></div><div class='output co'>#&gt; <span class='message'>Data already exists in data_dir, not downloading</span></div><div class='output co'>#&gt; <span class='message'>Data saved at /tmp/RtmpUtzYmz/dftRoadSafetyData_Accidents_2017/Acc.csv</span></div><div class='output co'>#&gt; <span class='message'>Reading in: </span></div><div class='output co'>#&gt; <span class='message'>/tmp/RtmpUtzYmz/dftRoadSafetyData_Accidents_2017/Acc.csv</span></div><div class='output co'>#&gt; # A tibble: 129,982 x 32
 #&gt;    accident_index location_eastin… location_northi… longitude latitude
 #&gt;    &lt;chr&gt;                     &lt;int&gt;            &lt;int&gt;     &lt;dbl&gt;    &lt;dbl&gt;
 #&gt;  1 2017010001708            532920           196330   -0.0801     51.7
@@ -183,7 +178,7 @@ many MB of data so ensure you have a sufficient disk space.</p>
 #&gt; #   special_conditions_at_site &lt;chr&gt;, carriageway_hazards &lt;chr&gt;,
 #&gt; #   urban_or_rural_area &lt;chr&gt;,
 #&gt; #   did_police_officer_attend_scene_of_accident &lt;int&gt;,
-#&gt; #   lsoa_of_accident_location &lt;chr&gt;</div><div class='input'><span class='fu'>get_stats19</span>(<span class='kw'>year</span> <span class='kw'>=</span> <span class='fl'>2009</span>)</div><div class='output co'>#&gt; <span class='message'>Files identified: DfTRoadSafety_Accidents_2009.zip</span></div><div class='output co'>#&gt; <span class='message'>   http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/DfTRoadSafety_Accidents_2009.zip</span></div><div class='output co'>#&gt; <span class='message'>Data already exists in data_dir, not downloading</span></div><div class='output co'>#&gt; <span class='message'>Data saved at /tmp/Rtmpq5p37j/DfTRoadSafety_Accidents_2009/DfTRoadSafety_Accidents_2009.csv</span></div><div class='output co'>#&gt; <span class='message'>Reading in: </span></div><div class='output co'>#&gt; <span class='message'>/tmp/Rtmpq5p37j/DfTRoadSafety_Accidents_2009/DfTRoadSafety_Accidents_2009.csv</span></div><div class='output co'>#&gt; # A tibble: 163,554 x 32
+#&gt; #   lsoa_of_accident_location &lt;chr&gt;</div><div class='input'><span class='fu'>get_stats19</span>(<span class='kw'>year</span> <span class='kw'>=</span> <span class='fl'>2009</span>)</div><div class='output co'>#&gt; <span class='message'>Files identified: DfTRoadSafety_Accidents_2009.zip</span></div><div class='output co'>#&gt; <span class='message'>   http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/DfTRoadSafety_Accidents_2009.zip</span></div><div class='output co'>#&gt; <span class='message'>Data already exists in data_dir, not downloading</span></div><div class='output co'>#&gt; <span class='message'>Data saved at /tmp/RtmpUtzYmz/DfTRoadSafety_Accidents_2009/DfTRoadSafety_Accidents_2009.csv</span></div><div class='output co'>#&gt; <span class='message'>Reading in: </span></div><div class='output co'>#&gt; <span class='message'>/tmp/RtmpUtzYmz/DfTRoadSafety_Accidents_2009/DfTRoadSafety_Accidents_2009.csv</span></div><div class='output co'>#&gt; # A tibble: 163,554 x 32
 #&gt;    accident_index location_eastin… location_northi… longitude latitude
 #&gt;    &lt;chr&gt;                     &lt;int&gt;            &lt;int&gt;     &lt;dbl&gt;    &lt;dbl&gt;
 #&gt;  1 200901BS70001            524910           180800    -0.201     51.5
