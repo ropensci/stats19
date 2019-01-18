@@ -67,6 +67,11 @@ format_stats19 = function(x, type) {
     lookup = stats19_schema[stats19_schema$variable_formatted == lkp_name, 1:2]
     x[[i]] = lookup$label[match(x[[i]], lookup$code)]
   }
+
+  if("date" %in% names(x)) {
+    x$date = as.POSIXct(x$date, format = "%d/%m/%Y")
+  }
+
   x
 }
 
