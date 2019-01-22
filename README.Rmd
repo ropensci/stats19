@@ -6,14 +6,13 @@ bibliography: vignettes/references.bib
 [![](http://www.r-pkg.org/badges/version/stats19)](http://www.r-pkg.org/pkg/stats19)
 [![Travis build status](https://travis-ci.org/ropensci/stats19.svg?branch=master)](https://travis-ci.org/ropensci/stats19)
 [![codecov](https://codecov.io/gh/ropensci/stats19/branch/master/graph/badge.svg)](https://codecov.io/gh/ropensci/stats19)
-<!-- [![Gitter chat](https://badges.gitter.im/ITSLeeds/stats19.png)](https://gitter.im/stats19/Lobby?source=orgpage) -->
 [![CRAN RStudio mirror downloads](https://cranlogs.r-pkg.org/badges/grand-total/stats19)](http://www.r-pkg.org/pkg/stats19)
 [![Life cycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/)
 [![](https://badges.ropensci.org/266_status.svg)](https://github.com/ropensci/onboarding/issues/266)
-<!-- [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.2540781.svg)](https://doi.org/10.5281/zenodo.2540781) -->
 [![DOI](http://joss.theoj.org/papers/10.21105/joss.01181/status.svg)](https://doi.org/10.21105/joss.01181)
 
-
+<!-- [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.2540781.svg)](https://doi.org/10.5281/zenodo.2540781) -->
+<!-- [![Gitter chat](https://badges.gitter.im/ITSLeeds/stats19.png)](https://gitter.im/stats19/Lobby?source=orgpage) -->
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
@@ -249,13 +248,13 @@ knitr::include_graphics("https://raw.githubusercontent.com/ropensci/stats19/mast
 
 ## Time series analysis
 
-We can also explore weekly and seasonal trends in crashes by aggregating crashes by day of the year:
+We can also explore seasonal trends in crashes by aggregating crashes by day of the year:
 
 ```{r crash-date-plot}
 library(ggplot2)
 crashes_dates = cj %>% 
   st_set_geometry(NULL) %>% 
-  group_by(date = lubridate::dmy(date)) %>% 
+  group_by(date) %>% 
   summarise(
     walking = sum(Pedestrian),
     cycling = sum(Cyclist),
