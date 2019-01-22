@@ -1,6 +1,8 @@
 
-[![](http://www.r-pkg.org/badges/version/stats19)](http://www.r-pkg.org/pkg/stats19) [![Travis build status](https://travis-ci.org/ropensci/stats19.svg?branch=master)](https://travis-ci.org/ropensci/stats19) [![codecov](https://codecov.io/gh/ropensci/stats19/branch/master/graph/badge.svg)](https://codecov.io/gh/ropensci/stats19) <!-- [![Gitter chat](https://badges.gitter.im/ITSLeeds/stats19.png)](https://gitter.im/stats19/Lobby?source=orgpage) --> [![CRAN RStudio mirror downloads](https://cranlogs.r-pkg.org/badges/grand-total/stats19)](http://www.r-pkg.org/pkg/stats19) [![Life cycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/) [![](https://badges.ropensci.org/266_status.svg)](https://github.com/ropensci/onboarding/issues/266) <!-- [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.2540781.svg)](https://doi.org/10.5281/zenodo.2540781) --> [![DOI](http://joss.theoj.org/papers/10.21105/joss.01181/status.svg)](https://doi.org/10.21105/joss.01181)
+[![](http://www.r-pkg.org/badges/version/stats19)](http://www.r-pkg.org/pkg/stats19) [![Travis build status](https://travis-ci.org/ropensci/stats19.svg?branch=master)](https://travis-ci.org/ropensci/stats19) [![codecov](https://codecov.io/gh/ropensci/stats19/branch/master/graph/badge.svg)](https://codecov.io/gh/ropensci/stats19) [![CRAN RStudio mirror downloads](https://cranlogs.r-pkg.org/badges/grand-total/stats19)](http://www.r-pkg.org/pkg/stats19) [![Life cycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/) [![](https://badges.ropensci.org/266_status.svg)](https://github.com/ropensci/onboarding/issues/266) [![DOI](http://joss.theoj.org/papers/10.21105/joss.01181/status.svg)](https://doi.org/10.21105/joss.01181)
 
+<!-- [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.2540781.svg)](https://doi.org/10.5281/zenodo.2540781) -->
+<!-- [![Gitter chat](https://badges.gitter.im/ITSLeeds/stats19.png)](https://gitter.im/stats19/Lobby?source=orgpage) -->
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 stats19
 =======
@@ -42,9 +44,9 @@ crashes = get_stats19(year = 2017, type = "accident")
 #> Files identified: dftRoadSafetyData_Accidents_2017.zip
 #>    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Accidents_2017.zip
 #> Attempt downloading from:
-#> Data saved at /tmp/RtmpFHRxpc/dftRoadSafetyData_Accidents_2017/Acc.csv
+#> Data saved at /tmp/dftRoadSafetyData_Accidents_2017/Acc.csv
 #> Reading in:
-#> /tmp/RtmpFHRxpc/dftRoadSafetyData_Accidents_2017/Acc.csv
+#> /tmp/dftRoadSafetyData_Accidents_2017/Acc.csv
 ```
 
 What just happened? We read-in data on all road crashes recorded by the police in 2017 across Great Britain. The dataset contains 32 columns (variables) for 129,982 crashes. The contents of this dataset, and other datasets provided by **stats19**, are outlined below and described in more detail in the [stats19 vignette](https://itsleeds.github.io/stats19/articles/stats19.html).
@@ -96,19 +98,19 @@ Some of the key variables in this dataset include:
 ``` r
 crashes[c(7, 18, 23, 25)]
 #> # A tibble: 129,982 x 4
-#>    accident_severity speed_limit pedestrian_crossing_hu… light_conditions 
-#>    <chr>                   <int> <chr>                   <chr>            
-#>  1 Fatal                      30 None within 50 metres   Darkness - light…
-#>  2 Slight                     30 None within 50 metres   Darkness - light…
-#>  3 Slight                     30 None within 50 metres   Darkness - light…
-#>  4 Slight                     30 None within 50 metres   Darkness - light…
-#>  5 Serious                    20 None within 50 metres   Darkness - light…
-#>  6 Slight                     30 None within 50 metres   Darkness - light…
-#>  7 Slight                     40 None within 50 metres   Darkness - light…
-#>  8 Slight                     30 Control by other autho… Darkness - light…
-#>  9 Serious                    50 None within 50 metres   Darkness - light…
-#> 10 Serious                    30 None within 50 metres   Darkness - light…
-#> # ... with 129,972 more rows
+#>    accident_severity speed_limit pedestrian_crossing_hu… light_conditions  
+#>    <chr>                   <int> <chr>                   <chr>             
+#>  1 Fatal                      30 None within 50 metres   Darkness - lights…
+#>  2 Slight                     30 None within 50 metres   Darkness - lights…
+#>  3 Slight                     30 None within 50 metres   Darkness - lights…
+#>  4 Slight                     30 None within 50 metres   Darkness - lights…
+#>  5 Serious                    20 None within 50 metres   Darkness - lights…
+#>  6 Slight                     30 None within 50 metres   Darkness - lights…
+#>  7 Slight                     40 None within 50 metres   Darkness - lights…
+#>  8 Slight                     30 Control by other autho… Darkness - lights…
+#>  9 Serious                    50 None within 50 metres   Darkness - lights…
+#> 10 Serious                    30 None within 50 metres   Darkness - lights…
+#> # … with 129,972 more rows
 ```
 
 For the full list of columns, run `names(crashes)` or see the [vignette](https://github.com/ropensci/stats19/blob/master/vignettes/stats19.Rmd).
@@ -123,7 +125,7 @@ casualties = get_stats19(year = 2017, type = "casualties")
 #> Files identified: dftRoadSafetyData_Casualties_2017.zip
 #>    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Casualties_2017.zip
 #> Attempt downloading from:
-#> Data saved at /tmp/RtmpFHRxpc/dftRoadSafetyData_Casualties_2017/Cas.csv
+#> Data saved at /tmp/dftRoadSafetyData_Casualties_2017/Cas.csv
 nrow(casualties)
 #> [1] 170993
 ncol(casualties)
@@ -135,19 +137,19 @@ The results show that there were 170,993 casualties reported by the police in th
 ``` r
 casualties[c(4, 5, 6, 14)]
 #> # A tibble: 170,993 x 4
-#>    casualty_class  sex_of_casualty age_of_casualty casualty_type          
-#>    <chr>           <chr>                     <int> <chr>                  
-#>  1 Passenger       Female                       18 Car occupant           
-#>  2 Driver or rider Male                         19 Motorcycle 50cc and un…
-#>  3 Passenger       Male                         18 Motorcycle 50cc and un…
-#>  4 Passenger       Female                       33 Car occupant           
-#>  5 Driver or rider Female                       31 Car occupant           
-#>  6 Passenger       Male                          3 Car occupant           
-#>  7 Pedestrian      Male                         45 Pedestrian             
-#>  8 Driver or rider Male                         14 Motorcycle 125cc and u…
-#>  9 Driver or rider Female                       58 Car occupant           
-#> 10 Driver or rider Male                         27 Car occupant           
-#> # ... with 170,983 more rows
+#>    casualty_class  sex_of_casualty age_of_casualty casualty_type           
+#>    <chr>           <chr>                     <int> <chr>                   
+#>  1 Passenger       Female                       18 Car occupant            
+#>  2 Driver or rider Male                         19 Motorcycle 50cc and und…
+#>  3 Passenger       Male                         18 Motorcycle 50cc and und…
+#>  4 Passenger       Female                       33 Car occupant            
+#>  5 Driver or rider Female                       31 Car occupant            
+#>  6 Passenger       Male                          3 Car occupant            
+#>  7 Pedestrian      Male                         45 Pedestrian              
+#>  8 Driver or rider Male                         14 Motorcycle 125cc and un…
+#>  9 Driver or rider Female                       58 Car occupant            
+#> 10 Driver or rider Male                         27 Car occupant            
+#> # … with 170,983 more rows
 ```
 
 The full list of column names in the `casualties` dataset is:
@@ -181,7 +183,7 @@ vehicles = get_stats19(year = 2017, type = "vehicles")
 #> Files identified: dftRoadSafetyData_Vehicles_2017.zip
 #>    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Vehicles_2017.zip
 #> Attempt downloading from:
-#> Data saved at /tmp/RtmpFHRxpc/dftRoadSafetyData_Vehicles_2017/Veh.csv
+#> Data saved at /tmp/dftRoadSafetyData_Vehicles_2017/Veh.csv
 nrow(vehicles)
 #> [1] 238926
 ncol(vehicles)
@@ -193,19 +195,19 @@ The results show that there were 238,926 vehicles involved in crashes reported b
 ``` r
 vehicles[c(3, 14:16)]
 #> # A tibble: 238,926 x 4
-#>    vehicle_type          journey_purpose_of_d… sex_of_driver age_of_driver
-#>    <chr>                 <chr>                 <chr>                 <int>
-#>  1 Car                   Not known             Male                     24
-#>  2 Motorcycle 50cc and … Not known             Male                     19
-#>  3 Car                   Not known             Male                     33
-#>  4 Car                   Not known             Male                     40
-#>  5 Car                   Not known             Not known                -1
-#>  6 Car                   Not known             Male                     35
-#>  7 Car                   Not known             Female                   31
-#>  8 Car                   Not known             Female                   37
-#>  9 Car                   Not known             Female                   29
-#> 10 Car                   Not known             Male                     78
-#> # ... with 238,916 more rows
+#>    vehicle_type          journey_purpose_of_dr… sex_of_driver age_of_driver
+#>    <chr>                 <chr>                  <chr>                 <int>
+#>  1 Car                   Not known              Male                     24
+#>  2 Motorcycle 50cc and … Not known              Male                     19
+#>  3 Car                   Not known              Male                     33
+#>  4 Car                   Not known              Male                     40
+#>  5 Car                   Not known              Not known                -1
+#>  6 Car                   Not known              Male                     35
+#>  7 Car                   Not known              Female                   31
+#>  8 Car                   Not known              Female                   37
+#>  9 Car                   Not known              Female                   29
+#> 10 Car                   Not known              Male                     78
+#> # … with 238,916 more rows
 ```
 
 The full list of column names in the `vehicles` dataset is:
@@ -240,13 +242,10 @@ The note arises because `NA` values are not permitted in `sf` coordinates, and s
 
 ``` r
 library(sf)
-#> Linking to GEOS 3.5.1, GDAL 2.1.2, PROJ 4.9.3
+#> Linking to GEOS 3.7.0, GDAL 2.3.2, PROJ 5.2.0
 library(dplyr)
 #> 
 #> Attaching package: 'dplyr'
-#> The following objects are masked from 'package:stats':
-#> 
-#>     filter, lag
 #> The following objects are masked from 'package:base':
 #> 
 #>     intersect, setdiff, setequal, union
@@ -321,13 +320,13 @@ The spatial distribution of crashes in West Yorkshire clearly relates to the reg
 Time series analysis
 --------------------
 
-We can also explore weekly and seasonal trends in crashes by aggregating crashes by day of the year:
+We can also explore seasonal trends in crashes by aggregating crashes by day of the year:
 
 ``` r
 library(ggplot2)
 crashes_dates = cj %>% 
   st_set_geometry(NULL) %>% 
-  group_by(date = lubridate::dmy(date)) %>% 
+  group_by(date) %>% 
   summarise(
     walking = sum(Pedestrian),
     cycling = sum(Cyclist),
@@ -337,6 +336,11 @@ crashes_dates = cj %>%
 ggplot(crashes_dates, aes(date, casualties)) +
   geom_smooth(aes(colour = mode), method = "loess") +
   ylab("Casualties per day")
+#> 
+#> Attaching package: 'stats'
+#> The following objects are masked from 'package:dplyr':
+#> 
+#>     filter, lag
 ```
 
 <img src="man/figures/README-crash-date-plot-1.png" width="100%" />
