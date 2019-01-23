@@ -5,7 +5,7 @@
 \title{Download, read and format STATS19 data in one function.}
 \usage{
 get_stats19(year = NULL, type = "accidents", data_dir = tempdir(),
-  file_name = NULL, format = TRUE)
+  file_name = NULL, format = TRUE, ask = TRUE)
 }
 \arguments{
 \item{year}{Single year for which file is to be downloaded.}
@@ -18,6 +18,8 @@ Or any variation of to search the file names with such as "acc" or "accid".}
 \item{file_name}{The file name (DfT named) to download.}
 
 \item{format}{Switch to return raw read from file, default is \code{TRUE}.}
+
+\item{ask}{Should you be asked whether or not to download the files? \code{TRUE} by default.}
 }
 \description{
 Download, read and format STATS19 data in one function.
