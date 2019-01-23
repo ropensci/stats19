@@ -63,12 +63,13 @@ library(stats19)
 The following command, for example, gets crash data from 2017 (**note**: we follow the "crash not accident" campaign of [RoadPeace](http://www.roadpeace.org/take-action/crash-not-accident/) in naming crashes, although the DfT refers to the relevant tables as 'accidents' data):
 
 ```{r}
-crashes = get_stats19(year = 2017, type = "accident")
+crashes = get_stats19(year = 2017, type = "accident", ask = FALSE)
 ```
 
 What just happened?
-We read-in data on all road crashes recorded by the police in 2017 across Great Britain.
+For the `year` 2017 we read-in crash-level (`type = "accident"`) data on all road crashes recorded by the police across Great Britain.
 The dataset contains `r ncol(crashes)` columns (variables) for `r format(nrow(crashes), big.mark = ",")` crashes.
+We were not asked to download the file (by default you are asked to confirm the file that will be downloaded).
 The contents of this dataset, and other datasets provided by **stats19**, are outlined below and described in more detail in the [stats19 vignette](https://itsleeds.github.io/stats19/articles/stats19.html).
 
 We will see below how the function also works to get the corresponding casualty and vehicle datasets for 2017.
@@ -130,7 +131,7 @@ For the full list of columns, run `names(crashes)` or see the [vignette](https:/
 As with `crashes`, casualty data for 2017 can be downloaded, read-in and formatted as follows:
 
 ```{r 2017-cas}
-casualties = get_stats19(year = 2017, type = "casualties")
+casualties = get_stats19(year = 2017, type = "casualties", ask = FALSE)
 nrow(casualties)
 ncol(casualties)
 ```
@@ -153,7 +154,7 @@ names(casualties)
 Data for vehicles involved in crashes in 2017 can be downloaded, read-in and formatted as follows:
 
 ```{r dl2017-vehicles}
-vehicles = get_stats19(year = 2017, type = "vehicles")
+vehicles = get_stats19(year = 2017, type = "vehicles", ask = FALSE)
 nrow(vehicles)
 ncol(vehicles)
 ```
