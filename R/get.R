@@ -9,12 +9,7 @@
 #'
 #' @seealso [dl_stats19()]
 #' @seealso [read_accidents()]
-#'
-#' @param year Single year for which file is to be downloaded.
-#' @param type One of 'Accidents', 'Casualties', 'Vehicles'; defaults to 'Accidents'.
-#' Or any variation of to search the file names with such as "acc" or "accid".
-#' @param data_dir Parent directory for all downloaded files. Defaults to `tempdir()`.
-#' @param file_name The file name (DfT named) to download.
+#' @inheritParams dl_stats19
 #' @param format Switch to return raw read from file, default is `TRUE`.
 #'
 #' @export
@@ -27,14 +22,16 @@ get_stats19 = function(year = NULL,
                       type = "accidents",
                       data_dir = tempdir(),
                       file_name = NULL,
-                      format = TRUE) {
+                      format = TRUE,
+                      ask = TRUE) {
   if(!exists("type"))
     stop("Type is required", call. = FALSE)
   # download what the user wanted
   dl_stats19(year = year,
              type = type,
              data_dir = data_dir,
-             file_name = file_name)
+             file_name = file_name,
+             ask = ask)
   read_in = NULL
   # what did the user want?
   if(grepl(type, "vehicles",  ignore.case = TRUE)){
