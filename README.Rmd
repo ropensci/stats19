@@ -43,7 +43,7 @@ For transparency and modularity, each stage can be undertaken separately, as doc
 
 Install and load the latest version with:
 
-```{r install, eval=FALSE}
+```{r install, message=FALSE, results='hide'}
 remotes::install_github("ropensci/stats19")
 ```
 
@@ -51,11 +51,11 @@ remotes::install_github("ropensci/stats19")
 library(stats19)
 ```
 
-<!-- You can install the released version of stats19 from [CRAN](https://CRAN.R-project.org) with: -->
+You can install the released version of stats19 from [CRAN](https://cran.r-project.org/package=stats19) with:
 
-<!-- ``` r -->
-<!-- install.packages("stats19") -->
-<!-- ``` -->
+```r
+install.packages("stats19")
+```
 
 ## get_stats19()
 
