@@ -513,7 +513,7 @@ We can also explore seasonal and daily trends in crashes by aggregating crashes 
 ```{r crash-date-plot, fig.width=5, fig.height=5}
 crashes_dates = cj %>% 
   st_set_geometry(NULL) %>% 
-  group_by(date = lubridate::dmy(date)) %>% 
+  group_by(date) %>% 
   summarise(
     walking = sum(walking),
     cycling = sum(cycling),
