@@ -37,9 +37,9 @@ The annual statistics are not released in a systematic way either. For example, 
 
 With those introductions out of the way, lets see what the package can do and how it empower academics, policy makers, road safety campaigners and other R programmers to have access to a large dataset from 1979 - now. 
 
-```{r, eval=TRUE, message=FALSE}
-# install.packages("stats19")
-# lets use the dev version for this blog post
+```{r, eval=FALSE, message=FALSE}
+install.packages("stats19")
+# the dev version is used for this blog post
 remotes::install_github("ropensci/stats19")
 ```
 
@@ -181,12 +181,14 @@ ggplot(crashes_types, aes(size = Total, colour = speed_limit)) +
 ```
 
 ```{r crashes-map, fig.show='hold', out.width="100%", fig.cap="Spatial distribution of all crashes in 2017 in West Yorkshire.", fig.width=9, fig.height=7}
-
-# library(leaflet)
-# leaflet() %>% 
-#   addProviderTiles(provider = providers$OpenStreetMap) %>% 
-#   addCircleMarkers(data = crashes_wy_lonlat)
-
+library(leaflet)
+# convert to lon lat CRS
+wy_lonlat = st_transform(crashes_wy, crs = 4326)
+c = st_bbox(wy_lonlat)
+leaflet(data = wy_lonlat$geometry, height = "280px") %>%
+  addProviderTiles(provider = providers$OpenStreetMap) %>%
+  fitBounds(lat1 = c$ymin[[1]], lat2 = c$ymax[[1]],
+            lng1 = c$xmin[[1]], lng2 = c$xmax[[1]]) %>% addCircleMarkers(radius = 0.5, color = "blue", weight = 1) 
 ```
 
 ## Conclusion
