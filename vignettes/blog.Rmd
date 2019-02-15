@@ -236,3 +236,5 @@ leaflet(data = wy_lonlat$geometry, height = "280px") %>%
 ## Conclusion
 
 You have access to a reliable and official road safety dataset which is cleaned up and ready to be consumed. We hope this package can be used by campaigners, academics and other interestd parties to make the roads of the UK and the rest of the world a safe place for all of us.
+
+## References
