@@ -223,16 +223,13 @@ The joined data has additional variables:
 base::setdiff(names(cj), names(crashes_wy))
 ```
 
-As a simple spatial plot, we can map all the crashes that have happened in West Yorkshire in 2017, with the colour related to the total number of people hurt in each crash.
-Placing this plot next to a map of West Yorkshire provides context:
-
 In addition to the `Total` number of people hurt/killed, `cj` contains a column for each type of casualty (cyclist, car occupant, etc.), and a number corresponding to the number of each type hurt in each crash.
 It also contains the `geometry` column from `crashes_sf`.
 In other words, joins allow the casualties and vehicles tables to be geo-referenced.
 We can then explore the spatial distribution of different casualty types.
 The following figure, for example, shows the spatial distribution of pedestrians and car passengers hurt in car crashes across West Yorkshire in 2017:
 
-```{r sfplot, fig.show='hold', out.width="100%", fig.cap="Spatial distribution of serious and fatal crashes in West Yorkshire in 2017, for cycling, walking, being a car passenger and other modes of travel. Colour is related to the speed limit where the crash happened (red is faster) and size is proportional to the total number of people hurt in each crash.", fig.width=9, fig.height=7}
+```{r sfplot, fig.show='hold', out.width="100%", fig.cap="Spatial distribution of serious and fatal collisions in which people who were walking on the road network ('pedestrians') were hit by a car or other vehicle.", fig.width=9, fig.height=7}
 library(ggplot2)
 crashes_types = cj %>% 
   filter(accident_severity != "Slight") %>% 
@@ -256,7 +253,7 @@ ggplot(crashes_types, aes(size = Total, colour = speed_limit)) +
 To show what is possible when the data are in this form, and allude to next steps, let's create an interactive map.
 We will plot crashes in which pedestrians were hurt, from the `crashes_types`, using Rstudio's `leaflet` package:
 
-```{r crashes-map, fig.show='hold', out.width="100%", fig.cap="Spatial distribution of all crashes in 2017 in West Yorkshire.", fig.width=9, fig.height=7}
+```{r crashes-map, fig.show='hold', out.width="100%", fig.cap="Spatial distribution of all collisions in which people who were walking on the road network ('pedestrians') were hit by a car or other vehicle in 2017 within West Yorkshire boundary.", fig.width=9, fig.height=7}
 library(leaflet)
 crashes_pedestrians = crashes_types %>% 
   filter(walking > 0)
@@ -267,7 +264,7 @@ leaflet(data = crashes_pedestrians_lonlat, height = "280px") %>%
   addProviderTiles(provider = providers$OpenStreetMap.BlackAndWhite) %>%
   addCircleMarkers(radius = 0.5, color = ~pal(accident_severity)) %>% 
   addLegend(pal = pal, values = ~accident_severity) %>% 
-  leaflet::addMiniMap()
+  leaflet::addMiniMap(toggleDisplay = TRUE)
 ```
 
 ## Conclusion
