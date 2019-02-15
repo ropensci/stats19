@@ -1,5 +1,5 @@
 ---
-title: "Introducing stats19"
+title: "stats19: a package for making roads safer"
 author: 
   - "Layik Hama and Robin Lovelace"
 date: "`r Sys.Date()`"
