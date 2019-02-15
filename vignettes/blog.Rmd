@@ -129,7 +129,7 @@ You can also get the raw data (if you really want!) to see how much more useful 
 crashes_2017_raw = get_stats19(year = 2017, type = "Accidents", ask = FALSE, format = FALSE)
 ```
 
-```{r crashes_2017-explore}
+```{r crashes_2017-raw}
 kableExtra::kable(head(crashes_2017_raw[, c(1, 4, 5, 7, 10)]))
 ```
 
