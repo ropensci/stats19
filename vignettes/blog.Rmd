@@ -18,7 +18,7 @@ It has been peer reviewed thanks to rOpenSci and is now published in the Journal
 For installation and the code, see its home in rOpenSci: https://github.com/ropensci/stats19.
 In this post, we'll provide a bit of context, show how the package works, and provide ideads for future work building on the experience.
 
-We started the package in late 2018 following three main developments:
+We started the package in late 2018 following three main motivations:
 
 1. The release of the 2017 road crash statistics, which showed worsening road safety in some areas, increasing the importance of making the data more accessible.
 2. The realisation that many researchers were writing add-hoc code to clean the data, with a huge amount of duplicated (wasted) effort and potential for mistakes to lead to mistakes in the labelling of the data (more on that below).
@@ -65,9 +65,14 @@ Even more shocking are the [global statistics](https://www.who.int/gho/road_safe
 
 ## The road crash data in stats19
 
-There are three different CSV files released by the DfT: `accidents`, `vehicles` and `casualties`. There is a schema covering these tables but a good amount of work is needed to understand it and be able to use it.
+There are three main different types of CSV files released by the DfT: `accidents`, `vehicles` and `casualties` tables.
+There is a schema covering these tables but a good amount of work is needed to understand it, let alone be able to the data contained within the files and convert the integers they contain into meaningful data.
 
-The annual statistics are not released in a systematic way either. For example, there are separate files for each of the above tables for certain years but not for all of 1979 - 2017 or 2018 now. The largest chunk is the 1979 - 2004 file ([link](http://data.dft.gov.uk/road-accidents-safety-data/Stats19-Data1979-2004.zip)), unzipped they are:   
+The annual statistics have not been released in a consistent way either, making it hard for people to download, or even find, the relevant files.
+For example, there are separate files for each of the above tables for certain years (e.g. 2016, 2017) but not for all of 1979 - 2017 or 2018 now.
+The largest chunk is the 1979 - 2004 data, which is made available in a huge ZIP file ([link](http://data.dft.gov.uk/road-accidents-safety-data/Stats19-Data1979-2004.zip)).
+Unzipped this contains the following 3 files, which occupy almost 2 GB on your hard drive: 
+
 ```sh
 721M Apr  3  2013 Accidents7904.csv
 344M Apr  3  2013 Casualty7904.csv
@@ -75,9 +80,10 @@ The annual statistics are not released in a systematic way either. For example, 
 # total 1.753 GB data
 ```
 
-## **stats19**
+## How stats19 works
 
-With those introductions out of the way, lets see what the package can do and how it can empower academics, policy makers, road safety campaigners and other R programmers to have access to a large dataset from 1979 - now. 
+With those introductions out of the way, lets see what the package can do and how it can empower people (including target audiences of academics, policy makers and road safety campaigners and R programmers/analysts wanting to test their skills on a large spatio-temporal dataset) to access STATS19 data, back to 1979.
+First install the package in the usual way:
 
 ```{r, eval=FALSE, message=FALSE}
 install.packages("stats19")
@@ -85,12 +91,15 @@ install.packages("stats19")
 remotes::install_github("ropensci/stats19")
 ```
 
+Attach the package as follows:
+
 ```{r}
 library(stats19)
-library(kableExtra)
 ```
 
-The easiest way to get STATS19 data is with `get_stats19()`. This function takes 2 main arguments, `year` and `type`. The year can be any year between 1979 and 2017.
+The easiest way to get STATS19 data is with `get_stats19()`.
+This function takes 2 main arguments, `year` and `type`.
+The year can be any year between 1979 and 2017.
 
 ```{r dl2017-accidents, message=FALSE}
 crashes_2017 = get_stats19(year = 2017, type = "Accidents", ask = FALSE)
@@ -105,7 +114,7 @@ column_names = names(crashes_2017)
 length(column_names)
 head(column_names)
 class(crashes_2017)
-kable(head(crashes_2017[, column_names[1:5]]))
+kableExtra::kable(head(crashes_2017[, c(1, 4, 5, 7, 10)]))
 ```
 
 The package contains the names of all "zip" files released by the DfT and hosted on Amazon servers to download. These file names have been included in the package and can be found under `file_names` variable name. for example:
@@ -113,6 +122,10 @@ The package contains the names of all "zip" files released by the DfT and hosted
 ```{r file_names}
 stats19::file_names$dftRoadSafetyData_Vehicles_2017.zip
 ```
+
+You can also get the raw data
+
+
 
 ## Creating geographic crash data
 
