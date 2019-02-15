@@ -15,7 +15,7 @@ bibliography: references.bib
 
 The name comes from a form by the police in the UK called [STATS19](https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/775149/Operational_Metrics_Manual.pdf) (capital letters). A short googling for this blogpost did not result in finding the origin of the name but there is at least STATS20 which is guidelines to officers to fill in STATS19 form. That is why th Department for Transport (DfT) also names the dataset [STATS19](https://data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data).
 
-The importance of road safety and informed decision making based on crash data, in our view, cannot be overrated. Two numbers from a strategy document by the UK government (2011) is worth mentioning here: 
+The importance of road safety and informed decision making based on crash data, in our view, cannot be overrated. Two numbers from a [strategy](https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/8146/strategicframework.pdf) document from the UK government (2011) is worth mentioning here: 
 
 > The economic welfare costs [of road collisions] are estimated at around £16 billion a year while insurance payouts for motoring claims alone are now over £12 billion a year.
 
