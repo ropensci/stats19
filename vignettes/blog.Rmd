@@ -11,15 +11,53 @@ vignette: >
 bibliography: references.bib
 ---
 
-**stats19** is an R package that enables access to and processing of Great Britain's official road traffic casualty database, [STATS19](https://data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data). 
+## Introduction
 
-The name comes from a form by the police in the UK called [STATS19](https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/775149/Operational_Metrics_Manual.pdf) (capital letters). A short googling for this blogpost did not result in finding the origin of the name but there is at least STATS20 which is guidelines to officers to fill in STATS19 form. That is why th Department for Transport (DfT) also names the dataset [STATS19](https://data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data).
+**stats19** is a new R package that enables access to and processing of Great Britain's official road traffic casualty database, [STATS19](https://data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data). 
+In this post, we'll provide a bit of context, show how the package works, and provide ideads for future work building on the experience.
 
-The importance of road safety and informed decision making based on crash data, in our view, cannot be overrated. Two numbers from a strategy document by the UK government (2011) is worth mentioning here: 
+We started the package in late 2018 following three main developments:
+
+1. The release of the 2017 road crash statistics, which showed worsening road safety in some areas, increasing the importance of making the data more accessible.
+2. The realisation that many researchers were writing add-hoc code to clean the data, with a huge amount of duplicated (wasted) effort and potential for mistakes to lead to mistakes in the labelling of the data (more on that below).
+3. An understanding of the concept of 'modularity' in software design, following the [Unix philosophy](https://en.wikipedia.org/wiki/Unix_philosophy) that programs should 'do one thing and do it well'. This realisation has led to code inside the rOpenSci-hosted package [`stplanr`](https://github.com/ropensci/stplanr) being split-out into 2 separate packages already: [`cyclestreets`](https://github.com/Robinlovelace/cyclestreets) and [`stats19`](https://github.com/ropensci/stats19).
+
+
+The main authors are based at the [Institute for Transport Studies (ITS)](https://environment.leeds.ac.uk/transport) and the [Leeds Institute for Data Analytics (LIDA)](https://lida.leeds.ac.uk/), institutions focussed on transport and data-intensive research.
+The large and complex STATS19 data from the UK's Department for Transport, which is open access but difficult-to-use, represented a perfect opportunity for us to get stuck into a chunky data processing challenge.
+Furthermore, we have a wider motivation: we want the roads to be safer.
+By making data on the nature of road crashes in the UK more publicly accessible (in a usable format), we hope this package saves lives.
+
+## What is STATS19 anyway?
+
+One of the reviewer comments from the [rOpenSci review process (which has 77 comments - lots of knowledge shared)](https://github.com/ropensci/software-review/issues/266) alluded to the package's esoteric name:
+
+> I confess I wish the package name was more expressive--stats19 sounds like an introductory statistics class.
+
+We agree!
+However, the priority with the package is to remain faithful to the data, and alternative name options, such as stats19data, roadcrashesUK and roadSafetyData were not popular.
+Furthermore, the term 'stats19' is strongly associated with road crash data online.
+The URL https://en.wikipedia.org/wiki/STATS19 resolves to https://en.wikipedia.org/wiki/Reported_Road_Casualties_Great_Britain, for example (this page is provides and excellent introduction to STATS19).
+
+The name comes from a UK police form called [STATS19](https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/775149/Operational_Metrics_Manual.pdf) (note the capital letters).
+Why STATS19 and not, say, STATS18 or STATS20? 
+We're not sure, but there *is* an official [STATS20 product](https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/230596/stats20-2011.pdf), which explains what STATS19 data is and provides guidelines to officers filling in STATS19 form (it's a 100+ page document providing lots of detail on each variable collected, so worth checking out if you want detail).
+An important point is that the dataset omits crashes in which nobody was hurt, as emphasised by another government [document](https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/743853/reported-road-casualties-gb-notes-definitions.pdf): 
+
+> The STATS19 data are therefore not a complete record of all injury accidents and this should be borne in mind when using and analysing the data. However, they remain the most detailed, complete and reliable single source of information on road casualties covering the whole of Great Britain, in particular for monitoring trends over time
+
+
+The Department for Transport (DfT) also names the dataset [STATS19 on the main web page that links to open access road crash data](https://data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data).
+
+The importance of road safety and informed decision making based on crash data cannot be overstated. Two numbers from a strategy document by the UK government (2011) are worth mentioning here: 
 
 > The economic welfare costs [of road collisions] are estimated at around £16 billion a year while insurance payouts for motoring claims alone are now over £12 billion a year.
 
-## The dataset
+Even more shocking are the global statistics, as summarised by an open access and reproducible academic [paper that uses data from the package to explore car-pedestrian crashes](https://github.com/Robinlovelace/stats19-gisruk):
+
+> While so many people die on the roads each year in the UK (1,793 people in 2017, 3 deaths per 100,000) and worldwide (1,250,000 people in 2015, 17 deaths per 100,000) and ‘vision zero’ remains a Swedish dream (Johansson 2009), we urge people researching STATS19 and other road safety datasets to focus on a more urgent question: how to stop this carnage?
+
+## The data
 
 **stats19** package is the result of earlier work by Dr Robin Lovelace (maintainer) and Dr Malcom Morgan of Institute of Transport Studies at the University of Leeds. They had used the dataset before work started on the package. 
 
