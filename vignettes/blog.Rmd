@@ -249,16 +249,21 @@ ggplot(crashes_types, aes(size = Total, colour = speed_limit)) +
   theme(axis.text = element_blank(), axis.ticks = element_blank())
 ```
 
-To finish with a map, we can plot the `crashes_wy` on a LeafletJS map using Rstudio's `leaflet` package:
+To show what is possible when the data are in this form, and allude to next steps, let's create an interactive map.
+We will plot crashes in which pedestrians were hurt, from the `crashes_types`, using Rstudio's `leaflet` package:
 
 ```{r crashes-map, fig.show='hold', out.width="100%", fig.cap="Spatial distribution of all crashes in 2017 in West Yorkshire.", fig.width=9, fig.height=7}
 library(leaflet)
+crashes_pedestrians = crashes_types %>% 
+  filter(walking > 0)
 # convert to lon lat CRS
-wy_lonlat = st_transform(crashes_wy, crs = 4326)
-c = st_bbox(wy_lonlat)
-leaflet(data = wy_lonlat$geometry, height = "280px") %>%
-  addProviderTiles(provider = providers$OpenStreetMap) %>%
-  addCircleMarkers(radius = 0.5, color = "blue", weight = 1) 
+crashes_pedestrians_lonlat = st_transform(crashes_pedestrians, crs = 4326)
+pal = colorFactor(palette = "Reds", domain = crashes_pedestrians_lonlat$accident_severity, reverse = TRUE)
+leaflet(data = crashes_pedestrians_lonlat, height = "280px") %>%
+  addProviderTiles(provider = providers$OpenStreetMap.BlackAndWhite) %>%
+  addCircleMarkers(radius = 0.5, color = ~pal(accident_severity)) %>% 
+  addLegend(pal = pal, values = ~accident_severity) %>% 
+  leaflet::addMiniMap()
 ```
 
 ## Conclusion
@@ -271,9 +276,9 @@ We think it could help many people, especially, including campaigners, academics
 
 There are many possible next steps, including:
 
-- Comparing these datasets with interventions such as 20 mph zones, building on previous work [@grundy_effect_2009].
+- Comparing these datasets with interventions such as 20 mph zones [@grundy_effect_2009] and links with street morphology [@sarkar_street_2018].
 - The creation of more general software for accessing and working with road crash data worldwide.
-- Making the data even more available by provide the data as part of an interactive web application, a technique successfully used in the Propensity to Cycle Tool (PCT) project hosted at [www.pct.bike/](http://www.pct.bike/) [@lovelace_propensity_2017] (this would likely take further times/resources beyond what we can provide in our spare time!).
+- Making the data even more available by provide the data as part of an interactive web application, a technique successfully used in the Propensity to Cycle Tool (PCT) project hosted at [www.pct.bike/](http://www.pct.bike/) (this would likely take further times/resources beyond what we can provide in our spare time!).
 
 For now, however, we want to take the opportunity to celebrate the release of `stats19` 🎉, thank rOpenSci for a great review process 🙏 and let you know: the package and data are now out there, and are ready to be used 🚀.
 
