@@ -14,6 +14,8 @@ bibliography: references.bib
 ## Introduction
 
 **stats19** is a new R package that enables access to and processing of Great Britain's official road traffic casualty database, [STATS19](https://data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data). 
+It has been peer reviewed thanks to rOpenSci and is now published in the Journal of Open Source Software ([JOSS](http://joss.theoj.org/papers/10.21105/joss.01181)) [@lovelace_stats19_2019].
+For installation and the code, see its home in rOpenSci: https://github.com/ropensci/stats19.
 In this post, we'll provide a bit of context, show how the package works, and provide ideads for future work building on the experience.
 
 We started the package in late 2018 following three main developments:
@@ -24,8 +26,12 @@ We started the package in late 2018 following three main developments:
 
 
 The main authors are based at the [Institute for Transport Studies (ITS)](https://environment.leeds.ac.uk/transport) and the [Leeds Institute for Data Analytics (LIDA)](https://lida.leeds.ac.uk/), institutions focussed on transport and data-intensive research.
+We have prior experience writing code to work with road crash data:
+Robin wrote code for an academic paper on cycle safety in Yorkshire based on STATS19 data [@lovelace_who_2016], and put it in the [robinlovelace/bikeR](https://github.com/Robinlovelace/bikeR) repo for posterity/reproducibility.
+Package contributor, Dr Malcolm Morgan, wrote code processing different STATS19 data for the Cycling Infrastructure Prioritisation Toolkit ([CyIPT](https://www.cyipt.bike)) and put it in [cyipt/stats19](https://github.com/cyipt/stats19).
 The large and complex STATS19 data from the UK's Department for Transport, which is open access but difficult-to-use, represented a perfect opportunity for us to get stuck into a chunky data processing challenge.
-Furthermore, we have a wider motivation: we want the roads to be safer.
+
+We have a wider motivation: we want the roads to be safer.
 By making data on the nature of road crashes in the UK more publicly accessible (in a usable format), we hope this package saves lives.
 
 ## What is STATS19 anyway?
@@ -53,13 +59,11 @@ The importance of road safety and informed decision making based on crash data c
 
 > The economic welfare costs [of road collisions] are estimated at around £16 billion a year while insurance payouts for motoring claims alone are now over £12 billion a year.
 
-Even more shocking are the global statistics, as summarised by an open access and reproducible academic [paper that uses data from the package to explore car-pedestrian crashes](https://github.com/Robinlovelace/stats19-gisruk):
+Even more shocking are the [global statistics](https://www.who.int/gho/road_safety/mortality/en/), as summarised by an open access and reproducible academic [paper that uses data from the package to explore car-pedestrian crashes](https://github.com/Robinlovelace/stats19-gisruk):
 
 > While so many people die on the roads each year in the UK (1,793 people in 2017, 3 deaths per 100,000) and worldwide (1,250,000 people in 2015, 17 deaths per 100,000) and ‘vision zero’ remains a Swedish dream (Johansson 2009), we urge people researching STATS19 and other road safety datasets to focus on a more urgent question: how to stop this carnage?
 
-## The data
-
-**stats19** package is the result of earlier work by Dr Robin Lovelace (maintainer) and Dr Malcom Morgan of Institute of Transport Studies at the University of Leeds. They had used the dataset before work started on the package. 
+## The road crash data in stats19
 
 There are three different CSV files released by the DfT: `accidents`, `vehicles` and `casualties`. There is a schema covering these tables but a good amount of work is needed to understand it and be able to use it.
 
@@ -232,3 +236,5 @@ leaflet(data = wy_lonlat$geometry, height = "280px") %>%
 ## Conclusion
 
 You have access to a reliable and official road safety dataset which is cleaned up and ready to be consumed. We hope this package can be used by campaigners, academics and other interestd parties to make the roads of the UK and the rest of the world a safe place for all of us.
+
+## References
