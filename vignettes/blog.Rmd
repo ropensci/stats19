@@ -269,7 +269,7 @@ leaflet(data = crashes_pedestrians_lonlat, height = "280px") %>%
 ## Conclusion
 
 [`stats19`](https://github.com/ropensci/stats19) provides access to a reliable and official road safety dataset.
-It helps with data discovery, download, cleaning and formatting, allowing you to focus on the real work of analysis.
+As covered in this post, it helps with data discovery, download, cleaning and formatting, allowing you to focus on the real work of analysis (see the package's introductory [vignette](https://itsleeds.github.io/stats19/articles/stats19.html) for more on this).
 In our experience, 80% of time spent using STATS19 data was spent on data cleaning.
 Hopefully, now the data is freely available in a more useful form, 100% of the time can be spent on analysis!
 We think it could help many people, especially, including campaigners, academics and local authority planners aiming to make the roads of the UK and the rest of the world a safe place for all of us.
