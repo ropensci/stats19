@@ -9,6 +9,7 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 bibliography: references.bib
+always_allow_html: yes
 ---
 
 ## Introduction
@@ -58,7 +59,7 @@ An important point is that the dataset omits crashes in which nobody was hurt, a
 
 The Department for Transport (DfT) also names the dataset [STATS19 on the main web page that links to open access road crash data](https://data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data).
 
-The importance of road safety and informed decision making based on crash data cannot be overstated. Two numbers from a strategy [document](https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/8146/strategicframework.pdf) by the UK government (2011) are worth mentioning here: 
+The importance of road safety and informed decision making based on crash data cannot be overstated. Deliberately avoiding the matter of life and death of road safety, two numbers from a strategy [document](https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/8146/strategicframework.pdf) by the UK government (2011) are worth mentioning to show the scale of the numbers: 
 
 > The economic welfare costs [of road collisions] are estimated at around £16 billion a year while insurance payouts for motoring claims alone are now over £12 billion a year.
 
