@@ -44,7 +44,9 @@ Suggests:
     tidyr,
     pkgdown,
     kableExtra,
-    leaflet
+    leaflet,
+    geojsonsf,
+    htmltools
 VignetteBuilder: knitr
 RoxygenNote: 6.1.1
 Roxygen: list(markdown = TRUE)
