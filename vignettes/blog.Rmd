@@ -12,47 +12,87 @@ bibliography: references.bib
 always_allow_html: yes
 ---
 
-## Introduction
+#### Introduction
 
-**stats19** is a new R package that enables access to and processing of Great Britain's official road traffic casualty database, [STATS19](https://data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data). 
-It has been peer reviewed thanks to rOpenSci and is now published in the Journal of Open Source Software ([JOSS](http://joss.theoj.org/papers/10.21105/joss.01181)) [@lovelace_stats19_2019].
-For installation and the code, see its home in rOpenSci: https://github.com/ropensci/stats19, and the package documentation at https://itsleeds.github.io/stats19/.
-
-In this post for [rOpenSci](https://ropensci.github.io/), we'll provide a bit of context, show how the package works, and provide ideads for future work building on the experience.
-Now is a good time to report on the package:
-version [`0.2.0`](https://cran.r-project.org/web/packages/stats19/index.html) has just been release on CRAN, which contains a few improvements, some of which are used in this blog post (`ask = FALSE` in `get_stats19()`, for example, which makes it even quicker to get data with this package).
+`stats19` is a new R package that enables access to and processing of
+Great Britain’s official road traffic casualty database,
+[STATS19](https://data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data).
 
 We started the package in late 2018 following three main motivations:
 
-1. The release of the 2017 road crash statistics, which showed worsening road safety in some areas, increasing the importance of making the data more accessible.
-2. The realisation that many researchers were writing add-hoc code to clean the data, with a huge amount of duplicated (wasted) effort and potential for mistakes to lead to mistakes in the labelling of the data (more on that below).
-3. An understanding of the concept of 'modularity' in software design, following the [Unix philosophy](https://en.wikipedia.org/wiki/Unix_philosophy) that programs should 'do one thing and do it well'. This realisation has led to code inside the rOpenSci-hosted package [`stplanr`](https://github.com/ropensci/stplanr) being split-out into 2 separate packages already: [`cyclestreets`](https://github.com/Robinlovelace/cyclestreets) and [`stats19`](https://github.com/ropensci/stats19).
+1.  The release of the 2017 road crash statistics, which showed
+    worsening road safety in some areas, increasing the importance of
+    making the data more accessible.
+2.  The realisation that many researchers were writing add-hoc code to
+    clean the data, with a huge amount of duplicated (wasted) effort and
+    potential for mistakes to lead to mistakes in the labelling of the
+    data (more on that below).
+3.  An understanding of the concept of ‘modularity’ in software design,
+    following the [Unix
+    philosophy](https://en.wikipedia.org/wiki/Unix_philosophy) that
+    programs should ‘do one thing and do it well’. This realisation has
+    led to code inside the rOpenSci-hosted package
+    [`stplanr`](https://github.com/ropensci/stplanr) being split-out
+    into 2 separate packages already:
+    [`cyclestreets`](https://github.com/Robinlovelace/cyclestreets) and
+    [`stats19`](https://github.com/ropensci/stats19).
 
+We have a wider motivation: we want the roads to be safer. By making
+data on the nature of road crashes in the UK more publicly accessible
+(in a usable format), we hope this package saves lives.
 
-The main authors are based at the [Institute for Transport Studies (ITS)](https://environment.leeds.ac.uk/transport) and the [Leeds Institute for Data Analytics (LIDA)](https://lida.leeds.ac.uk/), institutions focussed on transport and data-intensive research.
-We have prior experience writing code to work with road crash data:
-Robin wrote code for an academic paper on cycle safety in Yorkshire based on STATS19 data [@lovelace_who_2016], and put it in the [robinlovelace/bikeR](https://github.com/Robinlovelace/bikeR) repo for posterity/reproducibility.
-Package contributor, Dr Malcolm Morgan, wrote code processing different STATS19 data for the Cycling Infrastructure Prioritisation Toolkit ([CyIPT](https://www.cyipt.bike)) and put it in [cyipt/stats19](https://github.com/cyipt/stats19).
+It has been peer reviewed thanks to rOpenSci and is now published in the
+Journal of Open Source Software
+([JOSS](http://joss.theoj.org/papers/10.21105/joss.01181)) (Lovelace et
+al. 2019). For installation and the code, see its home in rOpenSci:
+<https://github.com/ropensci/stats19>, and the package documentation at
+<https://itsleeds.github.io/stats19/>.
+
+In this post, we’ll provide a bit of context, show how the package works, and provide ideads for future work building on the experience. Now is a good time to report on the package: version [`0.2.0`](https://cran.r-project.org/web/packages/stats19/index.html) has just been release on CRAN, which contains a few improvements, some of which are used in this blog post (`ask = FALSE` in `get_stats19()`, for example, which makes it even quicker to get data with this package).
+
+#### Short history and affiliations
+
+The main authors are based at the [Institute for Transport Studies
+(ITS)](https://environment.leeds.ac.uk/transport) and the [Leeds
+Institute for Data Analytics (LIDA)](https://lida.leeds.ac.uk/),
+institutions focussed on transport and data-intensive research. We have
+prior experience writing code to work with road crash data: Robin wrote
+code for an academic paper on cycle safety in Yorkshire based on STATS19
+data (Lovelace, Roberts, and Kellar 2016), and put it in the
+[robinlovelace/bikeR](https://github.com/Robinlovelace/bikeR) repo for
+posterity/reproducibility. Package contributor, Dr Malcolm Morgan, wrote
+code processing different STATS19 data for the Cycling Infrastructure
+Prioritisation Toolkit ([CyIPT](https://www.cyipt.bike)) and put it in
+[cyipt/stats19](https://github.com/cyipt/stats19). 
+
 The large and complex STATS19 data from the UK's Department for Transport, which is open access but difficult-to-use, represented a perfect opportunity for us to get stuck into a chunky data processing challenge.
 
-We have a wider motivation: we want the roads to be safer.
-By making data on the nature of road crashes in the UK more publicly accessible (in a usable format), we hope this package saves lives.
+#### What is STATS19 anyway?
 
-## What is STATS19 anyway?
+One of the reviewer comments from the [rOpenSci review process (which
+has 77 comments - lots of knowledge
+shared)](https://github.com/ropensci/software-review/issues/266) alluded
+to the package’s esoteric name:
 
-One of the reviewer comments from the [rOpenSci review process (which has 77 comments - lots of knowledge shared)](https://github.com/ropensci/software-review/issues/266) alluded to the package's esoteric name:
+> I confess I wish the package name was more expressive–stats19 sounds
+> like an introductory statistics class.
 
-> I confess I wish the package name was more expressive--stats19 sounds like an introductory statistics class.
+We agree\! However, the priority with the package is to remain faithful
+to the data, and alternative name options, such as stats19data,
+roadcrashesUK and roadSafetyData were not popular. Furthermore, the term
+‘stats19’ is strongly associated with road crash data online. The URL
+<https://en.wikipedia.org/wiki/STATS19> resolves to
+<https://en.wikipedia.org/wiki/Reported_Road_Casualties_Great_Britain>,
+for example (this page is provides and excellent introduction to
+STATS19).
 
-We agree!
-However, the priority with the package is to remain faithful to the data, and alternative name options, such as stats19data, roadcrashesUK and roadSafetyData were not popular.
-Furthermore, the term 'stats19' is strongly associated with road crash data online.
-The URL https://en.wikipedia.org/wiki/STATS19 resolves to https://en.wikipedia.org/wiki/Reported_Road_Casualties_Great_Britain, for example (this page is provides and excellent introduction to STATS19).
+The name comes from a UK police form called
+[STATS19](https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/775149/Operational_Metrics_Manual.pdf)
+(note the capital letters). There is another document called [STATS20](https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/230596/stats20-2011.pdf), which is the guidance to STATS19 officers filling in STATS19 form. 
 
-The name comes from a UK police form called [STATS19](https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/775149/Operational_Metrics_Manual.pdf) (note the capital letters).
-Why STATS19 and not, say, STATS18 or STATS20? 
-We're not sure, but there *is* an official [STATS20 product](https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/230596/stats20-2011.pdf), which explains what STATS19 data is and provides guidelines to officers filling in STATS19 form (it's a 100+ page document providing lots of detail on each variable collected, so worth checking out if you want detail).
-An important point is that the dataset omits crashes in which nobody was hurt, as emphasised by another government [document](https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/743853/reported-road-casualties-gb-notes-definitions.pdf): 
+An important point is that the dataset omits crashes in which
+nobody was hurt, as emphasised by another government
+[document](https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/743853/reported-road-casualties-gb-notes-definitions.pdf):
 
 > The STATS19 data are therefore not a complete record of all injury accidents and this should be borne in mind when using and analysing the data. However, they remain the most detailed, complete and reliable single source of information on road casualties covering the whole of Great Britain, in particular for monitoring trends over time
 
@@ -67,7 +107,7 @@ Even more shocking are the [global statistics](https://www.who.int/gho/road_safe
 
 > While so many people die on the roads each year in the UK (1,793 people in 2017, 3 deaths per 100,000) and worldwide (1,250,000 people in 2015, 17 deaths per 100,000) and ‘vision zero’ remains a Swedish dream (Johansson 2009), we urge people researching STATS19 and other road safety datasets to focus on a more urgent question: how to stop this carnage?
 
-## The road crash data in stats19
+#### The road crash data in stats19
 
 There are three main different types of CSV files released by the DfT: `accidents`, `vehicles` and `casualties` tables.
 There is a schema covering these tables but a good amount of work is needed to understand it, let alone be able to the data contained within the files and convert the integers they contain into meaningful data.
@@ -84,7 +124,7 @@ Unzipped this contains the following 3 files, which occupy almost 2 GB on your h
 # total 1.753 GB data
 ```
 
-## How stats19 works
+#### How stats19 works
 
 With those introductions out of the way, lets see what the package can do and how it can empower people (including target audiences of academics, policy makers and road safety campaigners and R programmers/analysts wanting to test their skills on a large spatio-temporal dataset) to access STATS19 data, back to 1979.
 First install the package in the usual way:
@@ -133,9 +173,12 @@ You can also get the raw data (if you really want!) to see how much more useful 
 ```{r}
 crashes_2017_raw = get_stats19(year = 2017, type = "Accidents", ask = FALSE, format = FALSE)
 ```
+The first two columns are raw read, the next two are formatted by `stats19` package:
 
 ```{r crashes_2017-raw}
-kableExtra::kable(head(crashes_2017_raw[, c(1, 4, 5, 7, 10)]))
+kableExtra::kable(cbind(head(crashes_2017_raw[1:2, c(7, 10)]), head(crashes_2017[1:2, c(7, 10)])))
+class(crashes_2017_raw$Date)
+class(crashes_2017$date)
 ```
 
 Note: the severity type is not labelled (this problem affects dozens of columns), the column names are inconsistent, and the dates have note been cleaned and converted into a user-friendly date (`POSIXct`) class:
@@ -146,7 +189,7 @@ class(crashes_2017$date)
 class(crashes_2017_raw$Date)
 ```
 
-## Creating geographic crash data
+#### Creating geographic crash data
 
 An important feature of STATS19 data is that the "accidents" table contains geographic coordinates.
 These are provided at ~10m resolution in the UK's official coordinate reference system (the Ordnance Survey National Grid, EPSG code 27700).
@@ -181,7 +224,7 @@ crashes_wy = crashes_sf[west_yorkshire, ]
 nrow(crashes_wy) # which is 3.36%
 ```
 
-## Combining the tables
+#### The big picture: road safety
 
 We can combine the three sets of tables to analyse the data further. Lets read the datasets first:
 
@@ -252,7 +295,7 @@ ggplot(crashes_types, aes(size = Total, colour = speed_limit)) +
 ```
 
 To show what is possible when the data are in this form, and allude to next steps, let's create an interactive map.
-We will plot crashes in which pedestrians were hurt, from the `crashes_types`, using Rstudio's `leaflet` package:
+We will plot crashes in which pedestrians were hurt, from the `crashes_types`, using `leaflet` package:
 
 ```{r crashes-map, fig.show='hold', out.width="100%", fig.cap="Spatial distribution of all collisions in which people who were walking on the road network ('pedestrians') were hit by a car or other vehicle in 2017 within West Yorkshire boundary.", fig.width=9, fig.height=7}
 library(leaflet)
@@ -278,7 +321,7 @@ factors_as_string = FALSE)
 template = paste0('
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA==" crossorigin=""/>
 <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js" integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg==" crossorigin=""></script>
-<div id="mapid" style="width: 600px; height: 400px;">
+<div id="mapid" style="width: 100%; height: 400px;">
 <script>
 	var map = L.map("mapid");
 	L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw", {
@@ -337,7 +380,7 @@ write(template, path)
 includeHTML(path)
 ```
 
-## Conclusion
+#### Conclusion
 
 [`stats19`](https://github.com/ropensci/stats19) provides access to a reliable and official road safety dataset.
 As covered in this post, it helps with data discovery, download, cleaning and formatting, allowing you to focus on the real work of analysis (see the package's introductory [vignette](https://itsleeds.github.io/stats19/articles/stats19.html) for more on this).
@@ -353,4 +396,4 @@ There are many possible next steps, including:
 
 For now, however, we want to take the opportunity to celebrate the release of `stats19` 🎉, thank rOpenSci for a great review process 🙏 and let you know: the package and data are now out there, and are ready to be used 🚀.
 
-## References
+#### References
