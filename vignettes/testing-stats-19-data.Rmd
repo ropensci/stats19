@@ -1,0 +1,85 @@
+---
+title: "Testing stats19 data"
+author: "Robin Lovelace"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+The aim of this vignette is to showcase some tests we've done to verify and explore the quality of STATS19 data.
+We will use the following packages:
+
+```{r}
+# devtools::install_github("ropensci/stats19")
+library(stats19)
+library(ggplot2)
+library(dplyr)
+library(sf)
+```
+
+## IMD scores
+
+Let's look at the IMD scores for 2 areas that are well known for having high and low levels of deprivation: 
+Bradford and Surrey, respectively.
+The following code chunk gets the data.
+
+
+```{r}
+crashes_2017 = get_stats19(year = 2017, type = "Accidents", ask = FALSE)
+casualties_2017 = get_stats19(year = 2017, type = "Cas", ask = FALSE)
+vehicles_2017 = get_stats19(year = 2017, type = "Veh", ask = FALSE)
+crashes_2017_sf = format_sf(crashes_2017, lonlat = TRUE)
+c_ped = casualties_2017 %>% filter(casualty_type == "Pedestrian")
+v_car = vehicles_2017 %>% filter(vehicle_type == "Car")
+a_cp = crashes_2017_sf %>%
+  filter(number_of_casualties == 1) 
+
+crashes_joined = a_cp %>% 
+  inner_join(vehicles_2017) %>% 
+  inner_join(casualties_2017)
+```
+
+### Bradford
+
+The results for Bradford show, as expected, many people come from areas with high levels of deprivation, especially among casualties.
+
+```{r}
+bradford = osmdata::getbb("bradford", format_out = "sf_polygon")
+plot(bradford$geometry)
+crashes_bradford = crashes_joined[bradford, ]
+ggplot(crashes_bradford) +
+  geom_bar(aes(casualty_imd_decile)) +
+  theme(axis.text.x = element_text(angle = 90))
+ggplot(crashes_bradford) +
+  geom_bar(aes(driver_imd_decile)) +
+  theme(axis.text.x = element_text(angle = 90))
+```
+
+### Surrey
+
+Conversly for Surrey, there are many people from the lowest IMD deciles.
+
+```{r}
+surrey = osmdata::getbb("surrey", format_out = "sf_polygon")
+plot(surrey$geometry)
+crashes_surrey = crashes_joined[surrey, ]
+ggplot(crashes_surrey) +
+  geom_bar(aes(casualty_imd_decile)) +
+  theme(axis.text.x = element_text(angle = 90))
+ggplot(crashes_surrey) +
+  geom_bar(aes(casualty_imd_decile)) +
+  theme(axis.text.x = element_text(angle = 90))
+```
+
+
+
