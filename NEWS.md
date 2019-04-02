@@ -1,3 +1,5 @@
+# stats19 0.2.1
+
 # stats19 0.2.0
 
 * `get_stats19()` gains an `ask` argument (`TRUE` by default, set as `FALSE` to make road crash data access even more automated!)
