@@ -101,6 +101,7 @@ utils::download.file(u, destfile = destfile)
 ```
 
 # Function to covert schema names
+
 ```{r}
 schema_to_variable = function(x) {
   x = format_column_names(x)
@@ -137,7 +138,7 @@ stats19_vtype = function(x) {
   sel_other = grepl(
     pattern = paste0(
       "Did|Lower|Accident*.Ind|Reference|Restricted|",
-      "Leaving|Hit|Age*.Band*.of*.D|Driver*.[H|I]"
+      "Leaving|Hit|Age*.Band*.of*.D|Driver*.H"
     ),
     x = x
   )
@@ -166,23 +167,27 @@ stats19_vname_switch = function(x) {
   x = gsub(pattern = " \\(From 2011\\)", "", x = x)
   x = gsub(pattern = "Casualty Home Type", "Home Area Type", x = x)
   x = gsub(pattern = "Casualty IMD Decile", "IMD Decile", x = x)
+  x = gsub(pattern = "Driver IMD Decile", "IMD Decile", x = x)
   x = gsub(pattern = "Journey Purpose of Driver", "Journey Purpose", x = x)
   x
 }
 ```
 
 Informal test:
+
 ```{r}
 variable_types = stats19_vtype(stats19_variables$variable)
 names(variable_types) = stats19_variables$variable
 variable_types
-x = names(read_accidents())
+x = names(get_stats19(year = 2017, type = "accidents", ask = FALSE))
 n = stats19_vtype(x)
 names(n) = x
 n
 ```
 
 The data bundled with the package can then be (re-)generated with
+
 ```{r}
 stats19_schema = read_schema()
+View(stats19_schema)
 ```
