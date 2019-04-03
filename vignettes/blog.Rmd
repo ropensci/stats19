@@ -48,7 +48,7 @@ al. 2019). For installation and the code, see its home in rOpenSci:
 <https://github.com/ropensci/stats19>, and the package documentation at
 <https://itsleeds.github.io/stats19/>.
 
-In this post, we’ll provide a bit of context, show how the package works, and provide ideads for future work building on the experience. Now is a good time to report on the package: version [`0.2.0`](https://cran.r-project.org/web/packages/stats19/index.html) has just been release on CRAN, which contains a few improvements, some of which are used in this blog post (`ask = FALSE` in `get_stats19()`, for example, which makes it even quicker to get data with this package).
+In this post, we’ll provide a bit of context, show how the package works, and provide ideads for future work building on the experience. Now is a good time to report on the package: version [`0.2.0`](https://cran.r-project.org/package=stats19) has just been release on CRAN, which contains a few improvements, some of which are used in this blog post (`ask = FALSE` in `get_stats19()`, for example, which makes it even quicker to get data with this package).
 
 #### Short history and affiliations
 
