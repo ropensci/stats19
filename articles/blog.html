@@ -79,7 +79,7 @@
       <h1>stats19: a package for road safety research</h1>
                         <h4 class="author">Layik Hama and Robin Lovelace</h4>
             
-            <h4 class="date">2019-06-11</h4>
+            <h4 class="date">2019-07-04</h4>
       
       
       <div class="hidden name"><code>blog.Rmd</code></div>
@@ -299,9 +299,9 @@ Slight
 <pre><code>## Files identified: dftRoadSafetyData_Accidents_2017.zip</code></pre>
 <pre><code>##    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Accidents_2017.zip</code></pre>
 <pre><code>## Data already exists in data_dir, not downloading</code></pre>
-<pre><code>## Data saved at /tmp/Rtmp7ba6Gw/dftRoadSafetyData_Accidents_2017/Acc.csv</code></pre>
+<pre><code>## Data saved at /tmp/Rtmpwt0H82/dftRoadSafetyData_Accidents_2017/Acc.csv</code></pre>
 <pre><code>## Reading in:</code></pre>
-<pre><code>## /tmp/Rtmp7ba6Gw/dftRoadSafetyData_Accidents_2017/Acc.csv</code></pre>
+<pre><code>## /tmp/Rtmpwt0H82/dftRoadSafetyData_Accidents_2017/Acc.csv</code></pre>
 <p>The first two columns are raw read, the next two are formatted by <code>stats19</code> package:</p>
 <div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1">kableExtra<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/kableExtra/topics/reexports">kable</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cbind">cbind</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(crashes_<span class="dv">2017</span>_raw[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">7</span>, <span class="dv">10</span>)]), <span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(crashes_<span class="dv">2017</span>[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">7</span>, <span class="dv">10</span>)])))</a></code></pre></div>
 <table class="table">
@@ -413,112 +413,107 @@ Slight
 <div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" data-line-number="1">base<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sets">setdiff</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/names">names</a></span>(cj), <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/names">names</a></span>(crashes_wy))</a></code></pre></div>
 <pre><code>## [1] "Total"     "walking"   "cycling"   "passenger"</code></pre>
 <p>In addition to the <code>Total</code> number of people hurt/killed, <code>cj</code> contains a column for each type of casualty (cyclist, car occupant, etc.), and a number corresponding to the number of each type hurt in each crash. It also contains the <code>geometry</code> column from <code>crashes_sf</code>. In other words, joins allow the casualties and vehicles tables to be geo-referenced. We can then explore the spatial distribution of different casualty types. The following figure, for example, shows the spatial distribution of pedestrians and car passengers hurt in car crashes across West Yorkshire in 2017:</p>
-<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb46-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(ggplot2)</a></code></pre></div>
-<pre><code>## Registered S3 methods overwritten by 'ggplot2':
-##   method         from 
-##   [.quosures     rlang
-##   c.quosures     rlang
-##   print.quosures rlang</code></pre>
-<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" data-line-number="1">crashes_types =<span class="st"> </span>cj <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb48-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(accident_severity <span class="op">!=</span><span class="st"> "Slight"</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb48-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="dt">type =</span> <span class="kw"><a href="https://dplyr.tidyverse.org/reference/case_when.html">case_when</a></span>(</a>
-<a class="sourceLine" id="cb48-4" data-line-number="4">    walking <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span> <span class="op">~</span><span class="st"> "Walking"</span>,</a>
-<a class="sourceLine" id="cb48-5" data-line-number="5">    cycling <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span> <span class="op">~</span><span class="st"> "Cycling"</span>,</a>
-<a class="sourceLine" id="cb48-6" data-line-number="6">    passenger <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span> <span class="op">~</span><span class="st"> "Passenger"</span>,</a>
-<a class="sourceLine" id="cb48-7" data-line-number="7">    <span class="ot">TRUE</span> <span class="op">~</span><span class="st"> "Other"</span></a>
-<a class="sourceLine" id="cb48-8" data-line-number="8">  ))</a>
-<a class="sourceLine" id="cb48-9" data-line-number="9"><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/ggplot">ggplot</a></span>(crashes_types, <span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/aes">aes</a></span>(<span class="dt">size =</span> Total, <span class="dt">colour =</span> speed_limit)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb48-10" data-line-number="10"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/ggsf">geom_sf</a></span>(<span class="dt">show.legend =</span> <span class="st">"point"</span>, <span class="dt">alpha =</span> <span class="fl">0.3</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb48-11" data-line-number="11"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/facet_grid">facet_grid</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/vars">vars</a></span>(type), <span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/vars">vars</a></span>(accident_severity)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb48-12" data-line-number="12"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/scale_size">scale_size</a></span>(</a>
-<a class="sourceLine" id="cb48-13" data-line-number="13">    <span class="dt">breaks =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>, <span class="dv">12</span>),</a>
-<a class="sourceLine" id="cb48-14" data-line-number="14">    <span class="dt">labels =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, <span class="st">"3+"</span>, <span class="dv">12</span>)</a>
-<a class="sourceLine" id="cb48-15" data-line-number="15">    ) <span class="op">+</span></a>
-<a class="sourceLine" id="cb48-16" data-line-number="16"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/scale_gradient">scale_color_gradientn</a></span>(<span class="dt">colours =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"blue"</span>, <span class="st">"yellow"</span>, <span class="st">"red"</span>)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb48-17" data-line-number="17"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/theme">theme</a></span>(<span class="dt">axis.text =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/element">element_blank</a></span>(), <span class="dt">axis.ticks =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/ggplot2/topics/element">element_blank</a></span>())</a></code></pre></div>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb46-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(ggplot2)</a>
+<a class="sourceLine" id="cb46-2" data-line-number="2">crashes_types =<span class="st"> </span>cj <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb46-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(accident_severity <span class="op">!=</span><span class="st"> "Slight"</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb46-4" data-line-number="4"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="dt">type =</span> <span class="kw"><a href="https://dplyr.tidyverse.org/reference/case_when.html">case_when</a></span>(</a>
+<a class="sourceLine" id="cb46-5" data-line-number="5">    walking <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span> <span class="op">~</span><span class="st"> "Walking"</span>,</a>
+<a class="sourceLine" id="cb46-6" data-line-number="6">    cycling <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span> <span class="op">~</span><span class="st"> "Cycling"</span>,</a>
+<a class="sourceLine" id="cb46-7" data-line-number="7">    passenger <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span> <span class="op">~</span><span class="st"> "Passenger"</span>,</a>
+<a class="sourceLine" id="cb46-8" data-line-number="8">    <span class="ot">TRUE</span> <span class="op">~</span><span class="st"> "Other"</span></a>
+<a class="sourceLine" id="cb46-9" data-line-number="9">  ))</a>
+<a class="sourceLine" id="cb46-10" data-line-number="10"><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(crashes_types, <span class="kw"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="dt">size =</span> Total, <span class="dt">colour =</span> speed_limit)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb46-11" data-line-number="11"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html">geom_sf</a></span>(<span class="dt">show.legend =</span> <span class="st">"point"</span>, <span class="dt">alpha =</span> <span class="fl">0.3</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb46-12" data-line-number="12"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/facet_grid.html">facet_grid</a></span>(<span class="kw"><a href="https://ggplot2.tidyverse.org/reference/vars.html">vars</a></span>(type), <span class="kw"><a href="https://ggplot2.tidyverse.org/reference/vars.html">vars</a></span>(accident_severity)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb46-13" data-line-number="13"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/scale_size.html">scale_size</a></span>(</a>
+<a class="sourceLine" id="cb46-14" data-line-number="14">    <span class="dt">breaks =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>, <span class="dv">12</span>),</a>
+<a class="sourceLine" id="cb46-15" data-line-number="15">    <span class="dt">labels =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, <span class="st">"3+"</span>, <span class="dv">12</span>)</a>
+<a class="sourceLine" id="cb46-16" data-line-number="16">    ) <span class="op">+</span></a>
+<a class="sourceLine" id="cb46-17" data-line-number="17"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/scale_gradient.html">scale_color_gradientn</a></span>(<span class="dt">colours =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"blue"</span>, <span class="st">"yellow"</span>, <span class="st">"red"</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb46-18" data-line-number="18"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span>(<span class="dt">axis.text =</span> <span class="kw"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_blank</a></span>(), <span class="dt">axis.ticks =</span> <span class="kw"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_blank</a></span>())</a></code></pre></div>
 <div class="figure">
 <img src="blog_files/figure-html/sfplot-1.png" alt="Spatial distribution of serious and fatal collisions in which people who were walking on the road network ('pedestrians') were hit by a car or other vehicle." width="100%"><p class="caption">
 Spatial distribution of serious and fatal collisions in which people who were walking on the road network (‘pedestrians’) were hit by a car or other vehicle.
 </p>
 </div>
 <p>To show what is possible when the data are in this form, and allude to next steps, let’s create an interactive map. We will plot crashes in which pedestrians were hurt, from the <code>crashes_types</code>, using <code>leaflet</code> package:</p>
-<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(leaflet)</a>
-<a class="sourceLine" id="cb49-2" data-line-number="2">crashes_pedestrians =<span class="st"> </span>crashes_types <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb49-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(walking <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>)</a>
-<a class="sourceLine" id="cb49-4" data-line-number="4"><span class="co"># convert to lon lat CRS</span></a>
-<a class="sourceLine" id="cb49-5" data-line-number="5">crashes_pedestrians_lonlat =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/st_transform">st_transform</a></span>(crashes_pedestrians, <span class="dt">crs =</span> <span class="dv">4326</span>)</a>
-<a class="sourceLine" id="cb49-6" data-line-number="6">pal =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/leaflet/topics/colorNumeric">colorFactor</a></span>(<span class="dt">palette =</span> <span class="st">"Reds"</span>, <span class="dt">domain =</span> crashes_pedestrians_lonlat<span class="op">$</span>accident_severity, <span class="dt">reverse =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb49-7" data-line-number="7">map =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/leaflet/topics/leaflet">leaflet</a></span>(<span class="dt">data =</span> crashes_pedestrians_lonlat, <span class="dt">height =</span> <span class="st">"280px"</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb49-8" data-line-number="8"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/leaflet/topics/addProviderTiles">addProviderTiles</a></span>(<span class="dt">provider =</span> providers<span class="op">$</span>OpenStreetMap.BlackAndWhite) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb49-9" data-line-number="9"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/leaflet/topics/map-layers">addCircleMarkers</a></span>(<span class="dt">radius =</span> <span class="fl">0.5</span>, <span class="dt">color =</span> <span class="op">~</span><span class="kw">pal</span>(accident_severity)) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb49-10" data-line-number="10"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/leaflet/topics/addLegend">addLegend</a></span>(<span class="dt">pal =</span> pal, <span class="dt">values =</span> <span class="op">~</span>accident_severity) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb49-11" data-line-number="11"><span class="st">  </span>leaflet<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/leaflet/topics/addMiniMap">addMiniMap</a></span>(<span class="dt">toggleDisplay =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb49-12" data-line-number="12"><span class="co"># map # if you like to see the leaflet version</span></a></code></pre></div>
-<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb50-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(geojsonsf)</a>
-<a class="sourceLine" id="cb50-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(htmltools)</a>
-<a class="sourceLine" id="cb50-3" data-line-number="3">geojson =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/geojsonsf/topics/sf_geojson">sf_geojson</a></span>(</a>
-<a class="sourceLine" id="cb50-4" data-line-number="4">  crashes_pedestrians_lonlat[,<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"accident_severity"</span>)],</a>
-<a class="sourceLine" id="cb50-5" data-line-number="5"><span class="dt">factors_as_string =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb50-6" data-line-number="6">template =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste0</a></span>(<span class="st">'</span></a>
-<a class="sourceLine" id="cb50-7" data-line-number="7"><span class="st">&lt;link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA==" crossorigin=""/&gt;</span></a>
-<a class="sourceLine" id="cb50-8" data-line-number="8"><span class="st">&lt;script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js" integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg==" crossorigin=""&gt;&lt;/script&gt;</span></a>
-<a class="sourceLine" id="cb50-9" data-line-number="9"><span class="st">&lt;div id="mapid" style="width: 100%; height: 400px;"&gt;</span></a>
-<a class="sourceLine" id="cb50-10" data-line-number="10"><span class="st">&lt;script&gt;</span></a>
-<a class="sourceLine" id="cb50-11" data-line-number="11"><span class="st">    var map = L.map("mapid");</span></a>
-<a class="sourceLine" id="cb50-12" data-line-number="12"><span class="st">    L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw", {</span></a>
-<a class="sourceLine" id="cb50-13" data-line-number="13"><span class="st">        maxZoom: 18,</span></a>
-<a class="sourceLine" id="cb50-14" data-line-number="14"><span class="st">        attribution: </span><span class="ch">\'</span><span class="st">Map data &amp;copy; &lt;a href="https://www.openstreetmap.org/"&gt;OpenStreetMap&lt;/a&gt; contributors, &lt;a href="https://creativecommons.org/licenses/by-sa/2.0/"&gt;CC-BY-SA&lt;/a&gt;, Imagery © &lt;a href="https://www.mapbox.com/"&gt;Mapbox&lt;/a&gt;</span><span class="ch">\'</span><span class="st">,</span></a>
-<a class="sourceLine" id="cb50-15" data-line-number="15"><span class="st">        id: "mapbox.streets"</span></a>
-<a class="sourceLine" id="cb50-16" data-line-number="16"><span class="st">  }).addTo(map);   </span></a>
-<a class="sourceLine" id="cb50-17" data-line-number="17"><span class="st">  var json = '</span>, geojson, <span class="st">';'</span>, </a>
-<a class="sourceLine" id="cb50-18" data-line-number="18">  <span class="st">'</span></a>
-<a class="sourceLine" id="cb50-19" data-line-number="19"><span class="st">  var geojsonMarkerOptions = {</span></a>
-<a class="sourceLine" id="cb50-20" data-line-number="20"><span class="st">    radius: 6,</span></a>
-<a class="sourceLine" id="cb50-21" data-line-number="21"><span class="st">    color: "#000",</span></a>
-<a class="sourceLine" id="cb50-22" data-line-number="22"><span class="st">    weight: 1,</span></a>
-<a class="sourceLine" id="cb50-23" data-line-number="23"><span class="st">    opacity: 1,</span></a>
-<a class="sourceLine" id="cb50-24" data-line-number="24"><span class="st">    fillOpacity: 0.5</span></a>
-<a class="sourceLine" id="cb50-25" data-line-number="25"><span class="st">  };</span></a>
-<a class="sourceLine" id="cb50-26" data-line-number="26"><span class="st">  var layer = L.geoJSON(json, {</span></a>
-<a class="sourceLine" id="cb50-27" data-line-number="27"><span class="st">    pointToLayer: function (feature, latlng) {</span></a>
-<a class="sourceLine" id="cb50-28" data-line-number="28"><span class="st">        return L.circleMarker(latlng, geojsonMarkerOptions);</span></a>
-<a class="sourceLine" id="cb50-29" data-line-number="29"><span class="st">    },</span></a>
-<a class="sourceLine" id="cb50-30" data-line-number="30"><span class="st">    style: function(feature) {</span></a>
-<a class="sourceLine" id="cb50-31" data-line-number="31"><span class="st">      switch (feature.properties.accident_severity) {</span></a>
-<a class="sourceLine" id="cb50-32" data-line-number="32"><span class="st">          case "Serious": return {color: "#FEB24C"};</span></a>
-<a class="sourceLine" id="cb50-33" data-line-number="33"><span class="st">          case "Fatal":   return {color: "#BD0026"};</span></a>
-<a class="sourceLine" id="cb50-34" data-line-number="34"><span class="st">       }</span></a>
-<a class="sourceLine" id="cb50-35" data-line-number="35"><span class="st">    }</span></a>
-<a class="sourceLine" id="cb50-36" data-line-number="36"><span class="st">  }).addTo(map);</span></a>
-<a class="sourceLine" id="cb50-37" data-line-number="37"><span class="st">  map.fitBounds(layer.getBounds());</span></a>
-<a class="sourceLine" id="cb50-38" data-line-number="38"><span class="st">  var legend = L.control({position: "bottomright"});</span></a>
-<a class="sourceLine" id="cb50-39" data-line-number="39"><span class="st">    legend.onAdd = function (map) {</span></a>
-<a class="sourceLine" id="cb50-40" data-line-number="40"><span class="st">        var div = L.DomUtil.create("div", "info legend"), labels = [];</span></a>
-<a class="sourceLine" id="cb50-41" data-line-number="41"><span class="st">    labels.push("&lt;i style=</span><span class="ch">\'</span><span class="st">background:#FEB24C</span><span class="ch">\'</span><span class="st">&gt;&lt;/i&gt;Serious");</span></a>
-<a class="sourceLine" id="cb50-42" data-line-number="42"><span class="st">    labels.push("&lt;i style=</span><span class="ch">\'</span><span class="st">background:#BD0026</span><span class="ch">\'</span><span class="st">&gt;&lt;/i&gt;Fatal");</span></a>
-<a class="sourceLine" id="cb50-43" data-line-number="43"><span class="st">        div.innerHTML = labels.join("&lt;br&gt;");</span></a>
-<a class="sourceLine" id="cb50-44" data-line-number="44"><span class="st">        return div;</span></a>
-<a class="sourceLine" id="cb50-45" data-line-number="45"><span class="st">    };</span></a>
-<a class="sourceLine" id="cb50-46" data-line-number="46"><span class="st">  legend.addTo(map);</span></a>
-<a class="sourceLine" id="cb50-47" data-line-number="47"><span class="st">  // control that shows state info on hover</span></a>
-<a class="sourceLine" id="cb50-48" data-line-number="48"><span class="st">    var info = L.control();</span></a>
-<a class="sourceLine" id="cb50-49" data-line-number="49"><span class="st">    info.onAdd = function (map) {</span></a>
-<a class="sourceLine" id="cb50-50" data-line-number="50"><span class="st">        this._div = L.DomUtil.create("div", "info");</span></a>
-<a class="sourceLine" id="cb50-51" data-line-number="51"><span class="st">        this.update();</span></a>
-<a class="sourceLine" id="cb50-52" data-line-number="52"><span class="st">        return this._div;</span></a>
-<a class="sourceLine" id="cb50-53" data-line-number="53"><span class="st">    };</span></a>
-<a class="sourceLine" id="cb50-54" data-line-number="54"><span class="st">    info.update = function (props) {</span></a>
-<a class="sourceLine" id="cb50-55" data-line-number="55"><span class="st">        this._div.innerHTML = "&lt;h6&gt;Crashes in West Yorkshire (2017)&lt;/h6&gt;";</span></a>
-<a class="sourceLine" id="cb50-56" data-line-number="56"><span class="st">    };</span></a>
-<a class="sourceLine" id="cb50-57" data-line-number="57"><span class="st">    info.addTo(map);</span></a>
-<a class="sourceLine" id="cb50-58" data-line-number="58"><span class="st">&lt;/script&gt;</span></a>
-<a class="sourceLine" id="cb50-59" data-line-number="59"><span class="st">&lt;style&gt;</span></a>
-<a class="sourceLine" id="cb50-60" data-line-number="60"><span class="st">.info { padding: 6px 8px; font: 14px/16px Arial, Helvetica, sans-serif; background: white; background: rgba(255,255,255,0.8); box-shadow: 0 0 15px rgba(0,0,0,0.2); border-radius: 5px; } .info h4 { margin: 0 0 5px; color: #777; }</span></a>
-<a class="sourceLine" id="cb50-61" data-line-number="61"><span class="st">.legend { text-align: left; line-height: 18px; color: #555; } .legend i { width: 18px; height: 18px; float: left; margin-right: 8px; opacity: 0.7; }&lt;/style&gt;</span></a>
-<a class="sourceLine" id="cb50-62" data-line-number="62"><span class="st">&lt;/div&gt;'</span>)</a>
-<a class="sourceLine" id="cb50-63" data-line-number="63">path =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/file.path">file.path</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/tempfile">tempdir</a></span>(), <span class="st">"temp.html"</span>)</a>
-<a class="sourceLine" id="cb50-64" data-line-number="64"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/write">write</a></span>(template, path)</a>
-<a class="sourceLine" id="cb50-65" data-line-number="65"><span class="kw"><a href="https://www.rdocumentation.org/packages/htmltools/topics/include">includeHTML</a></span>(path)</a></code></pre></div>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(leaflet)</a>
+<a class="sourceLine" id="cb47-2" data-line-number="2">crashes_pedestrians =<span class="st"> </span>crashes_types <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb47-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(walking <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>)</a>
+<a class="sourceLine" id="cb47-4" data-line-number="4"><span class="co"># convert to lon lat CRS</span></a>
+<a class="sourceLine" id="cb47-5" data-line-number="5">crashes_pedestrians_lonlat =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/st_transform">st_transform</a></span>(crashes_pedestrians, <span class="dt">crs =</span> <span class="dv">4326</span>)</a>
+<a class="sourceLine" id="cb47-6" data-line-number="6">pal =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/leaflet/topics/colorNumeric">colorFactor</a></span>(<span class="dt">palette =</span> <span class="st">"Reds"</span>, <span class="dt">domain =</span> crashes_pedestrians_lonlat<span class="op">$</span>accident_severity, <span class="dt">reverse =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb47-7" data-line-number="7">map =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/leaflet/topics/leaflet">leaflet</a></span>(<span class="dt">data =</span> crashes_pedestrians_lonlat, <span class="dt">height =</span> <span class="st">"280px"</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb47-8" data-line-number="8"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/leaflet/topics/addProviderTiles">addProviderTiles</a></span>(<span class="dt">provider =</span> providers<span class="op">$</span>OpenStreetMap.BlackAndWhite) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb47-9" data-line-number="9"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/leaflet/topics/map-layers">addCircleMarkers</a></span>(<span class="dt">radius =</span> <span class="fl">0.5</span>, <span class="dt">color =</span> <span class="op">~</span><span class="kw">pal</span>(accident_severity)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb47-10" data-line-number="10"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/leaflet/topics/addLegend">addLegend</a></span>(<span class="dt">pal =</span> pal, <span class="dt">values =</span> <span class="op">~</span>accident_severity) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb47-11" data-line-number="11"><span class="st">  </span>leaflet<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/leaflet/topics/addMiniMap">addMiniMap</a></span>(<span class="dt">toggleDisplay =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb47-12" data-line-number="12"><span class="co"># map # if you like to see the leaflet version</span></a></code></pre></div>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(geojsonsf)</a>
+<a class="sourceLine" id="cb48-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(htmltools)</a>
+<a class="sourceLine" id="cb48-3" data-line-number="3">geojson =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/geojsonsf/topics/sf_geojson">sf_geojson</a></span>(</a>
+<a class="sourceLine" id="cb48-4" data-line-number="4">  crashes_pedestrians_lonlat[,<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"accident_severity"</span>)],</a>
+<a class="sourceLine" id="cb48-5" data-line-number="5"><span class="dt">factors_as_string =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb48-6" data-line-number="6">template =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste0</a></span>(<span class="st">'</span></a>
+<a class="sourceLine" id="cb48-7" data-line-number="7"><span class="st">&lt;link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA==" crossorigin=""/&gt;</span></a>
+<a class="sourceLine" id="cb48-8" data-line-number="8"><span class="st">&lt;script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js" integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg==" crossorigin=""&gt;&lt;/script&gt;</span></a>
+<a class="sourceLine" id="cb48-9" data-line-number="9"><span class="st">&lt;div id="mapid" style="width: 100%; height: 400px;"&gt;</span></a>
+<a class="sourceLine" id="cb48-10" data-line-number="10"><span class="st">&lt;script&gt;</span></a>
+<a class="sourceLine" id="cb48-11" data-line-number="11"><span class="st">    var map = L.map("mapid");</span></a>
+<a class="sourceLine" id="cb48-12" data-line-number="12"><span class="st">    L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw", {</span></a>
+<a class="sourceLine" id="cb48-13" data-line-number="13"><span class="st">        maxZoom: 18,</span></a>
+<a class="sourceLine" id="cb48-14" data-line-number="14"><span class="st">        attribution: </span><span class="ch">\'</span><span class="st">Map data &amp;copy; &lt;a href="https://www.openstreetmap.org/"&gt;OpenStreetMap&lt;/a&gt; contributors, &lt;a href="https://creativecommons.org/licenses/by-sa/2.0/"&gt;CC-BY-SA&lt;/a&gt;, Imagery © &lt;a href="https://www.mapbox.com/"&gt;Mapbox&lt;/a&gt;</span><span class="ch">\'</span><span class="st">,</span></a>
+<a class="sourceLine" id="cb48-15" data-line-number="15"><span class="st">        id: "mapbox.streets"</span></a>
+<a class="sourceLine" id="cb48-16" data-line-number="16"><span class="st">  }).addTo(map);   </span></a>
+<a class="sourceLine" id="cb48-17" data-line-number="17"><span class="st">  var json = '</span>, geojson, <span class="st">';'</span>, </a>
+<a class="sourceLine" id="cb48-18" data-line-number="18">  <span class="st">'</span></a>
+<a class="sourceLine" id="cb48-19" data-line-number="19"><span class="st">  var geojsonMarkerOptions = {</span></a>
+<a class="sourceLine" id="cb48-20" data-line-number="20"><span class="st">    radius: 6,</span></a>
+<a class="sourceLine" id="cb48-21" data-line-number="21"><span class="st">    color: "#000",</span></a>
+<a class="sourceLine" id="cb48-22" data-line-number="22"><span class="st">    weight: 1,</span></a>
+<a class="sourceLine" id="cb48-23" data-line-number="23"><span class="st">    opacity: 1,</span></a>
+<a class="sourceLine" id="cb48-24" data-line-number="24"><span class="st">    fillOpacity: 0.5</span></a>
+<a class="sourceLine" id="cb48-25" data-line-number="25"><span class="st">  };</span></a>
+<a class="sourceLine" id="cb48-26" data-line-number="26"><span class="st">  var layer = L.geoJSON(json, {</span></a>
+<a class="sourceLine" id="cb48-27" data-line-number="27"><span class="st">    pointToLayer: function (feature, latlng) {</span></a>
+<a class="sourceLine" id="cb48-28" data-line-number="28"><span class="st">        return L.circleMarker(latlng, geojsonMarkerOptions);</span></a>
+<a class="sourceLine" id="cb48-29" data-line-number="29"><span class="st">    },</span></a>
+<a class="sourceLine" id="cb48-30" data-line-number="30"><span class="st">    style: function(feature) {</span></a>
+<a class="sourceLine" id="cb48-31" data-line-number="31"><span class="st">      switch (feature.properties.accident_severity) {</span></a>
+<a class="sourceLine" id="cb48-32" data-line-number="32"><span class="st">          case "Serious": return {color: "#FEB24C"};</span></a>
+<a class="sourceLine" id="cb48-33" data-line-number="33"><span class="st">          case "Fatal":   return {color: "#BD0026"};</span></a>
+<a class="sourceLine" id="cb48-34" data-line-number="34"><span class="st">       }</span></a>
+<a class="sourceLine" id="cb48-35" data-line-number="35"><span class="st">    }</span></a>
+<a class="sourceLine" id="cb48-36" data-line-number="36"><span class="st">  }).addTo(map);</span></a>
+<a class="sourceLine" id="cb48-37" data-line-number="37"><span class="st">  map.fitBounds(layer.getBounds());</span></a>
+<a class="sourceLine" id="cb48-38" data-line-number="38"><span class="st">  var legend = L.control({position: "bottomright"});</span></a>
+<a class="sourceLine" id="cb48-39" data-line-number="39"><span class="st">    legend.onAdd = function (map) {</span></a>
+<a class="sourceLine" id="cb48-40" data-line-number="40"><span class="st">        var div = L.DomUtil.create("div", "info legend"), labels = [];</span></a>
+<a class="sourceLine" id="cb48-41" data-line-number="41"><span class="st">    labels.push("&lt;i style=</span><span class="ch">\'</span><span class="st">background:#FEB24C</span><span class="ch">\'</span><span class="st">&gt;&lt;/i&gt;Serious");</span></a>
+<a class="sourceLine" id="cb48-42" data-line-number="42"><span class="st">    labels.push("&lt;i style=</span><span class="ch">\'</span><span class="st">background:#BD0026</span><span class="ch">\'</span><span class="st">&gt;&lt;/i&gt;Fatal");</span></a>
+<a class="sourceLine" id="cb48-43" data-line-number="43"><span class="st">        div.innerHTML = labels.join("&lt;br&gt;");</span></a>
+<a class="sourceLine" id="cb48-44" data-line-number="44"><span class="st">        return div;</span></a>
+<a class="sourceLine" id="cb48-45" data-line-number="45"><span class="st">    };</span></a>
+<a class="sourceLine" id="cb48-46" data-line-number="46"><span class="st">  legend.addTo(map);</span></a>
+<a class="sourceLine" id="cb48-47" data-line-number="47"><span class="st">  // control that shows state info on hover</span></a>
+<a class="sourceLine" id="cb48-48" data-line-number="48"><span class="st">    var info = L.control();</span></a>
+<a class="sourceLine" id="cb48-49" data-line-number="49"><span class="st">    info.onAdd = function (map) {</span></a>
+<a class="sourceLine" id="cb48-50" data-line-number="50"><span class="st">        this._div = L.DomUtil.create("div", "info");</span></a>
+<a class="sourceLine" id="cb48-51" data-line-number="51"><span class="st">        this.update();</span></a>
+<a class="sourceLine" id="cb48-52" data-line-number="52"><span class="st">        return this._div;</span></a>
+<a class="sourceLine" id="cb48-53" data-line-number="53"><span class="st">    };</span></a>
+<a class="sourceLine" id="cb48-54" data-line-number="54"><span class="st">    info.update = function (props) {</span></a>
+<a class="sourceLine" id="cb48-55" data-line-number="55"><span class="st">        this._div.innerHTML = "&lt;h6&gt;Crashes in West Yorkshire (2017)&lt;/h6&gt;";</span></a>
+<a class="sourceLine" id="cb48-56" data-line-number="56"><span class="st">    };</span></a>
+<a class="sourceLine" id="cb48-57" data-line-number="57"><span class="st">    info.addTo(map);</span></a>
+<a class="sourceLine" id="cb48-58" data-line-number="58"><span class="st">&lt;/script&gt;</span></a>
+<a class="sourceLine" id="cb48-59" data-line-number="59"><span class="st">&lt;style&gt;</span></a>
+<a class="sourceLine" id="cb48-60" data-line-number="60"><span class="st">.info { padding: 6px 8px; font: 14px/16px Arial, Helvetica, sans-serif; background: white; background: rgba(255,255,255,0.8); box-shadow: 0 0 15px rgba(0,0,0,0.2); border-radius: 5px; } .info h4 { margin: 0 0 5px; color: #777; }</span></a>
+<a class="sourceLine" id="cb48-61" data-line-number="61"><span class="st">.legend { text-align: left; line-height: 18px; color: #555; } .legend i { width: 18px; height: 18px; float: left; margin-right: 8px; opacity: 0.7; }&lt;/style&gt;</span></a>
+<a class="sourceLine" id="cb48-62" data-line-number="62"><span class="st">&lt;/div&gt;'</span>)</a>
+<a class="sourceLine" id="cb48-63" data-line-number="63">path =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/file.path">file.path</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/tempfile">tempdir</a></span>(), <span class="st">"temp.html"</span>)</a>
+<a class="sourceLine" id="cb48-64" data-line-number="64"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/write">write</a></span>(template, path)</a>
+<a class="sourceLine" id="cb48-65" data-line-number="65"><span class="kw"><a href="https://www.rdocumentation.org/packages/htmltools/topics/include">includeHTML</a></span>(path)</a></code></pre></div>
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA==" crossorigin="">
 <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js" integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg==" crossorigin=""></script><div id="mapid" style="width: 100%; height: 400px;">
