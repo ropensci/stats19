@@ -34,7 +34,7 @@ dl_stats19 = function(year = NULL,
                       type = NULL,
                       data_dir = tempdir(),
                       file_name = NULL,
-                      ask = TRUE
+                      ask = FALSE
                       ) {
   if(!is.null (year)) {
     year = check_year(year)
