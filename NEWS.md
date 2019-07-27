@@ -1,3 +1,7 @@
+# stats19 1.0.0
+
+* Major change to `dl_stats19()`: it is now much easier to download STATS19 data. By default `ask = FALSE` in `get_stats19()` and `dl_stats19()`.
+
 # stats19 0.2.1
 
 * Fixed issue with column labels not being there - see [#82](https://github.com/ropensci/stats19/issues/92)
