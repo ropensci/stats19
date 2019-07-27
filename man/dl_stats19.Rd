@@ -5,7 +5,7 @@
 \title{Download STATS19 data for a year or range of two years.}
 \usage{
 dl_stats19(year = NULL, type = NULL, data_dir = tempdir(),
-  file_name = NULL, ask = TRUE)
+  file_name = NULL, ask = FALSE)
 }
 \arguments{
 \item{year}{Single year for which file is to be downloaded.}
