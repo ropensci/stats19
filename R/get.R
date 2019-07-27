@@ -23,7 +23,7 @@ get_stats19 = function(year = NULL,
                       data_dir = tempdir(),
                       file_name = NULL,
                       format = TRUE,
-                      ask = TRUE) {
+                      ask = FALSE) {
   if(!exists("type"))
     stop("Type is required", call. = FALSE)
   # download what the user wanted

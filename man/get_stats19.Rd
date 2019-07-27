@@ -5,7 +5,7 @@
 \title{Download, read and format STATS19 data in one function.}
 \usage{
 get_stats19(year = NULL, type = "accidents", data_dir = tempdir(),
-  file_name = NULL, format = TRUE, ask = TRUE)
+  file_name = NULL, format = TRUE, ask = FALSE)
 }
 \arguments{
 \item{year}{Single year for which file is to be downloaded.}
