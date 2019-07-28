@@ -562,7 +562,7 @@ Much academic research has been done using the data, a few examples of which are
 The broader point is that the **stats19** package could help road safety research, by making open access data on road crashes more accessible to researchers worldwide.
 By easing the data download and cleaning stages of research, it could also encourage reproducible analysis in the field.
 
-There is great potential to add value to and gain insight from the data by joining the datasets with open data, for example from the Consumer Data Research Centre ([CDRC](www.cdrc.ac.uk), which funded this research), OpenStreetMap and the UK's Ordnance Survey.
+There is great potential to add value to and gain insight from the data by joining the datasets with open data, for example from the Consumer Data Research Centre ([CDRC](https://www.cdrc.ac.uk/), which funded this research), OpenStreetMap and the UK's Ordnance Survey.
 If you have any suggestions on priorities for these future directions of (hopefully safe) travel, please get in touch on at [github.com/ITSLeeds/stats19/issues](https://github.com/ITSLeeds/stats19/issues).
 
 ## References
