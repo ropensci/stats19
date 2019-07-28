@@ -1,10 +1,9 @@
+- Minor update - add full url - so version is unchanged since last submission
+
 ## Test environments
-* local ubuntu 18.04, R 3.5.2
+* local ubuntu 18.04, R 3.6.0
 
 * ubuntu 14.04 (on travis-ci)
-
-* win-builder: Error sf not available - not the package's fault:
-https://win-builder.r-project.org/incoming_pretest/stats19_0.2.1_20190403_014231/Windows/00check.log
 
 ## R CMD check results
 
