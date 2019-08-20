@@ -1,0 +1,21 @@
+---
+title: "Researching vehicles involved in collisions with STATS19 data"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Researching vehicles involved in collisions with STATS19 data}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(stats19)
+```
+
+# Vehicle level variables in the STATS19 datasets, 2005
