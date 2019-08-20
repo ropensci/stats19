@@ -97,6 +97,7 @@ find_file_name = function(years = NULL, type = NULL) {
     # extra warnings
     message("\033[31mThis will download 240 MB+ (1.8 GB unzipped).\033[39m")
     message("Coordinates and other variables may be unreliable in these datasets.")
+    message("See https://github.com/ropensci/stats19/issues/101 and https://github.com/ropensci/stats19/issues/102")
   }
 
   if(length(result) < 1)
