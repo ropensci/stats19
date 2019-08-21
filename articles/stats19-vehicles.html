@@ -67,7 +67,14 @@
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-<ul class="nav navbar-nav navbar-right"></ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+  <a href="https://github.com/ropensci/stats19">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
 </div>
 <!--/.nav-collapse -->
   </div>
@@ -82,7 +89,7 @@
       <h1>Researching vehicles involved in collisions with STATS19 data</h1>
             
       
-      
+      <small class="dont-index">Source: <a href="https://github.com/ropensci/stats19/blob/master/vignettes/stats19-vehicles.Rmd"><code>vignettes/stats19-vehicles.Rmd</code></a></small>
       <div class="hidden name"><code>stats19-vehicles.Rmd</code></div>
 
     </div>
@@ -90,8 +97,7 @@
     
     
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(stats19)</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="co">#&gt; Data provided under OGL v3.0. Cite the source and link to:</span></a>
-<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="co">#&gt; www.nationalarchives.gov.uk/doc/open-government-licence/version/3/</span></a></code></pre></div>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(dplyr)</a></code></pre></div>
 <div id="vehicle-level-variables-in-the-stats19-datasets" class="section level1">
 <h1 class="hasAnchor">
 <a href="#vehicle-level-variables-in-the-stats19-datasets" class="anchor"></a>Vehicle level variables in the STATS19 datasets</h1>
@@ -100,84 +106,102 @@
 <a class="sourceLine" id="cb2-2" data-line-number="2"><span class="co">#&gt; Files identified: dftRoadSafetyData_Vehicles_2017.zip</span></a>
 <a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co">#&gt;    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Vehicles_2017.zip</span></a>
 <a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co">#&gt; Attempt downloading from:</span></a>
-<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="co">#&gt; Data saved at /tmp/Rtmpe8vTom/dftRoadSafetyData_Vehicles_2017/Veh.csv</span></a>
-<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/names">names</a></span>(v)</a>
-<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co">#&gt;  [1] "accident_index"                   "vehicle_reference"               </span></a>
-<a class="sourceLine" id="cb2-8" data-line-number="8"><span class="co">#&gt;  [3] "vehicle_type"                     "towing_and_articulation"         </span></a>
-<a class="sourceLine" id="cb2-9" data-line-number="9"><span class="co">#&gt;  [5] "vehicle_manoeuvre"                "vehicle_location_restricted_lane"</span></a>
-<a class="sourceLine" id="cb2-10" data-line-number="10"><span class="co">#&gt;  [7] "junction_location"                "skidding_and_overturning"        </span></a>
-<a class="sourceLine" id="cb2-11" data-line-number="11"><span class="co">#&gt;  [9] "hit_object_in_carriageway"        "vehicle_leaving_carriageway"     </span></a>
-<a class="sourceLine" id="cb2-12" data-line-number="12"><span class="co">#&gt; [11] "hit_object_off_carriageway"       "first_point_of_impact"           </span></a>
-<a class="sourceLine" id="cb2-13" data-line-number="13"><span class="co">#&gt; [13] "was_vehicle_left_hand_drive"      "journey_purpose_of_driver"       </span></a>
-<a class="sourceLine" id="cb2-14" data-line-number="14"><span class="co">#&gt; [15] "sex_of_driver"                    "age_of_driver"                   </span></a>
-<a class="sourceLine" id="cb2-15" data-line-number="15"><span class="co">#&gt; [17] "age_band_of_driver"               "engine_capacity_cc"              </span></a>
-<a class="sourceLine" id="cb2-16" data-line-number="16"><span class="co">#&gt; [19] "propulsion_code"                  "age_of_vehicle"                  </span></a>
-<a class="sourceLine" id="cb2-17" data-line-number="17"><span class="co">#&gt; [21] "driver_imd_decile"                "driver_home_area_type"           </span></a>
-<a class="sourceLine" id="cb2-18" data-line-number="18"><span class="co">#&gt; [23] "vehicle_imd_decile"</span></a>
-<a class="sourceLine" id="cb2-19" data-line-number="19"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/summary">summary</a></span>(v)</a>
-<a class="sourceLine" id="cb2-20" data-line-number="20"><span class="co">#&gt;  accident_index     vehicle_reference vehicle_type      </span></a>
-<a class="sourceLine" id="cb2-21" data-line-number="21"><span class="co">#&gt;  Length:238926      Min.   :  1.000   Length:238926     </span></a>
-<a class="sourceLine" id="cb2-22" data-line-number="22"><span class="co">#&gt;  Class :character   1st Qu.:  1.000   Class :character  </span></a>
-<a class="sourceLine" id="cb2-23" data-line-number="23"><span class="co">#&gt;  Mode  :character   Median :  1.000   Mode  :character  </span></a>
-<a class="sourceLine" id="cb2-24" data-line-number="24"><span class="co">#&gt;                     Mean   :  1.562                     </span></a>
-<a class="sourceLine" id="cb2-25" data-line-number="25"><span class="co">#&gt;                     3rd Qu.:  2.000                     </span></a>
-<a class="sourceLine" id="cb2-26" data-line-number="26"><span class="co">#&gt;                     Max.   :101.000                     </span></a>
-<a class="sourceLine" id="cb2-27" data-line-number="27"><span class="co">#&gt;  towing_and_articulation vehicle_manoeuvre </span></a>
-<a class="sourceLine" id="cb2-28" data-line-number="28"><span class="co">#&gt;  Length:238926           Length:238926     </span></a>
-<a class="sourceLine" id="cb2-29" data-line-number="29"><span class="co">#&gt;  Class :character        Class :character  </span></a>
-<a class="sourceLine" id="cb2-30" data-line-number="30"><span class="co">#&gt;  Mode  :character        Mode  :character  </span></a>
-<a class="sourceLine" id="cb2-31" data-line-number="31"><span class="co">#&gt;                                            </span></a>
-<a class="sourceLine" id="cb2-32" data-line-number="32"><span class="co">#&gt;                                            </span></a>
-<a class="sourceLine" id="cb2-33" data-line-number="33"><span class="co">#&gt;                                            </span></a>
-<a class="sourceLine" id="cb2-34" data-line-number="34"><span class="co">#&gt;  vehicle_location_restricted_lane junction_location </span></a>
-<a class="sourceLine" id="cb2-35" data-line-number="35"><span class="co">#&gt;  Min.   :-1.000                   Length:238926     </span></a>
-<a class="sourceLine" id="cb2-36" data-line-number="36"><span class="co">#&gt;  1st Qu.: 0.000                   Class :character  </span></a>
-<a class="sourceLine" id="cb2-37" data-line-number="37"><span class="co">#&gt;  Median : 0.000                   Mode  :character  </span></a>
-<a class="sourceLine" id="cb2-38" data-line-number="38"><span class="co">#&gt;  Mean   : 0.168                                     </span></a>
-<a class="sourceLine" id="cb2-39" data-line-number="39"><span class="co">#&gt;  3rd Qu.: 0.000                                     </span></a>
-<a class="sourceLine" id="cb2-40" data-line-number="40"><span class="co">#&gt;  Max.   : 9.000                                     </span></a>
-<a class="sourceLine" id="cb2-41" data-line-number="41"><span class="co">#&gt;  skidding_and_overturning hit_object_in_carriageway</span></a>
-<a class="sourceLine" id="cb2-42" data-line-number="42"><span class="co">#&gt;  Length:238926            Min.   :-1.0000          </span></a>
-<a class="sourceLine" id="cb2-43" data-line-number="43"><span class="co">#&gt;  Class :character         1st Qu.: 0.0000          </span></a>
-<a class="sourceLine" id="cb2-44" data-line-number="44"><span class="co">#&gt;  Mode  :character         Median : 0.0000          </span></a>
-<a class="sourceLine" id="cb2-45" data-line-number="45"><span class="co">#&gt;                           Mean   : 0.3123          </span></a>
-<a class="sourceLine" id="cb2-46" data-line-number="46"><span class="co">#&gt;                           3rd Qu.: 0.0000          </span></a>
-<a class="sourceLine" id="cb2-47" data-line-number="47"><span class="co">#&gt;                           Max.   :12.0000          </span></a>
-<a class="sourceLine" id="cb2-48" data-line-number="48"><span class="co">#&gt;  vehicle_leaving_carriageway hit_object_off_carriageway</span></a>
-<a class="sourceLine" id="cb2-49" data-line-number="49"><span class="co">#&gt;  Min.   :-1.0000             Min.   :-1.000            </span></a>
-<a class="sourceLine" id="cb2-50" data-line-number="50"><span class="co">#&gt;  1st Qu.: 0.0000             1st Qu.: 0.000            </span></a>
-<a class="sourceLine" id="cb2-51" data-line-number="51"><span class="co">#&gt;  Median : 0.0000             Median : 0.000            </span></a>
-<a class="sourceLine" id="cb2-52" data-line-number="52"><span class="co">#&gt;  Mean   : 0.3113             Mean   : 0.411            </span></a>
-<a class="sourceLine" id="cb2-53" data-line-number="53"><span class="co">#&gt;  3rd Qu.: 0.0000             3rd Qu.: 0.000            </span></a>
-<a class="sourceLine" id="cb2-54" data-line-number="54"><span class="co">#&gt;  Max.   : 8.0000             Max.   :11.000            </span></a>
-<a class="sourceLine" id="cb2-55" data-line-number="55"><span class="co">#&gt;  first_point_of_impact was_vehicle_left_hand_drive</span></a>
-<a class="sourceLine" id="cb2-56" data-line-number="56"><span class="co">#&gt;  Length:238926         Length:238926              </span></a>
-<a class="sourceLine" id="cb2-57" data-line-number="57"><span class="co">#&gt;  Class :character      Class :character           </span></a>
-<a class="sourceLine" id="cb2-58" data-line-number="58"><span class="co">#&gt;  Mode  :character      Mode  :character           </span></a>
-<a class="sourceLine" id="cb2-59" data-line-number="59"><span class="co">#&gt;                                                   </span></a>
-<a class="sourceLine" id="cb2-60" data-line-number="60"><span class="co">#&gt;                                                   </span></a>
-<a class="sourceLine" id="cb2-61" data-line-number="61"><span class="co">#&gt;                                                   </span></a>
-<a class="sourceLine" id="cb2-62" data-line-number="62"><span class="co">#&gt;  journey_purpose_of_driver sex_of_driver      age_of_driver   </span></a>
-<a class="sourceLine" id="cb2-63" data-line-number="63"><span class="co">#&gt;  Length:238926             Length:238926      Min.   : -1.00  </span></a>
-<a class="sourceLine" id="cb2-64" data-line-number="64"><span class="co">#&gt;  Class :character          Class :character   1st Qu.: 23.00  </span></a>
-<a class="sourceLine" id="cb2-65" data-line-number="65"><span class="co">#&gt;  Mode  :character          Mode  :character   Median : 35.00  </span></a>
-<a class="sourceLine" id="cb2-66" data-line-number="66"><span class="co">#&gt;                                               Mean   : 35.58  </span></a>
-<a class="sourceLine" id="cb2-67" data-line-number="67"><span class="co">#&gt;                                               3rd Qu.: 50.00  </span></a>
-<a class="sourceLine" id="cb2-68" data-line-number="68"><span class="co">#&gt;                                               Max.   :100.00  </span></a>
-<a class="sourceLine" id="cb2-69" data-line-number="69"><span class="co">#&gt;  age_band_of_driver engine_capacity_cc propulsion_code    age_of_vehicle  </span></a>
-<a class="sourceLine" id="cb2-70" data-line-number="70"><span class="co">#&gt;  Min.   :-1.000     Min.   :   -1      Length:238926      Min.   :-1.000  </span></a>
-<a class="sourceLine" id="cb2-71" data-line-number="71"><span class="co">#&gt;  1st Qu.: 5.000     1st Qu.:  125      Class :character   1st Qu.:-1.000  </span></a>
-<a class="sourceLine" id="cb2-72" data-line-number="72"><span class="co">#&gt;  Median : 6.000     Median : 1398      Mode  :character   Median : 5.000  </span></a>
-<a class="sourceLine" id="cb2-73" data-line-number="73"><span class="co">#&gt;  Mean   : 5.979     Mean   : 1454                         Mean   : 5.759  </span></a>
-<a class="sourceLine" id="cb2-74" data-line-number="74"><span class="co">#&gt;  3rd Qu.: 8.000     3rd Qu.: 1956                         3rd Qu.:10.000  </span></a>
-<a class="sourceLine" id="cb2-75" data-line-number="75"><span class="co">#&gt;  Max.   :11.000     Max.   :16400                         Max.   :85.000  </span></a>
-<a class="sourceLine" id="cb2-76" data-line-number="76"><span class="co">#&gt;  driver_imd_decile  driver_home_area_type vehicle_imd_decile</span></a>
-<a class="sourceLine" id="cb2-77" data-line-number="77"><span class="co">#&gt;  Length:238926      Min.   :-1.0000       Min.   :-1.00     </span></a>
-<a class="sourceLine" id="cb2-78" data-line-number="78"><span class="co">#&gt;  Class :character   1st Qu.:-1.0000       1st Qu.:-1.00     </span></a>
-<a class="sourceLine" id="cb2-79" data-line-number="79"><span class="co">#&gt;  Mode  :character   Median : 1.0000       Median : 2.00     </span></a>
-<a class="sourceLine" id="cb2-80" data-line-number="80"><span class="co">#&gt;                     Mean   : 0.6387       Mean   : 2.93     </span></a>
-<a class="sourceLine" id="cb2-81" data-line-number="81"><span class="co">#&gt;                     3rd Qu.: 1.0000       3rd Qu.: 6.00     </span></a>
-<a class="sourceLine" id="cb2-82" data-line-number="82"><span class="co">#&gt;                     Max.   : 3.0000       Max.   :10.00</span></a></code></pre></div>
+<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="co">#&gt; Data saved at /tmp/RtmpmDmE4e/dftRoadSafetyData_Vehicles_2017/Veh.csv</span></a>
+<a class="sourceLine" id="cb2-6" data-line-number="6">v</a>
+<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co">#&gt; # A tibble: 238,926 x 23</span></a>
+<a class="sourceLine" id="cb2-8" data-line-number="8"><span class="co">#&gt;    accident_index vehicle_referen… vehicle_type towing_and_arti…</span></a>
+<a class="sourceLine" id="cb2-9" data-line-number="9"><span class="co">#&gt;    &lt;chr&gt;                     &lt;int&gt; &lt;chr&gt;        &lt;chr&gt;           </span></a>
+<a class="sourceLine" id="cb2-10" data-line-number="10"><span class="co">#&gt;  1 2017010001708                 1 Car          No tow/articula…</span></a>
+<a class="sourceLine" id="cb2-11" data-line-number="11"><span class="co">#&gt;  2 2017010001708                 2 Motorcycle … No tow/articula…</span></a>
+<a class="sourceLine" id="cb2-12" data-line-number="12"><span class="co">#&gt;  3 2017010009342                 1 Car          No tow/articula…</span></a>
+<a class="sourceLine" id="cb2-13" data-line-number="13"><span class="co">#&gt;  4 2017010009342                 2 Car          No tow/articula…</span></a>
+<a class="sourceLine" id="cb2-14" data-line-number="14"><span class="co">#&gt;  5 2017010009344                 1 Car          No tow/articula…</span></a>
+<a class="sourceLine" id="cb2-15" data-line-number="15"><span class="co">#&gt;  6 2017010009344                 2 Car          No tow/articula…</span></a>
+<a class="sourceLine" id="cb2-16" data-line-number="16"><span class="co">#&gt;  7 2017010009344                 3 Car          No tow/articula…</span></a>
+<a class="sourceLine" id="cb2-17" data-line-number="17"><span class="co">#&gt;  8 2017010009348                 1 Car          No tow/articula…</span></a>
+<a class="sourceLine" id="cb2-18" data-line-number="18"><span class="co">#&gt;  9 2017010009348                 2 Car          No tow/articula…</span></a>
+<a class="sourceLine" id="cb2-19" data-line-number="19"><span class="co">#&gt; 10 2017010009350                 1 Car          No tow/articula…</span></a>
+<a class="sourceLine" id="cb2-20" data-line-number="20"><span class="co">#&gt; # … with 238,916 more rows, and 19 more variables:</span></a>
+<a class="sourceLine" id="cb2-21" data-line-number="21"><span class="co">#&gt; #   vehicle_manoeuvre &lt;chr&gt;, vehicle_location_restricted_lane &lt;int&gt;,</span></a>
+<a class="sourceLine" id="cb2-22" data-line-number="22"><span class="co">#&gt; #   junction_location &lt;chr&gt;, skidding_and_overturning &lt;chr&gt;,</span></a>
+<a class="sourceLine" id="cb2-23" data-line-number="23"><span class="co">#&gt; #   hit_object_in_carriageway &lt;int&gt;, vehicle_leaving_carriageway &lt;int&gt;,</span></a>
+<a class="sourceLine" id="cb2-24" data-line-number="24"><span class="co">#&gt; #   hit_object_off_carriageway &lt;int&gt;, first_point_of_impact &lt;chr&gt;,</span></a>
+<a class="sourceLine" id="cb2-25" data-line-number="25"><span class="co">#&gt; #   was_vehicle_left_hand_drive &lt;chr&gt;, journey_purpose_of_driver &lt;chr&gt;,</span></a>
+<a class="sourceLine" id="cb2-26" data-line-number="26"><span class="co">#&gt; #   sex_of_driver &lt;chr&gt;, age_of_driver &lt;int&gt;, age_band_of_driver &lt;int&gt;,</span></a>
+<a class="sourceLine" id="cb2-27" data-line-number="27"><span class="co">#&gt; #   engine_capacity_cc &lt;int&gt;, propulsion_code &lt;chr&gt;, age_of_vehicle &lt;int&gt;,</span></a>
+<a class="sourceLine" id="cb2-28" data-line-number="28"><span class="co">#&gt; #   driver_imd_decile &lt;chr&gt;, driver_home_area_type &lt;int&gt;,</span></a>
+<a class="sourceLine" id="cb2-29" data-line-number="29"><span class="co">#&gt; #   vehicle_imd_decile &lt;int&gt;</span></a></code></pre></div>
+<p>We will categorise the vehicle types to simplify subsequent results:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">v =<span class="st"> </span>v <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="dt">vehicle_type2 =</span> <span class="kw"><a href="https://dplyr.tidyverse.org/reference/case_when.html">case_when</a></span>(</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2">  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/grep">grepl</a></span>(<span class="dt">pattern =</span> <span class="st">"motorcycle"</span>, vehicle_type, <span class="dt">ignore.case =</span> <span class="ot">TRUE</span>) <span class="op">~</span><span class="st"> "Motorbike"</span>,</a>
+<a class="sourceLine" id="cb3-3" data-line-number="3">  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/grep">grepl</a></span>(<span class="dt">pattern =</span> <span class="st">"Car"</span>, vehicle_type, <span class="dt">ignore.case =</span> <span class="ot">TRUE</span>) <span class="op">~</span><span class="st"> "Car"</span>,</a>
+<a class="sourceLine" id="cb3-4" data-line-number="4">  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/grep">grepl</a></span>(<span class="dt">pattern =</span> <span class="st">"Bus"</span>, vehicle_type, <span class="dt">ignore.case =</span> <span class="ot">TRUE</span>) <span class="op">~</span><span class="st"> "Bus"</span>,</a>
+<a class="sourceLine" id="cb3-5" data-line-number="5">  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/grep">grepl</a></span>(<span class="dt">pattern =</span> <span class="st">"cycle"</span>, vehicle_type, <span class="dt">ignore.case =</span> <span class="ot">TRUE</span>) <span class="op">~</span><span class="st"> "Cycle"</span>,</a>
+<a class="sourceLine" id="cb3-6" data-line-number="6">  <span class="co"># grepl(pattern = "Van", vehicle_type, ignore.case = TRUE) ~ "Van",</span></a>
+<a class="sourceLine" id="cb3-7" data-line-number="7">  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/grep">grepl</a></span>(<span class="dt">pattern =</span> <span class="st">"Goods"</span>, vehicle_type, <span class="dt">ignore.case =</span> <span class="ot">TRUE</span>) <span class="op">~</span><span class="st"> "Goods"</span>,</a>
+<a class="sourceLine" id="cb3-8" data-line-number="8">  </a>
+<a class="sourceLine" id="cb3-9" data-line-number="9">  <span class="ot">TRUE</span> <span class="op">~</span><span class="st"> "Other"</span></a>
+<a class="sourceLine" id="cb3-10" data-line-number="10">))</a>
+<a class="sourceLine" id="cb3-11" data-line-number="11"><span class="co"># barplot(table(v$vehicle_type2))</span></a></code></pre></div>
+<p>All of these variables are of potential interest to road safety researchers. Let’s take a look at summaries of a few of them:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/table">table</a></span>(v<span class="op">$</span>vehicle_type2)</a>
+<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="co">#&gt;       Bus       Car     Cycle     Goods Motorbike     Other </span></a>
+<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="co">#&gt;      5455    173686     18954     18907     19204      2720</span></a>
+<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/summary">summary</a></span>(v<span class="op">$</span>age_of_driver)</a>
+<a class="sourceLine" id="cb4-6" data-line-number="6"><span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span></a>
+<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="co">#&gt;   -1.00   23.00   35.00   35.58   50.00  100.00</span></a>
+<a class="sourceLine" id="cb4-8" data-line-number="8"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/summary">summary</a></span>(v<span class="op">$</span>engine_capacity_cc)</a>
+<a class="sourceLine" id="cb4-9" data-line-number="9"><span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span></a>
+<a class="sourceLine" id="cb4-10" data-line-number="10"><span class="co">#&gt;      -1     125    1398    1454    1956   16400</span></a>
+<a class="sourceLine" id="cb4-11" data-line-number="11"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/table">table</a></span>(v<span class="op">$</span>propulsion_code)</a>
+<a class="sourceLine" id="cb4-12" data-line-number="12"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb4-13" data-line-number="13"><span class="co">#&gt;            Electric     Electric diesel                 Gas </span></a>
+<a class="sourceLine" id="cb4-14" data-line-number="14"><span class="co">#&gt;                 200                  74                  23 </span></a>
+<a class="sourceLine" id="cb4-15" data-line-number="15"><span class="co">#&gt;         Gas/Bi-fuel           Heavy oil     Hybrid electric </span></a>
+<a class="sourceLine" id="cb4-16" data-line-number="16"><span class="co">#&gt;                 144               80600                3202 </span></a>
+<a class="sourceLine" id="cb4-17" data-line-number="17"><span class="co">#&gt; New fuel technology              Petrol    Petrol/Gas (LPG) </span></a>
+<a class="sourceLine" id="cb4-18" data-line-number="18"><span class="co">#&gt;                   2              101724                  27</span></a>
+<a class="sourceLine" id="cb4-19" data-line-number="19"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/summary">summary</a></span>(v<span class="op">$</span>age_of_vehicle)</a>
+<a class="sourceLine" id="cb4-20" data-line-number="20"><span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span></a>
+<a class="sourceLine" id="cb4-21" data-line-number="21"><span class="co">#&gt;  -1.000  -1.000   5.000   5.759  10.000  85.000</span></a></code></pre></div>
+<p>The output shows vehicle type (a wide range of vehicles are represented), age of driver (with young and elderly drivers often seen as more risky), engine capacity and populsion (related to vehicle type and size) and age of vehicle. In addition to these factors appearing in prior road safety research and debate, they are also things that policy makers can influence, e.g by:</p>
+<ul>
+<li>Encouraging modal shift away more dangerous modes and towards safer modes</li>
+<li>Incentivising people in particular risk categories to use safer modes</li>
+<li>Encouraging use of certain (safer) kinds of vehicle, e.g. with tax policies</li>
+</ul>
+</div>
+<div id="relationships-between-vehicle-type-and-crash-severity" class="section level1">
+<h1 class="hasAnchor">
+<a href="#relationships-between-vehicle-type-and-crash-severity" class="anchor"></a>Relationships between vehicle type and crash severity</h1>
+<p>To explore the relationship between vehicles and crash severity, we must first join on the ‘accidents’ table:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">a =<span class="st"> </span><span class="kw"><a href="../reference/get_stats19.html">get_stats19</a></span>(<span class="dt">year =</span> <span class="dv">2017</span>, <span class="dt">type =</span> <span class="st">"accidents"</span>)</a>
+<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="co">#&gt; Files identified: dftRoadSafetyData_Accidents_2017.zip</span></a>
+<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="co">#&gt;    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Accidents_2017.zip</span></a>
+<a class="sourceLine" id="cb5-4" data-line-number="4"><span class="co">#&gt; Attempt downloading from:</span></a>
+<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="co">#&gt; Data saved at /tmp/RtmpmDmE4e/dftRoadSafetyData_Accidents_2017/Acc.csv</span></a>
+<a class="sourceLine" id="cb5-6" data-line-number="6"><span class="co">#&gt; Reading in:</span></a>
+<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="co">#&gt; /tmp/RtmpmDmE4e/dftRoadSafetyData_Accidents_2017/Acc.csv</span></a>
+<a class="sourceLine" id="cb5-8" data-line-number="8">va =<span class="st"> </span>dplyr<span class="op">::</span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/join.html">inner_join</a></span>(v, a)</a>
+<a class="sourceLine" id="cb5-9" data-line-number="9"><span class="co">#&gt; Joining, by = "accident_index"</span></a></code></pre></div>
+<p>Now we have additional variables available to us:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/dim">dim</a></span>(v)</a>
+<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="co">#&gt; [1] 238926     24</span></a>
+<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/dim">dim</a></span>(va)</a>
+<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="co">#&gt; [1] 238926     55</span></a></code></pre></div>
+<p>Let’s see how crash severity relates to the variables of interest mentioned above:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/xtabs">xtabs</a></span>(<span class="op">~</span>vehicle_type2 <span class="op">+</span><span class="st"> </span>accident_severity, <span class="dt">data =</span> va) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/prop.table">prop.table</a></span>()</a>
+<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="co">#&gt;              accident_severity</span></a>
+<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="co">#&gt; vehicle_type2        Fatal      Serious       Slight</span></a>
+<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="co">#&gt;     Bus       0.0002553092 0.0033315755 0.0192444523</span></a>
+<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="co">#&gt;     Car       0.0079145844 0.1022324904 0.6167976696</span></a>
+<a class="sourceLine" id="cb7-6" data-line-number="6"><span class="co">#&gt;     Cycle     0.0004896914 0.0165490570 0.0622912534</span></a>
+<a class="sourceLine" id="cb7-7" data-line-number="7"><span class="co">#&gt;     Goods     0.0019294677 0.0130416949 0.0641621255</span></a>
+<a class="sourceLine" id="cb7-8" data-line-number="8"><span class="co">#&gt;     Motorbike 0.0015862652 0.0249365912 0.0538534944</span></a>
+<a class="sourceLine" id="cb7-9" data-line-number="9"><span class="co">#&gt;     Other     0.0002260114 0.0023228950 0.0088353716</span></a>
+<a class="sourceLine" id="cb7-10" data-line-number="10"><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/xtabs">xtabs</a></span>(<span class="op">~</span>vehicle_type2 <span class="op">+</span><span class="st"> </span>accident_severity, <span class="dt">data =</span> va) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/prop.table">prop.table</a></span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/plot">plot</a></span>()</a></code></pre></div>
+<p><img src="stats19-vehicles_files/figure-html/unnamed-chunk-7-1.png" width="100%"></p>
 </div>
   </div>
 
@@ -187,6 +211,7 @@
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
 <li><a href="#vehicle-level-variables-in-the-stats19-datasets">Vehicle level variables in the STATS19 datasets</a></li>
+      <li><a href="#relationships-between-vehicle-type-and-crash-severity">Relationships between vehicle type and crash severity</a></li>
       </ul>
 </div>
       </div>
