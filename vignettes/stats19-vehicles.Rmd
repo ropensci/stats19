@@ -18,4 +18,14 @@ knitr::opts_chunk$set(
 library(stats19)
 ```
 
-# Vehicle level variables in the STATS19 datasets, 2005
+# Vehicle level variables in the STATS19 datasets
+
+Of the three dataset types in STATS19, the vehicle tables are perhaps the most revealing yet under-explored.
+They look like this:
+
+```{r}
+v = get_stats19(year = 2017, type = "vehicles")
+names(v)
+summary(v)
+```
+
