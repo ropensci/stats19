@@ -1,0 +1,67 @@
+---
+title: "An introduction to road safety analysis with R: setup notes"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{stats19-training-setup}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  out.width = "50%"
+)
+```
+
+If you are new to R, please read-up and more importantly **test out** R and RStudio before the course.
+
+To read up on R, we recommend reading Chapter 1 Getting Started with Data in R of the online book Statistical Inference via Data Science, which can be found here: https://moderndive.netlify.com/1-getting-started.html
+
+Reading sections 1.1 to 1.3 of that book and trying a few of the examples are considered **essential prerequisites**, unless you are already experienced with R.
+
+Optionally, if you want a more interactive learning environment, you can try getting started with the free [DataCamp](https://www.datacamp.com/courses/free-introduction-to-r) course.
+Other good resources can be found at [education.rstudio.com/learn](https://education.rstudio.com/learn/beginner/).
+
+And for more information on how R can be used for transport research, the Transportation chapter of Geocomputation with R is a good place to start: https://geocompr.robinlovelace.net/transport.html
+
+**Your computer should also have the necessary software installed.**
+
+To ensure your computer is ready for the course, you should have a recent (3.6.0 or later) version of R or RStudio installed. You should have installed packages stats19, tidyverse and a few others shown below.
+To check you have the necessary packages installed, try running the following lines of R code in the RStudio console (this will install the packages you need if they are not already installed):
+
+```{r, eval=FALSE}
+install.packages("remotes")
+pkgs = c(
+  "pct",         # package for getting travel data in the UK
+  "sf",          # spatial data package
+  "stats19",     # downloads and formats open stats19 crash data
+  "stplanr",     # for working with origin-destination and route data
+  "tidyverse",   # a package for user friendly data science
+  "tmap"         # for making maps
+)
+remotes::install_cran(pkgs)
+# remotes::install_github("ITSLeeds/pct")
+```
+
+To test your computer is ready to work with road crash data in R, try running the following commands from RStudio (which should result in the map below):
+
+ <!-- method for helping people set up their computers. Type this single line into the console and follow the instructions.  -->
+
+```{r message=FALSE, eval=FALSE}
+library(stats19)
+library(tidyverse)
+library(tmap) # installed alongside mapview
+crashes = get_stats19(year = 2017, type = "ac")
+crashes_iow = crashes %>% 
+  filter(local_authority_district == "Isle of Wight") %>% 
+  format_sf()
+  
+# basic plot
+plot(crashes_iow)
+```
+
+You should see results like those shown in the map here: https://github.com/ropensci/stats19/issues/105
+
+If you cannot create a map by running the code above before the course, get in touch.
