@@ -7,8 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Researching vehicles involved in collisions with STATS19 data • stats19</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><meta property="og:title" content="Researching vehicles involved in collisions with STATS19 data">
 <meta property="og:description" content="">
 <meta name="twitter:card" content="summary">
@@ -38,7 +39,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -59,6 +60,9 @@
       <a href="../articles/blog.html">stats19: a package for road safety research</a>
     </li>
     <li>
+      <a href="../articles/stats19-training-setup.html">An introduction to road safety analysis with R: setup notes</a>
+    </li>
+    <li>
       <a href="../articles/stats19-vehicles.html">Researching vehicles involved in collisions with STATS19 data</a>
     </li>
   </ul>
@@ -70,7 +74,7 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/ropensci/stats19">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -83,6 +87,7 @@
 <!--/.navbar -->
 
       
+
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
@@ -96,8 +101,8 @@
 
     
     
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(stats19)</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(dplyr)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(stats19)</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(dplyr)</a></code></pre></div>
 <div id="vehicle-level-variables-in-the-stats19-datasets" class="section level1">
 <h1 class="hasAnchor">
 <a href="#vehicle-level-variables-in-the-stats19-datasets" class="anchor"></a>Vehicle level variables in the STATS19 datasets</h1>
@@ -106,7 +111,7 @@
 <a class="sourceLine" id="cb2-2" data-line-number="2"><span class="co">#&gt; Files identified: dftRoadSafetyData_Vehicles_2017.zip</span></a>
 <a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co">#&gt;    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Vehicles_2017.zip</span></a>
 <a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co">#&gt; Attempt downloading from:</span></a>
-<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="co">#&gt; Data saved at /tmp/RtmphUIVuA/dftRoadSafetyData_Vehicles_2017/Veh.csv</span></a>
+<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="co">#&gt; Data saved at /tmp/Rtmpf5TciR/dftRoadSafetyData_Vehicles_2017/Veh.csv</span></a>
 <a class="sourceLine" id="cb2-6" data-line-number="6">v</a>
 <a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co">#&gt; # A tibble: 238,926 x 23</span></a>
 <a class="sourceLine" id="cb2-8" data-line-number="8"><span class="co">#&gt;    accident_index vehicle_referen… vehicle_type towing_and_arti…</span></a>
@@ -133,28 +138,28 @@
 <a class="sourceLine" id="cb2-29" data-line-number="29"><span class="co">#&gt; #   vehicle_imd_decile &lt;int&gt;</span></a></code></pre></div>
 <p>We will categorise the vehicle types to simplify subsequent results:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">v =<span class="st"> </span>v <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="dt">vehicle_type2 =</span> <span class="kw"><a href="https://dplyr.tidyverse.org/reference/case_when.html">case_when</a></span>(</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2">  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/grep">grepl</a></span>(<span class="dt">pattern =</span> <span class="st">"motorcycle"</span>, vehicle_type, <span class="dt">ignore.case =</span> <span class="ot">TRUE</span>) <span class="op">~</span><span class="st"> "Motorbike"</span>,</a>
-<a class="sourceLine" id="cb3-3" data-line-number="3">  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/grep">grepl</a></span>(<span class="dt">pattern =</span> <span class="st">"Car"</span>, vehicle_type, <span class="dt">ignore.case =</span> <span class="ot">TRUE</span>) <span class="op">~</span><span class="st"> "Car"</span>,</a>
-<a class="sourceLine" id="cb3-4" data-line-number="4">  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/grep">grepl</a></span>(<span class="dt">pattern =</span> <span class="st">"Bus"</span>, vehicle_type, <span class="dt">ignore.case =</span> <span class="ot">TRUE</span>) <span class="op">~</span><span class="st"> "Bus"</span>,</a>
-<a class="sourceLine" id="cb3-5" data-line-number="5">  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/grep">grepl</a></span>(<span class="dt">pattern =</span> <span class="st">"cycle"</span>, vehicle_type, <span class="dt">ignore.case =</span> <span class="ot">TRUE</span>) <span class="op">~</span><span class="st"> "Cycle"</span>,</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2">  <span class="kw"><a href="https://rdrr.io/r/base/grep.html">grepl</a></span>(<span class="dt">pattern =</span> <span class="st">"motorcycle"</span>, vehicle_type, <span class="dt">ignore.case =</span> <span class="ot">TRUE</span>) <span class="op">~</span><span class="st"> "Motorbike"</span>,</a>
+<a class="sourceLine" id="cb3-3" data-line-number="3">  <span class="kw"><a href="https://rdrr.io/r/base/grep.html">grepl</a></span>(<span class="dt">pattern =</span> <span class="st">"Car"</span>, vehicle_type, <span class="dt">ignore.case =</span> <span class="ot">TRUE</span>) <span class="op">~</span><span class="st"> "Car"</span>,</a>
+<a class="sourceLine" id="cb3-4" data-line-number="4">  <span class="kw"><a href="https://rdrr.io/r/base/grep.html">grepl</a></span>(<span class="dt">pattern =</span> <span class="st">"Bus"</span>, vehicle_type, <span class="dt">ignore.case =</span> <span class="ot">TRUE</span>) <span class="op">~</span><span class="st"> "Bus"</span>,</a>
+<a class="sourceLine" id="cb3-5" data-line-number="5">  <span class="kw"><a href="https://rdrr.io/r/base/grep.html">grepl</a></span>(<span class="dt">pattern =</span> <span class="st">"cycle"</span>, vehicle_type, <span class="dt">ignore.case =</span> <span class="ot">TRUE</span>) <span class="op">~</span><span class="st"> "Cycle"</span>,</a>
 <a class="sourceLine" id="cb3-6" data-line-number="6">  <span class="co"># grepl(pattern = "Van", vehicle_type, ignore.case = TRUE) ~ "Van",</span></a>
-<a class="sourceLine" id="cb3-7" data-line-number="7">  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/grep">grepl</a></span>(<span class="dt">pattern =</span> <span class="st">"Goods"</span>, vehicle_type, <span class="dt">ignore.case =</span> <span class="ot">TRUE</span>) <span class="op">~</span><span class="st"> "Goods"</span>,</a>
+<a class="sourceLine" id="cb3-7" data-line-number="7">  <span class="kw"><a href="https://rdrr.io/r/base/grep.html">grepl</a></span>(<span class="dt">pattern =</span> <span class="st">"Goods"</span>, vehicle_type, <span class="dt">ignore.case =</span> <span class="ot">TRUE</span>) <span class="op">~</span><span class="st"> "Goods"</span>,</a>
 <a class="sourceLine" id="cb3-8" data-line-number="8">  </a>
 <a class="sourceLine" id="cb3-9" data-line-number="9">  <span class="ot">TRUE</span> <span class="op">~</span><span class="st"> "Other"</span></a>
 <a class="sourceLine" id="cb3-10" data-line-number="10">))</a>
 <a class="sourceLine" id="cb3-11" data-line-number="11"><span class="co"># barplot(table(v$vehicle_type2))</span></a></code></pre></div>
 <p>All of these variables are of potential interest to road safety researchers. Let’s take a look at summaries of a few of them:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/table">table</a></span>(v<span class="op">$</span>vehicle_type2)</a>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/table.html">table</a></span>(v<span class="op">$</span>vehicle_type2)</a>
 <a class="sourceLine" id="cb4-2" data-line-number="2"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb4-3" data-line-number="3"><span class="co">#&gt;       Bus       Car     Cycle     Goods Motorbike     Other </span></a>
 <a class="sourceLine" id="cb4-4" data-line-number="4"><span class="co">#&gt;      5455    173686     18954     18907     19204      2720</span></a>
-<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/summary">summary</a></span>(v<span class="op">$</span>age_of_driver)</a>
+<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="kw"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(v<span class="op">$</span>age_of_driver)</a>
 <a class="sourceLine" id="cb4-6" data-line-number="6"><span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span></a>
 <a class="sourceLine" id="cb4-7" data-line-number="7"><span class="co">#&gt;   -1.00   23.00   35.00   35.58   50.00  100.00</span></a>
-<a class="sourceLine" id="cb4-8" data-line-number="8"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/summary">summary</a></span>(v<span class="op">$</span>engine_capacity_cc)</a>
+<a class="sourceLine" id="cb4-8" data-line-number="8"><span class="kw"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(v<span class="op">$</span>engine_capacity_cc)</a>
 <a class="sourceLine" id="cb4-9" data-line-number="9"><span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span></a>
 <a class="sourceLine" id="cb4-10" data-line-number="10"><span class="co">#&gt;      -1     125    1398    1454    1956   16400</span></a>
-<a class="sourceLine" id="cb4-11" data-line-number="11"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/table">table</a></span>(v<span class="op">$</span>propulsion_code)</a>
+<a class="sourceLine" id="cb4-11" data-line-number="11"><span class="kw"><a href="https://rdrr.io/r/base/table.html">table</a></span>(v<span class="op">$</span>propulsion_code)</a>
 <a class="sourceLine" id="cb4-12" data-line-number="12"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb4-13" data-line-number="13"><span class="co">#&gt;            Electric     Electric diesel                 Gas </span></a>
 <a class="sourceLine" id="cb4-14" data-line-number="14"><span class="co">#&gt;                 200                  74                  23 </span></a>
@@ -162,7 +167,7 @@
 <a class="sourceLine" id="cb4-16" data-line-number="16"><span class="co">#&gt;                 144               80600                3202 </span></a>
 <a class="sourceLine" id="cb4-17" data-line-number="17"><span class="co">#&gt; New fuel technology              Petrol    Petrol/Gas (LPG) </span></a>
 <a class="sourceLine" id="cb4-18" data-line-number="18"><span class="co">#&gt;                   2              101724                  27</span></a>
-<a class="sourceLine" id="cb4-19" data-line-number="19"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/summary">summary</a></span>(v<span class="op">$</span>age_of_vehicle)</a>
+<a class="sourceLine" id="cb4-19" data-line-number="19"><span class="kw"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(v<span class="op">$</span>age_of_vehicle)</a>
 <a class="sourceLine" id="cb4-20" data-line-number="20"><span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span></a>
 <a class="sourceLine" id="cb4-21" data-line-number="21"><span class="co">#&gt;  -1.000  -1.000   5.000   5.759  10.000  85.000</span></a></code></pre></div>
 <p>The output shows vehicle type (a wide range of vehicles are represented), age of driver (with young and elderly drivers often seen as more risky), engine capacity and populsion (related to vehicle type and size) and age of vehicle. In addition to these factors appearing in prior road safety research and debate, they are also things that policy makers can influence, e.g by:</p>
@@ -180,18 +185,18 @@
 <a class="sourceLine" id="cb5-2" data-line-number="2"><span class="co">#&gt; Files identified: dftRoadSafetyData_Accidents_2017.zip</span></a>
 <a class="sourceLine" id="cb5-3" data-line-number="3"><span class="co">#&gt;    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Accidents_2017.zip</span></a>
 <a class="sourceLine" id="cb5-4" data-line-number="4"><span class="co">#&gt; Attempt downloading from:</span></a>
-<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="co">#&gt; Data saved at /tmp/RtmphUIVuA/dftRoadSafetyData_Accidents_2017/Acc.csv</span></a>
+<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="co">#&gt; Data saved at /tmp/Rtmpf5TciR/dftRoadSafetyData_Accidents_2017/Acc.csv</span></a>
 <a class="sourceLine" id="cb5-6" data-line-number="6"><span class="co">#&gt; Reading in:</span></a>
-<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="co">#&gt; /tmp/RtmphUIVuA/dftRoadSafetyData_Accidents_2017/Acc.csv</span></a>
+<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="co">#&gt; /tmp/Rtmpf5TciR/dftRoadSafetyData_Accidents_2017/Acc.csv</span></a>
 <a class="sourceLine" id="cb5-8" data-line-number="8">va =<span class="st"> </span>dplyr<span class="op">::</span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/join.html">inner_join</a></span>(v, a)</a>
 <a class="sourceLine" id="cb5-9" data-line-number="9"><span class="co">#&gt; Joining, by = "accident_index"</span></a></code></pre></div>
 <p>Now we have additional variables available to us:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/dim">dim</a></span>(v)</a>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/dim.html">dim</a></span>(v)</a>
 <a class="sourceLine" id="cb6-2" data-line-number="2"><span class="co">#&gt; [1] 238926     24</span></a>
-<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/dim">dim</a></span>(va)</a>
+<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="kw"><a href="https://rdrr.io/r/base/dim.html">dim</a></span>(va)</a>
 <a class="sourceLine" id="cb6-4" data-line-number="4"><span class="co">#&gt; [1] 238926     55</span></a></code></pre></div>
 <p>Let’s see how crash severity relates to the variables of interest mentioned above:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/xtabs">xtabs</a></span>(<span class="op">~</span>vehicle_type2 <span class="op">+</span><span class="st"> </span>accident_severity, <span class="dt">data =</span> va) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/prop.table">prop.table</a></span>()</a>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/stats/xtabs.html">xtabs</a></span>(<span class="op">~</span>vehicle_type2 <span class="op">+</span><span class="st"> </span>accident_severity, <span class="dt">data =</span> va) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/prop.table.html">prop.table</a></span>()</a>
 <a class="sourceLine" id="cb7-2" data-line-number="2"><span class="co">#&gt;              accident_severity</span></a>
 <a class="sourceLine" id="cb7-3" data-line-number="3"><span class="co">#&gt; vehicle_type2        Fatal      Serious       Slight</span></a>
 <a class="sourceLine" id="cb7-4" data-line-number="4"><span class="co">#&gt;     Bus       0.0002553092 0.0033315755 0.0192444523</span></a>
@@ -200,12 +205,13 @@
 <a class="sourceLine" id="cb7-7" data-line-number="7"><span class="co">#&gt;     Goods     0.0019294677 0.0130416949 0.0641621255</span></a>
 <a class="sourceLine" id="cb7-8" data-line-number="8"><span class="co">#&gt;     Motorbike 0.0015862652 0.0249365912 0.0538534944</span></a>
 <a class="sourceLine" id="cb7-9" data-line-number="9"><span class="co">#&gt;     Other     0.0002260114 0.0023228950 0.0088353716</span></a>
-<a class="sourceLine" id="cb7-10" data-line-number="10"><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/xtabs">xtabs</a></span>(<span class="op">~</span>vehicle_type2 <span class="op">+</span><span class="st"> </span>accident_severity, <span class="dt">data =</span> va) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/prop.table">prop.table</a></span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/plot">plot</a></span>()</a></code></pre></div>
+<a class="sourceLine" id="cb7-10" data-line-number="10"><span class="kw"><a href="https://rdrr.io/r/stats/xtabs.html">xtabs</a></span>(<span class="op">~</span>vehicle_type2 <span class="op">+</span><span class="st"> </span>accident_severity, <span class="dt">data =</span> va) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/prop.table.html">prop.table</a></span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>()</a></code></pre></div>
 <p><img src="stats19-vehicles_files/figure-html/unnamed-chunk-7-1.png" width="100%"></p>
 </div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+
         <div id="tocnav">
       <h2 class="hasAnchor">
 <a href="#tocnav" class="anchor"></a>Contents</h2>
@@ -219,17 +225,20 @@
 </div>
 
 
+
       <footer><div class="copyright">
   <p>Developed by Robin Lovelace, Malcolm Morgan, Layik Hama, Mark Padgham.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
+
       </footer>
 </div>
 
   
+
 
   </body>
 </html>

@@ -7,8 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>stats19: a package for road safety research • stats19</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><meta property="og:title" content="stats19: a package for road safety research">
 <meta property="og:description" content="">
 <meta name="twitter:card" content="summary">
@@ -38,7 +39,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -59,6 +60,9 @@
       <a href="../articles/blog.html">stats19: a package for road safety research</a>
     </li>
     <li>
+      <a href="../articles/stats19-training-setup.html">An introduction to road safety analysis with R: setup notes</a>
+    </li>
+    <li>
       <a href="../articles/stats19-vehicles.html">Researching vehicles involved in collisions with STATS19 data</a>
     </li>
   </ul>
@@ -70,7 +74,7 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/ropensci/stats19">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -83,13 +87,14 @@
 <!--/.navbar -->
 
       
+
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1>stats19: a package for road safety research</h1>
                         <h4 class="author">Layik Hama and Robin Lovelace</h4>
             
-            <h4 class="date">2019-08-21</h4>
+            <h4 class="date">2019-10-03</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/ropensci/stats19/blob/master/vignettes/blog.Rmd"><code>vignettes/blog.Rmd</code></a></small>
       <div class="hidden name"><code>blog.Rmd</code></div>
@@ -156,28 +161,28 @@
 <a href="#how-stats19-works" class="anchor"></a>How stats19 works</h4>
 <p>With those introductions out of the way, lets see what the package can do and how it can empower people (including target audiences of academics, policy makers and road safety campaigners and R programmers/analysts wanting to test their skills on a large spatio-temporal dataset) to access STATS19 data, back to 1979. First install the package in the usual way:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="co"># release version - currently 0.2.0</span></a>
-<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages</a></span>(<span class="st">"stats19"</span>) </a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"stats19"</span>) </a>
 <a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co"># dev version</span></a>
 <a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co"># remotes::install_github("ropensci/stats19") </span></a></code></pre></div>
 <p>Attach the package as follows:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(stats19)</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(stats19)</a></code></pre></div>
 <pre><code>## Data provided under OGL v3.0. Cite the source and link to:
 ## www.nationalarchives.gov.uk/doc/open-government-licence/version/3/</code></pre>
 <p>The easiest way to get STATS19 data is with <code><a href="../reference/get_stats19.html">get_stats19()</a></code>. This function takes 2 main arguments, <code>year</code> and <code>type</code>. The year can be any year between 1979 and 2017.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">crashes_<span class="dv">2017</span> =<span class="st"> </span><span class="kw"><a href="../reference/get_stats19.html">get_stats19</a></span>(<span class="dt">year =</span> <span class="dv">2017</span>, <span class="dt">type =</span> <span class="st">"Accidents"</span>, <span class="dt">ask =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nrow">nrow</a></span>(crashes_<span class="dv">2017</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(crashes_<span class="dv">2017</span>)</a></code></pre></div>
 <pre><code>## [1] 129982</code></pre>
 <p>What just happened? We just downloaded, cleaned and read-in data on all road crashes recorded by the police in 2017 across Great Britain. We can explore the <code>crashes_2017</code> object a little more:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">column_names =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/names">names</a></span>(crashes_<span class="dv">2017</span>)</a>
-<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/length">length</a></span>(column_names)</a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">column_names =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(crashes_<span class="dv">2017</span>)</a>
+<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/length.html">length</a></span>(column_names)</a></code></pre></div>
 <pre><code>## [1] 32</code></pre>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(column_names)</a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(column_names)</a></code></pre></div>
 <pre><code>## [1] "accident_index"         "location_easting_osgr" 
 ## [3] "location_northing_osgr" "longitude"             
 ## [5] "latitude"               "police_force"</code></pre>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/class">class</a></span>(crashes_<span class="dv">2017</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/class.html">class</a></span>(crashes_<span class="dv">2017</span>)</a></code></pre></div>
 <pre><code>## [1] "spec_tbl_df" "tbl_df"      "tbl"         "data.frame"</code></pre>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">kableExtra<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/kableExtra/topics/reexports">kable</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(crashes_<span class="dv">2017</span>[, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">1</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">7</span>, <span class="dv">10</span>)]))</a></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">kableExtra<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/kableExtra/man/reexports.html">kable</a></span>(<span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(crashes_<span class="dv">2017</span>[, <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">1</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">7</span>, <span class="dv">10</span>)]))</a></code></pre></div>
 <table class="table">
 <thead><tr>
 <th style="text-align:left;">
@@ -309,11 +314,11 @@ Slight
 <pre><code>## Files identified: dftRoadSafetyData_Accidents_2017.zip</code></pre>
 <pre><code>##    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Accidents_2017.zip</code></pre>
 <pre><code>## Data already exists in data_dir, not downloading</code></pre>
-<pre><code>## Data saved at /tmp/RtmpgRks2t/dftRoadSafetyData_Accidents_2017/Acc.csv</code></pre>
+<pre><code>## Data saved at /tmp/Rtmpzuj3NB/dftRoadSafetyData_Accidents_2017/Acc.csv</code></pre>
 <pre><code>## Reading in:</code></pre>
-<pre><code>## /tmp/RtmpgRks2t/dftRoadSafetyData_Accidents_2017/Acc.csv</code></pre>
+<pre><code>## /tmp/Rtmpzuj3NB/dftRoadSafetyData_Accidents_2017/Acc.csv</code></pre>
 <p>The first two columns are raw read, the next two are formatted by <code>stats19</code> package:</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1">kableExtra<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/kableExtra/topics/reexports">kable</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cbind">cbind</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(crashes_<span class="dv">2017</span>_raw[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">7</span>, <span class="dv">10</span>)]), <span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(crashes_<span class="dv">2017</span>[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">7</span>, <span class="dv">10</span>)])))</a></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1">kableExtra<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/kableExtra/man/reexports.html">kable</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span>(<span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(crashes_<span class="dv">2017</span>_raw[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">7</span>, <span class="dv">10</span>)]), <span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(crashes_<span class="dv">2017</span>[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">7</span>, <span class="dv">10</span>)])))</a></code></pre></div>
 <table class="table">
 <thead><tr>
 <th style="text-align:right;">
@@ -360,14 +365,14 @@ Slight
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/class">class</a></span>(crashes_<span class="dv">2017</span>_raw<span class="op">$</span>Date)</a></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/class.html">class</a></span>(crashes_<span class="dv">2017</span>_raw<span class="op">$</span>Date)</a></code></pre></div>
 <pre><code>## [1] "character"</code></pre>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/class">class</a></span>(crashes_<span class="dv">2017</span><span class="op">$</span>date)</a></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/class.html">class</a></span>(crashes_<span class="dv">2017</span><span class="op">$</span>date)</a></code></pre></div>
 <pre><code>## [1] "POSIXct" "POSIXt"</code></pre>
 <p>Note: the severity type is not labelled (this problem affects dozens of columns), the column names are inconsistent, and the dates have note been cleaned and converted into a user-friendly date (<code>POSIXct</code>) class:</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/class">class</a></span>(crashes_<span class="dv">2017</span><span class="op">$</span>date)</a></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/class.html">class</a></span>(crashes_<span class="dv">2017</span><span class="op">$</span>date)</a></code></pre></div>
 <pre><code>## [1] "POSIXct" "POSIXt"</code></pre>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/class">class</a></span>(crashes_<span class="dv">2017</span>_raw<span class="op">$</span>Date)</a></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/class.html">class</a></span>(crashes_<span class="dv">2017</span>_raw<span class="op">$</span>Date)</a></code></pre></div>
 <pre><code>## [1] "character"</code></pre>
 </div>
 <div id="creating-geographic-crash-data" class="section level4">
@@ -378,18 +383,18 @@ Slight
 <pre><code>## 19 rows removed with no coordinates</code></pre>
 <div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" data-line-number="1"><span class="co"># crashes_sf = format_sf(crashes_2017, lonlat = TRUE) # provides the data in lon/lat format</span></a></code></pre></div>
 <p>An example of an administrative zone dataset of relevance to STATS19 data is the boundaries of police forces in England, which is provided in the packaged dataset <code>police_boundaries</code>. The following code chunk demonstrates the kind of spatial operations that can be performed on geographic STATS19 data, by counting and plotting the number of fatalities per police force:</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(sf)</a>
-<a class="sourceLine" id="cb35-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(dplyr)</a>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(sf)</a>
+<a class="sourceLine" id="cb35-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(dplyr)</a>
 <a class="sourceLine" id="cb35-3" data-line-number="3">crashes_sf <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb35-4" data-line-number="4"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(accident_severity <span class="op">==</span><span class="st"> "Fatal"</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb35-5" data-line-number="5"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="dt">n_fatalities =</span> accident_index) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb35-6" data-line-number="6"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/aggregate.sf">aggregate</a></span>(<span class="dt">by =</span> police_boundaries, <span class="dt">FUN =</span> length) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb35-7" data-line-number="7"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/plot">plot</a></span>()</a></code></pre></div>
+<a class="sourceLine" id="cb35-6" data-line-number="6"><span class="st">  </span><span class="kw"><a href="https://rdrr.io/pkg/sf/man/aggregate.sf.html">aggregate</a></span>(<span class="dt">by =</span> police_boundaries, <span class="dt">FUN =</span> length) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb35-7" data-line-number="7"><span class="st">  </span><span class="kw"><a href="https://rdrr.io/pkg/sf/man/plot.html">plot</a></span>()</a></code></pre></div>
 <p><img src="blog_files/figure-html/nfatalities-1.png" width="700"></p>
 <div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" data-line-number="1">west_yorkshire =</a>
 <a class="sourceLine" id="cb36-2" data-line-number="2"><span class="st">  </span>police_boundaries[police_boundaries<span class="op">$</span>pfa16nm <span class="op">==</span><span class="st"> "West Yorkshire"</span>, ]</a></code></pre></div>
 <div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" data-line-number="1">crashes_wy =<span class="st"> </span>crashes_sf[west_yorkshire, ]</a>
-<a class="sourceLine" id="cb37-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nrow">nrow</a></span>(crashes_wy) <span class="co"># which is 3.36%</span></a></code></pre></div>
+<a class="sourceLine" id="cb37-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(crashes_wy) <span class="co"># which is 3.36%</span></a></code></pre></div>
 <pre><code>## [1] 4371</code></pre>
 </div>
 <div id="the-big-picture-road-safety" class="section level4">
@@ -398,14 +403,14 @@ Slight
 <p>We can combine the three sets of tables to analyse the data further. Lets read the datasets first:</p>
 <div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" data-line-number="1"><span class="co">#crashes_2017 = get_stats19(year = 2017, type = "Accidents", ask = FALSE)</span></a>
 <a class="sourceLine" id="cb39-2" data-line-number="2">casualties_<span class="dv">2017</span> =<span class="st"> </span><span class="kw"><a href="../reference/get_stats19.html">get_stats19</a></span>(<span class="dt">year =</span> <span class="dv">2017</span>, <span class="dt">type =</span> <span class="st">"Casualties"</span>, <span class="dt">ask =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb39-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nrow">nrow</a></span>(casualties_<span class="dv">2017</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb39-3" data-line-number="3"><span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(casualties_<span class="dv">2017</span>)</a></code></pre></div>
 <pre><code>## [1] 170993</code></pre>
 <div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" data-line-number="1">vehicles_<span class="dv">2017</span> =<span class="st"> </span><span class="kw"><a href="../reference/get_stats19.html">get_stats19</a></span>(<span class="dt">year =</span> <span class="dv">2017</span>, <span class="dt">type =</span> <span class="st">"Vehicles"</span>, <span class="dt">ask =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb41-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nrow">nrow</a></span>(vehicles_<span class="dv">2017</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb41-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(vehicles_<span class="dv">2017</span>)</a></code></pre></div>
 <pre><code>## [1] 238926</code></pre>
 <p>Lets now read in casualties that took place in West Yorkshire (using <code>crashes_wy</code> object above), and count the number of casualties by severity for each crash:</p>
-<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(tidyr)</a>
-<a class="sourceLine" id="cb43-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(dplyr)</a>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(tidyr)</a>
+<a class="sourceLine" id="cb43-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(dplyr)</a>
 <a class="sourceLine" id="cb43-3" data-line-number="3">sel =<span class="st"> </span>casualties_<span class="dv">2017</span><span class="op">$</span>accident_index <span class="op">%in%</span><span class="st"> </span>crashes_wy<span class="op">$</span>accident_index</a>
 <a class="sourceLine" id="cb43-4" data-line-number="4">casualties_wy =<span class="st"> </span>casualties_<span class="dv">2017</span>[sel, ]</a>
 <a class="sourceLine" id="cb43-5" data-line-number="5">cas_types =<span class="st"> </span>casualties_wy <span class="op">%&gt;%</span><span class="st"> </span></a>
@@ -413,17 +418,17 @@ Slight
 <a class="sourceLine" id="cb43-7" data-line-number="7"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(accident_index) <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb43-8" data-line-number="8"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span>(</a>
 <a class="sourceLine" id="cb43-9" data-line-number="9">    <span class="dt">Total =</span> <span class="kw"><a href="https://dplyr.tidyverse.org/reference/n.html">n</a></span>(),</a>
-<a class="sourceLine" id="cb43-10" data-line-number="10">    <span class="dt">walking =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sum">sum</a></span>(casualty_type <span class="op">==</span><span class="st"> "Pedestrian"</span>),</a>
-<a class="sourceLine" id="cb43-11" data-line-number="11">    <span class="dt">cycling =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sum">sum</a></span>(casualty_type <span class="op">==</span><span class="st"> "Cyclist"</span>),</a>
-<a class="sourceLine" id="cb43-12" data-line-number="12">    <span class="dt">passenger =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sum">sum</a></span>(casualty_type <span class="op">==</span><span class="st"> "Car occupant"</span>)</a>
+<a class="sourceLine" id="cb43-10" data-line-number="10">    <span class="dt">walking =</span> <span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(casualty_type <span class="op">==</span><span class="st"> "Pedestrian"</span>),</a>
+<a class="sourceLine" id="cb43-11" data-line-number="11">    <span class="dt">cycling =</span> <span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(casualty_type <span class="op">==</span><span class="st"> "Cyclist"</span>),</a>
+<a class="sourceLine" id="cb43-12" data-line-number="12">    <span class="dt">passenger =</span> <span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(casualty_type <span class="op">==</span><span class="st"> "Car occupant"</span>)</a>
 <a class="sourceLine" id="cb43-13" data-line-number="13">    ) </a>
 <a class="sourceLine" id="cb43-14" data-line-number="14">cj =<span class="st"> </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/join.html">left_join</a></span>(crashes_wy, cas_types)</a></code></pre></div>
 <p>What just happened?</p>
 <p>We found the subset of casualties that took place in West Yorkshire with reference to the <code>accident_index</code> variable in the <code>accidents</code> table. Then we used the <strong>dplyr</strong> function <code><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise()</a></code>, to find the number of people who were in a car, cycling, and walking when they were injured. This new casualty dataset is joined onto the <code>crashes_wy</code> dataset. The result is a spatial (<code>sf</code>) data frame of crashes in West Yorkshire, with columns counting how many road users of different types were hurt. The joined data has additional variables:</p>
-<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" data-line-number="1">base<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sets">setdiff</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/names">names</a></span>(cj), <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/names">names</a></span>(crashes_wy))</a></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" data-line-number="1">base<span class="op">::</span><span class="kw"><a href="https://rdrr.io/r/base/sets.html">setdiff</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(cj), <span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(crashes_wy))</a></code></pre></div>
 <pre><code>## [1] "Total"     "walking"   "cycling"   "passenger"</code></pre>
 <p>In addition to the <code>Total</code> number of people hurt/killed, <code>cj</code> contains a column for each type of casualty (cyclist, car occupant, etc.), and a number corresponding to the number of each type hurt in each crash. It also contains the <code>geometry</code> column from <code>crashes_sf</code>. In other words, joins allow the casualties and vehicles tables to be geo-referenced. We can then explore the spatial distribution of different casualty types. The following figure, for example, shows the spatial distribution of pedestrians and car passengers hurt in car crashes across West Yorkshire in 2017:</p>
-<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb46-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(ggplot2)</a>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb46-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(ggplot2)</a>
 <a class="sourceLine" id="cb46-2" data-line-number="2">crashes_types =<span class="st"> </span>cj <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb46-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(accident_severity <span class="op">!=</span><span class="st"> "Slight"</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb46-4" data-line-number="4"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="dt">type =</span> <span class="kw"><a href="https://dplyr.tidyverse.org/reference/case_when.html">case_when</a></span>(</a>
@@ -436,10 +441,10 @@ Slight
 <a class="sourceLine" id="cb46-11" data-line-number="11"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html">geom_sf</a></span>(<span class="dt">show.legend =</span> <span class="st">"point"</span>, <span class="dt">alpha =</span> <span class="fl">0.3</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb46-12" data-line-number="12"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/facet_grid.html">facet_grid</a></span>(<span class="kw"><a href="https://ggplot2.tidyverse.org/reference/vars.html">vars</a></span>(type), <span class="kw"><a href="https://ggplot2.tidyverse.org/reference/vars.html">vars</a></span>(accident_severity)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb46-13" data-line-number="13"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/scale_size.html">scale_size</a></span>(</a>
-<a class="sourceLine" id="cb46-14" data-line-number="14">    <span class="dt">breaks =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>, <span class="dv">12</span>),</a>
-<a class="sourceLine" id="cb46-15" data-line-number="15">    <span class="dt">labels =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, <span class="st">"3+"</span>, <span class="dv">12</span>)</a>
+<a class="sourceLine" id="cb46-14" data-line-number="14">    <span class="dt">breaks =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>, <span class="dv">12</span>),</a>
+<a class="sourceLine" id="cb46-15" data-line-number="15">    <span class="dt">labels =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, <span class="st">"3+"</span>, <span class="dv">12</span>)</a>
 <a class="sourceLine" id="cb46-16" data-line-number="16">    ) <span class="op">+</span></a>
-<a class="sourceLine" id="cb46-17" data-line-number="17"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/scale_gradient.html">scale_color_gradientn</a></span>(<span class="dt">colours =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"blue"</span>, <span class="st">"yellow"</span>, <span class="st">"red"</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb46-17" data-line-number="17"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/scale_gradient.html">scale_color_gradientn</a></span>(<span class="dt">colours =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"blue"</span>, <span class="st">"yellow"</span>, <span class="st">"red"</span>)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb46-18" data-line-number="18"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span>(<span class="dt">axis.text =</span> <span class="kw"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_blank</a></span>(), <span class="dt">axis.ticks =</span> <span class="kw"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_blank</a></span>())</a></code></pre></div>
 <div class="figure">
 <img src="blog_files/figure-html/sfplot-1.png" alt="Spatial distribution of serious and fatal collisions in which people who were walking on the road network ('pedestrians') were hit by a car or other vehicle." width="100%"><p class="caption">
@@ -447,24 +452,24 @@ Spatial distribution of serious and fatal collisions in which people who were wa
 </p>
 </div>
 <p>To show what is possible when the data are in this form, and allude to next steps, let’s create an interactive map. We will plot crashes in which pedestrians were hurt, from the <code>crashes_types</code>, using <code>leaflet</code> package:</p>
-<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(leaflet)</a>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(leaflet)</a>
 <a class="sourceLine" id="cb47-2" data-line-number="2">crashes_pedestrians =<span class="st"> </span>crashes_types <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb47-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(walking <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>)</a>
 <a class="sourceLine" id="cb47-4" data-line-number="4"><span class="co"># convert to lon lat CRS</span></a>
-<a class="sourceLine" id="cb47-5" data-line-number="5">crashes_pedestrians_lonlat =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/st_transform">st_transform</a></span>(crashes_pedestrians, <span class="dt">crs =</span> <span class="dv">4326</span>)</a>
-<a class="sourceLine" id="cb47-6" data-line-number="6">pal =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/leaflet/topics/colorNumeric">colorFactor</a></span>(<span class="dt">palette =</span> <span class="st">"Reds"</span>, <span class="dt">domain =</span> crashes_pedestrians_lonlat<span class="op">$</span>accident_severity, <span class="dt">reverse =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb47-7" data-line-number="7">map =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/leaflet/topics/leaflet">leaflet</a></span>(<span class="dt">data =</span> crashes_pedestrians_lonlat, <span class="dt">height =</span> <span class="st">"280px"</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb47-8" data-line-number="8"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/leaflet/topics/addProviderTiles">addProviderTiles</a></span>(<span class="dt">provider =</span> providers<span class="op">$</span>OpenStreetMap.BlackAndWhite) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb47-9" data-line-number="9"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/leaflet/topics/map-layers">addCircleMarkers</a></span>(<span class="dt">radius =</span> <span class="fl">0.5</span>, <span class="dt">color =</span> <span class="op">~</span><span class="kw">pal</span>(accident_severity)) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb47-10" data-line-number="10"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/leaflet/topics/addLegend">addLegend</a></span>(<span class="dt">pal =</span> pal, <span class="dt">values =</span> <span class="op">~</span>accident_severity) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb47-11" data-line-number="11"><span class="st">  </span>leaflet<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/leaflet/topics/addMiniMap">addMiniMap</a></span>(<span class="dt">toggleDisplay =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb47-5" data-line-number="5">crashes_pedestrians_lonlat =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/sf/man/st_transform.html">st_transform</a></span>(crashes_pedestrians, <span class="dt">crs =</span> <span class="dv">4326</span>)</a>
+<a class="sourceLine" id="cb47-6" data-line-number="6">pal =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/leaflet/man/colorNumeric.html">colorFactor</a></span>(<span class="dt">palette =</span> <span class="st">"Reds"</span>, <span class="dt">domain =</span> crashes_pedestrians_lonlat<span class="op">$</span>accident_severity, <span class="dt">reverse =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb47-7" data-line-number="7">map =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/leaflet/man/leaflet.html">leaflet</a></span>(<span class="dt">data =</span> crashes_pedestrians_lonlat, <span class="dt">height =</span> <span class="st">"280px"</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb47-8" data-line-number="8"><span class="st">  </span><span class="kw"><a href="https://rdrr.io/pkg/leaflet/man/addProviderTiles.html">addProviderTiles</a></span>(<span class="dt">provider =</span> providers<span class="op">$</span>OpenStreetMap.BlackAndWhite) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb47-9" data-line-number="9"><span class="st">  </span><span class="kw"><a href="https://rdrr.io/pkg/leaflet/man/map-layers.html">addCircleMarkers</a></span>(<span class="dt">radius =</span> <span class="fl">0.5</span>, <span class="dt">color =</span> <span class="op">~</span><span class="kw">pal</span>(accident_severity)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb47-10" data-line-number="10"><span class="st">  </span><span class="kw"><a href="https://rdrr.io/pkg/leaflet/man/addLegend.html">addLegend</a></span>(<span class="dt">pal =</span> pal, <span class="dt">values =</span> <span class="op">~</span>accident_severity) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb47-11" data-line-number="11"><span class="st">  </span>leaflet<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/leaflet/man/addMiniMap.html">addMiniMap</a></span>(<span class="dt">toggleDisplay =</span> <span class="ot">TRUE</span>)</a>
 <a class="sourceLine" id="cb47-12" data-line-number="12"><span class="co"># map # if you like to see the leaflet version</span></a></code></pre></div>
-<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(geojsonsf)</a>
-<a class="sourceLine" id="cb48-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(htmltools)</a>
-<a class="sourceLine" id="cb48-3" data-line-number="3">geojson =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/geojsonsf/topics/sf_geojson">sf_geojson</a></span>(</a>
-<a class="sourceLine" id="cb48-4" data-line-number="4">  crashes_pedestrians_lonlat[,<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"accident_severity"</span>)],</a>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(geojsonsf)</a>
+<a class="sourceLine" id="cb48-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(htmltools)</a>
+<a class="sourceLine" id="cb48-3" data-line-number="3">geojson =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/geojsonsf/man/sf_geojson.html">sf_geojson</a></span>(</a>
+<a class="sourceLine" id="cb48-4" data-line-number="4">  crashes_pedestrians_lonlat[,<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"accident_severity"</span>)],</a>
 <a class="sourceLine" id="cb48-5" data-line-number="5"><span class="dt">factors_as_string =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb48-6" data-line-number="6">template =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste0</a></span>(<span class="st">'</span></a>
+<a class="sourceLine" id="cb48-6" data-line-number="6">template =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(<span class="st">'</span></a>
 <a class="sourceLine" id="cb48-7" data-line-number="7"><span class="st">&lt;link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA==" crossorigin=""/&gt;</span></a>
 <a class="sourceLine" id="cb48-8" data-line-number="8"><span class="st">&lt;script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js" integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg==" crossorigin=""&gt;&lt;/script&gt;</span></a>
 <a class="sourceLine" id="cb48-9" data-line-number="9"><span class="st">&lt;div id="mapid" style="width: 100%; height: 400px;"&gt;</span></a>
@@ -521,9 +526,9 @@ Spatial distribution of serious and fatal collisions in which people who were wa
 <a class="sourceLine" id="cb48-60" data-line-number="60"><span class="st">.info { padding: 6px 8px; font: 14px/16px Arial, Helvetica, sans-serif; background: white; background: rgba(255,255,255,0.8); box-shadow: 0 0 15px rgba(0,0,0,0.2); border-radius: 5px; } .info h4 { margin: 0 0 5px; color: #777; }</span></a>
 <a class="sourceLine" id="cb48-61" data-line-number="61"><span class="st">.legend { text-align: left; line-height: 18px; color: #555; } .legend i { width: 18px; height: 18px; float: left; margin-right: 8px; opacity: 0.7; }&lt;/style&gt;</span></a>
 <a class="sourceLine" id="cb48-62" data-line-number="62"><span class="st">&lt;/div&gt;'</span>)</a>
-<a class="sourceLine" id="cb48-63" data-line-number="63">path =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/file.path">file.path</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/tempfile">tempdir</a></span>(), <span class="st">"temp.html"</span>)</a>
-<a class="sourceLine" id="cb48-64" data-line-number="64"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/write">write</a></span>(template, path)</a>
-<a class="sourceLine" id="cb48-65" data-line-number="65"><span class="kw"><a href="https://www.rdocumentation.org/packages/htmltools/topics/include">includeHTML</a></span>(path)</a></code></pre></div>
+<a class="sourceLine" id="cb48-63" data-line-number="63">path =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span>(), <span class="st">"temp.html"</span>)</a>
+<a class="sourceLine" id="cb48-64" data-line-number="64"><span class="kw"><a href="https://rdrr.io/r/base/write.html">write</a></span>(template, path)</a>
+<a class="sourceLine" id="cb48-65" data-line-number="65"><span class="kw"><a href="https://rdrr.io/pkg/htmltools/man/include.html">includeHTML</a></span>(path)</a></code></pre></div>
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA==" crossorigin="">
 <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js" integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg==" crossorigin=""></script><div id="mapid" style="width: 100%; height: 400px;">
@@ -606,9 +611,11 @@ Spatial distribution of serious and fatal collisions in which people who were wa
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+
       </div>
 
 </div>
+
 
 
       <footer><div class="copyright">
@@ -616,12 +623,14 @@ Spatial distribution of serious and fatal collisions in which people who were wa
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
+
       </footer>
 </div>
 
   
+
 
   </body>
 </html>
