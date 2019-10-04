@@ -1,0 +1,80 @@
+---
+title: "An introduction to road safety analysis with R"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{stats19-training}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  out.width = "50%"
+)
+```
+
+# Pre-requisites
+
+If you are not experienced with R, it is strongly advised that you read-up on and more importantly **test out** R and RStudio before attempting analyse road crash data with R.
+See the `stats19-training-setup` vignette at https://docs.ropensci.org/stats19/articles/stats19-training-setup.html for guidance on getting started with R, RStudio and installing R packages.
+
+The core packages we will be using in this tutorial are as follows:
+
+```{r, eval=FALSE}
+install.packages("remotes")
+pkgs = c(
+  "sf",          # spatial data package
+  "stats19",     # downloads and formats open stats19 crash data
+  "dplyr",       # a package data manipulation, part of the tidyverse
+  "tmap"         # for making maps
+)
+remotes::install_cran(pkgs)
+# remotes::install_github("ITSLeeds/pct")
+```
+
+# Introduction
+
+This vignette supports workshops on road safety analysis with R.
+It was initially developed for a 2 day [Introduction to R for Road Safety](https://www.racfoundation.org/introduction-to-r-for-road-safety) course funded by the [RAC Foundation](https://www.racfoundation.org/), a charity that supports road safety research.
+
+The course is based on open access road crash data from the UK, which is provided in an accessible form to R users through the R package **stats19**  
+
+
+Beginner and intermediate PCT events focus on using the PCT via the web application hosted at [www.pct.bike](http://www.pct.bike/) and the data provided by the PCT in [QGIS](https://www.qgis.org/en/site/).
+
+The focus here is on analysing cycling potential in the open source statistical programming language R, in which the majority of the PCT was built.
+It will show how the code underlying the PCT works, how the underlying data can be accessed for reproducible analysis, and how the methods can be used to generate new scenarios of cycling uptake.
+
+<!-- There will be 2 courses: -->
+
+<!-- - In London on **Friday 21st June**  -->
+<!-- - In Leeds on **Friday 2nd August (TBC)**  -->
+
+<!-- # Prerequisites -->
+
+<!-- This is an advanced training course with specific pre-requisites. -->
+<!-- Please only register if you: -->
+
+<!-- - Have experience analysing geographic area and route data of the type used in the PCT -->
+<!-- - Have experience using software for geographic data, including working knowledge of the statistical programming language R -->
+<!-- - Can bring a laptop that has up-to-date versions of R, RStudio and the necessary R packages installed (see next section) -->
+
+<!-- In addition, if you want to do routing on your computer:  -->
+
+<!-- - Register for a CycleStreets.net API key from: https://www.cyclestreets.net/api/ -->
+
+<!-- If you are new to R this course may not be appropriate for you. -->
+If you are an intermediate user, it may be worth brushing-up on your R skills, e.g. by taking a free online course such as that provided by [DataCamp](https://www.datacamp.com/courses/free-introduction-to-r) or by working through [Chapter 2 onwards of the open source book *Geocomputation with R*](https://geocompr.robinlovelace.net/spatial-class.html) (see reading list below for more transport-specific resources).
+
+<!-- ## Prior reading -->
+
+<!-- In addition to computer hardware (a laptop) and software (an up-to-date R set-up and experience using R) pre-requisites, you should have read, or at least have working knowledge of the contents of, the following publications, all of which are freely available online: -->
+
+<!-- - The original paper on the Propensity to Cycle Tool [@lovelace_propensity_2017] -->
+<!-- - The transport chapter ([12](https://geocompr.robinlovelace.net/transport.html)) in the open source book [*Geocomputation with R*](https://geocompr.robinlovelace.net/)  [@lovelace_geocomputation_2019] -->
+<!-- - The vignette that describes the pct R package, which can be found here: https://itsleeds.github.io/pct/articles/pct.html -->
+
+# References

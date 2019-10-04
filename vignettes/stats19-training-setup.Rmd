@@ -15,7 +15,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-If you are new to R, please read-up and more importantly **test out** R and RStudio before the course.
+If you are not experienced with R, it is strongly advised that you read-up on and more importantly **test out** R and RStudio before attempting analyse road crash data with R.
 
 To read up on R, we recommend reading Chapter 1 Getting Started with Data in R of the online book Statistical Inference via Data Science, which can be found here: https://moderndive.netlify.com/1-getting-started.html
 
