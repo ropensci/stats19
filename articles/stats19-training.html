@@ -109,45 +109,100 @@
 <a href="#pre-requisites" class="anchor"></a>Pre-requisites</h1>
 <p>If you are not experienced with R, it is strongly advised that you read-up on and more importantly <strong>test out</strong> R and RStudio before attempting analyse road crash data with R. See the <code>stats19-training-setup</code> vignette at <a href="https://docs.ropensci.org/stats19/articles/stats19-training-setup.html" class="uri">https://docs.ropensci.org/stats19/articles/stats19-training-setup.html</a> for guidance on getting started with R, RStudio and installing R packages.</p>
 <p>The core packages we will be using in this tutorial are as follows:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"remotes"</span>)</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2">pkgs =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(</a>
-<a class="sourceLine" id="cb1-3" data-line-number="3">  <span class="st">"sf"</span>,          <span class="co"># spatial data package</span></a>
-<a class="sourceLine" id="cb1-4" data-line-number="4">  <span class="st">"stats19"</span>,     <span class="co"># downloads and formats open stats19 crash data</span></a>
-<a class="sourceLine" id="cb1-5" data-line-number="5">  <span class="st">"dplyr"</span>,       <span class="co"># a package data manipulation, part of the tidyverse</span></a>
-<a class="sourceLine" id="cb1-6" data-line-number="6">  <span class="st">"tmap"</span>         <span class="co"># for making maps</span></a>
-<a class="sourceLine" id="cb1-7" data-line-number="7">)</a>
-<a class="sourceLine" id="cb1-8" data-line-number="8">remotes<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/remotes/man/install_cran.html">install_cran</a></span>(pkgs)</a>
-<a class="sourceLine" id="cb1-9" data-line-number="9"><span class="co"># remotes::install_github("ITSLeeds/pct")</span></a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">pkgs =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2">  <span class="st">"sf"</span>,          <span class="co"># spatial data package</span></a>
+<a class="sourceLine" id="cb1-3" data-line-number="3">  <span class="st">"stats19"</span>,     <span class="co"># downloads and formats open stats19 crash data</span></a>
+<a class="sourceLine" id="cb1-4" data-line-number="4">  <span class="st">"dplyr"</span>,       <span class="co"># a package data manipulation, part of the tidyverse</span></a>
+<a class="sourceLine" id="cb1-5" data-line-number="5">  <span class="st">"tmap"</span>         <span class="co"># for making maps</span></a>
+<a class="sourceLine" id="cb1-6" data-line-number="6">)</a></code></pre></div>
+<pre><code>#&gt; Warning in citation(pkg, auto = if (pkg == "base") NULL else TRUE): no date
+#&gt; field in DESCRIPTION file of package 'stats19'</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">remotes<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/remotes/man/install_cran.html">install_cran</a></span>(pkgs)</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="co"># remotes::install_github("ITSLeeds/pct")</span></a></code></pre></div>
 </div>
 <div id="introduction" class="section level1">
 <h1 class="hasAnchor">
 <a href="#introduction" class="anchor"></a>Introduction</h1>
 <p>This vignette supports workshops on road safety analysis with R. It was initially developed for a 2 day <a href="https://www.racfoundation.org/introduction-to-r-for-road-safety">Introduction to R for Road Safety</a> course funded by the <a href="https://www.racfoundation.org/">RAC Foundation</a>, a charity that supports road safety research.</p>
-<p>The course is based on open access road crash data from the UK, which is provided in an accessible form to R users through the R package <strong>stats19</strong></p>
-<p>Beginner and intermediate PCT events focus on using the PCT via the web application hosted at <a href="http://www.pct.bike/">www.pct.bike</a> and the data provided by the PCT in <a href="https://www.qgis.org/en/site/">QGIS</a>.</p>
-<p>The focus here is on analysing cycling potential in the open source statistical programming language R, in which the majority of the PCT was built. It will show how the code underlying the PCT works, how the underlying data can be accessed for reproducible analysis, and how the methods can be used to generate new scenarios of cycling uptake.</p>
-<!-- There will be 2 courses: -->
-<!-- - In London on **Friday 21st June**  -->
-<!-- - In Leeds on **Friday 2nd August (TBC)**  -->
-<!-- # Prerequisites -->
-<!-- This is an advanced training course with specific pre-requisites. -->
-<!-- Please only register if you: -->
-<!-- - Have experience analysing geographic area and route data of the type used in the PCT -->
-<!-- - Have experience using software for geographic data, including working knowledge of the statistical programming language R -->
-<!-- - Can bring a laptop that has up-to-date versions of R, RStudio and the necessary R packages installed (see next section) -->
-<!-- In addition, if you want to do routing on your computer:  -->
-<!-- - Register for a CycleStreets.net API key from: https://www.cyclestreets.net/api/ -->
-<!-- If you are new to R this course may not be appropriate for you. -->
-<p>If you are an intermediate user, it may be worth brushing-up on your R skills, e.g. by taking a free online course such as that provided by <a href="https://www.datacamp.com/courses/free-introduction-to-r">DataCamp</a> or by working through <a href="https://geocompr.robinlovelace.net/spatial-class.html">Chapter 2 onwards of the open source book <em>Geocomputation with R</em></a> (see reading list below for more transport-specific resources).</p>
-<!-- ## Prior reading -->
-<!-- In addition to computer hardware (a laptop) and software (an up-to-date R set-up and experience using R) pre-requisites, you should have read, or at least have working knowledge of the contents of, the following publications, all of which are freely available online: -->
-<!-- - The original paper on the Propensity to Cycle Tool [@lovelace_propensity_2017] -->
-<!-- - The transport chapter ([12](https://geocompr.robinlovelace.net/transport.html)) in the open source book [*Geocomputation with R*](https://geocompr.robinlovelace.net/)  [@lovelace_geocomputation_2019] -->
-<!-- - The vignette that describes the pct R package, which can be found here: https://itsleeds.github.io/pct/articles/pct.html -->
+<p>The course is based on open access road crash data from the UK, which is provided in an accessible form to R users through the R package <strong>stats19</strong> <span class="citation">(Lovelace et al. 2019)</span>. However, the content should be of use for anyone working with road crash data that has (at a minimum):</p>
+<ul>
+<li>A timestamp</li>
+<li>A location (or address that can be geocoded)</li>
+<li>Attribute data, such as severity of crash, mode of vehicles involved etc.</li>
+</ul>
 </div>
-<div id="references" class="section level1">
+<div id="agenda" class="section level1">
+<h1 class="hasAnchor">
+<a href="#agenda" class="anchor"></a>Agenda</h1>
+<p>The preliminary agenda is as follows:</p>
+<div id="day-1-an-introduction-to-r-and-rstudio-for-spatial-and-temporal-data" class="section level2">
+<h2 class="hasAnchor">
+<a href="#day-1-an-introduction-to-r-and-rstudio-for-spatial-and-temporal-data" class="anchor"></a>Day 1: An introduction to R and RStudio for spatial and temporal data</h2>
+<p>09:00-09:30 Arrival and set-up</p>
+<p>09:30-11:00 Introduction to the course and software</p>
+<ul>
+<li>Introduction to R</li>
+<li>R installation questions/debugging</li>
+<li>How to use RStudio (practical in groups of 2)</li>
+<li>R classes and working with data frames (CC)</li>
+</ul>
+<p><strong>Break</strong></p>
+<p>11:15-12:30 Working with temporal data</p>
+<ul>
+<li>Time classes</li>
+<li>Filtering by time of crash</li>
+<li>Aggregating over time</li>
+<li>Forecasting crashes over time</li>
+</ul>
+<p><strong>Lunch</strong></p>
+<p>13:30-15:00 Working with spatial data</p>
+<ul>
+<li>Spatial data in R</li>
+<li>R’s spatial ecosystem (see section <a href="https://geocompr.robinlovelace.net/intro.html#rs-spatial-ecosystem">1.4 of Geocomputation with R - package ecosystem</a>)</li>
+<li>Practical: <a href="https://geocompr.robinlovelace.net/attr.html#vector-attribute-manipulation">Section 3.2 to 3.2.2</a> of handouts</li>
+<li>
+<a href="https://geocompr.robinlovelace.net/attr.html#exercises-1">Exercises</a>: 1 to 3 in the hand-outs</li>
+</ul>
+<p><strong>Break</strong></p>
+<p>15:15-15:30: Talk on Road Safety 1</p>
+<p>15:30-16:30 Practical - Applying the methods to stats19 data - a taster</p>
+<ul>
+<li>How to access data with <strong>stats19</strong>
+</li>
+<li>Key <strong>stats19</strong> functions</li>
+<li>Excercises: analysing road crash data on the Isle of Wight</li>
+</ul>
+</div>
+<div id="day-2-road-safety-analysis-with-r" class="section level2">
+<h2 class="hasAnchor">
+<a href="#day-2-road-safety-analysis-with-r" class="anchor"></a>Day 2 road safety analysis with R</h2>
+<p>09:30-11:00 Point pattern analysis</p>
+<ul>
+<li>Visualising data with tmap</li>
+<li>Spatial and temporal subsetting</li>
+<li>Aggregation</li>
+</ul>
+<p>11:15-12:30 Road network data</p>
+<ul>
+<li>Desire lines: using origin-destination data</li>
+<li>Downloading road network data from OSM</li>
+<li>Buffers on road networks</li>
+</ul>
+<p><strong>Lunch</strong></p>
+<p>13:30-15:00 Analysing crash data on road network</p>
+<p><strong>Break</strong></p>
+<p>15:15-15:30: Talk on Road Safety 2</p>
+<p>15:30-16:30 Applying the methods to your own data</p>
+</div>
+</div>
+<div id="references" class="section level1 unnumbered">
 <h1 class="hasAnchor">
 <a href="#references" class="anchor"></a>References</h1>
+<div id="refs" class="references">
+<div id="ref-lovelace_stats19_2019">
+<p>Lovelace, Robin, Malcolm Morgan, Layik Hama, Mark Padgham, and M Padgham. 2019. “Stats19 A Package for Working with Open Road Crash Data.” <em>Journal of Open Source Software</em> 4 (33): 1181. <a href="https://doi.org/10.21105/joss.01181" class="uri">https://doi.org/10.21105/joss.01181</a>.</p>
+</div>
+</div>
 </div>
   </div>
 
@@ -159,6 +214,12 @@
       <ul class="nav nav-pills nav-stacked">
 <li><a href="#pre-requisites">Pre-requisites</a></li>
       <li><a href="#introduction">Introduction</a></li>
+      <li>
+<a href="#agenda">Agenda</a><ul class="nav nav-pills nav-stacked">
+<li><a href="#day-1-an-introduction-to-r-and-rstudio-for-spatial-and-temporal-data">Day 1: An introduction to R and RStudio for spatial and temporal data</a></li>
+      <li><a href="#day-2-road-safety-analysis-with-r">Day 2 road safety analysis with R</a></li>
+      </ul>
+</li>
       <li><a href="#references">References</a></li>
       </ul>
 </div>
