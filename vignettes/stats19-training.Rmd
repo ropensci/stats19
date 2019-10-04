@@ -5,6 +5,10 @@ vignette: >
   %\VignetteIndexEntry{stats19-training}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+bibliography:
+  - references.bib
+  - packages.bib
+  
 ---
 
 
@@ -23,14 +27,20 @@ See the `stats19-training-setup` vignette at https://docs.ropensci.org/stats19/a
 
 The core packages we will be using in this tutorial are as follows:
 
-```{r, eval=FALSE}
-install.packages("remotes")
+```{r pkgs, warning=FALSE}
 pkgs = c(
   "sf",          # spatial data package
   "stats19",     # downloads and formats open stats19 crash data
   "dplyr",       # a package data manipulation, part of the tidyverse
   "tmap"         # for making maps
 )
+```
+
+```{r cite, echo=FALSE}
+knitr::write_bib(x = pkgs, "packages.bib")
+```
+
+```{r, eval=FALSE}
 remotes::install_cran(pkgs)
 # remotes::install_github("ITSLeeds/pct")
 ```
@@ -40,41 +50,79 @@ remotes::install_cran(pkgs)
 This vignette supports workshops on road safety analysis with R.
 It was initially developed for a 2 day [Introduction to R for Road Safety](https://www.racfoundation.org/introduction-to-r-for-road-safety) course funded by the [RAC Foundation](https://www.racfoundation.org/), a charity that supports road safety research.
 
-The course is based on open access road crash data from the UK, which is provided in an accessible form to R users through the R package **stats19**  
+The course is based on open access road crash data from the UK, which is provided in an accessible form to R users through the R package **stats19** [@lovelace_stats19_2019].
+However, the content should be of use for anyone working with road crash data that has (at a minimum):
+
+- A timestamp
+- A location (or address that can be geocoded)
+- Attribute data, such as severity of crash, mode of vehicles involved etc.
 
 
-Beginner and intermediate PCT events focus on using the PCT via the web application hosted at [www.pct.bike](http://www.pct.bike/) and the data provided by the PCT in [QGIS](https://www.qgis.org/en/site/).
+# Agenda
 
-The focus here is on analysing cycling potential in the open source statistical programming language R, in which the majority of the PCT was built.
-It will show how the code underlying the PCT works, how the underlying data can be accessed for reproducible analysis, and how the methods can be used to generate new scenarios of cycling uptake.
+The preliminary agenda is as follows:
 
-<!-- There will be 2 courses: -->
+## Day 1: An introduction to R and RStudio for spatial and temporal data
 
-<!-- - In London on **Friday 21st June**  -->
-<!-- - In Leeds on **Friday 2nd August (TBC)**  -->
+09:00-09:30 Arrival and set-up
 
-<!-- # Prerequisites -->
+09:30-11:00 Introduction to the course and software
 
-<!-- This is an advanced training course with specific pre-requisites. -->
-<!-- Please only register if you: -->
+- Introduction to R
+- R installation questions/debugging
+- How to use RStudio (practical in groups of 2)
+- R classes and working with data frames (CC)
 
-<!-- - Have experience analysing geographic area and route data of the type used in the PCT -->
-<!-- - Have experience using software for geographic data, including working knowledge of the statistical programming language R -->
-<!-- - Can bring a laptop that has up-to-date versions of R, RStudio and the necessary R packages installed (see next section) -->
+**Break**
 
-<!-- In addition, if you want to do routing on your computer:  -->
+11:15-12:30 Working with temporal data
 
-<!-- - Register for a CycleStreets.net API key from: https://www.cyclestreets.net/api/ -->
+- Time classes
+- Filtering by time of crash
+- Aggregating over time
+- Forecasting crashes over time
 
-<!-- If you are new to R this course may not be appropriate for you. -->
-If you are an intermediate user, it may be worth brushing-up on your R skills, e.g. by taking a free online course such as that provided by [DataCamp](https://www.datacamp.com/courses/free-introduction-to-r) or by working through [Chapter 2 onwards of the open source book *Geocomputation with R*](https://geocompr.robinlovelace.net/spatial-class.html) (see reading list below for more transport-specific resources).
+**Lunch**
 
-<!-- ## Prior reading -->
+13:30-15:00 Working with spatial data
 
-<!-- In addition to computer hardware (a laptop) and software (an up-to-date R set-up and experience using R) pre-requisites, you should have read, or at least have working knowledge of the contents of, the following publications, all of which are freely available online: -->
+- Spatial data in R
+- R's spatial ecosystem (see section [1.4 of Geocomputation with R - package ecosystem](https://geocompr.robinlovelace.net/intro.html#rs-spatial-ecosystem))
+- Practical: [Section 3.2 to 3.2.2](https://geocompr.robinlovelace.net/attr.html#vector-attribute-manipulation) of handouts
+- [Exercises](https://geocompr.robinlovelace.net/attr.html#exercises-1): 1 to 3 in the hand-outs
 
-<!-- - The original paper on the Propensity to Cycle Tool [@lovelace_propensity_2017] -->
-<!-- - The transport chapter ([12](https://geocompr.robinlovelace.net/transport.html)) in the open source book [*Geocomputation with R*](https://geocompr.robinlovelace.net/)  [@lovelace_geocomputation_2019] -->
-<!-- - The vignette that describes the pct R package, which can be found here: https://itsleeds.github.io/pct/articles/pct.html -->
+**Break**
+  
+15:15-15:30: Talk on Road Safety 1
+
+15:30-16:30 Practical - Applying the methods to stats19 data - a taster
+
+- How to access data with **stats19**
+- Key **stats19** functions
+- Excercises: analysing road crash data on the Isle of Wight
+
+## Day 2 road safety analysis with R
+
+09:30-11:00 Point pattern analysis
+
+- Visualising data with tmap
+- Spatial and temporal subsetting
+- Aggregation
+
+11:15-12:30 Road network data
+
+- Desire lines: using origin-destination data
+- Downloading road network data from OSM
+- Buffers on road networks
+
+**Lunch**
+
+13:30-15:00 Analysing crash data on road network
+
+**Break**
+  
+15:15-15:30: Talk on Road Safety 2
+
+15:30-16:30 Applying the methods to your own data
 
 # References
