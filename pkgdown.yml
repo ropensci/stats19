@@ -4,6 +4,7 @@ pkgdown_sha: ~
 articles:
   blog: blog.html
   stats19-training-setup: stats19-training-setup.html
+  stats19-training: stats19-training.html
   stats19-vehicles: stats19-vehicles.html
   stats19: stats19.html
 
