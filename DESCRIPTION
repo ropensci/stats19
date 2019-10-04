@@ -47,7 +47,8 @@ Suggests:
     kableExtra,
     leaflet,
     geojsonsf,
-    htmltools
+    htmltools,
+    tmap
 VignetteBuilder: knitr
 RoxygenNote: 6.1.1
 Roxygen: list(markdown = TRUE)
