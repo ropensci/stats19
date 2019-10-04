@@ -64,4 +64,4 @@ plot(crashes_iow)
 
 You should see results like those shown in the map here: https://github.com/ropensci/stats19/issues/105
 
-If you cannot create a map by running the code above before the course, get in touch.
+If you cannot create that map by running the code above before the course, get in touch with us, e.g. by writing a comment under that github issue page (Note: You will need a github account). 
