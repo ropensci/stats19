@@ -1,0 +1,863 @@
+---
+title: "R for road safety: exercises"
+# output: pagedown::html_paged
+# output: bookdown::html_document2
+   # github_document
+output:
+  pdf_document:
+    number_sections: true
+# output: rmarkdown::html_vignette
+# vignette: >
+#   %\VignetteIndexEntry{R for road safety: exercises}
+#   %\VignetteEngine{knitr::rmarkdown}
+#   %\VignetteEncoding{UTF-8}
+---
+
+These practicals aim to test your knowledge of material covered in a short course delivered for the Department for Transport.
+Code and data supporting the content can be found in the GitHub repository (repo) at github.com/ITSLeeds/TDS.
+To see the course contents and timings see https://git.io/tds2day which links to the file `2day.md` in the repo.
+
+```{r, eval=FALSE, echo=FALSE}
+# Upload exercises
+file.rename("pracitals/2day.pdf", ".")
+piggyback::pb_upload("2day.pdf")
+download.file("https://github.com/ITSLeeds/TDS/archive/master.zip", "tds-master.zip")
+unzip("tds-master.zip")
+file.rename("TDS-master/courses/2day/images/", "inst/images")
+```
+
+
+```{r, engine='bash', eval=FALSE, echo=FALSE}
+# curl -i https://git.io -F "url=https://github.com/ITSLeeds/TDS/blob/master/courses/2day.md" -F "code=tds2day"
+curl -i https://git.io -F "url=https://github.com/ITSLeeds/TDS/blob/master/courses/analysis-4hr.md" -F "code=tds4hr"
+```
+
+It will use the following CRAN packages:
+
+```{r, message=FALSE, warning=FALSE, eval=FALSE}
+library(pct)      # download and process data from DfT-funded Propensity to Cycle Tool project 
+library(sf)       # spatial vector data classes
+library(stats19)  # get stats19 data
+library(stplanr)  # transport planning tools
+library(tidyverse)# packages for 'data science'
+library(tmap)     # interactive maps
+```
+
+# How to use R/RStudio effectively
+
+The learning outcomes of this first session are to learn: 
+RStudio UI and main features,
+R Objects and Functions,
+Subsetting,
+Plotting, and
+Help.
+
+The course assumes that you have already got some basic knowledge of working with R and the editor (IDE) RStudio.
+If you don't see the prerequisites at [docs.ropensci.org](https://docs.ropensci.org/stats19/articles/stats19-training-setup.html).
+The main components of RStudio are shown in the figure below.
+
+```{r rstudioui, echo=FALSE, out.width="80%"}
+knitr::include_graphics("images/rstudio-ui.png")
+```
+
+### Projects
+
+Projects are a way to organise related work together. Each project has its own folder and Rproj file.
+
+Start a new project with:
+
+> File > New Project
+You can choose to create a new directory (folder) or associate a project with an existing directory. Make a new project called TDS and save it in a sensible place on your computer. Notice that TDS now appears in the top right of RStudio.
+
+**Always do your work within a project**
+
+### R Scripts
+
+We could simply type all our code into the console, but that would require us to retype all our code every time we wish to run it. So we usually save code in a script file (with the .R extension).
+
+Make a new script:
+
+> Flie > New File > Rscript
+Or use the new script button on the toolbar.
+
+Save the script and give it a sensible name like `TDS-lesson-1.R` with:
+
+> File > Save
+Or the save button on the toolbar.
+
+## Code
+
+### Writing Code
+
+Let's start with some basic R operations
+
+```{r, eval=FALSE}
+x = 1:5
+y = c(0, 1, 3, 9, 18)
+plot(x, y)
+```
+
+This code creates two objects, both vectors of length == 5, and then plots them.
+
+### Running Code
+
+We have several ways to run code within a script.
+
+1. Place the cursor on a line of code and press `CTRL + Enter` to run that line of code.
+1. Highlight a block of code or part of a line of code and press `CTRL + Enter` to run the highlighted code.
+1. Press `CTRL + Shift + Enter` to run all the code in a script.
+1. Press the Run button on the toolbar to run all the code in a script.
+1. Use the function `source()` to run all the code in a script e.g. `source("TDS-lesson-1.R")` (but don't create an infinite loop!)
+
+### Vewing Objects
+
+Lets create some different types of object:
+
+```{r}
+vehicle_type = c("car", "bus", "tank")
+casualty_type = c("pedestrian", "cyclist", "cat")
+casualty_age = seq(from = 20, to = 60, by = 20)
+dark = sample(x = c(TRUE, FALSE), size = 3, replace = TRUE)
+small_matrix = matrix(1:24, nrow = 12)
+crashes = data.frame(
+  vehicle_type,
+  casualty_type,
+  casualty_age,
+  dark
+)
+```
+
+We can view the objects in a range of ways:
+
+1. Type the name of the object into the console e.g. `crashes`, what happens if we try to view all 24 `small_matrix`?
+1. Use the `head()` function to view the first 6 values e.g. `head(small_matrix)`
+1. Bonus: use the `n` argument in the previous function call to show only the first 2 rows of `small_matrix`
+1. Use the view table button next to matrix or data.frame objects in the environment tab.
+
+We can also get an overview of an object using a range of functions.
+
+1. `summary()`
+1. `class()`
+1. `class()`
+1. `dim()`
+1. `length()`
+
+**Exercise** try these functions, what results do they give?
+
+### Using Autocomplete
+
+RStudio can help you write code by autocompleting. RStudio will look for similar objects and functions after typing the first three letters of a name.
+
+```{r autocomp, echo=FALSE}
+knitr::include_graphics("images/autocomplete.jpg")
+```
+
+When there is more than one option you can select from the list using the mouse or arrow keys.
+
+Within a function, you can get a list of arguments by pressing Tab.
+
+```{r help, echo=FALSE}
+knitr::include_graphics("images/fucntionhelp.jpg")
+```
+
+Notice the help popup.
+
+### Getting help
+
+Every function in R has a help page. You can view the help using `?` for example `?sum`. Many packages also contain vignettes, these are long form help documents containing examples and guides. `vignette()` will show a list of all the vignettes available, or you can show a specific vignette for example `vignette(topic = "sf1", package = "sf")`.
+
+### Commenting Code
+
+It is good practice to use comments in your code to explain what your code does. You can comment code using `#`
+
+For example:
+
+```{r}
+# A whole line comment
+x = 1:5 # An inline comment
+y = x * 2
+```
+
+You can comment a whole block of text by selecting it and using CTRL + Shift + C
+
+You can add a comment section using CTRL + Shift + R
+
+
+### Cleaning your environment and removing objects
+
+The Environment tab shows all the objects in your environment, this includes Data, Values, and Functions. By default, new objects appear in the Global Environment but you can see other environments with the drop-down menu. For example, each package has its own environment.
+
+Sometimes you wish to remove things from your environment, perhaps because you no longer need them or things are getting cluttered.
+
+You can remove an object with the `rm()` function e.g. `rm(x)` or `rm(x,y)` or you can clear your whole environment with the broom button on the Environment Tab.
+
+### Debugging Code
+
+This code example will run, but we can see some of RStudio's debugging features by changing it. See that when the bracket is removed the red X and the underlying highlight the broken code. You may need to save the code you see the debugging prompt.
+
+```{r debug, echo=FALSE}
+knitr::include_graphics("images/debug.jpg")
+```
+
+**Always address debugging prompts before running your code**
+
+
+### Saving your work
+
+We have already seen that you can save an R script. You can also save R objects in the RDS format.
+
+```{r}
+saveRDS(crashes,"crashes.Rds")
+```
+We can also read back in our data.
+
+```{r}
+crashes2 = readRDS("crashes.Rds")
+identical(crashes, crashes2)
+```
+
+R also supports many other formats. For example CSV files.
+
+```{r, eval=FALSE}
+write.csv(crashes, "crashes.csv")
+crashes3 = read.csv("crashes.csv")
+identical(crashes3, crashes)
+```
+
+Notice that `crashes3` and `crashes` are not identical, what has changed? Hint: use `?write.csv`.
+
+## Classes
+
+### Subsetting
+
+We can subset any R object to just get part of the object. Subsetting can be done by either providing the positional numbers of the subset or logical vector of the same length. For two dimension object such as matrices and data.frames you can subset by row or column.
+Subsetting is done using square brackets `[]` after the name of an object.
+
+```{r, eval=FALSE}
+casualty_age[2:3] # Just the first five casualty_age
+x[c(TRUE, FALSE, TRUE, FALSE, TRUE)] # The 1st, 3rd, and 5th element in x
+crashes[c(1, 2), ] # First and second row of crashes
+crashes[, c(1, 3)] # First and third column of crashes
+crashes[, c("casualty_type", "casualty_age")] # First and third column of crashes by name
+```
+
+It is also possible to create logical vector for subsetting by creating a query
+
+```{r, eval=FALSE}
+x[x == 5] # Only when x == 5 (notice the use of double equals)
+casualty_age[casualty_age < 50] # Just the  casualty_age less than 50
+casualty_age[casualty_age %% 6 == 0] # Just the ages that are a multiple of 6
+crashes[crashes$vehicle_type == "tank",] # The rows where the name is tank
+```
+
+### Dealing with NAs
+
+R object can have a value of NA. This is how R represents missing data.
+
+```{r, eval=FALSE}
+z = c(4, 5, NA, 7)
+```
+
+NA values are common in real-world data but can cause trouble, for example
+
+```{r, eval=FALSE}
+sum(z) # Result is NA
+```
+
+Some functions can be told to ignore NA values.
+
+```{r, eval=FALSE}
+sum(z, na.rm = TRUE) # Result is equal to 4 + 5 + 7
+```
+
+You can find NAs using the `is.na()` function, and then remove them
+
+```{r, eval=FALSE}
+is.na(z)
+z_nona = z[!is.na(z)] #Note the use of the not operator !
+sum(z)
+```
+
+Be careful of NAs especially in statistical analysis, for example, the average of a value excluding NAs may not be representative of the whole.
+
+## Now you are ready to use R
+
+**Bonus: reproduce the following plot**
+
+
+```{r smile, out.width="50%"}
+eyes = c(2.3, 4, 3.7, 4)
+eyes = matrix(eyes, ncol = 2, byrow = T)
+mouth = c(2, 2, 2.5, 1.3, 3, 1, 3.5, 1.3, 4, 2)
+mouth = matrix(mouth, ncol = 2, byrow = T)
+plot(
+  eyes,
+  type = "p",
+  main = "Smile you're using R",
+  cex = 2,
+  xlim = c(0, 5),
+  ylim = c(0, 5)
+)
+lines(mouth, type = "l", col = "red")
+```
+
+\newpage
+
+# Packages: ggplot2, the tidyverse and sf
+
+## What are packages?
+
+R has lots of functionality built in, but the real value in R is the community of package developers. Packages add new functions to R. Some packages are so useful they have become almost essential while others are only used for specific purposes.
+
+There are two stages to using a package: installing it and loading it.
+
+Packages that you don't have on your computer can be installed using `install.packages()` Packages come from [The Comprehensive R Archive Network](https://cran.r-project.org/) there are over 10,000 packages on CRAN. You only need to install a package once.
+
+**Note: it is bad practice to install packages with `install.packages()` within a script***
+
+Packages only need to be installed once.
+
+You can use `remotes::install_cran()` or `remotes::install_github()` to only install a package if it is not yet installed and up-to-date (note: you only need to use one of these):
+
+```{r, eval=FALSE}
+install.packages("sf")
+# remotes::install_cran("sf")
+# remotes::install_github("r-spatial/sf")
+```
+
+Once you have a package on your computer you need to load or 'attach' it to your current environment.
+Usually, the package will load silently.
+In some cases the package will provide a message, as illustrated below.
+
+```{r}
+library(sf)
+```
+
+## sf objects
+
+The `sf` package provides a generic class for spatial vector data: points, lines and polygons.
+`sf` objects are simply data frames.
+However, they have a special 'geometry column', typically called 'geom' or 'geometry'.
+This is illustrated below with reference to `iow`, an `sf` object representing the Isle of Wight, that we will download using the `pct` package (note: the `[1:9]` appended to the function selects only the first 9 columns).
+
+```{r}
+iow = pct::get_pct_zones("isle-of-wight")[1:9]
+class(iow)
+names(iow)
+iow[1:2, c(1, 5, 6, 7, 8)]
+```
+
+## Attribute operations on sf objects
+
+One of the nice things about the `sf` package is that an `sf data.frame` behaves just like a normal `data.frame` for non-spatial operations.
+Load the example dataset for Isle of Wight.
+
+```{r, eval=TRUE}
+# load example dataset if it doesn't already exist
+if(!exists("iow")) {
+  iow = pct::get_pct_zones("isle-of-wight")
+}
+sel = iow$all > 3000  # create a subsetting object
+iow_large = iow[sel, ]         # subset areas with a popualtion over 100,000
+iow_2 = iow[iow$geo_name == "Isle of Wight 002",] # subset based on 'equality' query
+five_in_name = iow[grepl(pattern = "5", x = iow$geo_name), ] # subset based on text string match
+iow_first_and_third_column = iow[c(1, 3)]
+iow_just_all = iow["all"]
+```
+
+## ggplot2, dplyr and pipes
+
+Another useful package is `ggplot2`, a generic plotting package that is part of the 'tidyverse' meta-package, which provides packages for data science that have intuitive function names and work well together.
+It is flexible, popular, and has dozens of add-on packages which build on it, such as `gganimate`.
+To plot non-spatial data, it works as follows:
+
+```{r, message=FALSE}
+library(ggplot2)
+ggplot(iow) + geom_point(aes(x = car_driver, y = bicycle, size = all))
+```
+
+Note that the `+` operator adds layers onto one another.
+
+Another useful operator, that is part of `dplyr` is ` %>% `. 
+This is the pipe, that puts the output of one command into the first argument of another, as shown below (note the results are the same):
+
+```{r}
+library(dplyr)
+class(iow)       
+iow %>% class()
+```
+
+Useful `dplyr` functions are demonstrated below.
+
+```{r, eval=FALSE}
+iow %>%
+  filter(bicycle > 200) # filter rows
+iow %>%
+  select(all) # select just the 'all' column
+iow %>%
+  group_by(bicycle > 200) %>% 
+  summarise(mean_walk = mean(foot))
+```
+
+
+## Exercises 
+
+1. Check your packages are up-to-date with `update.packages()`
+1. Create a script called `attribute-operations.R`, e.g. with the following command: `file.edit("attribute-operations.R")`
+1. Practice subsetting techniques you have learned on the `sf data.frame` object `iow`:
+     1. Create an object called `iow_small` which contains only regions with less than 3000 people in the `all` column
+     1. Create a selection object called `sel_high_car` which is `TRUE` for regions with above median numbers of people who travel by car and `FALSE` otherwise
+     1. How many regions have the number '1' in the column 'geo_name'? What percentage of the regions in the Isle of Wight is this?
+     1. Create an object called `iow_foot` which contains only the foot attribute from `iow`
+     1. Bonus: plot the result to show where walking is a popular mode of travel to work
+     1. Bonus: bulding on your answers to previous questions, use `filter()` from the `dplyr` package to subset small regions where high car use is high
+1. Bonus: What is the population density of each region (hint: you may need to use the functions `st_area()`, `as.numeric()` and use the 'all' column)?
+1. Bonus: Which zone has the highest percentage who cycle?
+1. Bonus: Find the proportion of people who drive to work (`car_driver`) in areas in which more than 500 people walk to work
+
+```{r, echo=FALSE, eval=FALSE}
+# 1. Practice subsetting techniques you have learned on the `sf data.frame` object `iow`:
+#      1. Create an object called `iow_small` which contains only regions with less than 3000 people in the `all` column
+# in base R
+iow_small = iow[iow$all < 3000, ]
+# with dplyr
+iow_small = iow %>% 
+  filter(all < 3000)
+#      1. Create a selection object called `sel_high_car` which is `TRUE` for regions with above median numbers of people who travel by car and `FALSE` otherwise
+median_car = median(iow$car_driver)
+sel_high_car = iow$car_driver > median_car 
+#      1. How many regions have the number '1' in the column 'geo_name'? What percentage of the regions in the Isle of Wight is this?
+sel_region_name_contains_1 = grepl("1", x = iow$geo_name)
+sum(sel_region_name_contains_1) / nrow(iow)
+#      1. Create an object called `iow_foot` which contains only the foot attribute from `iow`
+# using base R
+iow_foot = iow["foot"]
+# dplyr
+iow_foot = iow %>% 
+  select(foot)
+#      1. Bonus: plot the result to show where walking is a popular mode of travel to work
+plot(iow_foot)
+#      1. Bonus: bulding on your answers to previous questions, use `filter()` from the `dplyr` package to subset small regions where high car use is high
+iow_small_car_high = iow %>% 
+  filter(all < 3000, car_driver > median_car)
+# 1. Bonus: What is the population density of each region (hint: you may need to use the functions `st_area()`, `as.numeric()` and use the 'all' column)?
+iow$area_km2 = as.numeric(st_area(iow)) /1000000
+iow$population_density = iow$all / iow$area_km2
+plot(iow["population_density"])
+# in dplyr
+iow_density = iow %>% 
+  mutate(area_km2 = as.numeric(st_area(geometry)) / 1000000) %>% 
+  mutate(population_density = all / area_km2)
+plot(iow_density %>% select(population_density))
+# 1. Bonus: Which zone has the highest percentage who cycle?
+iow %>% 
+  mutate(pcycle = bicycle / all) %>% 
+  top_n(n = 1, wt = pcycle)
+# 1. Bonus: Find the proportion of people who drive to work (`car_driver`) in areas in which more than 500 people walk to work
+iow %>% 
+  group_by(foot > 500) %>% 
+  summarise(mean_car = sum(car_driver) / sum(all) )
+```
+
+# Spatial data analysis
+
+What makes an `sf data.frame` different from a normal `data.frame` is the inclusion of a geometry column and spatial operations.
+
+## Projections and Coordinate Reference Systems
+
+When plotting a map you need X and Y coordinates to specify where objects should appear. While this is simple on a flat surface spatial data must fit onto the curved surface of the earth. You may know that it is impossible to unwrap a sphere into a single flat surface without distorting (stretching, twisting, cutting) the surface in some way. The process of making a flat map from a curved Earth is known as projection, and there are many valid ways to project a map.
+
+Coordinate Reference Systems (CRS) refer to different ways of defining the X and Y coordinates used in different projections. Largely they fall into two categories, **geographic** and **projected**. These are illustrated in the figure below, from Chapter 2 of Geocomputation with R, in which location of London (the red X) is represented with reference to an origin (the blue circle). The left plot represents a geographic CRS with an origin at 0° longitude and latitude. The right plot represents a projected CRS with an origin located in the sea west of the South West Peninsula.
+
+```{r vectorplots, out.width="40%", fig.show='hold', echo=FALSE}
+download.file(url = "https://geocompr.robinlovelace.net/figures/vector_lonlat.png", destfile = "vector_lonlat.png")
+download.file("https://geocompr.robinlovelace.net/figures/vector_projected.png", "vector_projected.png")
+knitr::include_graphics(c("vector_lonlat.png", "vector_projected.png"))
+```
+
+* Geographical Coordinate Systems: use latitude and longitude to represent any place on the Earth
+
+* Projected Coordinate Systems: use distances from an origin point to represent a small part of the Earth, e.g. a country. The advantage of a projects CRS is that it is easier to calculate properties such as distance and area as coordinates are in metres.
+
+You can find a catalogue of different CRSs at http://spatialreference.org/
+
+CRSs are often referred to by the EPSG number. The European Petroleum Survey Group publish a database of different coordinate systems. Two useful projections to commit to memory are:
+
+* 4326 - the World Geodetic System 1984 which is a widely used geographical coordinate system, used in GPS datasets and the .geojson file format, for example.
+* 27700 - the British National Grid
+
+Every `sf data.frame` has a CRS.
+
+```{r}
+st_crs(iow) # 4326 is a geographic (lon/lat) projection
+iow_projected = st_transform(iow, 27700) # transfrom to projected CRS
+st_crs(iow_projected) # updated CRS
+iow_lonlat = st_transform(iow, 4326) # transfrom back
+```
+**Warning** It is possible to change the CRS without reprojecting the data as follows (not recommended):
+```{r, eval=FALSE}
+st_crs(iow_projected) = 4326
+```
+
+This is risky as you may confuse your data by having the wrong CRS.
+
+For more information see [Chapter 6](https://geocompr.robinlovelace.net/reproj-geo-data.html) of Geocompuation with R.
+
+## Spatial operations
+
+It is possible to subset an `sf data.frame` by location as well as attributes.
+
+Let's load some centroids and find out which are in differe `iow` areas.
+
+```{r, warning=FALSE, out.width="30%"}
+iow_cents = pct::get_pct_centroids(region = "isle-of-wight", geography = "lsoa") # Load the iow_cents data
+iow_cents2 = iow_cents[iow_2,]
+plot(iow$geometry)
+plot(iow_cents, col = "black", add = TRUE)
+plot(iow_cents2, col = "red", add = TRUE)
+```
+
+`st_intersects()` is a 'binary predicate' that identifies which features in one `sf` object intersect with another `sf` object in geographic space: 
+
+```{r, eval=FALSE}
+st_intersects(iow_cents, iow_large)
+```
+
+There are many spatial predicates, including `st_overlaps()` and `st_difference()`. You can see a list of them in the help.
+
+```{r, eval=FALSE}
+?st_intersects
+```
+
+You could use a different function by adding the `op` argument
+
+```{r, eval=TRUE}
+iow_cents3 = iow_cents[iow_2, , op = st_disjoint]
+```
+
+## Aggregation
+
+With a normal data.frame it is possible to group and aggregate variables using the `dplyr` packages. 
+
+> group_by() %>% summarise()
+It is also possible to do this for sf `data.frames` by default a `st_union` is performed on the geometries. 
+
+The input data for this part will be point and polygon data representing New Zealand (`nz`), from Chapter 4 of *Geocomputation with R*.
+The best place to start is to plot the data so the first exercise is:
+
+- Create a plot of the data so it looks like the map of New Zealand below (hint: use the `add = TRUE` argument).
+
+```{r, out.width="40%"}
+library(spData)
+plot(nz$geom)
+plot(nz_height["elevation"], add = TRUE)
+```
+
+```{r, eval=TRUE, out.width="30%"}
+nz_islands = nz %>%
+  group_by(Island) %>%
+  summarise(Population = sum(Population))
+plot(nz_islands)
+```
+
+Note that the implicit `st_union` has resolved all the internal boundaries of each island. If you wished to keep the boundaries you can use `st_combine`.
+
+```{r, eval=TRUE, out.width="40%"}
+nz_islands = nz %>%
+  group_by(Island) %>%
+  summarise(Population = sum(Population), do_union = FALSE)
+plot(nz_islands)
+```
+
+## Geometric Operations
+
+Geometric operation change or derive from the geometry of our data. The most commonly used functions are:
+
+- `st_simplify` To simplify a complex shape
+- `st_centroid` To find the geographical centre of a shape
+- `st_buffer` To create a buffer around a shape
+
+For more see [Section 5.2 of Geocompuation with R](https://geocompr.robinlovelace.net/geometric-operations.html#geo-vec)
+
+1. Canterbury is the region of New Zealand containing most of the 100 highest points in the country. Create an object called `canterbury` and use this to subset all points within the region. How many of these high points does the Canterbury region contain?
+```{r 04-spatial-operations-45, eval=FALSE, echo=FALSE}
+library(tmap)
+tmap_mode("view")
+qtm(nz) + qtm(nz_height)
+canterbury = nz %>% filter(Name == "Canterbury")
+canterbury_height = nz_height[canterbury, ]
+nrow(canterbury_height) # answer: 70
+```
+1. Which region has the second highest number of `nz_height` points in, and how many does it have?
+```{r 04-spatial-operations-46, eval=FALSE, echo=FALSE}
+nz_height_count = aggregate(nz_height, nz, length)
+nz_height_combined = cbind(nz, count = nz_height_count$elevation)
+nz_height_combined %>% 
+  st_drop_geometry() %>% 
+  dplyr::select(Name, count) %>% 
+  arrange(desc(count)) %>% 
+  slice(2)
+```
+    - Bonus: generalizing the question to all regions, how many of New Zealand's 16 regions contain points which belong to the top 100 highest points in the country? Which regions?
+    - Bonus: create a table listing these regions in order of the number of points and their name.
+```{r 04-spatial-operations-47, echo=FALSE, eval=FALSE}
+nz_height_count = aggregate(nz_height, nz, length)
+nz_height_combined = cbind(nz, count = nz_height_count$elevation)
+nz_height_combined %>% 
+  st_drop_geometry() %>% 
+  dplyr::select(Name, count) %>% 
+  arrange(desc(count)) %>% 
+  na.omit()
+```
+
+# Visualising spatial datasets
+
+Many packages can be used to create maps in R.
+The most basic is with the `plot()` function.
+`ggplot2` is a powerful plotting package that is part of the `tidyverse`, that can create maps with the function `geom_sf()`.
+However, for publication maps, we recommend using `tmap` for reasons outlined in Chapter 8 of Geocomputation with R.
+Load the package as follows:
+
+```{r}
+library(tmap)
+```
+
+
+Create the following plots using `plot()` and `tm_shape() + tm_polygons()` functions.
+
+```{r, fig.show='hold', out.width="49%", echo=FALSE}
+plot(iow[c("all", "bicycle")])
+tm_shape(iow) + 
+  tm_polygons(c("all", "bicycle"))
+```
+
+These exercises rely on the object `europe`.
+Create it using the `world` and `worldbank_df` datasets from the **spData** package as follows (see Section [2.2](https://geocompr.robinlovelace.net/spatial-class.html#intro-sf) of Geocomputation with R for details):
+
+```{r 08-mapping-41, warning=FALSE}
+europe = world %>% 
+  filter(continent == "Europe", !is.na(iso_a2)) %>% 
+  left_join(worldbank_df, by = "iso_a2") %>% 
+  dplyr::select(name, subregion, gdpPercap, HDI, pop_growth) %>% 
+  st_transform("+proj=aea +lat_1=20 +lat_2=-23 +lat_0=0 +lon_0=25")
+```
+
+1. Create a map showing the geographic distribution of the `gdpPercap` across Europe with base **graphics** (hint: use `plot()`) and **tmap** packages (hint: use `tm_shape(europe) + ...`).
+1. Extend the **tmap** created for the previous exercise so the legend has three bins: "High" (above 30000), "Medium" (between 30000 and 20000) and "Low" (below 20000).
+    - Bonus: improve the map aesthetics, for example by changing the legend title, class labels and colour palette.
+1. Represent `europe`'s subregions on the map. 
+
+```{r, echo=FALSE, out.width="50%"}
+plot(europe["subregion"])
+```
+
+\newpage
+
+
+# stats19 data analysis - with spatial/temporal analysis
+
+1. Download and plot all crashes reported in Great Britain in 2017 (hint: see [the stats19 vignette](https://cran.r-project.org/web/packages/stats19/vignettes/stats19.html))
+1. Find the function in the `stats19` package that converts a `data.frame` object into an `sf` data frame. Use this function to convert the road crashes into an `sf` object, called `crashes_sf`, for example.
+1. Filter crashes that happened in the Isle of Wight based on attribute data (hint: the relevant column contains the word `local`)
+1. Filter crashes happened in the Isle of Wight using geographic subsetting (hint: remember `st_crs()`?)
+1. Bonus: Which type of subsetting yielded more results and why? 
+1. Bonus: how many crashes happened in each zone?
+1. Create a new column called `month` in the crash data using the function `lubridate::month()` and the `date` column.
+1. Create an object called `a_iow_may` representing all the crashes that happened in the Isle of Wight in the month of May
+1. Bonus: Calculate the average (`mean`) speed limit associated with each crash that happened in May across the zones of the Isle of Wight (the result is shown in the map)
+
+
+```{r, echo=FALSE, results='hide', message=FALSE, eval=FALSE}
+library(stats19)
+library(dplyr)
+library(sf)
+a = get_stats19(2017, "ac", ask = FALSE)
+asf = format_sf(a)
+a_iow = asf %>% 
+  filter(local_authority_district == "Isle of Wight")
+nrow(a_iow)
+iow = pct::get_pct_zones(region = "isle-of-wight")
+iow_osbg = st_transform(iow, 27700)
+a_iow_sf = a_iow[iow_osbg, ]
+nrow(a_iow_sf)
+# mapview::mapview(iow) +
+#   mapview::mapview(a_iow)
+class(a$date)
+class(a$time)
+a_iow$month = lubridate::month(a_iow$date)
+a_iow_may = a_iow %>% 
+  filter(month == 5)
+a_agg = aggregate(a_iow_may["speed_limit"], iow_osbg, mean)
+plot(a_agg)
+class(crashes$date)
+```
+
+
+## Bonus exercises
+
+Identify a region and zonal units of interest from http://geoportal.statistics.gov.uk/
+
+1. Read them into R as an `sf` object
+1. Identify the average speed limit associated with crashes in each zone
+
+# OD data with stplanr 
+
+1. Create an object representing desire lines in Isle of Wight, e.g, with: `desire_lines_all = pct::get_pct_lines(region = "isle-of-wight")`
+1. Subset the desire lines with a value of `all` of 200 or above
+1. Create a buffer of 500 m for each desire line and calculate the number of crashes that happened within each (using STATS19 data downloaded in the previous exercise)
+1. Create a faceted plot showing the temporal distribution of crashes in Isle of Wight (you can choose whether to show these over the months of the year, over days of the week, or over the hours of a day)
+1. Do a spatiotemporal subset to identify the crashes that happened within the most commonly travelled desire line between 07:00 and 10:00 during weekdays.
+
+```{r, echo=FALSE}
+desire_lines_all = pct::get_pct_lines(region = "isle-of-wight")
+```
+
+## Accessing crowd-sourced data from OSM
+
+- Type code into the script created in the previous section so that it can reproduce this plot: 
+
+```{r, message=FALSE, warning=FALSE, out.height="5cm"}
+library(osmdata)
+location = opq("leeds") %>% 
+  add_osm_feature(key = "railway", value = "station") %>% 
+  osmdata_sf()
+station_points = location$osm_points["name"]
+tm_shape(location$osm_polygons) +
+  tm_polygons(col = "red") +
+  tm_shape(station_points) +
+  tm_dots(col = "red")  +
+  tm_text(text = "name", size = 1) 
+```
+
+```{r, echo=FALSE, eval=FALSE}
+write_sf(station_points, "station_points.gpkg")
+piggyback::pb_upload("station_points.gpkg")
+```
+
+1. Download cycleway data with the tag highway=cycleway for Leeds from https://overpass-turbo.eu/
+1. Load the data in R and plot it with `tmap` (bonus: now try to get the same data using the **osmdata** package)
+
+# Local route network analysis
+
+Routing is the process of finding the "shortest" path from A to B. In this context shortest does not just mean in distance, it may be in time (quickest), or some other characteristic e.g. safest, quietest. 
+
+There are many packages that enable you to do routing in R. When choosing a package you should consider several characteristics:
+
+Some packages can do local routing on your own computer. While others allow you to connect to a service.
+
+**Local Routing**
+
+* Usually requires more effort to set up
+* No cost (except for time and hardware)
+* Control over data, custom scenarios possible futures etc
+
+**Remote Routing**
+
+* Easy setup
+* May charge or limit the number of routes
+* May support more complex options e.g. traffic, public transport
+* Usually limited to routing in the present e.g. current road network current transport timetables.
+
+## Routing Features
+
+Not all routing services can do all types of routing, or do them equally well. Most do driving directions but consider if they do:
+
+* Walking / Cycling (if so does it include specialist road types, exclude dangerous roads)
+* Take account of hilliness
+* Public Transport (if so does it include fares, which types?)
+* Are public transport routes based on timetables or real-time service status?
+* Take account of steps and disabled access
+* Support specialist vehicles (e.g. lorries and low bridges)
+* Does it support real-time or historical traffic data?
+
+## Routing packages for R
+
+A non-comprehensive list of routing packages for R
+
+### Packages on CRAN
+
+* [googleway](https://cran.r-project.org/web/packages/googleway/) support for Google Maps and Directions
+* [mapsapi](https://cran.rstudio.com/web/packages/mapsapi/) alternative for google maps
+* [osrmr](https://cran.r-project.org/web/packages/osrmr/) Open Source Routing Machine, can connect to remote 
+* [CycleStreets](https://cran.r-project.org/web/packages/cyclestreets) Specialist cycling routing, used by PCT
+* [dodgr](https://cran.r-project.org/web/packages/dodgr) Routing done in R
+* [igraph](https://cran.r-project.org/web/packages/igraph) General network analysis, not transport specific
+* [stplanr](https://cran.r-project.org/web/packages/stplanr) Limited routing functions based on dodgr and igraph, and some other services.
+* [gtfsrouter](https://cran.r-project.org/web/packages/gtfsrouter/index.html) For integrating GTFS public transport timetables
+
+### Packages on GitHub
+
+* [Open Route Service](https://giscience.github.io/openrouteservice-r/) Connect to ORS website
+* [TransportAPI](https://github.com/mem48/transportAPI) An ITS Leeds Package, in development
+* [OpenTripPlanner](https://github.com/ITSLeeds/opentripplanner) An ITS Leeds Package, local or remote OTP routing
+* [graphhopper](https://github.com/graphhopper/directions-api-clients/tree/master/r)
+
+
+## Getting some Routes
+
+Many services require you to sign up for a free API key, to save some time we will use the TransportAPI:  https://developer.transportapi.com/signup 
+
+We will install the packages
+
+```{r, eval=FALSE}
+# Install packages from GitHub
+remotes::install_github("ITSleeds/transportAPI")
+remotes::install_github("ITSleeds/opentripplanner") # For the bonus exercises
+```
+
+And load the packages
+
+## Local Routing With Open Trip Planner
+
+We will repeat the analysis using a local routing tool. This tutorial is based on the [package vignette](https://itsleeds.github.io/opentripplanner/articles/opentripplanner.html)
+
+First, we need some basic data.
+
+```{r, eval=FALSE}
+# Create Folders for Data
+dir.create("OTP")
+path_data = file.path("OTP")
+path_otp = file.path(path_data, "otp.jar")
+dir.create(file.path(path_data,"graphs")) # create a folder structure for the data
+dir.create(file.path(path_data,"graphs","default"))
+# Download OTP and Data
+download.file(
+  url = "https://repo1.maven.org/maven2/org/opentripplanner/otp/1.3.0/otp-1.3.0-shaded.jar", 
+  destfile = path_otp, mode = "wb")
+download.file(
+  "https://github.com/ITSLeeds/opentripplanner/releases/download/0.1/isle-of-wight-demo.zip", 
+  destfile = file.path(path_data,"isle-of-wight-demo.zip") , mode="wb")
+unzip(file.path(path_data,"isle-of-wight-demo.zip"), exdir = file.path(path_data, "graphs", "default"))
+```
+
+Now we set up the OTP
+
+```{r, eval=FALSE}
+log = otp_build_graph(otp = path_otp, dir = path_data) 
+otp_setup(otp = path_otp, dir = path_data)
+otpcon = otp_connect()
+```
+
+Next, we find the routes
+
+```{r, eval=FALSE}
+routes_driving = otp_plan(otpcon, fromPlace = from, toPlace = to, mode = "CAR")
+```
+
+
+## Exercises
+
+1. Get routes for the top 5 desire lines for different modes e.g. car, public transport, bike
+1. How are public transport routes different from car and bike routes?
+1. Plot these routes together on a map, where are there complementary and conflicting routes?
+
+# Data and methods for assessing cycling potential 
+
+1. Identify the top 10 desire lines in Isle of Wight along which at least 100 people travel to work, by:
+    - The percentage who walk
+    - The percentage who cycle
+    - Bonus: Find the top 10 for *all* modes of transport and plot the results
+1. Download origin-destination data from 2011 Census using the function `pct::get_od()`.
+1. Convert these origin-destination pairs into geographic desire lines between centroids in Leeds (e.g. as generated by the function `pct::get_pct_centroids()`) and plot the result.
+1. Find the route along the most travelled desire line in Leeds and plot the result.
+1. Get cycle route data for the Isle of Wight and use the function `overline2()` to identify the routes along which most people walk to work.
