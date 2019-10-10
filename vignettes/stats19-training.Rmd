@@ -67,7 +67,7 @@ The preliminary agenda is as follows:
 
 09:30-11:00 Introduction to the course and software
 
-- Introduction to R + coding [video](https://youtu.be/7oyiPBjLAWY?t=339)/[links](https://github.com/jennybc/code-smells-and-feels)
+- Introduction to R + coding [video](https://youtu.be/7oyiPBjLAWY?t=357)/[links](https://github.com/jennybc/code-smells-and-feels)
 - R installation questions/debugging
 - How to use RStudio (practical in groups of 2)
 - R classes and working with data frames (CC)
