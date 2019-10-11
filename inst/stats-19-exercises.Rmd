@@ -1,5 +1,5 @@
 ---
-title: "R for road safety: exercises"
+title: "Introduction to R for road safety: an introduction to R and practical exercises"
 # output: pagedown::html_paged
 # output: bookdown::html_document2
    # github_document
@@ -13,26 +13,24 @@ output:
 #   %\VignetteEncoding{UTF-8}
 ---
 
-These practicals aim to test your knowledge of material covered in a short course delivered for the Department for Transport.
-Code and data supporting the content can be found in the GitHub repository (repo) at github.com/ITSLeeds/TDS.
-To see the course contents and timings see https://git.io/tds2day which links to the file `2day.md` in the repo.
+# Introduction
+
+This document provides information, code to type and execute and, vitally, exercises to test and improve your R skills.
+It starts with introductory R skills that will be of use in any domain but the focus is on R for Road Safety, in support of a [2 day course](https://www.racfoundation.org/introduction-to-r-for-road-safety).
+Code and data supporting the content can be found in the GitHub repository (repo) https://github.com/ropensci/stats19/.
+The '[issue tracker](https://github.com/ropensci/stats19/issues)' associated with that repo is a good place to ask questions about the course. 
 
 ```{r, eval=FALSE, echo=FALSE}
 # Upload exercises
-file.rename("pracitals/2day.pdf", ".")
-piggyback::pb_upload("2day.pdf")
+file.rename("inst/stats-19-exercises.pdf", ".")
+piggyback::pb_upload("stats-19-exercises.pdf")
 download.file("https://github.com/ITSLeeds/TDS/archive/master.zip", "tds-master.zip")
 unzip("tds-master.zip")
 file.rename("TDS-master/courses/2day/images/", "inst/images")
 ```
 
-
-```{r, engine='bash', eval=FALSE, echo=FALSE}
-# curl -i https://git.io -F "url=https://github.com/ITSLeeds/TDS/blob/master/courses/2day.md" -F "code=tds2day"
-curl -i https://git.io -F "url=https://github.com/ITSLeeds/TDS/blob/master/courses/analysis-4hr.md" -F "code=tds4hr"
-```
-
-It will use the following CRAN packages:
+Course pre-requisites are outlined in the [stats19-training-setup](https://docs.ropensci.org/stats19/articles/stats19-training-setup.html) hosted at [docs.ropensci.org/stats19](https://docs.ropensci.org/stats19).
+It makes use of a number of packages which can be installed with `install.packages()` and loaded as follows:
 
 ```{r, message=FALSE, warning=FALSE, eval=FALSE}
 library(pct)      # download and process data from DfT-funded Propensity to Cycle Tool project 
@@ -60,18 +58,21 @@ The main components of RStudio are shown in the figure below.
 knitr::include_graphics("images/rstudio-ui.png")
 ```
 
-### Projects
+Each section has a series of practical exercises that you should do, not just read, to improve your R skills.
+
+## Projects
 
 Projects are a way to organise related work together. Each project has its own folder and Rproj file.
+
+**Advice: always set-up and work from projects, it will make your life easier!**
 
 Start a new project with:
 
 > File > New Project
-You can choose to create a new directory (folder) or associate a project with an existing directory. Make a new project called TDS and save it in a sensible place on your computer. Notice that TDS now appears in the top right of RStudio.
+You can choose to create a new directory (folder) or associate a project with an existing directory. Make a new project called stats1-course and save it in a sensible place on your computer. Notice that stats1-course now appears in the top right of RStudio.
 
-**Always do your work within a project**
 
-### R Scripts
+## R Scripts
 
 We could simply type all our code into the console, but that would require us to retype all our code every time we wish to run it. So we usually save code in a script file (with the .R extension).
 
@@ -79,17 +80,23 @@ Make a new script:
 
 > Flie > New File > Rscript
 Or use the new script button on the toolbar.
+Or Ctl+Shift+N
 
-Save the script and give it a sensible name like `TDS-lesson-1.R` with:
+Save the script and give it a sensible name like `stats19-lesson-1.R` with:
 
 > File > Save
 Or the save button on the toolbar.
 
-## Code
+**Pro tip:** You can also create new R scripts by typing and running this command in the R console:
 
-### Writing Code
+```{r edit, eval=FALSE}
+file.edit("stats19-lesson-1.R")
+```
 
-Let's start with some basic R operations
+## Writing Code
+
+Let's start with some basic R operations.
+write this code into your new R script and execute the result line-by-line by pressing Ctl+Enter
 
 ```{r, eval=FALSE}
 x = 1:5
@@ -98,20 +105,26 @@ plot(x, y)
 ```
 
 This code creates two objects, both vectors of length == 5, and then plots them.
+Save the script by pressing Ctl+S.
 
-### Running Code
+## Running Code
 
-We have several ways to run code within a script.
+There are several ways to run code within a script.
 
-1. Place the cursor on a line of code and press `CTRL + Enter` to run that line of code.
+Try running the the code you saved in the previous section using each of these methods:
+
+1. Place the cursor in different places on each line of code and press `CTRL + Enter` to run that line of code.
 1. Highlight a block of code or part of a line of code and press `CTRL + Enter` to run the highlighted code.
 1. Press `CTRL + Shift + Enter` to run all the code in a script.
 1. Press the Run button on the toolbar to run all the code in a script.
-1. Use the function `source()` to run all the code in a script e.g. `source("TDS-lesson-1.R")` (but don't create an infinite loop!)
+1. Use the function `source()` to run all the code in a script e.g. `source("stats19-lesson-1.R")`
+<!-- (but don't create an infinite loop!) -->
 
-### Vewing Objects
+**Pro tip:** Try jumping between the console and the source editor by pressing Ctl+1 and Ctl+2.
 
-Lets create some different types of object:
+## Vewing Objects
+
+Create new objects by typing and running the following code chunk in a new script, e.g. called `objects.R`.
 
 ```{r}
 vehicle_type = c("car", "bus", "tank")
@@ -142,9 +155,15 @@ We can also get an overview of an object using a range of functions.
 1. `dim()`
 1. `length()`
 
-**Exercise** try these functions, what results do they give?
+You can, for example, view a summary of the `casualty_age` variable by running the following line of code:
 
-### Using Autocomplete
+```{r summary}
+summary(casualty_age)
+```
+
+**Exercise** try these functions on each of the objects, what results do they give?
+
+## Autocompletion
 
 RStudio can help you write code by autocompleting. RStudio will look for similar objects and functions after typing the first three letters of a name.
 
@@ -162,11 +181,11 @@ knitr::include_graphics("images/fucntionhelp.jpg")
 
 Notice the help popup.
 
-### Getting help
+## Getting help
 
 Every function in R has a help page. You can view the help using `?` for example `?sum`. Many packages also contain vignettes, these are long form help documents containing examples and guides. `vignette()` will show a list of all the vignettes available, or you can show a specific vignette for example `vignette(topic = "sf1", package = "sf")`.
 
-### Commenting Code
+## Commenting Code
 
 It is good practice to use comments in your code to explain what your code does. You can comment code using `#`
 
@@ -183,7 +202,7 @@ You can comment a whole block of text by selecting it and using CTRL + Shift + C
 You can add a comment section using CTRL + Shift + R
 
 
-### Cleaning your environment and removing objects
+## The global environment
 
 The Environment tab shows all the objects in your environment, this includes Data, Values, and Functions. By default, new objects appear in the Global Environment but you can see other environments with the drop-down menu. For example, each package has its own environment.
 
@@ -226,9 +245,9 @@ identical(crashes3, crashes)
 
 Notice that `crashes3` and `crashes` are not identical, what has changed? Hint: use `?write.csv`.
 
-## Classes
+<!-- # Classes -->
 
-### Subsetting
+## Subsetting
 
 We can subset any R object to just get part of the object. Subsetting can be done by either providing the positional numbers of the subset or logical vector of the same length. For two dimension object such as matrices and data.frames you can subset by row or column.
 Subsetting is done using square brackets `[]` after the name of an object.
@@ -250,7 +269,7 @@ casualty_age[casualty_age %% 6 == 0] # Just the ages that are a multiple of 6
 crashes[crashes$vehicle_type == "tank",] # The rows where the name is tank
 ```
 
-### Dealing with NAs
+## Dealing with NAs
 
 R object can have a value of NA. This is how R represents missing data.
 
