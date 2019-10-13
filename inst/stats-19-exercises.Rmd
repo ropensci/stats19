@@ -390,9 +390,9 @@ if(!exists("iow")) {
   iow = pct::get_pct_zones("isle-of-wight")
 }
 sel = iow$all > 3000  # create a subsetting object
-iow_large = iow[sel, ]         # subset areas with a popualtion over 100,000
+iow_large = iow[sel, ] # subset areas with a popualtion over 100,000
 iow_2 = iow[iow$geo_name == "Isle of Wight 002",] # subset based on 'equality' query
-five_in_name = iow[grepl(pattern = "5", x = iow$geo_name), ] # subset based on text string match
+five_in_name = iow[grepl(pattern = "5", x = iow$geo_name), ] # subset based on string match
 iow_first_and_third_column = iow[c(1, 3)]
 iow_just_all = iow["all"]
 ```
