@@ -218,7 +218,7 @@ You can remove an object with the `rm()` function e.g. `rm(x)` or `rm(x,y)` or y
 
 ## Debugging Code
 
-This code example will run, but we can see some of RStudio's debugging features by changing it. See that when the bracket is removed the red X and the underlying highlight the broken code. You may need to save the code you see the debugging prompt.
+This code example will run, but we can see some of RStudio's debugging features by changing it. See that when the bracket is removed the red X and the underlying highlight the broken code. You may need to save the code to see the debugging prompt.
 
 ```{r debug, echo=FALSE}
 knitr::include_graphics("images/debug.jpg")
@@ -248,9 +248,10 @@ R also supports many other formats. For example CSV files.
 write.csv(crashes, "crashes.csv")
 crashes3 = read.csv("crashes.csv")
 identical(crashes3, crashes)
+# FALSE
 ```
 
-Notice that `crashes3` and `crashes` are not identical, what has changed? Hint: use `?write.csv`.
+Notice that `crashes3` and `crashes` are not identical, what has changed? Hint: read `?write.csv`.
 
 # R objects and classes
 
