@@ -335,15 +335,19 @@ lines(mouth, type = "l", col = "red")
 
 ## What are packages?
 
-R has lots of functionality built in, but the real value in R is the community of package developers. Packages add new functions to R. Some packages are so useful they have become almost essential while others are only used for specific purposes.
+R has lots of functionality built in, but the real value in R is the community of package developers. 
+Packages add new functions to R. 
+Some packages are so useful they have become almost essential while others are only used for specific purposes.
 
 There are two stages to using a package: installing it and loading it.
 
-Packages that you don't have on your computer can be installed using `install.packages()` Packages come from [The Comprehensive R Archive Network](https://cran.r-project.org/) there are over 10,000 packages on CRAN. You only need to install a package once.
+Packages that you don't have on your computer can be installed using `install.packages()`. 
+Packages usually come from [The Comprehensive R Archive Network](https://cran.r-project.org/) there are over 10,000 packages on CRAN. 
+You only need to install a package once.
 
 **Note: it is bad practice to install packages with `install.packages()` within a script***
 
-Packages only need to be installed once.
+<!-- Packages only need to be installed once. -->
 
 You can use `remotes::install_cran()` or `remotes::install_github()` to only install a package if it is not yet installed and up-to-date (note: you only need to use one of these):
 
