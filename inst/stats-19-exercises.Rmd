@@ -171,7 +171,7 @@ summary(casualty_age)
 
 ## Autocompletion
 
-RStudio can help you write code by autocompleting. RStudio will look for similar objects and functions after typing the first three letters of a name.
+RStudio can help you write code by autocompleting it. RStudio will look for similar objects and functions after typing the first three letters of a name.
 
 ```{r autocomp, echo=FALSE}
 knitr::include_graphics("images/autocomplete.jpg")
