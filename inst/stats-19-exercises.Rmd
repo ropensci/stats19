@@ -1,11 +1,11 @@
 ---
 title: "Introduction to R for road safety: an introduction to R and practical exercises"
 # output: pagedown::html_paged
-output: bookdown::html_document2
+# output: bookdown::html_document2
    # github_document
-# output:
-#   pdf_document:
-#     number_sections: true
+output:
+  pdf_document:
+    number_sections: true
 # output: rmarkdown::html_vignette
 # vignette: >
 #   %\VignetteIndexEntry{R for road safety: exercises}
@@ -17,6 +17,16 @@ output: bookdown::html_document2
 knitr::opts_chunk$set(cache = TRUE)
 ```
 
+```{r upload, eval=FALSE, echo=FALSE}
+# Upload exercises
+file.copy("inst/stats-19-exercises.pdf", ".")
+piggyback::pb_upload("stats-19-exercises.pdf")
+# to run this for the first time:
+download.file("https://github.com/ITSLeeds/TDS/archive/master.zip", "tds-master.zip")
+unzip("tds-master.zip")
+file.rename("TDS-master/courses/2day/images/", "inst/images")
+```
+
 
 # Introduction
 
@@ -24,15 +34,6 @@ This document provides information, code to type and execute and, vitally, exerc
 It starts with introductory R skills that will be of use in any domain but the focus is on R for Road Safety, in support of a [2 day course](https://www.racfoundation.org/introduction-to-r-for-road-safety).
 Code and data supporting the content can be found in the GitHub repository (repo) https://github.com/ropensci/stats19/.
 The '[issue tracker](https://github.com/ropensci/stats19/issues)' associated with that repo is a good place to ask questions about the course. 
-
-```{r, eval=FALSE, echo=FALSE}
-# Upload exercises
-file.rename("inst/stats-19-exercises.pdf", ".")
-piggyback::pb_upload("stats-19-exercises.pdf")
-download.file("https://github.com/ITSLeeds/TDS/archive/master.zip", "tds-master.zip")
-unzip("tds-master.zip")
-file.rename("TDS-master/courses/2day/images/", "inst/images")
-```
 
 Course pre-requisites are outlined in the [stats19-training-setup](https://docs.ropensci.org/stats19/articles/stats19-training-setup.html) hosted at [docs.ropensci.org/stats19](https://docs.ropensci.org/stats19).
 It makes use of a number of packages which can be installed with `install.packages()` and loaded as follows:
