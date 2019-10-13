@@ -4,13 +4,13 @@ title: "Introduction to R for road safety: an introduction to R and practical ex
 # output: bookdown::html_document2
    # github_document
 output:
-  pdf_document:
-    number_sections: true
+  pdf_document: 
+    highlight: tango
+    number_sections: yes
 # output: rmarkdown::html_vignette
 # vignette: >
 #   %\VignetteIndexEntry{R for road safety: exercises}
 #   %\VignetteEngine{knitr::rmarkdown}
-#   %\VignetteEncoding{UTF-8}
 ---
 
 ```{r cache, include=FALSE}
@@ -255,22 +255,22 @@ Notice that `crashes3` and `crashes` are not identical, what has changed? Hint: 
 
 # R objects and classes
 
-
-
 ## Subsetting
 
-We can subset any R object to just get part of the object. Subsetting can be done by either providing the positional numbers of the subset or logical vector of the same length. For two dimension object such as matrices and data.frames you can subset by row or column.
+We can subset any R object to just get part of it. 
+Subsetting can be done by either providing the positional numbers of the subset or a logical vector of the same length (as for the second example in the following code chunk). 
+For two dimension object such as matrices and data.frames you can subset by row or column.
 Subsetting is done using square brackets `[]` after the name of an object.
 
 ```{r, eval=FALSE}
-casualty_age[2:3] # Just the first five casualty_age
+casualty_age[2:3] # Just the second and third casualty_age
 x[c(TRUE, FALSE, TRUE, FALSE, TRUE)] # The 1st, 3rd, and 5th element in x
 crashes[c(1, 2), ] # First and second row of crashes
-crashes[, c(1, 3)] # First and third column of crashes
+crashes[, c(1, 3)] # First and third column of crashes by positional numbers
 crashes[, c("casualty_type", "casualty_age")] # First and third column of crashes by name
 ```
 
-It is also possible to create logical vector for subsetting by creating a query
+It is also possible to  create logical vector for subsetting by creating a query
 
 ```{r, eval=FALSE}
 x[x == 5] # Only when x == 5 (notice the use of double equals)
@@ -281,7 +281,7 @@ crashes[crashes$vehicle_type == "tank",] # The rows where the name is tank
 
 ## Dealing with NAs
 
-R object can have a value of NA. This is how R represents missing data.
+R objects can have a value of NA. This is how R represents missing data.
 
 ```{r, eval=FALSE}
 z = c(4, 5, NA, 7)
