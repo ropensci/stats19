@@ -193,7 +193,7 @@ Every function in R has a help page. You can view the help using `?` for example
 
 ## Commenting Code
 
-It is good practice to use comments in your code to explain what your code does. You can comment code using `#`
+It is good practice to use comments in your code to explain what it does. You can comment code using `#`
 
 For example:
 
@@ -203,7 +203,7 @@ x = 1:5 # An inline comment
 y = x * 2
 ```
 
-You can comment a whole block of text by selecting it and using CTRL + Shift + C
+You can comment/uncomment a whole block of text by selecting it and using CTRL + Shift + C and you can reformat a block of code using CTRL + Shift  + /. 
 
 You can add a comment section using CTRL + Shift + R
 
