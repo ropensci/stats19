@@ -112,7 +112,7 @@ y = c(0, 1, 3, 9, 18)
 plot(x, y)
 ```
 
-This code creates two objects, both vectors of 5 elements, and then plots them (bonus: check their length using the `length()` function).
+This code creates two objects, both are vectors of 5 elements, and then plots them (bonus: check their length using the `length()` function).
 Save the script by pressing Ctl+S.
 
 There are several ways to run code within a script and it is worth becoming familiar with each.
@@ -147,8 +147,8 @@ crashes = data.frame(
 
 We can view the objects in a range of ways:
 
-1. Type the name of the object into the console e.g. `crashes`, what happens if we try to view all 24 `small_matrix`?
-1. Use the `head()` function to view the first 6 values e.g. `head(small_matrix)`
+1. Type the name of the object into the console e.g. `crashes`, what happens if we try to view all the 24 numbers included in the object `small_matrix`?
+1. Use the `head()` function to view just the first 6 rows e.g. `head(small_matrix)`
 1. Bonus: use the `n` argument in the previous function call to show only the first 2 rows of `small_matrix`
 1. Use the view table button next to matrix or data.frame objects in the environment tab.
 1. Run the command `View(vehicle_type)`. What just happened?
@@ -157,7 +157,7 @@ We can also get an overview of an object using a range of functions.
 
 1. `summary()`
 1. `class()`
-1. `class()`
+1. `typeof()`
 1. `dim()`
 1. `length()`
 
