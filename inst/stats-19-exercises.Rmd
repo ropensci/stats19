@@ -399,8 +399,9 @@ iow_just_all = iow["all"]
 
 ## ggplot2, dplyr and pipes
 
-Another useful package is `ggplot2`, a generic plotting package that is part of the 'tidyverse' meta-package, which provides packages for data science that have intuitive function names and work well together.
-It is flexible, popular, and has dozens of add-on packages which build on it, such as `gganimate`.
+Another useful package is `ggplot2`, a generic plotting package that is part of the ['tidyverse'](https://www.tidyverse.org/) meta-package, which is an "opinionated collection of R packages designed for data science". 
+All packages in the tidyverse "share an underlying design philosophy, grammar, and data structures". 
+`ggplot2` is flexible, popular, and has dozens of add-on packages which build on it, such as `gganimate`.
 To plot non-spatial data, it works as follows:
 
 ```{r, message=FALSE}
@@ -410,7 +411,7 @@ ggplot(iow) + geom_point(aes(x = car_driver, y = bicycle, size = all))
 
 Note that the `+` operator adds layers onto one another.
 
-Another useful operator, that is part of `dplyr` is ` %>% `. 
+Another useful operator, that is part of `dplyr`, one of the most important packages in the tidyverse, is ` %>% `. 
 This is the pipe, that puts the output of one command into the first argument of another, as shown below (note the results are the same):
 
 ```{r}
