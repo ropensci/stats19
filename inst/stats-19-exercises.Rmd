@@ -313,8 +313,7 @@ Be careful of NAs especially in statistical analysis, for example, the average o
 
 **Bonus: reproduce the following plot**
 
-
-```{r smile, out.width="50%"}
+```{r smile, out.width="50%", fig.align="center"}
 eyes = c(2.3, 4, 3.7, 4)
 eyes = matrix(eyes, ncol = 2, byrow = T)
 mouth = c(2, 2, 2.5, 1.3, 3, 1, 3.5, 1.3, 4, 2)
@@ -322,9 +321,9 @@ mouth = matrix(mouth, ncol = 2, byrow = T)
 plot(
   eyes,
   type = "p",
-  main = "Smile you're using R",
+  main = "Smile, you're using R!",
   cex = 2,
-  xlim = c(0, 5),
+  xlim = c(1, 5),
   ylim = c(0, 5)
 )
 lines(mouth, type = "l", col = "red")
