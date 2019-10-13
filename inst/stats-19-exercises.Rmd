@@ -4,13 +4,13 @@ title: "Introduction to R for road safety: an introduction to R and practical ex
 # output: bookdown::html_document2
    # github_document
 output:
-  pdf_document:
-    number_sections: true
+  pdf_document: 
+    highlight: tango
+    number_sections: yes
 # output: rmarkdown::html_vignette
 # vignette: >
 #   %\VignetteIndexEntry{R for road safety: exercises}
 #   %\VignetteEngine{knitr::rmarkdown}
-#   %\VignetteEncoding{UTF-8}
 ---
 
 ```{r cache, include=FALSE}
@@ -104,7 +104,7 @@ Keeping scripts and other files associated with a project in a single folder per
 ## Writing and running code
 
 Let's start with some basic R operations.
-write this code into your new `stats19-lesson-1.R` R script and execute the result line-by-line by pressing Ctl+Enter
+Write this code into your new `stats19-lesson-1.R` R script and execute the result line-by-line by pressing Ctl+Enter
 
 ```{r, eval=FALSE}
 x = 1:5
@@ -112,7 +112,7 @@ y = c(0, 1, 3, 9, 18)
 plot(x, y)
 ```
 
-This code creates two objects, both vectors 5 elements, and then plots them (bonus: test their length using the `length()` function).
+This code creates two objects, both are vectors of 5 elements, and then plots them (bonus: check their length using the `length()` function).
 Save the script by pressing Ctl+S.
 
 There are several ways to run code within a script and it is worth becoming familiar with each.
@@ -147,8 +147,8 @@ crashes = data.frame(
 
 We can view the objects in a range of ways:
 
-1. Type the name of the object into the console e.g. `crashes`, what happens if we try to view all 24 `small_matrix`?
-1. Use the `head()` function to view the first 6 values e.g. `head(small_matrix)`
+1. Type the name of the object into the console e.g. `crashes`, what happens if we try to view all the 24 numbers included in the object `small_matrix`?
+1. Use the `head()` function to view just the first 6 rows e.g. `head(small_matrix)`
 1. Bonus: use the `n` argument in the previous function call to show only the first 2 rows of `small_matrix`
 1. Use the view table button next to matrix or data.frame objects in the environment tab.
 1. Run the command `View(vehicle_type)`. What just happened?
@@ -157,7 +157,7 @@ We can also get an overview of an object using a range of functions.
 
 1. `summary()`
 1. `class()`
-1. `class()`
+1. `typeof()`
 1. `dim()`
 1. `length()`
 
@@ -171,7 +171,7 @@ summary(casualty_age)
 
 ## Autocompletion
 
-RStudio can help you write code by autocompleting. RStudio will look for similar objects and functions after typing the first three letters of a name.
+RStudio can help you write code by autocompleting it. RStudio will look for similar objects and functions after typing the first three letters of a name.
 
 ```{r autocomp, echo=FALSE}
 knitr::include_graphics("images/autocomplete.jpg")
@@ -193,7 +193,7 @@ Every function in R has a help page. You can view the help using `?` for example
 
 ## Commenting Code
 
-It is good practice to use comments in your code to explain what your code does. You can comment code using `#`
+It is good practice to use comments in your code to explain what it does. You can comment code using `#`
 
 For example:
 
@@ -203,7 +203,7 @@ x = 1:5 # An inline comment
 y = x * 2
 ```
 
-You can comment a whole block of text by selecting it and using CTRL + Shift + C
+You can comment/uncomment a whole block of text by selecting it and using CTRL + Shift + C and you can reformat a block of code using CTRL + Shift  + /. 
 
 You can add a comment section using CTRL + Shift + R
 
@@ -218,7 +218,7 @@ You can remove an object with the `rm()` function e.g. `rm(x)` or `rm(x,y)` or y
 
 ## Debugging Code
 
-This code example will run, but we can see some of RStudio's debugging features by changing it. See that when the bracket is removed the red X and the underlying highlight the broken code. You may need to save the code you see the debugging prompt.
+This code example will run, but we can see some of RStudio's debugging features by changing it. See that when the bracket is removed the red X and the underlying highlight the broken code. You may need to save the code to see the debugging prompt.
 
 ```{r debug, echo=FALSE}
 knitr::include_graphics("images/debug.jpg")
@@ -248,28 +248,29 @@ R also supports many other formats. For example CSV files.
 write.csv(crashes, "crashes.csv")
 crashes3 = read.csv("crashes.csv")
 identical(crashes3, crashes)
+# FALSE
 ```
 
-Notice that `crashes3` and `crashes` are not identical, what has changed? Hint: use `?write.csv`.
+Notice that `crashes3` and `crashes` are not identical, what has changed? Hint: read `?write.csv`.
 
 # R objects and classes
 
-
-
 ## Subsetting
 
-We can subset any R object to just get part of the object. Subsetting can be done by either providing the positional numbers of the subset or logical vector of the same length. For two dimension object such as matrices and data.frames you can subset by row or column.
+We can subset any R object to just get part of it. 
+Subsetting can be done by either providing the positional numbers of the subset or a logical vector of the same length (as for the second example in the following code chunk). 
+For two dimension object such as matrices and data.frames you can subset by row or column.
 Subsetting is done using square brackets `[]` after the name of an object.
 
 ```{r, eval=FALSE}
-casualty_age[2:3] # Just the first five casualty_age
+casualty_age[2:3] # Just the second and third casualty_age
 x[c(TRUE, FALSE, TRUE, FALSE, TRUE)] # The 1st, 3rd, and 5th element in x
 crashes[c(1, 2), ] # First and second row of crashes
-crashes[, c(1, 3)] # First and third column of crashes
+crashes[, c(1, 3)] # First and third column of crashes by positional numbers
 crashes[, c("casualty_type", "casualty_age")] # First and third column of crashes by name
 ```
 
-It is also possible to create logical vector for subsetting by creating a query
+It is also possible to  create logical vector for subsetting by creating a query
 
 ```{r, eval=FALSE}
 x[x == 5] # Only when x == 5 (notice the use of double equals)
@@ -280,7 +281,7 @@ crashes[crashes$vehicle_type == "tank",] # The rows where the name is tank
 
 ## Dealing with NAs
 
-R object can have a value of NA. This is how R represents missing data.
+R objects can have a value of NA. This is how R represents missing data.
 
 ```{r, eval=FALSE}
 z = c(4, 5, NA, 7)
@@ -312,8 +313,7 @@ Be careful of NAs especially in statistical analysis, for example, the average o
 
 **Bonus: reproduce the following plot**
 
-
-```{r smile, out.width="50%"}
+```{r smile, out.width="50%", fig.align="center"}
 eyes = c(2.3, 4, 3.7, 4)
 eyes = matrix(eyes, ncol = 2, byrow = T)
 mouth = c(2, 2, 2.5, 1.3, 3, 1, 3.5, 1.3, 4, 2)
@@ -321,9 +321,9 @@ mouth = matrix(mouth, ncol = 2, byrow = T)
 plot(
   eyes,
   type = "p",
-  main = "Smile you're using R",
+  main = "Smile, you're using R!",
   cex = 2,
-  xlim = c(0, 5),
+  xlim = c(1, 5),
   ylim = c(0, 5)
 )
 lines(mouth, type = "l", col = "red")
@@ -335,15 +335,19 @@ lines(mouth, type = "l", col = "red")
 
 ## What are packages?
 
-R has lots of functionality built in, but the real value in R is the community of package developers. Packages add new functions to R. Some packages are so useful they have become almost essential while others are only used for specific purposes.
+R has lots of functionality built in, but the real value in R is the community of package developers. 
+Packages add new functions to R. 
+Some packages are so useful they have become almost essential while others are only used for specific purposes.
 
 There are two stages to using a package: installing it and loading it.
 
-Packages that you don't have on your computer can be installed using `install.packages()` Packages come from [The Comprehensive R Archive Network](https://cran.r-project.org/) there are over 10,000 packages on CRAN. You only need to install a package once.
+Packages that you don't have on your computer can be installed using `install.packages()`. 
+Packages usually come from [The Comprehensive R Archive Network](https://cran.r-project.org/) there are over 10,000 packages on CRAN. 
+You only need to install a package once.
 
 **Note: it is bad practice to install packages with `install.packages()` within a script***
 
-Packages only need to be installed once.
+<!-- Packages only need to be installed once. -->
 
 You can use `remotes::install_cran()` or `remotes::install_github()` to only install a package if it is not yet installed and up-to-date (note: you only need to use one of these):
 
@@ -386,17 +390,18 @@ if(!exists("iow")) {
   iow = pct::get_pct_zones("isle-of-wight")
 }
 sel = iow$all > 3000  # create a subsetting object
-iow_large = iow[sel, ]         # subset areas with a popualtion over 100,000
+iow_large = iow[sel, ] # subset areas with a popualtion over 100,000
 iow_2 = iow[iow$geo_name == "Isle of Wight 002",] # subset based on 'equality' query
-five_in_name = iow[grepl(pattern = "5", x = iow$geo_name), ] # subset based on text string match
+five_in_name = iow[grepl(pattern = "5", x = iow$geo_name), ] # subset based on string match
 iow_first_and_third_column = iow[c(1, 3)]
 iow_just_all = iow["all"]
 ```
 
 ## ggplot2, dplyr and pipes
 
-Another useful package is `ggplot2`, a generic plotting package that is part of the 'tidyverse' meta-package, which provides packages for data science that have intuitive function names and work well together.
-It is flexible, popular, and has dozens of add-on packages which build on it, such as `gganimate`.
+Another useful package is `ggplot2`, a generic plotting package that is part of the ['tidyverse'](https://www.tidyverse.org/) meta-package, which is an "opinionated collection of R packages designed for data science". 
+All packages in the tidyverse "share an underlying design philosophy, grammar, and data structures". 
+`ggplot2` is flexible, popular, and has dozens of add-on packages which build on it, such as `gganimate`.
 To plot non-spatial data, it works as follows:
 
 ```{r, message=FALSE}
@@ -406,7 +411,7 @@ ggplot(iow) + geom_point(aes(x = car_driver, y = bicycle, size = all))
 
 Note that the `+` operator adds layers onto one another.
 
-Another useful operator, that is part of `dplyr` is ` %>% `. 
+Another useful operator, that is part of `dplyr`, one of the most important packages in the tidyverse, is ` %>% `. 
 This is the pipe, that puts the output of one command into the first argument of another, as shown below (note the results are the same):
 
 ```{r}
@@ -427,20 +432,20 @@ iow %>%
   summarise(mean_walk = mean(foot))
 ```
 
-
 ## Exercises 
 
 1. Check your packages are up-to-date with `update.packages()`
-1. Create a script called `attribute-operations.R`, e.g. with the following command: `file.edit("attribute-operations.R")`
+1. Create a script called `attribute-operations.R`, e.g. with the following command:
+`file.edit("attribute-operations.R")`
 1. Practice subsetting techniques you have learned on the `sf data.frame` object `iow`:
      1. Create an object called `iow_small` which contains only regions with less than 3000 people in the `all` column
      1. Create a selection object called `sel_high_car` which is `TRUE` for regions with above median numbers of people who travel by car and `FALSE` otherwise
-     1. How many regions have the number '1' in the column 'geo_name'? What percentage of the regions in the Isle of Wight is this?
+     1. How many regions have the number '1' in the column 'geo_name'? What percentage of the regions in the Isle of Wight is this? Hint: Look at the help page of the function 'grepl'.  
      1. Create an object called `iow_foot` which contains only the foot attribute from `iow`
-     1. Bonus: plot the result to show where walking is a popular mode of travel to work
-     1. Bonus: bulding on your answers to previous questions, use `filter()` from the `dplyr` package to subset small regions where high car use is high
+     1. Bonus: plot `iow_foot` using the function `plot` to show where walking is a popular mode of travel to work
+     1. Bonus: bulding on your answers to previous questions, use `filter()` from the `dplyr` package to subset small regions where car use is high. 
 1. Bonus: What is the population density of each region (hint: you may need to use the functions `st_area()`, `as.numeric()` and use the 'all' column)?
-1. Bonus: Which zone has the highest percentage who cycle?
+1. Bonus: Which zone has the highest percentage of people who cycle?
 1. Bonus: Find the proportion of people who drive to work (`car_driver`) in areas in which more than 500 people walk to work
 
 ```{r, echo=FALSE, eval=FALSE}
@@ -498,8 +503,8 @@ When plotting a map you need X and Y coordinates to specify where objects should
 Coordinate Reference Systems (CRS) refer to different ways of defining the X and Y coordinates used in different projections. Largely they fall into two categories, **geographic** and **projected**. These are illustrated in the figure below, from Chapter 2 of Geocomputation with R, in which location of London (the red X) is represented with reference to an origin (the blue circle). The left plot represents a geographic CRS with an origin at 0° longitude and latitude. The right plot represents a projected CRS with an origin located in the sea west of the South West Peninsula.
 
 ```{r vectorplots, out.width="40%", fig.show='hold', echo=FALSE}
-download.file(url = "https://geocompr.robinlovelace.net/figures/vector_lonlat.png", destfile = "vector_lonlat.png")
-download.file("https://geocompr.robinlovelace.net/figures/vector_projected.png", "vector_projected.png")
+download.file("https://geocompr.robinlovelace.net/figures/vector_lonlat.png", "vector_lonlat.png", mode = "wb")
+download.file("https://geocompr.robinlovelace.net/figures/vector_projected.png", "vector_projected.png", mode = "wb")
 knitr::include_graphics(c("vector_lonlat.png", "vector_projected.png"))
 ```
 
