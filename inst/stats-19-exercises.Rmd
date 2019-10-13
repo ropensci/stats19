@@ -498,8 +498,8 @@ When plotting a map you need X and Y coordinates to specify where objects should
 Coordinate Reference Systems (CRS) refer to different ways of defining the X and Y coordinates used in different projections. Largely they fall into two categories, **geographic** and **projected**. These are illustrated in the figure below, from Chapter 2 of Geocomputation with R, in which location of London (the red X) is represented with reference to an origin (the blue circle). The left plot represents a geographic CRS with an origin at 0° longitude and latitude. The right plot represents a projected CRS with an origin located in the sea west of the South West Peninsula.
 
 ```{r vectorplots, out.width="40%", fig.show='hold', echo=FALSE}
-download.file(url = "https://geocompr.robinlovelace.net/figures/vector_lonlat.png", destfile = "vector_lonlat.png")
-download.file("https://geocompr.robinlovelace.net/figures/vector_projected.png", "vector_projected.png")
+download.file("https://geocompr.robinlovelace.net/figures/vector_lonlat.png", "vector_lonlat.png", mode = "wb")
+download.file("https://geocompr.robinlovelace.net/figures/vector_projected.png", "vector_projected.png", mode = "wb")
 knitr::include_graphics(c("vector_lonlat.png", "vector_projected.png"))
 ```
 
