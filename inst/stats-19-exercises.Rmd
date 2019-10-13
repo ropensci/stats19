@@ -1,17 +1,22 @@
 ---
 title: "Introduction to R for road safety: an introduction to R and practical exercises"
 # output: pagedown::html_paged
-# output: bookdown::html_document2
+output: bookdown::html_document2
    # github_document
-output:
-  pdf_document:
-    number_sections: true
+# output:
+#   pdf_document:
+#     number_sections: true
 # output: rmarkdown::html_vignette
 # vignette: >
 #   %\VignetteIndexEntry{R for road safety: exercises}
 #   %\VignetteEngine{knitr::rmarkdown}
 #   %\VignetteEncoding{UTF-8}
 ---
+
+```{r cache, include=FALSE}
+knitr::opts_chunk$set(cache = TRUE)
+```
+
 
 # Introduction
 
@@ -41,26 +46,26 @@ library(tidyverse)# packages for 'data science'
 library(tmap)     # interactive maps
 ```
 
-# How to use R/RStudio effectively
+Each section has a series of practical exercises that you should do, not just read, to improve your R skills.
+
+# R and RStudio
 
 The learning outcomes of this first session are to learn: 
-RStudio UI and main features,
-R Objects and Functions,
-Subsetting,
-Plotting, and
-Help.
+RStudio main features and scripts,
+R objects and functions,
+subsetting,
+basic plotting, and
+getting help.
 
-The course assumes that you have already got some basic knowledge of working with R and the editor (IDE) RStudio.
-If you don't see the prerequisites at [docs.ropensci.org](https://docs.ropensci.org/stats19/articles/stats19-training-setup.html).
-The main components of RStudio are shown in the figure below.
+The first exercise is to open up RStudio and take a look around and identify the main components, shown in the figure below.
+**Explore each of the main components of RStudio.**
+Try changing the Global Settings (in the Tools menu) and see RStudio's short cuts by pressing `Alt-Shift-K` (or `Option+Shift+K` on Mac).
 
 ```{r rstudioui, echo=FALSE, out.width="80%"}
 knitr::include_graphics("images/rstudio-ui.png")
 ```
 
-Each section has a series of practical exercises that you should do, not just read, to improve your R skills.
-
-## Projects
+## Projects and scripts
 
 Projects are a way to organise related work together. Each project has its own folder and Rproj file.
 
@@ -71,10 +76,10 @@ Start a new project with:
 > File > New Project
 You can choose to create a new directory (folder) or associate a project with an existing directory. Make a new project called stats1-course and save it in a sensible place on your computer. Notice that stats1-course now appears in the top right of RStudio.
 
-
-## R Scripts
-
-We could simply type all our code into the console, but that would require us to retype all our code every time we wish to run it. So we usually save code in a script file (with the .R extension).
+Scripts are the files where R code is stored.
+**Keeping your code in sensibly named, well organised and reproducible scripts will make your life easier:**
+you could simply type all our code into the console, but that require retyping commands each time you run it.
+Instead, code that you want to keep and share should be saved script files, plain text files that have the `.R` extension.
 
 Make a new script:
 
@@ -93,10 +98,12 @@ Or the save button on the toolbar.
 file.edit("stats19-lesson-1.R")
 ```
 
-## Writing Code
+Keeping scripts and other files associated with a project in a single folder per project (in an RStudio project) will help you find things you need and develop an efficient workflow.
+
+## Writing and running code
 
 Let's start with some basic R operations.
-write this code into your new R script and execute the result line-by-line by pressing Ctl+Enter
+write this code into your new `stats19-lesson-1.R` R script and execute the result line-by-line by pressing Ctl+Enter
 
 ```{r, eval=FALSE}
 x = 1:5
@@ -104,13 +111,10 @@ y = c(0, 1, 3, 9, 18)
 plot(x, y)
 ```
 
-This code creates two objects, both vectors of length == 5, and then plots them.
+This code creates two objects, both vectors 5 elements, and then plots them (bonus: test their length using the `length()` function).
 Save the script by pressing Ctl+S.
 
-## Running Code
-
-There are several ways to run code within a script.
-
+There are several ways to run code within a script and it is worth becoming familiar with each.
 Try running the the code you saved in the previous section using each of these methods:
 
 1. Place the cursor in different places on each line of code and press `CTRL + Enter` to run that line of code.
@@ -146,6 +150,7 @@ We can view the objects in a range of ways:
 1. Use the `head()` function to view the first 6 values e.g. `head(small_matrix)`
 1. Bonus: use the `n` argument in the previous function call to show only the first 2 rows of `small_matrix`
 1. Use the view table button next to matrix or data.frame objects in the environment tab.
+1. Run the command `View(vehicle_type)`. What just happened?
 
 We can also get an overview of an object using a range of functions.
 
@@ -210,7 +215,7 @@ Sometimes you wish to remove things from your environment, perhaps because you n
 
 You can remove an object with the `rm()` function e.g. `rm(x)` or `rm(x,y)` or you can clear your whole environment with the broom button on the Environment Tab.
 
-### Debugging Code
+## Debugging Code
 
 This code example will run, but we can see some of RStudio's debugging features by changing it. See that when the bracket is removed the red X and the underlying highlight the broken code. You may need to save the code you see the debugging prompt.
 
@@ -221,13 +226,14 @@ knitr::include_graphics("images/debug.jpg")
 **Always address debugging prompts before running your code**
 
 
-### Saving your work
+## Saving your work
 
 We have already seen that you can save an R script. You can also save R objects in the RDS format.
 
 ```{r}
 saveRDS(crashes,"crashes.Rds")
 ```
+
 We can also read back in our data.
 
 ```{r}
@@ -245,7 +251,9 @@ identical(crashes3, crashes)
 
 Notice that `crashes3` and `crashes` are not identical, what has changed? Hint: use `?write.csv`.
 
-<!-- # Classes -->
+# R objects and classes
+
+
 
 ## Subsetting
 
@@ -735,7 +743,7 @@ desire_lines_all = pct::get_pct_lines(region = "isle-of-wight")
 
 - Type code into the script created in the previous section so that it can reproduce this plot: 
 
-```{r, message=FALSE, warning=FALSE, out.height="5cm"}
+```{r, message=FALSE, warning=FALSE, out.height="5cm", eval=FALSE}
 library(osmdata)
 location = opq("leeds") %>% 
   add_osm_feature(key = "railway", value = "station") %>% 
@@ -755,6 +763,7 @@ piggyback::pb_upload("station_points.gpkg")
 
 1. Download cycleway data with the tag highway=cycleway for Leeds from https://overpass-turbo.eu/
 1. Load the data in R and plot it with `tmap` (bonus: now try to get the same data using the **osmdata** package)
+
 
 # Local route network analysis
 
