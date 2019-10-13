@@ -432,20 +432,20 @@ iow %>%
   summarise(mean_walk = mean(foot))
 ```
 
-
 ## Exercises 
 
 1. Check your packages are up-to-date with `update.packages()`
-1. Create a script called `attribute-operations.R`, e.g. with the following command: `file.edit("attribute-operations.R")`
+1. Create a script called `attribute-operations.R`, e.g. with the following command:
+`file.edit("attribute-operations.R")`
 1. Practice subsetting techniques you have learned on the `sf data.frame` object `iow`:
      1. Create an object called `iow_small` which contains only regions with less than 3000 people in the `all` column
      1. Create a selection object called `sel_high_car` which is `TRUE` for regions with above median numbers of people who travel by car and `FALSE` otherwise
-     1. How many regions have the number '1' in the column 'geo_name'? What percentage of the regions in the Isle of Wight is this?
+     1. How many regions have the number '1' in the column 'geo_name'? What percentage of the regions in the Isle of Wight is this? Hint: Look at the help page of the function 'grepl'.  
      1. Create an object called `iow_foot` which contains only the foot attribute from `iow`
-     1. Bonus: plot the result to show where walking is a popular mode of travel to work
-     1. Bonus: bulding on your answers to previous questions, use `filter()` from the `dplyr` package to subset small regions where high car use is high
+     1. Bonus: plot `iow_foot` using the function `plot` to show where walking is a popular mode of travel to work
+     1. Bonus: bulding on your answers to previous questions, use `filter()` from the `dplyr` package to subset small regions where car use is high. 
 1. Bonus: What is the population density of each region (hint: you may need to use the functions `st_area()`, `as.numeric()` and use the 'all' column)?
-1. Bonus: Which zone has the highest percentage who cycle?
+1. Bonus: Which zone has the highest percentage of people who cycle?
 1. Bonus: Find the proportion of people who drive to work (`car_driver`) in areas in which more than 500 people walk to work
 
 ```{r, echo=FALSE, eval=FALSE}
