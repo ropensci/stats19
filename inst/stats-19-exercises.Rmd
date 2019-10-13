@@ -104,7 +104,7 @@ Keeping scripts and other files associated with a project in a single folder per
 ## Writing and running code
 
 Let's start with some basic R operations.
-write this code into your new `stats19-lesson-1.R` R script and execute the result line-by-line by pressing Ctl+Enter
+Write this code into your new `stats19-lesson-1.R` R script and execute the result line-by-line by pressing Ctl+Enter
 
 ```{r, eval=FALSE}
 x = 1:5
@@ -112,7 +112,7 @@ y = c(0, 1, 3, 9, 18)
 plot(x, y)
 ```
 
-This code creates two objects, both vectors 5 elements, and then plots them (bonus: test their length using the `length()` function).
+This code creates two objects, both vectors of 5 elements, and then plots them (bonus: check their length using the `length()` function).
 Save the script by pressing Ctl+S.
 
 There are several ways to run code within a script and it is worth becoming familiar with each.
