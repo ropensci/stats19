@@ -24,6 +24,12 @@ for(i in 1:length(r)) {
 }
 file_names = setNames(as.list(dr), dr)
 usethis::use_data(file_names, overwrite = TRUE)
+
+# get original stats19 data filenames
+download.file("https://github.com/ropensci/stats19/raw/master/data/file_names.rda", "file_names_old.rda")
+load("file_names_old.rda")
+file_names_old = file_names
+usethis::use_data(file_names_old)
 ```
 
 The `accidents_sample_raw` can be (re)generated using:

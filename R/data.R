@@ -41,6 +41,7 @@ NULL
 #' @keywords datasets
 #' @name file_names
 #' @format A named list
+#' @aliases file_names_old
 NULL
 
 #' Sample of stats19 data (2017 accidents)
