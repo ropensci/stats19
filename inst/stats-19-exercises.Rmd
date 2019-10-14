@@ -549,40 +549,73 @@ Exercises:
 1. Select only the events occurred during the weekend and in June
 1. Count how many events occurred during each day of the week. 
 
-Now we'll take a look at the time components of a Date. Using the function `hms` (acronym for Hour Minutes Seconds) and its subfunctions such as `hm` or `ms`, we can parse a character vector representing several times as an Hour object (which is called a Period object). 
+Now we'll take a look at the time components of a Date. Using the function `hms` (acronym for Hour Minutes Seconds) and its subfunctions such as `hm` or `ms`, we can parse a character vector representing several times as an Hour object (which is tecnically called a Period object). 
 
 ```{r}
-x <- c("18:23:35", "00:00:00", "12:34:56")
-(x_time <- hms(x))
+x <- c("18:23:35", "00:00:01", "12:34:56")
+(x_hour <- hms(x))
 ```
 
 We can manipulate these objects using several `lubridate` functions to extract the hour component, the minutes and so on..
 
 ```{r}
-hour(x_time)
-minute(x_time)
-second(x_time)
+hour(x_hour)
+minute(x_hour)
+second(x_hour)
 ```
 
+If the Hour data do not specify the seconds, then we just have to use a subfunction of `hms`, namely `hm`, and everything works as before. 
 
-Subset based on time of day
+```{r}
+x <- c("18:23", "00:00", "12:34")
+(x_hour <- hm(x))
+```
 
-Idea for bonus, with this answer not shown:
+We can use Hour data also for subsetting events, like we did for Dates. Let's add a new column to crashes data, 
 
-```{r crash times, eval=FALSE, echo=FALSE}
+```{r}
+crashes$casualty_hour <- hms(c("18:23:35", "00:00:01", "12:34:56"))
+```
+
+Exercises: 
+
+1. Filter only the events occurred after midday (i.e. the PM events). You should manually code this exercises and, then, look at the help page of the function `am`. Moreover, if you simply type `am` in the console, then you can look at the definition of the function. 
+1. Filter only the events occurred between 15:00 and 19:00
+1. Round all hours to the next hour. Hint: Look at the help page of the `round_date` function. 
+1. Bonus (very difficult): run the following code, which downloades data for car crashes occurred during 2017.  
+
+```{r, eval=FALSE}
 library(stats19)
-a = stats19::get_stats19(year = 2017, type = "ac")
-head(a$date)
-head(a$time)
-a$time_posix = lubridate::hm(a$time)
-a$hour = lubridate::hour(a$time_posix)
-a %>% 
-  filter(hour == 1)
-crashes_by_hour = a %>% 
-  group_by(hour) %>% 
-  summarise(n = n())
-crashes_by_hour
+crashes_2017 = stats19::get_stats19(year = 2017, type = "ac")
+crashes_2017
 ```
+
+Extract the weekday from the variable called `date` and calculate how many crashes occurred for each day of the week. Then plot it with ggplot2. Repeat the same exercises extracting the hour of the car accident from the variable called time. How would you combine the two informations in a single plot? 
+
+```{r}
+crashes_2017 %>% 
+  mutate(my_weekdays = weekdays(date)) %>% 
+  group_by(my_weekdays) %>% 
+  summarize(n = n()) %>% 
+  ggplot() + 
+  geom_col(aes(x = my_weekdays, y = n))
+
+crashes_2017 %>% 
+  mutate(my_hours = hour(hm(time))) %>% 
+  group_by(my_hours) %>% 
+  summarize(n = n()) %>% 
+  ggplot() + 
+  geom_col(aes(x = my_hours, y = n))
+
+crashes_2017 %>% 
+  mutate(my_weekdays = weekdays(date), my_hours = hour(hm(time))) %>% 
+  group_by(my_weekdays, my_hours) %>% 
+  summarise(n = n()) %>% 
+  ggplot() + 
+  geom_line(aes(x = my_hours, y = n, col = my_weekdays), size = 1.05)
+# the legend needs some reordering
+```
+
 
 # Spatial data
 
