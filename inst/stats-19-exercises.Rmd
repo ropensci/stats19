@@ -464,6 +464,23 @@ crashes %>%
 
 # Temporal data
 
+For the analysis of temporal data we will use the R package `lubridate` so, first of all, we need to load it
+
+```{r}
+library(lubridate)
+```
+
+```{r}
+x <- c("2009-01-01", "2009-01-02", "2009-01-03")
+(x_date <- parse_date_time(x, "ymd"))
+```
+
+```{r}
+year(x_date)
+month(x_date, label = TRUE, abbr = FALSE)
+```
+
+
 Create new variable for crashes with datetime object.
 
 Add year, month, day of week, hour/minute columns with lubridate
