@@ -464,30 +464,158 @@ crashes %>%
 
 # Temporal data
 
-Create new variable for crashes with datetime object.
+For the analysis and manipulation of temporal data we will use the R package `lubridate` so, first of all, we need to load it
 
-Add year, month, day of week, hour/minute columns with lubridate
-
-Subset based on date
-
-Subset based on time of day
-
-Idea for bonus, with this answer not shown:
-
-```{r crash times, eval=FALSE, echo=FALSE}
-library(stats19)
-a = stats19::get_stats19(year = 2017, type = "ac")
-head(a$date)
-head(a$time)
-a$time_posix = lubridate::hm(a$time)
-a$hour = lubridate::hour(a$time_posix)
-a %>% 
-  filter(hour == 1)
-crashes_by_hour = a %>% 
-  group_by(hour) %>% 
-  summarise(n = n())
-crashes_by_hour
+```{r, message=FALSE}
+library(lubridate)
 ```
+
+The simplest example of a Date object that we can analyze is just the current date, i.e.
+
+```{r}
+today()
+```
+
+We can manipulate this object using several `lubridate` functions to extract the current day, month, year, weekday and so on...
+
+```{r, eval=FALSE}
+x <- today()
+day(x)
+month(x)
+year(x)
+weekdays(x)
+```
+
+Exercises: 
+
+1. Look at the help page of the function `month` to see how it is possible to extract the current month as character vector 
+1. Look at other functions in lubridate to extract the current weekday as a number, the week of year and the day of the year
+
+Nevertheless, when you get a new dataset to work with or you update your database, the date variables are usually stored simply as a character vectors. This is a problem, since R is not always smart enough to distinguish between character vectors representing Dates and Dates objects:
+
+```{r, eval=FALSE}
+yday("2019-10-14") # works
+weekdays("2019-10-14") #returns error
+```
+
+When you import your data into R, usually the import routines (such as `read.csv` or `read_csv`, look at the corresponding help page if you don't know those functions) recognize the Date variables (using several heuristics) and trasform them as Date objects, but this is not always the case (especially with particular date and time formats). So, we must be able to manually process Date objects. For example, given this vector of strings
+
+```{r}
+x <- c("2009-01-01", "2009-02-02", "2009-03-03")
+```
+
+then we can trasform it as a Date object, now called `x_date`, using the function `as.Date`. Notice that we must specify the format of these dates using the string `"%Y-%m-%d"`. 
+
+```{r}
+(x_date <- as.Date(x, format = "%Y-%m-%d"))
+```
+
+Exercises: 
+
+1. Read the help page of `as.Date` and `strptime` for further details on the format argument. 
+1. Extract the day, the year-day, the month and the weekday (as a non-abbreviated character vector) of each element of `x_date`. 
+1. Modify the previous example to parse the following character string: `"09/09/93"` and extract its weekday. 
+
+```{r, echo=FALSE, eval=FALSE}
+# 1. Extract the day, the year-day, the month and the weekday (as a non-abbreviated character vector) of each element of `x_date`. 
+day(x_date)
+yday(x_date)
+month(x_date)
+weekdays(x_date, abbreviate = FALSE)
+# 1. Modify the previous example to parse the following character string: `"09/09/1993"` and extract its weekday. 
+weekdays(as.Date("09/09/93", format = "%d/%m/%y"))
+wday(as.Date("09/09/93", format = "%d/%m/%y"))
+```
+
+We can use Dates also for subsetting events in a dataframe. For example, if we define `x_date` as before and add it to the `crash` dataset, i.e.
+
+```{r}
+crashes$casualty_day <- x_date
+```
+
+then we can subset events using Dates. For example
+
+```{r}
+filter(crashes, day(casualty_day) < 7) # the events occurred in the first week of the month
+filter(crashes, weekdays(casualty_day) == "Monday") # the events occurred on monday
+```
+
+Exercises: 
+
+1. Select only the events occurred in January
+1. Select only the events occurred in an odd year-day 
+1. Select only the events occurred in a leap-year (HINT: check the function `leap_year`)
+1. Select only the events occurred during the weekend or in June
+1. Select only the events occurred during the weekend and in June
+1. Count how many events occurred during each day of the week. 
+
+Now we'll take a look at the time components of a Date. Using the function `hms` (acronym for Hour Minutes Seconds) and its subfunctions such as `hm` or `ms`, we can parse a character vector representing several times as an Hour object (which is tecnically called a Period object). 
+
+```{r}
+x <- c("18:23:35", "00:00:01", "12:34:56")
+(x_hour <- hms(x))
+```
+
+We can manipulate these objects using several `lubridate` functions to extract the hour component, the minutes and so on..
+
+```{r}
+hour(x_hour)
+minute(x_hour)
+second(x_hour)
+```
+
+If the Hour data do not specify the seconds, then we just have to use a subfunction of `hms`, namely `hm`, and everything works as before. 
+
+```{r}
+x <- c("18:23", "00:00", "12:34")
+(x_hour <- hm(x))
+```
+
+We can use Hour data also for subsetting events, like we did for Dates. Let's add a new column to crashes data, 
+
+```{r}
+crashes$casualty_hour <- hms(c("18:23:35", "00:00:01", "12:34:56"))
+```
+
+Exercises: 
+
+1. Filter only the events occurred after midday (i.e. the PM events). You should manually code this exercises and, then, look at the help page of the function `am`. Moreover, if you simply type `am` in the console, then you can look at the definition of the function. 
+1. Filter only the events occurred between 15:00 and 19:00
+1. Round all hours to the next hour. Hint: Look at the help page of the `round_date` function. 
+1. Bonus (very difficult): run the following code, which downloades data for car crashes occurred during 2017.  
+
+```{r, eval=FALSE}
+library(stats19)
+crashes_2017 = stats19::get_stats19(year = 2017, type = "ac")
+crashes_2017
+```
+
+Extract the weekday from the variable called `date` and calculate how many crashes occurred for each day of the week. Then plot it with ggplot2. Repeat the same exercises extracting the hour of the car accident from the variable called time. How would you combine the two informations in a single plot? 
+
+```{r}
+crashes_2017 %>% 
+  mutate(my_weekdays = weekdays(date)) %>% 
+  group_by(my_weekdays) %>% 
+  summarize(n = n()) %>% 
+  ggplot() + 
+  geom_col(aes(x = my_weekdays, y = n))
+
+crashes_2017 %>% 
+  mutate(my_hours = hour(hm(time))) %>% 
+  group_by(my_hours) %>% 
+  summarize(n = n()) %>% 
+  ggplot() + 
+  geom_col(aes(x = my_hours, y = n))
+
+crashes_2017 %>% 
+  mutate(my_weekdays = weekdays(date), my_hours = hour(hm(time))) %>% 
+  group_by(my_weekdays, my_hours) %>% 
+  summarise(n = n()) %>% 
+  ggplot() + 
+  geom_line(aes(x = my_hours, y = n, col = my_weekdays), size = 1.05)
+# the legend needs some reordering
+```
+
 
 # Spatial data
 
@@ -757,11 +885,11 @@ These exercises rely on the object `europe`.
 Create it using the `world` and `worldbank_df` datasets from the **spData** package as follows (see Section [2.2](https://geocompr.robinlovelace.net/spatial-class.html#intro-sf) of Geocomputation with R for details):
 
 ```{r 08-mapping-41, warning=FALSE}
-europe = world %>% 
-  filter(continent == "Europe", !is.na(iso_a2)) %>% 
-  left_join(worldbank_df, by = "iso_a2") %>% 
-  dplyr::select(name, subregion, gdpPercap, HDI, pop_growth) %>% 
-  st_transform("+proj=aea +lat_1=20 +lat_2=-23 +lat_0=0 +lon_0=25")
+# europe = world %>% 
+#   filter(continent == "Europe", !is.na(iso_a2)) %>% 
+#   left_join(worldbank_df, by = "iso_a2") %>% 
+#   dplyr::select(name, subregion, gdpPercap, HDI, pop_growth) %>% 
+#   st_transform("+proj=aea +lat_1=20 +lat_2=-23 +lat_0=0 +lon_0=25")
 ```
 
 1. Create a map showing the geographic distribution of the `gdpPercap` across Europe with base **graphics** (hint: use `plot()`) and **tmap** packages (hint: use `tm_shape(europe) + ...`).
@@ -770,7 +898,7 @@ europe = world %>%
 1. Represent `europe`'s subregions on the map. 
 
 ```{r, echo=FALSE, out.width="50%"}
-plot(europe["subregion"])
+# plot(europe["subregion"])
 ```
 
 # Analysing point data from stats19 
