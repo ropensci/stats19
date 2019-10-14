@@ -68,11 +68,7 @@ knitr::include_graphics("images/rstudio-ui.png")
 
 ## Projects and scripts
 
-Projects are a way to organise related work together. Each project has its own folder and Rproj file.
-
-**Advice: always set-up and work from projects, it will make your life easier!**
-
-Start a new project with:
+Projects are a way to organise related work together. Each project has its own folder and Rproj file. **Advice: always working from projects will make your life easier!** Start a new project with:
 
 > File > New Project
 You can choose to create a new directory (folder) or associate a project with an existing directory. Make a new project called stats1-course and save it in a sensible place on your computer. Notice that stats1-course now appears in the top right of RStudio.
@@ -118,9 +114,9 @@ Save the script by pressing Ctl+S.
 There are several ways to run code within a script and it is worth becoming familiar with each.
 Try running the the code you saved in the previous section using each of these methods:
 
-1. Place the cursor in different places on each line of code and press `CTRL + Enter` to run that line of code.
-1. Highlight a block of code or part of a line of code and press `CTRL + Enter` to run the highlighted code.
-1. Press `CTRL + Shift + Enter` to run all the code in a script.
+1. Place the cursor in different places on each line of code and press `Ctlr+Enter` to run that line of code.
+1. Highlight a block of code or part of a line of code and press `Ctlr+Enter` to run the highlighted code.
+1. Press `Ctlr+Shift+Enter` to run all the code in a script.
 1. Press the Run button on the toolbar to run all the code in a script.
 1. Use the function `source()` to run all the code in a script e.g. `source("stats19-lesson-1.R")`
 <!-- (but don't create an infinite loop!) -->
@@ -169,6 +165,27 @@ summary(casualty_age)
 
 **Exercise** try these functions on each of the objects, what results do they give?
 
+```{r summary-answers, echo=FALSE, eval=FALSE}
+summary(vehicle_type)
+class(vehicle_type)
+typeof(vehicle_type)
+dim(vehicle_type)
+length(vehicle_type)
+```
+
+**Bonus**: Find out the class of the column `vehicle_type` in the data frame `crashes` with the command `class(crashes$vehicle_type)`.
+Why has it changed? 
+Create a new object called `crashes_char` that keeps the class of the character vectors intact by using the function `tibble::tibble()` (see [tibble.tidyverse.org](https://tibble.tidyverse.org/) for details).
+
+```{r tibble1, echo=FALSE, eval=FALSE}
+tibble::tibble(
+  vehicle_type,
+  casualty_type,
+  casualty_age,
+  dark
+)
+```
+
 ## Autocompletion
 
 RStudio can help you write code by autocompleting it. RStudio will look for similar objects and functions after typing the first three letters of a name.
@@ -198,41 +215,56 @@ It is good practice to use comments in your code to explain what it does. You ca
 For example:
 
 ```{r}
-# A whole line comment
-x = 1:5 # An inline comment
-y = x * 2
+# Create vector objects (a whole line comment)
+x = 1:5 # a seqence of consecutive integers (inline comment)
+y = c(0, 1, 3, 9, 18.1) 
 ```
 
-You can comment/uncomment a whole block of text by selecting it and using CTRL + Shift + C and you can reformat a block of code using CTRL + Shift  + /. 
+You can comment/uncomment a whole block of text by selecting it and using `Ctlr+Shift+C`.
+<!-- not sure about the next statement so commenting out (RL) -->
+<!-- and you can reformat a block of code using `Ctlr+Shift  + /`.  -->
 
-You can add a comment section using CTRL + Shift + R
+**Pro tip:** You can add a comment section using Ctlr + Shift + R
 
 
 ## The global environment
 
-The Environment tab shows all the objects in your environment, this includes Data, Values, and Functions. By default, new objects appear in the Global Environment but you can see other environments with the drop-down menu. For example, each package has its own environment.
+The Environment tab shows all the objects in your environment, this includes datasets, parameters, and any functions you have created.
+By default, new objects appear in the Global Environment but you can see other environments with the drop-down menu.
+For example, each package has its own environment.
 
 Sometimes you wish to remove things from your environment, perhaps because you no longer need them or things are getting cluttered.
 
-You can remove an object with the `rm()` function e.g. `rm(x)` or `rm(x,y)` or you can clear your whole environment with the broom button on the Environment Tab.
+You can remove an object with the `rm()` function e.g. `rm(x)` or `rm(x, y)` or you can clear your whole environment with the broom button on the Environment Tab.
+
+1. Remove the object `x` that was created in a previous section.
+1. What happens when you try to print the `x` by entering it into the console?
+1. Try running the following commands in order: `save.image(); rm(list = ls()); load(".RData")`. What happened?
+1. How big (how many bytes) is the `.RData` file in your project's folder?
+1. Tidy up by removing the `.Rdata` file with `file.remove(".Rdata")`.
 
 ## Debugging Code
 
-This code example will run, but we can see some of RStudio's debugging features by changing it. See that when the bracket is removed the red X and the underlying highlight the broken code. You may need to save the code to see the debugging prompt.
+All the code shown so far is reproducible.
+To test RStudio's debugging features, let's write some code that fails, as illustrated in the figure below.
 
-```{r debug, echo=FALSE}
-knitr::include_graphics("images/debug.jpg")
+```{r debug, echo=FALSE, out.width="60%"}
+knitr::include_graphics("rstudio-autocomplete.png")
 ```
 
-**Always address debugging prompts before running your code**
+1. What is the problem with the code shown in the figure?
+1. Create other types of error in the code you have run (e.g. no symetrical brackets and other typos)
+1. Does RStudio pick up on the errors? And what happens when you try to run buggy code?
 
+**Always address debugging prompts to ensure your code is reproducible**
 
-## Saving your work
+## Saving R objects
 
-We have already seen that you can save an R script. You can also save R objects in the RDS format.
+We have already seen that you can save R scripts.
+You can also save individual R objects in the RDS format.
 
 ```{r}
-saveRDS(crashes,"crashes.Rds")
+saveRDS(crashes, "crashes.Rds")
 ```
 
 We can also read back in our data.
@@ -242,42 +274,61 @@ crashes2 = readRDS("crashes.Rds")
 identical(crashes, crashes2)
 ```
 
-R also supports many other formats. For example CSV files.
+R also supports many other formats, including CSV files, which can be created and imported with the functions `readr::read_csv()` and `readr::write_csv()` (see also the [readr](https://readr.tidyverse.org/) package).
 
-```{r, eval=FALSE}
-write.csv(crashes, "crashes.csv")
-crashes3 = read.csv("crashes.csv")
-identical(crashes3, crashes)
-# FALSE
+```{r readr-write, eval=FALSE}
+readr::write_csv(crashes, "crashes.csv")
+crashes3 = readr::read_csv("crashes.csv")
+identical(crashes3, crashes) 
 ```
 
-Notice that `crashes3` and `crashes` are not identical, what has changed? Hint: read `?write.csv`.
+Notice that `crashes3` and `crashes` are not identical, what has changed? Hint: read the help page associated with `?readr::write_csv`.
 
-# R objects and classes
+# Manipulating R objects
 
-## Subsetting
+## Subsetting by location
 
-We can subset any R object to just get part of it. 
-Subsetting can be done by either providing the positional numbers of the subset or a logical vector of the same length (as for the second example in the following code chunk). 
-For two dimension object such as matrices and data.frames you can subset by row or column.
-Subsetting is done using square brackets `[]` after the name of an object.
+Subsetting returns part of an R object. 
+It can be done by providing numbers representing the positions of the elements we want (e.g. the 2^nd^ element) or with a logical vector, with values associated with `TRUE` returned. 
+Two dimension object such as matrices and data frames can be subset by rows and columns.
+Subsetting in base R is done with square brackets `[]` after the name of an object. **Run the following commands to practice subsetting.**
 
 ```{r, eval=FALSE}
-casualty_age[2:3] # Just the second and third casualty_age
-x[c(TRUE, FALSE, TRUE, FALSE, TRUE)] # The 1st, 3rd, and 5th element in x
-crashes[c(1, 2), ] # First and second row of crashes
-crashes[, c(1, 3)] # First and third column of crashes by positional numbers
-crashes[, c("casualty_type", "casualty_age")] # First and third column of crashes by name
+casualty_age[2:3] # second and third casualty_age
+x[c(TRUE, FALSE, TRUE, FALSE, TRUE)] # 1st, 3rd, and 5th element in x
+crashes[c(1, 2), ] # first and second row of crashes
+crashes[, c("casualty_type", "casualty_age")] # first and third columns
 ```
 
-It is also possible to  create logical vector for subsetting by creating a query
+```{r, eval=FALSE, echo=FALSE}
+crashes[, c(1, 3)] # first and third column of crashes by positional numbers
+crashes[c(2), c(3)]
+```
+
+1. Subset the crashes so that only the first and third columns of the data frame are returned.
+1. Return the 2^nd^ row and the 3^rd^ column of the `crashes` dataset. 
+
+## Subsetting by values
+
+It is also possible to subset objects by the values of their elements.
+create logical vector for subsetting by creating a query, as demonstrated below:
 
 ```{r, eval=FALSE}
 x[x == 5] # Only when x == 5 (notice the use of double equals)
-casualty_age[casualty_age < 50] # Just the  casualty_age less than 50
+x[x < 3] # less than 3
 casualty_age[casualty_age %% 6 == 0] # Just the ages that are a multiple of 6
-crashes[crashes$vehicle_type == "tank",] # The rows where the name is tank
+crashes[crashes$vehicle_type == "tank", ] # The rows where the name is tank
 ```
+
+1. Subset the `casualty_age` object using the inequality (`<`) so that only elements less than 50 are returned.
+1. Subset the `crashes` data frame so that only tanks are returned using the `==` operator.
+
+```{r}
+casualty_age[casualty_age < 50] # Just the  casualty_age less than 50
+
+```
+
+
 
 ## Dealing with NAs
 
