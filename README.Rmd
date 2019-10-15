@@ -304,7 +304,7 @@ For more on these next steps, see the package's introductory [vignette](https://
 The **stats19** package builds on previous work, including:
 
 - code in the [bikeR](https://github.com/Robinlovelace/bikeR) repo underlying an academic paper on collisions involving cyclists
-- functions in [**stplanr**](https://github.com/ropensci/stplanr/blob/master/R/load-stats19.R) for downloading Stats19 data
+- functions in [**stplanr**](https://docs.ropensci.org/stplanr/) for downloading Stats19 data
 - updated functions related to the [CyIPT](https://github.com/cyipt/stats19) project
 
  [![ropensci_footer](https://ropensci.org/public_images/ropensci_footer.png)](https://ropensci.org)
