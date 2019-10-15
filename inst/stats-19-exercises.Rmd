@@ -286,7 +286,7 @@ Notice that `crashes3` and `crashes` are not identical, what has changed? Hint: 
 
 # Manipulating R objects
 
-## Subsetting by index
+## Subsetting by index or name
 
 Subsetting returns part of an R object. 
 It can be done by providing numbers representing the positions of the elements we want (e.g. the 2^nd^ element) or with a logical vector, with values associated with `TRUE` returned. 
@@ -296,17 +296,23 @@ Subsetting in base R is done with square brackets `[]` after the name of an obje
 ```{r, eval=FALSE}
 casualty_age[2:3] # second and third casualty_age
 crashes[c(1, 2), ] # first and second row of crashes
+crashes$vehicle_type # returns just one column
 crashes[, c("casualty_type", "casualty_age")] # first and third columns
 ```
 
 ```{r, eval=FALSE, echo=FALSE}
 crashes[, c(1, 3)] # first and third column of crashes by positional numbers
 crashes[c(2), c(3)]
+crashes[c(2), c(2, 3)]
+class(crashes[, c(1, 3)])
+class(crashes[c(2), c(3)])
 ```
 
 1. Subset the crashes so that only the first and third columns of the data frame are returned.
 1. Return the 2^nd^ row and the 3^rd^ column of the `crashes` dataset. 
-1. Return the 2^nd^ row and the 2^nd^ *and* 3^rd^ column of the `crashes` dataset. 
+1. Return the 2^nd^ row and the columns 2:3 of the `crashes` dataset. 
+1. **Bonus**: what class resulted from each of the three previous exercises?
+
 ## Subsetting by values
 
 It is also possible to subset objects by the values of their elements.
@@ -316,6 +322,7 @@ This works because the `[` operator accepts logical vectors returned by queries 
 x[c(TRUE, FALSE, TRUE, FALSE, TRUE)] # 1st, 3rd, and 5th element in x
 x[x == 5] # only when x == 5 (notice the use of double equals)
 x[x < 3] # less than 3
+x[x < 3] = 0 # assign specific elements
 casualty_age[casualty_age %% 6 == 0] # just the ages that are a multiple of 6
 crashes[crashes$dark == FALSE, ]
 ```
@@ -359,6 +366,11 @@ sum(z)
 ```
 
 Be careful of NAs especially in statistical analysis, for example, the average of a value excluding NAs may not be representative of the whole.
+
+## Changing class
+
+Sometimes you may want to change the class of an object.
+This is called class coercion, and can be done with functions such as `as.logical()`, `as.numeric()` and `as.matrix()`.
 
 ## Now you are ready to use R
 
