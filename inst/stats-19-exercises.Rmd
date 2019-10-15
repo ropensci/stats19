@@ -375,6 +375,15 @@ Be careful of NAs especially in statistical analysis, for example, the average o
 Sometimes you may want to change the class of an object.
 This is called class coercion, and can be done with functions such as `as.logical()`, `as.numeric()` and `as.matrix()`.
 
+1. Coerce the `vehicle_type` column of `crashes` to the class `character`.
+1. Coerce the `crashes` object into a matrix. What happened to the values?
+1. **Bonus:** What is the difference between the output of `summary()` on `character` and `factor` variables?
+
+```{r, echo=FALSE, eval=FALSE}
+crashes$vehicle_type = as.character(crashes$vehicle_type)
+as.matrix(crashes)
+```
+
 ## Now you are ready to use R
 
 **Bonus: reproduce the following plot**
