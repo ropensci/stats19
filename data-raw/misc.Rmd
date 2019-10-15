@@ -5,13 +5,16 @@ library(stringr)
 u = paste0(
   "https://data.gov.uk/dataset/",
   "cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data")
+u = "https://data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data"
 page = read_html(u)
-#'
-r = page %>%
+all_links = page %>%
   html_nodes("a") %>%       # find all links
-  html_attr("href") %>%     # get the url
-  str_subset("\\.zip")
-#'
+  html_attr("href")
+
+zips = all_links %>% str_subset("\\.zip")
+csvs = all_links %>% str_subset("\\.csv")
+
+r = c(zips, csvs)
 dr = c()
 for(i in 1:length(r)) {
   dr[i] = sub("http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/",
@@ -19,8 +22,14 @@ for(i in 1:length(r)) {
   dr[i] = sub("http://data.dft.gov.uk/road-accidents-safety-data/",
               "", dr[i])
 }
-file_names = setNames(as.list(file_names), file_names)
-usethis::use_data(file_names)
+file_names = setNames(as.list(dr), dr)
+usethis::use_data(file_names, overwrite = TRUE)
+
+# get original stats19 data filenames
+download.file("https://github.com/ropensci/stats19/raw/master/data/file_names.rda", "file_names_old.rda")
+load("file_names_old.rda")
+file_names_old = file_names
+usethis::use_data(file_names_old)
 ```
 
 The `accidents_sample_raw` can be (re)generated using:

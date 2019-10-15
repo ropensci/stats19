@@ -125,6 +125,9 @@ locate_files = function(data_dir = tempdir(),
                         quiet = FALSE) {
   stopifnot(dir.exists(data_dir))
   file_names = find_file_name(years = years, type = type)
+  if(all(grepl(pattern = "csv", file_names))) {
+    return(file.path(data_dir, file_names))
+  }
   file_names = tools::file_path_sans_ext(file_names)
   dir_files = list.dirs(data_dir)
   # check is any file names match those on disk
@@ -161,9 +164,12 @@ locate_one_file = function(filename = NULL,
                       type = type,
                       years = year,
                       quiet = TRUE)
-  if(length(path) == 0)
+  if(length(path) == 0) {
     stop("No files found under: ", data_dir, call. = FALSE)
-
+  }
+  if(length(path) == 1 && file.exists(path)) {
+    return(path)
+  }
   scan1 = function(path, type) {
     lf = list.files(file.path(data_dir, path), ".csv$", full.names = TRUE)
     if(!is.null(type))

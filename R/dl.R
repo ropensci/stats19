@@ -64,29 +64,36 @@ dl_stats19 = function(year = NULL,
   if (!dir.exists(data_dir)) {
     dir.create(data_dir, recursive = TRUE)
   }
+
+  is_zip_file = grepl(pattern = "zip", zip_url)
   exdir = sub(".zip", "", fnames)
-  destfile = file.path(data_dir, paste0(exdir, ".zip"))
-  data_already_exists = file.exists(destfile)
-  if(data_already_exists) {
-    message("Data already exists in data_dir, not downloading")
+  if(is_zip_file) {
+    destfile = file.path(data_dir, paste0(exdir, ".zip"))
   } else {
-    if(interactive() & !many_found) {
-      if(ask) {
-        resp = readline(phrase())
-      } else {
-        resp = ""
-      }
-      if (resp != "" & !grepl(pattern = "yes|y", x = resp, ignore.case = TRUE)) {
-        stop("Stopping as requested", call. = FALSE)
-      }
-    }
-    message("Attempt downloading from: ")
-    utils::download.file(zip_url, destfile = destfile)
+    destfile = file.path(data_dir, paste0(exdir))
   }
-
-  f = file.path(destfile, utils::unzip(destfile, list = TRUE)$Name)
-  utils::unzip(destfile, exdir = file.path(data_dir, exdir))
-
-  message("Data saved at ", sub(".zip", "",f))
-
+    data_already_exists = file.exists(destfile)
+    if(data_already_exists) {
+      message("Data already exists in data_dir, not downloading")
+    } else {
+      if(interactive() & !many_found) {
+        if(ask) {
+          resp = readline(phrase())
+        } else {
+          resp = ""
+        }
+        if (resp != "" & !grepl(pattern = "yes|y", x = resp, ignore.case = TRUE)) {
+          stop("Stopping as requested", call. = FALSE)
+        }
+      }
+      message("Attempt downloading from: ")
+      utils::download.file(zip_url, destfile = destfile)
+    }
+    if(is_zip_file) {
+      f = file.path(destfile, utils::unzip(destfile, list = TRUE)$Name)
+      utils::unzip(destfile, exdir = file.path(data_dir, exdir))
+      message("Data saved at ", sub(".zip", "",f))
+    } else {
+      message("Data saved at ", destfile)
+    }
 }
