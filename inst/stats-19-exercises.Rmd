@@ -412,7 +412,8 @@ lines(mouth, type = "l", col = "red")
 
 R has over 15,000 packages, extending it in almost every direction of statistics and computing.
 Packages provide additional functions, data and documentation.
-There are two stages to using a package: installing/updating it and loading it.
+There are two main stages to using a package: installing it and loading it.
+A third stage is updating it, this is also important.
 
 <!-- installing it... -->
 Install new packages from [The Comprehensive R Archive Network](https://cran.r-project.org/) with the command `install.packages()` (or `remotes::install_github()` to install from GitHub).
@@ -447,26 +448,50 @@ crashes_tibble = tibble::tibble(
 )
 ```
 
-1. Take a look in the Packages tab in the Files pane in RStudio (bottom left by default).
+1. Take a look in the Packages tab in the Files pane in RStudio (bottom right by default).
 1. What version of the `stats19` package is installed on your computer?
+1. Run the command `update.packages()`. What happens? Why?
 
-## ggplot2, dplyr and pipes
+## ggplot2
 
 Let's take a look at a particular package.
 `ggplot2` is a generic plotting package that is part of the ['tidyverse'](https://www.tidyverse.org/) meta-package, which is an "opinionated collection of R packages designed for data science". 
 All packages in the tidyverse "share an underlying design philosophy, grammar, and data structures". 
 `ggplot2` is flexible, popular, and has dozens of add-on packages which build on it, such as `gganimate`.
-To plot non-spatial data, it works as follows:
+To plot non-spatial data, it works as follows (see figure below, left for result):
 
-```{r, message=FALSE, out.width="40%"}
+```{r, message=FALSE, out.width="40%", eval=FALSE}
 library(ggplot2)
 ggplot(crashes) + geom_point(aes(x = casualty_type, y = casualty_age))
 ```
 
 Note that the `+` operator adds layers onto one another.
 
-Another useful operator, that is part of `dplyr`, one of the most important packages in the tidyverse, is ` %>% `. 
-This is the pipe, that puts the output of one command into the first argument of another, as shown below (note the results are the same):
+1. Install a package that build on `ggplot2` that begins with with `gg`. Hint: enter `install.packages(gg)` and hit Tab when your cursor is between the `g` and the `)`.
+1. Open a help page in the newly installed package with the `?package_name::function()` syntax.
+1. Attach the package.
+1. **Bonus:** try using functionality from the new 'gg' package building on the example above (hint: the right plot below uses the economist theme from the `ggthemes` package, try other themes).
+
+```{r gg-extend, echo=FALSE, message=FALSE, eval=FALSE}
+library(ggplot2)
+g1 = ggplot(crashes) + geom_point(aes(x = casualty_type, y = casualty_age)) ] th
+# install.packages("ggthemes")
+g2 = ggplot(crashes) + geom_point(aes(x = casualty_type, y = casualty_age)) +
+  ggthemes::theme_economist()
+g3 = cowplot::plot_grid(g1, g2)
+ggsave(filename = "inst/ggtheme-plot.png", width = 8, height = 2, dpi = 80)
+```
+
+```{r gg2, echo=FALSE, out.width="80%", fig.align="center"}
+library(ggplot2)
+knitr::include_graphics("ggtheme-plot.png")
+```
+
+## dplyr and pipes
+
+Another useful package in the tidyverse is `dplyr`.
+It provides functions for manipulating data frames and using the pipe operator ` %>% `. 
+The pipe puts the output of one command into the first argument of the next, as shown below (note the results are the same):
 
 ```{r}
 library(dplyr)
@@ -486,15 +511,25 @@ crashes %>%
   summarise(mean_age = mean(casualty_age))
 ```
 
-1. Check your packages are up-to-date with `update.packages()`
-1. Try installing a new package of you choice beginning with `gg`. Hint: enter `install.packages(gg)` and hit Tab when your cursor is between the `g` and the `)`.
-1. Call a function from the new package without loading it using the `package_name::function()` syntax.
-1. Load the package.
-1. Get help on the function using `?function`.
+1. Use `dplyr` to filter row in which `casualty_age` is less than 18, and then 28.
+1. Use the `arrange` function to sort the `crashes` object in descending order of age (hint: see the `?arrange` help page).
+1. Read the help page of `dplyr::mutate()`. What does the function do?
+1. Use the mutate function to create a new variable, `birth_year`, the current year minus their age.
+1. **Bonus:** Use the ` %>% ` operator to filter the output from the previous exercise so that only observations with `birth_year` after 1969 are returned.
+
+```{r dplyr, eval=FALSE, echo=FALSE}
+# answers
+crashes %>% 
+  arrange(desc(casualty_age))
+crashes %>% filter(casualty_age > 21)
+crashes %>% 
+  mutate(birth_year = 2019 - casualty_age) %>% 
+  filter(birth_year > 1969)
+```
 
 # Temporal data
 
-For the analysis and manipulation of temporal data we will use the R package `lubridate` so, first of all, we need to load it
+For the analysis and manipulation of temporal data we will first load the R package `lubridate`:
 
 ```{r, message=FALSE}
 library(lubridate)
@@ -509,7 +544,7 @@ today()
 We can manipulate this object using several `lubridate` functions to extract the current day, month, year, weekday and so on...
 
 ```{r, eval=FALSE}
-x <- today()
+x = today()
 day(x)
 month(x)
 year(x)
@@ -521,30 +556,32 @@ Exercises:
 1. Look at the help page of the function `month` to see how it is possible to extract the current month as character vector 
 1. Look at other functions in lubridate to extract the current weekday as a number, the week of year and the day of the year
 
-Nevertheless, when you get a new dataset to work with or you update your database, the date variables are usually stored simply as a character vectors. This is a problem, since R is not always smart enough to distinguish between character vectors representing Dates and Dates objects:
+Date variables are often stored simply as a character vectors.
+This is a problem, since R is not always smart enough to distinguish between character vectors representing Dates.
+`lubridate` provides functions that can translate a wide range of date encodings such as `ymd()`, which extracts the Year Month and Day from a character string, as demonstrated below.
 
 ```{r, eval=FALSE}
-yday("2019-10-14") # works
-weekdays("2019-10-14") #returns error
+as.Date("2019-10-17") # works
+as.Date("2019 10 17") # fails
+ymd("2019 10 17") # works
+dmy("17/10/2019") # works
 ```
 
-When you import your data into R, usually the import routines (such as `read.csv` or `read_csv`, look at the corresponding help page if you don't know those functions) recognize the Date variables (using several heuristics) and trasform them as Date objects, but this is not always the case (especially with particular date and time formats). So, we must be able to manually process Date objects. For example, given this vector of strings
+Import function such as `read_csv` try to recognize the Date variables.
+Sometimes this fails.
+You can manually create Date objects, as shown below.
 
 ```{r}
-x <- c("2009-01-01", "2009-02-02", "2009-03-03")
-```
-
-then we can trasform it as a Date object, now called `x_date`, using the function `as.Date`. Notice that we must specify the format of these dates using the string `"%Y-%m-%d"`. 
-
-```{r}
-(x_date <- as.Date(x, format = "%Y-%m-%d"))
+x = c("2009-01-01", "2009-02-02", "2009-03-03")
+x_date = ymd(x)
+x_date
 ```
 
 Exercises: 
 
-1. Read the help page of `as.Date` and `strptime` for further details on the format argument. 
 1. Extract the day, the year-day, the month and the weekday (as a non-abbreviated character vector) of each element of `x_date`. 
-1. Modify the previous example to parse the following character string: `"09/09/93"` and extract its weekday. 
+1. Convert `"09/09/93"` into a date object and extract its weekday. 
+1. **Bonus:** Read the help page of `as.Date` and `strptime` for further details on the format argument in base R. 
 
 ```{r, echo=FALSE, eval=FALSE}
 # 1. Extract the day, the year-day, the month and the weekday (as a non-abbreviated character vector) of each element of `x_date`. 
@@ -553,40 +590,41 @@ yday(x_date)
 month(x_date)
 weekdays(x_date, abbreviate = FALSE)
 # 1. Modify the previous example to parse the following character string: `"09/09/1993"` and extract its weekday. 
-weekdays(as.Date("09/09/93", format = "%d/%m/%y"))
-wday(as.Date("09/09/93", format = "%d/%m/%y"))
+weekdays(dmy("09/09/93"))
+wday(dmy("09/09/93"))
 ```
 
 We can use Dates also for subsetting events in a dataframe. For example, if we define `x_date` as before and add it to the `crash` dataset, i.e.
 
 ```{r}
-crashes$casualty_day <- x_date
+crashes$casualty_day = x_date
 ```
 
 then we can subset events using Dates. For example
 
 ```{r}
-filter(crashes, day(casualty_day) < 7) # the events occurred in the first week of the month
+filter(crashes, day(casualty_day) < 7) # the events that ocurred in the first week of the month
 filter(crashes, weekdays(casualty_day) == "Monday") # the events occurred on monday
 ```
 
 Exercises: 
 
-1. Select only the events occurred in January
-1. Select only the events occurred in an odd year-day 
-1. Select only the events occurred in a leap-year (HINT: check the function `leap_year`)
-1. Select only the events occurred during the weekend or in June
-1. Select only the events occurred during the weekend and in June
-1. Count how many events occurred during each day of the week. 
+1. Select only the events (rows in `crashes`) that occurred in January
+1. Select only the events that ocurred in an odd year-day 
+1. Select only the events that ocurred in a leap-year (HINT: check the function `leap_year`)
+1. Select only the events that ocurred during the weekend or in June
+1. Select only the events that ocurred during the weekend and in June
+1. Count how many events that ocurred during each day of the week. 
 
 Now we'll take a look at the time components of a Date. Using the function `hms` (acronym for Hour Minutes Seconds) and its subfunctions such as `hm` or `ms`, we can parse a character vector representing several times as an Hour object (which is tecnically called a Period object). 
 
 ```{r}
-x <- c("18:23:35", "00:00:01", "12:34:56")
-(x_hour <- hms(x))
+x = c("18:23:35", "00:00:01", "12:34:56")
+x_hour = hms(x)
+x_hour
 ```
 
-We can manipulate these objects using several `lubridate` functions to extract the hour component, the minutes and so on..
+We can manipulate these objects using several `lubridate` functions to extract the hour component, the minutes and so on:
 
 ```{r}
 hour(x_hour)
@@ -597,22 +635,23 @@ second(x_hour)
 If the Hour data do not specify the seconds, then we just have to use a subfunction of `hms`, namely `hm`, and everything works as before. 
 
 ```{r}
-x <- c("18:23", "00:00", "12:34")
-(x_hour <- hm(x))
+x = c("18:23", "00:00", "12:34")
+(x_hour = hm(x))
 ```
 
 We can use Hour data also for subsetting events, like we did for Dates. Let's add a new column to crashes data, 
 
 ```{r}
-crashes$casualty_hour <- hms(c("18:23:35", "00:00:01", "12:34:56"))
+crashes$casualty_hms = hms(c("18:23:35", "00:00:01", "12:34:56"))
+crashes$casualty_hour = hour(crashes$casualty_hms)
 ```
 
 Exercises: 
 
-1. Filter only the events occurred after midday (i.e. the PM events). You should manually code this exercises and, then, look at the help page of the function `am`. Moreover, if you simply type `am` in the console, then you can look at the definition of the function. 
-1. Filter only the events occurred between 15:00 and 19:00
-1. Round all hours to the next hour. Hint: Look at the help page of the `round_date` function. 
-1. Bonus (difficult): run the following code, which downloades data for car crashes occurred during 2017.  
+1. Filter only the events that ocurred after midday (i.e. the PM events). Hint: your answer may include `>= 12`.
+1. Filter only the events that ocurred between 15:00 and 19:00
+<!-- 1. Round all hours to the next hour. Hint: Look at the help page of the `round_date` function.  -->
+1. **Bonus:** (difficult): run the following code, which downloades data for car crashes occurred during 2017.
 
 ```{r, eval=FALSE}
 library(stats19)
@@ -620,9 +659,25 @@ crashes_2017 = stats19::get_stats19(year = 2017, type = "ac")
 crashes_2017
 ```
 
-Extract the weekday from the variable called `date` and calculate how many crashes occurred for each day of the week. Then plot it with ggplot2. Repeat the same exercises extracting the hour of the car accident from the variable called time. How would you combine the two informations in a single plot? 
+Extract the weekday from the variable called `date`.
+How many crashes happened on Monday?
+
+**Advanced challenge:** calculate how many crashes occurred for each day of the week. Then plot it with ggplot2. Repeat the same exercises extracting the hour of the car accident from the variable called time. How would you combine the two informations in a single plot? 
 
 ```{r, eval=FALSE, echo=FALSE}
+# solutions
+crashes %>% filter(casualty_hour >= 12)
+crashes %>% filter(casualty_hour > 15 & casualty_hour < 19)
+
+crashes_2017 %>% 
+  mutate(my_weekdays = weekdays(date)) %>%
+  filter(my_weekdays == "Monday") %>% 
+  nrow()
+crashes_2017 %>% 
+  mutate(my_weekdays = weekdays(date)) %>%
+  filter(my_weekdays == "Friday") %>% 
+  nrow()
+
 crashes_2017 %>% 
   mutate(my_weekdays = weekdays(date)) %>% 
   group_by(my_weekdays) %>% 
@@ -645,7 +700,6 @@ crashes_2017 %>%
   geom_line(aes(x = my_hours, y = n, col = my_weekdays), size = 1.05)
 # the legend needs some reordering
 ```
-
 
 # Spatial data
 
