@@ -1,7 +1,9 @@
 # stats19 1.0.1
 
+* Now enables the download of 2018 data
+* Various bug fixes, see https://github.com/ropensci/stats19/issues
 * Update website link: https://docs.ropensci.org/stats19/
-* New vignette on vehicles data: https://docs.ropensci.org/stats19/articles/stats19-vehicles.html
+* New work-in-progress vignette on vehicles data: https://docs.ropensci.org/stats19/articles/stats19-vehicles.html
 
 # stats19 1.0.0
 
