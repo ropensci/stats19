@@ -406,12 +406,12 @@ lines(mouth, type = "l", col = "red")
 
 \newpage
 
-# Packages: ggplot2, the tidyverse and sf
+# R Packages
 
 ## What are packages?
 
-R has lots of functionality built in, but many more functions are available in packages. 
-Packages provide additional functions, data and documentation that is not available in the basic R installation.
+R has over 15,000 packages, extending it in almost every direction of statistics and computing.
+Packages provide additional functions, data and documentation.
 There are two stages to using a package: installing/updating it and loading it.
 
 <!-- installing it... -->
@@ -447,9 +447,13 @@ crashes_tibble = tibble::tibble(
 )
 ```
 
+1. Take a look in the Packages tab in the Files pane in RStudio (bottom left by default).
+1. What version of the `stats19` package is installed on your computer?
+
 ## ggplot2, dplyr and pipes
 
-Another useful package is `ggplot2`, a generic plotting package that is part of the ['tidyverse'](https://www.tidyverse.org/) meta-package, which is an "opinionated collection of R packages designed for data science". 
+Let's take a look at a particular package.
+`ggplot2` is a generic plotting package that is part of the ['tidyverse'](https://www.tidyverse.org/) meta-package, which is an "opinionated collection of R packages designed for data science". 
 All packages in the tidyverse "share an underlying design philosophy, grammar, and data structures". 
 `ggplot2` is flexible, popular, and has dozens of add-on packages which build on it, such as `gganimate`.
 To plot non-spatial data, it works as follows:
