@@ -1,7 +1,7 @@
-- Minor update - add full url - so version is unchanged since last submission
+- Minor updates
 
 ## Test environments
-* local ubuntu 18.04, R 3.6.0
+* local ubuntu 18.04, R 3.6.1
 
 * ubuntu 14.04 (on travis-ci)
 
