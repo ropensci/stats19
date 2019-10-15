@@ -322,10 +322,12 @@ crashes[crashes$dark == FALSE, ]
 
 1. Subset the `casualty_age` object using the inequality (`<`) so that only elements less than 50 are returned.
 1. Subset the `crashes` data frame so that only tanks are returned using the `==` operator.
+1. **Bonus**: assign the age of all all tanks to 61.
 
 ```{r, eval=FALSE, echo=FALSE}
-casualty_age[casualty_age < 50] # Just the  casualty_age less than 50
-crashes[crashes$vehicle_type == "tank", ] # The rows where the name is tank
+casualty_age[casualty_age < 50] # the  casualty_age less than 50
+crashes[crashes$vehicle_type == "tank", ] # rows where the name is tank
+crashes$casualty_age[crashes$vehicle_type == "tank"] = 61
 ```
 
 ## Dealing with NAs
