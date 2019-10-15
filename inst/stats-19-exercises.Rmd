@@ -13,6 +13,7 @@ output:
 #   %\VignetteIndexEntry{R for road safety: exercises}
 #   %\VignetteEngine{knitr::rmarkdown}
 author: Robin Lovelace, Malcolm Morgan & Andrea Gilardi
+bibliography: ../vignettes/references.bib
 ---
 
 ```{r cache, include=FALSE}
@@ -703,9 +704,15 @@ crashes_2017 %>%
 
 # Spatial data
 
-The `sf` package provides a generic class for spatial vector data: points, lines and polygons.
-`sf` objects are simply data frames.
-However, they have a special 'geometry column', typically called 'geom' or 'geometry'.
+All road crashes happen somewhere and, in the UK at least, all collisions recorded by the police are given geographic coordinates, something that can help prioritise interventions to save lives by intervening in and around 'crash hotspots'.
+R has strong geographic data capabilities, with the `sf` package provides a generic class for spatial vector data: points, lines and polygons, are represented in `sf` objects as a special 'geometry column', typically called 'geom' or 'geometry', extending the data frame class we've already seen in `crashes`.
+
+
+```{r crashes-sf}
+
+```
+
+`sf` objects can also represent administrative zones.
 This is illustrated below with reference to `iow`, an `sf` object representing the Isle of Wight, that we will download using the `pct` package (note: the `[1:9]` appended to the function selects only the first 9 columns).
 
 ```{r}
