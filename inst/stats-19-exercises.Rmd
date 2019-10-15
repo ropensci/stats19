@@ -1,5 +1,6 @@
 ---
 title: "Introduction to R for road safety: an introduction to R and practical exercises"
+subtitle: "Practical exercises based on UK data from the stats19 package, developed by the Institute for Transport Studies, University of Leeds"
 # output: pagedown::html_paged
 # output: bookdown::html_document2
    # github_document
@@ -11,6 +12,7 @@ output:
 # vignette: >
 #   %\VignetteIndexEntry{R for road safety: exercises}
 #   %\VignetteEngine{knitr::rmarkdown}
+author: Robin Lovelace, Malcolm Morgan & Andrea Gilardi
 ---
 
 ```{r cache, include=FALSE}
@@ -30,7 +32,7 @@ file.rename("TDS-master/courses/2day/images/", "inst/images")
 
 # Introduction
 
-This document provides information, code to type and execute and, vitally, exercises to test and improve your R skills.
+This document provides information, code and, vitally, exercises to test and improve your R skills.
 It starts with introductory R skills that will be of use in any domain but the focus is on R for Road Safety, in support of a [2 day course](https://www.racfoundation.org/introduction-to-r-for-road-safety).
 Code and data supporting the content can be found in the GitHub repository (repo) https://github.com/ropensci/stats19/.
 The '[issue tracker](https://github.com/ropensci/stats19/issues)' associated with that repo is a good place to ask questions about the course. 
@@ -39,7 +41,7 @@ Course pre-requisites are outlined in the [stats19-training-setup](https://docs.
 It makes use of a number of packages which can be installed with `install.packages()` and loaded as follows:
 
 ```{r, message=FALSE, warning=FALSE, eval=FALSE}
-library(pct)      # download and process data from DfT-funded Propensity to Cycle Tool project 
+library(pct)      # access travel data from DfT-funded PCT project 
 library(sf)       # spatial vector data classes
 library(stats19)  # get stats19 data
 library(stplanr)  # transport planning tools
@@ -47,7 +49,7 @@ library(tidyverse)# packages for 'data science'
 library(tmap)     # interactive maps
 ```
 
-Each section has a series of practical exercises that you should do, not just read, to improve your R skills.
+You should type, run and ensure you understand each line of code in this document.
 
 # R and RStudio
 
@@ -596,7 +598,7 @@ Exercises:
 1. Filter only the events occurred after midday (i.e. the PM events). You should manually code this exercises and, then, look at the help page of the function `am`. Moreover, if you simply type `am` in the console, then you can look at the definition of the function. 
 1. Filter only the events occurred between 15:00 and 19:00
 1. Round all hours to the next hour. Hint: Look at the help page of the `round_date` function. 
-1. Bonus (very difficult): run the following code, which downloades data for car crashes occurred during 2017.  
+1. Bonus (difficult): run the following code, which downloades data for car crashes occurred during 2017.  
 
 ```{r, eval=FALSE}
 library(stats19)
@@ -606,7 +608,7 @@ crashes_2017
 
 Extract the weekday from the variable called `date` and calculate how many crashes occurred for each day of the week. Then plot it with ggplot2. Repeat the same exercises extracting the hour of the car accident from the variable called time. How would you combine the two informations in a single plot? 
 
-```{r}
+```{r, eval=FALSE, echo=FALSE}
 crashes_2017 %>% 
   mutate(my_weekdays = weekdays(date)) %>% 
   group_by(my_weekdays) %>% 
