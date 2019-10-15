@@ -97,7 +97,7 @@
       <h1>Introducing stats19</h1>
                         <h4 class="author">R Lovelace, M Morgan, L Hama and M Padgham</h4>
             
-            <h4 class="date">2019-10-14</h4>
+            <h4 class="date">2019-10-15</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/ropensci/stats19/blob/master/vignettes/stats19.Rmd"><code>vignettes/stats19.Rmd</code></a></small>
       <div class="hidden name"><code>stats19.Rmd</code></div>
@@ -158,7 +158,7 @@
 <a class="sourceLine" id="cb3-2" data-line-number="2"><span class="co">#&gt; Files identified: dftRoadSafetyData_Accidents_2017.zip</span></a>
 <a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co">#&gt;    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Accidents_2017.zip</span></a>
 <a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">#&gt; Attempt downloading from:</span></a>
-<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">#&gt; Data saved at /tmp/Rtmp9VrrlF/dftRoadSafetyData_Accidents_2017/Acc.csv</span></a></code></pre></div>
+<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">#&gt; Data saved at /tmp/RtmpPrAB6r/dftRoadSafetyData_Accidents_2017/Acc.csv</span></a></code></pre></div>
 <p>Note that in the previous command, <code>ask = FALSE</code>, meaning you will not be asked. By default you are asked to confirm, before downloading large files. Currently, these files are downloaded to a default location of <code>tempdir</code> which is a platform independent “safe” but temporary location to download the data in. Once downloaded, they are unzipped under original DfT file names. The <code><a href="../reference/dl_stats19.html">dl_stats19()</a></code> function prints out the location and final file name(s) of unzipped files(s) as shown above.</p>
 <p><code><a href="../reference/dl_stats19.html">dl_stats19()</a></code> takes three parameters. Supplying a <code>file_name</code> is interpreted to mean that the user is aware of what to download and the other two parameters will be ignored. You can also use <code>years</code> and <code>type</code> to “search” through the file names, which are stored in a lazy-loaded dataset called <code><a href="../reference/file_names.html">stats19::file_names</a></code>.</p>
 <p>You can find out the names of files that can be downloaded with <code><a href="https://rdrr.io/r/base/names.html">names(stats19::file_names)</a></code>, an example of which is shown below:</p>
@@ -180,7 +180,7 @@ Enter an item from the menu, or 0 to exit</code></pre>
 <a class="sourceLine" id="cb7-3" data-line-number="3"><span class="co">#&gt; Files identified: dftRoadSafetyData_Accidents_2017.zip</span></a>
 <a class="sourceLine" id="cb7-4" data-line-number="4"><span class="co">#&gt;    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Accidents_2017.zip</span></a>
 <a class="sourceLine" id="cb7-5" data-line-number="5"><span class="co">#&gt; Data already exists in data_dir, not downloading</span></a>
-<a class="sourceLine" id="cb7-6" data-line-number="6"><span class="co">#&gt; Data saved at /tmp/Rtmp9VrrlF/dftRoadSafetyData_Accidents_2017/Acc.csv</span></a></code></pre></div>
+<a class="sourceLine" id="cb7-6" data-line-number="6"><span class="co">#&gt; Data saved at /tmp/RtmpPrAB6r/dftRoadSafetyData_Accidents_2017/Acc.csv</span></a></code></pre></div>
 <p>Note that this is the same file (containing the ‘accidents’ table from 2017) downloaded previously with the command <code><a href="../reference/dl_stats19.html">dl_stats19(year = 2017, type = "Accidents")</a></code>. If the file is already present, <code><a href="../reference/dl_stats19.html">dl_stats19()</a></code> will skip the download process.</p>
 </div>
 <div id="read-stats19-data" class="section level2">
@@ -192,12 +192,12 @@ Enter an item from the menu, or 0 to exit</code></pre>
 <a class="sourceLine" id="cb8-3" data-line-number="3"><span class="co">#&gt; Files identified: dftRoadSafetyData_Accidents_2017.zip</span></a>
 <a class="sourceLine" id="cb8-4" data-line-number="4"><span class="co">#&gt;    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Accidents_2017.zip</span></a>
 <a class="sourceLine" id="cb8-5" data-line-number="5"><span class="co">#&gt; Data already exists in data_dir, not downloading</span></a>
-<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="co">#&gt; Data saved at /tmp/Rtmp9VrrlF/dftRoadSafetyData_Accidents_2017/Acc.csv</span></a>
+<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="co">#&gt; Data saved at /tmp/RtmpPrAB6r/dftRoadSafetyData_Accidents_2017/Acc.csv</span></a>
 <a class="sourceLine" id="cb8-7" data-line-number="7">crashes_<span class="dv">2017</span>_raw =<span class="st"> </span><span class="kw"><a href="../reference/read_accidents.html">read_accidents</a></span>(<span class="dt">data_dir =</span> <span class="kw"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span>(),</a>
 <a class="sourceLine" id="cb8-8" data-line-number="8">                                  <span class="dt">year =</span> <span class="dv">2017</span>,</a>
 <a class="sourceLine" id="cb8-9" data-line-number="9">                                  <span class="dt">filename =</span> <span class="st">"Acc.csv"</span>)</a>
 <a class="sourceLine" id="cb8-10" data-line-number="10"><span class="co">#&gt; Reading in:</span></a>
-<a class="sourceLine" id="cb8-11" data-line-number="11"><span class="co">#&gt; /tmp/Rtmp9VrrlF/dftRoadSafetyData_Accidents_2017/Acc.csv</span></a></code></pre></div>
+<a class="sourceLine" id="cb8-11" data-line-number="11"><span class="co">#&gt; /tmp/RtmpPrAB6r/dftRoadSafetyData_Accidents_2017/Acc.csv</span></a></code></pre></div>
 <p><strong>stats19</strong> imports data with <code><a href="https://readr.tidyverse.org/reference/read_delim.html">readr::read_csv()</a></code> which results in a ‘tibble’ object: a data frame with more user-friendly printing and a few other features.</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/class.html">class</a></span>(crashes_<span class="dv">2017</span>_raw)</a>
 <a class="sourceLine" id="cb9-2" data-line-number="2"><span class="co">#&gt; [1] "spec_tbl_df" "tbl_df"      "tbl"         "data.frame"</span></a>
@@ -211,7 +211,7 @@ Enter an item from the menu, or 0 to exit</code></pre>
 <p>After raw data files have been downloaded as described in the previous section, they can then be read-in as follows:</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">crashes_<span class="dv">2017</span>_raw =<span class="st"> </span><span class="kw"><a href="../reference/read_accidents.html">read_accidents</a></span>(<span class="dt">year =</span> <span class="dv">2017</span>, <span class="dt">format =</span> <span class="ot">FALSE</span>)</a>
 <a class="sourceLine" id="cb10-2" data-line-number="2"><span class="co">#&gt; Reading in:</span></a>
-<a class="sourceLine" id="cb10-3" data-line-number="3"><span class="co">#&gt; /tmp/Rtmp9VrrlF/dftRoadSafetyData_Accidents_2017/Acc.csv</span></a>
+<a class="sourceLine" id="cb10-3" data-line-number="3"><span class="co">#&gt; /tmp/RtmpPrAB6r/dftRoadSafetyData_Accidents_2017/Acc.csv</span></a>
 <a class="sourceLine" id="cb10-4" data-line-number="4">crashes_<span class="dv">2017</span> =<span class="st"> </span><span class="kw"><a href="../reference/format_accidents.html">format_accidents</a></span>(crashes_<span class="dv">2017</span>_raw)</a>
 <a class="sourceLine" id="cb10-5" data-line-number="5"><span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(crashes_<span class="dv">2017</span>_raw)</a>
 <a class="sourceLine" id="cb10-6" data-line-number="6"><span class="co">#&gt; [1] 129982</span></a>
@@ -303,7 +303,7 @@ Enter an item from the menu, or 0 to exit</code></pre>
 <a class="sourceLine" id="cb14-5" data-line-number="5"><span class="co">#&gt; Files identified: dftRoadSafetyData_Vehicles_2017.zip</span></a>
 <a class="sourceLine" id="cb14-6" data-line-number="6"><span class="co">#&gt;    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Vehicles_2017.zip</span></a>
 <a class="sourceLine" id="cb14-7" data-line-number="7"><span class="co">#&gt; Attempt downloading from:</span></a>
-<a class="sourceLine" id="cb14-8" data-line-number="8"><span class="co">#&gt; Data saved at /tmp/Rtmp9VrrlF/dftRoadSafetyData_Vehicles_2017/Veh.csv</span></a>
+<a class="sourceLine" id="cb14-8" data-line-number="8"><span class="co">#&gt; Data saved at /tmp/RtmpPrAB6r/dftRoadSafetyData_Vehicles_2017/Veh.csv</span></a>
 <a class="sourceLine" id="cb14-9" data-line-number="9">vehicles_<span class="dv">2017</span>_raw =<span class="st"> </span><span class="kw"><a href="../reference/read_vehicles.html">read_vehicles</a></span>(<span class="dt">year =</span> <span class="dv">2017</span>)</a>
 <a class="sourceLine" id="cb14-10" data-line-number="10">vehicles_<span class="dv">2017</span> =<span class="st"> </span><span class="kw"><a href="../reference/format_vehicles.html">format_vehicles</a></span>(vehicles_<span class="dv">2017</span>_raw)</a>
 <a class="sourceLine" id="cb14-11" data-line-number="11"></a>
@@ -312,7 +312,7 @@ Enter an item from the menu, or 0 to exit</code></pre>
 <a class="sourceLine" id="cb14-14" data-line-number="14"><span class="co">#&gt; Files identified: dftRoadSafetyData_Casualties_2017.zip</span></a>
 <a class="sourceLine" id="cb14-15" data-line-number="15"><span class="co">#&gt;    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Casualties_2017.zip</span></a>
 <a class="sourceLine" id="cb14-16" data-line-number="16"><span class="co">#&gt; Attempt downloading from:</span></a>
-<a class="sourceLine" id="cb14-17" data-line-number="17"><span class="co">#&gt; Data saved at /tmp/Rtmp9VrrlF/dftRoadSafetyData_Casualties_2017/Cas.csv</span></a>
+<a class="sourceLine" id="cb14-17" data-line-number="17"><span class="co">#&gt; Data saved at /tmp/RtmpPrAB6r/dftRoadSafetyData_Casualties_2017/Cas.csv</span></a>
 <a class="sourceLine" id="cb14-18" data-line-number="18">casualties_<span class="dv">2017</span> =<span class="st"> </span><span class="kw"><a href="../reference/read_casualties.html">read_casualties</a></span>(<span class="dt">year =</span> <span class="dv">2017</span>)</a></code></pre></div>
 <p>The package automates this two-step <code>read_*</code> and <code>format_*</code> process by defaulting in all cases to <code>data_year = read_*(year, format = TRUE)</code>. <code>read_*</code> functions return, by default, formatted data. The two-step process may nevertheless be important for reference to the official nomenclature and values as provided by the DfT.</p>
 <p>A summary of the outputs for each of the three tables is shown below.</p>
@@ -1925,7 +1925,7 @@ Enter an item from the menu, or 0 to exit</code></pre>
 <a class="sourceLine" id="cb19-2" data-line-number="2"><span class="co">#&gt; Files identified: dftRoadSafetyData_Casualties_2017.zip</span></a>
 <a class="sourceLine" id="cb19-3" data-line-number="3"><span class="co">#&gt;    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Casualties_2017.zip</span></a>
 <a class="sourceLine" id="cb19-4" data-line-number="4"><span class="co">#&gt; Data already exists in data_dir, not downloading</span></a>
-<a class="sourceLine" id="cb19-5" data-line-number="5"><span class="co">#&gt; Data saved at /tmp/Rtmp9VrrlF/dftRoadSafetyData_Casualties_2017/Cas.csv</span></a>
+<a class="sourceLine" id="cb19-5" data-line-number="5"><span class="co">#&gt; Data saved at /tmp/RtmpPrAB6r/dftRoadSafetyData_Casualties_2017/Cas.csv</span></a>
 <a class="sourceLine" id="cb19-6" data-line-number="6">casualties_<span class="dv">2017</span> =<span class="st"> </span><span class="kw"><a href="../reference/read_casualties.html">read_casualties</a></span>(<span class="dt">year =</span> <span class="dv">2017</span>)</a>
 <a class="sourceLine" id="cb19-7" data-line-number="7"><span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(casualties_<span class="dv">2017</span>)</a>
 <a class="sourceLine" id="cb19-8" data-line-number="8"><span class="co">#&gt; [1] 170993</span></a>
@@ -1974,7 +1974,7 @@ Enter an item from the menu, or 0 to exit</code></pre>
 <a class="sourceLine" id="cb22-2" data-line-number="2"><span class="co">#&gt; Files identified: dftRoadSafetyData_Vehicles_2017.zip</span></a>
 <a class="sourceLine" id="cb22-3" data-line-number="3"><span class="co">#&gt;    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Vehicles_2017.zip</span></a>
 <a class="sourceLine" id="cb22-4" data-line-number="4"><span class="co">#&gt; Data already exists in data_dir, not downloading</span></a>
-<a class="sourceLine" id="cb22-5" data-line-number="5"><span class="co">#&gt; Data saved at /tmp/Rtmp9VrrlF/dftRoadSafetyData_Vehicles_2017/Veh.csv</span></a>
+<a class="sourceLine" id="cb22-5" data-line-number="5"><span class="co">#&gt; Data saved at /tmp/RtmpPrAB6r/dftRoadSafetyData_Vehicles_2017/Veh.csv</span></a>
 <a class="sourceLine" id="cb22-6" data-line-number="6">vehicles_<span class="dv">2017</span> =<span class="st"> </span><span class="kw"><a href="../reference/read_vehicles.html">read_vehicles</a></span>(<span class="dt">year =</span> <span class="dv">2017</span>)</a>
 <a class="sourceLine" id="cb22-7" data-line-number="7"><span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(vehicles_<span class="dv">2017</span>)</a>
 <a class="sourceLine" id="cb22-8" data-line-number="8"><span class="co">#&gt; [1] 238926</span></a>
