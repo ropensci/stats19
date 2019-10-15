@@ -59,12 +59,12 @@ format_stats19 = function(x, type) {
   # create lookup table
   lkp = stats19::stats19_variables[stats19::stats19_variables$table == type,]
 
-  vkeep = new_names %in% stats19_schema$variable_formatted
+  vkeep = new_names %in% stats19::stats19_schema$variable_formatted
   vars_to_change = which(vkeep)
 
   for(i in vars_to_change) {
     lkp_name = lkp$column_name[lkp$column_name == new_names[i]]
-    lookup = stats19_schema[stats19_schema$variable_formatted == lkp_name, 1:2]
+    lookup = stats19::stats19_schema[stats19::stats19_schema$variable_formatted == lkp_name, 1:2]
     x[[i]] = lookup$label[match(x[[i]], lookup$code)]
   }
 
