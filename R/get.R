@@ -24,8 +24,9 @@ get_stats19 = function(year = NULL,
                       file_name = NULL,
                       format = TRUE,
                       ask = FALSE) {
-  if(!exists("type"))
+  if(!exists("type")) {
     stop("Type is required", call. = FALSE)
+  }
   # download what the user wanted
   dl_stats19(year = year,
              type = type,
