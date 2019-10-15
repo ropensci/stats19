@@ -707,10 +707,18 @@ crashes_2017 %>%
 All road crashes happen somewhere and, in the UK at least, all collisions recorded by the police are given geographic coordinates, something that can help prioritise interventions to save lives by intervening in and around 'crash hotspots'.
 R has strong geographic data capabilities, with the `sf` package provides a generic class for spatial vector data: points, lines and polygons, are represented in `sf` objects as a special 'geometry column', typically called 'geom' or 'geometry', extending the data frame class we've already seen in `crashes`.
 
+Create an `sf` data frame called `crashes_sf` as follows:
+
 
 ```{r crashes-sf}
-
+crashes_sf = crashes # create copy of crashes dataset
+crashes_sf$longitude = c(-1.3, -1.2, -1.1)
+crashes_sf$latitude = c(50.7, 50.7, 50.68)
+crashes_sf = st_as_sf(crashes_sf, coords = c("longitude", "latitude"), crs = 4326)
+# mapview::mapview(crashes_sf) # 
 ```
+
+1. **Bonus**: Where did the tank runover the cat?
 
 `sf` objects can also represent administrative zones.
 This is illustrated below with reference to `iow`, an `sf` object representing the Isle of Wight, that we will download using the `pct` package (note: the `[1:9]` appended to the function selects only the first 9 columns).
@@ -721,6 +729,15 @@ class(iow)
 names(iow)
 iow[1:2, c(1, 5, 6, 7, 8)]
 ```
+
+## CRSs
+
+```{r crs1}
+crashes_osgb = st_transform(crashes_sf, 27700)
+```
+
+## Buffers
+
 
 ## Attribute operations on sf objects
 
@@ -795,6 +812,10 @@ iow %>%
   group_by(foot > 500) %>% 
   summarise(mean_car = sum(car_driver) / sum(all) )
 ```
+
+## Matching roads to crashes
+
+
 
 <!-- # Spatial data analysis -->
 
