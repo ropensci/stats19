@@ -22,7 +22,7 @@ knitr::opts_chunk$set(cache = TRUE)
 
 ```{r upload, eval=FALSE, echo=FALSE}
 # Upload exercises
-file.copy("inst/stats-19-exercises.pdf", ".")
+file.copy("inst/stats-19-exercises.pdf", ".", overwrite = TRUE)
 piggyback::pb_upload("stats-19-exercises.pdf")
 # to run this for the first time:
 download.file("https://github.com/ITSLeeds/TDS/archive/master.zip", "tds-master.zip")
@@ -704,40 +704,107 @@ crashes_2017 %>%
 
 # Spatial data
 
+## sf objects
+
 All road crashes happen somewhere and, in the UK at least, all collisions recorded by the police are given geographic coordinates, something that can help prioritise interventions to save lives by intervening in and around 'crash hotspots'.
 R has strong geographic data capabilities, with the `sf` package provides a generic class for spatial vector data: points, lines and polygons, are represented in `sf` objects as a special 'geometry column', typically called 'geom' or 'geometry', extending the data frame class we've already seen in `crashes`.
 
 Create an `sf` data frame called `crashes_sf` as follows:
 
-
-```{r crashes-sf}
+```{r crashes-sf, fig.height=2, fig.width=3}
 crashes_sf = crashes # create copy of crashes dataset
 crashes_sf$longitude = c(-1.3, -1.2, -1.1)
 crashes_sf$latitude = c(50.7, 50.7, 50.68)
 crashes_sf = st_as_sf(crashes_sf, coords = c("longitude", "latitude"), crs = 4326)
-# mapview::mapview(crashes_sf) # 
+# plot(crashes_sf[1:4]) # basic plot
+# mapview::mapview(crashes_sf) # for interactive map
 ```
 
-1. **Bonus**: Where did the tank runover the cat?
+1. Plot only the geometry of `crashes_sf` (hint: the solution may contain `$geometry`). If the result is like the figure below, congratulations, it worked!).
+1. Plot `crashes_sf`, only showing the age variable.
+1. Plot the 2^nd^ and 3^rd^ crashes, showing which happened in the dark.
+1. **Bonus**: How far are the points apart (hint: `sf` functions begin with `st_`)?
+1. **Bonus**: Near which settlement did the tank runover the cat?
+
+```{r crashes-sf-ex, echo=FALSE, out.width="30%", fig.show='hold'}
+plot(crashes_sf$geometry)
+plot(crashes_sf["casualty_age"])
+plot(crashes_sf[2:3, "dark"])
+# st_distance(crashes_sf)
+# Bembridge
+```
+
+## sf polygons
 
 `sf` objects can also represent administrative zones.
-This is illustrated below with reference to `iow`, an `sf` object representing the Isle of Wight, that we will download using the `pct` package (note: the `[1:9]` appended to the function selects only the first 9 columns).
+This is illustrated below with reference to `zones`, a spatial object representing the Isle of Wight, that we will download using the `pct` package (note: the `[1:9]` appended to the function selects only the first 9 columns).
 
 ```{r}
-iow = pct::get_pct_zones("isle-of-wight")[1:9]
-class(iow)
-names(iow)
-iow[1:2, c(1, 5, 6, 7, 8)]
+zones = pct::get_pct_zones("isle-of-wight")[1:9]
 ```
 
+1. What is the class of the `zones` object?
+1. What are it's column names?
+1. Print its first 2 features and rows 1 and columns 6:8 (the result is below).
+
+```{r, echo=FALSE}
+# class(zones)
+# names(zones)
+zones[1:2, c(1, 5, 6, 7, 8)]
+```
+
+## Spatial subsetting and sf plotting
+
+Like index and value subsetting, spatial subsetting can be done with the `[` notation.
+Subset the `zones` that contain features in `crashes_sf` as follows:
+
+```{r, message=FALSE}
+zones_containing_crashes = zones[crashes_sf, ]
+```
+
+To plot a new layer on top of an existing `sf` plot, use the `add = TRUE` argument.
+Remember to plot only the `geometry` column of objects to avoid multiple maps.
+Colours can be set with the `col` argument.
+
+1. Plot the geometry of the zones, with the zones containing crashes overlaid on top in red.
+1. Plot the zone containing the 2^nd^ crash in blue.
+1. **Bonus:** plot all zones that intersect with a zone containing crashes, with the actual crash points plotted in black.
+
+```{r sp-ex, echo=FALSE, out.width="33%", fig.show='hold', message=FALSE, warning=FALSE}
+plot(zones$geometry)
+plot(zones_containing_crashes$geometry, col = "red", add = TRUE)
+plot(zones$geometry)
+plot(zones[crashes_sf[2, ], ], col = "blue", add = TRUE)
+plot(zones$geometry)
+plot(zones[zones_containing_crashes, ], col = "yellow", add = TRUE)
+plot(crashes_sf$geometry, pch = 20, add = TRUE)
+```
+
+## Geographic joins
+
+...
+
 ## CRSs
+
+Get and set Coordinate Reference Systems (CRSs) with the command `st_crs()`.
+Transform CRSs with the command `st_transform()`, as demonstrated in the code chunk below, which converts the 'lon/lat' geographic CRS of `crashes_sf` into the projected CRS of the British National Grid:
 
 ```{r crs1}
 crashes_osgb = st_transform(crashes_sf, 27700)
 ```
 
+1. Try to subset the zones with the `crashes_osgb`. What does the error message say?
+1. Create `zones_osgb` by transforming the `zones` object.
+1. **Bonus:** use `st_crs()` to find out the units measurement of the British National Grid?
+
 ## Buffers
 
+Buffers are polygons surrounding geometries of a (usually) fixed distance.
+Currently buffer operations in R only work on objects with projected CRSs.
+
+1. Find out and read the help page of `sf`'s buffer function.
+1. Create an object called `crashes_1km_buffer` representing the area within 1 km of the crashes.
+1. **Bonus:** try creating buffers on the geographic version of the `crashes_sf` object. What happens?
 
 ## Attribute operations on sf objects
 
@@ -746,69 +813,69 @@ Load the example dataset for Isle of Wight.
 
 ```{r, eval=TRUE}
 # load example dataset if it doesn't already exist
-if(!exists("iow")) {
-  iow = pct::get_pct_zones("isle-of-wight")
+if(!exists("zones")) {
+  zones = pct::get_pct_zones("isle-of-wight")
 }
-sel = iow$all > 3000  # create a subsetting object
-iow_large = iow[sel, ] # subset areas with a popualtion over 100,000
-iow_2 = iow[iow$geo_name == "Isle of Wight 002",] # subset based on 'equality' query
-five_in_name = iow[grepl(pattern = "5", x = iow$geo_name), ] # subset based on string match
-iow_first_and_third_column = iow[c(1, 3)]
-iow_just_all = iow["all"]
+sel = zones$all > 3000  # create a subsetting object
+zones_large = zones[sel, ] # subset areas with a popualtion over 100,000
+zones_2 = zones[zones$geo_name == "Isle of Wight 002",] # subset based on 'equality' query
+five_in_name = zones[grepl(pattern = "5", x = zones$geo_name), ] # subset based on string match
+zones_first_and_third_column = zones[c(1, 3)]
+zones_just_all = zones["all"]
 ```
 
 
-1. Practice subsetting techniques you have learned on the `sf data.frame` object `iow`:
-     1. Create an object called `iow_small` which contains only regions with less than 3000 people in the `all` column
+1. Practice subsetting techniques you have learned on the `sf data.frame` object `zones`:
+     1. Create an object called `zones_small` which contains only regions with less than 3000 people in the `all` column
      1. Create a selection object called `sel_high_car` which is `TRUE` for regions with above median numbers of people who travel by car and `FALSE` otherwise
      1. How many regions have the number '1' in the column 'geo_name'? What percentage of the regions in the Isle of Wight is this? Hint: Look at the help page of the function 'grepl'.  
-     1. Create an object called `iow_foot` which contains only the foot attribute from `iow`
-     1. Bonus: plot `iow_foot` using the function `plot` to show where walking is a popular mode of travel to work
+     1. Create an object called `zones_foot` which contains only the foot attribute from `zones`
+     1. Bonus: plot `zones_foot` using the function `plot` to show where walking is a popular mode of travel to work
      1. Bonus: bulding on your answers to previous questions, use `filter()` from the `dplyr` package to subset small regions where car use is high. 
 1. Bonus: What is the population density of each region (hint: you may need to use the functions `st_area()`, `as.numeric()` and use the 'all' column)?
 1. Bonus: Which zone has the highest percentage of people who cycle?
 1. Bonus: Find the proportion of people who drive to work (`car_driver`) in areas in which more than 500 people walk to work
 
 ```{r, echo=FALSE, eval=FALSE}
-# 1. Practice subsetting techniques you have learned on the `sf data.frame` object `iow`:
-#      1. Create an object called `iow_small` which contains only regions with less than 3000 people in the `all` column
+# 1. Practice subsetting techniques you have learned on the `sf data.frame` object `zones`:
+#      1. Create an object called `zones_small` which contains only regions with less than 3000 people in the `all` column
 # in base R
-iow_small = iow[iow$all < 3000, ]
+zones_small = zones[zones$all < 3000, ]
 # with dplyr
-iow_small = iow %>% 
+zones_small = zones %>% 
   filter(all < 3000)
 #      1. Create a selection object called `sel_high_car` which is `TRUE` for regions with above median numbers of people who travel by car and `FALSE` otherwise
-median_car = median(iow$car_driver)
-sel_high_car = iow$car_driver > median_car 
+median_car = median(zones$car_driver)
+sel_high_car = zones$car_driver > median_car 
 #      1. How many regions have the number '1' in the column 'geo_name'? What percentage of the regions in the Isle of Wight is this?
-sel_region_name_contains_1 = grepl("1", x = iow$geo_name)
-sum(sel_region_name_contains_1) / nrow(iow)
-#      1. Create an object called `iow_foot` which contains only the foot attribute from `iow`
+sel_region_name_contains_1 = grepl("1", x = zones$geo_name)
+sum(sel_region_name_contains_1) / nrow(zones)
+#      1. Create an object called `zones_foot` which contains only the foot attribute from `zones`
 # using base R
-iow_foot = iow["foot"]
+zones_foot = zones["foot"]
 # dplyr
-iow_foot = iow %>% 
+zones_foot = zones %>% 
   select(foot)
 #      1. Bonus: plot the result to show where walking is a popular mode of travel to work
-plot(iow_foot)
+plot(zones_foot)
 #      1. Bonus: bulding on your answers to previous questions, use `filter()` from the `dplyr` package to subset small regions where high car use is high
-iow_small_car_high = iow %>% 
+zones_small_car_high = zones %>% 
   filter(all < 3000, car_driver > median_car)
 # 1. Bonus: What is the population density of each region (hint: you may need to use the functions `st_area()`, `as.numeric()` and use the 'all' column)?
-iow$area_km2 = as.numeric(st_area(iow)) /1000000
-iow$population_density = iow$all / iow$area_km2
-plot(iow["population_density"])
+zones$area_km2 = as.numeric(st_area(zones)) /1000000
+zones$population_density = zones$all / zones$area_km2
+plot(zones["population_density"])
 # in dplyr
-iow_density = iow %>% 
+zones_density = zones %>% 
   mutate(area_km2 = as.numeric(st_area(geometry)) / 1000000) %>% 
   mutate(population_density = all / area_km2)
-plot(iow_density %>% select(population_density))
+plot(zones_density %>% select(population_density))
 # 1. Bonus: Which zone has the highest percentage who cycle?
-iow %>% 
+zones %>% 
   mutate(pcycle = bicycle / all) %>% 
   top_n(n = 1, wt = pcycle)
 # 1. Bonus: Find the proportion of people who drive to work (`car_driver`) in areas in which more than 500 people walk to work
-iow %>% 
+zones %>% 
   group_by(foot > 500) %>% 
   summarise(mean_car = sum(car_driver) / sum(all) )
 ```
@@ -849,14 +916,14 @@ iow %>%
 <!-- Every `sf data.frame` has a CRS. -->
 
 <!-- ```{r} -->
-<!-- st_crs(iow) # 4326 is a geographic (lon/lat) projection -->
-<!-- iow_projected = st_transform(iow, 27700) # transfrom to projected CRS -->
-<!-- st_crs(iow_projected) # updated CRS -->
-<!-- iow_lonlat = st_transform(iow, 4326) # transfrom back -->
+<!-- st_crs(zones) # 4326 is a geographic (lon/lat) projection -->
+<!-- zones_projected = st_transform(zones, 27700) # transfrom to projected CRS -->
+<!-- st_crs(zones_projected) # updated CRS -->
+<!-- zones_lonlat = st_transform(zones, 4326) # transfrom back -->
 <!-- ``` -->
 <!-- **Warning** It is possible to change the CRS without reprojecting the data as follows (not recommended): -->
 <!-- ```{r, eval=FALSE} -->
-<!-- st_crs(iow_projected) = 4326 -->
+<!-- st_crs(zones_projected) = 4326 -->
 <!-- ``` -->
 
 <!-- This is risky as you may confuse your data by having the wrong CRS. -->
@@ -867,20 +934,20 @@ iow %>%
 
 <!-- It is possible to subset an `sf data.frame` by location as well as attributes. -->
 
-<!-- Let's load some centroids and find out which are in differe `iow` areas. -->
+<!-- Let's load some centroids and find out which are in differe `zones` areas. -->
 
 <!-- ```{r, warning=FALSE, out.width="30%"} -->
-<!-- iow_cents = pct::get_pct_centroids(region = "isle-of-wight", geography = "lsoa") # Load the iow_cents data -->
-<!-- iow_cents2 = iow_cents[iow_2,] -->
-<!-- plot(iow$geometry) -->
-<!-- plot(iow_cents, col = "black", add = TRUE) -->
-<!-- plot(iow_cents2, col = "red", add = TRUE) -->
+<!-- zones_cents = pct::get_pct_centroids(region = "isle-of-wight", geography = "lsoa") # Load the zones_cents data -->
+<!-- zones_cents2 = zones_cents[zones_2,] -->
+<!-- plot(zones$geometry) -->
+<!-- plot(zones_cents, col = "black", add = TRUE) -->
+<!-- plot(zones_cents2, col = "red", add = TRUE) -->
 <!-- ``` -->
 
 <!-- `st_intersects()` is a 'binary predicate' that identifies which features in one `sf` object intersect with another `sf` object in geographic space:  -->
 
 <!-- ```{r, eval=FALSE} -->
-<!-- st_intersects(iow_cents, iow_large) -->
+<!-- st_intersects(zones_cents, zones_large) -->
 <!-- ``` -->
 
 <!-- There are many spatial predicates, including `st_overlaps()` and `st_difference()`. You can see a list of them in the help. -->
@@ -892,7 +959,7 @@ iow %>%
 <!-- You could use a different function by adding the `op` argument -->
 
 <!-- ```{r, eval=TRUE} -->
-<!-- iow_cents3 = iow_cents[iow_2, , op = st_disjoint] -->
+<!-- zones_cents3 = zones_cents[zones_2, , op = st_disjoint] -->
 <!-- ``` -->
 
 <!-- ## Aggregation -->
@@ -988,8 +1055,8 @@ library(tmap)
 Create the following plots using `plot()` and `tm_shape() + tm_polygons()` functions.
 
 ```{r, fig.show='hold', out.width="49%", echo=FALSE}
-plot(iow[c("all", "bicycle")])
-tm_shape(iow) + 
+plot(zones[c("all", "bicycle")])
+tm_shape(zones) + 
   tm_polygons(c("all", "bicycle"))
 ```
 
@@ -1022,7 +1089,7 @@ Create it using the `world` and `worldbank_df` datasets from the **spData** pack
 1. Bonus: Which type of subsetting yielded more results and why? 
 1. Bonus: how many crashes happened in each zone?
 1. Create a new column called `month` in the crash data using the function `lubridate::month()` and the `date` column.
-1. Create an object called `a_iow_may` representing all the crashes that happened in the Isle of Wight in the month of May
+1. Create an object called `a_zones_may` representing all the crashes that happened in the Isle of Wight in the month of May
 1. Bonus: Calculate the average (`mean`) speed limit associated with each crash that happened in May across the zones of the Isle of Wight (the result is shown in the map)
 
 
@@ -1032,21 +1099,21 @@ library(dplyr)
 library(sf)
 a = get_stats19(2017, "ac", ask = FALSE)
 asf = format_sf(a)
-a_iow = asf %>% 
+a_zones = asf %>% 
   filter(local_authority_district == "Isle of Wight")
-nrow(a_iow)
-iow = pct::get_pct_zones(region = "isle-of-wight")
-iow_osbg = st_transform(iow, 27700)
-a_iow_sf = a_iow[iow_osbg, ]
-nrow(a_iow_sf)
-# mapview::mapview(iow) +
-#   mapview::mapview(a_iow)
+nrow(a_zones)
+zones = pct::get_pct_zones(region = "isle-of-wight")
+zones_osbg = st_transform(zones, 27700)
+a_zones_sf = a_zones[zones_osbg, ]
+nrow(a_zones_sf)
+# mapview::mapview(zones) +
+#   mapview::mapview(a_zones)
 class(a$date)
 class(a$time)
-a_iow$month = lubridate::month(a_iow$date)
-a_iow_may = a_iow %>% 
+a_zones$month = lubridate::month(a_zones$date)
+a_zones_may = a_zones %>% 
   filter(month == 5)
-a_agg = aggregate(a_iow_may["speed_limit"], iow_osbg, mean)
+a_agg = aggregate(a_zones_may["speed_limit"], zones_osbg, mean)
 plot(a_agg)
 class(crashes$date)
 ```
