@@ -80,9 +80,9 @@ crashes = get_stats19(year = 2017, type = "accident", ask = FALSE)
 #> Files identified: dftRoadSafetyData_Accidents_2017.zip
 #>    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Accidents_2017.zip
 #> Attempt downloading from:
-#> Data saved at /tmp/RtmpAW1I3U/dftRoadSafetyData_Accidents_2017/Acc.csv
+#> Data saved at /tmp/RtmpjiLUvK/dftRoadSafetyData_Accidents_2017/Acc.csv
 #> Reading in:
-#> /tmp/RtmpAW1I3U/dftRoadSafetyData_Accidents_2017/Acc.csv
+#> /tmp/RtmpjiLUvK/dftRoadSafetyData_Accidents_2017/Acc.csv
 ```
 
 What just happened? For the `year` 2017 we read-in crash-level (`type =
@@ -181,7 +181,7 @@ casualties = get_stats19(year = 2017, type = "casualties", ask = FALSE)
 #> Files identified: dftRoadSafetyData_Casualties_2017.zip
 #>    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Casualties_2017.zip
 #> Attempt downloading from:
-#> Data saved at /tmp/RtmpAW1I3U/dftRoadSafetyData_Casualties_2017/Cas.csv
+#> Data saved at /tmp/RtmpjiLUvK/dftRoadSafetyData_Casualties_2017/Cas.csv
 nrow(casualties)
 #> [1] 170993
 ncol(casualties)
@@ -242,7 +242,7 @@ vehicles = get_stats19(year = 2017, type = "vehicles", ask = FALSE)
 #> Files identified: dftRoadSafetyData_Vehicles_2017.zip
 #>    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Vehicles_2017.zip
 #> Attempt downloading from:
-#> Data saved at /tmp/RtmpAW1I3U/dftRoadSafetyData_Vehicles_2017/Veh.csv
+#> Data saved at /tmp/RtmpjiLUvK/dftRoadSafetyData_Vehicles_2017/Veh.csv
 nrow(vehicles)
 #> [1] 238926
 ncol(vehicles)
@@ -316,7 +316,7 @@ Wales).
 
 ``` r
 library(sf)
-#> Linking to GEOS 3.7.0, GDAL 2.3.2, PROJ 5.2.0
+#> Linking to GEOS 3.7.1, GDAL 2.4.2, PROJ 5.2.0
 library(dplyr)
 #> 
 #> Attaching package: 'dplyr'
@@ -382,10 +382,10 @@ cas_types[1:2, c("accident_index", "Cyclist")]
 #> 2 2017120010412        1
 cj[1:2, c(1, 5, 34)] %>% st_drop_geometry()
 #> # A tibble: 2 x 3
-#>   accident_index accident_severity Cyclist
-#> * <chr>          <chr>               <dbl>
-#> 1 2017120009776  Slight                  0
-#> 2 2017120010412  Slight                  1
+#>   accident_index accident_severity `Car occupant`
+#> * <chr>          <chr>                      <dbl>
+#> 1 2017120009776  Slight                         1
+#> 2 2017120010412  Slight                         0
 ```
 
 ## Mapping crashes
@@ -485,9 +485,8 @@ The **stats19** package builds on previous work, including:
 
   - code in the [bikeR](https://github.com/Robinlovelace/bikeR) repo
     underlying an academic paper on collisions involving cyclists
-  - functions in
-    [**stplanr**](https://github.com/ropensci/stplanr/blob/master/R/load-stats19.R)
-    for downloading Stats19 data
+  - functions in [**stplanr**](https://docs.ropensci.org/stplanr/) for
+    downloading Stats19 data
   - updated functions related to the
     [CyIPT](https://github.com/cyipt/stats19)
 project
