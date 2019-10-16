@@ -35,7 +35,8 @@ file.rename("TDS-master/courses/2day/images/", "inst/images")
 
 This document provides information, code and, vitally, exercises to test and improve your R skills.
 It starts with introductory R skills that will be of use in any domain but the focus is on R for Road Safety, in support of a [2 day course](https://www.racfoundation.org/introduction-to-r-for-road-safety).
-Code and data supporting the content can be found in the GitHub repository (repo) https://github.com/ropensci/stats19/.
+The course is based on open road crash records from the **stats19** package [@lovelace_stats19_2019].
+Code and data supporting the content can be found in the package's GitHub repo at [github.com/ropensci/stats19](https://github.com/ropensci/stats19/).
 The '[issue tracker](https://github.com/ropensci/stats19/issues)' associated with that repo is a good place to ask questions about the course. 
 
 Course pre-requisites are outlined in the [stats19-training-setup](https://docs.ropensci.org/stats19/articles/stats19-training-setup.html) hosted at [docs.ropensci.org/stats19](https://docs.ropensci.org/stats19).
@@ -782,7 +783,25 @@ plot(crashes_sf$geometry, pch = 20, add = TRUE)
 
 ## Geographic joins
 
-...
+Geographic joins involve assigning values from one object to a new column in another, based on the geographic relationship between them.
+With `sf` objects it works as follows:
+
+```{r, message=FALSE}
+zones_joined = st_join(zones[NULL], crashes_sf)
+```
+
+1. Plot the `casualty_age` variable of the new `zones_joined` object (see the figure below to verify the result).
+1. How many zones are returned in the previous command? 
+1. Select only the `geo_code` column from the `zones` and the `dark` column from `crashes_sf` and use the `left = FALSE` argument to return only zones in which crashes occured. Plot the result.
+
+See [Chapter 4](https://geocompr.robinlovelace.net/spatial-operations.html#spatial-joining) of Geocomputation with R [@lovelace_geocomputation_2019] for further information on geographic joins.
+
+```{r joinf, echo=FALSE, out.width="40%", fig.show='hold', message=FALSE}
+plot(zones_joined["casualty_age"])
+zjd = st_join(zones[1], crashes_sf["dark"], left = FALSE)
+plot(zjd)
+```
+
 
 ## CRSs
 
@@ -797,6 +816,8 @@ crashes_osgb = st_transform(crashes_sf, 27700)
 1. Create `zones_osgb` by transforming the `zones` object.
 1. **Bonus:** use `st_crs()` to find out the units measurement of the British National Grid?
 
+For more information on CRSs see [Chapter 6](https://geocompr.robinlovelace.net/reproj-geo-data.html) of Geocompuation with R.
+
 ## Buffers
 
 Buffers are polygons surrounding geometries of a (usually) fixed distance.
@@ -808,18 +829,15 @@ Currently buffer operations in R only work on objects with projected CRSs.
 
 ## Attribute operations on sf objects
 
-One of the nice things about the `sf` package is that an `sf data.frame` behaves just like a normal `data.frame` for non-spatial operations.
-Load the example dataset for Isle of Wight.
+Because `sf` objects are `data.frame`s, we can do non-spatial operations on them.
+Try the following attribute operations on the `zones` data.
 
 ```{r, eval=TRUE}
 # load example dataset if it doesn't already exist
-if(!exists("zones")) {
-  zones = pct::get_pct_zones("isle-of-wight")
-}
+zones = pct::get_pct_zones("isle-of-wight")
 sel = zones$all > 3000  # create a subsetting object
 zones_large = zones[sel, ] # subset areas with a popualtion over 100,000
 zones_2 = zones[zones$geo_name == "Isle of Wight 002",] # subset based on 'equality' query
-five_in_name = zones[grepl(pattern = "5", x = zones$geo_name), ] # subset based on string match
 zones_first_and_third_column = zones[c(1, 3)]
 zones_just_all = zones["all"]
 ```
@@ -828,13 +846,11 @@ zones_just_all = zones["all"]
 1. Practice subsetting techniques you have learned on the `sf data.frame` object `zones`:
      1. Create an object called `zones_small` which contains only regions with less than 3000 people in the `all` column
      1. Create a selection object called `sel_high_car` which is `TRUE` for regions with above median numbers of people who travel by car and `FALSE` otherwise
-     1. How many regions have the number '1' in the column 'geo_name'? What percentage of the regions in the Isle of Wight is this? Hint: Look at the help page of the function 'grepl'.  
      1. Create an object called `zones_foot` which contains only the foot attribute from `zones`
      1. Bonus: plot `zones_foot` using the function `plot` to show where walking is a popular mode of travel to work
      1. Bonus: bulding on your answers to previous questions, use `filter()` from the `dplyr` package to subset small regions where car use is high. 
 1. Bonus: What is the population density of each region (hint: you may need to use the functions `st_area()`, `as.numeric()` and use the 'all' column)?
 1. Bonus: Which zone has the highest percentage of people who cycle?
-1. Bonus: Find the proportion of people who drive to work (`car_driver`) in areas in which more than 500 people walk to work
 
 ```{r, echo=FALSE, eval=FALSE}
 # 1. Practice subsetting techniques you have learned on the `sf data.frame` object `zones`:
@@ -884,200 +900,30 @@ zones %>%
 
 
 
-<!-- # Spatial data analysis -->
-
-<!-- Should some of this go into the spatial section? Probably. -->
-
-<!-- What makes an `sf data.frame` different from a normal `data.frame` is the inclusion of a geometry column and spatial operations. -->
-
-<!-- ## Projections and Coordinate Reference Systems -->
-
-<!-- When plotting a map you need X and Y coordinates to specify where objects should appear. While this is simple on a flat surface spatial data must fit onto the curved surface of the earth. You may know that it is impossible to unwrap a sphere into a single flat surface without distorting (stretching, twisting, cutting) the surface in some way. The process of making a flat map from a curved Earth is known as projection, and there are many valid ways to project a map. -->
-
-<!-- Coordinate Reference Systems (CRS) refer to different ways of defining the X and Y coordinates used in different projections. Largely they fall into two categories, **geographic** and **projected**. These are illustrated in the figure below, from Chapter 2 of Geocomputation with R, in which location of London (the red X) is represented with reference to an origin (the blue circle). The left plot represents a geographic CRS with an origin at 0° longitude and latitude. The right plot represents a projected CRS with an origin located in the sea west of the South West Peninsula. -->
-
-<!-- ```{r vectorplots, out.width="40%", fig.show='hold', echo=FALSE} -->
-<!-- download.file("https://geocompr.robinlovelace.net/figures/vector_lonlat.png", "vector_lonlat.png", mode = "wb") -->
-<!-- download.file("https://geocompr.robinlovelace.net/figures/vector_projected.png", "vector_projected.png", mode = "wb") -->
-<!-- knitr::include_graphics(c("vector_lonlat.png", "vector_projected.png")) -->
-<!-- ``` -->
-
-<!-- * Geographical Coordinate Systems: use latitude and longitude to represent any place on the Earth -->
-
-<!-- * Projected Coordinate Systems: use distances from an origin point to represent a small part of the Earth, e.g. a country. The advantage of a projects CRS is that it is easier to calculate properties such as distance and area as coordinates are in metres. -->
-
-<!-- You can find a catalogue of different CRSs at http://spatialreference.org/ -->
-
-<!-- CRSs are often referred to by the EPSG number. The European Petroleum Survey Group publish a database of different coordinate systems. Two useful projections to commit to memory are: -->
-
-<!-- * 4326 - the World Geodetic System 1984 which is a widely used geographical coordinate system, used in GPS datasets and the .geojson file format, for example. -->
-<!-- * 27700 - the British National Grid -->
-
-<!-- Every `sf data.frame` has a CRS. -->
-
-<!-- ```{r} -->
-<!-- st_crs(zones) # 4326 is a geographic (lon/lat) projection -->
-<!-- zones_projected = st_transform(zones, 27700) # transfrom to projected CRS -->
-<!-- st_crs(zones_projected) # updated CRS -->
-<!-- zones_lonlat = st_transform(zones, 4326) # transfrom back -->
-<!-- ``` -->
-<!-- **Warning** It is possible to change the CRS without reprojecting the data as follows (not recommended): -->
-<!-- ```{r, eval=FALSE} -->
-<!-- st_crs(zones_projected) = 4326 -->
-<!-- ``` -->
-
-<!-- This is risky as you may confuse your data by having the wrong CRS. -->
-
-<!-- For more information see [Chapter 6](https://geocompr.robinlovelace.net/reproj-geo-data.html) of Geocompuation with R. -->
-
-<!-- ## Spatial operations -->
-
-<!-- It is possible to subset an `sf data.frame` by location as well as attributes. -->
-
-<!-- Let's load some centroids and find out which are in differe `zones` areas. -->
-
-<!-- ```{r, warning=FALSE, out.width="30%"} -->
-<!-- zones_cents = pct::get_pct_centroids(region = "isle-of-wight", geography = "lsoa") # Load the zones_cents data -->
-<!-- zones_cents2 = zones_cents[zones_2,] -->
-<!-- plot(zones$geometry) -->
-<!-- plot(zones_cents, col = "black", add = TRUE) -->
-<!-- plot(zones_cents2, col = "red", add = TRUE) -->
-<!-- ``` -->
-
-<!-- `st_intersects()` is a 'binary predicate' that identifies which features in one `sf` object intersect with another `sf` object in geographic space:  -->
-
-<!-- ```{r, eval=FALSE} -->
-<!-- st_intersects(zones_cents, zones_large) -->
-<!-- ``` -->
-
-<!-- There are many spatial predicates, including `st_overlaps()` and `st_difference()`. You can see a list of them in the help. -->
-
-<!-- ```{r, eval=FALSE} -->
-<!-- ?st_intersects -->
-<!-- ``` -->
-
-<!-- You could use a different function by adding the `op` argument -->
-
-<!-- ```{r, eval=TRUE} -->
-<!-- zones_cents3 = zones_cents[zones_2, , op = st_disjoint] -->
-<!-- ``` -->
-
-<!-- ## Aggregation -->
-
-<!-- With a normal data.frame it is possible to group and aggregate variables using the `dplyr` packages.  -->
-
-<!-- > group_by() %>% summarise() -->
-<!-- It is also possible to do this for sf `data.frames` by default a `st_union` is performed on the geometries.  -->
-
-<!-- The input data for this part will be point and polygon data representing New Zealand (`nz`), from Chapter 4 of *Geocomputation with R*. -->
-<!-- The best place to start is to plot the data so the first exercise is: -->
-
-<!-- - Create a plot of the data so it looks like the map of New Zealand below (hint: use the `add = TRUE` argument). -->
-
-<!-- ```{r, out.width="40%"} -->
-<!-- library(spData) -->
-<!-- plot(nz$geom) -->
-<!-- plot(nz_height["elevation"], add = TRUE) -->
-<!-- ``` -->
-
-<!-- ```{r, eval=TRUE, out.width="30%"} -->
-<!-- nz_islands = nz %>% -->
-<!--   group_by(Island) %>% -->
-<!--   summarise(Population = sum(Population)) -->
-<!-- plot(nz_islands) -->
-<!-- ``` -->
-
-<!-- Note that the implicit `st_union` has resolved all the internal boundaries of each island. If you wished to keep the boundaries you can use `st_combine`. -->
-
-<!-- ```{r, eval=TRUE, out.width="40%"} -->
-<!-- nz_islands = nz %>% -->
-<!--   group_by(Island) %>% -->
-<!--   summarise(Population = sum(Population), do_union = FALSE) -->
-<!-- plot(nz_islands) -->
-<!-- ``` -->
-
-<!-- ## Geometric Operations -->
-
-<!-- Geometric operation change or derive from the geometry of our data. The most commonly used functions are: -->
-
-<!-- - `st_simplify` To simplify a complex shape -->
-<!-- - `st_centroid` To find the geographical centre of a shape -->
-<!-- - `st_buffer` To create a buffer around a shape -->
-
-<!-- For more see [Section 5.2 of Geocompuation with R](https://geocompr.robinlovelace.net/geometric-operations.html#geo-vec) -->
-
-<!-- 1. Canterbury is the region of New Zealand containing most of the 100 highest points in the country. Create an object called `canterbury` and use this to subset all points within the region. How many of these high points does the Canterbury region contain? -->
-<!-- ```{r 04-spatial-operations-45, eval=FALSE, echo=FALSE} -->
-<!-- library(tmap) -->
-<!-- tmap_mode("view") -->
-<!-- qtm(nz) + qtm(nz_height) -->
-<!-- canterbury = nz %>% filter(Name == "Canterbury") -->
-<!-- canterbury_height = nz_height[canterbury, ] -->
-<!-- nrow(canterbury_height) # answer: 70 -->
-<!-- ``` -->
-<!-- 1. Which region has the second highest number of `nz_height` points in, and how many does it have? -->
-<!-- ```{r 04-spatial-operations-46, eval=FALSE, echo=FALSE} -->
-<!-- nz_height_count = aggregate(nz_height, nz, length) -->
-<!-- nz_height_combined = cbind(nz, count = nz_height_count$elevation) -->
-<!-- nz_height_combined %>%  -->
-<!--   st_drop_geometry() %>%  -->
-<!--   dplyr::select(Name, count) %>%  -->
-<!--   arrange(desc(count)) %>%  -->
-<!--   slice(2) -->
-<!-- ``` -->
-<!--     - Bonus: generalizing the question to all regions, how many of New Zealand's 16 regions contain points which belong to the top 100 highest points in the country? Which regions? -->
-<!--     - Bonus: create a table listing these regions in order of the number of points and their name. -->
-<!-- ```{r 04-spatial-operations-47, echo=FALSE, eval=FALSE} -->
-<!-- nz_height_count = aggregate(nz_height, nz, length) -->
-<!-- nz_height_combined = cbind(nz, count = nz_height_count$elevation) -->
-<!-- nz_height_combined %>%  -->
-<!--   st_drop_geometry() %>%  -->
-<!--   dplyr::select(Name, count) %>%  -->
-<!--   arrange(desc(count)) %>%  -->
-<!--   na.omit() -->
-<!-- ``` -->
-
-
-
 # Visualising spatial datasets
 
-Many packages can be used to create maps in R.
-The most basic is with the `plot()` function.
-`ggplot2` is a powerful plotting package that is part of the `tidyverse`, that can create maps with the function `geom_sf()`.
-However, for publication maps, we recommend using `tmap` for reasons outlined in Chapter 8 of Geocomputation with R.
+So far we have used the `plot()` function to make maps.
+That's fine for basic visualisation, but for publication-quality maps, we recommend using `tmap` (see Chapter 8 of Geocomputation with R for reasons and alternatives).
 Load the package as follows:
 
 ```{r}
 library(tmap)
+tmap_mode("plot")
 ```
 
+1. Create the following plots using `plot()` and `tm_shape() + tm_polygons()` functions (note: the third figure relies on setting `tmap_mode("view")`.
+1. Add an additional layer to the interactive map showing the location of crashes, using marker and dot symbols.
+1. Bonus: Change the default basemap (hint: you may need to search in the package documentation or online for the solution).
 
-Create the following plots using `plot()` and `tm_shape() + tm_polygons()` functions.
-
-```{r, fig.show='hold', out.width="49%", echo=FALSE}
+```{r plot3, fig.show='hold', out.width="33%", echo=FALSE}
 plot(zones[c("all", "bicycle")])
 tm_shape(zones) + 
   tm_polygons(c("all", "bicycle"))
-```
-
-These exercises rely on the object `europe`.
-Create it using the `world` and `worldbank_df` datasets from the **spData** package as follows (see Section [2.2](https://geocompr.robinlovelace.net/spatial-class.html#intro-sf) of Geocomputation with R for details):
-
-```{r 08-mapping-41, warning=FALSE}
-# europe = world %>% 
-#   filter(continent == "Europe", !is.na(iso_a2)) %>% 
-#   left_join(worldbank_df, by = "iso_a2") %>% 
-#   dplyr::select(name, subregion, gdpPercap, HDI, pop_growth) %>% 
-#   st_transform("+proj=aea +lat_1=20 +lat_2=-23 +lat_0=0 +lon_0=25")
-```
-
-1. Create a map showing the geographic distribution of the `gdpPercap` across Europe with base **graphics** (hint: use `plot()`) and **tmap** packages (hint: use `tm_shape(europe) + ...`).
-1. Extend the **tmap** created for the previous exercise so the legend has three bins: "High" (above 30000), "Medium" (between 30000 and 20000) and "Low" (below 20000).
-    - Bonus: improve the map aesthetics, for example by changing the legend title, class labels and colour palette.
-1. Represent `europe`'s subregions on the map. 
-
-```{r, echo=FALSE, out.width="50%"}
-# plot(europe["subregion"])
+tmap_mode("view")
+m = tm_shape(zones_joined) + 
+  tm_polygons(c("casualty_type")) +
+  tm_scale_bar()
+knitr::include_graphics("tmap-zones-interactive.png")
 ```
 
 # Analysing point data from stats19 
@@ -1126,3 +972,5 @@ Identify a region and zonal units of interest from http://geoportal.statistics.g
 
 1. Read them into R as an `sf` object
 1. Identify the average speed limit associated with crashes in each zone
+
+# References
