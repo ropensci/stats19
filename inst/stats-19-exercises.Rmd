@@ -24,6 +24,7 @@ knitr::opts_chunk$set(cache = TRUE)
 # Upload exercises
 file.copy("inst/stats-19-exercises.pdf", ".", overwrite = TRUE)
 piggyback::pb_upload("stats-19-exercises.pdf")
+piggyback::pb_download_url("stats-19-exercises.pdf")
 # to run this for the first time:
 download.file("https://github.com/ITSLeeds/TDS/archive/master.zip", "tds-master.zip")
 unzip("tds-master.zip")
@@ -66,7 +67,7 @@ The first exercise is to open up RStudio and take a look around and identify the
 **Explore each of the main components of RStudio.**
 Try changing the Global Settings (in the Tools menu) and see RStudio's short cuts by pressing `Alt-Shift-K` (or `Option+Shift+K` on Mac).
 
-```{r rstudioui, echo=FALSE, out.width="80%"}
+```{r rstudioui, echo=FALSE, out.width="70%"}
 knitr::include_graphics("images/rstudio-ui.png")
 ```
 
@@ -82,16 +83,9 @@ Scripts are the files where R code is stored.
 you could simply type all our code into the console, but that require retyping commands each time you run it.
 Instead, code that you want to keep and share should be saved script files, plain text files that have the `.R` extension.
 
-Make a new script:
+Make a new script with Flie > New File > Rscript or Ctl+Shift+N
 
-> Flie > New File > Rscript
-Or use the new script button on the toolbar.
-Or Ctl+Shift+N
-
-Save the script and give it a sensible name like `stats19-lesson-1.R` with:
-
-> File > Save
-Or the save button on the toolbar.
+Save the script and give it a sensible name like `stats19-lesson-1.R` with File > Save, the save button on the toolbar, or Ctl+S.
 
 **Pro tip:** You can also create new R scripts by typing and running this command in the R console:
 
@@ -138,12 +132,7 @@ casualty_age = seq(from = 20, to = 60, by = 20)
 set.seed(1)
 dark = sample(x = c(TRUE, FALSE), size = 3, replace = TRUE)
 small_matrix = matrix(1:24, nrow = 12)
-crashes = data.frame(
-  vehicle_type,
-  casualty_type,
-  casualty_age,
-  dark
-)
+crashes = data.frame(vehicle_type, casualty_type, casualty_age, dark)
 ```
 
 We can view the objects in a range of ways:
@@ -179,7 +168,7 @@ length(vehicle_type)
 
 **Bonus**: Find out the class of the column `vehicle_type` in the data frame `crashes` with the command `class(crashes$vehicle_type)`.
 Why has it changed? 
-Create a new object called `crashes_char` that keeps the class of the character vectors intact by using the function `tibble::tibble()` (see [tibble.tidyverse.org](https://tibble.tidyverse.org/) and Section \@ref(what-are-packages) for details).
+Create a new object called `crashes_char` that keeps the class of the character vectors intact by using the function `tibble::tibble()` (see [tibble.tidyverse.org](https://tibble.tidyverse.org/) and Section 4 for details).
 
 ```{r tibble1, echo=FALSE, eval=FALSE}
 tibble::tibble(
@@ -199,14 +188,11 @@ knitr::include_graphics("images/autocomplete.jpg")
 ```
 
 When there is more than one option you can select from the list using the mouse or arrow keys.
-
 Within a function, you can get a list of arguments by pressing Tab.
 
 ```{r help, echo=FALSE}
 knitr::include_graphics("images/fucntionhelp.jpg")
 ```
-
-Notice the help popup.
 
 ## Getting help
 
@@ -342,7 +328,7 @@ crashes[crashes$vehicle_type == "tank", ] # rows where the name is tank
 crashes$casualty_age[crashes$vehicle_type == "tank"] = 61
 ```
 
-## Dealing with NAs
+## Dealing with NAs and recoding
 
 R objects can have a value of NA. This is how R represents missing data.
 
@@ -353,24 +339,24 @@ z = c(4, 5, NA, 7)
 NA values are common in real-world data but can cause trouble, for example
 
 ```{r, eval=FALSE}
-sum(z) # Result is NA
+sum(z) # result is NA
 ```
 
 Some functions can be told to ignore NA values.
 
 ```{r, eval=FALSE}
-sum(z, na.rm = TRUE) # Result is equal to 4 + 5 + 7
+sum(z, na.rm = TRUE) # result is equal to 4 + 5 + 7
 ```
 
 You can find NAs using the `is.na()` function, and then remove them
 
 ```{r, eval=FALSE}
 is.na(z)
-z_nona = z[!is.na(z)] #Note the use of the not operator !
+z_nona = z[!is.na(z)] # note the use of the not operator !
 sum(z)
 ```
 
-Be careful of NAs especially in statistical analysis, for example, the average of a value excluding NAs may not be representative of the whole.
+If you remove records with NAs be warned: the average of a value excluding NAs may not be representative.
 
 ## Changing class
 
@@ -386,23 +372,33 @@ crashes$vehicle_type = as.character(crashes$vehicle_type)
 as.matrix(crashes)
 ```
 
+## Recoding values
+
+Often it is useful to 'recode' values.
+In the raw STATS19 files, for example, -1 means NA.
+There are many ways to recode values in R, the simplest and most mature of which is the use of factors, as shown below:
+
+```{r}
+z = c(1, 2, -1, 1, 3)
+l = c(NA, "a", "b", "c") # labels in ascending order
+z_factor = factor(z, labels = l)
+z_charcter = as.character(z_factor)
+z_charcter
+```
+
+1. Recode `z` to Slight, Serious and Fatal for 1:3 respectively.
+1. Bonus: read the help file at `?dplyr::case_when` and try to recode the values using this function.
+
 ## Now you are ready to use R
 
 **Bonus: reproduce the following plot**
 
-```{r smile, out.width="50%", fig.align="center"}
+```{r smile, out.width="30%", fig.align="center"}
 eyes = c(2.3, 4, 3.7, 4)
 eyes = matrix(eyes, ncol = 2, byrow = T)
 mouth = c(2, 2, 2.5, 1.3, 3, 1, 3.5, 1.3, 4, 2)
 mouth = matrix(mouth, ncol = 2, byrow = T)
-plot(
-  eyes,
-  type = "p",
-  main = "Smile, you're using R!",
-  cex = 2,
-  xlim = c(1, 5),
-  ylim = c(0, 5)
-)
+plot(eyes, type = "p", main = "RRR!", cex = 2, xlim = c(1, 5), ylim = c(0, 5))
 lines(mouth, type = "l", col = "red")
 ```
 
