@@ -408,8 +408,8 @@ lines(mouth, type = "l", col = "red")
 
 ## What are packages?
 
-R has over 15,000 packages, extending it in almost every direction of statistics and computing.
-Packages provide additional functions, data and documentation.
+R has over 15,000 packages (effectively plugins for base R), extending it in almost every direction of statistics and computing.
+Packages provide additional functions, data and documentation. They are very often written by subject-matter experts and therefore tend to fit well with the workflow of the analyst in that particular specialism.
 There are two main stages to using a package: installing it and loading it.
 A third stage is updating it, this is also important.
 
