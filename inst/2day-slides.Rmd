@@ -94,11 +94,111 @@ Work through Section 2 of the exercises
 
 ---
 
+# Time data
+
+Section 3.4 shows how to change classes in R
+
+Time is represented by special classes:
+
+```{r}
+library(lubridate)
+x = today()
+class(x)
+day(x)
+month(x)
+year(x)
+weekdays(x)
+```
+
 ---
 
+# Time representations
 
-# Thanks!
+```{r}
+as.Date("2019-10-17") # works
+# as.Date("2019 10 17") # fails
+ymd("2019 10 17") # works
+dmy("17/10/2019") # works
+```
 
-Slides created via the R package [**xaringan**](https://github.com/yihui/xaringan).
+---
 
-The chakra comes from [remark.js](https://remarkjs.com), [**knitr**](http://yihui.name/knitr), and [R Markdown](https://rmarkdown.rstudio.com).
+# Subsetting time objects
+
+```{r}
+c_sample = stats19::accidents_sample
+c_sample$date
+c_sample$date_formatted = dmy(c_sample$date)
+c_sample$date_formatted > ymd("2017-08-01")
+```
+
+---
+# Next up
+
+- Try running the code and answer the questions in Section 5
+- Continue working through Sections 2 and 3
+
+## After lunch
+
+Spatial data (maps!)
+---
+
+# Spatial data and maps
+
+```{r, message=FALSE}
+library(sf)
+crashes = readr::read_csv("https://github.com/ropensci/stats19/releases/download/1.0.0/crashes.csv")
+crashes_sf = crashes # create copy of crashes dataset
+crashes_sf$longitude = c(-1.3, -1.2, -1.1)
+crashes_sf$latitude = c(50.7, 50.7, 50.68)
+crashes_sf = st_as_sf(crashes_sf, coords = c("longitude", "latitude"), crs = 4326)
+plot(crashes_sf)
+```
+
+---
+
+# Doing spatial data with R
+
+- Context: spatial ecosystem (see section [1.4 of Geocomputation with R - package ecosystem](https://geocompr.robinlovelace.net/intro.html#rs-spatial-ecosystem))
+- [Exercises](https://geocompr.robinlovelace.net/attr.html#exercises-1): Section 6 of the handout
+
+- Further reading: [Section 3.2 to 3.2.2](https://geocompr.robinlovelace.net/attr.html#vector-attribute-manipulation) of handouts
+
+---
+
+# Practical
+
+- Work through Section 6.1 and try exercises 1 to 3
+- Take a short read of [Section 1.4](https://geocompr.robinlovelace.net/intro.html#rs-spatial-ecosystem) of Geocomputation with R (first challenge, find the resource online!)
+- Return to the practical
+
+---
+
+# Afternoon session
+
+- Talk on Road Safety 1
+
+- Applying the methods to stats19 data - live demo
+
+    How to access data with stats19
+    Key stats19 functions
+    Excercises: analysing road crash data on the Isle of Wight
+
+- Continue working through the handouts
+- Talk on Road Safety 2
+- Homework - ensure that you have at least read-over the handout Sections 1:5
+
+---
+
+# Day 2
+
+- Prioirty: consolidate knowledge from day 1
+- Continuing to work through the handouts starting on Section 6
+- Demonstrations of counting number of crashes on roads
+- Talk on network analysis 
+- Talk on R in a professional setting
+- Working on your own data
+
+---
+
+# Further information
