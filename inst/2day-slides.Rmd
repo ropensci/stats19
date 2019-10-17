@@ -16,10 +16,10 @@ background-image: url(https://user-images.githubusercontent.com/1825120/61066243
 
 # About the course team and location
 
-<!-- - Robin Lovelace -->
-<!-- - Andrea Gilardi -->
-<!-- - Ivo Wengraf -->
-<!-- - Craig Smith -->
+- Robin Lovelace
+- Andrea Gilardi
+- Ivo Wengraf
+- Craig Smith
 
 ---
 
@@ -35,6 +35,64 @@ background-image: url(https://user-images.githubusercontent.com/1825120/61066243
   
 - What it is not
   - A course on statistical modelling
+  
+---
+
+# Agenda
+
+See https://docs.ropensci.org/stats19/articles/stats19-training.html
+
+## Day 1 Morning
+
+
+09:00-09:30 Arrival and set-up
+
+09:30-11:00 Introduction to the course and software
+
+- Introduction to R + coding [video](https://youtu.be/7oyiPBjLAWY?t=357)/[links](https://github.com/jennybc/code-smells-and-feels)
+- R installation questions/debugging
+- How to use RStudio (practical in groups of 2)
+- R classes and working with data frames (CC)
+
+**Break**
+
+11:15-12:30 Working with temporal data
+
+- Time classes
+- Filtering by time of crash
+- Aggregating over time
+- Forecasting crashes over time
+
+
+---
+
+# About the package
+
+See https://docs.ropensci.org/stats19/
+
+![](https://docs.ropensci.org/stats19/reference/figures/README-unnamed-chunk-2-1.png)
+
+---
+
+# R and RStudio demo
+
+Actions speak louder than words...
+
+![](https://raw.githubusercontent.com/ITSLeeds/TDS/master/courses/2day/images/rstudio-ui.png)
+
+---
+
+# Over to you
+
+Work through Section 2 of the exercises
+
+- Projects and scripts
+- Writing and running code
+- Vewing Objects
+- Autocompletion
+- Getting help
+
+---
 
 ---
 
