@@ -86,9 +86,10 @@ The preliminary agenda is as follows:
 13:30-15:00 Working with spatial data
 
 - Spatial data in R
-- R's spatial ecosystem (see section [1.4 of Geocomputation with R - package ecosystem](https://geocompr.robinlovelace.net/intro.html#rs-spatial-ecosystem))
-- Practical: [Section 3.2 to 3.2.2](https://geocompr.robinlovelace.net/attr.html#vector-attribute-manipulation) of handouts
-- [Exercises](https://geocompr.robinlovelace.net/attr.html#exercises-1): 1 to 3 in the hand-outs
+- Context: spatial ecosystem (see section [1.4 of Geocomputation with R - package ecosystem](https://geocompr.robinlovelace.net/intro.html#rs-spatial-ecosystem))
+- [Exercises](https://geocompr.robinlovelace.net/attr.html#exercises-1): Section 6 of the handout
+
+- Further reading: [Section 3.2 to 3.2.2](https://geocompr.robinlovelace.net/attr.html#vector-attribute-manipulation) of handouts
 
 **Break**
   

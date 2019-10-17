@@ -140,7 +140,7 @@ We can view the objects in a range of ways:
 1. Type the name of the object into the console e.g. `crashes`, what happens if we try to view all the 24 numbers included in the object `small_matrix`?
 1. Use the `head()` function to view just the first 6 rows e.g. `head(small_matrix)`
 1. Bonus: use the `n` argument in the previous function call to show only the first 2 rows of `small_matrix`
-1. Click on a matrix or data.frame object in the environment tab.
+1. Click on the `crashes` object in the environment tab to View it in a spreadsheet.
 1. Run the command `View(vehicle_type)`. What just happened?
 
 We can also get an overview of an object using a range of functions, including 
