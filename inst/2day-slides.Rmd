@@ -1,0 +1,46 @@
+---
+title: "Introduction to R for Road Safety"
+author: "Robin Lovelace"
+institute: "Institute for Transport Studies, University of Leeds"
+date: "`r Sys.Date()`"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+background-image: url(https://user-images.githubusercontent.com/1825120/61066243-12dc6d80-a3fd-11e9-8805-826a47c553f6.png)
+
+# About the course team and location
+
+<!-- - Robin Lovelace -->
+<!-- - Andrea Gilardi -->
+<!-- - Ivo Wengraf -->
+<!-- - Craig Smith -->
+
+---
+
+# About the course
+
+- See https://www.racfoundation.org/introduction-to-r-for-road-safety
+- What it is...
+  - An opportunity to learn R with support
+  - Based on recent, cutting edge software
+  - By people experienced teachers/researchers/developers
+  
+--
+  
+- What it is not
+  - A course on statistical modelling
+
+---
+
+
+# Thanks!
+
+Slides created via the R package [**xaringan**](https://github.com/yihui/xaringan).
+
+The chakra comes from [remark.js](https://remarkjs.com), [**knitr**](http://yihui.name/knitr), and [R Markdown](https://rmarkdown.rstudio.com).

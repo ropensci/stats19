@@ -137,5 +137,7 @@ tm_shape(iow_bb, ext = 1.05) +
   tm_compass(type = "8star", position = c("left", "top")) +
   tm_scale_bar()
 
+tmap_save(.Last.value, "inst/final-figure.png")
+
 # still some problems, spatial distance on a network?
 # problems, again...
