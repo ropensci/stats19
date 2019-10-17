@@ -709,6 +709,7 @@ R has strong geographic data capabilities, with the `sf` package provides a gene
 Create an `sf` data frame called `crashes_sf` as follows:
 
 ```{r crashes-sf, fig.height=2, fig.width=3}
+library(sf) # load the sf package for working with spatial data
 crashes_sf = crashes # create copy of crashes dataset
 crashes_sf$longitude = c(-1.3, -1.2, -1.1)
 crashes_sf$latitude = c(50.7, 50.7, 50.68)
