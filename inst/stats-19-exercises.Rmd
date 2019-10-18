@@ -730,7 +730,23 @@ plot(crashes_sf["casualty_age"])
 plot(crashes_sf[2:3, "dark"])
 # st_distance(crashes_sf)
 # Bembridge
+
+# # updload geographic crash data
+# write_sf(crashes_sf, "crashes_sf.geojson")
+# piggyback::pb_upload("crashes_sf.geojson")
 ```
+
+## Reading and writing spatial data
+
+You can read and write spatial data with `read_sf()` and `write_sf()`, as shown below (see `?read_sf`).
+
+```{r, eval=FALSE}
+write_sf(zones, "zones.geojson") # save geojson file
+write_sf(zones, "zmapinfo", driver = "MapInfo file")
+read_sf("zmapinfo") # read in mapinfo file
+```
+
+See [Chapter 6](https://geocompr.robinlovelace.net/read-write.html) of Geocomputation with R for further information.
 
 ## sf polygons
 
