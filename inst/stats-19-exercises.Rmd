@@ -140,7 +140,7 @@ We can view the objects in a range of ways:
 1. Type the name of the object into the console e.g. `crashes`, what happens if we try to view all the 24 numbers included in the object `small_matrix`?
 1. Use the `head()` function to view just the first 6 rows e.g. `head(small_matrix)`
 1. Bonus: use the `n` argument in the previous function call to show only the first 2 rows of `small_matrix`
-1. Use the view table button next to matrix or data.frame objects in the environment tab.
+1. Click on the `crashes` object in the environment tab to View it in a spreadsheet.
 1. Run the command `View(vehicle_type)`. What just happened?
 
 We can also get an overview of an object using a range of functions, including 
@@ -709,6 +709,7 @@ R has strong geographic data capabilities, with the `sf` package provides a gene
 Create an `sf` data frame called `crashes_sf` as follows:
 
 ```{r crashes-sf, fig.height=2, fig.width=3}
+library(sf) # load the sf package for working with spatial data
 crashes_sf = crashes # create copy of crashes dataset
 crashes_sf$longitude = c(-1.3, -1.2, -1.1)
 crashes_sf$latitude = c(50.7, 50.7, 50.68)
@@ -976,6 +977,43 @@ class(a$date)
 
 # Analysing crash data on road networks
 
+Road network data can be accessed from a range of sources, including OpenStreetMap (OSM) and Ordnance Survey.
+We will use some OSM data from the Ilse of Wight, which can be loaded as follows:
+
+```{r}
+u = "https://github.com/ropensci/stats19/releases/download/1.1.0/roads_key.Rds"
+roads_wgs = readRDS(url(u))
+roads = roads_wgs %>% st_transform(crs = 27700)
+```
+
+You should already have road crashes for the Isle of Wight from the previous stage.
+If not, load crash data as follows:
+
+```{r}
+u = "https://github.com/ropensci/stats19/releases/download/1.1.0/car_accidents_2017_iow.Rds"
+crashes_iow = readRDS(url(u))
+```
+
+1. Plot the roads with the crashes overlaid.
+2. Create a buffer around the roads with a distance of 200 m.
+3. How many crashes fall outside the buffered roads?
+3. Bonus: Use the `aggregate()` function to identify how many crashes happened per segment and plot the result (hint: see `?aggregate.sf` and take a read of Section [4.2.5](https://geocompr.robinlovelace.net/spatial-operations.html#spatial-aggr) of Geocomputation with R) with `tmap` and plot the crashes that happened outside the road buffers on top.
+
+```{r, echo=FALSE, out.width="49%", fig.show='hold', message=FALSE}
+plot(roads$geometry)
+plot(crashes_iow["accident_severity"], add = TRUE)
+roads_buffer = st_buffer(roads, 200, endCapStyle = "FLAT")
+crashes_outside_roads = crashes_iow[roads_buffer, , op = sf::st_disjoint]
+roads_agg = aggregate(crashes_iow[1], by = roads_buffer, FUN = length)
+# plot(roads_agg, border = NA, main = "")
+names(roads_agg)[1] = "N. Crashes"
+tmap_mode("plot")
+tm_shape(roads_agg) + tm_fill("N. Crashes") +
+  tm_shape(crashes_outside_roads) + tm_dots(col = "blue")
+```
+
+\newpage
+
 # Bonus exercises
 
 Identify a region and zonal units of interest from http://geoportal.statistics.gov.uk/ or from the object `police_boundaries` in the `stats19` package.
@@ -984,5 +1022,11 @@ Identify a region and zonal units of interest from http://geoportal.statistics.g
 1. Create a map showing the number of crashes in each zone
 1. Identify the average speed limit associated with crashes in each zone
 1. Identify an interesting question you can ask of the data and use exploratory data analysis to find answers
+1. Take a look at the code in [the file iow_example.R in the inst directory in the stats19 repo](https://github.com/ropensci/stats19/blob/master/inst/iow_example.R). Run it to reproduce the figure below.
+
+```{r final-plot, echo=FALSE, out.width="100%"}
+knitr::include_graphics("final-figure.png")
+```
+
 
 # References
