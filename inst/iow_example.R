@@ -64,13 +64,9 @@ tm_shape(iow_bb, ext = 1.05) +
 
 
 # Exclude car crashes far from all streets
-crashes_not_too_far <- st_is_within_distance(
-  x = iow_geofabric,
-  y = car_accidents_2017_iow,
-  dist = units::set_units(50, "m")
-)
-car_accidents_2017_iow <- car_accidents_2017_iow %>%
-  slice(unique(unlist(crashes_not_too_far)))
+car_accidents_2017_iow <- car_accidents_2017_iow[iow_geofabric,
+  op = st_is_within_distance, dist = units::set_units(50, "m")
+]
 
 # plot
 tm_shape(iow_bb, ext = 1.05) +
@@ -137,5 +133,51 @@ tm_shape(iow_bb, ext = 1.05) +
   tm_compass(type = "8star", position = c("left", "top")) +
   tm_scale_bar()
 
+# works. let's tune it!
+iow_graph_ego <- ego(iow_graph, order = 4)
+
+iow_geofabric <- iow_geofabric %>%
+  mutate(number_of_car_accidents_smooth = map_dbl(seq_len(nrow(.)), spatial_smoothing))
+
+# plot
+tm_shape(iow_bb, ext = 1.05) +
+  tm_borders() +
+  tm_shape(iow_geofabric) +
+  tm_lines(
+    col = "number_of_car_accidents_smooth",
+    lwd = 2.5,
+    palette = "-RdYlGn",
+    title.col = "Smoothed number of car crashes in 2017"
+  ) +
+  tm_shape(car_accidents_2017_iow) +
+  tm_dots(size = 0.075) +
+  tm_compass(type = "8star", position = c("left", "top")) +
+  tm_scale_bar()
+
 # still some problems, spatial distance on a network?
 # problems, again...
+
+# higher order?
+iow_graph_ego <- ego(iow_graph, order = 50)
+
+iow_geofabric <- iow_geofabric %>%
+  mutate(number_of_car_accidents_smooth = map_dbl(seq_len(nrow(.)), spatial_smoothing))
+
+# plot
+tm_shape(iow_bb, ext = 1.05) +
+  tm_borders() +
+  tm_shape(iow_geofabric) +
+  tm_lines(
+    col = "number_of_car_accidents_smooth",
+    lwd = 2.5,
+    palette = "-RdYlGn",
+    title.col = "Smoothed number of car crashes in 2017"
+  ) +
+  tm_shape(car_accidents_2017_iow) +
+  tm_dots(size = 0.075) +
+  tm_compass(type = "8star", position = c("left", "top")) +
+  tm_scale_bar()
+
+# other problems.......
+
+
