@@ -44,6 +44,8 @@ remotes::install_cran(pkgs)
 # remotes::install_github("ITSLeeds/pct")
 ```
 
+The workshop is based on a practical handout that can be found [here](https://github.com/ropensci/stats19/releases/download/1.1.0/stats-19-exercises.pdf).
+
 # Introduction
 
 This vignette supports workshops on road safety analysis with R.

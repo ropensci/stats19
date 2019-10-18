@@ -199,6 +199,72 @@ plot(crashes_sf)
 - Talk on R in a professional setting
 - Working on your own data
 
+--
+
+- Missed homework! Ensure that you have at least read-over the handout Sections 1:5
+
+
+---
+
+# The R learning curve
+
+See video: https://www.youtube.com/watch?v=7oyiPBjLAWY&feature=youtu.be&t=357
+
+![](https://i.imgur.com/CBdpkug.jpg)
+
+---
+
+# Agenda
+
+09:30-11:00 Point pattern analysis
+
+- Visualising data with tmap
+- Spatial and temporal subsetting
+- Aggregation
+
+11:15-12:30 Road network data
+
+- Desire lines: using origin-destination data
+- Downloading road network data from OSM
+- Buffers on road networks
+
+**Lunch**
+
+13:30-15:00 Analysing crash data on road network
+
+**Break**
+  
+15:15-15:30: Talk on Road Safety 3
+
+15:30-16:30 Applying the methods to your own data
+
+---
+
+# Bonus extras
+
+![](final-figure.png)
+
+--
+
+Merging, forecasting, network analysis
+
+---
+
+# Visualising spatial data practical
+
+- Foundations of sf: try Sections 6.2 and 6.3 (building on new subsetting knowledge)
+- Making maps: try out the exercises in Section 7
+- Continuing working through the practicals
+
+- Sections 1:5 R vital
+- Section 3 on subsetting (vital)
+- Section 4 on packages (important)
+- Section 5 on times (can do later)
+
+--
+
+- Live demo + questions
+
 ---
 
 # Further information
