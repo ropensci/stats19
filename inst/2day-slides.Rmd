@@ -252,9 +252,13 @@ Merging, forecasting, network analysis
 
 # Visualising spatial data practical
 
+
 - Foundations of sf: try Sections 6.2 and 6.3 (building on new subsetting knowledge)
 - Making maps: try out the exercises in Section 7
-- Continuing working through the practicals
+
+- From break until lunch, either:
+  - Continue working through the practicals (Sections 2 to 5), or
+  - Dive into processing large stats19 dataset (Section 8)
 
 - Sections 1:5 R vital
 - Section 3 on subsetting (vital)
