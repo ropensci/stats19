@@ -181,6 +181,7 @@ tm_shape(iow_bb, ext = 1.05) +
 
 iow_geofabric <- iow_geofabric %>%
   mutate(number_of_car_accidents_per_meter = as.numeric(number_of_car_accidents) / st_length(.))
+number_of_car_accidents_per_meter = iow_geofabric$number_of_car_accidents_per_meter
 
 # plot
 tm_shape(iow_bb, ext = 1.05) +
@@ -199,7 +200,7 @@ tm_shape(iow_bb, ext = 1.05) +
   tm_scale_bar()
 
 # higher order?
-iow_graph_ego <- ego(iow_graph, order = 4)
+iow_graph_ego <- ego(iow_graph, order = 6)
 
 spatial_smoothing <- function(ID) {
   mean(number_of_car_accidents_per_meter[iow_graph_ego[[ID]]])
@@ -207,4 +208,20 @@ spatial_smoothing <- function(ID) {
 
 iow_geofabric <- iow_geofabric %>%
   mutate(number_of_car_accidents_per_meter_smooth = map_dbl(seq_len(nrow(.)), spatial_smoothing))
+
+tm_shape(iow_bb, ext = 1.05) +
+  tm_borders() +
+  tm_shape(iow_geofabric) +
+  tm_lines(
+    col = "number_of_car_accidents_per_meter_smooth",
+    lwd = 2.5,
+    palette = "-RdYlGn",
+    title.col = "Smoothed number of car crashes in 2017",
+    style = "sd"
+  ) +
+  tm_shape(car_accidents_2017_iow) +
+  tm_dots(size = 0.075) +
+  tm_compass(type = "8star", position = c("left", "top")) +
+  tm_scale_bar()
+
 
