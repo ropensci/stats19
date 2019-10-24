@@ -121,7 +121,7 @@ Try running the the code you saved in the previous section using each of these m
 
 **Pro tip:** Try jumping between the console and the source editor by pressing Ctl+1 and Ctl+2.
 
-## Vewing Objects
+## Viewing Objects
 
 Create new objects by typing and running the following code chunk in a new script, e.g. called `objects.R`.
 
@@ -758,8 +758,8 @@ zones = pct::get_pct_zones("isle-of-wight")[1:9]
 ```
 
 1. What is the class of the `zones` object?
-1. What are it's column names?
-1. Print its first 2 features and rows 1 and columns 6:8 (the result is below).
+1. What are its column names?
+1. Print its first 2 rows and columns 6:8 (the result is below).
 
 ```{r, echo=FALSE}
 # class(zones)
