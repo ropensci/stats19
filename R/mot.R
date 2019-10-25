@@ -2,10 +2,13 @@
 #'
 #' @section Details:
 #' This function takes a list of vehicle registrations (VRMs) and returns vehicle data from MOT records.
-#' It returns a data frame of those VRMs which were successfully used with the DVSA MOT API
+#' It returns a data frame of those VRMs which were successfully used with the DVSA MOT API.
+#'
+#' Information on the DVSA MOT API is available here:
+#' https://dvsa.github.io/mot-history-api-documentation/
 #'
 #' The DVSA MOT API requires a registration.  The function therefore requires the API key provided by the DVSA.
-#' Be aware that the API has usage limits.  The function will therefore limit lists with more than 150,000 VRMS.
+#' Be aware that the API has usage limits.  The function will therefore limit lists with more than 150,000 VRMs.
 #'
 #' @param VRMs A list of VRMs as character strings.
 #' @param apikey Your API key as a character string.
@@ -23,11 +26,11 @@ get_MOT_STATS19 <- function(VRMs, apikey) {
     if (!is.character(VRMs[[i]])) stop("All VRMs in list must be character")
   }
   if (!is.character(apikey)) stop("The api key must be a character string")
-  if (length(VRMs) >= 150000) stop("Don't do more that 150,000 VRMs at a time")
+  if (length(VRMs) >= 150000) stop("Don't do more than 150,000 VRMs at a time")
 
   # Set up API key
-  h <- new_handle()
-  handle_setheaders(h,
+  h <- curl::new_handle()
+  curl::handle_setheaders(h,
                     "Accept" = "application/json+v6",
                     "x-api-key" = apikey)
 
@@ -38,16 +41,16 @@ get_MOT_STATS19 <- function(VRMs, apikey) {
   for(i in 1:length(VRMs)){
     # Make API url and call API
     URL <- as.character(paste('https://beta.check-mot.service.gov.uk/trade/vehicles/mot-tests?registration=',VRMs[i],sep=""))
-    d <- curl_fetch_memory(URL, handle = h)
+    d <- curl::curl_fetch_memory(URL, handle = h)
     if(d$status_code == 404){next()}
-    page.df <- fromJSON(rawToChar(d$content))
+    page.df <- jsonlite::fromJSON(rawToChar(d$content))
     # If VehicleID is available, use that instead to handle cherished plates.  Repeat API call.
     if(!is.null(page.df$vehicleID)) {
       vehicleID <- page.df$vehicleId
       URL2 <- as.character(paste('https://beta.check-mot.service.gov.uk/trade/vehicles/mot-tests?vehicleId=',vehicleID,sep=""))
-      d2 <- curl_fetch_memory(URL2, handle = h)
+      d2 <- curl::curl_fetch_memory(URL2, handle = h)
       if(d2$status_code == 404){next()}
-      page.df <- fromJSON(rawToChar(d2$content))
+      page.df <- jsonlite::fromJSON(rawToChar(d2$content))
       rm(vehicleID)
     }
     # Start assembling output data frame (called "result")
@@ -58,15 +61,22 @@ get_MOT_STATS19 <- function(VRMs, apikey) {
       MOTresults <- page.df$motTests[[1]]
       result$numberoftests <- nrow(MOTresults)
       result$numberofPassedTests <- nrow(MOTresults[MOTresults$testResult == "PASSED",])
+      advisory.df <- MOTresults[MOTresults$testResult == "PASSED",]
+      advisory.df$advisory <- NA
+      for(z in 1:nrow(advisory.df)){
+        df <- as.data.frame(advisory.df$rfrAndComments[z])
+        if("ADVISORY" %in% df$type){advisory.df$advisory[z] <- TRUE}
+      }
+      result$numberofPassedwithAdvisories <-sum(advisory.df$advisory, na.rm = TRUE)
       result$latestExpiryDate <- MOTresults$expiryDate[1]
       if(!is.null(result$latestExpiryDate)){
-        result$latestExpiryDate <- ymd(result$latestExpiryDate)
+        result$latestExpiryDate <- lubridate::ymd(result$latestExpiryDate)
       }
       result$latestOdometer <- MOTresults$odometerValue[1]
       result$latestOdometerUnit <- MOTresults$odometerUnit[1]
       result$latestOdometerDate <- MOTresults$completedDate[1]
-      result$latestOdometerDate <- ymd_hms(result$latestOdometerDate)
-      MOTresults$completedDate <- ymd_hms(MOTresults$completedDate)
+      result$latestOdometerDate <- lubridate::ymd_hms(result$latestOdometerDate)
+      MOTresults$completedDate <- lubridate::ymd_hms(MOTresults$completedDate)
       # To estimate mileage rate, this looks for an MOT test at least 180 days prior to the most recent result.
       if(nrow(MOTresults) > 1){
         for(j in 2:nrow(MOTresults)){
@@ -84,22 +94,22 @@ get_MOT_STATS19 <- function(VRMs, apikey) {
     }
     result.list[[i]] <- result
     # Create progress bar
-    pb <- txtProgressBar(min = 0, max = length(VRMs), style = 3)
-    setTxtProgressBar(pb, i)
+    pb <- utils::txtProgressBar(min = 0, max = length(VRMs), style = 3)
+    utils::setTxtProgressBar(pb, i)
   }
 
   # Close progress bar and bind rows within list
   close(pb)
-  result.df <- bind_rows(result.list)
+  result.df <- dplyr::bind_rows(result.list)
 
   # Format dates and numeric etc.
-  try(result.df$firstUsedDate <- ymd(result.df$firstUsedDate), silent = TRUE)
-  try(result.df$registrationDate <- ymd(result.df$registrationDate), silent = TRUE)
-  try(result.df$manufactureDate <- ymd(result.df$manufactureDate), silent = TRUE)
-  try(result.df$latestExpiryDate <- ymd(result.df$latestExpiryDate), silent = TRUE)
-  try(result.df$latestOdometerDate <- ymd_hms(result.df$latestOdometerDate), silent = TRUE)
-  try(result.df$prevOdometerDate <- ymd_hms(result.df$prevOdometerDate), silent = TRUE)
-  try(result.df$motTestDueDate <- ymd(result.df$motTestDueDate), silent = TRUE)
+  try(result.df$firstUsedDate <- lubridate::ymd(result.df$firstUsedDate), silent = TRUE)
+  try(result.df$registrationDate <- lubridate::ymd(result.df$registrationDate), silent = TRUE)
+  try(result.df$manufactureDate <- lubridate::ymd(result.df$manufactureDate), silent = TRUE)
+  try(result.df$latestExpiryDate <- lubridate::ymd(result.df$latestExpiryDate), silent = TRUE)
+  try(result.df$latestOdometerDate <- lubridate::ymd_hms(result.df$latestOdometerDate), silent = TRUE)
+  try(result.df$prevOdometerDate <- lubridate::ymd_hms(result.df$prevOdometerDate), silent = TRUE)
+  try(result.df$motTestDueDate <- lubridate::ymd(result.df$motTestDueDate), silent = TRUE)
   try(result.df$latestOdometer <- as.numeric(result.df$latestOdometer), silent = TRUE)
   try(result.df$prevOdometer <- as.numeric(result.df$prevOdometer), silent = TRUE)
   try(result.df$latestOdometerUnit <- as.factor(result.df$latestOdometerUnit), silent = TRUE)
@@ -125,7 +135,6 @@ get_MOT_STATS19 <- function(VRMs, apikey) {
   result.df$prevOdometerUnit <- NULL
 
   # Derive miles per year estimate
-  summary(result.df$prevOdometer)
   result.df$test_diff <- as.Date(result.df$latestOdometerDate) - as.Date(result.df$prevOdometerDate)
   result.df$test_diff[is.na(result.df$prevOdometerDate)] <- as.Date(result.df$latestOdometerDate[is.na(result.df$prevOdometerDate)]) - as.Date(result.df$registrationDate[is.na(result.df$prevOdometerDate)])
   result.df$dist_diff <- result.df$latestOdometer - result.df$prevOdometer
@@ -141,3 +150,4 @@ get_MOT_STATS19 <- function(VRMs, apikey) {
 
   return(result.df)
 }
+

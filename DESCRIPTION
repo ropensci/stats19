@@ -49,7 +49,9 @@ Suggests:
     leaflet,
     geojsonsf,
     htmltools,
-    tmap
+    tmap,
+    jsonlite,
+    utils
 VignetteBuilder: knitr
 RoxygenNote: 6.1.1
 Roxygen: list(markdown = TRUE)
