@@ -50,8 +50,7 @@ Suggests:
     geojsonsf,
     htmltools,
     tmap,
-    jsonlite,
-    utils
+    jsonlite
 VignetteBuilder: knitr
 RoxygenNote: 6.1.1
 Roxygen: list(markdown = TRUE)
