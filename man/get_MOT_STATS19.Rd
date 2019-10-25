@@ -17,10 +17,13 @@ Download vehicle data from the DVSA MOT API using VRM.
 \section{Details}{
 
 This function takes a list of vehicle registrations (VRMs) and returns vehicle data from MOT records.
-It returns a data frame of those VRMs which were successfully used with the DVSA MOT API
+It returns a data frame of those VRMs which were successfully used with the DVSA MOT API.
+
+Information on the DVSA MOT API is available here:
+https://dvsa.github.io/mot-history-api-documentation/
 
 The DVSA MOT API requires a registration.  The function therefore requires the API key provided by the DVSA.
-Be aware that the API has usage limits.  The function will therefore limit lists with more than 150,000 VRMS.
+Be aware that the API has usage limits.  The function will therefore limit lists with more than 150,000 VRMs.
 }
 
 \examples{
