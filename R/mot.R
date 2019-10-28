@@ -1,7 +1,7 @@
 #' Download vehicle data from the DVSA MOT API using VRM.
 #'
 #' @section Details:
-#' This function takes a list of vehicle registrations (VRMs) and returns vehicle data from MOT records.
+#' This function takes a a character vector of vehicle registrations (VRMs) and returns vehicle data from MOT records.
 #' It returns a data frame of those VRMs which were successfully used with the DVSA MOT API.
 #'
 #' Information on the DVSA MOT API is available here:
@@ -10,24 +10,24 @@
 #' The DVSA MOT API requires a registration.  The function therefore requires the API key provided by the DVSA.
 #' Be aware that the API has usage limits.  The function will therefore limit lists with more than 150,000 VRMs.
 #'
-#' @param VRMs A list of VRMs as character strings.
+#' @param vrm A list of VRMs as character strings.
 #' @param apikey Your API key as a character string.
 #'
 #' @export
 #' @examples
 #' \donttest{
-#' VRMs = as.list(c("1RAC","P1RAC"))
-#' get_MOT_STATS19(VRMs = VRMs, apikey = apikey)
+#' vrm = c("1RAC","P1RAC")
+#' get_MOT_STATS19(vrm = vrm, apikey = apikey)
 #' }
 
-get_MOT_STATS19 = function(VRMs, apikey) {
+get_MOT_STATS19 = function(vrm, apikey) {
   # Check arguments
-  if (!is.list(VRMs)) stop("VRMs must be in a list")
-  for(i in 1:length(VRMs)){
-    if (!is.character(VRMs[[i]])) stop("All VRMs in list must be character")
+  if (!is.vector(vrm)) stop("vrm must be in a vector")
+  for(i in 1:length(vrm)){
+    if (!is.character(vrm[[i]])) stop("All VRMs must be character")
   }
   if (!is.character(apikey)) stop("The api key must be a character string")
-  if (length(VRMs) >= 150000) stop("Don't do more than 150,000 VRMs at a time")
+  if (length(vrm) >= 150000) stop("Don't do more than 150,000 VRMs per day")
 
   # Set up API key
   h = curl::new_handle()
@@ -39,9 +39,9 @@ get_MOT_STATS19 = function(VRMs, apikey) {
   result.list = list()
 
   # Loop through VRMs
-  for(i in 1:length(VRMs)){
+  for(i in 1:length(vrm)){
     # Make API url and call API
-    URL = as.character(paste('https://beta.check-mot.service.gov.uk/trade/vehicles/mot-tests?registration=',VRMs[i],sep=""))
+    URL = as.character(paste('https://beta.check-mot.service.gov.uk/trade/vehicles/mot-tests?registration=',vrm[i],sep=""))
     d = curl::curl_fetch_memory(URL, handle = h)
     if(d$status_code == 404){next()}
     page.df = jsonlite::fromJSON(rawToChar(d$content))
@@ -95,7 +95,7 @@ get_MOT_STATS19 = function(VRMs, apikey) {
     }
     result.list[[i]] = result
     # Create progress bar
-    pb = utils::txtProgressBar(min = 0, max = length(VRMs), style = 3)
+    pb = utils::txtProgressBar(min = 0, max = length(vrm), style = 3)
     utils::setTxtProgressBar(pb, i)
   }
 
