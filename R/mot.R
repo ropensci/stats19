@@ -17,10 +17,10 @@
 #' @examples
 #' \donttest{
 #' vrm = c("1RAC","P1RAC")
-#' get_MOT_STATS19(vrm = vrm, apikey = apikey)
+#' get_MOT(vrm = vrm, apikey = apikey)
 #' }
 
-get_MOT_STATS19 = function(vrm, apikey) {
+get_MOT = function(vrm, apikey) {
   # Check arguments
   if (!is.vector(vrm)) stop("vrm must be in a vector")
   for(i in 1:length(vrm)){
@@ -104,26 +104,26 @@ get_MOT_STATS19 = function(vrm, apikey) {
   result.df = dplyr::bind_rows(result.list)
 
   # Format dates and numeric etc.
-  try(result.df$firstUsedDate = lubridate::ymd(result.df$firstUsedDate), silent = TRUE)
-  try(result.df$registrationDate = lubridate::ymd(result.df$registrationDate), silent = TRUE)
-  try(result.df$manufactureDate = lubridate::ymd(result.df$manufactureDate), silent = TRUE)
-  try(result.df$latestExpiryDate = lubridate::ymd(result.df$latestExpiryDate), silent = TRUE)
-  try(result.df$latestOdometerDate = lubridate::ymd_hms(result.df$latestOdometerDate), silent = TRUE)
-  try(result.df$prevOdometerDate = lubridate::ymd_hms(result.df$prevOdometerDate), silent = TRUE)
-  try(result.df$motTestDueDate = lubridate::ymd(result.df$motTestDueDate), silent = TRUE)
-  try(result.df$latestOdometer = as.numeric(result.df$latestOdometer), silent = TRUE)
-  try(result.df$prevOdometer = as.numeric(result.df$prevOdometer), silent = TRUE)
-  try(result.df$latestOdometerUnit = as.factor(result.df$latestOdometerUnit), silent = TRUE)
-  try(result.df$prevOdometerUnit = as.factor(result.df$prevOdometerUnit), silent = TRUE)
-  try(result.df$engineSize = as.numeric(result.df$engineSize), silent = TRUE)
-  try(result.df$fuelType = as.factor(result.df$fuelType), silent = TRUE)
-  try(result.df$primaryColour = as.factor(result.df$primaryColour), silent = TRUE)
-  try(result.df$make = as.factor(result.df$make), silent = TRUE)
-  try(result.df$model = as.factor(result.df$model), silent = TRUE)
+  try(result.df$firstUsedDate <- lubridate::ymd(result.df$firstUsedDate), silent = TRUE)
+  try(result.df$registrationDate <- lubridate::ymd(result.df$registrationDate), silent <- TRUE)
+  try(result.df$manufactureDate <- lubridate::ymd(result.df$manufactureDate), silent = TRUE)
+  try(result.df$latestExpiryDate <- lubridate::ymd(result.df$latestExpiryDate), silent = TRUE)
+  try(result.df$latestOdometerDate <- lubridate::ymd_hms(result.df$latestOdometerDate), silent = TRUE)
+  try(result.df$prevOdometerDate <- lubridate::ymd_hms(result.df$prevOdometerDate), silent = TRUE)
+  try(result.df$motTestDueDate <- lubridate::ymd(result.df$motTestDueDate), silent = TRUE)
+  try(result.df$latestOdometer <- as.numeric(result.df$latestOdometer), silent = TRUE)
+  try(result.df$prevOdometer <- as.numeric(result.df$prevOdometer), silent = TRUE)
+  try(result.df$latestOdometerUnit <- as.factor(result.df$latestOdometerUnit), silent = TRUE)
+  try(result.df$prevOdometerUnit <- as.factor(result.df$prevOdometerUnit), silent = TRUE)
+  try(result.df$engineSize <- as.numeric(result.df$engineSize), silent = TRUE)
+  try(result.df$fuelType <- as.factor(result.df$fuelType), silent = TRUE)
+  try(result.df$primaryColour <- as.factor(result.df$primaryColour), silent = TRUE)
+  try(result.df$make <- as.factor(result.df$make), silent = TRUE)
+  try(result.df$model <- as.factor(result.df$model), silent = TRUE)
 
   # Derive year of manufacture if missing from date of manufacture
-  try(result.df$manufactureYear[is.na(result.df$manufactureYear)] = format(result.df$manufactureDate[is.na(result.df$manufactureYear)], format="%Y"), silent = TRUE)
-  try(result.df$manufactureYear = as.numeric(result.df$manufactureYear), silent = TRUE)
+  try(result.df$manufactureYear[is.na(result.df$manufactureYear)] <- format(result.df$manufactureDate[is.na(result.df$manufactureYear)], format="%Y"), silent = TRUE)
+  try(result.df$manufactureYear <- as.numeric(result.df$manufactureYear), silent = TRUE)
 
   # Convert all units to miles
   if("km" %in% unique(result.df$latestOdometerUnit)){
