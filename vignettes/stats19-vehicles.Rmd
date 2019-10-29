@@ -25,7 +25,7 @@ Of the three dataset types in STATS19, the vehicle tables are perhaps the most r
 They look like this:
 
 ```{r}
-v = get_stats19(year = 2017, type = "vehicles")
+v = get_stats19(year = 2018, type = "vehicles")
 v
 ```
 
@@ -69,7 +69,7 @@ In addition to these factors appearing in prior road safety research and debate,
 To explore the relationship between vehicles and crash severity, we must first join on the 'accidents' table:
 
 ```{r}
-a = get_stats19(year = 2017, type = "accidents")
+a = get_stats19(year = 2018, type = "accidents")
 va = dplyr::inner_join(v, a)
 ```
 
@@ -78,6 +78,7 @@ Now we have additional variables available to us:
 ```{r}
 dim(v)
 dim(va)
+names(va)
 ```
 
 Let's see how crash severity relates to the variables of interest mentioned above:
@@ -85,6 +86,42 @@ Let's see how crash severity relates to the variables of interest mentioned abov
 ```{r, out.width="100%"}
 xtabs(~vehicle_type2 + accident_severity, data = va) %>% prop.table()
 xtabs(~vehicle_type2 + accident_severity, data = va) %>% prop.table() %>% plot()
+```
+
+As expected, crashes involving large vehicles such as buses and good vehicles tend to be more serious (involve proportionally more deaths) than crashes involving smaller vehicles.
+
+To focus only on cars, we can filter the `va` table as follows:
+
+```{r}
+vac = va %>% filter(vehicle_type2 == "Car")
+```
+
+
+```{r, echo=FALSE, eval=FALSE}
+max_engine_size = 5000
+min_engine_size = 600
+summary(vac$engine_capacity_cc)
+
+vac$val_size = vac$engine_capacity_cc <= max_engine_size &
+  vac$engine_capacity_cc >= min_engine_size
+
+table(vac$val_size) / nrow(vac)
+
+vac_original = vac
+
+vac = vac %>% filter(val_size)
+vac %>% 
+  mutate(age = formatC(age_band_of_driver, digits = 2, flag = "0")) %>% 
+  ggplot() +
+  geom_violin(aes(age, engine_capacity_cc)) 
+
+vac$sev_factor = factor(vac$accident_severity, labels = 3:1)
+vac$sev_numeric = vac$sev_factor %>% as.character() %>%  as.numeric()
+summary(vac$sev_factor)
+summary(vac$sev_numeric)
+
+m = lm(sev_numeric ~ engine_capacity_cc + age_of_driver + speed_limit, data = vac)
+summary(m)
 ```
 
 

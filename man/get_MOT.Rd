@@ -29,6 +29,9 @@ Be aware that the API has usage limits.  The function will therefore limit lists
 \examples{
 \donttest{
 vrm = c("1RAC","P1RAC")
-get_MOT(vrm = vrm, apikey = apikey)
+apikey = Sys.getenv("MOTKEY")
+if(nchar(apikey) > 0) {
+  get_MOT(vrm = vrm, apikey = apikey)
+}
 }
 }

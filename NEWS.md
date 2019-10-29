@@ -1,4 +1,4 @@
-# stats19 1.0.1
+# stats19 1.1.0
 
 * Now enables the download of 2018 data
 * Various bug fixes, see https://github.com/ropensci/stats19/issues
