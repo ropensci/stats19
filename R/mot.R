@@ -17,9 +17,11 @@
 #' @examples
 #' \donttest{
 #' vrm = c("1RAC","P1RAC")
-#' get_MOT(vrm = vrm, apikey = apikey)
+#' apikey = Sys.getenv("MOTKEY")
+#' if(nchar(apikey) > 0) {
+#'   get_MOT(vrm = vrm, apikey = apikey)
 #' }
-
+#' }
 get_MOT = function(vrm, apikey) {
   # Check arguments
   if (!is.vector(vrm)) stop("vrm must be in a vector")
