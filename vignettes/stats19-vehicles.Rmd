@@ -128,10 +128,11 @@ summary(m)
 
 ```{r, echo=FALSE, eval=FALSE}
 table_vehicle_type = xtabs(cbind(accident_severity, vehicle_type) ~ accident_severity, data = va)
-va %>% 
+group_totals = va %>% 
   group_by(accident_severity) %>% 
-  summarise()
+  summarise(n = n())
 
+# fails
 fit = glm(data = va, factor(accident_severity) ~
             engine_capacity_cc +
             age_of_driver +
@@ -139,12 +140,53 @@ fit = glm(data = va, factor(accident_severity) ~
             factor(propulsion_code) +
             age_of_vehicle
           )
-nnet::multinom(formula = accident_severity ~
+# works but result does not have probabilities
+?nnet::multinom
+mod = nnet::multinom(formula = accident_severity ~
             engine_capacity_cc +
             age_of_driver +
             engine_capacity_cc +
             propulsion_code +
             age_of_vehicle, data = va)
-mnl
+mod
+summary(mod)
+mod$nunits
+class(mod$fitted.values)
+dim(mod$fitted.values)
+colnames(mod$fitted.values)
+summary(mod$fitted.values) # result!
+
+probs = as.data.frame(mod$fitted.values)
+head(probs)
+head(rowSums(probs))
+colSums(probs) / group_totals$n
+nrow(probs)
+nrow(va)
+
+# install.packages("mlogit")
+install.packages("AER")
+vignette(package = "mlogit")
+vignette("c2.formula.data")
+library(mlogit)
+data("TravelMode", package = "AER")
+head(TravelMode)
+?TravelMode
+summary(TravelMode$choice)
+summary(TravelMode$mode)
+TM = mlogit.data(TravelMode, choice = "choice", shape = "long",
+                 alt.levels = c("air", "train", "bus", "car"))
+
+vamld = mlogit.data(va, choice = "accident_severity", alt.levels = c("Slight", "Serious", "Fatal"), shape = "wide")
+
+mlogit(accident_severity ~ speed_limit | 0, vamld[1:999, ])
+
+vamld = mlogit::mlogit.data(va, choice = "accident_severity", shape = "wide")
+head(vamld)
+
+
+# fails
+# vm = mlogit(accident_severity ~ engine_capacity_cc + speed_limit | 0, vamld[1:999, ])
+# apply(fitted(vm, outcome = FALSE), 2, mean)
+# vm
 ```
 
