@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Read in STATS19 road safety data from .csv files downloaded. — read_casualties • stats19</title>
+<title>Download vehicle data from the DVSA MOT API using VRM. — get_MOT • stats19</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,8 @@
 
 
 
-<meta property="og:title" content="Read in STATS19 road safety data from .csv files downloaded. — read_casualties" />
-<meta property="og:description" content="Read in STATS19 road safety data from .csv files downloaded." />
+<meta property="og:title" content="Download vehicle data from the DVSA MOT API using VRM. — get_MOT" />
+<meta property="og:description" content="Download vehicle data from the DVSA MOT API using VRM." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -132,37 +132,27 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Read in STATS19 road safety data from .csv files downloaded.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/ropensci/stats19/blob/master/R/read.R'><code>R/read.R</code></a></small>
-    <div class="hidden name"><code>read_casualties.Rd</code></div>
+    <h1>Download vehicle data from the DVSA MOT API using VRM.</h1>
+    <small class="dont-index">Source: <a href='https://github.com/ropensci/stats19/blob/master/R/mot.R'><code>R/mot.R</code></a></small>
+    <div class="hidden name"><code>get_MOT.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Read in STATS19 road safety data from .csv files downloaded.</p>
+    <p>Download vehicle data from the DVSA MOT API using VRM.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>read_casualties</span>(<span class='kw'>year</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>filename</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>data_dir</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(),
-  <span class='kw'>format</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>get_MOT</span>(<span class='no'>vrm</span>, <span class='no'>apikey</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>year</th>
-      <td><p>Single year for which data are to be read</p></td>
+      <th>vrm</th>
+      <td><p>A list of VRMs as character strings.</p></td>
     </tr>
     <tr>
-      <th>filename</th>
-      <td><p>Character string of the filename of the .csv to read, if this is given, type and
-years determine whether there is a target to read, otherwise disk scan would be needed.</p></td>
-    </tr>
-    <tr>
-      <th>data_dir</th>
-      <td><p>Where sets of downloaded data would be found.</p></td>
-    </tr>
-    <tr>
-      <th>format</th>
-      <td><p>Switch to return raw read from file, default is <code>TRUE</code>.</p></td>
+      <th>apikey</th>
+      <td><p>Your API key as a character string.</p></td>
     </tr>
     </table>
 
@@ -170,12 +160,20 @@ years determine whether there is a target to read, otherwise disk scan would be 
 
     
 
-<p>The function returns a data frame, in which each record is a reported casualty
-in the STATS19 dataset.</p>
+<p>This function takes a a character vector of vehicle registrations (VRMs) and returns vehicle data from MOT records.
+It returns a data frame of those VRMs which were successfully used with the DVSA MOT API.</p>
+<p>Information on the DVSA MOT API is available here:
+https://dvsa.github.io/mot-history-api-documentation/</p>
+<p>The DVSA MOT API requires a registration.  The function therefore requires the API key provided by the DVSA.
+Be aware that the API has usage limits.  The function will therefore limit lists with more than 150,000 VRMs.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='fu'><a href='dl_stats19.html'>dl_stats19</a></span>(<span class='kw'>year</span> <span class='kw'>=</span> <span class='fl'>2017</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"casualties"</span>)</div><div class='output co'>#&gt; <span class='message'>Files identified: dftRoadSafetyData_Casualties_2017.zip</span></div><div class='output co'>#&gt; <span class='message'>   http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Casualties_2017.zip</span></div><div class='output co'>#&gt; <span class='message'>Data already exists in data_dir, not downloading</span></div><div class='output co'>#&gt; <span class='message'>Data saved at /tmp/Rtmpo7eM5d/dftRoadSafetyData_Casualties_2017/Cas.csv</span></div><div class='input'><span class='no'>casualties</span> <span class='kw'>=</span> <span class='fu'>read_casualties</span>(<span class='kw'>year</span> <span class='kw'>=</span> <span class='fl'>2017</span>)
+<span class='no'>vrm</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"1RAC"</span>,<span class='st'>"P1RAC"</span>)
+<span class='no'>apikey</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Sys.getenv.html'>Sys.getenv</a></span>(<span class='st'>"MOTKEY"</span>)
+<span class='kw'>if</span>(<span class='fu'><a href='https://rdrr.io/r/base/nchar.html'>nchar</a></span>(<span class='no'>apikey</span>) <span class='kw'>&gt;</span> <span class='fl'>0</span>) {
+  <span class='fu'>get_MOT</span>(<span class='kw'>vrm</span> <span class='kw'>=</span> <span class='no'>vrm</span>, <span class='kw'>apikey</span> <span class='kw'>=</span> <span class='no'>apikey</span>)
+}
 <span class='co'># }</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
