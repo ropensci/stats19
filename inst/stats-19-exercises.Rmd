@@ -24,6 +24,7 @@ knitr::opts_chunk$set(cache = TRUE)
 # Upload exercises
 file.copy("inst/stats-19-exercises.pdf", ".", overwrite = TRUE)
 piggyback::pb_upload("stats-19-exercises.pdf")
+piggyback::pb_download_url("stats-19-exercises.pdf")
 # to run this for the first time:
 download.file("https://github.com/ITSLeeds/TDS/archive/master.zip", "tds-master.zip")
 unzip("tds-master.zip")
@@ -66,7 +67,7 @@ The first exercise is to open up RStudio and take a look around and identify the
 **Explore each of the main components of RStudio.**
 Try changing the Global Settings (in the Tools menu) and see RStudio's short cuts by pressing `Alt-Shift-K` (or `Option+Shift+K` on Mac).
 
-```{r rstudioui, echo=FALSE, out.width="80%"}
+```{r rstudioui, echo=FALSE, out.width="70%"}
 knitr::include_graphics("images/rstudio-ui.png")
 ```
 
@@ -82,16 +83,9 @@ Scripts are the files where R code is stored.
 you could simply type all our code into the console, but that require retyping commands each time you run it.
 Instead, code that you want to keep and share should be saved script files, plain text files that have the `.R` extension.
 
-Make a new script:
+Make a new script with Flie > New File > Rscript or Ctl+Shift+N
 
-> Flie > New File > Rscript
-Or use the new script button on the toolbar.
-Or Ctl+Shift+N
-
-Save the script and give it a sensible name like `stats19-lesson-1.R` with:
-
-> File > Save
-Or the save button on the toolbar.
+Save the script and give it a sensible name like `stats19-lesson-1.R` with File > Save, the save button on the toolbar, or Ctl+S.
 
 **Pro tip:** You can also create new R scripts by typing and running this command in the R console:
 
@@ -127,7 +121,7 @@ Try running the the code you saved in the previous section using each of these m
 
 **Pro tip:** Try jumping between the console and the source editor by pressing Ctl+1 and Ctl+2.
 
-## Vewing Objects
+## Viewing Objects
 
 Create new objects by typing and running the following code chunk in a new script, e.g. called `objects.R`.
 
@@ -138,12 +132,7 @@ casualty_age = seq(from = 20, to = 60, by = 20)
 set.seed(1)
 dark = sample(x = c(TRUE, FALSE), size = 3, replace = TRUE)
 small_matrix = matrix(1:24, nrow = 12)
-crashes = data.frame(
-  vehicle_type,
-  casualty_type,
-  casualty_age,
-  dark
-)
+crashes = data.frame(vehicle_type, casualty_type, casualty_age, dark)
 ```
 
 We can view the objects in a range of ways:
@@ -151,7 +140,7 @@ We can view the objects in a range of ways:
 1. Type the name of the object into the console e.g. `crashes`, what happens if we try to view all the 24 numbers included in the object `small_matrix`?
 1. Use the `head()` function to view just the first 6 rows e.g. `head(small_matrix)`
 1. Bonus: use the `n` argument in the previous function call to show only the first 2 rows of `small_matrix`
-1. Use the view table button next to matrix or data.frame objects in the environment tab.
+1. Click on the `crashes` object in the environment tab to View it in a spreadsheet.
 1. Run the command `View(vehicle_type)`. What just happened?
 
 We can also get an overview of an object using a range of functions, including 
@@ -179,7 +168,7 @@ length(vehicle_type)
 
 **Bonus**: Find out the class of the column `vehicle_type` in the data frame `crashes` with the command `class(crashes$vehicle_type)`.
 Why has it changed? 
-Create a new object called `crashes_char` that keeps the class of the character vectors intact by using the function `tibble::tibble()` (see [tibble.tidyverse.org](https://tibble.tidyverse.org/) and Section \@ref(what-are-packages) for details).
+Create a new object called `crashes_char` that keeps the class of the character vectors intact by using the function `tibble::tibble()` (see [tibble.tidyverse.org](https://tibble.tidyverse.org/) and Section 4 for details).
 
 ```{r tibble1, echo=FALSE, eval=FALSE}
 tibble::tibble(
@@ -199,14 +188,11 @@ knitr::include_graphics("images/autocomplete.jpg")
 ```
 
 When there is more than one option you can select from the list using the mouse or arrow keys.
-
 Within a function, you can get a list of arguments by pressing Tab.
 
 ```{r help, echo=FALSE}
 knitr::include_graphics("images/fucntionhelp.jpg")
 ```
-
-Notice the help popup.
 
 ## Getting help
 
@@ -342,7 +328,7 @@ crashes[crashes$vehicle_type == "tank", ] # rows where the name is tank
 crashes$casualty_age[crashes$vehicle_type == "tank"] = 61
 ```
 
-## Dealing with NAs
+## Dealing with NAs and recoding
 
 R objects can have a value of NA. This is how R represents missing data.
 
@@ -353,24 +339,24 @@ z = c(4, 5, NA, 7)
 NA values are common in real-world data but can cause trouble, for example
 
 ```{r, eval=FALSE}
-sum(z) # Result is NA
+sum(z) # result is NA
 ```
 
 Some functions can be told to ignore NA values.
 
 ```{r, eval=FALSE}
-sum(z, na.rm = TRUE) # Result is equal to 4 + 5 + 7
+sum(z, na.rm = TRUE) # result is equal to 4 + 5 + 7
 ```
 
 You can find NAs using the `is.na()` function, and then remove them
 
 ```{r, eval=FALSE}
 is.na(z)
-z_nona = z[!is.na(z)] #Note the use of the not operator !
+z_nona = z[!is.na(z)] # note the use of the not operator !
 sum(z)
 ```
 
-Be careful of NAs especially in statistical analysis, for example, the average of a value excluding NAs may not be representative of the whole.
+If you remove records with NAs be warned: the average of a value excluding NAs may not be representative.
 
 ## Changing class
 
@@ -386,23 +372,33 @@ crashes$vehicle_type = as.character(crashes$vehicle_type)
 as.matrix(crashes)
 ```
 
+## Recoding values
+
+Often it is useful to 'recode' values.
+In the raw STATS19 files, for example, -1 means NA.
+There are many ways to recode values in R, the simplest and most mature of which is the use of factors, as shown below:
+
+```{r}
+z = c(1, 2, -1, 1, 3)
+l = c(NA, "a", "b", "c") # labels in ascending order
+z_factor = factor(z, labels = l)
+z_charcter = as.character(z_factor)
+z_charcter
+```
+
+1. Recode `z` to Slight, Serious and Fatal for 1:3 respectively.
+1. Bonus: read the help file at `?dplyr::case_when` and try to recode the values using this function.
+
 ## Now you are ready to use R
 
 **Bonus: reproduce the following plot**
 
-```{r smile, out.width="50%", fig.align="center"}
+```{r smile, out.width="30%", fig.align="center"}
 eyes = c(2.3, 4, 3.7, 4)
 eyes = matrix(eyes, ncol = 2, byrow = T)
 mouth = c(2, 2, 2.5, 1.3, 3, 1, 3.5, 1.3, 4, 2)
 mouth = matrix(mouth, ncol = 2, byrow = T)
-plot(
-  eyes,
-  type = "p",
-  main = "Smile, you're using R!",
-  cex = 2,
-  xlim = c(1, 5),
-  ylim = c(0, 5)
-)
+plot(eyes, type = "p", main = "RRR!", cex = 2, xlim = c(1, 5), ylim = c(0, 5))
 lines(mouth, type = "l", col = "red")
 ```
 
@@ -713,6 +709,7 @@ R has strong geographic data capabilities, with the `sf` package provides a gene
 Create an `sf` data frame called `crashes_sf` as follows:
 
 ```{r crashes-sf, fig.height=2, fig.width=3}
+library(sf) # load the sf package for working with spatial data
 crashes_sf = crashes # create copy of crashes dataset
 crashes_sf$longitude = c(-1.3, -1.2, -1.1)
 crashes_sf$latitude = c(50.7, 50.7, 50.68)
@@ -733,7 +730,23 @@ plot(crashes_sf["casualty_age"])
 plot(crashes_sf[2:3, "dark"])
 # st_distance(crashes_sf)
 # Bembridge
+
+# # updload geographic crash data
+# write_sf(crashes_sf, "crashes_sf.geojson")
+# piggyback::pb_upload("crashes_sf.geojson")
 ```
+
+## Reading and writing spatial data
+
+You can read and write spatial data with `read_sf()` and `write_sf()`, as shown below (see `?read_sf`).
+
+```{r, eval=FALSE}
+write_sf(zones, "zones.geojson") # save geojson file
+write_sf(zones, "zmapinfo", driver = "MapInfo file")
+read_sf("zmapinfo") # read in mapinfo file
+```
+
+See [Chapter 6](https://geocompr.robinlovelace.net/read-write.html) of Geocomputation with R for further information.
 
 ## sf polygons
 
@@ -745,8 +758,8 @@ zones = pct::get_pct_zones("isle-of-wight")[1:9]
 ```
 
 1. What is the class of the `zones` object?
-1. What are it's column names?
-1. Print its first 2 features and rows 1 and columns 6:8 (the result is below).
+1. What are its column names?
+1. Print its first 2 rows and columns 6:8 (the result is below).
 
 ```{r, echo=FALSE}
 # class(zones)
@@ -980,6 +993,43 @@ class(a$date)
 
 # Analysing crash data on road networks
 
+Road network data can be accessed from a range of sources, including OpenStreetMap (OSM) and Ordnance Survey.
+We will use some OSM data from the Ilse of Wight, which can be loaded as follows:
+
+```{r}
+u = "https://github.com/ropensci/stats19/releases/download/1.1.0/roads_key.Rds"
+roads_wgs = readRDS(url(u))
+roads = roads_wgs %>% st_transform(crs = 27700)
+```
+
+You should already have road crashes for the Isle of Wight from the previous stage.
+If not, load crash data as follows:
+
+```{r}
+u = "https://github.com/ropensci/stats19/releases/download/1.1.0/car_accidents_2017_iow.Rds"
+crashes_iow = readRDS(url(u))
+```
+
+1. Plot the roads with the crashes overlaid.
+2. Create a buffer around the roads with a distance of 200 m.
+3. How many crashes fall outside the buffered roads?
+3. Bonus: Use the `aggregate()` function to identify how many crashes happened per segment and plot the result (hint: see `?aggregate.sf` and take a read of Section [4.2.5](https://geocompr.robinlovelace.net/spatial-operations.html#spatial-aggr) of Geocomputation with R) with `tmap` and plot the crashes that happened outside the road buffers on top.
+
+```{r, echo=FALSE, out.width="49%", fig.show='hold', message=FALSE}
+plot(roads$geometry)
+plot(crashes_iow["accident_severity"], add = TRUE)
+roads_buffer = st_buffer(roads, 200, endCapStyle = "FLAT")
+crashes_outside_roads = crashes_iow[roads_buffer, , op = sf::st_disjoint]
+roads_agg = aggregate(crashes_iow[1], by = roads_buffer, FUN = length)
+# plot(roads_agg, border = NA, main = "")
+names(roads_agg)[1] = "N. Crashes"
+tmap_mode("plot")
+tm_shape(roads_agg) + tm_fill("N. Crashes") +
+  tm_shape(crashes_outside_roads) + tm_dots(col = "blue")
+```
+
+\newpage
+
 # Bonus exercises
 
 Identify a region and zonal units of interest from http://geoportal.statistics.gov.uk/ or from the object `police_boundaries` in the `stats19` package.
@@ -988,5 +1038,11 @@ Identify a region and zonal units of interest from http://geoportal.statistics.g
 1. Create a map showing the number of crashes in each zone
 1. Identify the average speed limit associated with crashes in each zone
 1. Identify an interesting question you can ask of the data and use exploratory data analysis to find answers
+1. Take a look at the code in [the file iow_example.R in the inst directory in the stats19 repo](https://github.com/ropensci/stats19/blob/master/inst/iow_example.R). Run it to reproduce the figure below.
+
+```{r final-plot, echo=FALSE, out.width="100%"}
+knitr::include_graphics("final-figure.png")
+```
+
 
 # References
