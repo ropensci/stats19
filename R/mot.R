@@ -107,7 +107,7 @@ get_MOT = function(vrm, apikey) {
 
   # Format dates and numeric etc.
   try(result.df$firstUsedDate <- lubridate::ymd(result.df$firstUsedDate), silent = TRUE)
-  try(result.df$registrationDate <- lubridate::ymd(result.df$registrationDate), silent <- TRUE)
+  try(result.df$registrationDate <- lubridate::ymd(result.df$registrationDate), silent = TRUE)
   try(result.df$manufactureDate <- lubridate::ymd(result.df$manufactureDate), silent = TRUE)
   try(result.df$latestExpiryDate <- lubridate::ymd(result.df$latestExpiryDate), silent = TRUE)
   try(result.df$latestOdometerDate <- lubridate::ymd_hms(result.df$latestOdometerDate), silent = TRUE)
