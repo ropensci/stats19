@@ -24,18 +24,24 @@
 #' }
 get_MOT = function(vrm, apikey) {
   # Check arguments
-  if (!is.vector(vrm)) stop("vrm must be in a vector")
+  if (!is.vector(vrm)) stop("vrm must be a vector.")
   for(i in 1:length(vrm)){
-    if (!is.character(vrm[[i]])) stop("All VRMs must be character")
+    if (!is.character(vrm[i])) stop("All VRMs must be character.")
   }
-  if (!is.character(apikey)) stop("The api key must be a character string")
-  if (length(vrm) >= 150000) stop("Don't do more than 150,000 VRMs per day")
+  for(i in 1:length(vrm)){
+    if (grepl(" ", vrm[[i]])) stop("Please remove spaces from VRMs.  Check VRM number ", i, " in your list (", vrm[i], ").")
+  }
+  for(i in 1:length(vrm)){
+    if (grepl('[^[:alnum:]]', vrm[i])) stop("VRMs must be alphanumeric.  Check VRM number ", i, " in your list (", vrm[i], ").")
+  }
+  if (!is.character(apikey)) stop("The api key must be a character string.")
+  if (length(vrm) >= 150000) stop("Don't do more than 150,000 VRMs per day.")
 
   # Set up API key
   h = curl::new_handle()
   curl::handle_setheaders(h,
-                    "Accept" = "application/json+v6",
-                    "x-api-key" = apikey)
+                          "Accept" = "application/json+v6",
+                          "x-api-key" = apikey)
 
   # Create an empty list for results
   result.list = list()
@@ -65,7 +71,7 @@ get_MOT = function(vrm, apikey) {
       result$numberoftests = nrow(MOTresults)
       result$numberofPassedTests = nrow(MOTresults[MOTresults$testResult == "PASSED",])
       advisory.df = MOTresults[MOTresults$testResult == "PASSED",]
-      advisory.df$advisory = NA
+      try(advisory.df$advisory <- NA, silent = TRUE)
       for(z in 1:nrow(advisory.df)){
         df = as.data.frame(advisory.df$rfrAndComments[z])
         if("ADVISORY" %in% df$type){advisory.df$advisory[z] = TRUE}
@@ -128,12 +134,10 @@ get_MOT = function(vrm, apikey) {
   try(result.df$manufactureYear <- as.numeric(result.df$manufactureYear), silent = TRUE)
 
   # Convert all units to miles
-  if("km" %in% unique(result.df$latestOdometerUnit)){
-    result.df$latestOdometer[result.df$latestOdometerUnit == "km"] = result.df$latestOdometer[result.df$latestOdometerUnit == "km"] * 0.621371
-  }
-  if("km" %in% unique(result.df$prevOdometerUnit)){
-    result.df$prevOdometer[result.df$prevOdometerUnit == "km"] = result.df$prevOdometer[result.df$prevOdometerUnit == "km"] * 0.621371
-  }
+  result.df$latestOdometer[is.na(result.df$latestOdometerUnit)] <- NA
+  result.df$prevOdometer[is.na(result.df$prevOdometerUnit)] <- NA
+  result.df$latestOdometer[result.df$latestOdometerUnit == "km" & !is.na(result.df$latestOdometer)] <- result.df$latestOdometer[result.df$latestOdometerUnit == "km" & !is.na(result.df$latestOdometer)] * 0.621371
+  result.df$prevOdometer[result.df$prevOdometerUnit == "km" & !is.na(result.df$prevOdometer)] = result.df$prevOdometer[result.df$prevOdometerUnit == "km" & !is.na(result.df$prevOdometer)] * 0.621371
   result.df$latestOdometerUnit = NULL
   result.df$prevOdometerUnit = NULL
 
@@ -144,6 +148,7 @@ get_MOT = function(vrm, apikey) {
   result.df$dist_diff[is.na(result.df$prevOdometerDate)] = result.df$latestOdometer[is.na(result.df$prevOdometerDate)] - 0
   result.df$latestAnnualEstMileage = (result.df$dist_diff/as.numeric(result.df$test_diff))*365.24
   result.df$EstimatePeriod = result.df$test_diff/365.24
+  result.df$EstimatePeriod[is.na(result.df$latestAnnualEstMileage)] <- NA
 
   # Remove unwanted columns
   result.df$test_diff = NULL
@@ -153,4 +158,5 @@ get_MOT = function(vrm, apikey) {
 
   return(result.df)
 }
+
 
