@@ -29,7 +29,14 @@ And for more information on how R can be used for transport research, the Transp
 **Your computer should also have the necessary software installed.**
 
 To ensure your computer is ready for the course, you should have a recent (3.6.0 or later) version of R or RStudio installed. You should have installed packages stats19, tidyverse and a few others shown below.
-To check you have the necessary packages installed, try running the following lines of R code in the RStudio console (this will install the packages you need if they are not already installed):
+To check you have the necessary packages installed, try running the following line of code:
+
+```{r}
+source("https://git.io/JeaZH")
+```
+
+That does some basic checks.
+For more comprehensive checkes, and to get used to typing in R code, you can also test your setup by typing and executing the following lines in the RStudio console (this will install the packages you need if they are not already installed):
 
 ```{r, eval=FALSE}
 install.packages("remotes")
@@ -65,3 +72,4 @@ plot(crashes_iow)
 You should see results like those shown in the map here: https://github.com/ropensci/stats19/issues/105
 
 If you cannot create that map by running the code above before the course, get in touch with us, e.g. by writing a comment under that github issue page (Note: You will need a github account). 
+
