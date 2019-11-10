@@ -31,7 +31,7 @@ And for more information on how R can be used for transport research, the Transp
 To ensure your computer is ready for the course, you should have a recent (3.6.0 or later) version of R or RStudio installed. You should have installed packages stats19, tidyverse and a few others shown below.
 To check you have the necessary packages installed, try running the following line of code:
 
-```{r}
+```{r, eval=FALSE}
 source("https://git.io/JeaZH")
 ```
 
