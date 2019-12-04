@@ -133,9 +133,9 @@
 <a class="sourceLine" id="cb4-2" data-line-number="2"><span class="co">#&gt; Files identified: dftRoadSafetyData_Accidents_2017.zip</span></a>
 <a class="sourceLine" id="cb4-3" data-line-number="3"><span class="co">#&gt;    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Accidents_2017.zip</span></a>
 <a class="sourceLine" id="cb4-4" data-line-number="4"><span class="co">#&gt; Attempt downloading from:</span></a>
-<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="co">#&gt; Data saved at /tmp/RtmpjiLUvK/dftRoadSafetyData_Accidents_2017/Acc.csv</span></a>
+<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="co">#&gt; Data saved at /tmp/RtmpqveoCA/dftRoadSafetyData_Accidents_2017/Acc.csv</span></a>
 <a class="sourceLine" id="cb4-6" data-line-number="6"><span class="co">#&gt; Reading in:</span></a>
-<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="co">#&gt; /tmp/RtmpjiLUvK/dftRoadSafetyData_Accidents_2017/Acc.csv</span></a></code></pre></div>
+<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="co">#&gt; /tmp/RtmpqveoCA/dftRoadSafetyData_Accidents_2017/Acc.csv</span></a></code></pre></div>
 <p>What just happened? For the <code>year</code> 2017 we read-in crash-level (<code>type = "accident"</code>) data on all road crashes recorded by the police across Great Britain. The dataset contains 32 columns (variables) for 129,982 crashes. We were not asked to download the file (by default you are asked to confirm the file that will be downloaded). The contents of this dataset, and other datasets provided by <strong>stats19</strong>, are outlined below and described in more detail in the <a href="https://itsleeds.github.io/stats19/articles/stats19.html">stats19 vignette</a>.</p>
 <p>We will see below how the function also works to get the corresponding casualty and vehicle datasets for 2017. The package also allows STATS19 files to be downloaded and read-in separately, allowing more control over what you download, and subsequently read-in, with <code><a href="reference/read_accidents.html">read_accidents()</a></code>, <code><a href="reference/read_casualties.html">read_casualties()</a></code> and <code><a href="reference/read_vehicles.html">read_vehicles()</a></code>, as described in the vignette.</p>
 </div>
@@ -174,18 +174,18 @@
 <p>Some of the key variables in this dataset include:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">crashes[<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">7</span>, <span class="dv">18</span>, <span class="dv">23</span>, <span class="dv">25</span>)]</a>
 <a class="sourceLine" id="cb8-2" data-line-number="2"><span class="co">#&gt; # A tibble: 129,982 x 4</span></a>
-<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="co">#&gt;    accident_severity speed_limit pedestrian_crossing_hu… light_conditions  </span></a>
-<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="co">#&gt;    &lt;chr&gt;                   &lt;int&gt; &lt;chr&gt;                   &lt;chr&gt;             </span></a>
-<a class="sourceLine" id="cb8-5" data-line-number="5"><span class="co">#&gt;  1 Fatal                      30 None within 50 metres   Darkness - lights…</span></a>
-<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="co">#&gt;  2 Slight                     30 None within 50 metres   Darkness - lights…</span></a>
-<a class="sourceLine" id="cb8-7" data-line-number="7"><span class="co">#&gt;  3 Slight                     30 None within 50 metres   Darkness - lights…</span></a>
-<a class="sourceLine" id="cb8-8" data-line-number="8"><span class="co">#&gt;  4 Slight                     30 None within 50 metres   Darkness - lights…</span></a>
-<a class="sourceLine" id="cb8-9" data-line-number="9"><span class="co">#&gt;  5 Serious                    20 None within 50 metres   Darkness - lights…</span></a>
-<a class="sourceLine" id="cb8-10" data-line-number="10"><span class="co">#&gt;  6 Slight                     30 None within 50 metres   Darkness - lights…</span></a>
-<a class="sourceLine" id="cb8-11" data-line-number="11"><span class="co">#&gt;  7 Slight                     40 None within 50 metres   Darkness - lights…</span></a>
-<a class="sourceLine" id="cb8-12" data-line-number="12"><span class="co">#&gt;  8 Slight                     30 Control by other autho… Darkness - lights…</span></a>
-<a class="sourceLine" id="cb8-13" data-line-number="13"><span class="co">#&gt;  9 Serious                    50 None within 50 metres   Darkness - lights…</span></a>
-<a class="sourceLine" id="cb8-14" data-line-number="14"><span class="co">#&gt; 10 Serious                    30 None within 50 metres   Darkness - lights…</span></a>
+<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="co">#&gt;    accident_severity speed_limit pedestrian_crossing_human_… light_conditions   </span></a>
+<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="co">#&gt;    &lt;chr&gt;                   &lt;int&gt; &lt;chr&gt;                       &lt;chr&gt;              </span></a>
+<a class="sourceLine" id="cb8-5" data-line-number="5"><span class="co">#&gt;  1 Fatal                      30 None within 50 metres       Darkness - lights …</span></a>
+<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="co">#&gt;  2 Slight                     30 None within 50 metres       Darkness - lights …</span></a>
+<a class="sourceLine" id="cb8-7" data-line-number="7"><span class="co">#&gt;  3 Slight                     30 None within 50 metres       Darkness - lights …</span></a>
+<a class="sourceLine" id="cb8-8" data-line-number="8"><span class="co">#&gt;  4 Slight                     30 None within 50 metres       Darkness - lights …</span></a>
+<a class="sourceLine" id="cb8-9" data-line-number="9"><span class="co">#&gt;  5 Serious                    20 None within 50 metres       Darkness - lights …</span></a>
+<a class="sourceLine" id="cb8-10" data-line-number="10"><span class="co">#&gt;  6 Slight                     30 None within 50 metres       Darkness - lights …</span></a>
+<a class="sourceLine" id="cb8-11" data-line-number="11"><span class="co">#&gt;  7 Slight                     40 None within 50 metres       Darkness - lights …</span></a>
+<a class="sourceLine" id="cb8-12" data-line-number="12"><span class="co">#&gt;  8 Slight                     30 Control by other authorise… Darkness - lights …</span></a>
+<a class="sourceLine" id="cb8-13" data-line-number="13"><span class="co">#&gt;  9 Serious                    50 None within 50 metres       Darkness - lights …</span></a>
+<a class="sourceLine" id="cb8-14" data-line-number="14"><span class="co">#&gt; 10 Serious                    30 None within 50 metres       Darkness - lights …</span></a>
 <a class="sourceLine" id="cb8-15" data-line-number="15"><span class="co">#&gt; # … with 129,972 more rows</span></a></code></pre></div>
 <p>For the full list of columns, run <code><a href="https://rdrr.io/r/base/names.html">names(crashes)</a></code> or see the <a href="https://github.com/ropensci/stats19/blob/master/vignettes/stats19.Rmd">vignette</a>.</p>
 <!-- This means `crashes` is much more usable than `crashes_raw`, as shown below, which shows three records and some key variables in the messy and clean datasets: -->
@@ -198,7 +198,7 @@
 <a class="sourceLine" id="cb9-2" data-line-number="2"><span class="co">#&gt; Files identified: dftRoadSafetyData_Casualties_2017.zip</span></a>
 <a class="sourceLine" id="cb9-3" data-line-number="3"><span class="co">#&gt;    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Casualties_2017.zip</span></a>
 <a class="sourceLine" id="cb9-4" data-line-number="4"><span class="co">#&gt; Attempt downloading from:</span></a>
-<a class="sourceLine" id="cb9-5" data-line-number="5"><span class="co">#&gt; Data saved at /tmp/RtmpjiLUvK/dftRoadSafetyData_Casualties_2017/Cas.csv</span></a>
+<a class="sourceLine" id="cb9-5" data-line-number="5"><span class="co">#&gt; Data saved at /tmp/RtmpqveoCA/dftRoadSafetyData_Casualties_2017/Cas.csv</span></a>
 <a class="sourceLine" id="cb9-6" data-line-number="6"><span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(casualties)</a>
 <a class="sourceLine" id="cb9-7" data-line-number="7"><span class="co">#&gt; [1] 170993</span></a>
 <a class="sourceLine" id="cb9-8" data-line-number="8"><span class="kw"><a href="https://rdrr.io/r/base/nrow.html">ncol</a></span>(casualties)</a>
@@ -206,37 +206,29 @@
 <p>The results show that there were 170,993 casualties reported by the police in the STATS19 dataset in 2017, and 16 columns (variables). Values for a sample of these columns are shown below:</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">casualties[<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">14</span>)]</a>
 <a class="sourceLine" id="cb10-2" data-line-number="2"><span class="co">#&gt; # A tibble: 170,993 x 4</span></a>
-<a class="sourceLine" id="cb10-3" data-line-number="3"><span class="co">#&gt;    casualty_class  sex_of_casualty age_of_casualty casualty_type           </span></a>
-<a class="sourceLine" id="cb10-4" data-line-number="4"><span class="co">#&gt;    &lt;chr&gt;           &lt;chr&gt;                     &lt;int&gt; &lt;chr&gt;                   </span></a>
-<a class="sourceLine" id="cb10-5" data-line-number="5"><span class="co">#&gt;  1 Passenger       Female                       18 Car occupant            </span></a>
-<a class="sourceLine" id="cb10-6" data-line-number="6"><span class="co">#&gt;  2 Driver or rider Male                         19 Motorcycle 50cc and und…</span></a>
-<a class="sourceLine" id="cb10-7" data-line-number="7"><span class="co">#&gt;  3 Passenger       Male                         18 Motorcycle 50cc and und…</span></a>
-<a class="sourceLine" id="cb10-8" data-line-number="8"><span class="co">#&gt;  4 Passenger       Female                       33 Car occupant            </span></a>
-<a class="sourceLine" id="cb10-9" data-line-number="9"><span class="co">#&gt;  5 Driver or rider Female                       31 Car occupant            </span></a>
-<a class="sourceLine" id="cb10-10" data-line-number="10"><span class="co">#&gt;  6 Passenger       Male                          3 Car occupant            </span></a>
-<a class="sourceLine" id="cb10-11" data-line-number="11"><span class="co">#&gt;  7 Pedestrian      Male                         45 Pedestrian              </span></a>
-<a class="sourceLine" id="cb10-12" data-line-number="12"><span class="co">#&gt;  8 Driver or rider Male                         14 Motorcycle 125cc and un…</span></a>
-<a class="sourceLine" id="cb10-13" data-line-number="13"><span class="co">#&gt;  9 Driver or rider Female                       58 Car occupant            </span></a>
-<a class="sourceLine" id="cb10-14" data-line-number="14"><span class="co">#&gt; 10 Driver or rider Male                         27 Car occupant            </span></a>
+<a class="sourceLine" id="cb10-3" data-line-number="3"><span class="co">#&gt;    casualty_class  sex_of_casualty age_of_casualty casualty_type                </span></a>
+<a class="sourceLine" id="cb10-4" data-line-number="4"><span class="co">#&gt;    &lt;chr&gt;           &lt;chr&gt;                     &lt;int&gt; &lt;chr&gt;                        </span></a>
+<a class="sourceLine" id="cb10-5" data-line-number="5"><span class="co">#&gt;  1 Passenger       Female                       18 Car occupant                 </span></a>
+<a class="sourceLine" id="cb10-6" data-line-number="6"><span class="co">#&gt;  2 Driver or rider Male                         19 Motorcycle 50cc and under ri…</span></a>
+<a class="sourceLine" id="cb10-7" data-line-number="7"><span class="co">#&gt;  3 Passenger       Male                         18 Motorcycle 50cc and under ri…</span></a>
+<a class="sourceLine" id="cb10-8" data-line-number="8"><span class="co">#&gt;  4 Passenger       Female                       33 Car occupant                 </span></a>
+<a class="sourceLine" id="cb10-9" data-line-number="9"><span class="co">#&gt;  5 Driver or rider Female                       31 Car occupant                 </span></a>
+<a class="sourceLine" id="cb10-10" data-line-number="10"><span class="co">#&gt;  6 Passenger       Male                          3 Car occupant                 </span></a>
+<a class="sourceLine" id="cb10-11" data-line-number="11"><span class="co">#&gt;  7 Pedestrian      Male                         45 Pedestrian                   </span></a>
+<a class="sourceLine" id="cb10-12" data-line-number="12"><span class="co">#&gt;  8 Driver or rider Male                         14 Motorcycle 125cc and under r…</span></a>
+<a class="sourceLine" id="cb10-13" data-line-number="13"><span class="co">#&gt;  9 Driver or rider Female                       58 Car occupant                 </span></a>
+<a class="sourceLine" id="cb10-14" data-line-number="14"><span class="co">#&gt; 10 Driver or rider Male                         27 Car occupant                 </span></a>
 <a class="sourceLine" id="cb10-15" data-line-number="15"><span class="co">#&gt; # … with 170,983 more rows</span></a></code></pre></div>
 <p>The full list of column names in the <code>casualties</code> dataset is:</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(casualties)</a>
-<a class="sourceLine" id="cb11-2" data-line-number="2"><span class="co">#&gt;  [1] "accident_index"                    </span></a>
-<a class="sourceLine" id="cb11-3" data-line-number="3"><span class="co">#&gt;  [2] "vehicle_reference"                 </span></a>
-<a class="sourceLine" id="cb11-4" data-line-number="4"><span class="co">#&gt;  [3] "casualty_reference"                </span></a>
-<a class="sourceLine" id="cb11-5" data-line-number="5"><span class="co">#&gt;  [4] "casualty_class"                    </span></a>
-<a class="sourceLine" id="cb11-6" data-line-number="6"><span class="co">#&gt;  [5] "sex_of_casualty"                   </span></a>
-<a class="sourceLine" id="cb11-7" data-line-number="7"><span class="co">#&gt;  [6] "age_of_casualty"                   </span></a>
-<a class="sourceLine" id="cb11-8" data-line-number="8"><span class="co">#&gt;  [7] "age_band_of_casualty"              </span></a>
-<a class="sourceLine" id="cb11-9" data-line-number="9"><span class="co">#&gt;  [8] "casualty_severity"                 </span></a>
-<a class="sourceLine" id="cb11-10" data-line-number="10"><span class="co">#&gt;  [9] "pedestrian_location"               </span></a>
-<a class="sourceLine" id="cb11-11" data-line-number="11"><span class="co">#&gt; [10] "pedestrian_movement"               </span></a>
-<a class="sourceLine" id="cb11-12" data-line-number="12"><span class="co">#&gt; [11] "car_passenger"                     </span></a>
-<a class="sourceLine" id="cb11-13" data-line-number="13"><span class="co">#&gt; [12] "bus_or_coach_passenger"            </span></a>
-<a class="sourceLine" id="cb11-14" data-line-number="14"><span class="co">#&gt; [13] "pedestrian_road_maintenance_worker"</span></a>
-<a class="sourceLine" id="cb11-15" data-line-number="15"><span class="co">#&gt; [14] "casualty_type"                     </span></a>
-<a class="sourceLine" id="cb11-16" data-line-number="16"><span class="co">#&gt; [15] "casualty_home_area_type"           </span></a>
-<a class="sourceLine" id="cb11-17" data-line-number="17"><span class="co">#&gt; [16] "casualty_imd_decile"</span></a></code></pre></div>
+<a class="sourceLine" id="cb11-2" data-line-number="2"><span class="co">#&gt;  [1] "accident_index"                     "vehicle_reference"                 </span></a>
+<a class="sourceLine" id="cb11-3" data-line-number="3"><span class="co">#&gt;  [3] "casualty_reference"                 "casualty_class"                    </span></a>
+<a class="sourceLine" id="cb11-4" data-line-number="4"><span class="co">#&gt;  [5] "sex_of_casualty"                    "age_of_casualty"                   </span></a>
+<a class="sourceLine" id="cb11-5" data-line-number="5"><span class="co">#&gt;  [7] "age_band_of_casualty"               "casualty_severity"                 </span></a>
+<a class="sourceLine" id="cb11-6" data-line-number="6"><span class="co">#&gt;  [9] "pedestrian_location"                "pedestrian_movement"               </span></a>
+<a class="sourceLine" id="cb11-7" data-line-number="7"><span class="co">#&gt; [11] "car_passenger"                      "bus_or_coach_passenger"            </span></a>
+<a class="sourceLine" id="cb11-8" data-line-number="8"><span class="co">#&gt; [13] "pedestrian_road_maintenance_worker" "casualty_type"                     </span></a>
+<a class="sourceLine" id="cb11-9" data-line-number="9"><span class="co">#&gt; [15] "casualty_home_area_type"            "casualty_imd_decile"</span></a></code></pre></div>
 </div>
 <div id="vehicles-data" class="section level3">
 <h3 class="hasAnchor">
@@ -246,7 +238,7 @@
 <a class="sourceLine" id="cb12-2" data-line-number="2"><span class="co">#&gt; Files identified: dftRoadSafetyData_Vehicles_2017.zip</span></a>
 <a class="sourceLine" id="cb12-3" data-line-number="3"><span class="co">#&gt;    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Vehicles_2017.zip</span></a>
 <a class="sourceLine" id="cb12-4" data-line-number="4"><span class="co">#&gt; Attempt downloading from:</span></a>
-<a class="sourceLine" id="cb12-5" data-line-number="5"><span class="co">#&gt; Data saved at /tmp/RtmpjiLUvK/dftRoadSafetyData_Vehicles_2017/Veh.csv</span></a>
+<a class="sourceLine" id="cb12-5" data-line-number="5"><span class="co">#&gt; Data saved at /tmp/RtmpqveoCA/dftRoadSafetyData_Vehicles_2017/Veh.csv</span></a>
 <a class="sourceLine" id="cb12-6" data-line-number="6"><span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(vehicles)</a>
 <a class="sourceLine" id="cb12-7" data-line-number="7"><span class="co">#&gt; [1] 238926</span></a>
 <a class="sourceLine" id="cb12-8" data-line-number="8"><span class="kw"><a href="https://rdrr.io/r/base/nrow.html">ncol</a></span>(vehicles)</a>
@@ -254,18 +246,18 @@
 <p>The results show that there were 238,926 vehicles involved in crashes reported by the police in the STATS19 dataset in 2017, with 23 columns (variables). Values for a sample of these columns are shown below:</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">vehicles[<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">3</span>, <span class="dv">14</span><span class="op">:</span><span class="dv">16</span>)]</a>
 <a class="sourceLine" id="cb13-2" data-line-number="2"><span class="co">#&gt; # A tibble: 238,926 x 4</span></a>
-<a class="sourceLine" id="cb13-3" data-line-number="3"><span class="co">#&gt;    vehicle_type          journey_purpose_of_dr… sex_of_driver age_of_driver</span></a>
-<a class="sourceLine" id="cb13-4" data-line-number="4"><span class="co">#&gt;    &lt;chr&gt;                 &lt;chr&gt;                  &lt;chr&gt;                 &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb13-5" data-line-number="5"><span class="co">#&gt;  1 Car                   Not known              Male                     24</span></a>
-<a class="sourceLine" id="cb13-6" data-line-number="6"><span class="co">#&gt;  2 Motorcycle 50cc and … Not known              Male                     19</span></a>
-<a class="sourceLine" id="cb13-7" data-line-number="7"><span class="co">#&gt;  3 Car                   Not known              Male                     33</span></a>
-<a class="sourceLine" id="cb13-8" data-line-number="8"><span class="co">#&gt;  4 Car                   Not known              Male                     40</span></a>
-<a class="sourceLine" id="cb13-9" data-line-number="9"><span class="co">#&gt;  5 Car                   Not known              Not known                -1</span></a>
-<a class="sourceLine" id="cb13-10" data-line-number="10"><span class="co">#&gt;  6 Car                   Not known              Male                     35</span></a>
-<a class="sourceLine" id="cb13-11" data-line-number="11"><span class="co">#&gt;  7 Car                   Not known              Female                   31</span></a>
-<a class="sourceLine" id="cb13-12" data-line-number="12"><span class="co">#&gt;  8 Car                   Not known              Female                   37</span></a>
-<a class="sourceLine" id="cb13-13" data-line-number="13"><span class="co">#&gt;  9 Car                   Not known              Female                   29</span></a>
-<a class="sourceLine" id="cb13-14" data-line-number="14"><span class="co">#&gt; 10 Car                   Not known              Male                     78</span></a>
+<a class="sourceLine" id="cb13-3" data-line-number="3"><span class="co">#&gt;    vehicle_type             journey_purpose_of_driv… sex_of_driver age_of_driver</span></a>
+<a class="sourceLine" id="cb13-4" data-line-number="4"><span class="co">#&gt;    &lt;chr&gt;                    &lt;chr&gt;                    &lt;chr&gt;                 &lt;int&gt;</span></a>
+<a class="sourceLine" id="cb13-5" data-line-number="5"><span class="co">#&gt;  1 Car                      Not known                Male                     24</span></a>
+<a class="sourceLine" id="cb13-6" data-line-number="6"><span class="co">#&gt;  2 Motorcycle 50cc and und… Not known                Male                     19</span></a>
+<a class="sourceLine" id="cb13-7" data-line-number="7"><span class="co">#&gt;  3 Car                      Not known                Male                     33</span></a>
+<a class="sourceLine" id="cb13-8" data-line-number="8"><span class="co">#&gt;  4 Car                      Not known                Male                     40</span></a>
+<a class="sourceLine" id="cb13-9" data-line-number="9"><span class="co">#&gt;  5 Car                      Not known                Not known                -1</span></a>
+<a class="sourceLine" id="cb13-10" data-line-number="10"><span class="co">#&gt;  6 Car                      Not known                Male                     35</span></a>
+<a class="sourceLine" id="cb13-11" data-line-number="11"><span class="co">#&gt;  7 Car                      Not known                Female                   31</span></a>
+<a class="sourceLine" id="cb13-12" data-line-number="12"><span class="co">#&gt;  8 Car                      Not known                Female                   37</span></a>
+<a class="sourceLine" id="cb13-13" data-line-number="13"><span class="co">#&gt;  9 Car                      Not known                Female                   29</span></a>
+<a class="sourceLine" id="cb13-14" data-line-number="14"><span class="co">#&gt; 10 Car                      Not known                Male                     78</span></a>
 <a class="sourceLine" id="cb13-15" data-line-number="15"><span class="co">#&gt; # … with 238,916 more rows</span></a></code></pre></div>
 <p>The full list of column names in the <code>vehicles</code> dataset is:</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(vehicles)</a>
@@ -351,8 +343,9 @@
 <div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1">cex =<span class="st"> </span>cj<span class="op">$</span>Total <span class="op">/</span><span class="st"> </span><span class="dv">3</span></a>
 <a class="sourceLine" id="cb19-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/pkg/sf/man/plot.html">plot</a></span>(cj[<span class="st">"speed_limit"</span>], <span class="dt">cex =</span> cex)</a></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-2-1.png" width="100%"></p>
-<p>The spatial distribution of crashes in West Yorkshire clearly relates to the region’s geography. Crashes tend to happen on busy Motorway roads (with a high speed limit, of 70 miles per hour, as shown in the map above) and city centres, of Leeds and Bradford in particular. The severity and number of people hurt (proportional to circle width in the map above) in crashes is related to the speed limit. This can be seen by comparing the previous map with an overview of the area, from an academic paper on the social, spatial and temporal distribution of bike crashes in West Yorkshire (Lovelace, Roberts, and Kellar 2016):</p>
-<p><img src="https://raw.githubusercontent.com/ropensci/stats19/master/vignettes/wy-overview.jpg" width="100%"></p>
+<p>The spatial distribution of crashes in West Yorkshire clearly relates to the region’s geography. Crashes tend to happen on busy Motorway roads (with a high speed limit, of 70 miles per hour, as shown in the map above) and city centres, of Leeds and Bradford in particular. The severity and number of people hurt (proportional to circle width in the map above) in crashes is related to the speed limit.</p>
+<p>STATS19 data can be used as the basis of road safety research. The map below, for example, shows the results of an academic paper on the social, spatial and temporal distribution of bike crashes in West Yorkshire, which estimated the number of crashes per billion km cycled based on commuter cycling as a proxy for cycling levels overall (more sophisticated measures of cycling levels are now possible thanks to new data sources) (Lovelace, Roberts, and Kellar 2016):</p>
+<p><img src="https://ars.els-cdn.com/content/image/1-s2.0-S136984781500039X-gr9.jpg" width="100%"></p>
 </div>
 <div id="time-series-analysis" class="section level2">
 <h2 class="hasAnchor">
@@ -390,6 +383,20 @@
 <p><img src="reference/figures/README-crash-time-plot-1.png" width="100%"></p>
 <p>Note that cycling manifests distinct morning and afternoon peaks (see Lovelace, Roberts, and Kellar 2016 for more on this).</p>
 </div>
+<div id="usage-in-research-and-policy-contexts" class="section level2">
+<h2 class="hasAnchor">
+<a href="#usage-in-research-and-policy-contexts" class="anchor"></a>Usage in research and policy contexts</h2>
+<p>The package has now been peer reviewed and is stable, and has been published in the Journal of Open Source Software (Lovelace et al. 2019). Please tell people about the package, link to it and cite it if you use it in your work.</p>
+<p>Examples of how the package can been used for policy making include:</p>
+<ul>
+<li>Use of the package in a web app created by the library service of the UK Parliament. See <a href="https://commonslibrary.parliament.uk/economy-business/transport/roads/constituency-data-traffic-accidents/">commonslibrary.parliament.uk</a>, screenshots of which from December 2019 are shown below, for details.</li>
+</ul>
+<p><img src="https://user-images.githubusercontent.com/1825120/70164249-bf730080-16b8-11ea-96d8-ec92c0b5cc69.png"></p>
+<ul>
+<li><p>Use of methods taught in the <a href="https://docs.ropensci.org/stats19/articles/stats19-training.html">stats19-training</a> vignette by road safety analysts at Essex Highways and the Safer Essex Roads Partnership (<a href="https://saferessexroads.org/">SERP</a>) to inform the deployment of proactive front-line police enforcement in the region (credit: Will Cubbin).</p></li>
+<li><p>Mention of road crash data analysis based on the package in an <a href="https://www.theguardian.com/cities/2019/oct/07/a-deadly-problem-should-we-ban-suvs-from-our-cities">article</a> on urban SUVs. The question of how vehicle size and type relates to road safety is an important area of future research. A starting point for researching this topic can be found in the <a href="https://docs.ropensci.org/stats19/articles/stats19-vehicles.html"><code>stats19-vehicles</code></a> vignette, representing a possible next step in terms of how the data can be used.</p></li>
+</ul>
+</div>
 <div id="next-steps" class="section level2">
 <h2 class="hasAnchor">
 <a href="#next-steps" class="anchor"></a>Next steps</h2>
@@ -411,6 +418,16 @@
 <h2 class="hasAnchor">
 <a href="#references" class="anchor"></a>References</h2>
 <div id="refs" class="references">
+
+<div id="ref-lovelace_stats19_2019">
+
+Lovelace, Robin, Malcolm Morgan, Layik Hama, Mark Padgham, and M
+Padgham. 2019. “Stats19 A Package for Working with Open Road Crash
+Data.” *Journal of Open Source Software* 4 (33): 1181.
+<https:>.
+
+</https:>
+</div>
 
 <div id="ref-lovelace_who_2016">
 
