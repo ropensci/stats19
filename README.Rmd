@@ -241,10 +241,12 @@ plot(cj["speed_limit"], cex = cex)
 The spatial distribution of crashes in West Yorkshire clearly relates to the region's geography.
 Crashes tend to happen on busy Motorway roads (with a high speed limit, of 70 miles per hour, as shown in the map above) and city centres, of Leeds and Bradford in particular.
 The severity and number of people hurt (proportional to circle width in the map above) in crashes is related to the speed limit.
-This can be seen by comparing the previous map with an overview of the area, from an academic paper on the social, spatial and temporal distribution of bike crashes in West Yorkshire [@lovelace_who_2016]:
+
+STATS19 data can be used as the basis of road safety research.
+The map below, for example, shows the results of an academic paper on the social, spatial and temporal distribution of bike crashes in West Yorkshire, which estimated the number of crashes per billion km cycled based on commuter cycling as a proxy for cycling levels overall (more sophisticated measures of cycling levels are now possible thanks to new data sources) [@lovelace_who_2016]:
 
 ```{r, echo=FALSE}
-knitr::include_graphics("https://raw.githubusercontent.com/ropensci/stats19/master/vignettes/wy-overview.jpg")
+knitr::include_graphics("https://ars.els-cdn.com/content/image/1-s2.0-S136984781500039X-gr9.jpg")
 ```
 
 ## Time series analysis
@@ -289,6 +291,24 @@ ggplot(crash_times, aes(hour, casualties)) +
 ```
 
 Note that cycling manifests distinct morning and afternoon peaks [see @lovelace_who_2016 for more on this].
+
+## Usage in research and policy contexts
+
+The package has now been peer reviewed and is stable, and has been published in the Journal of Open Source Software [@lovelace_stats19_2019].
+Please tell people about the package, link to it and cite it if you use it in your work.
+
+Examples of how the package can been used for policy making include:
+
+- Use of the package in a web app created by the library service of the UK Parliament. See [commonslibrary.parliament.uk](https://commonslibrary.parliament.uk/economy-business/transport/roads/constituency-data-traffic-accidents/), screenshots of which from December 2019 are shown below, for details.
+
+![](https://user-images.githubusercontent.com/1825120/70164249-bf730080-16b8-11ea-96d8-ec92c0b5cc69.png)
+
+- Use of methods taught in the [stats19-training](https://docs.ropensci.org/stats19/articles/stats19-training.html) vignette by road safety analysts at Essex Highways and the Safer Essex Roads Partnership ([SERP](https://saferessexroads.org/)) to inform the deployment of proactive front-line police enforcement in the region (credit: Will Cubbin).
+
+- Mention of road crash data analysis based on the package in an [article](https://www.theguardian.com/cities/2019/oct/07/a-deadly-problem-should-we-ban-suvs-from-our-cities) on urban SUVs. 
+The question of how vehicle size and type relates to road safety is an important area of future research.
+A starting point for researching this topic can be found in the [`stats19-vehicles`](https://docs.ropensci.org/stats19/articles/stats19-vehicles.html) vignette, representing a possible next step in terms of how the data can be used.
+
 
 ## Next steps
 
