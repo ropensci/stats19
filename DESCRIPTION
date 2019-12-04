@@ -51,9 +51,10 @@ Suggests:
     geojsonsf,
     htmltools,
     tmap,
-    jsonlite
+    jsonlite,
+    pct
 VignetteBuilder: knitr
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.1
 Roxygen: list(markdown = TRUE)
 Language: en-US
 X-schema.org-keywords: stats19, road-safety, transport, car-crashes, ropensci, data
