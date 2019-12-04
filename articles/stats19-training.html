@@ -5,12 +5,12 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>An introduction to road safety analysis with R • stats19</title>
+<title>Introduction to R for road safety: an introduction to R and practical exercises • stats19</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../pkgdown.js"></script><meta property="og:title" content="An introduction to road safety analysis with R">
+<script src="../pkgdown.js"></script><meta property="og:title" content="Introduction to R for road safety: an introduction to R and practical exercises">
 <meta property="og:description" content="">
 <meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -63,7 +63,7 @@
       <a href="../articles/stats19-training-setup.html">An introduction to road safety analysis with R: setup notes</a>
     </li>
     <li>
-      <a href="../articles/stats19-training.html">An introduction to road safety analysis with R</a>
+      <a href="../articles/stats19-training.html">Introduction to R for road safety: an introduction to R and practical exercises</a>
     </li>
     <li>
       <a href="../articles/stats19-vehicles.html">Researching vehicles involved in collisions with STATS19 data</a>
@@ -94,7 +94,9 @@
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1>An introduction to road safety analysis with R</h1>
+      <h1>Introduction to R for road safety: an introduction to R and practical exercises</h1>
+            <h3 class="subtitle">Practical exercises based on UK data from the stats19 package, developed by the Institute for Transport Studies, University of Leeds</h3>
+                        <h4 class="author">Robin Lovelace, Malcolm Morgan &amp; Andrea Gilardi</h4>
             
       
       <small class="dont-index">Source: <a href="https://github.com/ropensci/stats19/blob/master/vignettes/stats19-training.Rmd"><code>vignettes/stats19-training.Rmd</code></a></small>
@@ -104,26 +106,32 @@
 
     
     
-<div id="pre-requisites" class="section level1">
+<div id="introduction" class="section level1">
 <h1 class="hasAnchor">
-<a href="#pre-requisites" class="anchor"></a>Pre-requisites</h1>
+<a href="#introduction" class="anchor"></a>Introduction</h1>
+<p>This document provides information, code and, vitally, exercises to test and improve your R skills. It starts with introductory R skills that will be of use in any domain but the focus is on R for Road Safety, in support of a <a href="https://www.racfoundation.org/introduction-to-r-for-road-safety">2 day course</a>. The course is based on open road crash records from the <strong>stats19</strong> package <span class="citation">(Lovelace et al. 2019)</span>. Code and data supporting the content can be found in the package’s GitHub repo at <a href="https://github.com/ropensci/stats19/">github.com/ropensci/stats19</a>. The ‘<a href="https://github.com/ropensci/stats19/issues">issue tracker</a>’ associated with that repo is a good place to ask questions about the course.</p>
+<div id="prerequisites" class="section level2">
+<h2 class="hasAnchor">
+<a href="#prerequisites" class="anchor"></a>Prerequisites</h2>
 <p>If you are not experienced with R, it is strongly advised that you read-up on and more importantly <strong>test out</strong> R and RStudio before attempting analyse road crash data with R. See the <code>stats19-training-setup</code> vignette at <a href="https://docs.ropensci.org/stats19/articles/stats19-training-setup.html" class="uri">https://docs.ropensci.org/stats19/articles/stats19-training-setup.html</a> for guidance on getting started with R, RStudio and installing R packages.</p>
-<p>The core packages we will be using in this tutorial are as follows:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">pkgs =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2">  <span class="st">"sf"</span>,          <span class="co"># spatial data package</span></a>
-<a class="sourceLine" id="cb1-3" data-line-number="3">  <span class="st">"stats19"</span>,     <span class="co"># downloads and formats open stats19 crash data</span></a>
-<a class="sourceLine" id="cb1-4" data-line-number="4">  <span class="st">"dplyr"</span>,       <span class="co"># a package data manipulation, part of the tidyverse</span></a>
-<a class="sourceLine" id="cb1-5" data-line-number="5">  <span class="st">"tmap"</span>         <span class="co"># for making maps</span></a>
-<a class="sourceLine" id="cb1-6" data-line-number="6">)</a></code></pre></div>
+<p>Additional course pre-requisites are outlined in the <a href="https://docs.ropensci.org/stats19/articles/stats19-training-setup.html">stats19-training-setup</a> hosted at <a href="https://docs.ropensci.org/stats19">docs.ropensci.org/stats19</a>. It makes use of a number of packages which can be installed with <code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages()</a></code> and loaded as follows:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(pct)      <span class="co"># access travel data from DfT-funded PCT project </span></a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(sf)       <span class="co"># spatial vector data classes</span></a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(stats19)  <span class="co"># get stats19 data</span></a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(stplanr)  <span class="co"># transport planning tools</span></a>
+<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(tidyverse)<span class="co"># packages for 'data science'</span></a>
+<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(tmap)     <span class="co"># interactive maps</span></a></code></pre></div>
+<p>You should type, run and ensure you understand each line of code in this document.</p>
 <pre><code>#&gt; Warning in citation(pkg, auto = if (pkg == "base") NULL else TRUE): no date
 #&gt; field in DESCRIPTION file of package 'stats19'</code></pre>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">remotes<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/remotes/man/install_cran.html">install_cran</a></span>(pkgs)</a>
 <a class="sourceLine" id="cb3-2" data-line-number="2"><span class="co"># remotes::install_github("ITSLeeds/pct")</span></a></code></pre></div>
 <p>The workshop is based on a practical handout that can be found <a href="https://github.com/ropensci/stats19/releases/download/1.1.0/stats-19-exercises.pdf">here</a>.</p>
 </div>
-<div id="introduction" class="section level1">
+</div>
+<div id="introduction-1" class="section level1">
 <h1 class="hasAnchor">
-<a href="#introduction" class="anchor"></a>Introduction</h1>
+<a href="#introduction-1" class="anchor"></a>Introduction</h1>
 <p>This vignette supports workshops on road safety analysis with R. It was initially developed for a 2 day <a href="https://www.racfoundation.org/introduction-to-r-for-road-safety">Introduction to R for Road Safety</a> course funded by the <a href="https://www.racfoundation.org/">RAC Foundation</a>, a charity that supports road safety research.</p>
 <p>The course is based on open access road crash data from the UK, which is provided in an accessible form to R users through the R package <strong>stats19</strong> <span class="citation">(Lovelace et al. 2019)</span>. However, the content should be of use for anyone working with road crash data that has (at a minimum):</p>
 <ul>
@@ -135,6 +143,7 @@
 <div id="agenda" class="section level1">
 <h1 class="hasAnchor">
 <a href="#agenda" class="anchor"></a>Agenda</h1>
+<p>You can work through this tutorial in your own time. If done as part of a course, the agenda at <a href="https://docs.ropensci.org/stats19/articles/stats19-training-setup.html"><code>stats19-training-setup</code></a></p>
 <p>The preliminary agenda is as follows:</p>
 <div id="day-1-an-introduction-to-r-and-rstudio-for-spatial-and-temporal-data" class="section level2">
 <h2 class="hasAnchor">
@@ -214,8 +223,12 @@
       <h2 class="hasAnchor">
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-<li><a href="#pre-requisites">Pre-requisites</a></li>
-      <li><a href="#introduction">Introduction</a></li>
+<li>
+<a href="#introduction">Introduction</a><ul class="nav nav-pills nav-stacked">
+<li><a href="#prerequisites">Prerequisites</a></li>
+      </ul>
+</li>
+      <li><a href="#introduction-1">Introduction</a></li>
       <li>
 <a href="#agenda">Agenda</a><ul class="nav nav-pills nav-stacked">
 <li><a href="#day-1-an-introduction-to-r-and-rstudio-for-spatial-and-temporal-data">Day 1: An introduction to R and RStudio for spatial and temporal data</a></li>

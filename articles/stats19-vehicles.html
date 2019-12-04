@@ -63,7 +63,7 @@
       <a href="../articles/stats19-training-setup.html">An introduction to road safety analysis with R: setup notes</a>
     </li>
     <li>
-      <a href="../articles/stats19-training.html">An introduction to road safety analysis with R</a>
+      <a href="../articles/stats19-training.html">Introduction to R for road safety: an introduction to R and practical exercises</a>
     </li>
     <li>
       <a href="../articles/stats19-vehicles.html">Researching vehicles involved in collisions with STATS19 data</a>
@@ -114,7 +114,7 @@
 <a class="sourceLine" id="cb2-2" data-line-number="2"><span class="co">#&gt; Files identified: dftRoadSafetyData_Vehicles_2018.csv</span></a>
 <a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co">#&gt;    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Vehicles_2018.csv</span></a>
 <a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co">#&gt; Attempt downloading from:</span></a>
-<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="co">#&gt; Data saved at /tmp/RtmpnO8ddk/dftRoadSafetyData_Vehicles_2018.csv</span></a>
+<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="co">#&gt; Data saved at /tmp/Rtmpzx71LM/dftRoadSafetyData_Vehicles_2018.csv</span></a>
 <a class="sourceLine" id="cb2-6" data-line-number="6">v</a>
 <a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co">#&gt; # A tibble: 226,409 x 23</span></a>
 <a class="sourceLine" id="cb2-8" data-line-number="8"><span class="co">#&gt;    accident_index vehicle_referen… vehicle_type towing_and_arti…</span></a>
@@ -129,16 +129,15 @@
 <a class="sourceLine" id="cb2-17" data-line-number="17"><span class="co">#&gt;  8 2018010080982                 1 Taxi/Privat… No tow/articula…</span></a>
 <a class="sourceLine" id="cb2-18" data-line-number="18"><span class="co">#&gt;  9 2018010080982                 2 Car          No tow/articula…</span></a>
 <a class="sourceLine" id="cb2-19" data-line-number="19"><span class="co">#&gt; 10 2018010080983                 1 Car          No tow/articula…</span></a>
-<a class="sourceLine" id="cb2-20" data-line-number="20"><span class="co">#&gt; # … with 226,399 more rows, and 19 more variables:</span></a>
-<a class="sourceLine" id="cb2-21" data-line-number="21"><span class="co">#&gt; #   vehicle_manoeuvre &lt;chr&gt;, vehicle_location_restricted_lane &lt;int&gt;,</span></a>
-<a class="sourceLine" id="cb2-22" data-line-number="22"><span class="co">#&gt; #   junction_location &lt;chr&gt;, skidding_and_overturning &lt;chr&gt;,</span></a>
-<a class="sourceLine" id="cb2-23" data-line-number="23"><span class="co">#&gt; #   hit_object_in_carriageway &lt;int&gt;, vehicle_leaving_carriageway &lt;int&gt;,</span></a>
-<a class="sourceLine" id="cb2-24" data-line-number="24"><span class="co">#&gt; #   hit_object_off_carriageway &lt;int&gt;, first_point_of_impact &lt;chr&gt;,</span></a>
-<a class="sourceLine" id="cb2-25" data-line-number="25"><span class="co">#&gt; #   was_vehicle_left_hand_drive &lt;chr&gt;, journey_purpose_of_driver &lt;chr&gt;,</span></a>
-<a class="sourceLine" id="cb2-26" data-line-number="26"><span class="co">#&gt; #   sex_of_driver &lt;chr&gt;, age_of_driver &lt;int&gt;, age_band_of_driver &lt;int&gt;,</span></a>
-<a class="sourceLine" id="cb2-27" data-line-number="27"><span class="co">#&gt; #   engine_capacity_cc &lt;int&gt;, propulsion_code &lt;chr&gt;, age_of_vehicle &lt;int&gt;,</span></a>
-<a class="sourceLine" id="cb2-28" data-line-number="28"><span class="co">#&gt; #   driver_imd_decile &lt;chr&gt;, driver_home_area_type &lt;int&gt;,</span></a>
-<a class="sourceLine" id="cb2-29" data-line-number="29"><span class="co">#&gt; #   vehicle_imd_decile &lt;int&gt;</span></a></code></pre></div>
+<a class="sourceLine" id="cb2-20" data-line-number="20"><span class="co">#&gt; # … with 226,399 more rows, and 19 more variables: vehicle_manoeuvre &lt;chr&gt;,</span></a>
+<a class="sourceLine" id="cb2-21" data-line-number="21"><span class="co">#&gt; #   vehicle_location_restricted_lane &lt;int&gt;, junction_location &lt;chr&gt;,</span></a>
+<a class="sourceLine" id="cb2-22" data-line-number="22"><span class="co">#&gt; #   skidding_and_overturning &lt;chr&gt;, hit_object_in_carriageway &lt;int&gt;,</span></a>
+<a class="sourceLine" id="cb2-23" data-line-number="23"><span class="co">#&gt; #   vehicle_leaving_carriageway &lt;int&gt;, hit_object_off_carriageway &lt;int&gt;,</span></a>
+<a class="sourceLine" id="cb2-24" data-line-number="24"><span class="co">#&gt; #   first_point_of_impact &lt;chr&gt;, was_vehicle_left_hand_drive &lt;chr&gt;,</span></a>
+<a class="sourceLine" id="cb2-25" data-line-number="25"><span class="co">#&gt; #   journey_purpose_of_driver &lt;chr&gt;, sex_of_driver &lt;chr&gt;, age_of_driver &lt;int&gt;,</span></a>
+<a class="sourceLine" id="cb2-26" data-line-number="26"><span class="co">#&gt; #   age_band_of_driver &lt;int&gt;, engine_capacity_cc &lt;int&gt;, propulsion_code &lt;chr&gt;,</span></a>
+<a class="sourceLine" id="cb2-27" data-line-number="27"><span class="co">#&gt; #   age_of_vehicle &lt;int&gt;, driver_imd_decile &lt;chr&gt;, driver_home_area_type &lt;int&gt;,</span></a>
+<a class="sourceLine" id="cb2-28" data-line-number="28"><span class="co">#&gt; #   vehicle_imd_decile &lt;int&gt;</span></a></code></pre></div>
 <p>We will categorise the vehicle types to simplify subsequent results:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">v =<span class="st"> </span>v <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="dt">vehicle_type2 =</span> <span class="kw"><a href="https://dplyr.tidyverse.org/reference/case_when.html">case_when</a></span>(</a>
 <a class="sourceLine" id="cb3-2" data-line-number="2">  <span class="kw"><a href="https://rdrr.io/r/base/grep.html">grepl</a></span>(<span class="dt">pattern =</span> <span class="st">"motorcycle"</span>, vehicle_type, <span class="dt">ignore.case =</span> <span class="ot">TRUE</span>) <span class="op">~</span><span class="st"> "Motorbike"</span>,</a>
@@ -186,9 +185,9 @@
 <a class="sourceLine" id="cb5-2" data-line-number="2"><span class="co">#&gt; Files identified: dftRoadSafetyData_Accidents_2018.csv</span></a>
 <a class="sourceLine" id="cb5-3" data-line-number="3"><span class="co">#&gt;    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Accidents_2018.csv</span></a>
 <a class="sourceLine" id="cb5-4" data-line-number="4"><span class="co">#&gt; Attempt downloading from:</span></a>
-<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="co">#&gt; Data saved at /tmp/RtmpnO8ddk/dftRoadSafetyData_Accidents_2018.csv</span></a>
+<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="co">#&gt; Data saved at /tmp/Rtmpzx71LM/dftRoadSafetyData_Accidents_2018.csv</span></a>
 <a class="sourceLine" id="cb5-6" data-line-number="6"><span class="co">#&gt; Reading in:</span></a>
-<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="co">#&gt; /tmp/RtmpnO8ddk/dftRoadSafetyData_Accidents_2018.csv</span></a>
+<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="co">#&gt; /tmp/Rtmpzx71LM/dftRoadSafetyData_Accidents_2018.csv</span></a>
 <a class="sourceLine" id="cb5-8" data-line-number="8">va =<span class="st"> </span>dplyr<span class="op">::</span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/join.html">inner_join</a></span>(v, a)</a>
 <a class="sourceLine" id="cb5-9" data-line-number="9"><span class="co">#&gt; Joining, by = "accident_index"</span></a></code></pre></div>
 <p>Now we have additional variables available to us:</p>
@@ -267,6 +266,12 @@
 <p>As expected, crashes involving large vehicles such as buses and good vehicles tend to be more serious (involve proportionally more deaths) than crashes involving smaller vehicles.</p>
 <p>To focus only on cars, we can filter the <code>va</code> table as follows:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">vac =<span class="st"> </span>va <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(vehicle_type2 <span class="op">==</span><span class="st"> "Car"</span>)</a></code></pre></div>
+<p>The best proxy we have for car type in the open STATS19 data (there are non-open versions of the data with additional columns) is engine capacity, measured in cubic centimetres (cc). The distribution of engine cc’s in the cars dataset created above is shown below.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(vac<span class="op">$</span>engine_capacity_cc)</a>
+<a class="sourceLine" id="cb9-2" data-line-number="2"><span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span></a>
+<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="co">#&gt;      -1    1198    1560    1440    1968   19997</span></a></code></pre></div>
+<p>The output shows that there are some impossible values in the data, likely due to recording error. Very few cars have an engine capacity above 5 litres (5000 cc) and we can be confident that none have an engine capacity below 300 cc. We’ll identify these records and remove them as follows:</p>
+<p>We have set the anomolous vehicle size data to NA meaning it will not be used in the subsequent analysis.</p>
 </div>
   </div>
 
