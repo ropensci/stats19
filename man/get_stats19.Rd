@@ -4,8 +4,14 @@
 \alias{get_stats19}
 \title{Download, read and format STATS19 data in one function.}
 \usage{
-get_stats19(year = NULL, type = "accidents", data_dir = tempdir(),
-  file_name = NULL, format = TRUE, ask = FALSE)
+get_stats19(
+  year = NULL,
+  type = "accidents",
+  data_dir = tempdir(),
+  file_name = NULL,
+  format = TRUE,
+  ask = FALSE
+)
 }
 \arguments{
 \item{year}{Single year for which file is to be downloaded.}
@@ -26,7 +32,7 @@ Download, read and format STATS19 data in one function.
 }
 \section{Details}{
 
-This function utilizes \code{dl_stats19} and \code{read_*} functions
+This function utilizes \code{dl_stats19} and \verb{read_*} functions
 and retuns a df. The file downloaded would be for a specific year (e.g 2017).
 
 As this function uses \code{dl_stats19} function, it can download
