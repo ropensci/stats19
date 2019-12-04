@@ -80,9 +80,9 @@ crashes = get_stats19(year = 2017, type = "accident", ask = FALSE)
 #> Files identified: dftRoadSafetyData_Accidents_2017.zip
 #>    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Accidents_2017.zip
 #> Attempt downloading from:
-#> Data saved at /tmp/RtmpjiLUvK/dftRoadSafetyData_Accidents_2017/Acc.csv
+#> Data saved at /tmp/RtmpqveoCA/dftRoadSafetyData_Accidents_2017/Acc.csv
 #> Reading in:
-#> /tmp/RtmpjiLUvK/dftRoadSafetyData_Accidents_2017/Acc.csv
+#> /tmp/RtmpqveoCA/dftRoadSafetyData_Accidents_2017/Acc.csv
 ```
 
 What just happened? For the `year` 2017 we read-in crash-level (`type =
@@ -151,18 +151,18 @@ Some of the key variables in this dataset include:
 ``` r
 crashes[c(7, 18, 23, 25)]
 #> # A tibble: 129,982 x 4
-#>    accident_severity speed_limit pedestrian_crossing_hu… light_conditions  
-#>    <chr>                   <int> <chr>                   <chr>             
-#>  1 Fatal                      30 None within 50 metres   Darkness - lights…
-#>  2 Slight                     30 None within 50 metres   Darkness - lights…
-#>  3 Slight                     30 None within 50 metres   Darkness - lights…
-#>  4 Slight                     30 None within 50 metres   Darkness - lights…
-#>  5 Serious                    20 None within 50 metres   Darkness - lights…
-#>  6 Slight                     30 None within 50 metres   Darkness - lights…
-#>  7 Slight                     40 None within 50 metres   Darkness - lights…
-#>  8 Slight                     30 Control by other autho… Darkness - lights…
-#>  9 Serious                    50 None within 50 metres   Darkness - lights…
-#> 10 Serious                    30 None within 50 metres   Darkness - lights…
+#>    accident_severity speed_limit pedestrian_crossing_human_… light_conditions   
+#>    <chr>                   <int> <chr>                       <chr>              
+#>  1 Fatal                      30 None within 50 metres       Darkness - lights …
+#>  2 Slight                     30 None within 50 metres       Darkness - lights …
+#>  3 Slight                     30 None within 50 metres       Darkness - lights …
+#>  4 Slight                     30 None within 50 metres       Darkness - lights …
+#>  5 Serious                    20 None within 50 metres       Darkness - lights …
+#>  6 Slight                     30 None within 50 metres       Darkness - lights …
+#>  7 Slight                     40 None within 50 metres       Darkness - lights …
+#>  8 Slight                     30 Control by other authorise… Darkness - lights …
+#>  9 Serious                    50 None within 50 metres       Darkness - lights …
+#> 10 Serious                    30 None within 50 metres       Darkness - lights …
 #> # … with 129,972 more rows
 ```
 
@@ -181,7 +181,7 @@ casualties = get_stats19(year = 2017, type = "casualties", ask = FALSE)
 #> Files identified: dftRoadSafetyData_Casualties_2017.zip
 #>    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Casualties_2017.zip
 #> Attempt downloading from:
-#> Data saved at /tmp/RtmpjiLUvK/dftRoadSafetyData_Casualties_2017/Cas.csv
+#> Data saved at /tmp/RtmpqveoCA/dftRoadSafetyData_Casualties_2017/Cas.csv
 nrow(casualties)
 #> [1] 170993
 ncol(casualties)
@@ -195,18 +195,18 @@ Values for a sample of these columns are shown below:
 ``` r
 casualties[c(4, 5, 6, 14)]
 #> # A tibble: 170,993 x 4
-#>    casualty_class  sex_of_casualty age_of_casualty casualty_type           
-#>    <chr>           <chr>                     <int> <chr>                   
-#>  1 Passenger       Female                       18 Car occupant            
-#>  2 Driver or rider Male                         19 Motorcycle 50cc and und…
-#>  3 Passenger       Male                         18 Motorcycle 50cc and und…
-#>  4 Passenger       Female                       33 Car occupant            
-#>  5 Driver or rider Female                       31 Car occupant            
-#>  6 Passenger       Male                          3 Car occupant            
-#>  7 Pedestrian      Male                         45 Pedestrian              
-#>  8 Driver or rider Male                         14 Motorcycle 125cc and un…
-#>  9 Driver or rider Female                       58 Car occupant            
-#> 10 Driver or rider Male                         27 Car occupant            
+#>    casualty_class  sex_of_casualty age_of_casualty casualty_type                
+#>    <chr>           <chr>                     <int> <chr>                        
+#>  1 Passenger       Female                       18 Car occupant                 
+#>  2 Driver or rider Male                         19 Motorcycle 50cc and under ri…
+#>  3 Passenger       Male                         18 Motorcycle 50cc and under ri…
+#>  4 Passenger       Female                       33 Car occupant                 
+#>  5 Driver or rider Female                       31 Car occupant                 
+#>  6 Passenger       Male                          3 Car occupant                 
+#>  7 Pedestrian      Male                         45 Pedestrian                   
+#>  8 Driver or rider Male                         14 Motorcycle 125cc and under r…
+#>  9 Driver or rider Female                       58 Car occupant                 
+#> 10 Driver or rider Male                         27 Car occupant                 
 #> # … with 170,983 more rows
 ```
 
@@ -214,22 +214,14 @@ The full list of column names in the `casualties` dataset is:
 
 ``` r
 names(casualties)
-#>  [1] "accident_index"                    
-#>  [2] "vehicle_reference"                 
-#>  [3] "casualty_reference"                
-#>  [4] "casualty_class"                    
-#>  [5] "sex_of_casualty"                   
-#>  [6] "age_of_casualty"                   
-#>  [7] "age_band_of_casualty"              
-#>  [8] "casualty_severity"                 
-#>  [9] "pedestrian_location"               
-#> [10] "pedestrian_movement"               
-#> [11] "car_passenger"                     
-#> [12] "bus_or_coach_passenger"            
-#> [13] "pedestrian_road_maintenance_worker"
-#> [14] "casualty_type"                     
-#> [15] "casualty_home_area_type"           
-#> [16] "casualty_imd_decile"
+#>  [1] "accident_index"                     "vehicle_reference"                 
+#>  [3] "casualty_reference"                 "casualty_class"                    
+#>  [5] "sex_of_casualty"                    "age_of_casualty"                   
+#>  [7] "age_band_of_casualty"               "casualty_severity"                 
+#>  [9] "pedestrian_location"                "pedestrian_movement"               
+#> [11] "car_passenger"                      "bus_or_coach_passenger"            
+#> [13] "pedestrian_road_maintenance_worker" "casualty_type"                     
+#> [15] "casualty_home_area_type"            "casualty_imd_decile"
 ```
 
 ### Vehicles data
@@ -242,7 +234,7 @@ vehicles = get_stats19(year = 2017, type = "vehicles", ask = FALSE)
 #> Files identified: dftRoadSafetyData_Vehicles_2017.zip
 #>    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Vehicles_2017.zip
 #> Attempt downloading from:
-#> Data saved at /tmp/RtmpjiLUvK/dftRoadSafetyData_Vehicles_2017/Veh.csv
+#> Data saved at /tmp/RtmpqveoCA/dftRoadSafetyData_Vehicles_2017/Veh.csv
 nrow(vehicles)
 #> [1] 238926
 ncol(vehicles)
@@ -256,18 +248,18 @@ reported by the police in the STATS19 dataset in 2017, with 23 columns
 ``` r
 vehicles[c(3, 14:16)]
 #> # A tibble: 238,926 x 4
-#>    vehicle_type          journey_purpose_of_dr… sex_of_driver age_of_driver
-#>    <chr>                 <chr>                  <chr>                 <int>
-#>  1 Car                   Not known              Male                     24
-#>  2 Motorcycle 50cc and … Not known              Male                     19
-#>  3 Car                   Not known              Male                     33
-#>  4 Car                   Not known              Male                     40
-#>  5 Car                   Not known              Not known                -1
-#>  6 Car                   Not known              Male                     35
-#>  7 Car                   Not known              Female                   31
-#>  8 Car                   Not known              Female                   37
-#>  9 Car                   Not known              Female                   29
-#> 10 Car                   Not known              Male                     78
+#>    vehicle_type             journey_purpose_of_driv… sex_of_driver age_of_driver
+#>    <chr>                    <chr>                    <chr>                 <int>
+#>  1 Car                      Not known                Male                     24
+#>  2 Motorcycle 50cc and und… Not known                Male                     19
+#>  3 Car                      Not known                Male                     33
+#>  4 Car                      Not known                Male                     40
+#>  5 Car                      Not known                Not known                -1
+#>  6 Car                      Not known                Male                     35
+#>  7 Car                      Not known                Female                   31
+#>  8 Car                      Not known                Female                   37
+#>  9 Car                      Not known                Female                   29
+#> 10 Car                      Not known                Male                     78
 #> # … with 238,916 more rows
 ```
 
@@ -406,13 +398,18 @@ the region’s geography. Crashes tend to happen on busy Motorway roads
 (with a high speed limit, of 70 miles per hour, as shown in the map
 above) and city centres, of Leeds and Bradford in particular. The
 severity and number of people hurt (proportional to circle width in the
-map above) in crashes is related to the speed limit. This can be seen by
-comparing the previous map with an overview of the area, from an
-academic paper on the social, spatial and temporal distribution of bike
-crashes in West Yorkshire (Lovelace, Roberts, and Kellar
+map above) in crashes is related to the speed limit.
+
+STATS19 data can be used as the basis of road safety research. The map
+below, for example, shows the results of an academic paper on the
+social, spatial and temporal distribution of bike crashes in West
+Yorkshire, which estimated the number of crashes per billion km cycled
+based on commuter cycling as a proxy for cycling levels overall (more
+sophisticated measures of cycling levels are now possible thanks to new
+data sources) (Lovelace, Roberts, and Kellar
 2016):
 
-<img src="https://raw.githubusercontent.com/ropensci/stats19/master/vignettes/wy-overview.jpg" width="100%" />
+<img src="https://ars.els-cdn.com/content/image/1-s2.0-S136984781500039X-gr9.jpg" width="100%" />
 
 ## Time series analysis
 
@@ -464,6 +461,39 @@ ggplot(crash_times, aes(hour, casualties)) +
 Note that cycling manifests distinct morning and afternoon peaks (see
 Lovelace, Roberts, and Kellar 2016 for more on this).
 
+## Usage in research and policy contexts
+
+The package has now been peer reviewed and is stable, and has been
+published in the Journal of Open Source Software (Lovelace et al. 2019).
+Please tell people about the package, link to it and cite it if you use
+it in your work.
+
+Examples of how the package can been used for policy making include:
+
+  - Use of the package in a web app created by the library service of
+    the UK Parliament. See
+    [commonslibrary.parliament.uk](https://commonslibrary.parliament.uk/economy-business/transport/roads/constituency-data-traffic-accidents/),
+    screenshots of which from December 2019 are shown below, for
+    details.
+
+![](https://user-images.githubusercontent.com/1825120/70164249-bf730080-16b8-11ea-96d8-ec92c0b5cc69.png)
+
+  - Use of methods taught in the
+    [stats19-training](https://docs.ropensci.org/stats19/articles/stats19-training.html)
+    vignette by road safety analysts at Essex Highways and the Safer
+    Essex Roads Partnership ([SERP](https://saferessexroads.org/)) to
+    inform the deployment of proactive front-line police enforcement in
+    the region (credit: Will Cubbin).
+
+  - Mention of road crash data analysis based on the package in an
+    [article](https://www.theguardian.com/cities/2019/oct/07/a-deadly-problem-should-we-ban-suvs-from-our-cities)
+    on urban SUVs. The question of how vehicle size and type relates to
+    road safety is an important area of future research. A starting
+    point for researching this topic can be found in the
+    [`stats19-vehicles`](https://docs.ropensci.org/stats19/articles/stats19-vehicles.html)
+    vignette, representing a possible next step in terms of how the data
+    can be used.
+
 ## Next steps
 
 There is much important research that needs to be done to help make the
@@ -496,6 +526,15 @@ project
 ## References
 
 <div id="refs" class="references">
+
+<div id="ref-lovelace_stats19_2019">
+
+Lovelace, Robin, Malcolm Morgan, Layik Hama, Mark Padgham, and M
+Padgham. 2019. “Stats19 A Package for Working with Open Road Crash
+Data.” *Journal of Open Source Software* 4 (33): 1181.
+<https://doi.org/10.21105/joss.01181>.
+
+</div>
 
 <div id="ref-lovelace_who_2016">
 
