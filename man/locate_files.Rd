@@ -4,8 +4,7 @@
 \alias{locate_files}
 \title{Locate a file on disk}
 \usage{
-locate_files(data_dir = tempdir(), type = NULL, years = NULL,
-  quiet = FALSE)
+locate_files(data_dir = tempdir(), type = NULL, years = NULL, quiet = FALSE)
 }
 \arguments{
 \item{data_dir}{Super directory where dataset(s) were first downloaded to.}
