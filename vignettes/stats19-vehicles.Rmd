@@ -96,18 +96,33 @@ To focus only on cars, we can filter the `va` table as follows:
 vac = va %>% filter(vehicle_type2 == "Car")
 ```
 
+The best proxy we have for car type in the open STATS19 data (there are non-open versions of the data with additional columns) is engine capacity, measured in cubic centimetres (cc).
+The distribution of engine cc's in the cars dataset created above is shown below.
+
+```{r}
+summary(vac$engine_capacity_cc)
+```
+
+The output shows that there are some impossible values in the data, likely due to recording error. 
+Very few cars have an engine capacity above 5 litres (5000 cc) and we can be confident that none have an engine capacity below 300 cc.
+We'll identify these records and remove them as follows:
 
 ```{r, echo=FALSE, eval=FALSE}
+library(tidyverse)
+
 max_engine_size = 5000
-min_engine_size = 600
-summary(vac$engine_capacity_cc)
+min_engine_size = 300
 
-vac$val_size = vac$engine_capacity_cc <= max_engine_size &
-  vac$engine_capacity_cc >= min_engine_size
+sel_too_big = vac$engine_capacity_cc > max_engine_size
+sel_too_small = vac$engine_capacity_cc < min_engine_size
+sum(sel_too_big) / nrow(vac)
+sum(sel_too_small) / nrow(vac)
+vac$engine_capacity_cc[sel_too_big | sel_too_small] = NA
+```
 
-table(vac$val_size) / nrow(vac)
+We have set the anomolous vehicle size data to NA meaning it will not be used in the subsequent analysis.
 
-vac_original = vac
+```{r, eval=FALSE, echo=FALSE}
 
 vac = vac %>% filter(val_size)
 vac %>% 

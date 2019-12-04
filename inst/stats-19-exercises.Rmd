@@ -83,9 +83,9 @@ Scripts are the files where R code is stored.
 you could simply type all our code into the console, but that require retyping commands each time you run it.
 Instead, code that you want to keep and share should be saved script files, plain text files that have the `.R` extension.
 
-Make a new script with Flie > New File > Rscript or Ctl+Shift+N
+Make a new script with Flie > New File > Rscript or Ctrl+Shift+N
 
-Save the script and give it a sensible name like `stats19-lesson-1.R` with File > Save, the save button on the toolbar, or Ctl+S.
+Save the script and give it a sensible name like `stats19-lesson-1.R` with File > Save, the save button on the toolbar, or Ctrl+S.
 
 **Pro tip:** You can also create new R scripts by typing and running this command in the R console:
 
@@ -98,7 +98,7 @@ Keeping scripts and other files associated with a project in a single folder per
 ## Writing and running code
 
 Let's start with some basic R operations.
-Write this code into your new `stats19-lesson-1.R` R script and execute the result line-by-line by pressing Ctl+Enter
+Write this code into your new `stats19-lesson-1.R` R script and execute the result line-by-line by pressing Ctrl+Enter
 
 ```{r, eval=FALSE}
 x = 1:5
@@ -107,14 +107,14 @@ plot(x, y)
 ```
 
 This code creates two objects, both are vectors of 5 elements, and then plots them (bonus: check their length using the `length()` function).
-Save the script by pressing Ctl+S.
+Save the script by pressing Ctrl+S.
 
 There are several ways to run code within a script and it is worth becoming familiar with each.
 Try running the the code you saved in the previous section using each of these methods:
 
-1. Place the cursor in different places on each line of code and press `Ctlr+Enter` to run that line of code.
-1. Highlight a block of code or part of a line of code and press `Ctlr+Enter` to run the highlighted code.
-1. Press `Ctlr+Shift+Enter` to run all the code in a script.
+1. Place the cursor in different places on each line of code and press `Ctrl+Enter` to run that line of code.
+1. Highlight a block of code or part of a line of code and press `Ctrl+Enter` to run the highlighted code.
+1. Press `Ctrl+Shift+Enter` to run all the code in a script.
 1. Press the Run button on the toolbar to run all the code in a script.
 1. Use the function `source()` to run all the code in a script e.g. `source("stats19-lesson-1.R")`
 <!-- (but don't create an infinite loop!) -->
@@ -137,7 +137,7 @@ crashes = data.frame(vehicle_type, casualty_type, casualty_age, dark)
 
 We can view the objects in a range of ways:
 
-1. Type the name of the object into the console e.g. `crashes`, what happens if we try to view all the 24 numbers included in the object `small_matrix`?
+1. Type the name of the object into the console e.g. `crashes` and `small_matrix`. Scroll up to see the numbers that didn't fit on the screen.
 1. Use the `head()` function to view just the first 6 rows e.g. `head(small_matrix)`
 1. Bonus: use the `n` argument in the previous function call to show only the first 2 rows of `small_matrix`
 1. Click on the `crashes` object in the environment tab to View it in a spreadsheet.
@@ -210,11 +210,11 @@ x = 1:5 # a seqence of consecutive integers (inline comment)
 y = c(0, 1, 3, 9, 18.1) 
 ```
 
-You can comment/uncomment a whole block of text by selecting it and using `Ctlr+Shift+C`.
+You can comment/uncomment a whole block of text by selecting it and using `Ctrl+Shift+C`.
 <!-- not sure about the next statement so commenting out (RL) -->
-<!-- and you can reformat a block of code using `Ctlr+Shift  + /`.  -->
+<!-- and you can reformat a block of code using `Ctrl+Shift  + /`.  -->
 
-**Pro tip:** You can add a comment section using Ctlr + Shift + R
+**Pro tip:** You can add a comment section using Ctrl + Shift + R
 
 
 ## The global environment
@@ -1041,7 +1041,7 @@ Identify a region and zonal units of interest from http://geoportal.statistics.g
 1. Take a look at the code in [the file iow_example.R in the inst directory in the stats19 repo](https://github.com/ropensci/stats19/blob/master/inst/iow_example.R). Run it to reproduce the figure below.
 
 ```{r final-plot, echo=FALSE, out.width="100%"}
-knitr::include_graphics("final-figure.png")
+# knitr::include_graphics("final-figure.png")
 ```
 
 

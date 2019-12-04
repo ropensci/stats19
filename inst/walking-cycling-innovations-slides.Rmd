@@ -74,7 +74,9 @@ background-image: url(https://cdn1.carbuyer.co.uk/sites/carbuyer_d7/files/styles
 
 # Largely unnoticed
 
-In tax band E, D or even A - C
+In tax band E, D or even A - C for electrics
+
+![](https://user-images.githubusercontent.com/1825120/69948517-b4b54180-14e7-11ea-8dca-ed2172d5789e.png)
 
 ---
 
@@ -99,6 +101,8 @@ MOT data excludes weight: https://www.gov.uk/transport/car-motorcycle-and-van-mo
 But we do have good data on tax band
 
 ]
+
+## Suggestion: define on weight (energy, size) + height (colision height)
 
 ---
 
@@ -180,34 +184,21 @@ See the [Get Real report](https://www.get-real.org/wp-content/uploads/2019/03/Ge
 
 ---
 
-## From code to impact
+## Road crash data
 
-```{r, echo=FALSE, out.width="90%"}
-knitr::include_graphics("https://raw.githubusercontent.com/npct/pct-team/master/figures/front-page-leeds-pct-demo.png")
-```
+### From open STATS19 data (stats19 R package)
 
---
+![](https://docs.ropensci.org/stats19/articles/stats19-vehicles_files/figure-html/unnamed-chunk-7-1.png)
 
-Source - https://github.com/npct which hosts national web tool PCT [www.pct.bike](http://www.pct.bike/)
-
-
-<!-- background-imag: url(https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1507165449l/36355673._SX318_.jp) -->
-
-???
-
-2017 book by Mark Reed
 
 ---
 
-# Types of efficiency
+### Next steps
 
---
-
+![](https://raw.githubusercontent.com/Robinlovelace/stats19-gisruk/master/README_files/figure-gfm/unnamed-chunk-25-1.png)
 .pull-left[
 
-## Programmer efficiency
-
-This is the amount of useful work a person (not a computer) can do per unit time
+Crash data vs size (engine + tax data)
 
 ]
 
@@ -215,102 +206,9 @@ This is the amount of useful work a person (not a computer) can do per unit time
 
 .pull-right[
 
-## Computational efficiency
-
-How quickly the computer can undertake a piece of work
+Estimate potential lives saved
 
 ]
-
---
-
-One essential object is to choose that arrangement which shall tend to reduce to a minimum the time necessary for completing the calculation. (Ada Lovelace, [1842](https://csgillespie.github.io/efficientR/introduction.html#ref-lovelace1842translator))
-
---
-
-An efficient light shines bright with a minimum of energy consumption. In this final sense, efficiency has a formal definition as the ratio of work done per unit effort:
-
-$$
-\eta = \frac{W}{Q}
-$$
-
----
-class: inverse, center, middle
-
-# Efficient set-up
-
---
-
-### Based on Efficient R programming [Chapter 2](https://csgillespie.github.io/efficientR/set-up.html)
-
----
-
-## R and package versions  
-
-.pull-left[
-
-#### Keep your software up-to-date
-
-```{r}
-R.version
-packageVersion("dplyr")
-```
-
-]
-
---
-
-.pull-left[
-
-
-### Who cares?
-
-![](devtools-issue.png)
-
-Source: https://github.com/r-lib/devtools/issues/2153
-
-]
----
-
-
-class: inverse, center, middle
-
-# Efficient workflow
-
----
-
-<!-- background-imag: url(https://i.pinimg.com/originals/d3/57/8f/d3578fe5d173fa348f8463f7f47b949a.png) -->
-
-
-## Package selection
-
-.pull-left[
-
-- Is it mature?
-
-- Is it actively developed? 
-
-- Is it well documented? 
-
-- Is it well used? 
-
-]
-
---
-
-.pull-right[
-
-### Interest in popularity can go too far
-
-<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Everyone is doing it so I might as well join!<br><br>Made a simple bar chart race of package downloads using <a href="https://twitter.com/mbostock?ref_src=twsrc%5Etfw">@mbostock</a>&#39;s template.<a href="https://t.co/lk0U71Xtp4">https://t.co/lk0U71Xtp4</a> <a href="https://twitter.com/hashtag/rstats?src=hash&amp;ref_src=twsrc%5Etfw">#rstats</a> <a href="https://t.co/qGmHohFxif">pic.twitter.com/qGmHohFxif</a></p>&mdash; Emil Hvitfeldt (@Emil_Hvitfeldt) <a href="https://twitter.com/Emil_Hvitfeldt/status/1194785416689287169?ref_src=twsrc%5Etfw">November 14, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
-
-]
-
---
-
-See Efficient R Programming [4.4](https://csgillespie.github.io/efficientR/workflow.html#package-selection) for details
-
----
-
 
 ---
 
@@ -326,7 +224,7 @@ Check-out my repos at https://github.com/robinlovelace/
 
 --
 
-For more information on efficient workflows, see our book [*Efficient R Programming*](https://csgillespie.github.io/efficientR/)
+For more information on stats19 data, see [*stats19 on GitHub*](https://docs.ropensci.org/stats19/)
 
 --
 
