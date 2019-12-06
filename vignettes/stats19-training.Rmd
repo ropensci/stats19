@@ -940,7 +940,7 @@ zones %>%
 
 ## Matching roads to crashes
 
-
+I think you forgot something here. For example we could introduce `st_nearest_feature`? Or counting using `st_within` and `st_buffer`. 
 
 # Visualising spatial datasets
 
