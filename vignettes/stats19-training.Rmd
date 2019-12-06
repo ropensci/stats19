@@ -330,7 +330,7 @@ class(crashes[c(2), c(3)])
 1. Subset the crashes with the `[,]` syntax so that only the first and third columns of `crashes` are returned.
 1. Return the 2^nd^ row and the 3^rd^ column of the `crashes` dataset. 
 1. Return the 2^nd^ row and the columns 2:3 of the `crashes` dataset. 
-1. **Bonus**: what class resulted from each of the previous exercises?
+1. **Bonus**: what's the `class()` of the objects resulted from each of the previous exercises?
 
 ## Subsetting by values
 
