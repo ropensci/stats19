@@ -989,8 +989,8 @@ This should now be sufficient to tackle the following exercises:
 1. Find the function in the `stats19` package that converts a `data.frame` object into an `sf` data frame. Use this function to convert the road crashes into an `sf` object, called `crashes_sf`, for example.
 1. Filter crashes that happened in the Isle of Wight based on attribute data (hint: the relevant column contains the word `local`)
 1. Filter crashes happened in the Isle of Wight using geographic subsetting (hint: remember `st_crs()`?)
-1. Bonus: Which type of subsetting yielded more results and why? 
-1. Bonus: how many crashes happened in each zone?
+1. **Bonus:** Which type of subsetting yielded more results and why? 
+1. **Bonus:** how many crashes happened in each zone?
 1. Create a new column called `month` in the crash data using the function `lubridate::month()` and the `date` column.
 1. Create an object called `a_zones_may` representing all the crashes that happened in the Isle of Wight in the month of May
 1. Bonus: Calculate the average (`mean`) speed limit associated with each crash that happened in May across the zones of the Isle of Wight (the result is shown in the map)
