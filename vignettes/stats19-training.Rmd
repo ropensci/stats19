@@ -1067,8 +1067,9 @@ Identify a region and zonal units of interest from http://geoportal.statistics.g
 1. Read them into R as an `sf` object
 1. Create a map showing the number of crashes in each zone
 1. Identify the average speed limit associated with crashes in each zone
-1. Identify an interesting question you can ask of the data and use exploratory data analysis to find answers
-1. Take a look at the code in [the file iow_example.R in the inst directory in the stats19 repo](https://github.com/ropensci/stats19/blob/master/inst/iow_example.R). Run it to create smoothed estimates of crash frequency on the road network (see [code in the  GitHub repo](https://github.com/agila5/leeds_seminar/blob/master/examples.R) for further information on these preliminary methods).
+1. Identify an interesting question you can ask to the data and use exploratory data analysis to find answers
+1. Check another [related project](https://github.com/agila5/leeds_seminar) for further information on smoothing techniques of counts on a linear network. 
+<!-- 1. Take a look at the code in [the file iow_example.R in the inst directory in the stats19 repo](https://github.com/ropensci/stats19/blob/master/inst/iow_example.R). Run it to create smoothed estimates of crash frequency on the road network (see [code in the  GitHub repo](https://github.com/agila5/leeds_seminar/blob/master/examples.R) for further information on these preliminary methods). -->
 
 ```{r final-plot, echo=FALSE, out.width="100%"}
 # knitr::include_graphics("final-figure.png")
