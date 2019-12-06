@@ -61,7 +61,7 @@ pkgs = c(
 knitr::write_bib(x = pkgs, "packages.bib")
 ```
 
-```{r, eval=FALSE}
+```{r, eval=FALSE, echo=FALSE}
 remotes::install_cran(pkgs)
 # remotes::install_github("ITSLeeds/pct")
 ```
