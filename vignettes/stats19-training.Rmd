@@ -678,7 +678,7 @@ Exercises:
 1. Filter only the events that ocurred after midday (i.e. the PM events). Hint: your answer may include `>= 12`.
 1. Filter only the events that ocurred between 15:00 and 19:00
 <!-- 1. Round all hours to the next hour. Hint: Look at the help page of the `round_date` function.  -->
-1. **Bonus:** (difficult): run the following code, which downloades data for car crashes occurred during 2017.
+1. **Bonus (difficult):** run the following code, which downloades data for car crashes occurred during 2017.
 
 ```{r, eval=FALSE}
 library(stats19)
