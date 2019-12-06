@@ -165,7 +165,7 @@ crashes = data.frame(vehicle_type, casualty_type, casualty_age, dark)
 
 We can view the objects in a range of ways:
 
-1. Type the name of the object into the console e.g. `crashes` and `small_matrix`. Scroll up to see the numbers that didn't fit on the screen.
+1. Type the name of the object into the console, e.g. `crashes` and `small_matrix`, and run that code. Scroll up to see the numbers that didn't fit on the screen.
 1. Use the `head()` function to view just the first 6 rows e.g. `head(small_matrix)`
 1. Bonus: use the `n` argument in the previous function call to show only the first 2 rows of `small_matrix`
 1. Click on the `crashes` object in the environment tab to View it in a spreadsheet.
