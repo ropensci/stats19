@@ -138,7 +138,7 @@ This code creates two objects, both are vectors of 5 elements, and then plots th
 Save the script by pressing Ctrl+S.
 
 There are several ways to run code within a script and it is worth becoming familiar with each.
-Try running the the code you saved in the previous section using each of these methods:
+Try running the code you saved in the previous section using each of these methods:
 
 1. Place the cursor in different places on each line of code and press `Ctrl+Enter` to run that line of code.
 1. Highlight a block of code or part of a line of code and press `Ctrl+Enter` to run the highlighted code.
