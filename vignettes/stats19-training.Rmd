@@ -607,7 +607,7 @@ Exercises:
 
 1. Extract the day, the year-day, the month and the weekday (as a non-abbreviated character vector) of each element of `x_date`. 
 1. Convert `"09/09/93"` into a date object and extract its weekday. 
-1. **Bonus:** Read the help page of `as.Date` and `strptime` for further details on the format argument in base R. 
+1. **Bonus:** Read the help page of `as.Date` and `strptime` for further details on base R functions for dates. 
 
 ```{r, echo=FALSE, eval=FALSE}
 # 1. Extract the day, the year-day, the month and the weekday (as a non-abbreviated character vector) of each element of `x_date`. 
