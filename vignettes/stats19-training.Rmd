@@ -61,7 +61,7 @@ pkgs = c(
 knitr::write_bib(x = pkgs, "packages.bib")
 ```
 
-```{r, eval=FALSE}
+```{r, eval=FALSE, echo=FALSE}
 remotes::install_cran(pkgs)
 # remotes::install_github("ITSLeeds/pct")
 ```
@@ -138,7 +138,7 @@ This code creates two objects, both are vectors of 5 elements, and then plots th
 Save the script by pressing Ctrl+S.
 
 There are several ways to run code within a script and it is worth becoming familiar with each.
-Try running the the code you saved in the previous section using each of these methods:
+Try running the code you saved in the previous section using each of these methods:
 
 1. Place the cursor in different places on each line of code and press `Ctrl+Enter` to run that line of code.
 1. Highlight a block of code or part of a line of code and press `Ctrl+Enter` to run the highlighted code.
@@ -165,7 +165,7 @@ crashes = data.frame(vehicle_type, casualty_type, casualty_age, dark)
 
 We can view the objects in a range of ways:
 
-1. Type the name of the object into the console e.g. `crashes` and `small_matrix`. Scroll up to see the numbers that didn't fit on the screen.
+1. Type the name of the object into the console, e.g. `crashes` and `small_matrix`, and run that code. Scroll up to see the numbers that didn't fit on the screen.
 1. Use the `head()` function to view just the first 6 rows e.g. `head(small_matrix)`
 1. Bonus: use the `n` argument in the previous function call to show only the first 2 rows of `small_matrix`
 1. Click on the `crashes` object in the environment tab to View it in a spreadsheet.
@@ -330,7 +330,7 @@ class(crashes[c(2), c(3)])
 1. Subset the crashes with the `[,]` syntax so that only the first and third columns of `crashes` are returned.
 1. Return the 2^nd^ row and the 3^rd^ column of the `crashes` dataset. 
 1. Return the 2^nd^ row and the columns 2:3 of the `crashes` dataset. 
-1. **Bonus**: what class resulted from each of the previous exercises?
+1. **Bonus**: what is the `class()` of the objects created by each of the previous exercises? 
 
 ## Subsetting by values
 
@@ -348,7 +348,7 @@ crashes[crashes$dark == FALSE, ]
 
 1. Subset the `casualty_age` object using the inequality (`<`) so that only elements less than 50 are returned.
 1. Subset the `crashes` data frame so that only tanks are returned using the `==` operator.
-1. **Bonus**: assign the age of all all tanks to 61.
+1. **Bonus**: assign the age of all tanks to 61.
 
 ```{r, eval=FALSE, echo=FALSE}
 casualty_age[casualty_age < 50] # the  casualty_age less than 50
@@ -540,7 +540,7 @@ crashes %>%
 1. Use `dplyr` to filter row in which `casualty_age` is less than 18, and then 28.
 1. Use the `arrange` function to sort the `crashes` object in descending order of age (hint: see the `?arrange` help page).
 1. Read the help page of `dplyr::mutate()`. What does the function do?
-1. Use the mutate function to create a new variable, `birth_year`, the current year minus their age.
+1. Use the mutate function to create a new variable, `birth_year`, in the `crashes` data.frame which is defined as the current year minus their age.
 1. **Bonus:** Use the ` %>% ` operator to filter the output from the previous exercise so that only observations with `birth_year` after 1969 are returned.
 
 ```{r dplyr, eval=FALSE, echo=FALSE}
@@ -607,7 +607,8 @@ Exercises:
 
 1. Extract the day, the year-day, the month and the weekday (as a non-abbreviated character vector) of each element of `x_date`. 
 1. Convert `"09/09/93"` into a date object and extract its weekday. 
-1. **Bonus:** Read the help page of `as.Date` and `strptime` for further details on the format argument in base R. 
+1. **Bonus:** Read the help page of `as.Date` and `strptime` for further details on base R functions for dates. 
+1. **Bonus:** Read the Chapter 16 of [R for Data Science book](https://r4ds.had.co.nz/dates-and-times.html) for further details on `lubridate` package. 
 
 ```{r, echo=FALSE, eval=FALSE}
 # 1. Extract the day, the year-day, the month and the weekday (as a non-abbreviated character vector) of each element of `x_date`. 
@@ -640,7 +641,7 @@ Exercises:
 1. Select only the events that ocurred in a leap-year (HINT: check the function `leap_year`)
 1. Select only the events that ocurred during the weekend or in June
 1. Select only the events that ocurred during the weekend and in June
-1. Count how many events that ocurred during each day of the week. 
+1. Count how many events ocurred during each day of the week. 
 
 Now we'll take a look at the time components of a Date. Using the function `hms` (acronym for Hour Minutes Seconds) and its subfunctions such as `hm` or `ms`, we can parse a character vector representing several times as an Hour object (which is tecnically called a Period object). 
 
@@ -677,7 +678,7 @@ Exercises:
 1. Filter only the events that ocurred after midday (i.e. the PM events). Hint: your answer may include `>= 12`.
 1. Filter only the events that ocurred between 15:00 and 19:00
 <!-- 1. Round all hours to the next hour. Hint: Look at the help page of the `round_date` function.  -->
-1. **Bonus:** (difficult): run the following code, which downloades data for car crashes occurred during 2017.
+1. **Bonus (difficult):** run the following code, which downloades data for car crashes occurred during 2017.
 
 ```{r, eval=FALSE}
 library(stats19)
@@ -746,7 +747,7 @@ crashes_sf = st_as_sf(crashes_sf, coords = c("longitude", "latitude"), crs = 432
 # mapview::mapview(crashes_sf) # for interactive map
 ```
 
-1. Plot only the geometry of `crashes_sf` (hint: the solution may contain `$geometry`). If the result is like the figure below, congratulations, it worked!).
+1. Plot only the geometry column of `crashes_sf` (hint: the solution may contain `$geometry`). If the result is like the figure below, congratulations, it worked!).
 1. Plot `crashes_sf`, only showing the age variable.
 1. Plot the 2^nd^ and 3^rd^ crashes, showing which happened in the dark.
 1. **Bonus**: How far are the points apart (hint: `sf` functions begin with `st_`)?
@@ -939,7 +940,7 @@ zones %>%
 
 ## Matching roads to crashes
 
-
+I think you forgot something here. For example we could introduce `st_nearest_feature`? Or counting using `st_within` and `st_buffer`. 
 
 # Visualising spatial datasets
 
@@ -973,7 +974,7 @@ m
 Based on the saying "don't run before you can walk", we've learned the vital foundations of R before tackling a real dataset.
 Temporal and spatial attributes are key to road crash data, hence the emphasis on `lubridate` and `sf`.
 Visualisation is key to understanding and policy influence, which is where `tmap` comes in.
-With these solid foundations, plus knowledge of how to ask for help (ask R's internal help, colleagues, online forums/GitHub, generally in that order of priority), you are ready to test the methods on some real data.
+With these solid foundations, plus knowledge of how to ask for help (read R's internal help functions, ask colleagues, create new comments on online forums/GitHub, generally in that order of priority), you are ready to test the methods on some real data.
 
 Before doing so, take a read of the `stats19` vignette, which can be launched as follows:
 
@@ -988,8 +989,8 @@ This should now be sufficient to tackle the following exercises:
 1. Find the function in the `stats19` package that converts a `data.frame` object into an `sf` data frame. Use this function to convert the road crashes into an `sf` object, called `crashes_sf`, for example.
 1. Filter crashes that happened in the Isle of Wight based on attribute data (hint: the relevant column contains the word `local`)
 1. Filter crashes happened in the Isle of Wight using geographic subsetting (hint: remember `st_crs()`?)
-1. Bonus: Which type of subsetting yielded more results and why? 
-1. Bonus: how many crashes happened in each zone?
+1. **Bonus:** Which type of subsetting yielded more results and why? 
+1. **Bonus:** how many crashes happened in each zone?
 1. Create a new column called `month` in the crash data using the function `lubridate::month()` and the `date` column.
 1. Create an object called `a_zones_may` representing all the crashes that happened in the Isle of Wight in the month of May
 1. Bonus: Calculate the average (`mean`) speed limit associated with each crash that happened in May across the zones of the Isle of Wight (the result is shown in the map)
@@ -1066,8 +1067,9 @@ Identify a region and zonal units of interest from http://geoportal.statistics.g
 1. Read them into R as an `sf` object
 1. Create a map showing the number of crashes in each zone
 1. Identify the average speed limit associated with crashes in each zone
-1. Identify an interesting question you can ask of the data and use exploratory data analysis to find answers
-1. Take a look at the code in [the file iow_example.R in the inst directory in the stats19 repo](https://github.com/ropensci/stats19/blob/master/inst/iow_example.R). Run it to create smoothed estimates of crash frequency on the road network (see [code in the  GitHub repo](https://github.com/agila5/leeds_seminar/blob/master/examples.R) for further information on these preliminary methods).
+1. Identify an interesting question you can ask to the data and use exploratory data analysis to find answers
+1. Check another [related project](https://github.com/agila5/leeds_seminar) for further information on smoothing techniques of counts on a linear network. 
+<!-- 1. Take a look at the code in [the file iow_example.R in the inst directory in the stats19 repo](https://github.com/ropensci/stats19/blob/master/inst/iow_example.R). Run it to create smoothed estimates of crash frequency on the road network (see [code in the  GitHub repo](https://github.com/agila5/leeds_seminar/blob/master/examples.R) for further information on these preliminary methods). -->
 
 ```{r final-plot, echo=FALSE, out.width="100%"}
 # knitr::include_graphics("final-figure.png")
