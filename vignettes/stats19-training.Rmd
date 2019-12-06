@@ -747,7 +747,7 @@ crashes_sf = st_as_sf(crashes_sf, coords = c("longitude", "latitude"), crs = 432
 # mapview::mapview(crashes_sf) # for interactive map
 ```
 
-1. Plot only the geometry of `crashes_sf` (hint: the solution may contain `$geometry`). If the result is like the figure below, congratulations, it worked!).
+1. Plot only the geometry column of `crashes_sf` (hint: the solution may contain `$geometry`). If the result is like the figure below, congratulations, it worked!).
 1. Plot `crashes_sf`, only showing the age variable.
 1. Plot the 2^nd^ and 3^rd^ crashes, showing which happened in the dark.
 1. **Bonus**: How far are the points apart (hint: `sf` functions begin with `st_`)?
