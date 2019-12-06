@@ -974,7 +974,7 @@ m
 Based on the saying "don't run before you can walk", we've learned the vital foundations of R before tackling a real dataset.
 Temporal and spatial attributes are key to road crash data, hence the emphasis on `lubridate` and `sf`.
 Visualisation is key to understanding and policy influence, which is where `tmap` comes in.
-With these solid foundations, plus knowledge of how to ask for help (ask R's internal help, colleagues, online forums/GitHub, generally in that order of priority), you are ready to test the methods on some real data.
+With these solid foundations, plus knowledge of how to ask for help (read R's internal help functions, ask colleagues, create new comments on online forums/GitHub, generally in that order of priority), you are ready to test the methods on some real data.
 
 Before doing so, take a read of the `stats19` vignette, which can be launched as follows:
 
