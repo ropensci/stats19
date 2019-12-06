@@ -540,7 +540,7 @@ crashes %>%
 1. Use `dplyr` to filter row in which `casualty_age` is less than 18, and then 28.
 1. Use the `arrange` function to sort the `crashes` object in descending order of age (hint: see the `?arrange` help page).
 1. Read the help page of `dplyr::mutate()`. What does the function do?
-1. Use the mutate function to create a new variable, `birth_year`, the current year minus their age.
+1. Use the mutate function to create a new variable, `birth_year`, in the `crashes` data.frame which is defined as the current year minus their age.
 1. **Bonus:** Use the ` %>% ` operator to filter the output from the previous exercise so that only observations with `birth_year` after 1969 are returned.
 
 ```{r dplyr, eval=FALSE, echo=FALSE}
