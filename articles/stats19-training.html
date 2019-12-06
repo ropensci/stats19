@@ -127,8 +127,6 @@
 <p>You should type, run and ensure you understand each line of code in this document.</p>
 <pre><code>#&gt; Warning in citation(pkg, auto = if (pkg == "base") NULL else TRUE): no date
 #&gt; field in DESCRIPTION file of package 'stats19'</code></pre>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">remotes<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/remotes/man/install_cran.html">install_cran</a></span>(pkgs)</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="co"># remotes::install_github("ITSLeeds/pct")</span></a></code></pre></div>
 <p>The workshop is based on a practical handout that can be found <a href="https://github.com/ropensci/stats19/releases/download/1.1.0/stats-19-exercises.pdf">here</a>.</p>
 </div>
 </div>
@@ -161,18 +159,18 @@
 <p>Make a new script with Flie &gt; New File &gt; Rscript or Ctrl+Shift+N</p>
 <p>Save the script and give it a sensible name like <code>stats19-lesson-1.R</code> with File &gt; Save, the save button on the toolbar, or Ctrl+S.</p>
 <p><strong>Pro tip:</strong> You can also create new R scripts by typing and running this command in the R console:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/utils/file.edit.html">file.edit</a></span>(<span class="st">"stats19-lesson-1.R"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/utils/file.edit.html">file.edit</a></span>(<span class="st">"stats19-lesson-1.R"</span>)</a></code></pre></div>
 <p>Keeping scripts and other files associated with a project in a single folder per project (in an RStudio project) will help you find things you need and develop an efficient workflow.</p>
 </div>
 <div id="writing-and-running-code" class="section level2">
 <h2 class="hasAnchor">
 <a href="#writing-and-running-code" class="anchor"></a>Writing and running code</h2>
 <p>Let’s start with some basic R operations. Write this code into your new <code>stats19-lesson-1.R</code> R script and execute the result line-by-line by pressing Ctrl+Enter</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">x =<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">5</span></a>
-<a class="sourceLine" id="cb5-2" data-line-number="2">y =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">9</span>, <span class="dv">18</span>)</a>
-<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="kw"><a href="https://rdrr.io/pkg/sf/man/plot.html">plot</a></span>(x, y)</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">x =<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">5</span></a>
+<a class="sourceLine" id="cb4-2" data-line-number="2">y =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">9</span>, <span class="dv">18</span>)</a>
+<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="kw"><a href="https://rdrr.io/pkg/sf/man/plot.html">plot</a></span>(x, y)</a></code></pre></div>
 <p>This code creates two objects, both are vectors of 5 elements, and then plots them (bonus: check their length using the <code><a href="https://rdrr.io/r/base/length.html">length()</a></code> function). Save the script by pressing Ctrl+S.</p>
-<p>There are several ways to run code within a script and it is worth becoming familiar with each. Try running the the code you saved in the previous section using each of these methods:</p>
+<p>There are several ways to run code within a script and it is worth becoming familiar with each. Try running the code you saved in the previous section using each of these methods:</p>
 <ol style="list-style-type: decimal">
 <li>Place the cursor in different places on each line of code and press <code>Ctrl+Enter</code> to run that line of code.</li>
 <li>Highlight a block of code or part of a line of code and press <code>Ctrl+Enter</code> to run the highlighted code.</li>
@@ -187,16 +185,16 @@
 <h2 class="hasAnchor">
 <a href="#viewing-objects" class="anchor"></a>Viewing Objects</h2>
 <p>Create new objects by typing and running the following code chunk in a new script, e.g. called <code>objects.R</code>.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">vehicle_type =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"car"</span>, <span class="st">"bus"</span>, <span class="st">"tank"</span>)</a>
-<a class="sourceLine" id="cb6-2" data-line-number="2">casualty_type =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"pedestrian"</span>, <span class="st">"cyclist"</span>, <span class="st">"cat"</span>)</a>
-<a class="sourceLine" id="cb6-3" data-line-number="3">casualty_age =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="dt">from =</span> <span class="dv">20</span>, <span class="dt">to =</span> <span class="dv">60</span>, <span class="dt">by =</span> <span class="dv">20</span>)</a>
-<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="kw"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb6-5" data-line-number="5">dark =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/sample.html">sample</a></span>(<span class="dt">x =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="ot">TRUE</span>, <span class="ot">FALSE</span>), <span class="dt">size =</span> <span class="dv">3</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb6-6" data-line-number="6">small_matrix =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span>(<span class="dv">1</span><span class="op">:</span><span class="dv">24</span>, <span class="dt">nrow =</span> <span class="dv">12</span>)</a>
-<a class="sourceLine" id="cb6-7" data-line-number="7">crashes =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(vehicle_type, casualty_type, casualty_age, dark)</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">vehicle_type =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"car"</span>, <span class="st">"bus"</span>, <span class="st">"tank"</span>)</a>
+<a class="sourceLine" id="cb5-2" data-line-number="2">casualty_type =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"pedestrian"</span>, <span class="st">"cyclist"</span>, <span class="st">"cat"</span>)</a>
+<a class="sourceLine" id="cb5-3" data-line-number="3">casualty_age =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="dt">from =</span> <span class="dv">20</span>, <span class="dt">to =</span> <span class="dv">60</span>, <span class="dt">by =</span> <span class="dv">20</span>)</a>
+<a class="sourceLine" id="cb5-4" data-line-number="4"><span class="kw"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb5-5" data-line-number="5">dark =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/sample.html">sample</a></span>(<span class="dt">x =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="ot">TRUE</span>, <span class="ot">FALSE</span>), <span class="dt">size =</span> <span class="dv">3</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb5-6" data-line-number="6">small_matrix =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span>(<span class="dv">1</span><span class="op">:</span><span class="dv">24</span>, <span class="dt">nrow =</span> <span class="dv">12</span>)</a>
+<a class="sourceLine" id="cb5-7" data-line-number="7">crashes =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(vehicle_type, casualty_type, casualty_age, dark)</a></code></pre></div>
 <p>We can view the objects in a range of ways:</p>
 <ol style="list-style-type: decimal">
-<li>Type the name of the object into the console e.g. <code>crashes</code> and <code>small_matrix</code>. Scroll up to see the numbers that didn’t fit on the screen.</li>
+<li>Type the name of the object into the console, e.g. <code>crashes</code> and <code>small_matrix</code>, and run that code. Scroll up to see the numbers that didn’t fit on the screen.</li>
 <li>Use the <code><a href="https://rdrr.io/r/utils/head.html">head()</a></code> function to view just the first 6 rows e.g. <code><a href="https://rdrr.io/r/utils/head.html">head(small_matrix)</a></code>
 </li>
 <li>Bonus: use the <code>n</code> argument in the previous function call to show only the first 2 rows of <code>small_matrix</code>
@@ -206,9 +204,9 @@
 </ol>
 <p>We can also get an overview of an object using a range of functions, including <code><a href="https://rdrr.io/r/base/summary.html">summary()</a></code>, <code><a href="https://rdrr.io/r/base/class.html">class()</a></code>, <code><a href="https://rdrr.io/r/base/typeof.html">typeof()</a></code>, <code><a href="https://rdrr.io/r/base/dim.html">dim()</a></code>, and <code><a href="https://rdrr.io/r/base/length.html">length()</a></code>.</p>
 <p>You can, for example, view a summary of the <code>casualty_age</code> variable by running the following line of code:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(casualty_age)</a>
-<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span></a>
-<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="co">#&gt;      20      30      40      40      50      60</span></a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(casualty_age)</a>
+<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span></a>
+<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="co">#&gt;      20      30      40      40      50      60</span></a></code></pre></div>
 <p><strong>Exercise</strong> try these functions on each of the objects, what results do they give?</p>
 <p><strong>Bonus</strong>: Find out the class of the column <code>vehicle_type</code> in the data frame <code>crashes</code> with the command <code><a href="https://rdrr.io/r/base/class.html">class(crashes$vehicle_type)</a></code>. Why has it changed? Create a new object called <code>crashes_char</code> that keeps the class of the character vectors intact by using the function <code><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble::tibble()</a></code> (see <a href="https://tibble.tidyverse.org/">tibble.tidyverse.org</a> and Section 4 for details).</p>
 </div>
@@ -230,9 +228,9 @@
 <a href="#commenting-code" class="anchor"></a>Commenting Code</h2>
 <p>It is good practice to use comments in your code to explain what it does. You can comment code using <code>#</code></p>
 <p>For example:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="co"># Create vector objects (a whole line comment)</span></a>
-<a class="sourceLine" id="cb8-2" data-line-number="2">x =<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">5</span> <span class="co"># a seqence of consecutive integers (inline comment)</span></a>
-<a class="sourceLine" id="cb8-3" data-line-number="3">y =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">9</span>, <span class="fl">18.1</span>) </a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="co"># Create vector objects (a whole line comment)</span></a>
+<a class="sourceLine" id="cb7-2" data-line-number="2">x =<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">5</span> <span class="co"># a seqence of consecutive integers (inline comment)</span></a>
+<a class="sourceLine" id="cb7-3" data-line-number="3">y =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">9</span>, <span class="fl">18.1</span>) </a></code></pre></div>
 <p>You can comment/uncomment a whole block of text by selecting it and using <code>Ctrl+Shift+C</code>. <!-- not sure about the next statement so commenting out (RL) --> <!-- and you can reformat a block of code using `Ctrl+Shift  + /`.  --></p>
 <p><strong>Pro tip:</strong> You can add a comment section using Ctrl + Shift + R</p>
 </div>
@@ -266,15 +264,15 @@
 <h2 class="hasAnchor">
 <a href="#saving-r-objects" class="anchor"></a>Saving R objects</h2>
 <p>We have already seen that you can save R scripts. You can also save individual R objects in the RDS format.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/readRDS.html">saveRDS</a></span>(crashes, <span class="st">"crashes.Rds"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/readRDS.html">saveRDS</a></span>(crashes, <span class="st">"crashes.Rds"</span>)</a></code></pre></div>
 <p>We can also read back in our data.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">crashes2 =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span>(<span class="st">"crashes.Rds"</span>)</a>
-<a class="sourceLine" id="cb10-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/identical.html">identical</a></span>(crashes, crashes2)</a>
-<a class="sourceLine" id="cb10-3" data-line-number="3"><span class="co">#&gt; [1] TRUE</span></a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">crashes2 =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span>(<span class="st">"crashes.Rds"</span>)</a>
+<a class="sourceLine" id="cb9-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/identical.html">identical</a></span>(crashes, crashes2)</a>
+<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="co">#&gt; [1] TRUE</span></a></code></pre></div>
 <p>R also supports many other formats, including CSV files, which can be created and imported with the functions <code><a href="https://readr.tidyverse.org/reference/read_delim.html">readr::read_csv()</a></code> and <code><a href="https://readr.tidyverse.org/reference/write_delim.html">readr::write_csv()</a></code> (see also the <a href="https://readr.tidyverse.org/">readr</a> package).</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">readr<span class="op">::</span><span class="kw"><a href="https://readr.tidyverse.org/reference/write_delim.html">write_csv</a></span>(crashes, <span class="st">"crashes.csv"</span>)</a>
-<a class="sourceLine" id="cb11-2" data-line-number="2">crashes3 =<span class="st"> </span>readr<span class="op">::</span><span class="kw"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span>(<span class="st">"crashes.csv"</span>)</a>
-<a class="sourceLine" id="cb11-3" data-line-number="3"><span class="kw"><a href="https://rdrr.io/r/base/identical.html">identical</a></span>(crashes3, crashes) </a></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">readr<span class="op">::</span><span class="kw"><a href="https://readr.tidyverse.org/reference/write_delim.html">write_csv</a></span>(crashes, <span class="st">"crashes.csv"</span>)</a>
+<a class="sourceLine" id="cb10-2" data-line-number="2">crashes3 =<span class="st"> </span>readr<span class="op">::</span><span class="kw"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span>(<span class="st">"crashes.csv"</span>)</a>
+<a class="sourceLine" id="cb10-3" data-line-number="3"><span class="kw"><a href="https://rdrr.io/r/base/identical.html">identical</a></span>(crashes3, crashes) </a></code></pre></div>
 <p>Notice that <code>crashes3</code> and <code>crashes</code> are not identical, what has changed? Hint: read the help page associated with <code><a href="https://readr.tidyverse.org/reference/write_delim.html">?readr::write_csv</a></code>.</p>
 </div>
 </div>
@@ -285,49 +283,49 @@
 <h2 class="hasAnchor">
 <a href="#subsetting-by-index-or-name" class="anchor"></a>Subsetting by index or name</h2>
 <p>Subsetting returns part of an R object. It can be done by providing numbers representing the positions of the elements we want (e.g. the 2<sup>nd</sup> element) or with a logical vector, with values associated with <code>TRUE</code> returned. Two dimension object such as matrices and data frames can be subset by rows and columns. Subsetting in base R is done with square brackets <code>[]</code> after the name of an object. <strong>Run the following commands to practice subsetting.</strong></p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">casualty_age[<span class="dv">2</span><span class="op">:</span><span class="dv">3</span>] <span class="co"># second and third casualty_age</span></a>
-<a class="sourceLine" id="cb12-2" data-line-number="2">crashes[<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">1</span>, <span class="dv">2</span>), ] <span class="co"># first and second row of crashes</span></a>
-<a class="sourceLine" id="cb12-3" data-line-number="3">crashes<span class="op">$</span>vehicle_type <span class="co"># returns just one column</span></a>
-<a class="sourceLine" id="cb12-4" data-line-number="4">crashes[, <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"casualty_type"</span>, <span class="st">"casualty_age"</span>)] <span class="co"># first and third columns</span></a></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">casualty_age[<span class="dv">2</span><span class="op">:</span><span class="dv">3</span>] <span class="co"># second and third casualty_age</span></a>
+<a class="sourceLine" id="cb11-2" data-line-number="2">crashes[<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">1</span>, <span class="dv">2</span>), ] <span class="co"># first and second row of crashes</span></a>
+<a class="sourceLine" id="cb11-3" data-line-number="3">crashes<span class="op">$</span>vehicle_type <span class="co"># returns just one column</span></a>
+<a class="sourceLine" id="cb11-4" data-line-number="4">crashes[, <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"casualty_type"</span>, <span class="st">"casualty_age"</span>)] <span class="co"># first and third columns</span></a></code></pre></div>
 <ol style="list-style-type: decimal">
 <li>Use the <code><a href="https://rdrr.io/r/base/Extract.html">$</a></code> operator to print the <code>dark</code> column of <code>crashes</code>.</li>
 <li>Subset the crashes with the <code>[,]</code> syntax so that only the first and third columns of <code>crashes</code> are returned.</li>
 <li>Return the 2<sup>nd</sup> row and the 3<sup>rd</sup> column of the <code>crashes</code> dataset.</li>
 <li>Return the 2<sup>nd</sup> row and the columns 2:3 of the <code>crashes</code> dataset.</li>
 <li>
-<strong>Bonus</strong>: what class resulted from each of the previous exercises?</li>
+<strong>Bonus</strong>: what is the <code><a href="https://rdrr.io/r/base/class.html">class()</a></code> of the objects created by each of the previous exercises?</li>
 </ol>
 </div>
 <div id="subsetting-by-values" class="section level2">
 <h2 class="hasAnchor">
 <a href="#subsetting-by-values" class="anchor"></a>Subsetting by values</h2>
 <p>It is also possible to subset objects by the values of their elements. This works because the <code><a href="https://rdrr.io/r/base/Extract.html">[</a></code> operator accepts logical vectors returned by queries such as ‘is it less than 3?’ (<code>x &lt; 3</code> in R) and ‘was it light?’ (<code>crashes$dark == FALSE</code>), as demonstrated below:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">x[<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="ot">TRUE</span>, <span class="ot">FALSE</span>, <span class="ot">TRUE</span>, <span class="ot">FALSE</span>, <span class="ot">TRUE</span>)] <span class="co"># 1st, 3rd, and 5th element in x</span></a>
-<a class="sourceLine" id="cb13-2" data-line-number="2">x[x <span class="op">==</span><span class="st"> </span><span class="dv">5</span>] <span class="co"># only when x == 5 (notice the use of double equals)</span></a>
-<a class="sourceLine" id="cb13-3" data-line-number="3">x[x <span class="op">&lt;</span><span class="st"> </span><span class="dv">3</span>] <span class="co"># less than 3</span></a>
-<a class="sourceLine" id="cb13-4" data-line-number="4">x[x <span class="op">&lt;</span><span class="st"> </span><span class="dv">3</span>] =<span class="st"> </span><span class="dv">0</span> <span class="co"># assign specific elements</span></a>
-<a class="sourceLine" id="cb13-5" data-line-number="5">casualty_age[casualty_age <span class="op">%%</span><span class="st"> </span><span class="dv">6</span> <span class="op">==</span><span class="st"> </span><span class="dv">0</span>] <span class="co"># just the ages that are a multiple of 6</span></a>
-<a class="sourceLine" id="cb13-6" data-line-number="6">crashes[crashes<span class="op">$</span>dark <span class="op">==</span><span class="st"> </span><span class="ot">FALSE</span>, ]</a></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">x[<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="ot">TRUE</span>, <span class="ot">FALSE</span>, <span class="ot">TRUE</span>, <span class="ot">FALSE</span>, <span class="ot">TRUE</span>)] <span class="co"># 1st, 3rd, and 5th element in x</span></a>
+<a class="sourceLine" id="cb12-2" data-line-number="2">x[x <span class="op">==</span><span class="st"> </span><span class="dv">5</span>] <span class="co"># only when x == 5 (notice the use of double equals)</span></a>
+<a class="sourceLine" id="cb12-3" data-line-number="3">x[x <span class="op">&lt;</span><span class="st"> </span><span class="dv">3</span>] <span class="co"># less than 3</span></a>
+<a class="sourceLine" id="cb12-4" data-line-number="4">x[x <span class="op">&lt;</span><span class="st"> </span><span class="dv">3</span>] =<span class="st"> </span><span class="dv">0</span> <span class="co"># assign specific elements</span></a>
+<a class="sourceLine" id="cb12-5" data-line-number="5">casualty_age[casualty_age <span class="op">%%</span><span class="st"> </span><span class="dv">6</span> <span class="op">==</span><span class="st"> </span><span class="dv">0</span>] <span class="co"># just the ages that are a multiple of 6</span></a>
+<a class="sourceLine" id="cb12-6" data-line-number="6">crashes[crashes<span class="op">$</span>dark <span class="op">==</span><span class="st"> </span><span class="ot">FALSE</span>, ]</a></code></pre></div>
 <ol style="list-style-type: decimal">
 <li>Subset the <code>casualty_age</code> object using the inequality (<code><a href="https://rdrr.io/r/base/Comparison.html">&lt;</a></code>) so that only elements less than 50 are returned.</li>
 <li>Subset the <code>crashes</code> data frame so that only tanks are returned using the <code><a href="https://rdrr.io/r/base/Comparison.html">==</a></code> operator.</li>
 <li>
-<strong>Bonus</strong>: assign the age of all all tanks to 61.</li>
+<strong>Bonus</strong>: assign the age of all tanks to 61.</li>
 </ol>
 </div>
 <div id="dealing-with-nas-and-recoding" class="section level2">
 <h2 class="hasAnchor">
 <a href="#dealing-with-nas-and-recoding" class="anchor"></a>Dealing with NAs and recoding</h2>
 <p>R objects can have a value of NA. This is how R represents missing data.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">z =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">4</span>, <span class="dv">5</span>, <span class="ot">NA</span>, <span class="dv">7</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">z =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">4</span>, <span class="dv">5</span>, <span class="ot">NA</span>, <span class="dv">7</span>)</a></code></pre></div>
 <p>NA values are common in real-world data but can cause trouble, for example</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(z) <span class="co"># result is NA</span></a></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(z) <span class="co"># result is NA</span></a></code></pre></div>
 <p>Some functions can be told to ignore NA values.</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(z, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>) <span class="co"># result is equal to 4 + 5 + 7</span></a></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(z, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>) <span class="co"># result is equal to 4 + 5 + 7</span></a></code></pre></div>
 <p>You can find NAs using the <code><a href="https://rdrr.io/r/base/NA.html">is.na()</a></code> function, and then remove them</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(z)</a>
-<a class="sourceLine" id="cb17-2" data-line-number="2">z_nona =<span class="st"> </span>z[<span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(z)] <span class="co"># note the use of the not operator !</span></a>
-<a class="sourceLine" id="cb17-3" data-line-number="3"><span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(z)</a></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(z)</a>
+<a class="sourceLine" id="cb16-2" data-line-number="2">z_nona =<span class="st"> </span>z[<span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(z)] <span class="co"># note the use of the not operator !</span></a>
+<a class="sourceLine" id="cb16-3" data-line-number="3"><span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(z)</a></code></pre></div>
 <p>If you remove records with NAs be warned: the average of a value excluding NAs may not be representative.</p>
 </div>
 <div id="changing-class" class="section level2">
@@ -345,12 +343,12 @@
 <h2 class="hasAnchor">
 <a href="#recoding-values" class="anchor"></a>Recoding values</h2>
 <p>Often it is useful to ‘recode’ values. In the raw STATS19 files, for example, -1 means NA. There are many ways to recode values in R, the simplest and most mature of which is the use of factors, as shown below:</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1">z =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">-1</span>, <span class="dv">1</span>, <span class="dv">3</span>)</a>
-<a class="sourceLine" id="cb18-2" data-line-number="2">l =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="ot">NA</span>, <span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span>) <span class="co"># labels in ascending order</span></a>
-<a class="sourceLine" id="cb18-3" data-line-number="3">z_factor =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/factor.html">factor</a></span>(z, <span class="dt">labels =</span> l)</a>
-<a class="sourceLine" id="cb18-4" data-line-number="4">z_charcter =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/character.html">as.character</a></span>(z_factor)</a>
-<a class="sourceLine" id="cb18-5" data-line-number="5">z_charcter</a>
-<a class="sourceLine" id="cb18-6" data-line-number="6"><span class="co">#&gt; [1] "a" "b" NA  "a" "c"</span></a></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1">z =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">-1</span>, <span class="dv">1</span>, <span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb17-2" data-line-number="2">l =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="ot">NA</span>, <span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span>) <span class="co"># labels in ascending order</span></a>
+<a class="sourceLine" id="cb17-3" data-line-number="3">z_factor =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/factor.html">factor</a></span>(z, <span class="dt">labels =</span> l)</a>
+<a class="sourceLine" id="cb17-4" data-line-number="4">z_charcter =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/character.html">as.character</a></span>(z_factor)</a>
+<a class="sourceLine" id="cb17-5" data-line-number="5">z_charcter</a>
+<a class="sourceLine" id="cb17-6" data-line-number="6"><span class="co">#&gt; [1] "a" "b" NA  "a" "c"</span></a></code></pre></div>
 <ol style="list-style-type: decimal">
 <li>Recode <code>z</code> to Slight, Serious and Fatal for 1:3 respectively.</li>
 <li>Bonus: read the help file at <code><a href="https://dplyr.tidyverse.org/reference/case_when.html">?dplyr::case_when</a></code> and try to recode the values using this function.</li>
@@ -360,12 +358,12 @@
 <h2 class="hasAnchor">
 <a href="#now-you-are-ready-to-use-r" class="anchor"></a>Now you are ready to use R</h2>
 <p><strong>Bonus: reproduce the following plot</strong></p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1">eyes =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">2.3</span>, <span class="dv">4</span>, <span class="fl">3.7</span>, <span class="dv">4</span>)</a>
-<a class="sourceLine" id="cb19-2" data-line-number="2">eyes =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span>(eyes, <span class="dt">ncol =</span> <span class="dv">2</span>, <span class="dt">byrow =</span> T)</a>
-<a class="sourceLine" id="cb19-3" data-line-number="3">mouth =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">2</span>, <span class="dv">2</span>, <span class="fl">2.5</span>, <span class="fl">1.3</span>, <span class="dv">3</span>, <span class="dv">1</span>, <span class="fl">3.5</span>, <span class="fl">1.3</span>, <span class="dv">4</span>, <span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb19-4" data-line-number="4">mouth =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span>(mouth, <span class="dt">ncol =</span> <span class="dv">2</span>, <span class="dt">byrow =</span> T)</a>
-<a class="sourceLine" id="cb19-5" data-line-number="5"><span class="kw"><a href="https://rdrr.io/pkg/sf/man/plot.html">plot</a></span>(eyes, <span class="dt">type =</span> <span class="st">"p"</span>, <span class="dt">main =</span> <span class="st">"RRR!"</span>, <span class="dt">cex =</span> <span class="dv">2</span>, <span class="dt">xlim =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">1</span>, <span class="dv">5</span>), <span class="dt">ylim =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">0</span>, <span class="dv">5</span>))</a>
-<a class="sourceLine" id="cb19-6" data-line-number="6"><span class="kw"><a href="https://rdrr.io/r/graphics/lines.html">lines</a></span>(mouth, <span class="dt">type =</span> <span class="st">"l"</span>, <span class="dt">col =</span> <span class="st">"red"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1">eyes =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">2.3</span>, <span class="dv">4</span>, <span class="fl">3.7</span>, <span class="dv">4</span>)</a>
+<a class="sourceLine" id="cb18-2" data-line-number="2">eyes =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span>(eyes, <span class="dt">ncol =</span> <span class="dv">2</span>, <span class="dt">byrow =</span> T)</a>
+<a class="sourceLine" id="cb18-3" data-line-number="3">mouth =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">2</span>, <span class="dv">2</span>, <span class="fl">2.5</span>, <span class="fl">1.3</span>, <span class="dv">3</span>, <span class="dv">1</span>, <span class="fl">3.5</span>, <span class="fl">1.3</span>, <span class="dv">4</span>, <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb18-4" data-line-number="4">mouth =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span>(mouth, <span class="dt">ncol =</span> <span class="dv">2</span>, <span class="dt">byrow =</span> T)</a>
+<a class="sourceLine" id="cb18-5" data-line-number="5"><span class="kw"><a href="https://rdrr.io/pkg/sf/man/plot.html">plot</a></span>(eyes, <span class="dt">type =</span> <span class="st">"p"</span>, <span class="dt">main =</span> <span class="st">"RRR!"</span>, <span class="dt">cex =</span> <span class="dv">2</span>, <span class="dt">xlim =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">1</span>, <span class="dv">5</span>), <span class="dt">ylim =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">0</span>, <span class="dv">5</span>))</a>
+<a class="sourceLine" id="cb18-6" data-line-number="6"><span class="kw"><a href="https://rdrr.io/r/graphics/lines.html">lines</a></span>(mouth, <span class="dt">type =</span> <span class="st">"l"</span>, <span class="dt">col =</span> <span class="st">"red"</span>)</a></code></pre></div>
 <p><img src="stats19-training_files/figure-html/smile-1.png" width="30%" style="display: block; margin: auto;"></p>
 <div style="page-break-after: always;"></div>
 </div>
@@ -379,22 +377,22 @@
 <p>R has over 15,000 packages (effectively plugins for base R), extending it in almost every direction of statistics and computing. Packages provide additional functions, data and documentation. They are very often written by subject-matter experts and therefore tend to fit well with the workflow of the analyst in that particular specialism. There are two main stages to using a package: installing it and loading it. A third stage is updating it, this is also important.</p>
 <!-- installing it... -->
 <p>Install new packages from <a href="https://cran.r-project.org/">The Comprehensive R Archive Network</a> with the command <code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages()</a></code> (or <code><a href="https://rdrr.io/pkg/remotes/man/install_github.html">remotes::install_github()</a></code> to install from GitHub). Update packages with the command <code>update.package()</code> or in Tools &gt; Check for Package Updates in RStudio. You only need to install a package once. <!-- **Note: avoid `install.packages()` within a script** --> <!-- Packages only need to be installed once. --> <!-- You can use `remotes::install_cran()` or `remotes::install_github()` to only install a package if it is not yet installed and up-to-date (note: you only need to use one of these): --></p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"sf"</span>)</a>
-<a class="sourceLine" id="cb20-2" data-line-number="2"><span class="co"># remotes::install_github("r-spatial/sf")</span></a></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"sf"</span>)</a>
+<a class="sourceLine" id="cb19-2" data-line-number="2"><span class="co"># remotes::install_github("r-spatial/sf")</span></a></code></pre></div>
 <!-- now talk about loading packages -->
 <p>Installed packages are loaded with the command <code><a href="https://rdrr.io/r/base/library.html">library()</a></code>. Usually, the package will load silently. In some cases the package will provide a message, as illustrated below.</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(sf)</a>
-<a class="sourceLine" id="cb21-2" data-line-number="2"><span class="co">#&gt; Linking to GEOS 3.7.1, GDAL 2.2.2, PROJ 4.9.2</span></a>
-<a class="sourceLine" id="cb21-3" data-line-number="3"><span class="co">#&gt; </span><span class="al">WARNING</span><span class="co">: different compile-time and runtime versions for GEOS found:</span></a>
-<a class="sourceLine" id="cb21-4" data-line-number="4"><span class="co">#&gt; Linked against: 3.7.1-CAPI-1.11.1 27a5e771 compiled against: 3.5.1-CAPI-1.9.1</span></a>
-<a class="sourceLine" id="cb21-5" data-line-number="5"><span class="co">#&gt; It is probably a good idea to reinstall sf, and maybe rgeos and rgdal too</span></a></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(sf)</a>
+<a class="sourceLine" id="cb20-2" data-line-number="2"><span class="co">#&gt; Linking to GEOS 3.7.1, GDAL 2.2.2, PROJ 4.9.2</span></a>
+<a class="sourceLine" id="cb20-3" data-line-number="3"><span class="co">#&gt; </span><span class="al">WARNING</span><span class="co">: different compile-time and runtime versions for GEOS found:</span></a>
+<a class="sourceLine" id="cb20-4" data-line-number="4"><span class="co">#&gt; Linked against: 3.7.1-CAPI-1.11.1 27a5e771 compiled against: 3.5.1-CAPI-1.9.1</span></a>
+<a class="sourceLine" id="cb20-5" data-line-number="5"><span class="co">#&gt; It is probably a good idea to reinstall sf, and maybe rgeos and rgdal too</span></a></code></pre></div>
 <p>To use a function in a package without first loading the package, use double colons, as shown below (this calls the <code><a href="https://rdrr.io/pkg/sf/man/tibble.html">tibble()</a></code> function from the <code>tibble</code> package).</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1">crashes_tibble =<span class="st"> </span>tibble<span class="op">::</span><span class="kw"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(</a>
-<a class="sourceLine" id="cb22-2" data-line-number="2">  vehicle_type,</a>
-<a class="sourceLine" id="cb22-3" data-line-number="3">  casualty_type,</a>
-<a class="sourceLine" id="cb22-4" data-line-number="4">  casualty_age,</a>
-<a class="sourceLine" id="cb22-5" data-line-number="5">  dark</a>
-<a class="sourceLine" id="cb22-6" data-line-number="6">)</a></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1">crashes_tibble =<span class="st"> </span>tibble<span class="op">::</span><span class="kw"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span>(</a>
+<a class="sourceLine" id="cb21-2" data-line-number="2">  vehicle_type,</a>
+<a class="sourceLine" id="cb21-3" data-line-number="3">  casualty_type,</a>
+<a class="sourceLine" id="cb21-4" data-line-number="4">  casualty_age,</a>
+<a class="sourceLine" id="cb21-5" data-line-number="5">  dark</a>
+<a class="sourceLine" id="cb21-6" data-line-number="6">)</a></code></pre></div>
 <ol style="list-style-type: decimal">
 <li>Take a look in the Packages tab in the Files pane in RStudio (bottom right by default).</li>
 <li>What version of the <code>stats19</code> package is installed on your computer?</li>
@@ -405,8 +403,8 @@
 <h2 class="hasAnchor">
 <a href="#ggplot2" class="anchor"></a>ggplot2</h2>
 <p>Let’s take a look at a particular package. <code>ggplot2</code> is a generic plotting package that is part of the <a href="https://www.tidyverse.org/">‘tidyverse’</a> meta-package, which is an “opinionated collection of R packages designed for data science”. All packages in the tidyverse “share an underlying design philosophy, grammar, and data structures”. <code>ggplot2</code> is flexible, popular, and has dozens of add-on packages which build on it, such as <code>gganimate</code>. To plot non-spatial data, it works as follows (see figure below, left for result):</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(ggplot2)</a>
-<a class="sourceLine" id="cb23-2" data-line-number="2"><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(crashes) <span class="op">+</span><span class="st"> </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span>(<span class="kw"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="dt">x =</span> casualty_type, <span class="dt">y =</span> casualty_age))</a></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(ggplot2)</a>
+<a class="sourceLine" id="cb22-2" data-line-number="2"><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(crashes) <span class="op">+</span><span class="st"> </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span>(<span class="kw"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="dt">x =</span> casualty_type, <span class="dt">y =</span> casualty_age))</a></code></pre></div>
 <p>Note that the <code><a href="https://rdrr.io/r/base/Arithmetic.html">+</a></code> operator adds layers onto one another.</p>
 <ol style="list-style-type: decimal">
 <li>Install a package that build on <code>ggplot2</code> that begins with with <code>gg</code>. Hint: enter <code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages(gg)</a></code> and hit Tab when your cursor is between the <code>g</code> and the <code>)</code>.</li>
@@ -421,32 +419,32 @@
 <h2 class="hasAnchor">
 <a href="#dplyr-and-pipes" class="anchor"></a>dplyr and pipes</h2>
 <p>Another useful package in the tidyverse is <code>dplyr</code>. It provides functions for manipulating data frames and using the pipe operator <code><a href="https://rdrr.io/pkg/sf/man/reexports.html">%&gt;%</a></code>. The pipe puts the output of one command into the first argument of the next, as shown below (note the results are the same):</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(dplyr)</a>
-<a class="sourceLine" id="cb24-2" data-line-number="2"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb24-3" data-line-number="3"><span class="co">#&gt; Attaching package: 'dplyr'</span></a>
-<a class="sourceLine" id="cb24-4" data-line-number="4"><span class="co">#&gt; The following objects are masked from 'package:stats':</span></a>
-<a class="sourceLine" id="cb24-5" data-line-number="5"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb24-6" data-line-number="6"><span class="co">#&gt;     filter, lag</span></a>
-<a class="sourceLine" id="cb24-7" data-line-number="7"><span class="co">#&gt; The following objects are masked from 'package:base':</span></a>
-<a class="sourceLine" id="cb24-8" data-line-number="8"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb24-9" data-line-number="9"><span class="co">#&gt;     intersect, setdiff, setequal, union</span></a>
-<a class="sourceLine" id="cb24-10" data-line-number="10"><span class="kw"><a href="https://rdrr.io/r/base/class.html">class</a></span>(crashes)       </a>
-<a class="sourceLine" id="cb24-11" data-line-number="11"><span class="co">#&gt; [1] "data.frame"</span></a>
-<a class="sourceLine" id="cb24-12" data-line-number="12">crashes <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/class.html">class</a></span>()</a>
-<a class="sourceLine" id="cb24-13" data-line-number="13"><span class="co">#&gt; [1] "data.frame"</span></a></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(dplyr)</a>
+<a class="sourceLine" id="cb23-2" data-line-number="2"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb23-3" data-line-number="3"><span class="co">#&gt; Attaching package: 'dplyr'</span></a>
+<a class="sourceLine" id="cb23-4" data-line-number="4"><span class="co">#&gt; The following objects are masked from 'package:stats':</span></a>
+<a class="sourceLine" id="cb23-5" data-line-number="5"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb23-6" data-line-number="6"><span class="co">#&gt;     filter, lag</span></a>
+<a class="sourceLine" id="cb23-7" data-line-number="7"><span class="co">#&gt; The following objects are masked from 'package:base':</span></a>
+<a class="sourceLine" id="cb23-8" data-line-number="8"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb23-9" data-line-number="9"><span class="co">#&gt;     intersect, setdiff, setequal, union</span></a>
+<a class="sourceLine" id="cb23-10" data-line-number="10"><span class="kw"><a href="https://rdrr.io/r/base/class.html">class</a></span>(crashes)       </a>
+<a class="sourceLine" id="cb23-11" data-line-number="11"><span class="co">#&gt; [1] "data.frame"</span></a>
+<a class="sourceLine" id="cb23-12" data-line-number="12">crashes <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/class.html">class</a></span>()</a>
+<a class="sourceLine" id="cb23-13" data-line-number="13"><span class="co">#&gt; [1] "data.frame"</span></a></code></pre></div>
 <p>Useful <code>dplyr</code> functions are demonstrated below.</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1">crashes <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb25-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(casualty_age <span class="op">&gt;</span><span class="st"> </span><span class="dv">50</span>) <span class="co"># filter rows</span></a>
-<a class="sourceLine" id="cb25-3" data-line-number="3">crashes <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb25-4" data-line-number="4"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(casualty_type) <span class="co"># select just one column</span></a>
-<a class="sourceLine" id="cb25-5" data-line-number="5">crashes <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb25-6" data-line-number="6"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(dark) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb25-7" data-line-number="7"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span>(<span class="dt">mean_age =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(casualty_age))</a></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1">crashes <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb24-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(casualty_age <span class="op">&gt;</span><span class="st"> </span><span class="dv">50</span>) <span class="co"># filter rows</span></a>
+<a class="sourceLine" id="cb24-3" data-line-number="3">crashes <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb24-4" data-line-number="4"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(casualty_type) <span class="co"># select just one column</span></a>
+<a class="sourceLine" id="cb24-5" data-line-number="5">crashes <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb24-6" data-line-number="6"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(dark) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb24-7" data-line-number="7"><span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span>(<span class="dt">mean_age =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(casualty_age))</a></code></pre></div>
 <ol style="list-style-type: decimal">
 <li>Use <code>dplyr</code> to filter row in which <code>casualty_age</code> is less than 18, and then 28.</li>
 <li>Use the <code>arrange</code> function to sort the <code>crashes</code> object in descending order of age (hint: see the <code><a href="https://dplyr.tidyverse.org/reference/arrange.html">?arrange</a></code> help page).</li>
 <li>Read the help page of <code><a href="https://dplyr.tidyverse.org/reference/mutate.html">dplyr::mutate()</a></code>. What does the function do?</li>
-<li>Use the mutate function to create a new variable, <code>birth_year</code>, the current year minus their age.</li>
+<li>Use the mutate function to create a new variable, <code>birth_year</code>, in the <code>crashes</code> data.frame which is defined as the current year minus their age.</li>
 <li>
 <strong>Bonus:</strong> Use the <code><a href="https://rdrr.io/pkg/sf/man/reexports.html">%&gt;%</a></code> operator to filter the output from the previous exercise so that only observations with <code>birth_year</code> after 1969 are returned.</li>
 </ol>
@@ -456,49 +454,51 @@
 <h1 class="hasAnchor">
 <a href="#temporal-data" class="anchor"></a>Temporal data</h1>
 <p>For the analysis and manipulation of temporal data we will first load the R package <code>lubridate</code>:</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(lubridate)</a></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(lubridate)</a></code></pre></div>
 <p>The simplest example of a Date object that we can analyze is just the current date, i.e.</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" data-line-number="1"><span class="kw"><a href="http://lubridate.tidyverse.org/reference/today.html">today</a></span>()</a>
-<a class="sourceLine" id="cb27-2" data-line-number="2"><span class="co">#&gt; [1] "2019-12-04"</span></a></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" data-line-number="1"><span class="kw"><a href="http://lubridate.tidyverse.org/reference/today.html">today</a></span>()</a>
+<a class="sourceLine" id="cb26-2" data-line-number="2"><span class="co">#&gt; [1] "2019-12-06"</span></a></code></pre></div>
 <p>We can manipulate this object using several <code>lubridate</code> functions to extract the current day, month, year, weekday and so on…</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" data-line-number="1">x =<span class="st"> </span><span class="kw"><a href="http://lubridate.tidyverse.org/reference/today.html">today</a></span>()</a>
-<a class="sourceLine" id="cb28-2" data-line-number="2"><span class="kw"><a href="http://lubridate.tidyverse.org/reference/day.html">day</a></span>(x)</a>
-<a class="sourceLine" id="cb28-3" data-line-number="3"><span class="kw"><a href="http://lubridate.tidyverse.org/reference/month.html">month</a></span>(x)</a>
-<a class="sourceLine" id="cb28-4" data-line-number="4"><span class="kw"><a href="http://lubridate.tidyverse.org/reference/year.html">year</a></span>(x)</a>
-<a class="sourceLine" id="cb28-5" data-line-number="5"><span class="kw"><a href="https://rdrr.io/r/base/weekday.POSIXt.html">weekdays</a></span>(x)</a></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" data-line-number="1">x =<span class="st"> </span><span class="kw"><a href="http://lubridate.tidyverse.org/reference/today.html">today</a></span>()</a>
+<a class="sourceLine" id="cb27-2" data-line-number="2"><span class="kw"><a href="http://lubridate.tidyverse.org/reference/day.html">day</a></span>(x)</a>
+<a class="sourceLine" id="cb27-3" data-line-number="3"><span class="kw"><a href="http://lubridate.tidyverse.org/reference/month.html">month</a></span>(x)</a>
+<a class="sourceLine" id="cb27-4" data-line-number="4"><span class="kw"><a href="http://lubridate.tidyverse.org/reference/year.html">year</a></span>(x)</a>
+<a class="sourceLine" id="cb27-5" data-line-number="5"><span class="kw"><a href="https://rdrr.io/r/base/weekday.POSIXt.html">weekdays</a></span>(x)</a></code></pre></div>
 <p>Exercises:</p>
 <ol style="list-style-type: decimal">
 <li>Look at the help page of the function <code>month</code> to see how it is possible to extract the current month as character vector</li>
 <li>Look at other functions in lubridate to extract the current weekday as a number, the week of year and the day of the year</li>
 </ol>
 <p>Date variables are often stored simply as a character vectors. This is a problem, since R is not always smart enough to distinguish between character vectors representing Dates. <code>lubridate</code> provides functions that can translate a wide range of date encodings such as <code><a href="http://lubridate.tidyverse.org/reference/ymd.html">ymd()</a></code>, which extracts the Year Month and Day from a character string, as demonstrated below.</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/as.Date.html">as.Date</a></span>(<span class="st">"2019-10-17"</span>) <span class="co"># works</span></a>
-<a class="sourceLine" id="cb29-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/as.Date.html">as.Date</a></span>(<span class="st">"2019 10 17"</span>) <span class="co"># fails</span></a>
-<a class="sourceLine" id="cb29-3" data-line-number="3"><span class="kw"><a href="http://lubridate.tidyverse.org/reference/ymd.html">ymd</a></span>(<span class="st">"2019 10 17"</span>) <span class="co"># works</span></a>
-<a class="sourceLine" id="cb29-4" data-line-number="4"><span class="kw"><a href="http://lubridate.tidyverse.org/reference/ymd.html">dmy</a></span>(<span class="st">"17/10/2019"</span>) <span class="co"># works</span></a></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/as.Date.html">as.Date</a></span>(<span class="st">"2019-10-17"</span>) <span class="co"># works</span></a>
+<a class="sourceLine" id="cb28-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/as.Date.html">as.Date</a></span>(<span class="st">"2019 10 17"</span>) <span class="co"># fails</span></a>
+<a class="sourceLine" id="cb28-3" data-line-number="3"><span class="kw"><a href="http://lubridate.tidyverse.org/reference/ymd.html">ymd</a></span>(<span class="st">"2019 10 17"</span>) <span class="co"># works</span></a>
+<a class="sourceLine" id="cb28-4" data-line-number="4"><span class="kw"><a href="http://lubridate.tidyverse.org/reference/ymd.html">dmy</a></span>(<span class="st">"17/10/2019"</span>) <span class="co"># works</span></a></code></pre></div>
 <p>Import function such as <code>read_csv</code> try to recognize the Date variables. Sometimes this fails. You can manually create Date objects, as shown below.</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" data-line-number="1">x =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"2009-01-01"</span>, <span class="st">"2009-02-02"</span>, <span class="st">"2009-03-03"</span>)</a>
-<a class="sourceLine" id="cb30-2" data-line-number="2">x_date =<span class="st"> </span><span class="kw"><a href="http://lubridate.tidyverse.org/reference/ymd.html">ymd</a></span>(x)</a>
-<a class="sourceLine" id="cb30-3" data-line-number="3">x_date</a>
-<a class="sourceLine" id="cb30-4" data-line-number="4"><span class="co">#&gt; [1] "2009-01-01" "2009-02-02" "2009-03-03"</span></a></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" data-line-number="1">x =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"2009-01-01"</span>, <span class="st">"2009-02-02"</span>, <span class="st">"2009-03-03"</span>)</a>
+<a class="sourceLine" id="cb29-2" data-line-number="2">x_date =<span class="st"> </span><span class="kw"><a href="http://lubridate.tidyverse.org/reference/ymd.html">ymd</a></span>(x)</a>
+<a class="sourceLine" id="cb29-3" data-line-number="3">x_date</a>
+<a class="sourceLine" id="cb29-4" data-line-number="4"><span class="co">#&gt; [1] "2009-01-01" "2009-02-02" "2009-03-03"</span></a></code></pre></div>
 <p>Exercises:</p>
 <ol style="list-style-type: decimal">
 <li>Extract the day, the year-day, the month and the weekday (as a non-abbreviated character vector) of each element of <code>x_date</code>.</li>
 <li>Convert <code>"09/09/93"</code> into a date object and extract its weekday.</li>
 <li>
-<strong>Bonus:</strong> Read the help page of <code>as.Date</code> and <code>strptime</code> for further details on the format argument in base R.</li>
+<strong>Bonus:</strong> Read the help page of <code>as.Date</code> and <code>strptime</code> for further details on base R functions for dates.</li>
+<li>
+<strong>Bonus:</strong> Read the Chapter 16 of <a href="https://r4ds.had.co.nz/dates-and-times.html">R for Data Science book</a> for further details on <code>lubridate</code> package.</li>
 </ol>
 <p>We can use Dates also for subsetting events in a dataframe. For example, if we define <code>x_date</code> as before and add it to the <code>crash</code> dataset, i.e.</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" data-line-number="1">crashes<span class="op">$</span>casualty_day =<span class="st"> </span>x_date</a></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" data-line-number="1">crashes<span class="op">$</span>casualty_day =<span class="st"> </span>x_date</a></code></pre></div>
 <p>then we can subset events using Dates. For example</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" data-line-number="1"><span class="kw"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(crashes, <span class="kw"><a href="http://lubridate.tidyverse.org/reference/day.html">day</a></span>(casualty_day) <span class="op">&lt;</span><span class="st"> </span><span class="dv">7</span>) <span class="co"># the events that ocurred in the first week of the month</span></a>
-<a class="sourceLine" id="cb32-2" data-line-number="2"><span class="co">#&gt;   vehicle_type casualty_type casualty_age  dark casualty_day</span></a>
-<a class="sourceLine" id="cb32-3" data-line-number="3"><span class="co">#&gt; 1          car    pedestrian           20  TRUE   2009-01-01</span></a>
-<a class="sourceLine" id="cb32-4" data-line-number="4"><span class="co">#&gt; 2          bus       cyclist           40 FALSE   2009-02-02</span></a>
-<a class="sourceLine" id="cb32-5" data-line-number="5"><span class="co">#&gt; 3         tank           cat           60  TRUE   2009-03-03</span></a>
-<a class="sourceLine" id="cb32-6" data-line-number="6"><span class="kw"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(crashes, <span class="kw"><a href="https://rdrr.io/r/base/weekday.POSIXt.html">weekdays</a></span>(casualty_day) <span class="op">==</span><span class="st"> "Monday"</span>) <span class="co"># the events occurred on monday</span></a>
-<a class="sourceLine" id="cb32-7" data-line-number="7"><span class="co">#&gt;   vehicle_type casualty_type casualty_age  dark casualty_day</span></a>
-<a class="sourceLine" id="cb32-8" data-line-number="8"><span class="co">#&gt; 1          bus       cyclist           40 FALSE   2009-02-02</span></a></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" data-line-number="1"><span class="kw"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(crashes, <span class="kw"><a href="http://lubridate.tidyverse.org/reference/day.html">day</a></span>(casualty_day) <span class="op">&lt;</span><span class="st"> </span><span class="dv">7</span>) <span class="co"># the events that ocurred in the first week of the month</span></a>
+<a class="sourceLine" id="cb31-2" data-line-number="2"><span class="co">#&gt;   vehicle_type casualty_type casualty_age  dark casualty_day</span></a>
+<a class="sourceLine" id="cb31-3" data-line-number="3"><span class="co">#&gt; 1          car    pedestrian           20  TRUE   2009-01-01</span></a>
+<a class="sourceLine" id="cb31-4" data-line-number="4"><span class="co">#&gt; 2          bus       cyclist           40 FALSE   2009-02-02</span></a>
+<a class="sourceLine" id="cb31-5" data-line-number="5"><span class="co">#&gt; 3         tank           cat           60  TRUE   2009-03-03</span></a>
+<a class="sourceLine" id="cb31-6" data-line-number="6"><span class="kw"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(crashes, <span class="kw"><a href="https://rdrr.io/r/base/weekday.POSIXt.html">weekdays</a></span>(casualty_day) <span class="op">==</span><span class="st"> "Monday"</span>) <span class="co"># the events occurred on monday</span></a>
+<a class="sourceLine" id="cb31-7" data-line-number="7"><span class="co">#&gt;   vehicle_type casualty_type casualty_age  dark casualty_day</span></a>
+<a class="sourceLine" id="cb31-8" data-line-number="8"><span class="co">#&gt; 1          bus       cyclist           40 FALSE   2009-02-02</span></a></code></pre></div>
 <p>Exercises:</p>
 <ol style="list-style-type: decimal">
 <li>Select only the events (rows in <code>crashes</code>) that occurred in January</li>
@@ -506,38 +506,38 @@
 <li>Select only the events that ocurred in a leap-year (HINT: check the function <code>leap_year</code>)</li>
 <li>Select only the events that ocurred during the weekend or in June</li>
 <li>Select only the events that ocurred during the weekend and in June</li>
-<li>Count how many events that ocurred during each day of the week.</li>
+<li>Count how many events ocurred during each day of the week.</li>
 </ol>
 <p>Now we’ll take a look at the time components of a Date. Using the function <code>hms</code> (acronym for Hour Minutes Seconds) and its subfunctions such as <code>hm</code> or <code>ms</code>, we can parse a character vector representing several times as an Hour object (which is tecnically called a Period object).</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" data-line-number="1">x =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"18:23:35"</span>, <span class="st">"00:00:01"</span>, <span class="st">"12:34:56"</span>)</a>
-<a class="sourceLine" id="cb33-2" data-line-number="2">x_hour =<span class="st"> </span><span class="kw"><a href="http://lubridate.tidyverse.org/reference/hms.html">hms</a></span>(x)</a>
-<a class="sourceLine" id="cb33-3" data-line-number="3">x_hour</a>
-<a class="sourceLine" id="cb33-4" data-line-number="4"><span class="co">#&gt; [1] "18H 23M 35S" "1S"          "12H 34M 56S"</span></a></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" data-line-number="1">x =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"18:23:35"</span>, <span class="st">"00:00:01"</span>, <span class="st">"12:34:56"</span>)</a>
+<a class="sourceLine" id="cb32-2" data-line-number="2">x_hour =<span class="st"> </span><span class="kw"><a href="http://lubridate.tidyverse.org/reference/hms.html">hms</a></span>(x)</a>
+<a class="sourceLine" id="cb32-3" data-line-number="3">x_hour</a>
+<a class="sourceLine" id="cb32-4" data-line-number="4"><span class="co">#&gt; [1] "18H 23M 35S" "1S"          "12H 34M 56S"</span></a></code></pre></div>
 <p>We can manipulate these objects using several <code>lubridate</code> functions to extract the hour component, the minutes and so on:</p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" data-line-number="1"><span class="kw"><a href="http://lubridate.tidyverse.org/reference/hour.html">hour</a></span>(x_hour)</a>
-<a class="sourceLine" id="cb34-2" data-line-number="2"><span class="co">#&gt; [1] 18  0 12</span></a>
-<a class="sourceLine" id="cb34-3" data-line-number="3"><span class="kw"><a href="http://lubridate.tidyverse.org/reference/minute.html">minute</a></span>(x_hour)</a>
-<a class="sourceLine" id="cb34-4" data-line-number="4"><span class="co">#&gt; [1] 23  0 34</span></a>
-<a class="sourceLine" id="cb34-5" data-line-number="5"><span class="kw"><a href="http://lubridate.tidyverse.org/reference/second.html">second</a></span>(x_hour)</a>
-<a class="sourceLine" id="cb34-6" data-line-number="6"><span class="co">#&gt; [1] 35  1 56</span></a></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" data-line-number="1"><span class="kw"><a href="http://lubridate.tidyverse.org/reference/hour.html">hour</a></span>(x_hour)</a>
+<a class="sourceLine" id="cb33-2" data-line-number="2"><span class="co">#&gt; [1] 18  0 12</span></a>
+<a class="sourceLine" id="cb33-3" data-line-number="3"><span class="kw"><a href="http://lubridate.tidyverse.org/reference/minute.html">minute</a></span>(x_hour)</a>
+<a class="sourceLine" id="cb33-4" data-line-number="4"><span class="co">#&gt; [1] 23  0 34</span></a>
+<a class="sourceLine" id="cb33-5" data-line-number="5"><span class="kw"><a href="http://lubridate.tidyverse.org/reference/second.html">second</a></span>(x_hour)</a>
+<a class="sourceLine" id="cb33-6" data-line-number="6"><span class="co">#&gt; [1] 35  1 56</span></a></code></pre></div>
 <p>If the Hour data do not specify the seconds, then we just have to use a subfunction of <code>hms</code>, namely <code>hm</code>, and everything works as before.</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" data-line-number="1">x =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"18:23"</span>, <span class="st">"00:00"</span>, <span class="st">"12:34"</span>)</a>
-<a class="sourceLine" id="cb35-2" data-line-number="2">(<span class="dt">x_hour =</span> <span class="kw"><a href="http://lubridate.tidyverse.org/reference/hms.html">hm</a></span>(x))</a>
-<a class="sourceLine" id="cb35-3" data-line-number="3"><span class="co">#&gt; [1] "18H 23M 0S" "0S"         "12H 34M 0S"</span></a></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" data-line-number="1">x =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"18:23"</span>, <span class="st">"00:00"</span>, <span class="st">"12:34"</span>)</a>
+<a class="sourceLine" id="cb34-2" data-line-number="2">(<span class="dt">x_hour =</span> <span class="kw"><a href="http://lubridate.tidyverse.org/reference/hms.html">hm</a></span>(x))</a>
+<a class="sourceLine" id="cb34-3" data-line-number="3"><span class="co">#&gt; [1] "18H 23M 0S" "0S"         "12H 34M 0S"</span></a></code></pre></div>
 <p>We can use Hour data also for subsetting events, like we did for Dates. Let’s add a new column to crashes data,</p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" data-line-number="1">crashes<span class="op">$</span>casualty_hms =<span class="st"> </span><span class="kw"><a href="http://lubridate.tidyverse.org/reference/hms.html">hms</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"18:23:35"</span>, <span class="st">"00:00:01"</span>, <span class="st">"12:34:56"</span>))</a>
-<a class="sourceLine" id="cb36-2" data-line-number="2">crashes<span class="op">$</span>casualty_hour =<span class="st"> </span><span class="kw"><a href="http://lubridate.tidyverse.org/reference/hour.html">hour</a></span>(crashes<span class="op">$</span>casualty_hms)</a></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" data-line-number="1">crashes<span class="op">$</span>casualty_hms =<span class="st"> </span><span class="kw"><a href="http://lubridate.tidyverse.org/reference/hms.html">hms</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"18:23:35"</span>, <span class="st">"00:00:01"</span>, <span class="st">"12:34:56"</span>))</a>
+<a class="sourceLine" id="cb35-2" data-line-number="2">crashes<span class="op">$</span>casualty_hour =<span class="st"> </span><span class="kw"><a href="http://lubridate.tidyverse.org/reference/hour.html">hour</a></span>(crashes<span class="op">$</span>casualty_hms)</a></code></pre></div>
 <p>Exercises:</p>
 <ol style="list-style-type: decimal">
 <li>Filter only the events that ocurred after midday (i.e. the PM events). Hint: your answer may include <code>&gt;= 12</code>.</li>
 <li>Filter only the events that ocurred between 15:00 and 19:00 <!-- 1. Round all hours to the next hour. Hint: Look at the help page of the `round_date` function.  -->
 </li>
 <li>
-<strong>Bonus:</strong> (difficult): run the following code, which downloades data for car crashes occurred during 2017.</li>
+<strong>Bonus (difficult):</strong> run the following code, which downloades data for car crashes occurred during 2017.</li>
 </ol>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(stats19)</a>
-<a class="sourceLine" id="cb37-2" data-line-number="2">crashes_<span class="dv">2017</span> =<span class="st"> </span>stats19<span class="op">::</span><span class="kw"><a href="https://docs.ropensci.org/stats19/reference/get_stats19.html">get_stats19</a></span>(<span class="dt">year =</span> <span class="dv">2017</span>, <span class="dt">type =</span> <span class="st">"ac"</span>)</a>
-<a class="sourceLine" id="cb37-3" data-line-number="3">crashes_<span class="dv">2017</span></a></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(stats19)</a>
+<a class="sourceLine" id="cb36-2" data-line-number="2">crashes_<span class="dv">2017</span> =<span class="st"> </span>stats19<span class="op">::</span><span class="kw"><a href="https://docs.ropensci.org/stats19/reference/get_stats19.html">get_stats19</a></span>(<span class="dt">year =</span> <span class="dv">2017</span>, <span class="dt">type =</span> <span class="st">"ac"</span>)</a>
+<a class="sourceLine" id="cb36-3" data-line-number="3">crashes_<span class="dv">2017</span></a></code></pre></div>
 <p>Extract the weekday from the variable called <code>date</code>. How many crashes happened on Monday?</p>
 <p><strong>Advanced challenge:</strong> calculate how many crashes occurred for each day of the week. Then plot it with ggplot2. Repeat the same exercises extracting the hour of the car accident from the variable called time. How would you combine the two informations in a single plot?</p>
 </div>
@@ -549,15 +549,15 @@
 <a href="#sf-objects" class="anchor"></a>sf objects</h2>
 <p>All road crashes happen somewhere and, in the UK at least, all collisions recorded by the police are given geographic coordinates, something that can help prioritise interventions to save lives by intervening in and around ‘crash hotspots’. R has strong geographic data capabilities, with the <code>sf</code> package provides a generic class for spatial vector data: points, lines and polygons, are represented in <code>sf</code> objects as a special ‘geometry column’, typically called ‘geom’ or ‘geometry’, extending the data frame class we’ve already seen in <code>crashes</code>.</p>
 <p>Create an <code>sf</code> data frame called <code>crashes_sf</code> as follows:</p>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(sf) <span class="co"># load the sf package for working with spatial data</span></a>
-<a class="sourceLine" id="cb38-2" data-line-number="2">crashes_sf =<span class="st"> </span>crashes <span class="co"># create copy of crashes dataset</span></a>
-<a class="sourceLine" id="cb38-3" data-line-number="3">crashes_sf<span class="op">$</span>longitude =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="op">-</span><span class="fl">1.3</span>, <span class="fl">-1.2</span>, <span class="fl">-1.1</span>)</a>
-<a class="sourceLine" id="cb38-4" data-line-number="4">crashes_sf<span class="op">$</span>latitude =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">50.7</span>, <span class="fl">50.7</span>, <span class="fl">50.68</span>)</a>
-<a class="sourceLine" id="cb38-5" data-line-number="5">crashes_sf =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/sf/man/st_as_sf.html">st_as_sf</a></span>(crashes_sf, <span class="dt">coords =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"longitude"</span>, <span class="st">"latitude"</span>), <span class="dt">crs =</span> <span class="dv">4326</span>)</a>
-<a class="sourceLine" id="cb38-6" data-line-number="6"><span class="co"># plot(crashes_sf[1:4]) # basic plot</span></a>
-<a class="sourceLine" id="cb38-7" data-line-number="7"><span class="co"># mapview::mapview(crashes_sf) # for interactive map</span></a></code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(sf) <span class="co"># load the sf package for working with spatial data</span></a>
+<a class="sourceLine" id="cb37-2" data-line-number="2">crashes_sf =<span class="st"> </span>crashes <span class="co"># create copy of crashes dataset</span></a>
+<a class="sourceLine" id="cb37-3" data-line-number="3">crashes_sf<span class="op">$</span>longitude =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="op">-</span><span class="fl">1.3</span>, <span class="fl">-1.2</span>, <span class="fl">-1.1</span>)</a>
+<a class="sourceLine" id="cb37-4" data-line-number="4">crashes_sf<span class="op">$</span>latitude =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">50.7</span>, <span class="fl">50.7</span>, <span class="fl">50.68</span>)</a>
+<a class="sourceLine" id="cb37-5" data-line-number="5">crashes_sf =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/sf/man/st_as_sf.html">st_as_sf</a></span>(crashes_sf, <span class="dt">coords =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"longitude"</span>, <span class="st">"latitude"</span>), <span class="dt">crs =</span> <span class="dv">4326</span>)</a>
+<a class="sourceLine" id="cb37-6" data-line-number="6"><span class="co"># plot(crashes_sf[1:4]) # basic plot</span></a>
+<a class="sourceLine" id="cb37-7" data-line-number="7"><span class="co"># mapview::mapview(crashes_sf) # for interactive map</span></a></code></pre></div>
 <ol style="list-style-type: decimal">
-<li>Plot only the geometry of <code>crashes_sf</code> (hint: the solution may contain <code>$geometry</code>). If the result is like the figure below, congratulations, it worked!).</li>
+<li>Plot only the geometry column of <code>crashes_sf</code> (hint: the solution may contain <code>$geometry</code>). If the result is like the figure below, congratulations, it worked!).</li>
 <li>Plot <code>crashes_sf</code>, only showing the age variable.</li>
 <li>Plot the 2<sup>nd</sup> and 3<sup>rd</sup> crashes, showing which happened in the dark.</li>
 <li>
@@ -571,19 +571,19 @@
 <h2 class="hasAnchor">
 <a href="#reading-and-writing-spatial-data" class="anchor"></a>Reading and writing spatial data</h2>
 <p>You can read and write spatial data with <code><a href="https://rdrr.io/pkg/sf/man/st_read.html">read_sf()</a></code> and <code><a href="https://rdrr.io/pkg/sf/man/st_write.html">write_sf()</a></code>, as shown below (see <code><a href="https://rdrr.io/pkg/sf/man/st_read.html">?read_sf</a></code>).</p>
-<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/pkg/sf/man/st_write.html">write_sf</a></span>(zones, <span class="st">"zones.geojson"</span>) <span class="co"># save geojson file</span></a>
-<a class="sourceLine" id="cb39-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/pkg/sf/man/st_write.html">write_sf</a></span>(zones, <span class="st">"zmapinfo"</span>, <span class="dt">driver =</span> <span class="st">"MapInfo file"</span>)</a>
-<a class="sourceLine" id="cb39-3" data-line-number="3"><span class="kw"><a href="https://rdrr.io/pkg/sf/man/st_read.html">read_sf</a></span>(<span class="st">"zmapinfo"</span>) <span class="co"># read in mapinfo file</span></a></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/pkg/sf/man/st_write.html">write_sf</a></span>(zones, <span class="st">"zones.geojson"</span>) <span class="co"># save geojson file</span></a>
+<a class="sourceLine" id="cb38-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/pkg/sf/man/st_write.html">write_sf</a></span>(zones, <span class="st">"zmapinfo"</span>, <span class="dt">driver =</span> <span class="st">"MapInfo file"</span>)</a>
+<a class="sourceLine" id="cb38-3" data-line-number="3"><span class="kw"><a href="https://rdrr.io/pkg/sf/man/st_read.html">read_sf</a></span>(<span class="st">"zmapinfo"</span>) <span class="co"># read in mapinfo file</span></a></code></pre></div>
 <p>See <a href="https://geocompr.robinlovelace.net/read-write.html">Chapter 6</a> of Geocomputation with R for further information.</p>
 </div>
 <div id="sf-polygons" class="section level2">
 <h2 class="hasAnchor">
 <a href="#sf-polygons" class="anchor"></a>sf polygons</h2>
 <p><code>sf</code> objects can also represent administrative zones. This is illustrated below with reference to <code>zones</code>, a spatial object representing the Isle of Wight, that we will download using the <code>pct</code> package (note: the <code>[1:9]</code> appended to the function selects only the first 9 columns).</p>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" data-line-number="1">zones =<span class="st"> </span>pct<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/pct/man/get_pct_zones.html">get_pct_zones</a></span>(<span class="st">"isle-of-wight"</span>)[<span class="dv">1</span><span class="op">:</span><span class="dv">9</span>]</a>
-<a class="sourceLine" id="cb40-2" data-line-number="2"><span class="co">#&gt; Loading required package: sp</span></a>
-<a class="sourceLine" id="cb40-3" data-line-number="3"><span class="co">#&gt; Warning in fun(libname, pkgname): rgeos: versions of GEOS runtime 3.7.1-CAPI-1.11.1</span></a>
-<a class="sourceLine" id="cb40-4" data-line-number="4"><span class="co">#&gt; and GEOS at installation 3.5.1-CAPI-1.9.1differ</span></a></code></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" data-line-number="1">zones =<span class="st"> </span>pct<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/pct/man/get_pct_zones.html">get_pct_zones</a></span>(<span class="st">"isle-of-wight"</span>)[<span class="dv">1</span><span class="op">:</span><span class="dv">9</span>]</a>
+<a class="sourceLine" id="cb39-2" data-line-number="2"><span class="co">#&gt; Loading required package: sp</span></a>
+<a class="sourceLine" id="cb39-3" data-line-number="3"><span class="co">#&gt; Warning in fun(libname, pkgname): rgeos: versions of GEOS runtime 3.7.1-CAPI-1.11.1</span></a>
+<a class="sourceLine" id="cb39-4" data-line-number="4"><span class="co">#&gt; and GEOS at installation 3.5.1-CAPI-1.9.1differ</span></a></code></pre></div>
 <ol style="list-style-type: decimal">
 <li>What is the class of the <code>zones</code> object?</li>
 <li>What are its column names?</li>
@@ -603,7 +603,7 @@
 <h2 class="hasAnchor">
 <a href="#spatial-subsetting-and-sf-plotting" class="anchor"></a>Spatial subsetting and sf plotting</h2>
 <p>Like index and value subsetting, spatial subsetting can be done with the <code><a href="https://rdrr.io/r/base/Extract.html">[</a></code> notation. Subset the <code>zones</code> that contain features in <code>crashes_sf</code> as follows:</p>
-<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" data-line-number="1">zones_containing_crashes =<span class="st"> </span>zones[crashes_sf, ]</a></code></pre></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" data-line-number="1">zones_containing_crashes =<span class="st"> </span>zones[crashes_sf, ]</a></code></pre></div>
 <p>To plot a new layer on top of an existing <code>sf</code> plot, use the <code>add = TRUE</code> argument. Remember to plot only the <code>geometry</code> column of objects to avoid multiple maps. Colours can be set with the <code>col</code> argument.</p>
 <ol style="list-style-type: decimal">
 <li>Plot the geometry of the zones, with the zones containing crashes overlaid on top in red.</li>
@@ -617,7 +617,7 @@
 <h2 class="hasAnchor">
 <a href="#geographic-joins" class="anchor"></a>Geographic joins</h2>
 <p>Geographic joins involve assigning values from one object to a new column in another, based on the geographic relationship between them. With <code>sf</code> objects it works as follows:</p>
-<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" data-line-number="1">zones_joined =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/sf/man/st_join.html">st_join</a></span>(zones[<span class="ot">NULL</span>], crashes_sf)</a></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" data-line-number="1">zones_joined =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/sf/man/st_join.html">st_join</a></span>(zones[<span class="ot">NULL</span>], crashes_sf)</a></code></pre></div>
 <ol style="list-style-type: decimal">
 <li>Plot the <code>casualty_age</code> variable of the new <code>zones_joined</code> object (see the figure below to verify the result).</li>
 <li>How many zones are returned in the previous command?</li>
@@ -630,7 +630,7 @@
 <h2 class="hasAnchor">
 <a href="#crss" class="anchor"></a>CRSs</h2>
 <p>Get and set Coordinate Reference Systems (CRSs) with the command <code><a href="https://rdrr.io/pkg/sf/man/st_crs.html">st_crs()</a></code>. Transform CRSs with the command <code><a href="https://rdrr.io/pkg/sf/man/st_transform.html">st_transform()</a></code>, as demonstrated in the code chunk below, which converts the ‘lon/lat’ geographic CRS of <code>crashes_sf</code> into the projected CRS of the British National Grid:</p>
-<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" data-line-number="1">crashes_osgb =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/sf/man/st_transform.html">st_transform</a></span>(crashes_sf, <span class="dv">27700</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" data-line-number="1">crashes_osgb =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/sf/man/st_transform.html">st_transform</a></span>(crashes_sf, <span class="dv">27700</span>)</a></code></pre></div>
 <ol style="list-style-type: decimal">
 <li>Try to subset the zones with the <code>crashes_osgb</code>. What does the error message say?</li>
 <li>Create <code>zones_osgb</code> by transforming the <code>zones</code> object.</li>
@@ -654,13 +654,13 @@
 <h2 class="hasAnchor">
 <a href="#attribute-operations-on-sf-objects" class="anchor"></a>Attribute operations on sf objects</h2>
 <p>Because <code>sf</code> objects are <code>data.frame</code>s, we can do non-spatial operations on them. Try the following attribute operations on the <code>zones</code> data.</p>
-<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" data-line-number="1"><span class="co"># load example dataset if it doesn't already exist</span></a>
-<a class="sourceLine" id="cb45-2" data-line-number="2">zones =<span class="st"> </span>pct<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/pct/man/get_pct_zones.html">get_pct_zones</a></span>(<span class="st">"isle-of-wight"</span>)</a>
-<a class="sourceLine" id="cb45-3" data-line-number="3">sel =<span class="st"> </span>zones<span class="op">$</span>all <span class="op">&gt;</span><span class="st"> </span><span class="dv">3000</span>  <span class="co"># create a subsetting object</span></a>
-<a class="sourceLine" id="cb45-4" data-line-number="4">zones_large =<span class="st"> </span>zones[sel, ] <span class="co"># subset areas with a popualtion over 100,000</span></a>
-<a class="sourceLine" id="cb45-5" data-line-number="5">zones_<span class="dv">2</span> =<span class="st"> </span>zones[zones<span class="op">$</span>geo_name <span class="op">==</span><span class="st"> "Isle of Wight 002"</span>,] <span class="co"># subset based on 'equality' query</span></a>
-<a class="sourceLine" id="cb45-6" data-line-number="6">zones_first_and_third_column =<span class="st"> </span>zones[<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">1</span>, <span class="dv">3</span>)]</a>
-<a class="sourceLine" id="cb45-7" data-line-number="7">zones_just_all =<span class="st"> </span>zones[<span class="st">"all"</span>]</a></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" data-line-number="1"><span class="co"># load example dataset if it doesn't already exist</span></a>
+<a class="sourceLine" id="cb44-2" data-line-number="2">zones =<span class="st"> </span>pct<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/pct/man/get_pct_zones.html">get_pct_zones</a></span>(<span class="st">"isle-of-wight"</span>)</a>
+<a class="sourceLine" id="cb44-3" data-line-number="3">sel =<span class="st"> </span>zones<span class="op">$</span>all <span class="op">&gt;</span><span class="st"> </span><span class="dv">3000</span>  <span class="co"># create a subsetting object</span></a>
+<a class="sourceLine" id="cb44-4" data-line-number="4">zones_large =<span class="st"> </span>zones[sel, ] <span class="co"># subset areas with a popualtion over 100,000</span></a>
+<a class="sourceLine" id="cb44-5" data-line-number="5">zones_<span class="dv">2</span> =<span class="st"> </span>zones[zones<span class="op">$</span>geo_name <span class="op">==</span><span class="st"> "Isle of Wight 002"</span>,] <span class="co"># subset based on 'equality' query</span></a>
+<a class="sourceLine" id="cb44-6" data-line-number="6">zones_first_and_third_column =<span class="st"> </span>zones[<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">1</span>, <span class="dv">3</span>)]</a>
+<a class="sourceLine" id="cb44-7" data-line-number="7">zones_just_all =<span class="st"> </span>zones[<span class="st">"all"</span>]</a></code></pre></div>
 <ol style="list-style-type: decimal">
 <li>Practice subsetting techniques you have learned on the <code>sf data.frame</code> object <code>zones</code>:
 <ol style="list-style-type: decimal">
@@ -679,15 +679,16 @@
 <div id="matching-roads-to-crashes" class="section level2">
 <h2 class="hasAnchor">
 <a href="#matching-roads-to-crashes" class="anchor"></a>Matching roads to crashes</h2>
+<p>I think you forgot something here. For example we could introduce <code>st_nearest_feature</code>? Or counting using <code>st_within</code> and <code>st_buffer</code>.</p>
 </div>
 </div>
 <div id="visualising-spatial-datasets" class="section level1">
 <h1 class="hasAnchor">
 <a href="#visualising-spatial-datasets" class="anchor"></a>Visualising spatial datasets</h1>
 <p>So far we have used the <code><a href="https://rdrr.io/pkg/sf/man/plot.html">plot()</a></code> function to make maps. That’s fine for basic visualisation, but for publication-quality maps, we recommend using <code>tmap</code> (see Chapter 8 of Geocomputation with R for reasons and alternatives). Load the package as follows:</p>
-<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb46-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(tmap)</a>
-<a class="sourceLine" id="cb46-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/pkg/tmap/man/tmap_mode.html">tmap_mode</a></span>(<span class="st">"plot"</span>)</a>
-<a class="sourceLine" id="cb46-3" data-line-number="3"><span class="co">#&gt; tmap mode set to plotting</span></a></code></pre></div>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(tmap)</a>
+<a class="sourceLine" id="cb45-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/pkg/tmap/man/tmap_mode.html">tmap_mode</a></span>(<span class="st">"plot"</span>)</a>
+<a class="sourceLine" id="cb45-3" data-line-number="3"><span class="co">#&gt; tmap mode set to plotting</span></a></code></pre></div>
 <ol style="list-style-type: decimal">
 <li>Create the following plots using <code><a href="https://rdrr.io/pkg/sf/man/plot.html">plot()</a></code> and <code>tm_shape() + tm_polygons()</code> functions (note: the third figure relies on setting <code><a href="https://rdrr.io/pkg/tmap/man/tmap_mode.html">tmap_mode("view")</a></code>.</li>
 <li>Add an additional layer to the interactive map showing the location of crashes, using marker and dot symbols.</li>
@@ -701,18 +702,20 @@
 <div id="analysing-point-data-from-stats19" class="section level1">
 <h1 class="hasAnchor">
 <a href="#analysing-point-data-from-stats19" class="anchor"></a>Analysing point data from stats19</h1>
-<p>Based on the saying “don’t run before you can walk”, we’ve learned the vital foundations of R before tackling a real dataset. Temporal and spatial attributes are key to road crash data, hence the emphasis on <code>lubridate</code> and <code>sf</code>. Visualisation is key to understanding and policy influence, which is where <code>tmap</code> comes in. With these solid foundations, plus knowledge of how to ask for help (ask R’s internal help, colleagues, online forums/GitHub, generally in that order of priority), you are ready to test the methods on some real data.</p>
+<p>Based on the saying “don’t run before you can walk”, we’ve learned the vital foundations of R before tackling a real dataset. Temporal and spatial attributes are key to road crash data, hence the emphasis on <code>lubridate</code> and <code>sf</code>. Visualisation is key to understanding and policy influence, which is where <code>tmap</code> comes in. With these solid foundations, plus knowledge of how to ask for help (read R’s internal help functions, ask colleagues, create new comments on online forums/GitHub, generally in that order of priority), you are ready to test the methods on some real data.</p>
 <p>Before doing so, take a read of the <code>stats19</code> vignette, which can be launched as follows:</p>
-<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/utils/vignette.html">vignette</a></span>(<span class="dt">package =</span> <span class="st">"stats19"</span>) <span class="co"># view all vignettes available on stats19</span></a>
-<a class="sourceLine" id="cb48-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/utils/vignette.html">vignette</a></span>(<span class="st">"stats19"</span>) <span class="co"># view the introductory vignette</span></a></code></pre></div>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/utils/vignette.html">vignette</a></span>(<span class="dt">package =</span> <span class="st">"stats19"</span>) <span class="co"># view all vignettes available on stats19</span></a>
+<a class="sourceLine" id="cb47-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/utils/vignette.html">vignette</a></span>(<span class="st">"stats19"</span>) <span class="co"># view the introductory vignette</span></a></code></pre></div>
 <p>This should now be sufficient to tackle the following exercises:</p>
 <ol style="list-style-type: decimal">
 <li>Download and plot all crashes reported in Great Britain in 2018 (hint: see <a href="https://cran.r-project.org/web/packages/stats19/vignettes/stats19.html">the stats19 vignette</a>)</li>
 <li>Find the function in the <code>stats19</code> package that converts a <code>data.frame</code> object into an <code>sf</code> data frame. Use this function to convert the road crashes into an <code>sf</code> object, called <code>crashes_sf</code>, for example.</li>
 <li>Filter crashes that happened in the Isle of Wight based on attribute data (hint: the relevant column contains the word <code>local</code>)</li>
 <li>Filter crashes happened in the Isle of Wight using geographic subsetting (hint: remember <code><a href="https://rdrr.io/pkg/sf/man/st_crs.html">st_crs()</a></code>?)</li>
-<li>Bonus: Which type of subsetting yielded more results and why?</li>
-<li>Bonus: how many crashes happened in each zone?</li>
+<li>
+<strong>Bonus:</strong> Which type of subsetting yielded more results and why?</li>
+<li>
+<strong>Bonus:</strong> how many crashes happened in each zone?</li>
 <li>Create a new column called <code>month</code> in the crash data using the function <code><a href="http://lubridate.tidyverse.org/reference/month.html">lubridate::month()</a></code> and the <code>date</code> column.</li>
 <li>Create an object called <code>a_zones_may</code> representing all the crashes that happened in the Isle of Wight in the month of May</li>
 <li>Bonus: Calculate the average (<code>mean</code>) speed limit associated with each crash that happened in May across the zones of the Isle of Wight (the result is shown in the map)</li>
@@ -722,12 +725,12 @@
 <h1 class="hasAnchor">
 <a href="#analysing-crash-data-on-road-networks" class="anchor"></a>Analysing crash data on road networks</h1>
 <p>Road network data can be accessed from a range of sources, including OpenStreetMap (OSM) and Ordnance Survey. We will use some OSM data from the Ilse of Wight, which can be loaded as follows:</p>
-<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" data-line-number="1">u =<span class="st"> "https://github.com/ropensci/stats19/releases/download/1.1.0/roads_key.Rds"</span></a>
-<a class="sourceLine" id="cb49-2" data-line-number="2">roads_wgs =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/connections.html">url</a></span>(u))</a>
-<a class="sourceLine" id="cb49-3" data-line-number="3">roads =<span class="st"> </span>roads_wgs <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/sf/man/st_transform.html">st_transform</a></span>(<span class="dt">crs =</span> <span class="dv">27700</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" data-line-number="1">u =<span class="st"> "https://github.com/ropensci/stats19/releases/download/1.1.0/roads_key.Rds"</span></a>
+<a class="sourceLine" id="cb48-2" data-line-number="2">roads_wgs =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/connections.html">url</a></span>(u))</a>
+<a class="sourceLine" id="cb48-3" data-line-number="3">roads =<span class="st"> </span>roads_wgs <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/sf/man/st_transform.html">st_transform</a></span>(<span class="dt">crs =</span> <span class="dv">27700</span>)</a></code></pre></div>
 <p>You should already have road crashes for the Isle of Wight from the previous stage. If not, load crash data as follows:</p>
-<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb50-1" data-line-number="1">u =<span class="st"> "https://github.com/ropensci/stats19/releases/download/1.1.0/car_accidents_2017_iow.Rds"</span></a>
-<a class="sourceLine" id="cb50-2" data-line-number="2">crashes_iow =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/connections.html">url</a></span>(u))</a></code></pre></div>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" data-line-number="1">u =<span class="st"> "https://github.com/ropensci/stats19/releases/download/1.1.0/car_accidents_2017_iow.Rds"</span></a>
+<a class="sourceLine" id="cb49-2" data-line-number="2">crashes_iow =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/connections.html">url</a></span>(u))</a></code></pre></div>
 <ol style="list-style-type: decimal">
 <li>Plot the roads with the crashes overlaid.</li>
 <li>Create a buffer around the roads with a distance of 200 m.</li>
@@ -745,8 +748,9 @@
 <li>Read them into R as an <code>sf</code> object</li>
 <li>Create a map showing the number of crashes in each zone</li>
 <li>Identify the average speed limit associated with crashes in each zone</li>
-<li>Identify an interesting question you can ask of the data and use exploratory data analysis to find answers</li>
-<li>Take a look at the code in <a href="https://github.com/ropensci/stats19/blob/master/inst/iow_example.R">the file iow_example.R in the inst directory in the stats19 repo</a>. Run it to create smoothed estimates of crash frequency on the road network (see <a href="https://github.com/agila5/leeds_seminar/blob/master/examples.R">code in the GitHub repo</a> for further information on these preliminary methods).</li>
+<li>Identify an interesting question you can ask to the data and use exploratory data analysis to find answers</li>
+<li>Check another <a href="https://github.com/agila5/leeds_seminar">related project</a> for further information on smoothing techniques of counts on a linear network. <!-- 1. Take a look at the code in [the file iow_example.R in the inst directory in the stats19 repo](https://github.com/ropensci/stats19/blob/master/inst/iow_example.R). Run it to create smoothed estimates of crash frequency on the road network (see [code in the  GitHub repo](https://github.com/agila5/leeds_seminar/blob/master/examples.R) for further information on these preliminary methods). -->
+</li>
 </ol>
 </div>
 <div id="references" class="section level1 unnumbered">
