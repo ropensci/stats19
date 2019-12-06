@@ -641,7 +641,7 @@ Exercises:
 1. Select only the events that ocurred in a leap-year (HINT: check the function `leap_year`)
 1. Select only the events that ocurred during the weekend or in June
 1. Select only the events that ocurred during the weekend and in June
-1. Count how many events that ocurred during each day of the week. 
+1. Count how many events ocurred during each day of the week. 
 
 Now we'll take a look at the time components of a Date. Using the function `hms` (acronym for Hour Minutes Seconds) and its subfunctions such as `hm` or `ms`, we can parse a character vector representing several times as an Hour object (which is tecnically called a Period object). 
 
