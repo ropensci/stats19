@@ -11,6 +11,10 @@
 #' @seealso [read_accidents()]
 #' @inheritParams dl_stats19
 #' @param format Switch to return raw read from file, default is `TRUE`.
+#' @param output_format Possible values are c("tibble", "sf").
+#' See details and examples
+#' @param ... Other arguments that should be passed to output_format functions.
+#' See details and examples
 #'
 #' @export
 #' @examples
@@ -23,7 +27,9 @@ get_stats19 = function(year = NULL,
                       data_dir = tempdir(),
                       file_name = NULL,
                       format = TRUE,
-                      ask = FALSE) {
+                      ask = FALSE,
+                      output_format = "tibble",
+                      ...) {
   if(!exists("type")) {
     stop("Type is required", call. = FALSE)
   }
@@ -50,6 +56,14 @@ get_stats19 = function(year = NULL,
       year = year,
       data_dir = data_dir,
       format = format)
+  }
+
+  # transform read_in into the desired format
+  if (output_format != "tibble") {
+    read_in = switch(
+      output_format,
+      "sf" = format_sf(read_in, ...)
+    )
   }
   read_in
 }
