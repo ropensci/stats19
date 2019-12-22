@@ -10,7 +10,9 @@ get_stats19(
   data_dir = tempdir(),
   file_name = NULL,
   format = TRUE,
-  ask = FALSE
+  ask = FALSE,
+  output_format = "tibble",
+  ...
 )
 }
 \arguments{
@@ -26,6 +28,12 @@ Or any variation of to search the file names with such as "acc" or "accid".}
 \item{format}{Switch to return raw read from file, default is \code{TRUE}.}
 
 \item{ask}{Should you be asked whether or not to download the files? \code{TRUE} by default.}
+
+\item{output_format}{Possible values are c("tibble", "sf").
+See details and examples}
+
+\item{...}{Other arguments that should be passed to output_format functions.
+See details and examples}
 }
 \description{
 Download, read and format STATS19 data in one function.
