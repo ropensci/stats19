@@ -66,13 +66,14 @@ x_sf <- get_stats19(2017, output_format = "sf")
 x_sf = get_stats19(2017, output_format = "sf", lonlat = TRUE)
 sf::st_crs(x_sf)
 
+if (requireNamespace("spatstat", quietly = TRUE)) {
 # ppp output
 x_ppp = get_stats19(2017, output_format = "ppp")
 spatstat::plot.ppp(x_ppp, use.marks = FALSE)
 
 # We can use the window parameter of format_ppp function to filter only the
-events occurred in a specific area. For example we can create a new bbox of
-5km around the city center of Leeds
+# events occurred in a specific area. For example we can create a new bbox
+# of 5km around the city center of Leeds
 
 leeds_window <- spatstat::owin(
 xrange = c(425046.1, 435046.1),
@@ -83,8 +84,9 @@ leeds_ppp <- get_stats19(2017, output_format = "ppp", window = leeds_window)
 spatstat::plot.ppp(leeds_ppp, use.marks = FALSE, clipwin = leeds_window)
 
 # or even more fancy examples where we subset all the events occurred in a
-pre-defined polygon area
+# pre-defined polygon area
 
+if (requireNamespace("osmdata", quietly = TRUE)) {
 greater_london_sf_polygon = osmdata::getbb(
 "Greater London, UK",
 format_out = "sf_polygon"
@@ -97,6 +99,8 @@ greater_london_window <- spatstat::owin(poly = greater_london_polygon)
 
 greater_london_ppp <- get_stats19(2017, output_format = "ppp", window = greater_london_window)
 spatstat::plot.ppp(greater_london_ppp, use.marks = FALSE, clipwin = greater_london_window)
+}
+}
 }
 }
 \seealso{
