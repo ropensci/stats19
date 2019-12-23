@@ -140,7 +140,7 @@ format_sf = function(x, lonlat = FALSE) {
 #' This function is a wrapper around \code{\link[spatstat]{ppp}} function and
 #' it is used to transform STATS19 data into a ppp format.
 #'
-#' @param x A STATS19 dataframe to be converted into ppp format.
+#' @param data A STATS19 dataframe to be converted into ppp format.
 #' @param window A windows of observation, an object of class `owin()`. If
 #'   `window = NULL` (i.e. the default) then the function creates an approximate
 #'   bounding box covering the whole UK. It can also be used to filter only the
@@ -157,8 +157,11 @@ format_sf = function(x, lonlat = FALSE) {
 #' @export
 #'
 #' @examples
-#' x_ppp <- format_ppp(accidents_sample)
-#' spatstat::plot.ppp(spatstat::unmark(x_ppp))
+#' if (requireNamespace("spatstat", quietly = TRUE)) {
+#'   x_ppp <- format_ppp(accidents_sample)
+#'   spatstat::plot.ppp(spatstat::unmark(x_ppp))
+#' }
+#'
 
 format_ppp <- function(data, window = NULL,  ...) {
   # check that spatstat is installed
