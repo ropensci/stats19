@@ -52,7 +52,9 @@ Suggests:
     htmltools,
     tmap,
     jsonlite,
-    pct
+    pct,
+    spatstat,
+    osmdata
 VignetteBuilder: knitr
 RoxygenNote: 7.0.2
 Roxygen: list(markdown = TRUE)
