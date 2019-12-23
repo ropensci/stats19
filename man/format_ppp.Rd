@@ -7,6 +7,8 @@
 format_ppp(data, window = NULL, ...)
 }
 \arguments{
+\item{data}{A STATS19 dataframe to be converted into ppp format.}
+
 \item{window}{A windows of observation, an object of class \code{owin()}. If
 \code{window = NULL} (i.e. the default) then the function creates an approximate
 bounding box covering the whole UK. It can also be used to filter only the
@@ -16,8 +18,6 @@ events occurring in a specific region of UK (see the examples of
 \item{...}{Additional parameters that should be passed to
 \code{\link[spatstat]{ppp}} function. Read the help page of that function
 for a detailed description of the available parameters.}
-
-\item{x}{A STATS19 dataframe to be converted into ppp format.}
 }
 \value{
 A ppp object.
@@ -27,8 +27,11 @@ This function is a wrapper around \code{\link[spatstat]{ppp}} function and
 it is used to transform STATS19 data into a ppp format.
 }
 \examples{
-x_ppp <- format_ppp(accidents_sample)
-spatstat::plot.ppp(spatstat::unmark(x_ppp))
+if (requireNamespace("spatstat", quietly = TRUE)) {
+  x_ppp <- format_ppp(accidents_sample)
+  spatstat::plot.ppp(spatstat::unmark(x_ppp))
+}
+
 }
 \seealso{
 \code{\link{format_sf}} for an analogous function used to convert
