@@ -112,7 +112,7 @@ format_column_names = function(column_names) {
 #' @examples
 #' x_sf = format_sf(accidents_sample)
 #' sf:::plot.sf(x_sf)
-#' @export
+
 format_sf = function(x, lonlat = FALSE) {
   n = names(x)
   if(lonlat) {
@@ -133,4 +133,68 @@ format_sf = function(x, lonlat = FALSE) {
     x_sf = sf::st_as_sf(x, coords = coords, crs = 27700)
   }
   x_sf
+}
+
+#' Convert STATS19 data into ppp (spatstat) format.
+#'
+#' This function is a wrapper around \code{\link[spatstat]{ppp}} function and
+#' it is used to transform STATS19 data into a ppp format.
+#'
+#' @param x A STATS19 dataframe to be converted into ppp format.
+#' @param window A windows of observation, an object of class `owin()`. If
+#'   `window = NULL` (i.e. the default) then the function creates an approximate
+#'   bounding box covering the whole UK. It can also be used to filter only the
+#'   events occurring in a specific region of UK (see the examples of
+#'   \code{\link{get_stats19}}).
+#' @param ... Additional parameters that should be passed to
+#'   \code{\link[spatstat]{ppp}} function. Read the help page of that function
+#'   for a detailed description of the available parameters.
+#'
+#' @return A ppp object.
+#' @seealso \code{\link{format_sf}} for an analogous function used to convert
+#'   data into sf format and \code{\link[spatstat]{ppp}} for the original
+#'   spatstat function.
+#' @export
+#'
+#' @examples
+#' x_ppp <- format_ppp(accidents_sample)
+#' spatstat::plot.ppp(spatstat::unmark(x_ppp))
+
+format_ppp <- function(data, window = NULL,  ...) {
+  # check that spatstat is installed
+  if (!requireNamespace("spatstat", quietly = TRUE)) {
+    stop("package spatstat required, please install it first")
+  }
+
+  # look for column names of coordinates
+  names_data <- names(data)
+  coords <- names_data[grepl(
+    pattern = "easting|northing",
+    x = names_data,
+    ignore.case = TRUE
+  )]
+
+  # exclude car crashes with NA in the coordinates
+  coords_null <- is.na(data[[coords[1]]] | data[[coords[2]]])
+  if (sum(coords_null) > 0) {
+    message(sum(coords_null), " rows removed with no coordinates")
+    data <- data[!coords_null, ]
+  }
+
+  # owin object for ppp. Default values represent an approximate bbox of UK
+  if (is.null(window)) {
+    window = spatstat::owin(
+      xrange = c(64950, 655391),
+      yrange = c(10235, 1209512)
+    )
+  }
+
+  data_ppp <- spatstat::ppp(
+    x = data[[coords[[1]]]],
+    y = data[[coords[[2]]]],
+    window = window,
+    marks = data[setdiff(names_data, coords)],
+    ...
+  )
+  data_ppp
 }
