@@ -87,18 +87,18 @@ spatstat::plot.ppp(leeds_ppp, use.marks = FALSE, clipwin = leeds_window)
 # pre-defined polygon area
 
 if (requireNamespace("osmdata", quietly = TRUE)) {
-greater_london_sf_polygon = osmdata::getbb(
-"Greater London, UK",
-format_out = "sf_polygon"
-)
+# greater_london_sf_polygon = osmdata::getbb(
+# "Greater London, UK",
+# format_out = "sf_polygon"
+# )
 # spatstat works only with planar coordinates
-greater_london_sf_polygon = sf::st_transform(greater_london_sf_polygon, 27700)
+# greater_london_sf_polygon = sf::st_transform(greater_london_sf_polygon, 27700)
 # then we extract the coordinates and create the window object.
-greater_london_polygon = sf::st_coordinates(greater_london_sf_polygon)[, c(1, 2)]
-greater_london_window <- spatstat::owin(poly = greater_london_polygon)
+# greater_london_polygon = sf::st_coordinates(greater_london_sf_polygon)[, c(1, 2)]
+# greater_london_window <- spatstat::owin(poly = greater_london_polygon)
 
-greater_london_ppp <- get_stats19(2017, output_format = "ppp", window = greater_london_window)
-spatstat::plot.ppp(greater_london_ppp, use.marks = FALSE, clipwin = greater_london_window)
+# greater_london_ppp <- get_stats19(2017, output_format = "ppp", window = greater_london_window)
+# spatstat::plot.ppp(greater_london_ppp, use.marks = FALSE, clipwin = greater_london_window)
 }
 }
 }
