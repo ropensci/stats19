@@ -10,7 +10,9 @@ get_stats19(
   data_dir = tempdir(),
   file_name = NULL,
   format = TRUE,
-  ask = FALSE
+  ask = FALSE,
+  output_format = "tibble",
+  ...
 )
 }
 \arguments{
@@ -26,23 +28,79 @@ Or any variation of to search the file names with such as "acc" or "accid".}
 \item{format}{Switch to return raw read from file, default is \code{TRUE}.}
 
 \item{ask}{Should you be asked whether or not to download the files? \code{TRUE} by default.}
+
+\item{output_format}{The default value is "tibble". Other possible values are
+\code{\link[sf]{st_as_sf}} object or \code{\link[spatstat]{ppp}} object.
+See details and examples}
+
+\item{...}{Other arguments that should be passed to \code{\link[=format_sf]{format_sf()}} or
+\code{\link[=format_ppp]{format_ppp()}} functions. Read and run the examples.}
 }
 \description{
 Download, read and format STATS19 data in one function.
 }
 \section{Details}{
 
-This function utilizes \code{dl_stats19} and \verb{read_*} functions
-and retuns a df. The file downloaded would be for a specific year (e.g 2017).
+This function utilizes \code{dl_stats19} and \verb{read_*} functions and retuns a
+tibble, a sf object or a ppp object (according to the output_format
+parameter). The file downloaded would be for a specific year (e.g 2017).
 
 As this function uses \code{dl_stats19} function, it can download
 many MB of data so ensure you have a sufficient disk space.
+
+If \code{output_format = "sf"} or \code{output_format = "ppp"} then the output data is
+transformed into an sf or ppp object using the format_sf()] or \link{format_ppp}
+functions. See examples.
 }
 
 \examples{
 \donttest{
-get_stats19(year = 2017)
-get_stats19(year = 2009)
+# default tibble output
+x = get_stats19(2009)
+x = get_stats19(2017)
+
+# sf output
+x_sf <- get_stats19(2017, output_format = "sf")
+
+# sf output with lonlat coordinates
+x_sf = get_stats19(2017, output_format = "sf", lonlat = TRUE)
+sf::st_crs(x_sf)
+
+if (requireNamespace("spatstat", quietly = TRUE)) {
+# ppp output
+x_ppp = get_stats19(2017, output_format = "ppp")
+spatstat::plot.ppp(x_ppp, use.marks = FALSE)
+
+# We can use the window parameter of format_ppp function to filter only the
+# events occurred in a specific area. For example we can create a new bbox
+# of 5km around the city center of Leeds
+
+leeds_window <- spatstat::owin(
+xrange = c(425046.1, 435046.1),
+yrange = c(428577.2, 438577.2)
+)
+
+leeds_ppp <- get_stats19(2017, output_format = "ppp", window = leeds_window)
+spatstat::plot.ppp(leeds_ppp, use.marks = FALSE, clipwin = leeds_window)
+
+# or even more fancy examples where we subset all the events occurred in a
+# pre-defined polygon area
+
+if (requireNamespace("osmdata", quietly = TRUE)) {
+# greater_london_sf_polygon = osmdata::getbb(
+# "Greater London, UK",
+# format_out = "sf_polygon"
+# )
+# spatstat works only with planar coordinates
+# greater_london_sf_polygon = sf::st_transform(greater_london_sf_polygon, 27700)
+# then we extract the coordinates and create the window object.
+# greater_london_polygon = sf::st_coordinates(greater_london_sf_polygon)[, c(1, 2)]
+# greater_london_window <- spatstat::owin(poly = greater_london_polygon)
+
+# greater_london_ppp <- get_stats19(2017, output_format = "ppp", window = greater_london_window)
+# spatstat::plot.ppp(greater_london_ppp, use.marks = FALSE, clipwin = greater_london_window)
+}
+}
 }
 }
 \seealso{
