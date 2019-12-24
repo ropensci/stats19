@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Format STATS19 casualties — format_casualties • stats19</title>
+<title>Convert STATS19 data into ppp (spatstat) format. — format_ppp • stats19</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,9 @@
 
 
 
-<meta property="og:title" content="Format STATS19 casualties — format_casualties" />
-<meta property="og:description" content="Format STATS19 casualties" />
+<meta property="og:title" content="Convert STATS19 data into ppp (spatstat) format. — format_ppp" />
+<meta property="og:description" content="This function is a wrapper around ppp function and
+it is used to transform STATS19 data into a ppp format." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -132,43 +133,65 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Format STATS19 casualties</h1>
+    <h1>Convert STATS19 data into ppp (spatstat) format.</h1>
     <small class="dont-index">Source: <a href='https://github.com/ropensci/stats19/blob/master/R/format.R'><code>R/format.R</code></a></small>
-    <div class="hidden name"><code>format_casualties.Rd</code></div>
+    <div class="hidden name"><code>format_ppp.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Format STATS19 casualties</p>
+    <p>This function is a wrapper around <code><a href='https://rdrr.io/pkg/spatstat/man/ppp.html'>ppp</a></code> function and
+it is used to transform STATS19 data into a ppp format.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>format_casualties</span>(<span class='no'>x</span>)</pre>
+    <pre class="usage"><span class='fu'>format_ppp</span>(<span class='no'>data</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
-      <td><p>Data frame created with <code><a href='read_casualties.html'>read_casualties()</a></code></p></td>
+      <th>data</th>
+      <td><p>A STATS19 dataframe to be converted into ppp format.</p></td>
+    </tr>
+    <tr>
+      <th>window</th>
+      <td><p>A windows of observation, an object of class <code>owin()</code>. If
+<code>window = NULL</code> (i.e. the default) then the function creates an approximate
+bounding box covering the whole UK. It can also be used to filter only the
+events occurring in a specific region of UK (see the examples of
+<code><a href='get_stats19.html'>get_stats19</a></code>).</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Additional parameters that should be passed to
+<code><a href='https://rdrr.io/pkg/spatstat/man/ppp.html'>ppp</a></code> function. Read the help page of that function
+for a detailed description of the available parameters.</p></td>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    
+    <p>A ppp object.</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-<p>This function formats raw STATS19 data</p>
+    <div class='dont-index'><p><code><a href='format_sf.html'>format_sf</a></code> for an analogous function used to convert
+data into sf format and <code><a href='https://rdrr.io/pkg/spatstat/man/ppp.html'>ppp</a></code> for the original
+spatstat function.</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='fu'><a href='dl_stats19.html'>dl_stats19</a></span>(<span class='kw'>year</span> <span class='kw'>=</span> <span class='fl'>2017</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"casualties"</span>)</div><div class='output co'>#&gt; <span class='message'>Files identified: dftRoadSafetyData_Casualties_2017.zip</span></div><div class='output co'>#&gt; <span class='message'>   http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Casualties_2017.zip</span></div><div class='output co'>#&gt; <span class='message'>Data already exists in data_dir, not downloading</span></div><div class='output co'>#&gt; <span class='message'>Data saved at /tmp/RtmpFZUMMu/dftRoadSafetyData_Casualties_2017/Cas.csv</span></div><div class='input'><span class='no'>x</span> <span class='kw'>=</span> <span class='fu'><a href='read_casualties.html'>read_casualties</a></span>(<span class='kw'>year</span> <span class='kw'>=</span> <span class='fl'>2017</span>)
-<span class='no'>casualties</span> <span class='kw'>=</span> <span class='fu'>format_casualties</span>(<span class='no'>x</span>)
-<span class='co'># }</span></div></pre>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/ns-load.html'>requireNamespace</a></span>(<span class='st'>"spatstat"</span>, <span class='kw'>quietly</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)) {
+  <span class='no'>x_ppp</span> <span class='kw'>&lt;-</span> <span class='fu'>format_ppp</span>(<span class='no'>accidents_sample</span>)
+  <span class='kw pkg'>spatstat</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/spatstat/man/plot.ppp.html'>plot.ppp</a></span>(<span class='kw pkg'>spatstat</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/spatstat/man/unmark.html'>unmark</a></span>(<span class='no'>x_ppp</span>))
+}</div><div class='output co'>#&gt; <span class='message'>Registered S3 method overwritten by 'spatstat':</span>
+#&gt; <span class='message'>  method     from</span>
+#&gt; <span class='message'>  print.boxx cli </span></div><div class='img'><img src='format_ppp-1.png' alt='' width='700' height='433' /></div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#details">Details</a></li>
+      <li><a href="#value">Value</a></li>
+      <li><a href="#see-also">See also</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>
 

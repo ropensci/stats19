@@ -147,7 +147,9 @@
   <span class='kw'>data_dir</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(),
   <span class='kw'>file_name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>format</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>ask</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+  <span class='kw'>ask</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>output_format</span> <span class='kw'>=</span> <span class='st'>"tibble"</span>,
+  <span class='no'>...</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -178,16 +180,31 @@ Or any variation of to search the file names with such as "acc" or "accid".</p><
       <th>ask</th>
       <td><p>Should you be asked whether or not to download the files? <code>TRUE</code> by default.</p></td>
     </tr>
+    <tr>
+      <th>output_format</th>
+      <td><p>The default value is "tibble". Other possible values are
+<code><a href='https://rdrr.io/pkg/sf/man/st_as_sf.html'>st_as_sf</a></code> object or <code><a href='https://rdrr.io/pkg/spatstat/man/ppp.html'>ppp</a></code> object.
+See details and examples</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Other arguments that should be passed to <code><a href='format_sf.html'>format_sf()</a></code> or
+<code><a href='format_ppp.html'>format_ppp()</a></code> functions. Read and run the examples.</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     
 
-<p>This function utilizes <code>dl_stats19</code> and <code>read_*</code> functions
-and retuns a df. The file downloaded would be for a specific year (e.g 2017).</p>
+<p>This function utilizes <code>dl_stats19</code> and <code>read_*</code> functions and retuns a
+tibble, a sf object or a ppp object (according to the output_format
+parameter). The file downloaded would be for a specific year (e.g 2017).</p>
 <p>As this function uses <code>dl_stats19</code> function, it can download
 many MB of data so ensure you have a sufficient disk space.</p>
+<p>If <code>output_format = "sf"</code> or <code>output_format = "ppp"</code> then the output data is
+transformed into an sf or ppp object using the format_sf()] or <a href='format_ppp.html'>format_ppp</a>
+functions. See examples.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='dl_stats19.html'>dl_stats19()</a></code></p>
@@ -195,59 +212,49 @@ many MB of data so ensure you have a sufficient disk space.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='fu'>get_stats19</span>(<span class='kw'>year</span> <span class='kw'>=</span> <span class='fl'>2017</span>)</div><div class='output co'>#&gt; <span class='message'>Files identified: dftRoadSafetyData_Accidents_2017.zip</span></div><div class='output co'>#&gt; <span class='message'>   http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Accidents_2017.zip</span></div><div class='output co'>#&gt; <span class='message'>Data already exists in data_dir, not downloading</span></div><div class='output co'>#&gt; <span class='message'>Data saved at /tmp/RtmpSf0P6A/dftRoadSafetyData_Accidents_2017/Acc.csv</span></div><div class='output co'>#&gt; <span class='message'>Reading in: </span></div><div class='output co'>#&gt; <span class='message'>/tmp/RtmpSf0P6A/dftRoadSafetyData_Accidents_2017/Acc.csv</span></div><div class='output co'>#&gt; # A tibble: 129,982 x 32
-#&gt;    accident_index location_eastin… location_northi… longitude latitude
-#&gt;    &lt;chr&gt;                     &lt;int&gt;            &lt;int&gt;     &lt;dbl&gt;    &lt;dbl&gt;
-#&gt;  1 2017010001708            532920           196330   -0.0801     51.7
-#&gt;  2 2017010009342            526790           181970   -0.174      51.5
-#&gt;  3 2017010009344            535200           181260   -0.0530     51.5
-#&gt;  4 2017010009348            534340           193560   -0.0607     51.6
-#&gt;  5 2017010009350            533680           187820   -0.0724     51.6
-#&gt;  6 2017010009351            514510           172370   -0.354      51.4
-#&gt;  7 2017010009353            508640           181870   -0.435      51.5
-#&gt;  8 2017010009354            527880           181950   -0.158      51.5
-#&gt;  9 2017010009357            520940           192820   -0.254      51.6
-#&gt; 10 2017010009358            531430           178450   -0.108      51.5
-#&gt; # … with 129,972 more rows, and 27 more variables: police_force &lt;chr&gt;,
-#&gt; #   accident_severity &lt;chr&gt;, number_of_vehicles &lt;int&gt;,
-#&gt; #   number_of_casualties &lt;int&gt;, date &lt;dttm&gt;, day_of_week &lt;chr&gt;, time &lt;chr&gt;,
-#&gt; #   local_authority_district &lt;chr&gt;, local_authority_highway &lt;chr&gt;,
-#&gt; #   first_road_class &lt;chr&gt;, first_road_number &lt;int&gt;, road_type &lt;chr&gt;,
-#&gt; #   speed_limit &lt;int&gt;, junction_detail &lt;chr&gt;, junction_control &lt;chr&gt;,
-#&gt; #   second_road_class &lt;chr&gt;, second_road_number &lt;int&gt;,
-#&gt; #   pedestrian_crossing_human_control &lt;chr&gt;,
-#&gt; #   pedestrian_crossing_physical_facilities &lt;chr&gt;, light_conditions &lt;chr&gt;,
-#&gt; #   weather_conditions &lt;chr&gt;, road_surface_conditions &lt;chr&gt;,
-#&gt; #   special_conditions_at_site &lt;chr&gt;, carriageway_hazards &lt;chr&gt;,
-#&gt; #   urban_or_rural_area &lt;chr&gt;,
-#&gt; #   did_police_officer_attend_scene_of_accident &lt;int&gt;,
-#&gt; #   lsoa_of_accident_location &lt;chr&gt;</div><div class='input'><span class='fu'>get_stats19</span>(<span class='kw'>year</span> <span class='kw'>=</span> <span class='fl'>2009</span>)</div><div class='output co'>#&gt; <span class='message'>Files identified: DfTRoadSafety_Accidents_2009.zip</span></div><div class='output co'>#&gt; <span class='message'>   http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/DfTRoadSafety_Accidents_2009.zip</span></div><div class='output co'>#&gt; <span class='message'>Attempt downloading from: </span></div><div class='output co'>#&gt; <span class='message'>Data saved at /tmp/RtmpSf0P6A/DfTRoadSafety_Accidents_2009/DfTRoadSafety_Accidents_2009.csv</span></div><div class='output co'>#&gt; <span class='message'>Reading in: </span></div><div class='output co'>#&gt; <span class='message'>/tmp/RtmpSf0P6A/DfTRoadSafety_Accidents_2009/DfTRoadSafety_Accidents_2009.csv</span></div><div class='output co'>#&gt; # A tibble: 163,554 x 32
-#&gt;    accident_index location_eastin… location_northi… longitude latitude
-#&gt;    &lt;chr&gt;                     &lt;int&gt;            &lt;int&gt;     &lt;dbl&gt;    &lt;dbl&gt;
-#&gt;  1 200901BS70001            524910           180800    -0.201     51.5
-#&gt;  2 200901BS70002            525050           181040    -0.199     51.5
-#&gt;  3 200901BS70003            526490           177990    -0.180     51.5
-#&gt;  4 200901BS70004            524800           180300    -0.203     51.5
-#&gt;  5 200901BS70005            526930           177490    -0.173     51.5
-#&gt;  6 200901BS70006            526060           178730    -0.186     51.5
-#&gt;  7 200901BS70007            526580           177270    -0.179     51.5
-#&gt;  8 200901BS70008            526550           178580    -0.179     51.5
-#&gt;  9 200901BS70009            527310           179100    -0.167     51.5
-#&gt; 10 200901BS70010            526250           177370    -0.183     51.5
-#&gt; # … with 163,544 more rows, and 27 more variables: police_force &lt;chr&gt;,
-#&gt; #   accident_severity &lt;chr&gt;, number_of_vehicles &lt;int&gt;,
-#&gt; #   number_of_casualties &lt;int&gt;, date &lt;dttm&gt;, day_of_week &lt;chr&gt;, time &lt;chr&gt;,
-#&gt; #   local_authority_district &lt;chr&gt;, local_authority_highway &lt;chr&gt;,
-#&gt; #   first_road_class &lt;chr&gt;, first_road_number &lt;int&gt;, road_type &lt;chr&gt;,
-#&gt; #   speed_limit &lt;int&gt;, junction_detail &lt;chr&gt;, junction_control &lt;chr&gt;,
-#&gt; #   second_road_class &lt;chr&gt;, second_road_number &lt;int&gt;,
-#&gt; #   pedestrian_crossing_human_control &lt;chr&gt;,
-#&gt; #   pedestrian_crossing_physical_facilities &lt;chr&gt;, light_conditions &lt;chr&gt;,
-#&gt; #   weather_conditions &lt;chr&gt;, road_surface_conditions &lt;chr&gt;,
-#&gt; #   special_conditions_at_site &lt;chr&gt;, carriageway_hazards &lt;chr&gt;,
-#&gt; #   urban_or_rural_area &lt;chr&gt;,
-#&gt; #   did_police_officer_attend_scene_of_accident &lt;int&gt;,
-#&gt; #   lsoa_of_accident_location &lt;chr&gt;</div><div class='input'># }
+<span class='co'># default tibble output</span>
+<span class='no'>x</span> <span class='kw'>=</span> <span class='fu'>get_stats19</span>(<span class='fl'>2009</span>)</div><div class='output co'>#&gt; <span class='message'>Files identified: DfTRoadSafety_Accidents_2009.zip</span></div><div class='output co'>#&gt; <span class='message'>   http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/DfTRoadSafety_Accidents_2009.zip</span></div><div class='output co'>#&gt; <span class='message'>Attempt downloading from: </span></div><div class='output co'>#&gt; <span class='message'>Data saved at /tmp/RtmpFZUMMu/DfTRoadSafety_Accidents_2009/DfTRoadSafety_Accidents_2009.csv</span></div><div class='output co'>#&gt; <span class='message'>Reading in: </span></div><div class='output co'>#&gt; <span class='message'>/tmp/RtmpFZUMMu/DfTRoadSafety_Accidents_2009/DfTRoadSafety_Accidents_2009.csv</span></div><div class='input'><span class='no'>x</span> <span class='kw'>=</span> <span class='fu'>get_stats19</span>(<span class='fl'>2017</span>)</div><div class='output co'>#&gt; <span class='message'>Files identified: dftRoadSafetyData_Accidents_2017.zip</span></div><div class='output co'>#&gt; <span class='message'>   http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Accidents_2017.zip</span></div><div class='output co'>#&gt; <span class='message'>Data already exists in data_dir, not downloading</span></div><div class='output co'>#&gt; <span class='message'>Data saved at /tmp/RtmpFZUMMu/dftRoadSafetyData_Accidents_2017/Acc.csv</span></div><div class='output co'>#&gt; <span class='message'>Reading in: </span></div><div class='output co'>#&gt; <span class='message'>/tmp/RtmpFZUMMu/dftRoadSafetyData_Accidents_2017/Acc.csv</span></div><div class='input'>
+<span class='co'># sf output</span>
+<span class='no'>x_sf</span> <span class='kw'>&lt;-</span> <span class='fu'>get_stats19</span>(<span class='fl'>2017</span>, <span class='kw'>output_format</span> <span class='kw'>=</span> <span class='st'>"sf"</span>)</div><div class='output co'>#&gt; <span class='message'>Files identified: dftRoadSafetyData_Accidents_2017.zip</span></div><div class='output co'>#&gt; <span class='message'>   http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Accidents_2017.zip</span></div><div class='output co'>#&gt; <span class='message'>Data already exists in data_dir, not downloading</span></div><div class='output co'>#&gt; <span class='message'>Data saved at /tmp/RtmpFZUMMu/dftRoadSafetyData_Accidents_2017/Acc.csv</span></div><div class='output co'>#&gt; <span class='message'>Reading in: </span></div><div class='output co'>#&gt; <span class='message'>/tmp/RtmpFZUMMu/dftRoadSafetyData_Accidents_2017/Acc.csv</span></div><div class='output co'>#&gt; <span class='message'>19 rows removed with no coordinates</span></div><div class='input'>
+<span class='co'># sf output with lonlat coordinates</span>
+<span class='no'>x_sf</span> <span class='kw'>=</span> <span class='fu'>get_stats19</span>(<span class='fl'>2017</span>, <span class='kw'>output_format</span> <span class='kw'>=</span> <span class='st'>"sf"</span>, <span class='kw'>lonlat</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='message'>Files identified: dftRoadSafetyData_Accidents_2017.zip</span></div><div class='output co'>#&gt; <span class='message'>   http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Accidents_2017.zip</span></div><div class='output co'>#&gt; <span class='message'>Data already exists in data_dir, not downloading</span></div><div class='output co'>#&gt; <span class='message'>Data saved at /tmp/RtmpFZUMMu/dftRoadSafetyData_Accidents_2017/Acc.csv</span></div><div class='output co'>#&gt; <span class='message'>Reading in: </span></div><div class='output co'>#&gt; <span class='message'>/tmp/RtmpFZUMMu/dftRoadSafetyData_Accidents_2017/Acc.csv</span></div><div class='output co'>#&gt; <span class='message'>29 rows removed with no coordinates</span></div><div class='input'><span class='kw pkg'>sf</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/sf/man/st_crs.html'>st_crs</a></span>(<span class='no'>x_sf</span>)</div><div class='output co'>#&gt; Coordinate Reference System:
+#&gt;   EPSG: 4326 
+#&gt;   proj4string: "+proj=longlat +datum=WGS84 +no_defs"</div><div class='input'>
+<span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/ns-load.html'>requireNamespace</a></span>(<span class='st'>"spatstat"</span>, <span class='kw'>quietly</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)) {
+<span class='co'># ppp output</span>
+<span class='no'>x_ppp</span> <span class='kw'>=</span> <span class='fu'>get_stats19</span>(<span class='fl'>2017</span>, <span class='kw'>output_format</span> <span class='kw'>=</span> <span class='st'>"ppp"</span>)
+<span class='kw pkg'>spatstat</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/spatstat/man/plot.ppp.html'>plot.ppp</a></span>(<span class='no'>x_ppp</span>, <span class='kw'>use.marks</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+
+<span class='co'># We can use the window parameter of format_ppp function to filter only the</span>
+<span class='co'># events occurred in a specific area. For example we can create a new bbox</span>
+<span class='co'># of 5km around the city center of Leeds</span>
+
+<span class='no'>leeds_window</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>spatstat</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/spatstat/man/owin.html'>owin</a></span>(
+<span class='kw'>xrange</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>425046.1</span>, <span class='fl'>435046.1</span>),
+<span class='kw'>yrange</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>428577.2</span>, <span class='fl'>438577.2</span>)
+)
+
+<span class='no'>leeds_ppp</span> <span class='kw'>&lt;-</span> <span class='fu'>get_stats19</span>(<span class='fl'>2017</span>, <span class='kw'>output_format</span> <span class='kw'>=</span> <span class='st'>"ppp"</span>, <span class='kw'>window</span> <span class='kw'>=</span> <span class='no'>leeds_window</span>)
+<span class='kw pkg'>spatstat</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/spatstat/man/plot.ppp.html'>plot.ppp</a></span>(<span class='no'>leeds_ppp</span>, <span class='kw'>use.marks</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>clipwin</span> <span class='kw'>=</span> <span class='no'>leeds_window</span>)
+
+<span class='co'># or even more fancy examples where we subset all the events occurred in a</span>
+<span class='co'># pre-defined polygon area</span>
+
+<span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/ns-load.html'>requireNamespace</a></span>(<span class='st'>"osmdata"</span>, <span class='kw'>quietly</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)) {
+<span class='co'># greater_london_sf_polygon = osmdata::getbb(</span>
+<span class='co'># "Greater London, UK",</span>
+<span class='co'># format_out = "sf_polygon"</span>
+<span class='co'># )</span>
+<span class='co'># spatstat works only with planar coordinates</span>
+<span class='co'># greater_london_sf_polygon = sf::st_transform(greater_london_sf_polygon, 27700)</span>
+<span class='co'># then we extract the coordinates and create the window object.</span>
+<span class='co'># greater_london_polygon = sf::st_coordinates(greater_london_sf_polygon)[, c(1, 2)]</span>
+<span class='co'># greater_london_window &lt;- spatstat::owin(poly = greater_london_polygon)</span>
+
+<span class='co'># greater_london_ppp &lt;- get_stats19(2017, output_format = "ppp", window = greater_london_window)</span>
+<span class='co'># spatstat::plot.ppp(greater_london_ppp, use.marks = FALSE, clipwin = greater_london_window)</span>
+}
+}</div><div class='output co'>#&gt; <span class='message'>Files identified: dftRoadSafetyData_Accidents_2017.zip</span></div><div class='output co'>#&gt; <span class='message'>   http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Accidents_2017.zip</span></div><div class='output co'>#&gt; <span class='message'>Data already exists in data_dir, not downloading</span></div><div class='output co'>#&gt; <span class='message'>Data saved at /tmp/RtmpFZUMMu/dftRoadSafetyData_Accidents_2017/Acc.csv</span></div><div class='output co'>#&gt; <span class='message'>Reading in: </span></div><div class='output co'>#&gt; <span class='message'>/tmp/RtmpFZUMMu/dftRoadSafetyData_Accidents_2017/Acc.csv</span></div><div class='output co'>#&gt; <span class='message'>19 rows removed with no coordinates</span></div><div class='output co'>#&gt; <span class='warning'>Warning: some mark values are NA in the point pattern x</span></div><div class='output co'>#&gt; <span class='message'>Files identified: dftRoadSafetyData_Accidents_2017.zip</span></div><div class='output co'>#&gt; <span class='message'>   http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Accidents_2017.zip</span></div><div class='output co'>#&gt; <span class='message'>Data already exists in data_dir, not downloading</span></div><div class='output co'>#&gt; <span class='message'>Data saved at /tmp/RtmpFZUMMu/dftRoadSafetyData_Accidents_2017/Acc.csv</span></div><div class='output co'>#&gt; <span class='message'>Reading in: </span></div><div class='output co'>#&gt; <span class='message'>/tmp/RtmpFZUMMu/dftRoadSafetyData_Accidents_2017/Acc.csv</span></div><div class='output co'>#&gt; <span class='message'>19 rows removed with no coordinates</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 128936 points were rejected as lying outside the specified window</span></div><div class='output co'>#&gt; <span class='warning'>Warning: some mark values are NA in the point pattern x</span></div><div class='img'><img src='get_stats19-1.png' alt='' width='700' height='433' /></div><div class='img'><img src='get_stats19-2.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; NULL</div><div class='input'># }
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
