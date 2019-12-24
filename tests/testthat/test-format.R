@@ -77,9 +77,9 @@ test_that("is it possible to change window object in format_ppp", {
 test_that("format_ppp exclude events with missing coordinates", {
   rd = accidents_sample
   rd_ppp = format_ppp(rd)
-  rd2 <- rd
-  rd2[1, "location_easting_osgr"] <- NA
-  rd2[1, "location_northing_osgr"] <- NA
+  rd2 = rd
+  rd2[1, "location_easting_osgr"] = NA
+  rd2[1, "location_northing_osgr"] = NA
   rd_ppp2 = format_ppp(rd2)
   # since the bbox is smaller there must be fewer points
   expect_true(rd_ppp2$n <= rd_ppp$n)
