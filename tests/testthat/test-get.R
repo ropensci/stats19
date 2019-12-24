@@ -15,5 +15,17 @@ test_that("get_stats19 works", {
   # which is expected.
   expect_error(get_stats19(type = "veh"))
 
+  # check class of output_format
+  acc_tibble = get_stats19(year = 2009, type = "acc")
+  acc_sf = get_stats19(year = 2009, type = "acc", output_format = "sf")
+  acc_ppp = get_stats19(year = 2009, type = "acc", output_format = "ppp")
+
+  expect_true(is(acc_tibble, "tbl_df"))
+  expect_true(is(acc_sf, "sf"))
+  expect_true(is(acc_ppp, "ppp"))
+
+  # if the output format is not c("tibble", "sf", "ppp") then it returns NULL
+  acc = get_stats19(year = 2009, type = "acc", output_format = "abcdef")
+  expect_null(acc)
 })
 
