@@ -28,7 +28,7 @@ it is used to transform STATS19 data into a ppp format.
 }
 \examples{
 if (requireNamespace("spatstat", quietly = TRUE)) {
-  x_ppp <- format_ppp(accidents_sample)
+  x_ppp = format_ppp(accidents_sample)
   spatstat::plot.ppp(spatstat::unmark(x_ppp))
 }
 

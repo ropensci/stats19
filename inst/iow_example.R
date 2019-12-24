@@ -37,7 +37,7 @@ tm_shape(iow_bb, ext = 1.05) +
   tm_scale_bar()
 
 # download car crashes data and transform in sf
-car_accidents_2017 <- get_stats19(year = 2017)
+car_accidents_2017 <- get_stats19(year = 2018)
 car_accidents_2017 <- car_accidents_2017 %>%
   filter(!is.na(longitude), !is.na(latitude)) %>% # NA in coordinates
   st_as_sf(coords = c("longitude", "latitude"), crs = 4326) %>%
@@ -99,7 +99,8 @@ tm_shape(iow_bb) +
   tm_lines(
     col = "number_of_car_accidents",
     lwd = 4,
-    palette = "-RdYlGn"
+    palette = "-RdYlGn",
+    legend.col.show = FALSE
   ) +
   tm_shape(car_accidents_2017_iow) +
   tm_dots(size = 0.075)
@@ -108,7 +109,7 @@ tm_shape(iow_bb) +
 
 # spatial smoothing (like moving average filtering)
 iow_graph <- st_touches(iow_geofabric) %>% graph.adjlist()
-iow_graph_ego <- ego(iow_graph, order = 1)
+iow_graph_ego <- ego(iow_graph, order = 2)
 
 spatial_smoothing <- function(ID) {
   mean(number_of_car_accidents[iow_graph_ego[[ID]]])
@@ -178,50 +179,5 @@ tm_shape(iow_bb, ext = 1.05) +
   tm_scale_bar()
 
 # other problems.......
-
-iow_geofabric <- iow_geofabric %>%
-  mutate(number_of_car_accidents_per_meter = as.numeric(number_of_car_accidents) / st_length(.))
-number_of_car_accidents_per_meter = iow_geofabric$number_of_car_accidents_per_meter
-
-# plot
-tm_shape(iow_bb, ext = 1.05) +
-  tm_borders() +
-  tm_shape(iow_geofabric) +
-  tm_lines(
-    col = "number_of_car_accidents_per_meter",
-    lwd = 2.5,
-    palette = "-RdYlGn",
-    title.col = "Smoothed number of car crashes in 2017",
-    style = "sd"
-  ) +
-  tm_shape(car_accidents_2017_iow) +
-  tm_dots(size = 0.075) +
-  tm_compass(type = "8star", position = c("left", "top")) +
-  tm_scale_bar()
-
-# higher order?
-iow_graph_ego <- ego(iow_graph, order = 6)
-
-spatial_smoothing <- function(ID) {
-  mean(number_of_car_accidents_per_meter[iow_graph_ego[[ID]]])
-}
-
-iow_geofabric <- iow_geofabric %>%
-  mutate(number_of_car_accidents_per_meter_smooth = map_dbl(seq_len(nrow(.)), spatial_smoothing))
-
-tm_shape(iow_bb, ext = 1.05) +
-  tm_borders() +
-  tm_shape(iow_geofabric) +
-  tm_lines(
-    col = "number_of_car_accidents_per_meter_smooth",
-    lwd = 2.5,
-    palette = "-RdYlGn",
-    title.col = "Smoothed number of car crashes in 2017",
-    style = "sd"
-  ) +
-  tm_shape(car_accidents_2017_iow) +
-  tm_dots(size = 0.075) +
-  tm_compass(type = "8star", position = c("left", "top")) +
-  tm_scale_bar()
 
 
