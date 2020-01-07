@@ -108,6 +108,17 @@ get_stats19 = function(year = NULL,
       format = format)
   }
 
+  if (!output_format %in% c("tibble", "sf", "ppp")) {
+    warning(
+      "output_format parameter should be one of c('tibble', 'sf', 'ppp').\n",
+      "You entered ", output_format, ".\n",
+      "Defaulting to tibble.",
+      call. = FALSE,
+      immediate. = TRUE
+    )
+    output_format <- "tibble"
+  }
+
   # transform read_in into the desired format
   if (output_format != "tibble") {
     read_in = switch(
