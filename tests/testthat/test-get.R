@@ -25,7 +25,7 @@ test_that("get_stats19 works", {
   expect_true(is(acc_ppp, "ppp"))
 
   # if the output format is not c("tibble", "sf", "ppp") then it returns NULL
-  acc = get_stats19(year = 2009, type = "acc", output_format = "abcdef")
-  expect_null(acc)
+  expect_warning({acc = get_stats19(2009, "acc", output_format = "abcdef")})
+  expect_true(is(acc, "tbl_df"))
 })
 
