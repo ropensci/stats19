@@ -87,7 +87,7 @@ spatstat::plot.ppp(leeds_ppp, use.marks = FALSE, clipwin = leeds_window)
 # or even more fancy examples where we subset all the events occurred in a
 # pre-defined polygon area
 
-if (requireNamespace("osmdata", quietly = TRUE)) {
+# The following example requires osmdata package
 # greater_london_sf_polygon = osmdata::getbb(
 # "Greater London, UK",
 # format_out = "sf_polygon"
@@ -100,7 +100,6 @@ if (requireNamespace("osmdata", quietly = TRUE)) {
 
 # greater_london_ppp = get_stats19(2017, output_format = "ppp", window = greater_london_window)
 # spatstat::plot.ppp(greater_london_ppp, use.marks = FALSE, clipwin = greater_london_window)
-}
 }
 }
 }
