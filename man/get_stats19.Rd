@@ -60,7 +60,7 @@ x = get_stats19(2009)
 x = get_stats19(2017)
 
 # sf output
-x_sf <- get_stats19(2017, output_format = "sf")
+x_sf = get_stats19(2017, output_format = "sf")
 
 # sf output with lonlat coordinates
 x_sf = get_stats19(2017, output_format = "sf", lonlat = TRUE)
@@ -75,12 +75,12 @@ spatstat::plot.ppp(x_ppp, use.marks = FALSE)
 # events occurred in a specific area. For example we can create a new bbox
 # of 5km around the city center of Leeds
 
-leeds_window <- spatstat::owin(
+leeds_window = spatstat::owin(
 xrange = c(425046.1, 435046.1),
 yrange = c(428577.2, 438577.2)
 )
 
-leeds_ppp <- get_stats19(2017, output_format = "ppp", window = leeds_window)
+leeds_ppp = get_stats19(2017, output_format = "ppp", window = leeds_window)
 spatstat::plot.ppp(leeds_ppp, use.marks = FALSE, clipwin = leeds_window)
 
 # or even more fancy examples where we subset all the events occurred in a
@@ -95,9 +95,9 @@ if (requireNamespace("osmdata", quietly = TRUE)) {
 # greater_london_sf_polygon = sf::st_transform(greater_london_sf_polygon, 27700)
 # then we extract the coordinates and create the window object.
 # greater_london_polygon = sf::st_coordinates(greater_london_sf_polygon)[, c(1, 2)]
-# greater_london_window <- spatstat::owin(poly = greater_london_polygon)
+# greater_london_window = spatstat::owin(poly = greater_london_polygon)
 
-# greater_london_ppp <- get_stats19(2017, output_format = "ppp", window = greater_london_window)
+# greater_london_ppp = get_stats19(2017, output_format = "ppp", window = greater_london_window)
 # spatstat::plot.ppp(greater_london_ppp, use.marks = FALSE, clipwin = greater_london_window)
 }
 }
