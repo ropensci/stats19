@@ -158,30 +158,30 @@ format_sf = function(x, lonlat = FALSE) {
 #'
 #' @examples
 #' if (requireNamespace("spatstat", quietly = TRUE)) {
-#'   x_ppp <- format_ppp(accidents_sample)
+#'   x_ppp = format_ppp(accidents_sample)
 #'   spatstat::plot.ppp(spatstat::unmark(x_ppp))
 #' }
 #'
 
-format_ppp <- function(data, window = NULL,  ...) {
+format_ppp = function(data, window = NULL,  ...) {
   # check that spatstat is installed
   if (!requireNamespace("spatstat", quietly = TRUE)) {
     stop("package spatstat required, please install it first")
   }
 
   # look for column names of coordinates
-  names_data <- names(data)
-  coords <- names_data[grepl(
+  names_data = names(data)
+  coords = names_data[grepl(
     pattern = "easting|northing",
     x = names_data,
     ignore.case = TRUE
   )]
 
   # exclude car crashes with NA in the coordinates
-  coords_null <- is.na(data[[coords[1]]] | data[[coords[2]]])
+  coords_null = is.na(data[[coords[1]]] | data[[coords[2]]])
   if (sum(coords_null) > 0) {
     message(sum(coords_null), " rows removed with no coordinates")
-    data <- data[!coords_null, ]
+    data = data[!coords_null, ]
   }
 
   # owin object for ppp. Default values represent an approximate bbox of UK
@@ -192,7 +192,7 @@ format_ppp <- function(data, window = NULL,  ...) {
     )
   }
 
-  data_ppp <- spatstat::ppp(
+  data_ppp = spatstat::ppp(
     x = data[[coords[[1]]]],
     y = data[[coords[[2]]]],
     window = window,
