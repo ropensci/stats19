@@ -9,7 +9,7 @@
 #' many MB of data so ensure you have a sufficient disk space.
 #'
 #' If `output_format = "sf"` or `output_format = "ppp"` then the output data is
-#' transformed into an sf or ppp object using the format_sf()] or [format_ppp]
+#' transformed into an sf or ppp object using the [format_sf] or [format_ppp]
 #' functions. See examples.
 #'
 #' @seealso [dl_stats19()]
@@ -17,7 +17,8 @@
 #' @inheritParams dl_stats19
 #' @param format Switch to return raw read from file, default is `TRUE`.
 #' @param output_format The default value is "tibble". Other possible values are
-#'   \code{\link[sf]{st_as_sf}} object or \code{\link[spatstat]{ppp}} object.
+#'   "sf" and "ppp" that respectively returns objects of class
+#'   \code{\link[sf]{sf}} and \code{\link[spatstat]{ppp}}.
 #'   See details and examples
 #' @param ... Other arguments that should be passed to [format_sf()] or
 #'   [format_ppp()] functions. Read and run the examples.
