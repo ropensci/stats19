@@ -29,10 +29,10 @@ Or any variation of to search the file names with such as "acc" or "accid".}
 
 \item{ask}{Should you be asked whether or not to download the files? \code{TRUE} by default.}
 
-\item{output_format}{The default value is "tibble". Other possible values are
-"sf" and "ppp" that respectively returns objects of class
-\code{\link[sf]{sf}} and \code{\link[spatstat]{ppp}}.
-See details and examples}
+\item{output_format}{A string that specifies the desired output format. The
+default value is \code{"tibble"}. Other possible values are "sf" and "ppp" that
+respectively returns objects of class \code{\link[sf:sf]{sf::sf}} and
+\code{\link[spatstat:ppp]{spatstat::ppp}}. See details and examples.}
 
 \item{...}{Other arguments that should be passed to \code{\link[=format_sf]{format_sf()}} or
 \code{\link[=format_ppp]{format_ppp()}} functions. Read and run the examples.}
@@ -50,8 +50,8 @@ As this function uses \code{dl_stats19} function, it can download
 many MB of data so ensure you have a sufficient disk space.
 
 If \code{output_format = "sf"} or \code{output_format = "ppp"} then the output data is
-transformed into an sf or ppp object using the \link{format_sf} or \link{format_ppp}
-functions. See examples.
+transformed into an sf or ppp object using the \code{\link[=format_sf]{format_sf()}} or
+\code{\link[=format_ppp]{format_ppp()}} functions. See examples.
 }
 
 \examples{
