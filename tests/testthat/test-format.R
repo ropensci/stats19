@@ -16,7 +16,6 @@ test_that("format_vehicles works", {
   # read it
   read = read_vehicles(
     year = 2016,
-    data_dir = tempdir(),
     filename = "Veh.csv"
   )
   df = format_vehicles(head(read))
@@ -32,7 +31,6 @@ test_that("format_casualties works", {
   # read it
   read = read_casualties(
     year = 2016,
-    data_dir = tempdir(),
     filename = "Cas.csv"
   )
   df = format_casualties(head(read))
