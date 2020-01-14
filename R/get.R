@@ -74,7 +74,7 @@
 #' }
 get_stats19 = function(year = NULL,
                       type = "accidents",
-                      data_dir = tempdir(),
+                      data_dir = get_data_directory(),
                       file_name = NULL,
                       format = TRUE,
                       ask = FALSE,

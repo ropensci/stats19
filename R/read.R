@@ -22,7 +22,7 @@
 #' }
 read_accidents = function(year = NULL,
                           filename = "",
-                          data_dir = tempdir(),
+                          data_dir = get_data_directory(),
                           format = TRUE) {
   path = check_input_file(
     filename = filename,
@@ -70,7 +70,7 @@ read_accidents = function(year = NULL,
 #' }
 read_vehicles = function(year = NULL,
                          filename = "",
-                         data_dir = tempdir(),
+                         data_dir = get_data_directory(),
                          format = TRUE) {
   # check inputs
   path = check_input_file(
@@ -103,7 +103,7 @@ read_vehicles = function(year = NULL,
 #' }
 read_casualties = function(year = NULL,
                            filename = "",
-                           data_dir = tempdir(),
+                           data_dir = get_data_directory(),
                            format = TRUE) {
   path = check_input_file(
     filename = filename,
@@ -155,7 +155,7 @@ check_input_file = function(filename = NULL,
 # # informal test
 # dl_stats19(year = 2009, type = "vehicles")
 # f = "DfTRoadSafety_Vehicles_2009/DfTRoadSafety_Vehicles_2009.csv"
-# path = file.path(tempdir(), f)
+# path = file.path(get_data_directory(), f)
 # read_ve_ca(path)
 read_ve_ca = function(path) {
   h = utils::read.csv(path, nrows = 1)

@@ -119,7 +119,7 @@ find_file_name = function(years = NULL, type = NULL) {
 #' list of directories where data from the Department for Transport
 #' (stats19::filenames) have been downloaded, or NULL if no files were found.
 #'
-locate_files = function(data_dir = tempdir(),
+locate_files = function(data_dir = get_data_directory(),
                         type = NULL,
                         years = NULL,
                         quiet = FALSE) {
@@ -156,7 +156,7 @@ locate_files = function(data_dir = tempdir(),
 #' locate_one_file(filename = "Cas.csv")
 #' }
 locate_one_file = function(filename = NULL,
-                           data_dir = tempdir(),
+                           data_dir = get_data_directory(),
                            year = NULL,
                            type = NULL) {
   # see if locate_files can pin it down
@@ -212,4 +212,10 @@ select_file = function(fnames) {
   message("Multiple matches. Which do you want to download?")
   selection = utils::menu(choices = fnames)
   fnames[selection]
+}
+
+#' Get data download dir
+#' @examples
+get_data_directory = function() {
+  tempdir()
 }
