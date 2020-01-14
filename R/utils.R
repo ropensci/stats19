@@ -226,6 +226,12 @@ get_data_directory = function() {
 }
 
 #' Set data download dir
+#'
+#' Handy function to manage `stats19` package underlying environment
+#' variable. If run interactively it makes sure user does not change
+#' directory by mistatke.
+#'
+#' @param data_path valid existing path to save downloaded files in.
 #' @examples
 #' # set_data_directory("MY_PATH")
 set_data_directory = function(data_path) {
