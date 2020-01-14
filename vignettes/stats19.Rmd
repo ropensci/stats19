@@ -138,8 +138,7 @@ Files are saved by default in `tempdir()`, but this can be overridden to ensure 
 ```{r dl2017-read}
 d17 = "dftRoadSafetyData_Accidents_2017"
 dl_stats19(file_name = paste0(d17, ".zip"))
-crashes_2017_raw = read_accidents(data_dir = tempdir(),
-                                  year = 2017,
+crashes_2017_raw = read_accidents(year = 2017,
                                   filename = "Acc.csv")
 ```
 
