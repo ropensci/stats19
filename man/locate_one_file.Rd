@@ -4,12 +4,8 @@
 \alias{locate_one_file}
 \title{Pin down a file on disk from four parameters.}
 \usage{
-locate_one_file(
-  filename = NULL,
-  data_dir = tempdir(),
-  year = NULL,
-  type = NULL
-)
+locate_one_file(filename = NULL, data_dir = get_data_directory(),
+  year = NULL, type = NULL)
 }
 \arguments{
 \item{filename}{Character string of the filename of the .csv to read, if this
@@ -23,7 +19,7 @@ otherwise disk scan would be needed.}
 \item{type}{One of: 'Accidents', 'Casualties', 'Vehicles'; ignores case.}
 }
 \value{
-One of: path for one file, a message \verb{More than one file found} or error if none found.
+One of: path for one file, a message \code{More than one file found} or error if none found.
 }
 \description{
 Pin down a file on disk from four parameters.
