@@ -6,8 +6,13 @@
 \usage{
 set_data_directory(data_path)
 }
+\arguments{
+\item{data_path}{valid existing path to save downloaded files in.}
+}
 \description{
-Set data download dir
+Handy function to manage \code{stats19} package underlying environment
+variable. If run interactively it makes sure user does not change
+directory by mistatke.
 }
 \examples{
 # set_data_directory("MY_PATH")
