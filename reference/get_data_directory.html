@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Format STATS19 'accidents' data — format_accidents • stats19</title>
+<title>Get data download dir — get_data_directory • stats19</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -42,8 +42,8 @@
 
 
 
-<meta property="og:title" content="Format STATS19 'accidents' data — format_accidents" />
-<meta property="og:description" content="Format STATS19 'accidents' data" />
+<meta property="og:title" content="Get data download dir — get_data_directory" />
+<meta property="og:description" content="Get data download dir" />
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -140,42 +140,26 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Format STATS19 'accidents' data</h1>
-    <small class="dont-index">Source: <a href='https://github.com/ropensci/stats19/blob/master/R/format.R'><code>R/format.R</code></a></small>
-    <div class="hidden name"><code>format_accidents.Rd</code></div>
+    <h1>Get data download dir</h1>
+    <small class="dont-index">Source: <a href='https://github.com/ropensci/stats19/blob/master/R/utils.R'><code>R/utils.R</code></a></small>
+    <div class="hidden name"><code>get_data_directory.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Format STATS19 'accidents' data</p>
+    <p>Get data download dir</p>
     </div>
 
-    <pre class="usage"><span class='fu'>format_accidents</span>(<span class='no'>x</span>)</pre>
+    <pre class="usage"><span class='fu'>get_data_directory</span>()</pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>x</th>
-      <td><p>Data frame created with <code><a href='read_accidents.html'>read_accidents()</a></code></p></td>
-    </tr>
-    </table>
 
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    
-
-<p>This is a helper function to format raw STATS19 data</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='fu'><a href='dl_stats19.html'>dl_stats19</a></span>(<span class='kw'>year</span> <span class='kw'>=</span> <span class='fl'>2017</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"accident"</span>)</div><div class='output co'>#&gt; <span class='message'>Files identified: dftRoadSafetyData_Accidents_2017.zip</span></div><div class='output co'>#&gt; <span class='message'>   http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Accidents_2017.zip</span></div><div class='output co'>#&gt; <span class='message'>Data already exists in data_dir, not downloading</span></div><div class='output co'>#&gt; <span class='message'>Data saved at /tmp/Rtmpuf4d2l/dftRoadSafetyData_Accidents_2017/Acc.csv</span></div><div class='input'><span class='no'>x</span> <span class='kw'>=</span> <span class='fu'><a href='read_accidents.html'>read_accidents</a></span>(<span class='kw'>year</span> <span class='kw'>=</span> <span class='fl'>2017</span>)</div><div class='output co'>#&gt; <span class='message'>Reading in: </span></div><div class='output co'>#&gt; <span class='message'>/tmp/Rtmpuf4d2l/dftRoadSafetyData_Accidents_2017/Acc.csv</span></div><div class='input'><span class='no'>crashes</span> <span class='kw'>=</span> <span class='fu'>format_accidents</span>(<span class='no'>x</span>)
-<span class='co'># }</span></div></pre>
+    <pre class="examples"><div class='input'># get_data_directory()
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#details">Details</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>
 
