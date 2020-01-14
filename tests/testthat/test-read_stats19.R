@@ -3,8 +3,6 @@ context("test-read_stats19")
 source("../skip-download.R")
 
 test_that("read_accidents works", {
-  # expect error for clean data_dir
-  expect_error(read_accidents(year = 2016))
   skip_download()
   # download real data
   acc_2016 = stats19::file_names$dftRoadSafety_Accidents_2016.zip
@@ -84,6 +82,8 @@ test_that("read_vehicles works", {
   # thefore start from clean
   unlink(tempdir(), recursive = TRUE)
   dir.create(tempdir())
+  # expect error for clean data_dir
+  expect_error(read_accidents(year = 2016))
   dl_stats19(file_name = veh_2016)
   read = read_vehicles(
     filename = "Veh.csv"
