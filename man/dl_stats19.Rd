@@ -26,7 +26,7 @@ Download STATS19 data for a year or range of two years.
 
 This function downloads and unzips UK road crash data.
 It results in unzipped .csv files that are put
-in the temporary directory specified by \code{tempdir()} or provided \code{data_dir}.
+in the temporary directory specified by \code{get_data_directory()} or provided \code{data_dir}.
 
 The file downloaded would be for a specific year (e.g. 2017).
 It could also be a file containing data for a range of two (e.g. 2005-2014).
