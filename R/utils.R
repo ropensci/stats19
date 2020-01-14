@@ -216,6 +216,30 @@ select_file = function(fnames) {
 
 #' Get data download dir
 #' @examples
+#' # get_data_directory()
 get_data_directory = function() {
+  data_directory = Sys.getenv("STATS19_DOWNLOAD_DIRECTORY")
+  if(data_directory != "") {
+    return(data_directory)
+  }
   tempdir()
+}
+
+#' Set data download dir
+#' @examples
+#' # set_data_directory("MY_PATH")
+set_data_directory = function(data_path) {
+  force(data_path)
+  if(!dir.exists(data_path)) {
+    stop("Directory does not exist, please create it first.")
+    # TODO: check write permissions?
+  }
+  data_directory = Sys.getenv("STATS19_DOWNLOAD_DIRECTORY")
+  if(data_directory != "") {
+    message("STATS19_DOWNLOAD_DIRECTORY is set, change it?")
+    c = utils::menu("Yes", "No!")
+    if(c == 1L) {
+      Sys.setenv("STATS19_DOWNLOAD_DIRECTORY", data_path)
+    }
+  }
 }
