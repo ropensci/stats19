@@ -43,7 +43,7 @@ Suggests:
     lubridate,
     rmarkdown,
     stringr,
-    testthat,
+    testthat (>= 2.1.0),
     tidyr,
     pkgdown,
     kableExtra,

@@ -3,7 +3,7 @@
 #' @section Details:
 #' This function downloads and unzips UK road crash data.
 #' It results in unzipped .csv files that are put
-#' in the temporary directory specified by `tempdir()` or provided `data_dir`.
+#' in the temporary directory specified by `get_data_directory()` or provided `data_dir`.
 #'
 #' The file downloaded would be for a specific year (e.g. 2017).
 #' It could also be a file containing data for a range of two (e.g. 2005-2014).
@@ -32,7 +32,7 @@
 #' }
 dl_stats19 = function(year = NULL,
                       type = NULL,
-                      data_dir = tempdir(),
+                      data_dir = get_data_directory(),
                       file_name = NULL,
                       ask = FALSE
                       ) {

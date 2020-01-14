@@ -7,7 +7,7 @@
 get_stats19(
   year = NULL,
   type = "accidents",
-  data_dir = tempdir(),
+  data_dir = get_data_directory(),
   file_name = NULL,
   format = TRUE,
   ask = FALSE,
