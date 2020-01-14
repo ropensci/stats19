@@ -1,4 +1,6 @@
 
+# stats19 <a href='https://docs.ropensci.org/stats19/'><img src='https://raw.githubusercontent.com/ropensci/stats19/master/man/figures/logo.png' align="right" height=215/></a>
+
 [![](http://www.r-pkg.org/badges/version/stats19)](http://www.r-pkg.org/pkg/stats19)
 [![Travis build
 status](https://travis-ci.org/ropensci/stats19.svg?branch=master)](https://travis-ci.org/ropensci/stats19)
@@ -15,8 +17,6 @@ cycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://w
 <!-- [![Gitter chat](https://badges.gitter.im/ITSLeeds/stats19.png)](https://gitter.im/stats19/Lobby?source=orgpage) -->
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-
-# stats19
 
 **stats19** provides functions for downloading and formatting road crash
 data. Specifically, it enables access to the UK’s official road traffic
@@ -80,9 +80,9 @@ crashes = get_stats19(year = 2017, type = "accident", ask = FALSE)
 #> Files identified: dftRoadSafetyData_Accidents_2017.zip
 #>    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Accidents_2017.zip
 #> Attempt downloading from:
-#> Data saved at /tmp/RtmpqveoCA/dftRoadSafetyData_Accidents_2017/Acc.csv
+#> Data saved at /tmp/Rtmpj9gajy/dftRoadSafetyData_Accidents_2017/Acc.csv
 #> Reading in:
-#> /tmp/RtmpqveoCA/dftRoadSafetyData_Accidents_2017/Acc.csv
+#> /tmp/Rtmpj9gajy/dftRoadSafetyData_Accidents_2017/Acc.csv
 ```
 
 What just happened? For the `year` 2017 we read-in crash-level (`type =
@@ -181,7 +181,7 @@ casualties = get_stats19(year = 2017, type = "casualties", ask = FALSE)
 #> Files identified: dftRoadSafetyData_Casualties_2017.zip
 #>    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Casualties_2017.zip
 #> Attempt downloading from:
-#> Data saved at /tmp/RtmpqveoCA/dftRoadSafetyData_Casualties_2017/Cas.csv
+#> Data saved at /tmp/Rtmpj9gajy/dftRoadSafetyData_Casualties_2017/Cas.csv
 nrow(casualties)
 #> [1] 170993
 ncol(casualties)
@@ -234,7 +234,7 @@ vehicles = get_stats19(year = 2017, type = "vehicles", ask = FALSE)
 #> Files identified: dftRoadSafetyData_Vehicles_2017.zip
 #>    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Vehicles_2017.zip
 #> Attempt downloading from:
-#> Data saved at /tmp/RtmpqveoCA/dftRoadSafetyData_Vehicles_2017/Veh.csv
+#> Data saved at /tmp/Rtmpj9gajy/dftRoadSafetyData_Vehicles_2017/Veh.csv
 nrow(vehicles)
 #> [1] 238926
 ncol(vehicles)
@@ -308,7 +308,7 @@ Wales).
 
 ``` r
 library(sf)
-#> Linking to GEOS 3.7.1, GDAL 2.4.2, PROJ 5.2.0
+#> Linking to GEOS 3.8.0, GDAL 3.0.2, PROJ 6.2.1
 library(dplyr)
 #> 
 #> Attaching package: 'dplyr'
