@@ -4,8 +4,13 @@
 \alias{dl_stats19}
 \title{Download STATS19 data for a year or range of two years.}
 \usage{
-dl_stats19(year = NULL, type = NULL, data_dir = get_data_directory(),
-  file_name = NULL, ask = FALSE)
+dl_stats19(
+  year = NULL,
+  type = NULL,
+  data_dir = get_data_directory(),
+  file_name = NULL,
+  ask = FALSE
+)
 }
 \arguments{
 \item{year}{Single year for which file is to be downloaded.}
@@ -31,7 +36,7 @@ in the temporary directory specified by \code{get_data_directory()} or provided 
 The file downloaded would be for a specific year (e.g. 2017).
 It could also be a file containing data for a range of two (e.g. 2005-2014).
 
-The \code{dl_*} functions can download many MB of data so ensure you
+The \verb{dl_*} functions can download many MB of data so ensure you
 have a sufficient internet access and hard disk space.
 }
 

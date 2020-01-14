@@ -11,7 +11,7 @@ test_that("read_accidents works", {
   dl_stats19(file_name = acc_2016)
   # make sure we have a csv file to read
   path = locate_one_file(
-    tempdir(),
+    get_data_directory(),
     type = "accidents",
     year = 2016,
     filename = sub(".zip", ".csv", acc_2016)
@@ -102,13 +102,11 @@ test_that("read_casualties works", {
   dl_stats19(file_name = cas_2016)
   path = locate_one_file(
     type = "Casualties",
-    data_dir = tempdir(),
     year = 2016,
     filename = "Cas.csv")
   # read it
   read = read_casualties(
     year = 2016, # make it unique
-    data_dir = tempdir(),
     filename = "Cas.csv",
     format = FALSE
   )
@@ -119,7 +117,6 @@ test_that("read_casualties works", {
   ))
   read_formatted = read_casualties(
     year = 2016,
-    data_dir = tempdir(),
     format = TRUE
   )
   expect_false(identical(
