@@ -19,7 +19,6 @@ test_that("read_accidents works", {
   # read it
   read = read_accidents(
     year = 2016, # make it unique
-    data_dir = tempdir()
     # filename = sub(".zip", ".csv", acc_2016)
   )
   raw_read = read.csv(path)
@@ -56,13 +55,11 @@ test_that("read_vehicles works", {
   dl_stats19(file_name = veh_2016)
 
   path = locate_one_file( # need it for raw_read
-    data_dir = tempdir(),
     type = "vehicles",
     year = 2016)
   # read it
   read = read_vehicles(
     year = 2016,
-    data_dir = tempdir(),
     filename = "Veh.csv"
   )
   raw_read = read.csv(path)
@@ -72,7 +69,6 @@ test_that("read_vehicles works", {
     ))
   read_formatted = read_vehicles(
     year = 2016,
-    data_dir = tempdir(),
     filename = "Veh.csv",
     format = FALSE
   )
