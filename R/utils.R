@@ -230,6 +230,11 @@ get_data_directory = function() {
 #' # set_data_directory("MY_PATH")
 set_data_directory = function(data_path) {
   force(data_path)
+  set_it = function() {
+    Sys.setenv(STATS19_DOWNLOAD_DIRECTORY= data_path)
+    message("STATS19_DOWNLOAD_DIRECTORY is set, undo with Sys.unsetenv")
+  }
+
   if(!dir.exists(data_path)) {
     stop("Directory does not exist, please create it first.")
     # TODO: check write permissions?
@@ -237,9 +242,16 @@ set_data_directory = function(data_path) {
   data_directory = Sys.getenv("STATS19_DOWNLOAD_DIRECTORY")
   if(data_directory != "") {
     message("STATS19_DOWNLOAD_DIRECTORY is set, change it?")
-    c = utils::menu("Yes", "No!")
-    if(c == 1L) {
-      Sys.setenv("STATS19_DOWNLOAD_DIRECTORY", data_path)
+    if(interactive()) {
+      c = utils::menu(sample(c("Yes", "No!")))
+      if(c == 1L) {
+        set_it()
+      }
+    } else {
+      Sys.setenv(STATS19_DOWNLOAD_DIRECTORY= data_path)
+      message("Overwrote STATS19_DOWNLOAD_DIRECTORY without asking.")
     }
+  } else {
+    set_it()
   }
 }
