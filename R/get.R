@@ -84,13 +84,26 @@ get_stats19 = function(year = NULL,
     stop("Type is required", call. = FALSE)
   }
   # download what the user wanted
+  if(is.vector(year) && length(year) > 1) {
+    all  = data.frame()
+    for (aYear in year) {
+      all = rbind(all,get_stats19(year = aYear,
+                  type = type,
+                  data_dir = data_dir,
+                  file_name = file_name,
+                  format = format,
+                  ask = ask,
+                  output_format = output_format, ...))
+    }
+    return(all)
+  }
   dl_stats19(year = year,
              type = type,
              data_dir = data_dir,
              file_name = file_name,
              ask = ask)
   read_in = NULL
-  # what did the user want?
+  # read in
   if(grepl(type, "vehicles",  ignore.case = TRUE)){
     read_in = read_vehicles(
       year = year,
