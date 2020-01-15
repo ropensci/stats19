@@ -1,3 +1,8 @@
+# stats19 1.2.0
+
+* Enables the download of multiple years https://github.com/ropensci/stats19/issues/99
+* Users can now set the default data download directory with STATS19_DOWNLOAD_DIRECTORY=/path/to/data https://github.com/ropensci/stats19/issues/141
+
 # stats19 1.1.0
 
 * Now enables the download of 2018 data

@@ -80,9 +80,9 @@ crashes = get_stats19(year = 2017, type = "accident", ask = FALSE)
 #> Files identified: dftRoadSafetyData_Accidents_2017.zip
 #>    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Accidents_2017.zip
 #> Attempt downloading from:
-#> Data saved at /tmp/Rtmpj9gajy/dftRoadSafetyData_Accidents_2017/Acc.csv
+#> Data saved at /tmp/RtmpkQqZym/dftRoadSafetyData_Accidents_2017/Acc.csv
 #> Reading in:
-#> /tmp/Rtmpj9gajy/dftRoadSafetyData_Accidents_2017/Acc.csv
+#> /tmp/RtmpkQqZym/dftRoadSafetyData_Accidents_2017/Acc.csv
 ```
 
 What just happened? For the `year` 2017 we read-in crash-level (`type =
@@ -181,7 +181,7 @@ casualties = get_stats19(year = 2017, type = "casualties", ask = FALSE)
 #> Files identified: dftRoadSafetyData_Casualties_2017.zip
 #>    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Casualties_2017.zip
 #> Attempt downloading from:
-#> Data saved at /tmp/Rtmpj9gajy/dftRoadSafetyData_Casualties_2017/Cas.csv
+#> Data saved at /tmp/RtmpkQqZym/dftRoadSafetyData_Casualties_2017/Cas.csv
 nrow(casualties)
 #> [1] 170993
 ncol(casualties)
@@ -234,7 +234,7 @@ vehicles = get_stats19(year = 2017, type = "vehicles", ask = FALSE)
 #> Files identified: dftRoadSafetyData_Vehicles_2017.zip
 #>    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Vehicles_2017.zip
 #> Attempt downloading from:
-#> Data saved at /tmp/Rtmpj9gajy/dftRoadSafetyData_Vehicles_2017/Veh.csv
+#> Data saved at /tmp/RtmpkQqZym/dftRoadSafetyData_Vehicles_2017/Veh.csv
 nrow(vehicles)
 #> [1] 238926
 ncol(vehicles)
