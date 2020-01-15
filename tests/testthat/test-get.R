@@ -29,3 +29,11 @@ test_that("get_stats19 works", {
   expect_null(acc)
 })
 
+test_that("get_stats19 multiple years", {
+  t09 = get_stats19(year = 2009)
+  t15 = get_stats19(year = 2015)
+  t16 = get_stats19(year = 2016)
+  t = get_stats19(year = c(2009, 2015, 2016))
+
+  expect_equal(nrow(t), sum(nrow(t09), nrow(t15), nrow(t16)))
+})
