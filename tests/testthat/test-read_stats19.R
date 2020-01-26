@@ -8,8 +8,8 @@ test_that("read_accidents works", {
   acc_2016 = stats19::file_names$dftRoadSafety_Accidents_2016.zip
   dl_stats19(file_name = acc_2016)
   # make sure we have a csv file to read
-  path = locate_one_file(
-    get_data_directory(),
+  path = stats19:::locate_one_file(
+    stats19:::get_data_directory(),
     type = "accidents",
     year = 2016,
     filename = sub(".zip", ".csv", acc_2016)
@@ -79,11 +79,13 @@ test_that("read_vehicles works", {
   unlink(tempdir(), recursive = TRUE)
   dir.create(tempdir())
   # expect error for clean data_dir
-  expect_error(read_accidents(year = 2016))
+  fname_2016 = stats19:::check_input_file(year = 2016, type = "ac",
+                                          data_dir = stats19:::get_data_directory())
+  if(!file.exists(fname_2016)) {
+    expect_error(read_accidents(year = 2016))
+  }
   dl_stats19(file_name = veh_2016)
-  read = read_vehicles(
-    filename = "Veh.csv"
-  )
+  read = read_vehicles(year = 2016)
   expect_false(identical(
     class(read$Accident_Index),
     class(raw_read$Accident_Index)

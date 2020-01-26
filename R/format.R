@@ -8,8 +8,11 @@
 #' @examples
 #' \donttest{
 #' dl_stats19(year = 2017, type = "accident")
-#' x = read_accidents(year = 2017)
+#' x = read_accidents(year = 2017, format = FALSE)
+#' x[1:3, 1:6]
 #' crashes = format_accidents(x)
+#' crashes[1:3, 1:6]
+#' summary(crashes$datetime)
 #' }
 #' @export
 format_accidents = function(x) {
@@ -68,8 +71,21 @@ format_stats19 = function(x, type) {
     x[[i]] = lookup$label[match(x[[i]], lookup$code)]
   }
 
-  if("date" %in% names(x)) {
+  date_in_names = "date" %in% names(x)
+  if(date_in_names) {
+    date_char = x$date
     x$date = as.POSIXct(x$date, format = "%d/%m/%Y")
+  }
+  if(date_in_names && "time" %in% names(x)) {
+    # Add formated datetime column, tell people about this new feature
+    # (message could be removed in future versions)
+    message("date and time columns present, creating formatted datetime column")
+    # names(x)
+    # class(x$time) # it's a character string
+    # head(x$time) # just the time (not date)
+
+    x$datetime = as.POSIXct(paste(date_char, x$time), tz = 'Europe/London', format = "%d/%m/%Y %H:%M")
+    # summary(x$datetime)
   }
 
   x
