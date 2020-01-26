@@ -3,6 +3,7 @@
 * Enables the download of multiple years https://github.com/ropensci/stats19/issues/99, thanks to Layik Hama
 * Users can now set the default data download directory with STATS19_DOWNLOAD_DIRECTORY=/path/to/data https://github.com/ropensci/stats19/issues/141
 * `get_stats19()` gains a new argument `output_format()` that enables results to be returned as an `sf` object or a `ppp` object for use the the `spatstat` package thanks to work by Andrea Gilardi https://github.com/ropensci/stats19/pull/136
+* New `datetime` column added in response to the issue that the timezone is not always clear (#146)
 
 # stats19 1.1.0
 
