@@ -248,10 +248,11 @@ A summary of the outputs for each of the three tables is shown below.
 summarise_stats19 = function(x) {
   data.frame(row.names = 1:length(x),
     name = substr(names(x), 1, 19),
-    class = sapply(x, class),
+    class = sapply(x, function(v) class(v)[1]),
     n_unique = sapply(x, function(v) length(unique(v))),
-    first_label = sapply(x, function(v) substr(unique(v)[1], 1, 9)),
-    second_label = sapply(x, function(v) substr(unique(v)[2], 1, 9))
+    first_label = sapply(x, function(v) substr(unique(v)[1], 1, 16)),
+    most_common_value = sapply(x, function(v) 
+      substr(names(sort(table(v), decreasing = TRUE)[1]), 1, 16)[1])
   )
 }
 ```
