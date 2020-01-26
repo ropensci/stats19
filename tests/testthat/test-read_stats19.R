@@ -79,12 +79,12 @@ test_that("read_vehicles works", {
   unlink(tempdir(), recursive = TRUE)
   dir.create(tempdir())
   # expect error for clean data_dir
-  fname_2016 = stats19:::check_input_file(year = 2016, type = "ac",
-                                          data_dir = stats19:::get_data_directory())
-  if(!file.exists(fname_2016)) {
-    expect_error(read_accidents(year = 2016))
-  }
-  dl_stats19(file_name = veh_2016)
+  # fname_2016 = stats19:::check_input_file(year = 2016, type = "ac",
+  #                                         data_dir = stats19:::get_data_directory())
+  # if(!file.exists(fname_2016)) {
+  #   expect_error(read_accidents(year = 2016))
+  # }
+  dl_stats19(year = 2016, type = "veh")
   read = read_vehicles(year = 2016)
   expect_false(identical(
     class(read$Accident_Index),
