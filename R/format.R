@@ -74,7 +74,7 @@ format_stats19 = function(x, type) {
   date_in_names = "date" %in% names(x)
   if(date_in_names) {
     date_char = x$date
-    x$date = as.POSIXct(x$date, format = "%d/%m/%Y")
+    x$date = as.Date(date_char, format = "%d/%m/%Y")
   }
   if(date_in_names && "time" %in% names(x)) {
     # Add formated datetime column, tell people about this new feature
