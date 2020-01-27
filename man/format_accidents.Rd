@@ -21,9 +21,9 @@ This is a helper function to format raw STATS19 data
 \donttest{
 dl_stats19(year = 2017, type = "accident")
 x = read_accidents(year = 2017, format = FALSE)
-x[1:3, 1:6]
+x[1:3, 1:12]
 crashes = format_accidents(x)
-crashes[1:3, 1:6]
+crashes[1:3, 1:12]
 summary(crashes$datetime)
 }
 }
