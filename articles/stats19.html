@@ -104,7 +104,7 @@
       <h1>Introducing stats19</h1>
                         <h4 class="author">R Lovelace, M Morgan, L Hama and M Padgham</h4>
             
-            <h4 class="date">2020-01-15</h4>
+            <h4 class="date">2020-01-27</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/ropensci/stats19/blob/master/vignettes/stats19.Rmd"><code>vignettes/stats19.Rmd</code></a></small>
       <div class="hidden name"><code>stats19.Rmd</code></div>
@@ -165,7 +165,7 @@
 <a class="sourceLine" id="cb3-2" data-line-number="2"><span class="co">#&gt; Files identified: dftRoadSafetyData_Accidents_2017.zip</span></a>
 <a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co">#&gt;    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Accidents_2017.zip</span></a>
 <a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">#&gt; Attempt downloading from:</span></a>
-<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">#&gt; Data saved at /tmp/RtmpP3Elum/dftRoadSafetyData_Accidents_2017/Acc.csv</span></a></code></pre></div>
+<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">#&gt; Data saved at /tmp/RtmpLO3MIB/dftRoadSafetyData_Accidents_2017/Acc.csv</span></a></code></pre></div>
 <p>Note that in the previous command, <code>ask = FALSE</code>, meaning you will not be asked. By default you are asked to confirm, before downloading large files. Currently, these files are downloaded to a default location of <code>tempdir</code> which is a platform independent “safe” but temporary location to download the data in. Once downloaded, they are unzipped under original DfT file names. The <code><a href="../reference/dl_stats19.html">dl_stats19()</a></code> function prints out the location and final file name(s) of unzipped files(s) as shown above.</p>
 <p><code><a href="../reference/dl_stats19.html">dl_stats19()</a></code> takes three parameters. Supplying a <code>file_name</code> is interpreted to mean that the user is aware of what to download and the other two parameters will be ignored. You can also use <code>years</code> and <code>type</code> to “search” through the file names, which are stored in a lazy-loaded dataset called <code><a href="../reference/file_names.html">stats19::file_names</a></code>.</p>
 <p>You can find out the names of files that can be downloaded with <code><a href="https://rdrr.io/r/base/names.html">names(stats19::file_names)</a></code>, an example of which is shown below:</p>
@@ -187,7 +187,7 @@ Enter an item from the menu, or 0 to exit</code></pre>
 <a class="sourceLine" id="cb7-3" data-line-number="3"><span class="co">#&gt; Files identified: dftRoadSafetyData_Accidents_2017.zip</span></a>
 <a class="sourceLine" id="cb7-4" data-line-number="4"><span class="co">#&gt;    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Accidents_2017.zip</span></a>
 <a class="sourceLine" id="cb7-5" data-line-number="5"><span class="co">#&gt; Data already exists in data_dir, not downloading</span></a>
-<a class="sourceLine" id="cb7-6" data-line-number="6"><span class="co">#&gt; Data saved at /tmp/RtmpP3Elum/dftRoadSafetyData_Accidents_2017/Acc.csv</span></a></code></pre></div>
+<a class="sourceLine" id="cb7-6" data-line-number="6"><span class="co">#&gt; Data saved at /tmp/RtmpLO3MIB/dftRoadSafetyData_Accidents_2017/Acc.csv</span></a></code></pre></div>
 <p>Note that this is the same file (containing the ‘accidents’ table from 2017) downloaded previously with the command <code><a href="../reference/dl_stats19.html">dl_stats19(year = 2017, type = "Accidents")</a></code>. If the file is already present, <code><a href="../reference/dl_stats19.html">dl_stats19()</a></code> will skip the download process.</p>
 </div>
 <div id="read-stats19-data" class="section level2">
@@ -199,16 +199,17 @@ Enter an item from the menu, or 0 to exit</code></pre>
 <a class="sourceLine" id="cb8-3" data-line-number="3"><span class="co">#&gt; Files identified: dftRoadSafetyData_Accidents_2017.zip</span></a>
 <a class="sourceLine" id="cb8-4" data-line-number="4"><span class="co">#&gt;    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Accidents_2017.zip</span></a>
 <a class="sourceLine" id="cb8-5" data-line-number="5"><span class="co">#&gt; Data already exists in data_dir, not downloading</span></a>
-<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="co">#&gt; Data saved at /tmp/RtmpP3Elum/dftRoadSafetyData_Accidents_2017/Acc.csv</span></a>
+<a class="sourceLine" id="cb8-6" data-line-number="6"><span class="co">#&gt; Data saved at /tmp/RtmpLO3MIB/dftRoadSafetyData_Accidents_2017/Acc.csv</span></a>
 <a class="sourceLine" id="cb8-7" data-line-number="7">crashes_<span class="dv">2017</span>_raw =<span class="st"> </span><span class="kw"><a href="../reference/read_accidents.html">read_accidents</a></span>(<span class="dt">year =</span> <span class="dv">2017</span>,</a>
 <a class="sourceLine" id="cb8-8" data-line-number="8">                                  <span class="dt">filename =</span> <span class="st">"Acc.csv"</span>)</a>
 <a class="sourceLine" id="cb8-9" data-line-number="9"><span class="co">#&gt; Reading in:</span></a>
-<a class="sourceLine" id="cb8-10" data-line-number="10"><span class="co">#&gt; /tmp/RtmpP3Elum/dftRoadSafetyData_Accidents_2017/Acc.csv</span></a></code></pre></div>
+<a class="sourceLine" id="cb8-10" data-line-number="10"><span class="co">#&gt; /tmp/RtmpLO3MIB/dftRoadSafetyData_Accidents_2017/Acc.csv</span></a>
+<a class="sourceLine" id="cb8-11" data-line-number="11"><span class="co">#&gt; date and time columns present, creating formatted datetime column</span></a></code></pre></div>
 <p><strong>stats19</strong> imports data with <code><a href="https://readr.tidyverse.org/reference/read_delim.html">readr::read_csv()</a></code> which results in a ‘tibble’ object: a data frame with more user-friendly printing and a few other features.</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/class.html">class</a></span>(crashes_<span class="dv">2017</span>_raw)</a>
 <a class="sourceLine" id="cb9-2" data-line-number="2"><span class="co">#&gt; [1] "spec_tbl_df" "tbl_df"      "tbl"         "data.frame"</span></a>
 <a class="sourceLine" id="cb9-3" data-line-number="3"><span class="kw"><a href="https://rdrr.io/r/base/dim.html">dim</a></span>(crashes_<span class="dv">2017</span>_raw)</a>
-<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="co">#&gt; [1] 129982     32</span></a></code></pre></div>
+<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="co">#&gt; [1] 129982     33</span></a></code></pre></div>
 <p>There are three <code>read_*()</code> functions, corresponding to the three different classes of data provided by the DfT: 1. <code><a href="../reference/read_accidents.html">read_accidents()</a></code> 2. <code><a href="../reference/read_casualties.html">read_casualties()</a></code> 3. <code><a href="../reference/read_vehicles.html">read_vehicles()</a></code></p>
 <p>In all cases, a default parameter <code>read_*(format = TRUE)</code> returns the data in formatted form, as described above. Data can also be imported in the form directly provided by the DfT by passing <code>format = FALSE</code>, and then subsequently formatted with additional <code>format_*()</code> functions, as described in a final section of this vignette. Each of these <code>read_*()</code> functions is now described in more detail.</p>
 <div id="crash-data" class="section level3">
@@ -217,16 +218,17 @@ Enter an item from the menu, or 0 to exit</code></pre>
 <p>After raw data files have been downloaded as described in the previous section, they can then be read-in as follows:</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">crashes_<span class="dv">2017</span>_raw =<span class="st"> </span><span class="kw"><a href="../reference/read_accidents.html">read_accidents</a></span>(<span class="dt">year =</span> <span class="dv">2017</span>, <span class="dt">format =</span> <span class="ot">FALSE</span>)</a>
 <a class="sourceLine" id="cb10-2" data-line-number="2"><span class="co">#&gt; Reading in:</span></a>
-<a class="sourceLine" id="cb10-3" data-line-number="3"><span class="co">#&gt; /tmp/RtmpP3Elum/dftRoadSafetyData_Accidents_2017/Acc.csv</span></a>
+<a class="sourceLine" id="cb10-3" data-line-number="3"><span class="co">#&gt; /tmp/RtmpLO3MIB/dftRoadSafetyData_Accidents_2017/Acc.csv</span></a>
 <a class="sourceLine" id="cb10-4" data-line-number="4">crashes_<span class="dv">2017</span> =<span class="st"> </span><span class="kw"><a href="../reference/format_accidents.html">format_accidents</a></span>(crashes_<span class="dv">2017</span>_raw)</a>
-<a class="sourceLine" id="cb10-5" data-line-number="5"><span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(crashes_<span class="dv">2017</span>_raw)</a>
-<a class="sourceLine" id="cb10-6" data-line-number="6"><span class="co">#&gt; [1] 129982</span></a>
-<a class="sourceLine" id="cb10-7" data-line-number="7"><span class="kw"><a href="https://rdrr.io/r/base/nrow.html">ncol</a></span>(crashes_<span class="dv">2017</span>_raw)</a>
-<a class="sourceLine" id="cb10-8" data-line-number="8"><span class="co">#&gt; [1] 32</span></a>
-<a class="sourceLine" id="cb10-9" data-line-number="9"><span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(crashes_<span class="dv">2017</span>)</a>
-<a class="sourceLine" id="cb10-10" data-line-number="10"><span class="co">#&gt; [1] 129982</span></a>
-<a class="sourceLine" id="cb10-11" data-line-number="11"><span class="kw"><a href="https://rdrr.io/r/base/nrow.html">ncol</a></span>(crashes_<span class="dv">2017</span>)</a>
-<a class="sourceLine" id="cb10-12" data-line-number="12"><span class="co">#&gt; [1] 32</span></a></code></pre></div>
+<a class="sourceLine" id="cb10-5" data-line-number="5"><span class="co">#&gt; date and time columns present, creating formatted datetime column</span></a>
+<a class="sourceLine" id="cb10-6" data-line-number="6"><span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(crashes_<span class="dv">2017</span>_raw)</a>
+<a class="sourceLine" id="cb10-7" data-line-number="7"><span class="co">#&gt; [1] 129982</span></a>
+<a class="sourceLine" id="cb10-8" data-line-number="8"><span class="kw"><a href="https://rdrr.io/r/base/nrow.html">ncol</a></span>(crashes_<span class="dv">2017</span>_raw)</a>
+<a class="sourceLine" id="cb10-9" data-line-number="9"><span class="co">#&gt; [1] 32</span></a>
+<a class="sourceLine" id="cb10-10" data-line-number="10"><span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(crashes_<span class="dv">2017</span>)</a>
+<a class="sourceLine" id="cb10-11" data-line-number="11"><span class="co">#&gt; [1] 129982</span></a>
+<a class="sourceLine" id="cb10-12" data-line-number="12"><span class="kw"><a href="https://rdrr.io/r/base/nrow.html">ncol</a></span>(crashes_<span class="dv">2017</span>)</a>
+<a class="sourceLine" id="cb10-13" data-line-number="13"><span class="co">#&gt; [1] 33</span></a></code></pre></div>
 <p>What just happened? We read-in data on all road crashes recorded by the police in 2017 across Great Britain. The dataset contains 32 columns (variables) for 129,982 crashes.</p>
 <p>This work was done by <code><a href="../reference/read_accidents.html">read_accidents(format = FALSE)</a></code>, which imported the “raw” STATS19 data without cleaning messy column names or re-categorising the outputs. <code><a href="../reference/format_accidents.html">format_accidents()</a></code> function automates the process of matching column names with variable names and labels in a <a href="http://data.dft.gov.uk/road-accidents-safety-data/Road-Accident-Safety-Data-Guide.xls"><code>.xls</code> file</a> provided by the DfT. This means <code>crashes_2017</code> is much more usable than <code>crashes_2017_raw</code>, as shown below, which shows some key variables in the messy and clean datasets:</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">crashes_<span class="dv">2017</span>_raw[<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">7</span>, <span class="dv">18</span>, <span class="dv">23</span>, <span class="dv">25</span>)]</a>
@@ -303,338 +305,92 @@ Enter an item from the menu, or 0 to exit</code></pre>
 <a class="sourceLine" id="cb13-2" data-line-number="2"><span class="co">#&gt; [1] "accident_index"    "police_force"      "accident_severity"</span></a></code></pre></div>
 <p>Previous approaches to data formatting <code>STATS19</code> data involved hard-coding results. This more automated approach to data cleaning is more consistent and fail-safe. The three functions: <code><a href="../reference/format_accidents.html">format_accidents()</a></code>, <code><a href="../reference/format_vehicles.html">format_vehicles()</a></code> and <code><a href="../reference/format_casualties.html">format_casualties()</a></code> do the data formatting on the respective data frames, as illustrated below:</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">crashes_<span class="dv">2017</span> =<span class="st"> </span><span class="kw"><a href="../reference/format_accidents.html">format_accidents</a></span>(crashes_<span class="dv">2017</span>_raw)</a>
-<a class="sourceLine" id="cb14-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb14-3" data-line-number="3"><span class="co"># vehicle data for 2017</span></a>
-<a class="sourceLine" id="cb14-4" data-line-number="4"><span class="kw"><a href="../reference/dl_stats19.html">dl_stats19</a></span>(<span class="dt">year =</span> <span class="dv">2017</span>, <span class="dt">type =</span> <span class="st">"vehicles"</span>, <span class="dt">ask =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb14-5" data-line-number="5"><span class="co">#&gt; Files identified: dftRoadSafetyData_Vehicles_2017.zip</span></a>
-<a class="sourceLine" id="cb14-6" data-line-number="6"><span class="co">#&gt;    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Vehicles_2017.zip</span></a>
-<a class="sourceLine" id="cb14-7" data-line-number="7"><span class="co">#&gt; Attempt downloading from:</span></a>
-<a class="sourceLine" id="cb14-8" data-line-number="8"><span class="co">#&gt; Data saved at /tmp/RtmpP3Elum/dftRoadSafetyData_Vehicles_2017/Veh.csv</span></a>
-<a class="sourceLine" id="cb14-9" data-line-number="9">vehicles_<span class="dv">2017</span>_raw =<span class="st"> </span><span class="kw"><a href="../reference/read_vehicles.html">read_vehicles</a></span>(<span class="dt">year =</span> <span class="dv">2017</span>)</a>
-<a class="sourceLine" id="cb14-10" data-line-number="10">vehicles_<span class="dv">2017</span> =<span class="st"> </span><span class="kw"><a href="../reference/format_vehicles.html">format_vehicles</a></span>(vehicles_<span class="dv">2017</span>_raw)</a>
-<a class="sourceLine" id="cb14-11" data-line-number="11"></a>
-<a class="sourceLine" id="cb14-12" data-line-number="12"><span class="co"># casualties data for 2017</span></a>
-<a class="sourceLine" id="cb14-13" data-line-number="13"><span class="kw"><a href="../reference/dl_stats19.html">dl_stats19</a></span>(<span class="dt">year =</span> <span class="dv">2017</span>, <span class="dt">type =</span> <span class="st">"casualties"</span>, <span class="dt">ask =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb14-14" data-line-number="14"><span class="co">#&gt; Files identified: dftRoadSafetyData_Casualties_2017.zip</span></a>
-<a class="sourceLine" id="cb14-15" data-line-number="15"><span class="co">#&gt;    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Casualties_2017.zip</span></a>
-<a class="sourceLine" id="cb14-16" data-line-number="16"><span class="co">#&gt; Attempt downloading from:</span></a>
-<a class="sourceLine" id="cb14-17" data-line-number="17"><span class="co">#&gt; Data saved at /tmp/RtmpP3Elum/dftRoadSafetyData_Casualties_2017/Cas.csv</span></a>
-<a class="sourceLine" id="cb14-18" data-line-number="18">casualties_<span class="dv">2017</span> =<span class="st"> </span><span class="kw"><a href="../reference/read_casualties.html">read_casualties</a></span>(<span class="dt">year =</span> <span class="dv">2017</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb14-2" data-line-number="2"><span class="co">#&gt; date and time columns present, creating formatted datetime column</span></a>
+<a class="sourceLine" id="cb14-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb14-4" data-line-number="4"><span class="co"># vehicle data for 2017</span></a>
+<a class="sourceLine" id="cb14-5" data-line-number="5"><span class="kw"><a href="../reference/dl_stats19.html">dl_stats19</a></span>(<span class="dt">year =</span> <span class="dv">2017</span>, <span class="dt">type =</span> <span class="st">"vehicles"</span>, <span class="dt">ask =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb14-6" data-line-number="6"><span class="co">#&gt; Files identified: dftRoadSafetyData_Vehicles_2017.zip</span></a>
+<a class="sourceLine" id="cb14-7" data-line-number="7"><span class="co">#&gt;    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Vehicles_2017.zip</span></a>
+<a class="sourceLine" id="cb14-8" data-line-number="8"><span class="co">#&gt; Attempt downloading from:</span></a>
+<a class="sourceLine" id="cb14-9" data-line-number="9"><span class="co">#&gt; Data saved at /tmp/RtmpLO3MIB/dftRoadSafetyData_Vehicles_2017/Veh.csv</span></a>
+<a class="sourceLine" id="cb14-10" data-line-number="10">vehicles_<span class="dv">2017</span>_raw =<span class="st"> </span><span class="kw"><a href="../reference/read_vehicles.html">read_vehicles</a></span>(<span class="dt">year =</span> <span class="dv">2017</span>)</a>
+<a class="sourceLine" id="cb14-11" data-line-number="11">vehicles_<span class="dv">2017</span> =<span class="st"> </span><span class="kw"><a href="../reference/format_vehicles.html">format_vehicles</a></span>(vehicles_<span class="dv">2017</span>_raw)</a>
+<a class="sourceLine" id="cb14-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb14-13" data-line-number="13"><span class="co"># casualties data for 2017</span></a>
+<a class="sourceLine" id="cb14-14" data-line-number="14"><span class="kw"><a href="../reference/dl_stats19.html">dl_stats19</a></span>(<span class="dt">year =</span> <span class="dv">2017</span>, <span class="dt">type =</span> <span class="st">"casualties"</span>, <span class="dt">ask =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb14-15" data-line-number="15"><span class="co">#&gt; Files identified: dftRoadSafetyData_Casualties_2017.zip</span></a>
+<a class="sourceLine" id="cb14-16" data-line-number="16"><span class="co">#&gt;    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Casualties_2017.zip</span></a>
+<a class="sourceLine" id="cb14-17" data-line-number="17"><span class="co">#&gt; Attempt downloading from:</span></a>
+<a class="sourceLine" id="cb14-18" data-line-number="18"><span class="co">#&gt; Data saved at /tmp/RtmpLO3MIB/dftRoadSafetyData_Casualties_2017/Cas.csv</span></a>
+<a class="sourceLine" id="cb14-19" data-line-number="19">casualties_<span class="dv">2017</span> =<span class="st"> </span><span class="kw"><a href="../reference/read_casualties.html">read_casualties</a></span>(<span class="dt">year =</span> <span class="dv">2017</span>)</a></code></pre></div>
 <p>The package automates this two-step <code>read_*</code> and <code>format_*</code> process by defaulting in all cases to <code>data_year = read_*(year, format = TRUE)</code>. <code>read_*</code> functions return, by default, formatted data. The two-step process may nevertheless be important for reference to the official nomenclature and values as provided by the DfT.</p>
 <p>A summary of the outputs for each of the three tables is shown below.</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1">summarise_stats19 =<span class="st"> </span><span class="cf">function</span>(x) {</a>
 <a class="sourceLine" id="cb15-2" data-line-number="2">  <span class="kw"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="dt">row.names =</span> <span class="dv">1</span><span class="op">:</span><span class="kw"><a href="https://rdrr.io/r/base/length.html">length</a></span>(x),</a>
 <a class="sourceLine" id="cb15-3" data-line-number="3">    <span class="dt">name =</span> <span class="kw"><a href="https://rdrr.io/r/base/substr.html">substr</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(x), <span class="dv">1</span>, <span class="dv">19</span>),</a>
-<a class="sourceLine" id="cb15-4" data-line-number="4">    <span class="dt">class =</span> <span class="kw"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span>(x, class),</a>
+<a class="sourceLine" id="cb15-4" data-line-number="4">    <span class="dt">class =</span> <span class="kw"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span>(x, <span class="cf">function</span>(v) <span class="kw"><a href="https://rdrr.io/r/base/class.html">class</a></span>(v)[<span class="dv">1</span>]),</a>
 <a class="sourceLine" id="cb15-5" data-line-number="5">    <span class="dt">n_unique =</span> <span class="kw"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span>(x, <span class="cf">function</span>(v) <span class="kw"><a href="https://rdrr.io/r/base/length.html">length</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/unique.html">unique</a></span>(v))),</a>
-<a class="sourceLine" id="cb15-6" data-line-number="6">    <span class="dt">first_label =</span> <span class="kw"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span>(x, <span class="cf">function</span>(v) <span class="kw"><a href="https://rdrr.io/r/base/substr.html">substr</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/unique.html">unique</a></span>(v)[<span class="dv">1</span>], <span class="dv">1</span>, <span class="dv">9</span>)),</a>
-<a class="sourceLine" id="cb15-7" data-line-number="7">    <span class="dt">second_label =</span> <span class="kw"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span>(x, <span class="cf">function</span>(v) <span class="kw"><a href="https://rdrr.io/r/base/substr.html">substr</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/unique.html">unique</a></span>(v)[<span class="dv">2</span>], <span class="dv">1</span>, <span class="dv">9</span>))</a>
-<a class="sourceLine" id="cb15-8" data-line-number="8">  )</a>
-<a class="sourceLine" id="cb15-9" data-line-number="9">}</a></code></pre></div>
+<a class="sourceLine" id="cb15-6" data-line-number="6">    <span class="dt">first_label =</span> <span class="kw"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span>(x, <span class="cf">function</span>(v) <span class="kw"><a href="https://rdrr.io/r/base/substr.html">substr</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/unique.html">unique</a></span>(v)[<span class="dv">1</span>], <span class="dv">1</span>, <span class="dv">16</span>)),</a>
+<a class="sourceLine" id="cb15-7" data-line-number="7">    <span class="dt">most_common_value =</span> <span class="kw"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span>(x, <span class="cf">function</span>(v) </a>
+<a class="sourceLine" id="cb15-8" data-line-number="8">      <span class="kw"><a href="https://rdrr.io/r/base/substr.html">substr</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/sort.html">sort</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/table.html">table</a></span>(v), <span class="dt">decreasing =</span> <span class="ot">TRUE</span>)[<span class="dv">1</span>]), <span class="dv">1</span>, <span class="dv">16</span>)[<span class="dv">1</span>])</a>
+<a class="sourceLine" id="cb15-9" data-line-number="9">  )</a>
+<a class="sourceLine" id="cb15-10" data-line-number="10">}</a></code></pre></div>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">knitr<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span>(<span class="kw">summarise_stats19</span>(crashes_<span class="dv">2017</span>), </a>
 <a class="sourceLine" id="cb16-2" data-line-number="2">             <span class="dt">caption =</span> <span class="st">"Summary of formatted crash data."</span>)</a></code></pre></div>
 <table class="table">
 <caption>Summary of formatted crash data.</caption>
 <thead><tr class="header">
 <th align="left">name</th>
-<th align="left">class.accident_index</th>
-<th align="left">class.location_easting_osgr</th>
-<th align="left">class.location_northing_osgr</th>
-<th align="left">class.longitude</th>
-<th align="left">class.latitude</th>
-<th align="left">class.police_force</th>
-<th align="left">class.accident_severity</th>
-<th align="left">class.number_of_vehicles</th>
-<th align="left">class.number_of_casualties</th>
-<th align="left">class.date</th>
-<th align="left">class.day_of_week</th>
-<th align="left">class.time</th>
-<th align="left">class.local_authority_district</th>
-<th align="left">class.local_authority_highway</th>
-<th align="left">class.first_road_class</th>
-<th align="left">class.first_road_number</th>
-<th align="left">class.road_type</th>
-<th align="left">class.speed_limit</th>
-<th align="left">class.junction_detail</th>
-<th align="left">class.junction_control</th>
-<th align="left">class.second_road_class</th>
-<th align="left">class.second_road_number</th>
-<th align="left">class.pedestrian_crossing_human_control</th>
-<th align="left">class.pedestrian_crossing_physical_facilities</th>
-<th align="left">class.light_conditions</th>
-<th align="left">class.weather_conditions</th>
-<th align="left">class.road_surface_conditions</th>
-<th align="left">class.special_conditions_at_site</th>
-<th align="left">class.carriageway_hazards</th>
-<th align="left">class.urban_or_rural_area</th>
-<th align="left">class.did_police_officer_attend_scene_of_accident</th>
-<th align="left">class.lsoa_of_accident_location</th>
+<th align="left">class</th>
 <th align="right">n_unique</th>
 <th align="left">first_label</th>
-<th align="left">second_label</th>
+<th align="left">most_common_value</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
 <td align="left">accident_index</td>
 <td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">integer</td>
-<td align="left">numeric</td>
-<td align="left">numeric</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">integer</td>
-<td align="left">POSIXct</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
 <td align="right">129982</td>
-<td align="left">201701000</td>
-<td align="left">201701000</td>
+<td align="left">2017010001708</td>
+<td align="left">2017010001708</td>
 </tr>
 <tr class="even">
 <td align="left">location_easting_os</td>
-<td align="left">character</td>
 <td align="left">integer</td>
-<td align="left">integer</td>
-<td align="left">numeric</td>
-<td align="left">numeric</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">integer</td>
-<td align="left">POSIXt</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
 <td align="right">89265</td>
 <td align="left">532920</td>
-<td align="left">526790</td>
+<td align="left">533650</td>
 </tr>
 <tr class="odd">
 <td align="left">location_northing_o</td>
-<td align="left">character</td>
 <td align="left">integer</td>
-<td align="left">integer</td>
-<td align="left">numeric</td>
-<td align="left">numeric</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">integer</td>
-<td align="left">POSIXct</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
 <td align="right">91209</td>
 <td align="left">196330</td>
-<td align="left">181970</td>
+<td align="left">181170</td>
 </tr>
 <tr class="even">
 <td align="left">longitude</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">integer</td>
 <td align="left">numeric</td>
-<td align="left">numeric</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">integer</td>
-<td align="left">POSIXt</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
 <td align="right">124619</td>
 <td align="left">-0.080107</td>
-<td align="left">-0.173845</td>
+<td align="left">-0.168118</td>
 </tr>
 <tr class="odd">
 <td align="left">latitude</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">integer</td>
 <td align="left">numeric</td>
-<td align="left">numeric</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">integer</td>
-<td align="left">POSIXct</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
 <td align="right">123292</td>
 <td align="left">51.650061</td>
-<td align="left">51.522425</td>
+<td align="left">51.428002</td>
 </tr>
 <tr class="even">
 <td align="left">police_force</td>
 <td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">integer</td>
-<td align="left">numeric</td>
-<td align="left">numeric</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">integer</td>
-<td align="left">POSIXt</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
 <td align="right">51</td>
-<td align="left">Metropoli</td>
-<td align="left">City of L</td>
+<td align="left">Metropolitan Pol</td>
+<td align="left">Metropolitan Pol</td>
 </tr>
 <tr class="odd">
 <td align="left">accident_severity</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">integer</td>
-<td align="left">numeric</td>
-<td align="left">numeric</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">integer</td>
-<td align="left">POSIXct</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
 <td align="left">character</td>
 <td align="right">3</td>
 <td align="left">Fatal</td>
@@ -642,953 +398,185 @@ Enter an item from the menu, or 0 to exit</code></pre>
 </tr>
 <tr class="even">
 <td align="left">number_of_vehicles</td>
-<td align="left">character</td>
 <td align="left">integer</td>
-<td align="left">integer</td>
-<td align="left">numeric</td>
-<td align="left">numeric</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">integer</td>
-<td align="left">POSIXt</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
 <td align="right">15</td>
 <td align="left">2</td>
-<td align="left">3</td>
+<td align="left">2</td>
 </tr>
 <tr class="odd">
 <td align="left">number_of_casualtie</td>
-<td align="left">character</td>
 <td align="left">integer</td>
-<td align="left">integer</td>
-<td align="left">numeric</td>
-<td align="left">numeric</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">integer</td>
-<td align="left">POSIXct</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
 <td align="right">20</td>
 <td align="left">3</td>
 <td align="left">1</td>
 </tr>
 <tr class="even">
 <td align="left">date</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">integer</td>
-<td align="left">numeric</td>
-<td align="left">numeric</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">integer</td>
-<td align="left">POSIXt</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
+<td align="left">Date</td>
 <td align="right">365</td>
-<td align="left">2017-08-0</td>
-<td align="left">2017-01-0</td>
+<td align="left">2017-08-05</td>
+<td align="left">2017-12-01</td>
 </tr>
 <tr class="odd">
 <td align="left">day_of_week</td>
 <td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">integer</td>
-<td align="left">numeric</td>
-<td align="left">numeric</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">integer</td>
-<td align="left">POSIXct</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
 <td align="right">7</td>
 <td align="left">Saturday</td>
-<td align="left">Sunday</td>
+<td align="left">Friday</td>
 </tr>
 <tr class="even">
 <td align="left">time</td>
 <td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">integer</td>
-<td align="left">numeric</td>
-<td align="left">numeric</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">integer</td>
-<td align="left">POSIXt</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
 <td align="right">1439</td>
 <td align="left">03:12</td>
-<td align="left">01:30</td>
+<td align="left">17:00</td>
 </tr>
 <tr class="odd">
 <td align="left">local_authority_dis</td>
 <td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">integer</td>
-<td align="left">numeric</td>
-<td align="left">numeric</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">integer</td>
-<td align="left">POSIXct</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
 <td align="right">380</td>
 <td align="left">Enfield</td>
-<td align="left">Westminst</td>
+<td align="left">Birmingham</td>
 </tr>
 <tr class="even">
 <td align="left">local_authority_hig</td>
 <td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">integer</td>
-<td align="left">numeric</td>
-<td align="left">numeric</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">integer</td>
-<td align="left">POSIXt</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
 <td align="right">207</td>
 <td align="left">Enfield</td>
-<td align="left">Westminst</td>
+<td align="left">Kent</td>
 </tr>
 <tr class="odd">
 <td align="left">first_road_class</td>
 <td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">integer</td>
-<td align="left">numeric</td>
-<td align="left">numeric</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">integer</td>
-<td align="left">POSIXct</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
 <td align="right">6</td>
 <td align="left">A</td>
-<td align="left">Unclassif</td>
+<td align="left">A</td>
 </tr>
 <tr class="even">
 <td align="left">first_road_number</td>
-<td align="left">character</td>
 <td align="left">integer</td>
-<td align="left">integer</td>
-<td align="left">numeric</td>
-<td align="left">numeric</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">integer</td>
-<td align="left">POSIXt</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
 <td align="right">3763</td>
 <td align="left">105</td>
-<td align="left">5</td>
+<td align="left">0</td>
 </tr>
 <tr class="odd">
 <td align="left">road_type</td>
 <td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">integer</td>
-<td align="left">numeric</td>
-<td align="left">numeric</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">integer</td>
-<td align="left">POSIXct</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
 <td align="right">6</td>
-<td align="left">Single ca</td>
-<td align="left">Roundabou</td>
+<td align="left">Single carriagew</td>
+<td align="left">Single carriagew</td>
 </tr>
 <tr class="even">
 <td align="left">speed_limit</td>
-<td align="left">character</td>
 <td align="left">integer</td>
-<td align="left">integer</td>
-<td align="left">numeric</td>
-<td align="left">numeric</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">integer</td>
-<td align="left">POSIXt</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
 <td align="right">6</td>
 <td align="left">30</td>
-<td align="left">20</td>
+<td align="left">30</td>
 </tr>
 <tr class="odd">
 <td align="left">junction_detail</td>
 <td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">integer</td>
-<td align="left">numeric</td>
-<td align="left">numeric</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">integer</td>
-<td align="left">POSIXct</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
 <td align="right">10</td>
-<td align="left">Not at ju</td>
-<td align="left">T or stag</td>
+<td align="left">Not at junction</td>
+<td align="left">Not at junction</td>
 </tr>
 <tr class="even">
 <td align="left">junction_control</td>
 <td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">integer</td>
-<td align="left">numeric</td>
-<td align="left">numeric</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">integer</td>
-<td align="left">POSIXt</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
 <td align="right">5</td>
-<td align="left">Data miss</td>
-<td align="left">Give way</td>
+<td align="left">Data missing or</td>
+<td align="left">Give way or unco</td>
 </tr>
 <tr class="odd">
 <td align="left">second_road_class</td>
 <td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">integer</td>
-<td align="left">numeric</td>
-<td align="left">numeric</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">integer</td>
-<td align="left">POSIXct</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
 <td align="right">7</td>
 <td align="left">NA</td>
-<td align="left">Unclassif</td>
+<td align="left">Unclassified</td>
 </tr>
 <tr class="even">
 <td align="left">second_road_number</td>
-<td align="left">character</td>
 <td align="left">integer</td>
-<td align="left">integer</td>
-<td align="left">numeric</td>
-<td align="left">numeric</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">integer</td>
-<td align="left">POSIXt</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
 <td align="right">3281</td>
 <td align="left">0</td>
-<td align="left">154</td>
+<td align="left">0</td>
 </tr>
 <tr class="odd">
 <td align="left">pedestrian_crossing</td>
 <td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">integer</td>
-<td align="left">numeric</td>
-<td align="left">numeric</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">integer</td>
-<td align="left">POSIXct</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
 <td align="right">4</td>
-<td align="left">None with</td>
-<td align="left">Control b</td>
+<td align="left">None within 50 m</td>
+<td align="left">None within 50 m</td>
 </tr>
 <tr class="even">
 <td align="left">pedestrian_crossing</td>
 <td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">integer</td>
-<td align="left">numeric</td>
-<td align="left">numeric</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">integer</td>
-<td align="left">POSIXt</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
 <td align="right">7</td>
-<td align="left">No physic</td>
-<td align="left">Pelican,</td>
+<td align="left">No physical cros</td>
+<td align="left">No physical cros</td>
 </tr>
 <tr class="odd">
 <td align="left">light_conditions</td>
 <td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">integer</td>
-<td align="left">numeric</td>
-<td align="left">numeric</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">integer</td>
-<td align="left">POSIXct</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
 <td align="right">6</td>
-<td align="left">Darkness</td>
-<td align="left">Darkness</td>
+<td align="left">Darkness - light</td>
+<td align="left">Daylight</td>
 </tr>
 <tr class="even">
 <td align="left">weather_conditions</td>
 <td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">integer</td>
-<td align="left">numeric</td>
-<td align="left">numeric</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">integer</td>
-<td align="left">POSIXt</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
 <td align="right">10</td>
-<td align="left">Fine no h</td>
-<td align="left">Raining n</td>
+<td align="left">Fine no high win</td>
+<td align="left">Fine no high win</td>
 </tr>
 <tr class="odd">
 <td align="left">road_surface_condit</td>
 <td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">integer</td>
-<td align="left">numeric</td>
-<td align="left">numeric</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">integer</td>
-<td align="left">POSIXct</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
 <td align="right">6</td>
 <td align="left">Dry</td>
-<td align="left">Wet or da</td>
+<td align="left">Dry</td>
 </tr>
 <tr class="even">
 <td align="left">special_conditions_</td>
 <td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">integer</td>
-<td align="left">numeric</td>
-<td align="left">numeric</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">integer</td>
-<td align="left">POSIXt</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
 <td align="right">9</td>
 <td align="left">None</td>
-<td align="left">Roadworks</td>
+<td align="left">None</td>
 </tr>
 <tr class="odd">
 <td align="left">carriageway_hazards</td>
 <td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">integer</td>
-<td align="left">numeric</td>
-<td align="left">numeric</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">integer</td>
-<td align="left">POSIXct</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
 <td align="right">7</td>
 <td align="left">None</td>
-<td align="left">Data miss</td>
+<td align="left">None</td>
 </tr>
 <tr class="even">
 <td align="left">urban_or_rural_area</td>
 <td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">integer</td>
-<td align="left">numeric</td>
-<td align="left">numeric</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">integer</td>
-<td align="left">POSIXt</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
 <td align="right">3</td>
 <td align="left">Urban</td>
-<td align="left">Rural</td>
+<td align="left">Urban</td>
 </tr>
 <tr class="odd">
 <td align="left">did_police_officer_</td>
-<td align="left">character</td>
 <td align="left">integer</td>
-<td align="left">integer</td>
-<td align="left">numeric</td>
-<td align="left">numeric</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">integer</td>
-<td align="left">POSIXct</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
 <td align="right">3</td>
 <td align="left">1</td>
-<td align="left">2</td>
+<td align="left">1</td>
 </tr>
 <tr class="even">
 <td align="left">lsoa_of_accident_lo</td>
 <td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">integer</td>
-<td align="left">numeric</td>
-<td align="left">numeric</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">integer</td>
-<td align="left">POSIXt</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">character</td>
-<td align="left">integer</td>
-<td align="left">character</td>
 <td align="right">28286</td>
 <td align="left">E01001450</td>
-<td align="left">E01004702</td>
+<td align="left">E01032739</td>
+</tr>
+<tr class="odd">
+<td align="left">datetime</td>
+<td align="left">POSIXct</td>
+<td align="right">89674</td>
+<td align="left">2017-08-05 03:12</td>
+<td align="left">2017-05-16 17:00</td>
 </tr>
 </tbody>
 </table>
@@ -1601,22 +589,22 @@ Enter an item from the menu, or 0 to exit</code></pre>
 <th align="left">class</th>
 <th align="right">n_unique</th>
 <th align="left">first_label</th>
-<th align="left">second_label</th>
+<th align="left">most_common_value</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
 <td align="left">accident_index</td>
 <td align="left">character</td>
 <td align="right">129982</td>
-<td align="left">201701000</td>
-<td align="left">201701000</td>
+<td align="left">2017010001708</td>
+<td align="left">2017500194936</td>
 </tr>
 <tr class="even">
 <td align="left">vehicle_reference</td>
 <td align="left">integer</td>
 <td align="right">24</td>
 <td align="left">1</td>
-<td align="left">2</td>
+<td align="left">1</td>
 </tr>
 <tr class="odd">
 <td align="left">vehicle_type</td>
@@ -1644,7 +632,7 @@ Enter an item from the menu, or 0 to exit</code></pre>
 <td align="left">integer</td>
 <td align="right">11</td>
 <td align="left">0</td>
-<td align="left">6</td>
+<td align="left">0</td>
 </tr>
 <tr class="odd">
 <td align="left">junction_location</td>
@@ -1665,21 +653,21 @@ Enter an item from the menu, or 0 to exit</code></pre>
 <td align="left">integer</td>
 <td align="right">13</td>
 <td align="left">0</td>
-<td align="left">9</td>
+<td align="left">0</td>
 </tr>
 <tr class="even">
 <td align="left">vehicle_leaving_car</td>
 <td align="left">integer</td>
 <td align="right">10</td>
 <td align="left">0</td>
-<td align="left">1</td>
+<td align="left">0</td>
 </tr>
 <tr class="odd">
 <td align="left">hit_object_off_carr</td>
 <td align="left">integer</td>
 <td align="right">13</td>
 <td align="left">0</td>
-<td align="left">2</td>
+<td align="left">0</td>
 </tr>
 <tr class="even">
 <td align="left">first_point_of_impa</td>
@@ -1714,14 +702,14 @@ Enter an item from the menu, or 0 to exit</code></pre>
 <td align="left">integer</td>
 <td align="right">100</td>
 <td align="left">24</td>
-<td align="left">19</td>
+<td align="left">-1</td>
 </tr>
 <tr class="odd">
 <td align="left">age_band_of_driver</td>
 <td align="left">integer</td>
 <td align="right">12</td>
 <td align="left">5</td>
-<td align="left">4</td>
+<td align="left">6</td>
 </tr>
 <tr class="even">
 <td align="left">engine_capacity_cc</td>
@@ -1763,7 +751,7 @@ Enter an item from the menu, or 0 to exit</code></pre>
 <td align="left">integer</td>
 <td align="right">11</td>
 <td align="left">-1</td>
-<td align="left">9</td>
+<td align="left">-1</td>
 </tr>
 </tbody>
 </table>
@@ -1776,36 +764,36 @@ Enter an item from the menu, or 0 to exit</code></pre>
 <th align="left">class</th>
 <th align="right">n_unique</th>
 <th align="left">first_label</th>
-<th align="left">second_label</th>
+<th align="left">most_common_value</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
 <td align="left">accident_index</td>
 <td align="left">character</td>
 <td align="right">129982</td>
-<td align="left">201701000</td>
-<td align="left">201701000</td>
+<td align="left">2017010001708</td>
+<td align="left">201797NC00502</td>
 </tr>
 <tr class="even">
 <td align="left">vehicle_reference</td>
 <td align="left">integer</td>
 <td align="right">15</td>
 <td align="left">1</td>
-<td align="left">2</td>
+<td align="left">1</td>
 </tr>
 <tr class="odd">
 <td align="left">casualty_reference</td>
 <td align="left">integer</td>
 <td align="right">43</td>
 <td align="left">1</td>
-<td align="left">2</td>
+<td align="left">1</td>
 </tr>
 <tr class="even">
 <td align="left">casualty_class</td>
 <td align="left">character</td>
 <td align="right">3</td>
 <td align="left">Passenger</td>
-<td align="left">Driver or</td>
+<td align="left">Driver or rider</td>
 </tr>
 <tr class="odd">
 <td align="left">sex_of_casualty</td>
@@ -1819,7 +807,7 @@ Enter an item from the menu, or 0 to exit</code></pre>
 <td align="left">integer</td>
 <td align="right">102</td>
 <td align="left">18</td>
-<td align="left">19</td>
+<td align="left">25</td>
 </tr>
 <tr class="odd">
 <td align="left">age_band_of_casualt</td>
@@ -1833,63 +821,63 @@ Enter an item from the menu, or 0 to exit</code></pre>
 <td align="left">character</td>
 <td align="right">3</td>
 <td align="left">Slight</td>
-<td align="left">Serious</td>
+<td align="left">Slight</td>
 </tr>
 <tr class="odd">
 <td align="left">pedestrian_location</td>
 <td align="left">character</td>
 <td align="right">11</td>
-<td align="left">Not a Ped</td>
-<td align="left">Crossing</td>
+<td align="left">Not a Pedestrian</td>
+<td align="left">Not a Pedestrian</td>
 </tr>
 <tr class="even">
 <td align="left">pedestrian_movement</td>
 <td align="left">character</td>
 <td align="right">10</td>
-<td align="left">Not a Ped</td>
-<td align="left">Crossing</td>
+<td align="left">Not a Pedestrian</td>
+<td align="left">Not a Pedestrian</td>
 </tr>
 <tr class="odd">
 <td align="left">car_passenger</td>
 <td align="left">character</td>
 <td align="right">4</td>
-<td align="left">Front sea</td>
-<td align="left">Not car p</td>
+<td align="left">Front seat passe</td>
+<td align="left">Not car passenge</td>
 </tr>
 <tr class="even">
 <td align="left">bus_or_coach_passen</td>
 <td align="left">character</td>
 <td align="right">6</td>
-<td align="left">Not a bus</td>
-<td align="left">Standing</td>
+<td align="left">Not a bus or coa</td>
+<td align="left">Not a bus or coa</td>
 </tr>
 <tr class="odd">
 <td align="left">pedestrian_road_mai</td>
 <td align="left">character</td>
 <td align="right">4</td>
-<td align="left">No / Not</td>
-<td align="left">Not Known</td>
+<td align="left">No / Not applica</td>
+<td align="left">No / Not applica</td>
 </tr>
 <tr class="even">
 <td align="left">casualty_type</td>
 <td align="left">character</td>
 <td align="right">22</td>
-<td align="left">Car occup</td>
-<td align="left">Motorcycl</td>
+<td align="left">Car occupant</td>
+<td align="left">Car occupant</td>
 </tr>
 <tr class="odd">
 <td align="left">casualty_home_area_</td>
 <td align="left">character</td>
 <td align="right">4</td>
-<td align="left">Urban are</td>
-<td align="left">Data miss</td>
+<td align="left">Urban area</td>
+<td align="left">Urban area</td>
 </tr>
 <tr class="even">
 <td align="left">casualty_imd_decile</td>
 <td align="left">character</td>
 <td align="right">11</td>
-<td align="left">More depr</td>
-<td align="left">Data miss</td>
+<td align="left">More deprived 10</td>
+<td align="left">Data missing or</td>
 </tr>
 </tbody>
 </table>
@@ -1931,7 +919,7 @@ Enter an item from the menu, or 0 to exit</code></pre>
 <a class="sourceLine" id="cb19-2" data-line-number="2"><span class="co">#&gt; Files identified: dftRoadSafetyData_Casualties_2017.zip</span></a>
 <a class="sourceLine" id="cb19-3" data-line-number="3"><span class="co">#&gt;    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Casualties_2017.zip</span></a>
 <a class="sourceLine" id="cb19-4" data-line-number="4"><span class="co">#&gt; Data already exists in data_dir, not downloading</span></a>
-<a class="sourceLine" id="cb19-5" data-line-number="5"><span class="co">#&gt; Data saved at /tmp/RtmpP3Elum/dftRoadSafetyData_Casualties_2017/Cas.csv</span></a>
+<a class="sourceLine" id="cb19-5" data-line-number="5"><span class="co">#&gt; Data saved at /tmp/RtmpLO3MIB/dftRoadSafetyData_Casualties_2017/Cas.csv</span></a>
 <a class="sourceLine" id="cb19-6" data-line-number="6">casualties_<span class="dv">2017</span> =<span class="st"> </span><span class="kw"><a href="../reference/read_casualties.html">read_casualties</a></span>(<span class="dt">year =</span> <span class="dv">2017</span>)</a>
 <a class="sourceLine" id="cb19-7" data-line-number="7"><span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(casualties_<span class="dv">2017</span>)</a>
 <a class="sourceLine" id="cb19-8" data-line-number="8"><span class="co">#&gt; [1] 170993</span></a>
@@ -1972,7 +960,7 @@ Enter an item from the menu, or 0 to exit</code></pre>
 <a class="sourceLine" id="cb22-2" data-line-number="2"><span class="co">#&gt; Files identified: dftRoadSafetyData_Vehicles_2017.zip</span></a>
 <a class="sourceLine" id="cb22-3" data-line-number="3"><span class="co">#&gt;    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Vehicles_2017.zip</span></a>
 <a class="sourceLine" id="cb22-4" data-line-number="4"><span class="co">#&gt; Data already exists in data_dir, not downloading</span></a>
-<a class="sourceLine" id="cb22-5" data-line-number="5"><span class="co">#&gt; Data saved at /tmp/RtmpP3Elum/dftRoadSafetyData_Vehicles_2017/Veh.csv</span></a>
+<a class="sourceLine" id="cb22-5" data-line-number="5"><span class="co">#&gt; Data saved at /tmp/RtmpLO3MIB/dftRoadSafetyData_Vehicles_2017/Veh.csv</span></a>
 <a class="sourceLine" id="cb22-6" data-line-number="6">vehicles_<span class="dv">2017</span> =<span class="st"> </span><span class="kw"><a href="../reference/read_vehicles.html">read_vehicles</a></span>(<span class="dt">year =</span> <span class="dv">2017</span>)</a>
 <a class="sourceLine" id="cb22-7" data-line-number="7"><span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(vehicles_<span class="dv">2017</span>)</a>
 <a class="sourceLine" id="cb22-8" data-line-number="8"><span class="co">#&gt; [1] 238926</span></a>

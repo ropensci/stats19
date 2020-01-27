@@ -168,8 +168,29 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='fu'><a href='dl_stats19.html'>dl_stats19</a></span>(<span class='kw'>year</span> <span class='kw'>=</span> <span class='fl'>2017</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"accident"</span>)</div><div class='output co'>#&gt; <span class='message'>Files identified: dftRoadSafetyData_Accidents_2017.zip</span></div><div class='output co'>#&gt; <span class='message'>   http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Accidents_2017.zip</span></div><div class='output co'>#&gt; <span class='message'>Data already exists in data_dir, not downloading</span></div><div class='output co'>#&gt; <span class='message'>Data saved at /tmp/RtmpiouYIe/dftRoadSafetyData_Accidents_2017/Acc.csv</span></div><div class='input'><span class='no'>x</span> <span class='kw'>=</span> <span class='fu'><a href='read_accidents.html'>read_accidents</a></span>(<span class='kw'>year</span> <span class='kw'>=</span> <span class='fl'>2017</span>)</div><div class='output co'>#&gt; <span class='message'>Reading in: </span></div><div class='output co'>#&gt; <span class='message'>/tmp/RtmpiouYIe/dftRoadSafetyData_Accidents_2017/Acc.csv</span></div><div class='input'><span class='no'>crashes</span> <span class='kw'>=</span> <span class='fu'>format_accidents</span>(<span class='no'>x</span>)
-<span class='co'># }</span></div></pre>
+<span class='fu'><a href='dl_stats19.html'>dl_stats19</a></span>(<span class='kw'>year</span> <span class='kw'>=</span> <span class='fl'>2017</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"accident"</span>)</div><div class='output co'>#&gt; <span class='message'>Files identified: dftRoadSafetyData_Accidents_2017.zip</span></div><div class='output co'>#&gt; <span class='message'>   http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Accidents_2017.zip</span></div><div class='output co'>#&gt; <span class='message'>Data already exists in data_dir, not downloading</span></div><div class='output co'>#&gt; <span class='message'>Data saved at /tmp/RtmpJFa1Po/dftRoadSafetyData_Accidents_2017/Acc.csv</span></div><div class='input'><span class='no'>x</span> <span class='kw'>=</span> <span class='fu'><a href='read_accidents.html'>read_accidents</a></span>(<span class='kw'>year</span> <span class='kw'>=</span> <span class='fl'>2017</span>, <span class='kw'>format</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='message'>Reading in: </span></div><div class='output co'>#&gt; <span class='message'>/tmp/RtmpJFa1Po/dftRoadSafetyData_Accidents_2017/Acc.csv</span></div><div class='input'><span class='no'>x</span>[<span class='fl'>1</span>:<span class='fl'>3</span>, <span class='fl'>1</span>:<span class='fl'>12</span>]</div><div class='output co'>#&gt; # A tibble: 3 x 12
+#&gt;   Accident_Index Location_Eastin… Location_Northi… Longitude Latitude
+#&gt;   &lt;chr&gt;                     &lt;int&gt;            &lt;int&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+#&gt; 1 2017010001708            532920           196330   -0.0801     51.7
+#&gt; 2 2017010009342            526790           181970   -0.174      51.5
+#&gt; 3 2017010009344            535200           181260   -0.0530     51.5
+#&gt; # … with 7 more variables: Police_Force &lt;int&gt;, Accident_Severity &lt;int&gt;,
+#&gt; #   Number_of_Vehicles &lt;int&gt;, Number_of_Casualties &lt;int&gt;, Date &lt;chr&gt;,
+#&gt; #   Day_of_Week &lt;int&gt;, Time &lt;chr&gt;</div><div class='input'><span class='no'>crashes</span> <span class='kw'>=</span> <span class='fu'>format_accidents</span>(<span class='no'>x</span>)</div><div class='output co'>#&gt; <span class='message'>date and time columns present, creating formatted datetime column</span></div><div class='input'><span class='no'>crashes</span>[<span class='fl'>1</span>:<span class='fl'>3</span>, <span class='fl'>1</span>:<span class='fl'>12</span>]</div><div class='output co'>#&gt; # A tibble: 3 x 12
+#&gt;   accident_index location_eastin… location_northi… longitude latitude
+#&gt;   &lt;chr&gt;                     &lt;int&gt;            &lt;int&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+#&gt; 1 2017010001708            532920           196330   -0.0801     51.7
+#&gt; 2 2017010009342            526790           181970   -0.174      51.5
+#&gt; 3 2017010009344            535200           181260   -0.0530     51.5
+#&gt; # … with 7 more variables: police_force &lt;chr&gt;, accident_severity &lt;chr&gt;,
+#&gt; #   number_of_vehicles &lt;int&gt;, number_of_casualties &lt;int&gt;, date &lt;date&gt;,
+#&gt; #   day_of_week &lt;chr&gt;, time &lt;chr&gt;</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>crashes</span>$<span class='no'>datetime</span>)</div><div class='output co'>#&gt;                  Min.               1st Qu.                Median 
+#&gt; "2017-01-01 00:05:00" "2017-04-03 12:22:30" "2017-07-04 20:38:00" 
+#&gt;                  Mean               3rd Qu.                  Max. 
+#&gt; "2017-07-04 03:05:53" "2017-10-04 12:15:00" "2017-12-31 23:31:00" 
+#&gt;                  NA's 
+#&gt;                   "3" </div><div class='input'># }
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
