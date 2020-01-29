@@ -9,16 +9,18 @@
 #' many MB of data so ensure you have a sufficient disk space.
 #'
 #' If `output_format = "sf"` or `output_format = "ppp"` then the output data is
-#' transformed into an sf or ppp object using the format_sf()] or [format_ppp]
-#' functions. See examples.
+#' transformed into an sf or ppp object using the [format_sf()] or
+#' [format_ppp()] functions. See examples.
 #'
 #' @seealso [dl_stats19()]
 #' @seealso [read_accidents()]
+#'
 #' @inheritParams dl_stats19
 #' @param format Switch to return raw read from file, default is `TRUE`.
-#' @param output_format The default value is "tibble". Other possible values are
-#'   \code{\link[sf]{st_as_sf}} object or \code{\link[spatstat]{ppp}} object.
-#'   See details and examples
+#' @param output_format A string that specifies the desired output format. The
+#'   default value is `"tibble"`. Other possible values are "sf" and "ppp" that
+#'   respectively returns objects of class [`sf::sf`] and
+#'   [`spatstat::ppp`]. See details and examples.
 #' @param ... Other arguments that should be passed to [format_sf()] or
 #'   [format_ppp()] functions. Read and run the examples.
 #'
@@ -27,18 +29,18 @@
 #' \donttest{
 #' # default tibble output
 #' x = get_stats19(2009)
-#' x = get_stats19(2017)
+#' x = get_stats19(2017, silent = TRUE)
 #'
 #' # sf output
-#' x_sf = get_stats19(2017, output_format = "sf")
+#' x_sf = get_stats19(2017, silent = TRUE, output_format = "sf")
 #'
 #' # sf output with lonlat coordinates
-#' x_sf = get_stats19(2017, output_format = "sf", lonlat = TRUE)
+#' x_sf = get_stats19(2017, silent = TRUE, output_format = "sf", lonlat = TRUE)
 #' sf::st_crs(x_sf)
 #'
 #' if (requireNamespace("spatstat", quietly = TRUE)) {
 #' # ppp output
-#' x_ppp = get_stats19(2017, output_format = "ppp")
+#' x_ppp = get_stats19(2017, silent = TRUE, output_format = "ppp")
 #' spatstat::plot.ppp(x_ppp, use.marks = FALSE)
 #'
 #' # We can use the window parameter of format_ppp function to filter only the
@@ -50,13 +52,13 @@
 #' yrange = c(428577.2, 438577.2)
 #' )
 #'
-#' leeds_ppp = get_stats19(2017, output_format = "ppp", window = leeds_window)
+#' leeds_ppp = get_stats19(2017, silent = TRUE, output_format = "ppp", window = leeds_window)
 #' spatstat::plot.ppp(leeds_ppp, use.marks = FALSE, clipwin = leeds_window)
 #'
 #' # or even more fancy examples where we subset all the events occurred in a
 #' # pre-defined polygon area
 #'
-#' if (requireNamespace("osmdata", quietly = TRUE)) {
+#' # The following example requires osmdata package
 #' # greater_london_sf_polygon = osmdata::getbb(
 #' # "Greater London, UK",
 #' # format_out = "sf_polygon"
@@ -69,7 +71,6 @@
 #'
 #' # greater_london_ppp = get_stats19(2017, output_format = "ppp", window = greater_london_window)
 #' # spatstat::plot.ppp(greater_london_ppp, use.marks = FALSE, clipwin = greater_london_window)
-#' }
 #' }
 #' }
 get_stats19 = function(year = NULL,
@@ -122,6 +123,17 @@ get_stats19 = function(year = NULL,
       data_dir = data_dir,
       format = format,
       silent = silent)
+  }
+
+  if (!output_format %in% c("tibble", "sf", "ppp")) {
+    warning(
+      "output_format parameter should be one of c('tibble', 'sf', 'ppp').\n",
+      "You entered ", output_format, ".\n",
+      "Defaulting to tibble.",
+      call. = FALSE,
+      immediate. = TRUE
+    )
+    output_format <- "tibble"
   }
 
   # transform read_in into the desired format
