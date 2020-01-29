@@ -6,7 +6,7 @@
 \usage{
 locate_one_file(
   filename = NULL,
-  data_dir = tempdir(),
+  data_dir = get_data_directory(),
   year = NULL,
   type = NULL
 )

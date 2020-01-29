@@ -3,7 +3,7 @@
 #' @section Details:
 #' This function downloads and unzips UK road crash data.
 #' It results in unzipped .csv files that are put
-#' in the temporary directory specified by `tempdir()` or provided `data_dir`.
+#' in the temporary directory specified by `get_data_directory()` or provided `data_dir`.
 #'
 #' The file downloaded would be for a specific year (e.g. 2017).
 #' It could also be a file containing data for a range of two (e.g. 2005-2014).
@@ -19,6 +19,8 @@
 #' Or any variation of to search the file names with such as "acc" or "accid".
 #' @param data_dir Parent directory for all downloaded files. Defaults to `tempdir()`.
 #' @param ask Should you be asked whether or not to download the files? `TRUE` by default.
+#' @param silent Boolean. If `FALSE` (default value), display useful progress
+#'   messages on the screen.
 #'
 #' @export
 #' @examples
@@ -32,9 +34,10 @@
 #' }
 dl_stats19 = function(year = NULL,
                       type = NULL,
-                      data_dir = tempdir(),
+                      data_dir = get_data_directory(),
                       file_name = NULL,
-                      ask = FALSE
+                      ask = FALSE,
+                      silent = FALSE
                       ) {
   if(!is.null (year)) {
     year = check_year(year)
@@ -47,7 +50,9 @@ dl_stats19 = function(year = NULL,
       if(interactive()) {
         fnames = select_file(fnames)
       } else {
-        message("More than one file found, selecting the first.")
+        if (isFALSE(silent)){
+          message("More than one file found, selecting the first.")
+        }
         fnames = fnames[1]
       }
     }
@@ -59,8 +64,11 @@ dl_stats19 = function(year = NULL,
     zip_url = get_url(file_name = file_name)
   }
 
-  message("Files identified: ", paste0(fnames, "\n"))
-  message(paste0("   ", zip_url, collapse = "\n"))
+  if (isFALSE(silent)) {
+    message("Files identified: ", paste0(fnames, "\n"))
+    message(paste0("   ", zip_url, collapse = "\n"))
+  }
+
   if (!dir.exists(data_dir)) {
     dir.create(data_dir, recursive = TRUE)
   }
@@ -74,7 +82,9 @@ dl_stats19 = function(year = NULL,
   }
     data_already_exists = file.exists(destfile)
     if(data_already_exists) {
-      message("Data already exists in data_dir, not downloading")
+      if (isFALSE(silent)) {
+        message("Data already exists in data_dir, not downloading")
+      }
     } else {
       if(interactive() & !many_found) {
         if(ask) {
@@ -86,14 +96,18 @@ dl_stats19 = function(year = NULL,
           stop("Stopping as requested", call. = FALSE)
         }
       }
-      message("Attempt downloading from: ")
+      if (isFALSE(silent)) {
+        message("Attempt downloading from: ")
+      }
       utils::download.file(zip_url, destfile = destfile)
     }
     if(is_zip_file) {
       f = file.path(destfile, utils::unzip(destfile, list = TRUE)$Name)
       utils::unzip(destfile, exdir = file.path(data_dir, exdir))
-      message("Data saved at ", sub(".zip", "",f))
-    } else {
+      if (isFALSE(silent)) {
+        message("Data saved at ", sub(".zip", "",f))
+      }
+    } else if (isFALSE(silent)) {
       message("Data saved at ", destfile)
     }
 }
