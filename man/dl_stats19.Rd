@@ -7,9 +7,10 @@
 dl_stats19(
   year = NULL,
   type = NULL,
-  data_dir = tempdir(),
+  data_dir = get_data_directory(),
   file_name = NULL,
-  ask = FALSE
+  ask = FALSE,
+  silent = FALSE
 )
 }
 \arguments{
@@ -23,6 +24,9 @@ Or any variation of to search the file names with such as "acc" or "accid".}
 \item{file_name}{The file name (DfT named) to download.}
 
 \item{ask}{Should you be asked whether or not to download the files? \code{TRUE} by default.}
+
+\item{silent}{Boolean. If \code{FALSE} (default value), display useful progress
+messages on the screen.}
 }
 \description{
 Download STATS19 data for a year or range of two years.
@@ -31,7 +35,7 @@ Download STATS19 data for a year or range of two years.
 
 This function downloads and unzips UK road crash data.
 It results in unzipped .csv files that are put
-in the temporary directory specified by \code{tempdir()} or provided \code{data_dir}.
+in the temporary directory specified by \code{get_data_directory()} or provided \code{data_dir}.
 
 The file downloaded would be for a specific year (e.g. 2017).
 It could also be a file containing data for a range of two (e.g. 2005-2014).

@@ -7,7 +7,7 @@
 read_casualties(
   year = NULL,
   filename = "",
-  data_dir = tempdir(),
+  data_dir = get_data_directory(),
   format = TRUE
 )
 }

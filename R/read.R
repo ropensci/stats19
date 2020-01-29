@@ -10,6 +10,8 @@
 #' @param data_dir Where sets of downloaded data would be found.
 #' @param year Single year for which data are to be read
 #' @param format Switch to return raw read from file, default is `TRUE`.
+#' @param silent Boolean. If `FALSE` (default value), display useful progress
+#'   messages on the screen.
 #'
 #' @export
 #' @examples
@@ -22,16 +24,19 @@
 #' }
 read_accidents = function(year = NULL,
                           filename = "",
-                          data_dir = tempdir(),
-                          format = TRUE) {
+                          data_dir = get_data_directory(),
+                          format = TRUE,
+                          silent = FALSE) {
   path = check_input_file(
     filename = filename,
     type = "accidents",
     data_dir = data_dir,
     year = year
   )
-  message("Reading in: ")
-  message(path)
+  if (isFALSE(silent)) {
+    message("Reading in: ")
+    message(path)
+  }
   # read the data in
   suppressWarnings({
     ac = readr::read_csv(
@@ -70,7 +75,7 @@ read_accidents = function(year = NULL,
 #' }
 read_vehicles = function(year = NULL,
                          filename = "",
-                         data_dir = tempdir(),
+                         data_dir = get_data_directory(),
                          format = TRUE) {
   # check inputs
   path = check_input_file(
@@ -103,7 +108,7 @@ read_vehicles = function(year = NULL,
 #' }
 read_casualties = function(year = NULL,
                            filename = "",
-                           data_dir = tempdir(),
+                           data_dir = get_data_directory(),
                            format = TRUE) {
   path = check_input_file(
     filename = filename,
@@ -155,7 +160,7 @@ check_input_file = function(filename = NULL,
 # # informal test
 # dl_stats19(year = 2009, type = "vehicles")
 # f = "DfTRoadSafety_Vehicles_2009/DfTRoadSafety_Vehicles_2009.csv"
-# path = file.path(tempdir(), f)
+# path = file.path(get_data_directory(), f)
 # read_ve_ca(path)
 read_ve_ca = function(path) {
   h = utils::read.csv(path, nrows = 1)
