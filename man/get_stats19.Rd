@@ -11,6 +11,7 @@ get_stats19(
   file_name = NULL,
   format = TRUE,
   ask = FALSE,
+  silent = FALSE,
   output_format = "tibble",
   ...
 )
@@ -28,6 +29,9 @@ Or any variation of to search the file names with such as "acc" or "accid".}
 \item{format}{Switch to return raw read from file, default is \code{TRUE}.}
 
 \item{ask}{Should you be asked whether or not to download the files? \code{TRUE} by default.}
+
+\item{silent}{Boolean. If \code{FALSE} (default value), display useful progress
+messages on the screen.}
 
 \item{output_format}{The default value is "tibble". Other possible values are
 \code{\link[sf]{st_as_sf}} object or \code{\link[spatstat]{ppp}} object.
