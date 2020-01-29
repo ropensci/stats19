@@ -10,6 +10,8 @@
 #' @param data_dir Where sets of downloaded data would be found.
 #' @param year Single year for which data are to be read
 #' @param format Switch to return raw read from file, default is `TRUE`.
+#' @param silent Boolean. If `FALSE` (default value), display useful progress
+#'   messages on the screen.
 #'
 #' @export
 #' @examples
@@ -23,15 +25,18 @@
 read_accidents = function(year = NULL,
                           filename = "",
                           data_dir = get_data_directory(),
-                          format = TRUE) {
+                          format = TRUE,
+                          silent = FALSE) {
   path = check_input_file(
     filename = filename,
     type = "accidents",
     data_dir = data_dir,
     year = year
   )
-  message("Reading in: ")
-  message(path)
+  if (isFALSE(silent)) {
+    message("Reading in: ")
+    message(path)
+  }
   # read the data in
   suppressWarnings({
     ac = readr::read_csv(
