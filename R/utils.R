@@ -119,7 +119,7 @@ find_file_name = function(years = NULL, type = NULL) {
 #' list of directories where data from the Department for Transport
 #' (stats19::filenames) have been downloaded, or NULL if no files were found.
 #'
-locate_files = function(data_dir = tempdir(),
+locate_files = function(data_dir = get_data_directory(),
                         type = NULL,
                         years = NULL,
                         quiet = FALSE) {
@@ -156,7 +156,7 @@ locate_files = function(data_dir = tempdir(),
 #' locate_one_file(filename = "Cas.csv")
 #' }
 locate_one_file = function(filename = NULL,
-                           data_dir = tempdir(),
+                           data_dir = get_data_directory(),
                            year = NULL,
                            type = NULL) {
   # see if locate_files can pin it down
@@ -212,4 +212,52 @@ select_file = function(fnames) {
   message("Multiple matches. Which do you want to download?")
   selection = utils::menu(choices = fnames)
   fnames[selection]
+}
+
+#' Get data download dir
+#' @examples
+#' # get_data_directory()
+get_data_directory = function() {
+  data_directory = Sys.getenv("STATS19_DOWNLOAD_DIRECTORY")
+  if(data_directory != "") {
+    return(data_directory)
+  }
+  tempdir()
+}
+
+#' Set data download dir
+#'
+#' Handy function to manage `stats19` package underlying environment
+#' variable. If run interactively it makes sure user does not change
+#' directory by mistatke.
+#'
+#' @param data_path valid existing path to save downloaded files in.
+#' @examples
+#' # set_data_directory("MY_PATH")
+set_data_directory = function(data_path) {
+  force(data_path)
+  set_it = function() {
+    Sys.setenv(STATS19_DOWNLOAD_DIRECTORY= data_path)
+    message("STATS19_DOWNLOAD_DIRECTORY is set, undo with Sys.unsetenv")
+  }
+
+  if(!dir.exists(data_path)) {
+    stop("Directory does not exist, please create it first.")
+    # TODO: check write permissions?
+  }
+  data_directory = Sys.getenv("STATS19_DOWNLOAD_DIRECTORY")
+  if(data_directory != "") {
+    message("STATS19_DOWNLOAD_DIRECTORY is set, change it?")
+    if(interactive()) {
+      c = utils::menu(sample(c("Yes", "No!")))
+      if(c == 1L) {
+        set_it()
+      }
+    } else {
+      Sys.setenv(STATS19_DOWNLOAD_DIRECTORY= data_path)
+      message("Overwrote STATS19_DOWNLOAD_DIRECTORY without asking.")
+    }
+  } else {
+    set_it()
+  }
 }
