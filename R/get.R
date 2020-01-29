@@ -78,6 +78,7 @@ get_stats19 = function(year = NULL,
                       file_name = NULL,
                       format = TRUE,
                       ask = FALSE,
+                      silent = FALSE,
                       output_format = "tibble",
                       ...) {
   if(!exists("type")) {
@@ -101,7 +102,8 @@ get_stats19 = function(year = NULL,
              type = type,
              data_dir = data_dir,
              file_name = file_name,
-             ask = ask)
+             ask = ask,
+             silent = silent)
   read_in = NULL
   # read in
   if(grepl(type, "vehicles",  ignore.case = TRUE)){
@@ -118,7 +120,8 @@ get_stats19 = function(year = NULL,
     read_in = read_accidents(
       year = year,
       data_dir = data_dir,
-      format = format)
+      format = format,
+      silent = silent)
   }
 
   # transform read_in into the desired format
