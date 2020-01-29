@@ -30,12 +30,12 @@ Or any variation of to search the file names with such as "acc" or "accid".}
 
 \item{ask}{Should you be asked whether or not to download the files? \code{TRUE} by default.}
 
+\item{output_format}{A string that specifies the desired output format. The
+default value is \code{"tibble"}. Other possible values are "sf" and "ppp" that
+respectively returns objects of class \code{\link[sf:sf]{sf::sf}} and
+\code{\link[spatstat:ppp]{spatstat::ppp}}. See details and examples.}
 \item{silent}{Boolean. If \code{FALSE} (default value), display useful progress
 messages on the screen.}
-
-\item{output_format}{The default value is "tibble". Other possible values are
-\code{\link[sf]{st_as_sf}} object or \code{\link[spatstat]{ppp}} object.
-See details and examples}
 
 \item{...}{Other arguments that should be passed to \code{\link[=format_sf]{format_sf()}} or
 \code{\link[=format_ppp]{format_ppp()}} functions. Read and run the examples.}
@@ -53,26 +53,26 @@ As this function uses \code{dl_stats19} function, it can download
 many MB of data so ensure you have a sufficient disk space.
 
 If \code{output_format = "sf"} or \code{output_format = "ppp"} then the output data is
-transformed into an sf or ppp object using the format_sf()] or \link{format_ppp}
-functions. See examples.
+transformed into an sf or ppp object using the \code{\link[=format_sf]{format_sf()}} or
+\code{\link[=format_ppp]{format_ppp()}} functions. See examples.
 }
 
 \examples{
 \donttest{
 # default tibble output
 x = get_stats19(2009)
-x = get_stats19(2017)
+x = get_stats19(2017, silent = TRUE)
 
 # sf output
-x_sf = get_stats19(2017, output_format = "sf")
+x_sf = get_stats19(2017, silent = TRUE, output_format = "sf")
 
 # sf output with lonlat coordinates
-x_sf = get_stats19(2017, output_format = "sf", lonlat = TRUE)
+x_sf = get_stats19(2017, silent = TRUE, output_format = "sf", lonlat = TRUE)
 sf::st_crs(x_sf)
 
 if (requireNamespace("spatstat", quietly = TRUE)) {
 # ppp output
-x_ppp = get_stats19(2017, output_format = "ppp")
+x_ppp = get_stats19(2017, silent = TRUE, output_format = "ppp")
 spatstat::plot.ppp(x_ppp, use.marks = FALSE)
 
 # We can use the window parameter of format_ppp function to filter only the
@@ -84,13 +84,13 @@ xrange = c(425046.1, 435046.1),
 yrange = c(428577.2, 438577.2)
 )
 
-leeds_ppp = get_stats19(2017, output_format = "ppp", window = leeds_window)
+leeds_ppp = get_stats19(2017, silent = TRUE, output_format = "ppp", window = leeds_window)
 spatstat::plot.ppp(leeds_ppp, use.marks = FALSE, clipwin = leeds_window)
 
 # or even more fancy examples where we subset all the events occurred in a
 # pre-defined polygon area
 
-if (requireNamespace("osmdata", quietly = TRUE)) {
+# The following example requires osmdata package
 # greater_london_sf_polygon = osmdata::getbb(
 # "Greater London, UK",
 # format_out = "sf_polygon"
@@ -103,7 +103,6 @@ if (requireNamespace("osmdata", quietly = TRUE)) {
 
 # greater_london_ppp = get_stats19(2017, output_format = "ppp", window = greater_london_window)
 # spatstat::plot.ppp(greater_london_ppp, use.marks = FALSE, clipwin = greater_london_window)
-}
 }
 }
 }
