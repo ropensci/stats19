@@ -29,18 +29,18 @@
 #' \donttest{
 #' # default tibble output
 #' x = get_stats19(2009)
-#' x = get_stats19(2017)
+#' x = get_stats19(2017, silent = TRUE)
 #'
 #' # sf output
-#' x_sf = get_stats19(2017, output_format = "sf")
+#' x_sf = get_stats19(2017, silent = TRUE, output_format = "sf")
 #'
 #' # sf output with lonlat coordinates
-#' x_sf = get_stats19(2017, output_format = "sf", lonlat = TRUE)
+#' x_sf = get_stats19(2017, silent = TRUE, output_format = "sf", lonlat = TRUE)
 #' sf::st_crs(x_sf)
 #'
 #' if (requireNamespace("spatstat", quietly = TRUE)) {
 #' # ppp output
-#' x_ppp = get_stats19(2017, output_format = "ppp")
+#' x_ppp = get_stats19(2017, silent = TRUE, output_format = "ppp")
 #' spatstat::plot.ppp(x_ppp, use.marks = FALSE)
 #'
 #' # We can use the window parameter of format_ppp function to filter only the
@@ -52,7 +52,7 @@
 #' yrange = c(428577.2, 438577.2)
 #' )
 #'
-#' leeds_ppp = get_stats19(2017, output_format = "ppp", window = leeds_window)
+#' leeds_ppp = get_stats19(2017, silent = TRUE, output_format = "ppp", window = leeds_window)
 #' spatstat::plot.ppp(leeds_ppp, use.marks = FALSE, clipwin = leeds_window)
 #'
 #' # or even more fancy examples where we subset all the events occurred in a
