@@ -30,12 +30,13 @@ Or any variation of to search the file names with such as "acc" or "accid".}
 
 \item{ask}{Should you be asked whether or not to download the files? \code{TRUE} by default.}
 
+\item{silent}{Boolean. If \code{FALSE} (default value), display useful progress
+messages on the screen.}
+
 \item{output_format}{A string that specifies the desired output format. The
 default value is \code{"tibble"}. Other possible values are "sf" and "ppp" that
 respectively returns objects of class \code{\link[sf:sf]{sf::sf}} and
 \code{\link[spatstat:ppp]{spatstat::ppp}}. See details and examples.}
-\item{silent}{Boolean. If \code{FALSE} (default value), display useful progress
-messages on the screen.}
 
 \item{...}{Other arguments that should be passed to \code{\link[=format_sf]{format_sf()}} or
 \code{\link[=format_ppp]{format_ppp()}} functions. Read and run the examples.}
