@@ -37,3 +37,13 @@ test_that("get_stats19 multiple years", {
 
   expect_equal(nrow(t), sum(nrow(t09), nrow(t15), nrow(t16)))
 })
+
+test_that("get_stats19 works with multiple years and formats", {
+  t1718 <- get_stats19(c(2017, 2018), output_format = "sf")
+  expect_s3_class(t1718, "sf")
+
+  t1718 <- get_stats19(c(2017, 2018), output_format = "ppp")
+  expect_s3_class(t1718, "ppp")
+})
+
+

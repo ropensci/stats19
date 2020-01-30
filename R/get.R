@@ -103,7 +103,11 @@ get_stats19 = function(year = NULL,
       )
       i <- i + 1
     }
-    all <- do.call("rbind", all)
+    if (output_format == "ppp") {
+      all <- do.call(spatstat::superimpose, all)
+    } else {
+      all <- do.call(rbind, all)
+    }
     return(all)
   }
 
