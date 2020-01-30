@@ -99,7 +99,7 @@ dl_stats19 = function(year = NULL,
       if (isFALSE(silent)) {
         message("Attempt downloading from: ")
       }
-      utils::download.file(zip_url, destfile = destfile)
+      utils::download.file(zip_url, destfile = destfile, quiet = silent)
     }
     if(is_zip_file) {
       f = file.path(destfile, utils::unzip(destfile, list = TRUE)$Name)
