@@ -87,19 +87,26 @@ get_stats19 = function(year = NULL,
   }
   # download what the user wanted
   if(is.vector(year) && length(year) > 1) {
-    all  = data.frame()
+    all  = list()
+    i <- 1
     for (aYear in year) {
-      all = rbind(all,get_stats19(year = aYear,
-                  type = type,
-                  data_dir = data_dir,
-                  file_name = file_name,
-                  format = format,
-                  ask = ask,
-                  silent = silent,
-                  output_format = output_format, ...))
+      all[[i]] <- get_stats19(
+        year = aYear,
+        type = type,
+        data_dir = data_dir,
+        file_name = file_name,
+        format = format,
+        ask = ask,
+        silent = silent,
+        output_format = output_format,
+        ...
+      )
+      i <- i + 1
     }
+    all <- do.call("rbind", all)
     return(all)
   }
+
   dl_stats19(year = year,
              type = type,
              data_dir = data_dir,
