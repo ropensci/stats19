@@ -95,6 +95,7 @@ get_stats19 = function(year = NULL,
                   file_name = file_name,
                   format = format,
                   ask = ask,
+                  silent = silent,
                   output_format = output_format, ...))
     }
     return(all)
