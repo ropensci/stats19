@@ -64,6 +64,9 @@ transformed into an sf or ppp object using the \code{\link[=format_sf]{format_sf
 x = get_stats19(2009)
 x = get_stats19(2017, silent = TRUE)
 
+# multiple years
+get_stats19(c(2017, 2018), silent = TRUE)
+
 # sf output
 x_sf = get_stats19(2017, silent = TRUE, output_format = "sf")
 
@@ -71,10 +74,16 @@ x_sf = get_stats19(2017, silent = TRUE, output_format = "sf")
 x_sf = get_stats19(2017, silent = TRUE, output_format = "sf", lonlat = TRUE)
 sf::st_crs(x_sf)
 
+# multiple years
+get_stats19(c(2017, 2018), silent = TRUE, output_format = "sf")
+
 if (requireNamespace("spatstat", quietly = TRUE)) {
 # ppp output
 x_ppp = get_stats19(2017, silent = TRUE, output_format = "ppp")
 spatstat::plot.ppp(x_ppp, use.marks = FALSE)
+
+# Multiple years
+get_stats19(c(2017, 2018), silent = TRUE, output_format = "ppp")
 
 # We can use the window parameter of format_ppp function to filter only the
 # events occurred in a specific area. For example we can create a new bbox
