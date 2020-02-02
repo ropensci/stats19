@@ -3,10 +3,13 @@
 #' @section Details:
 #' This function utilizes `dl_stats19` and `read_*` functions and retuns a
 #' tibble, a sf object or a ppp object (according to the output_format
-#' parameter). The file downloaded would be for a specific year (e.g 2017).
+#' parameter).
+#' The file downloaded would be for a specific year (e.g. 2017) or multiple
+#' years (e.g. c(2017, 2018)).
+#' See examples.
 #'
-#' As this function uses `dl_stats19` function, it can download
-#' many MB of data so ensure you have a sufficient disk space.
+#' As this function uses `dl_stats19` function, it can download many MB of data
+#' so ensure you have a sufficient disk space.
 #'
 #' If `output_format = "sf"` or `output_format = "ppp"` then the output data is
 #' transformed into an sf or ppp object using the [format_sf()] or
@@ -19,8 +22,9 @@
 #' @param format Switch to return raw read from file, default is `TRUE`.
 #' @param output_format A string that specifies the desired output format. The
 #'   default value is `"tibble"`. Other possible values are "sf" and "ppp" that
-#'   respectively returns objects of class [`sf::sf`] and
-#'   [`spatstat::ppp`]. See details and examples.
+#'   respectively returns objects of class [`sf::sf`] and [`spatstat::ppp`]. Any
+#'   other string is ignored and a tibble output is returned. See details and
+#'   examples.
 #' @param ... Other arguments that should be passed to [format_sf()] or
 #'   [format_ppp()] functions. Read and run the examples.
 #'
