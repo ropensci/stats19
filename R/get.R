@@ -94,6 +94,17 @@ get_stats19 = function(year = NULL,
   if(!exists("type")) {
     stop("Type is required", call. = FALSE)
   }
+  if (!output_format %in% c("tibble", "sf", "ppp")) {
+    warning(
+      "output_format parameter should be one of c('tibble', 'sf', 'ppp').\n",
+      "You entered ", output_format, ".\n",
+      "Defaulting to tibble.",
+      call. = FALSE,
+      immediate. = TRUE
+    )
+    output_format <- "tibble"
+  }
+
   # download what the user wanted
   if(is.vector(year) && length(year) > 1) {
     all  = list()
@@ -144,17 +155,6 @@ get_stats19 = function(year = NULL,
       data_dir = data_dir,
       format = format,
       silent = silent)
-  }
-
-  if (!output_format %in% c("tibble", "sf", "ppp")) {
-    warning(
-      "output_format parameter should be one of c('tibble', 'sf', 'ppp').\n",
-      "You entered ", output_format, ".\n",
-      "Defaulting to tibble.",
-      call. = FALSE,
-      immediate. = TRUE
-    )
-    output_format <- "tibble"
   }
 
   # transform read_in into the desired format
