@@ -17,10 +17,12 @@ test_that("get_stats19 works", {
 
   # check class of output_format
   acc_tibble = get_stats19(year = 2009, type = "acc")
+  acc_data_frame = get_stats19(year = 2009, type = "acc", output_format = "data.frame")
   acc_sf = get_stats19(year = 2009, type = "acc", output_format = "sf")
   acc_ppp = get_stats19(year = 2009, type = "acc", output_format = "ppp")
 
   expect_true(is(acc_tibble, "tbl_df"))
+  expect_s3_class(acc_data_frame, "data.frame")
   expect_true(is(acc_sf, "sf"))
   expect_true(is(acc_ppp, "ppp"))
 
