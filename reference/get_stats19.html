@@ -190,16 +190,17 @@ Or any variation of to search the file names with such as "acc" or "accid".</p><
       <td><p>Should you be asked whether or not to download the files? <code>TRUE</code> by default.</p></td>
     </tr>
     <tr>
-      <th>output_format</th>
-      <td><p>A string that specifies the desired output format. The
-default value is <code>"tibble"</code>. Other possible values are "sf" and "ppp" that
-respectively returns objects of class <code><a href='https://rdrr.io/pkg/sf/man/sf.html'>sf::sf</a></code> and
-<code><a href='https://rdrr.io/pkg/spatstat/man/ppp.html'>spatstat::ppp</a></code>. See details and examples.</p></td>
-    </tr>
-    <tr>
       <th>silent</th>
       <td><p>Boolean. If <code>FALSE</code> (default value), display useful progress
 messages on the screen.</p></td>
+    </tr>
+    <tr>
+      <th>output_format</th>
+      <td><p>A string that specifies the desired output format. The
+default value is <code>"tibble"</code>. Other possible values are <code>"data.frame"</code>, <code>"sf"</code>
+and <code>"ppp"</code>, that, respectively, returns objects of class <code><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></code>,
+<code><a href='https://rdrr.io/pkg/sf/man/sf.html'>sf::sf</a></code> and <code><a href='https://rdrr.io/pkg/spatstat/man/ppp.html'>spatstat::ppp</a></code>. Any other string is ignored and a tibble
+output is returned. See details and examples.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -212,14 +213,18 @@ messages on the screen.</p></td>
 
     
 
-<p>This function utilizes <code>dl_stats19</code> and <code>read_*</code> functions and retuns a
-tibble, a sf object or a ppp object (according to the output_format
-parameter). The file downloaded would be for a specific year (e.g 2017).</p>
-<p>As this function uses <code>dl_stats19</code> function, it can download
-many MB of data so ensure you have a sufficient disk space.</p>
-<p>If <code>output_format = "sf"</code> or <code>output_format = "ppp"</code> then the output data is
-transformed into an sf or ppp object using the <code><a href='format_sf.html'>format_sf()</a></code> or
-<code><a href='format_ppp.html'>format_ppp()</a></code> functions. See examples.</p>
+<p>This function utilizes <code>dl_stats19</code> and <code>read_*</code> functions and returns a
+tibble (default), a data.frame, a sf object or a ppp object (according to the
+<code>output_format</code> parameter).
+The file downloaded would be for a specific year (e.g. 2017) or multiple
+years (e.g. c(2017, 2018)).
+See examples.</p>
+<p>As this function uses <code>dl_stats19</code> function, it can download many MB of data,
+so ensure you have a sufficient disk space.</p>
+<p>If <code>output_format = "data.frame"</code> or <code>output_format = "sf"</code> or <code>output_format = "ppp"</code> then the output data is transformed into a data.frame, sf or ppp
+object using the <code><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame()</a></code> or <code><a href='format_sf.html'>format_sf()</a></code> or <code><a href='format_ppp.html'>format_ppp()</a></code>
+functions, respectively.
+See examples.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='dl_stats19.html'>dl_stats19()</a></code></p>
@@ -228,17 +233,83 @@ transformed into an sf or ppp object using the <code><a href='format_sf.html'>fo
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
 <span class='co'># default tibble output</span>
-<span class='no'>x</span> <span class='kw'>=</span> <span class='fu'>get_stats19</span>(<span class='fl'>2009</span>)</div><div class='output co'>#&gt; <span class='message'>Files identified: DfTRoadSafety_Accidents_2009.zip</span></div><div class='output co'>#&gt; <span class='message'>   http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/DfTRoadSafety_Accidents_2009.zip</span></div><div class='output co'>#&gt; <span class='message'>Attempt downloading from: </span></div><div class='output co'>#&gt; <span class='message'>Data saved at /tmp/RtmpNDRXyB/DfTRoadSafety_Accidents_2009/DfTRoadSafety_Accidents_2009.csv</span></div><div class='output co'>#&gt; <span class='message'>Reading in: </span></div><div class='output co'>#&gt; <span class='message'>/tmp/RtmpNDRXyB/DfTRoadSafety_Accidents_2009/DfTRoadSafety_Accidents_2009.csv</span></div><div class='output co'>#&gt; <span class='message'>date and time columns present, creating formatted datetime column</span></div><div class='input'><span class='no'>x</span> <span class='kw'>=</span> <span class='fu'>get_stats19</span>(<span class='fl'>2017</span>, <span class='kw'>silent</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='message'>date and time columns present, creating formatted datetime column</span></div><div class='input'>
+<span class='no'>x</span> <span class='kw'>=</span> <span class='fu'>get_stats19</span>(<span class='fl'>2009</span>)</div><div class='output co'>#&gt; <span class='message'>Files identified: DfTRoadSafety_Accidents_2009.zip</span></div><div class='output co'>#&gt; <span class='message'>   http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/DfTRoadSafety_Accidents_2009.zip</span></div><div class='output co'>#&gt; <span class='message'>Attempt downloading from: </span></div><div class='output co'>#&gt; <span class='message'>Data saved at /tmp/RtmpfSETzK/DfTRoadSafety_Accidents_2009/DfTRoadSafety_Accidents_2009.csv</span></div><div class='output co'>#&gt; <span class='message'>Reading in: </span></div><div class='output co'>#&gt; <span class='message'>/tmp/RtmpfSETzK/DfTRoadSafety_Accidents_2009/DfTRoadSafety_Accidents_2009.csv</span></div><div class='output co'>#&gt; <span class='message'>date and time columns present, creating formatted datetime column</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/class.html'>class</a></span>(<span class='no'>x</span>)</div><div class='output co'>#&gt; [1] "spec_tbl_df" "tbl_df"      "tbl"         "data.frame" </div><div class='input'><span class='no'>x</span> <span class='kw'>=</span> <span class='fu'>get_stats19</span>(<span class='fl'>2017</span>, <span class='kw'>silent</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='message'>date and time columns present, creating formatted datetime column</span></div><div class='input'>
+<span class='co'># data.frame output</span>
+<span class='no'>x</span> <span class='kw'>=</span> <span class='fu'>get_stats19</span>(<span class='fl'>2009</span>, <span class='kw'>silent</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>output_format</span> <span class='kw'>=</span> <span class='st'>"data.frame"</span>)</div><div class='output co'>#&gt; <span class='message'>date and time columns present, creating formatted datetime column</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/class.html'>class</a></span>(<span class='no'>x</span>)</div><div class='output co'>#&gt; [1] "data.frame"</div><div class='input'>
+<span class='co'># multiple years</span>
+<span class='fu'>get_stats19</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>2017</span>, <span class='fl'>2018</span>), <span class='kw'>silent</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='message'>date and time columns present, creating formatted datetime column</span></div><div class='output co'>#&gt; <span class='message'>date and time columns present, creating formatted datetime column</span></div><div class='output co'>#&gt; # A tibble: 252,617 x 33
+#&gt;    accident_index location_eastin… location_northi… longitude latitude
+#&gt;    &lt;chr&gt;                     &lt;int&gt;            &lt;int&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+#&gt;  1 2017010001708            532920           196330   -0.0801     51.7
+#&gt;  2 2017010009342            526790           181970   -0.174      51.5
+#&gt;  3 2017010009344            535200           181260   -0.0530     51.5
+#&gt;  4 2017010009348            534340           193560   -0.0607     51.6
+#&gt;  5 2017010009350            533680           187820   -0.0724     51.6
+#&gt;  6 2017010009351            514510           172370   -0.354      51.4
+#&gt;  7 2017010009353            508640           181870   -0.435      51.5
+#&gt;  8 2017010009354            527880           181950   -0.158      51.5
+#&gt;  9 2017010009357            520940           192820   -0.254      51.6
+#&gt; 10 2017010009358            531430           178450   -0.108      51.5
+#&gt; # … with 252,607 more rows, and 28 more variables: police_force &lt;chr&gt;,
+#&gt; #   accident_severity &lt;chr&gt;, number_of_vehicles &lt;int&gt;,
+#&gt; #   number_of_casualties &lt;int&gt;, date &lt;date&gt;, day_of_week &lt;chr&gt;, time &lt;chr&gt;,
+#&gt; #   local_authority_district &lt;chr&gt;, local_authority_highway &lt;chr&gt;,
+#&gt; #   first_road_class &lt;chr&gt;, first_road_number &lt;int&gt;, road_type &lt;chr&gt;,
+#&gt; #   speed_limit &lt;int&gt;, junction_detail &lt;chr&gt;, junction_control &lt;chr&gt;,
+#&gt; #   second_road_class &lt;chr&gt;, second_road_number &lt;int&gt;,
+#&gt; #   pedestrian_crossing_human_control &lt;chr&gt;,
+#&gt; #   pedestrian_crossing_physical_facilities &lt;chr&gt;, light_conditions &lt;chr&gt;,
+#&gt; #   weather_conditions &lt;chr&gt;, road_surface_conditions &lt;chr&gt;,
+#&gt; #   special_conditions_at_site &lt;chr&gt;, carriageway_hazards &lt;chr&gt;,
+#&gt; #   urban_or_rural_area &lt;chr&gt;,
+#&gt; #   did_police_officer_attend_scene_of_accident &lt;int&gt;,
+#&gt; #   lsoa_of_accident_location &lt;chr&gt;, datetime &lt;dttm&gt;</div><div class='input'>
 <span class='co'># sf output</span>
 <span class='no'>x_sf</span> <span class='kw'>=</span> <span class='fu'>get_stats19</span>(<span class='fl'>2017</span>, <span class='kw'>silent</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>output_format</span> <span class='kw'>=</span> <span class='st'>"sf"</span>)</div><div class='output co'>#&gt; <span class='message'>date and time columns present, creating formatted datetime column</span></div><div class='output co'>#&gt; <span class='message'>19 rows removed with no coordinates</span></div><div class='input'>
 <span class='co'># sf output with lonlat coordinates</span>
 <span class='no'>x_sf</span> <span class='kw'>=</span> <span class='fu'>get_stats19</span>(<span class='fl'>2017</span>, <span class='kw'>silent</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>output_format</span> <span class='kw'>=</span> <span class='st'>"sf"</span>, <span class='kw'>lonlat</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='message'>date and time columns present, creating formatted datetime column</span></div><div class='output co'>#&gt; <span class='message'>29 rows removed with no coordinates</span></div><div class='input'><span class='kw pkg'>sf</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/sf/man/st_crs.html'>st_crs</a></span>(<span class='no'>x_sf</span>)</div><div class='output co'>#&gt; Coordinate Reference System:
 #&gt;   EPSG: 4326 
 #&gt;   proj4string: "+proj=longlat +datum=WGS84 +no_defs"</div><div class='input'>
+<span class='co'># multiple years</span>
+<span class='fu'>get_stats19</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>2017</span>, <span class='fl'>2018</span>), <span class='kw'>silent</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>output_format</span> <span class='kw'>=</span> <span class='st'>"sf"</span>)</div><div class='output co'>#&gt; <span class='message'>date and time columns present, creating formatted datetime column</span></div><div class='output co'>#&gt; <span class='message'>19 rows removed with no coordinates</span></div><div class='output co'>#&gt; <span class='message'>date and time columns present, creating formatted datetime column</span></div><div class='output co'>#&gt; <span class='message'>55 rows removed with no coordinates</span></div><div class='output co'>#&gt; Simple feature collection with 252543 features and 31 fields
+#&gt; geometry type:  POINT
+#&gt; dimension:      XY
+#&gt; bbox:           xmin: 73639 ymin: 10235 xmax: 655391 ymax: 1209512
+#&gt; epsg (SRID):    27700
+#&gt; proj4string:    +proj=tmerc +lat_0=49 +lon_0=-2 +k=0.9996012717 +x_0=400000 +y_0=-100000 +ellps=airy +towgs84=446.448,-125.157,542.06,0.15,0.247,0.842,-20.489 +units=m +no_defs
+#&gt; # A tibble: 252,543 x 32
+#&gt;    accident_index longitude latitude police_force accident_severi…
+#&gt;    &lt;chr&gt;              &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;        &lt;chr&gt;           
+#&gt;  1 2017010001708    -0.0801     51.7 Metropolita… Fatal           
+#&gt;  2 2017010009342    -0.174      51.5 Metropolita… Slight          
+#&gt;  3 2017010009344    -0.0530     51.5 Metropolita… Slight          
+#&gt;  4 2017010009348    -0.0607     51.6 Metropolita… Slight          
+#&gt;  5 2017010009350    -0.0724     51.6 Metropolita… Serious         
+#&gt;  6 2017010009351    -0.354      51.4 Metropolita… Slight          
+#&gt;  7 2017010009353    -0.435      51.5 Metropolita… Slight          
+#&gt;  8 2017010009354    -0.158      51.5 Metropolita… Slight          
+#&gt;  9 2017010009357    -0.254      51.6 Metropolita… Serious         
+#&gt; 10 2017010009358    -0.108      51.5 Metropolita… Serious         
+#&gt; # … with 252,533 more rows, and 27 more variables: number_of_vehicles &lt;int&gt;,
+#&gt; #   number_of_casualties &lt;int&gt;, date &lt;date&gt;, day_of_week &lt;chr&gt;, time &lt;chr&gt;,
+#&gt; #   local_authority_district &lt;chr&gt;, local_authority_highway &lt;chr&gt;,
+#&gt; #   first_road_class &lt;chr&gt;, first_road_number &lt;int&gt;, road_type &lt;chr&gt;,
+#&gt; #   speed_limit &lt;int&gt;, junction_detail &lt;chr&gt;, junction_control &lt;chr&gt;,
+#&gt; #   second_road_class &lt;chr&gt;, second_road_number &lt;int&gt;,
+#&gt; #   pedestrian_crossing_human_control &lt;chr&gt;,
+#&gt; #   pedestrian_crossing_physical_facilities &lt;chr&gt;, light_conditions &lt;chr&gt;,
+#&gt; #   weather_conditions &lt;chr&gt;, road_surface_conditions &lt;chr&gt;,
+#&gt; #   special_conditions_at_site &lt;chr&gt;, carriageway_hazards &lt;chr&gt;,
+#&gt; #   urban_or_rural_area &lt;chr&gt;,
+#&gt; #   did_police_officer_attend_scene_of_accident &lt;int&gt;,
+#&gt; #   lsoa_of_accident_location &lt;chr&gt;, datetime &lt;dttm&gt;, geometry &lt;POINT [m]&gt;</div><div class='input'>
 <span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/ns-load.html'>requireNamespace</a></span>(<span class='st'>"spatstat"</span>, <span class='kw'>quietly</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)) {
 <span class='co'># ppp output</span>
 <span class='no'>x_ppp</span> <span class='kw'>=</span> <span class='fu'>get_stats19</span>(<span class='fl'>2017</span>, <span class='kw'>silent</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>output_format</span> <span class='kw'>=</span> <span class='st'>"ppp"</span>)
 <span class='kw pkg'>spatstat</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/spatstat/man/plot.ppp.html'>plot.ppp</a></span>(<span class='no'>x_ppp</span>, <span class='kw'>use.marks</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+
+<span class='co'># Multiple years</span>
+<span class='fu'>get_stats19</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>2017</span>, <span class='fl'>2018</span>), <span class='kw'>silent</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>output_format</span> <span class='kw'>=</span> <span class='st'>"ppp"</span>)
 
 <span class='co'># We can use the window parameter of format_ppp function to filter only the</span>
 <span class='co'># events occurred in a specific area. For example we can create a new bbox</span>
@@ -268,7 +339,7 @@ transformed into an sf or ppp object using the <code><a href='format_sf.html'>fo
 
 <span class='co'># greater_london_ppp = get_stats19(2017, output_format = "ppp", window = greater_london_window)</span>
 <span class='co'># spatstat::plot.ppp(greater_london_ppp, use.marks = FALSE, clipwin = greater_london_window)</span>
-}</div><div class='output co'>#&gt; <span class='message'>date and time columns present, creating formatted datetime column</span></div><div class='output co'>#&gt; <span class='message'>19 rows removed with no coordinates</span></div><div class='output co'>#&gt; <span class='warning'>Warning: some mark values are NA in the point pattern x</span></div><div class='output co'>#&gt; <span class='message'>date and time columns present, creating formatted datetime column</span></div><div class='output co'>#&gt; <span class='message'>19 rows removed with no coordinates</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 128936 points were rejected as lying outside the specified window</span></div><div class='output co'>#&gt; <span class='warning'>Warning: some mark values are NA in the point pattern x</span></div><div class='img'><img src='get_stats19-1.png' alt='' width='700' height='433' /></div><div class='img'><img src='get_stats19-2.png' alt='' width='700' height='433' /></div><div class='input'># }
+}</div><div class='output co'>#&gt; <span class='message'>date and time columns present, creating formatted datetime column</span></div><div class='output co'>#&gt; <span class='message'>19 rows removed with no coordinates</span></div><div class='output co'>#&gt; <span class='warning'>Warning: some mark values are NA in the point pattern x</span></div><div class='output co'>#&gt; <span class='message'>date and time columns present, creating formatted datetime column</span></div><div class='output co'>#&gt; <span class='message'>19 rows removed with no coordinates</span></div><div class='output co'>#&gt; <span class='warning'>Warning: some mark values are NA in the point pattern x</span></div><div class='output co'>#&gt; <span class='message'>date and time columns present, creating formatted datetime column</span></div><div class='output co'>#&gt; <span class='message'>55 rows removed with no coordinates</span></div><div class='output co'>#&gt; <span class='warning'>Warning: some mark values are NA in the point pattern x</span></div><div class='output co'>#&gt; <span class='warning'>Warning: some mark values are NA in the point pattern x</span></div><div class='output co'>#&gt; <span class='message'>date and time columns present, creating formatted datetime column</span></div><div class='output co'>#&gt; <span class='message'>19 rows removed with no coordinates</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 128936 points were rejected as lying outside the specified window</span></div><div class='output co'>#&gt; <span class='warning'>Warning: some mark values are NA in the point pattern x</span></div><div class='img'><img src='get_stats19-1.png' alt='' width='700' height='433' /></div><div class='img'><img src='get_stats19-2.png' alt='' width='700' height='433' /></div><div class='input'># }
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
