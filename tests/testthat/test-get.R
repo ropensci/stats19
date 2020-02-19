@@ -29,6 +29,11 @@ test_that("get_stats19 works", {
   # if the output format is not c("tibble", "sf", "ppp") then it returns NULL
   expect_warning({acc = get_stats19(2009, "acc", output_format = "abcdef")})
   expect_true(is(acc, "tbl_df"))
+
+  # raise warning if output_format = "sf" and type = "cas". Defaulting to
+  # tbl output format.
+  expect_warning({acc = get_stats19(2010, type = "cas", output_format = "sf")})
+  expect_true(is(acc, "tbl_df"))
 })
 
 test_that("get_stats19 multiple years", {
