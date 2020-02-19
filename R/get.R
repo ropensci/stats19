@@ -105,9 +105,9 @@ get_stats19 = function(year = NULL,
   if(!exists("type")) {
     stop("Type is required", call. = FALSE)
   }
-  if (! output_format %in% c("tibble", "data.frame", "sf", "ppp")) {
+  if (!output_format %in% c("tibble", "data.frame", "sf", "ppp")) {
     warning(
-      "output_format parameter should be one of c('tibble', 'sf', 'ppp').\n",
+      "output_format parameter should be one of c('tibble', 'data.frame', 'sf', 'ppp').\n",
       "You entered ", output_format, ".\n",
       "Defaulting to tibble.",
       call. = FALSE,
@@ -115,8 +115,17 @@ get_stats19 = function(year = NULL,
     )
     output_format = "tibble"
   }
+  if (grepl(type, "casualties", ignore.case = TRUE) && output_format %in% c("sf", "ppp")) {
+    warning(
+      "You cannot select output_format = 'sf' or output_format = 'ppp' when type = 'casualties'.\n",
+      "Casualties do not have a spatial dimension.\n",
+      "Defaulting to tibble output_format",
+      call. = FALSE,
+      immediate. = TRUE
+    )
+    output_format = "tibble"
+  }
 
-  # download what the user wanted
   if(is.vector(year) && length(year) > 1) {
     all  = list()
     i = 1
@@ -142,6 +151,7 @@ get_stats19 = function(year = NULL,
     return(all)
   }
 
+  # download what the user wanted
   dl_stats19(year = year,
              type = type,
              data_dir = data_dir,
