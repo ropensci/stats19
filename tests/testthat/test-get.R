@@ -46,11 +46,32 @@ test_that("get_stats19 multiple years", {
 })
 
 test_that("get_stats19 works with multiple years and formats", {
-  t1718 <- get_stats19(c(2017, 2018), output_format = "sf")
-  expect_s3_class(t1718, "sf")
+  cas_2013 <- get_stats19(2013, type = "cas", silent = TRUE)
+  cas_2014 <- get_stats19(2014, type = "cas", silent = TRUE)
+  cas_2015 <- get_stats19(2015, type = "cas", silent = TRUE)
+  expect_equal(
+    length(
+    names(cas_2014)[!names(cas_2014) %in% names(cas_2013)]),
+    1)
+  expect_equal(
+    length(
+      names(cas_2015)[!names(cas_2015) %in% names(cas_2014)]),
+    1)
+  t1315 <- get_stats19(2013:2015, output_format = "sf", silent = TRUE)
+  expect_s3_class(t1315, "sf")
 
-  t1718 <- get_stats19(c(2017, 2018), output_format = "ppp")
-  expect_s3_class(t1718, "ppp")
+  t1315 <- get_stats19(2013:2015, output_format = "ppp", silent = TRUE)
+  expect_s3_class(t1315, "ppp")
+
+  cas1315 = get_stats19(2013:2015, type = "cas")
+  # not missing cols
+  expect_true(any(grepl("age_of_casualty", names(cas1315))))
+  expect_true(any(grepl("casualty_imd_decile", names(cas1315))))
+  # not missing rows
+  expect_equal(
+    nrow(cas_2013) + nrow(cas_2014) + nrow(cas_2015),
+    nrow(cas1315)
+  )
 })
 
 
