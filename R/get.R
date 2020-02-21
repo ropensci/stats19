@@ -147,24 +147,23 @@ get_stats19 = function(year = NULL,
       all = do.call(spatstat::superimpose, all)
     } else {
       # all = do.call(rbind, all)
-      all_df = data.frame()
+      all.keep.cols = NULL
       for (y in all) {
-        if(nrow(all_df) == 0) {
-          all_df = y
+        if(is.null(all.keep.cols)) {
+          all.keep.cols = y
         } else {
-          all_df = rbind(
-            data.frame(c(all_df, sapply(setdiff(names(y), names(all_df)), function(x) NA))),
-            data.frame(c(y, sapply(setdiff(names(all_df), names(y)), function(x) NA)))
-          )
+            diff.y = setdiff(names(y), names(all.keep.cols))
+            y[diff.y] = NA
+            diff.all = setdiff(names(all.keep.cols), names(y))
+            all.keep.cols[diff.all] = NA
+            # reciprocate
+            y[diff.all] = NA
+            all.keep.cols[diff.y] = NA
+            # now do.call rbind
+            all.keep.cols = do.call(rbind, list(y, all.keep.cols))
         }
       }
-      if(grepl(type, "accidents", ignore.case = TRUE) &&
-         output_format == "sf") {
-        # double converting to
-        all = sf::st_as_sf(all_df, all_df$geometry)
-      } else {
-        all = all_df
-      }
+      all = all.keep.cols
     }
     return(all)
   }

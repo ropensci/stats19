@@ -63,6 +63,9 @@ test_that("get_stats19 works with multiple years and formats", {
   t1315 <- get_stats19(2013:2015, output_format = "ppp", silent = TRUE)
   expect_s3_class(t1315, "ppp")
 
+  t1315 <- get_stats19(2013:2015, silent = TRUE)
+  expect_s3_class(t1315, "tbl_df")
+
   cas1315 = get_stats19(2013:2015, type = "cas")
   # not missing cols
   expect_true(any(grepl("age_of_casualty", names(cas1315))))
