@@ -116,7 +116,8 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 <div id="stats19" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
-<a href="#stats19" class="anchor"></a>stats19</h1></div>
+<a href="#stats19" class="anchor"></a>stats19 <a href="https://docs.ropensci.org/stats19/"><img src="https://raw.githubusercontent.com/ropensci/stats19/master/man/figures/logo.png" align="right" height="215/"></a>
+</h1></div>
 <p><strong>stats19</strong> provides functions for downloading and formatting road crash data. Specifically, it enables access to the UK’s official road traffic casualty database, <a href="https://data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data">STATS19</a>. (The name comes from the form used by the police to record car crashes and other incidents resulting in casualties on the roads.)</p>
 <p>A full overview of STATS19 variables be found in a <a href="http://data.dft.gov.uk/road-accidents-safety-data/Brief-guide-to%20road-accidents-and-safety-data.doc">document</a> provided by the UK’s Department for Transport (DfT).</p>
 <p>The raw data is provided as a series of <code>.csv</code> files that contain integers and which are stored in dozens of <code>.zip</code> files. Finding, reading-in and formatting the data for research can be a time consuming process subject to human error. <strong>stats19</strong> speeds up these vital but boring and error-prone stages of the research process with a single function: <code><a href="reference/get_stats19.html">get_stats19()</a></code>. By allowing public access to properly labelled road crash data, <strong>stats19</strong> aims to make road safety research more reproducible and accessible.</p>
@@ -139,11 +140,12 @@
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">crashes =<span class="st"> </span><span class="kw"><a href="reference/get_stats19.html">get_stats19</a></span>(<span class="dt">year =</span> <span class="dv">2017</span>, <span class="dt">type =</span> <span class="st">"accident"</span>, <span class="dt">ask =</span> <span class="ot">FALSE</span>)</a>
 <a class="sourceLine" id="cb4-2" data-line-number="2"><span class="co">#&gt; Files identified: dftRoadSafetyData_Accidents_2017.zip</span></a>
 <a class="sourceLine" id="cb4-3" data-line-number="3"><span class="co">#&gt;    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Accidents_2017.zip</span></a>
-<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="co">#&gt; Attempt downloading from:</span></a>
-<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="co">#&gt; Data saved at /tmp/RtmpqveoCA/dftRoadSafetyData_Accidents_2017/Acc.csv</span></a>
+<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="co">#&gt; Data already exists in data_dir, not downloading</span></a>
+<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="co">#&gt; Data saved at ~/stats19-data/dftRoadSafetyData_Accidents_2017/Acc.csv</span></a>
 <a class="sourceLine" id="cb4-6" data-line-number="6"><span class="co">#&gt; Reading in:</span></a>
-<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="co">#&gt; /tmp/RtmpqveoCA/dftRoadSafetyData_Accidents_2017/Acc.csv</span></a></code></pre></div>
-<p>What just happened? For the <code>year</code> 2017 we read-in crash-level (<code>type = "accident"</code>) data on all road crashes recorded by the police across Great Britain. The dataset contains 32 columns (variables) for 129,982 crashes. We were not asked to download the file (by default you are asked to confirm the file that will be downloaded). The contents of this dataset, and other datasets provided by <strong>stats19</strong>, are outlined below and described in more detail in the <a href="https://itsleeds.github.io/stats19/articles/stats19.html">stats19 vignette</a>.</p>
+<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="co">#&gt; /home/robin/stats19-data/dftRoadSafetyData_Accidents_2017/Acc.csv</span></a>
+<a class="sourceLine" id="cb4-8" data-line-number="8"><span class="co">#&gt; date and time columns present, creating formatted datetime column</span></a></code></pre></div>
+<p>What just happened? For the <code>year</code> 2017 we read-in crash-level (<code>type = "accident"</code>) data on all road crashes recorded by the police across Great Britain. The dataset contains 33 columns (variables) for 129,982 crashes. We were not asked to download the file (by default you are asked to confirm the file that will be downloaded). The contents of this dataset, and other datasets provided by <strong>stats19</strong>, are outlined below and described in more detail in the <a href="https://itsleeds.github.io/stats19/articles/stats19.html">stats19 vignette</a>.</p>
 <p>We will see below how the function also works to get the corresponding casualty and vehicle datasets for 2017. The package also allows STATS19 files to be downloaded and read-in separately, allowing more control over what you download, and subsequently read-in, with <code><a href="reference/read_accidents.html">read_accidents()</a></code>, <code><a href="reference/read_casualties.html">read_casualties()</a></code> and <code><a href="reference/read_vehicles.html">read_vehicles()</a></code>, as described in the vignette.</p>
 </div>
 <div id="data-download" class="section level2">
@@ -177,7 +179,7 @@
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(crashes)</a>
 <a class="sourceLine" id="cb7-2" data-line-number="2"><span class="co">#&gt; [1] 129982</span></a>
 <a class="sourceLine" id="cb7-3" data-line-number="3"><span class="kw"><a href="https://rdrr.io/r/base/nrow.html">ncol</a></span>(crashes)</a>
-<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="co">#&gt; [1] 32</span></a></code></pre></div>
+<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="co">#&gt; [1] 33</span></a></code></pre></div>
 <p>Some of the key variables in this dataset include:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">crashes[<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">7</span>, <span class="dv">18</span>, <span class="dv">23</span>, <span class="dv">25</span>)]</a>
 <a class="sourceLine" id="cb8-2" data-line-number="2"><span class="co">#&gt; # A tibble: 129,982 x 4</span></a>
@@ -204,8 +206,8 @@
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">casualties =<span class="st"> </span><span class="kw"><a href="reference/get_stats19.html">get_stats19</a></span>(<span class="dt">year =</span> <span class="dv">2017</span>, <span class="dt">type =</span> <span class="st">"casualties"</span>, <span class="dt">ask =</span> <span class="ot">FALSE</span>)</a>
 <a class="sourceLine" id="cb9-2" data-line-number="2"><span class="co">#&gt; Files identified: dftRoadSafetyData_Casualties_2017.zip</span></a>
 <a class="sourceLine" id="cb9-3" data-line-number="3"><span class="co">#&gt;    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Casualties_2017.zip</span></a>
-<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="co">#&gt; Attempt downloading from:</span></a>
-<a class="sourceLine" id="cb9-5" data-line-number="5"><span class="co">#&gt; Data saved at /tmp/RtmpqveoCA/dftRoadSafetyData_Casualties_2017/Cas.csv</span></a>
+<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="co">#&gt; Data already exists in data_dir, not downloading</span></a>
+<a class="sourceLine" id="cb9-5" data-line-number="5"><span class="co">#&gt; Data saved at ~/stats19-data/dftRoadSafetyData_Casualties_2017/Cas.csv</span></a>
 <a class="sourceLine" id="cb9-6" data-line-number="6"><span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(casualties)</a>
 <a class="sourceLine" id="cb9-7" data-line-number="7"><span class="co">#&gt; [1] 170993</span></a>
 <a class="sourceLine" id="cb9-8" data-line-number="8"><span class="kw"><a href="https://rdrr.io/r/base/nrow.html">ncol</a></span>(casualties)</a>
@@ -244,8 +246,8 @@
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">vehicles =<span class="st"> </span><span class="kw"><a href="reference/get_stats19.html">get_stats19</a></span>(<span class="dt">year =</span> <span class="dv">2017</span>, <span class="dt">type =</span> <span class="st">"vehicles"</span>, <span class="dt">ask =</span> <span class="ot">FALSE</span>)</a>
 <a class="sourceLine" id="cb12-2" data-line-number="2"><span class="co">#&gt; Files identified: dftRoadSafetyData_Vehicles_2017.zip</span></a>
 <a class="sourceLine" id="cb12-3" data-line-number="3"><span class="co">#&gt;    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Vehicles_2017.zip</span></a>
-<a class="sourceLine" id="cb12-4" data-line-number="4"><span class="co">#&gt; Attempt downloading from:</span></a>
-<a class="sourceLine" id="cb12-5" data-line-number="5"><span class="co">#&gt; Data saved at /tmp/RtmpqveoCA/dftRoadSafetyData_Vehicles_2017/Veh.csv</span></a>
+<a class="sourceLine" id="cb12-4" data-line-number="4"><span class="co">#&gt; Data already exists in data_dir, not downloading</span></a>
+<a class="sourceLine" id="cb12-5" data-line-number="5"><span class="co">#&gt; Data saved at ~/stats19-data/dftRoadSafetyData_Vehicles_2017/Veh.csv</span></a>
 <a class="sourceLine" id="cb12-6" data-line-number="6"><span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(vehicles)</a>
 <a class="sourceLine" id="cb12-7" data-line-number="7"><span class="co">#&gt; [1] 238926</span></a>
 <a class="sourceLine" id="cb12-8" data-line-number="8"><span class="kw"><a href="https://rdrr.io/r/base/nrow.html">ncol</a></span>(vehicles)</a>
@@ -290,7 +292,7 @@
 <a class="sourceLine" id="cb15-2" data-line-number="2"><span class="co">#&gt; 19 rows removed with no coordinates</span></a></code></pre></div>
 <p>The note arises because <code>NA</code> values are not permitted in <code>sf</code> coordinates, and so rows containing no coordinates are automatically removed. Having the data in a standard geographic form allows various geographic operations to be performed on it. The following code chunk, for example, returns all crashes within the boundary of West Yorkshire (which is contained in the object <a href="https://itsleeds.github.io/stats19/reference/police_boundaries.html"><code>police_boundaries</code></a>, an <code>sf</code> data frame containing all police jurisdictions in England and Wales).</p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(sf)</a>
-<a class="sourceLine" id="cb16-2" data-line-number="2"><span class="co">#&gt; Linking to GEOS 3.7.1, GDAL 2.4.2, PROJ 5.2.0</span></a>
+<a class="sourceLine" id="cb16-2" data-line-number="2"><span class="co">#&gt; Linking to GEOS 3.8.0, GDAL 3.0.2, PROJ 6.2.1</span></a>
 <a class="sourceLine" id="cb16-3" data-line-number="3"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(dplyr)</a>
 <a class="sourceLine" id="cb16-4" data-line-number="4"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb16-5" data-line-number="5"><span class="co">#&gt; Attaching package: 'dplyr'</span></a>
@@ -338,10 +340,10 @@
 <a class="sourceLine" id="cb18-13" data-line-number="13"><span class="co">#&gt; 2 2017120010412        1</span></a>
 <a class="sourceLine" id="cb18-14" data-line-number="14">cj[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">34</span>)] <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/sf/man/st_geometry.html">st_drop_geometry</a></span>()</a>
 <a class="sourceLine" id="cb18-15" data-line-number="15"><span class="co">#&gt; # A tibble: 2 x 3</span></a>
-<a class="sourceLine" id="cb18-16" data-line-number="16"><span class="co">#&gt;   accident_index accident_severity `Car occupant`</span></a>
-<a class="sourceLine" id="cb18-17" data-line-number="17"><span class="co">#&gt; * &lt;chr&gt;          &lt;chr&gt;                      &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb18-18" data-line-number="18"><span class="co">#&gt; 1 2017120009776  Slight                         1</span></a>
-<a class="sourceLine" id="cb18-19" data-line-number="19"><span class="co">#&gt; 2 2017120010412  Slight                         0</span></a></code></pre></div>
+<a class="sourceLine" id="cb18-16" data-line-number="16"><span class="co">#&gt;   accident_index accident_severity `Bus or coach occupant (17 or more pass seat…</span></a>
+<a class="sourceLine" id="cb18-17" data-line-number="17"><span class="co">#&gt; * &lt;chr&gt;          &lt;chr&gt;                                                     &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb18-18" data-line-number="18"><span class="co">#&gt; 1 2017120009776  Slight                                                        0</span></a>
+<a class="sourceLine" id="cb18-19" data-line-number="19"><span class="co">#&gt; 2 2017120010412  Slight                                                        0</span></a></code></pre></div>
 </div>
 <div id="mapping-crashes" class="section level2">
 <h2 class="hasAnchor">
