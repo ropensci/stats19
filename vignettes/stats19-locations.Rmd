@@ -1,0 +1,57 @@
+---
+title: "stats19-locations"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{stats19-locations}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(stats19)
+library(dplyr)
+crashes = get_stats19(2012:2018, output_format = "sf")
+# casualties = get_stats19(2012:2018, type = "cas") # fail use map_dfr...
+casualties_2018 = get_stats19(year = 2018, type = "cas")
+casualties_cyclist = casualties_2018 %>% 
+  filter(casualty_type == "Cyclist")
+crashes_cyclist = crashes %>% 
+  filter(accident_index %in% casualties_cyclist$accident_index)
+
+```
+
+## OpenStreetMap data
+
+```{r}
+library(sf)
+library(osmdata)
+data_osm = opq("england") %>% 
+  add_osm_feature(key = "name", value = "Cycle Superhighway 1") %>% 
+  osmdata_sf()
+
+sf::write_sf(superhighway$geometry, "superhighway.dxf", driver = "DXF")
+
+data_osm
+plot(data_osm$osm_lines$geometry)
+wy = pct::get_pct_zones("west-yorkshire")
+superhighway = data_osm$osm_lines[wy, ]
+mapview::mapview(superhighway)
+saveRDS(superhighway, "superhighway.Rds")
+piggyback::pb_upload("superhighway.Rds")
+
+# get buffer
+superhighway_buffer = stplanr::geo_buffer(superhighway, dist = 50) %>% 
+  sf::st_union()
+mapview::mapview(superhighway_buffer)
+crashes_cyclist = sf::st_transform(crashes_cyclist, 4326)
+crashes_near_superhighway = crashes_cyclist[superhighway_buffer, ]
+mapview::mapview(crashes_near_superhighway)
+```
+
