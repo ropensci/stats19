@@ -146,6 +146,11 @@ get_stats19 = function(year = NULL,
     if (output_format == "ppp") {
       all = do.call(spatstat::superimpose, all)
     } else {
+      all_colnames = unique(unlist(lapply(all, names)))
+      all = lapply(all, function(x) {
+        x[setdiff(all_colnames, names(x))] <- NA
+        x
+      })
       all = do.call(rbind, all)
     }
     return(all)
