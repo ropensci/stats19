@@ -1,5 +1,7 @@
 # stats19 (development version)
 
+* The package now has a hex sticker! See https://github.com/ropensci/stats19/issues/132 for discussion
+* Users can now set the default data download directory with STATS19_DOWNLOAD_DIRECTORY=/path/to/data https://github.com/ropensci/stats19/issues/141
 * The output of formatted crash datasets gains a new column, `datetime` that is a properly formatted date-time (`POSIXct`) object in the correct timezone (`Europe/London`) (#146)
 * Enables the download of multiple years as per https://github.com/ropensci/stats19/issues/99, thanks to Layik Hama
 * Users can now set the default data download directory with STATS19_DOWNLOAD_DIRECTORY=/path/to/data in your .Renviron file: https://github.com/ropensci/stats19/issues/141

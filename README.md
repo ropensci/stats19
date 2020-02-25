@@ -16,7 +16,7 @@ cycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://w
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# stats19
+# stats19 <a href='https://docs.ropensci.org/stats19/'><img src='https://raw.githubusercontent.com/ropensci/stats19/master/man/figures/logo.png' align="right" height=215/></a>
 
 **stats19** provides functions for downloading and formatting road crash
 data. Specifically, it enables access to the UK’s official road traffic
@@ -79,15 +79,16 @@ naming crashes, although the DfT refers to the relevant tables as
 crashes = get_stats19(year = 2017, type = "accident", ask = FALSE)
 #> Files identified: dftRoadSafetyData_Accidents_2017.zip
 #>    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Accidents_2017.zip
-#> Attempt downloading from:
-#> Data saved at /tmp/RtmpqveoCA/dftRoadSafetyData_Accidents_2017/Acc.csv
+#> Data already exists in data_dir, not downloading
+#> Data saved at ~/stats19-data/dftRoadSafetyData_Accidents_2017/Acc.csv
 #> Reading in:
-#> /tmp/RtmpqveoCA/dftRoadSafetyData_Accidents_2017/Acc.csv
+#> /home/robin/stats19-data/dftRoadSafetyData_Accidents_2017/Acc.csv
+#> date and time columns present, creating formatted datetime column
 ```
 
 What just happened? For the `year` 2017 we read-in crash-level (`type =
 "accident"`) data on all road crashes recorded by the police across
-Great Britain. The dataset contains 32 columns (variables) for 129,982
+Great Britain. The dataset contains 33 columns (variables) for 129,982
 crashes. We were not asked to download the file (by default you are
 asked to confirm the file that will be downloaded). The contents of this
 dataset, and other datasets provided by **stats19**, are outlined below
@@ -143,7 +144,7 @@ Crash data was downloaded and read-in using the function
 nrow(crashes)
 #> [1] 129982
 ncol(crashes)
-#> [1] 32
+#> [1] 33
 ```
 
 Some of the key variables in this dataset include:
@@ -180,8 +181,8 @@ formatted as follows:
 casualties = get_stats19(year = 2017, type = "casualties", ask = FALSE)
 #> Files identified: dftRoadSafetyData_Casualties_2017.zip
 #>    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Casualties_2017.zip
-#> Attempt downloading from:
-#> Data saved at /tmp/RtmpqveoCA/dftRoadSafetyData_Casualties_2017/Cas.csv
+#> Data already exists in data_dir, not downloading
+#> Data saved at ~/stats19-data/dftRoadSafetyData_Casualties_2017/Cas.csv
 nrow(casualties)
 #> [1] 170993
 ncol(casualties)
@@ -233,8 +234,8 @@ and formatted as follows:
 vehicles = get_stats19(year = 2017, type = "vehicles", ask = FALSE)
 #> Files identified: dftRoadSafetyData_Vehicles_2017.zip
 #>    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Vehicles_2017.zip
-#> Attempt downloading from:
-#> Data saved at /tmp/RtmpqveoCA/dftRoadSafetyData_Vehicles_2017/Veh.csv
+#> Data already exists in data_dir, not downloading
+#> Data saved at ~/stats19-data/dftRoadSafetyData_Vehicles_2017/Veh.csv
 nrow(vehicles)
 #> [1] 238926
 ncol(vehicles)
@@ -308,7 +309,7 @@ Wales).
 
 ``` r
 library(sf)
-#> Linking to GEOS 3.7.1, GDAL 2.4.2, PROJ 5.2.0
+#> Linking to GEOS 3.8.0, GDAL 3.0.2, PROJ 6.2.1
 library(dplyr)
 #> 
 #> Attaching package: 'dplyr'
@@ -374,10 +375,10 @@ cas_types[1:2, c("accident_index", "Cyclist")]
 #> 2 2017120010412        1
 cj[1:2, c(1, 5, 34)] %>% st_drop_geometry()
 #> # A tibble: 2 x 3
-#>   accident_index accident_severity `Car occupant`
-#> * <chr>          <chr>                      <dbl>
-#> 1 2017120009776  Slight                         1
-#> 2 2017120010412  Slight                         0
+#>   accident_index accident_severity `Bus or coach occupant (17 or more pass seat…
+#> * <chr>          <chr>                                                     <dbl>
+#> 1 2017120009776  Slight                                                        0
+#> 2 2017120010412  Slight                                                        0
 ```
 
 ## Mapping crashes
