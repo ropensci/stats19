@@ -4,9 +4,11 @@
 \alias{get_url}
 \title{Convert file names to urls}
 \usage{
-get_url(file_name = "",
+get_url(
+  file_name = "",
   domain = "http://data.dft.gov.uk.s3.amazonaws.com",
-  directory = "road-accidents-safety-data")
+  directory = "road-accidents-safety-data"
+)
 }
 \arguments{
 \item{file_name}{Optional file name to add to the url returned (empty by default)}
