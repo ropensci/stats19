@@ -4,8 +4,7 @@
 \alias{check_input_file}
 \title{Local helper to be reused.}
 \usage{
-check_input_file(filename = NULL, type = NULL, data_dir = NULL,
-  year = NULL)
+check_input_file(filename = NULL, type = NULL, data_dir = NULL, year = NULL)
 }
 \arguments{
 \item{filename}{Character string of the filename of the .csv to read, if this is given, type and
