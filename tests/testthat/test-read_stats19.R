@@ -113,10 +113,6 @@ test_that("read_casualties works", {
     format = FALSE
   )
   raw_read = read.csv(path)
-  expect_false(identical(
-    class(read$Accident_Index),
-    class(raw_read$Accident_Index)
-  ))
   read_formatted = read_casualties(
     year = 2016,
     format = TRUE
