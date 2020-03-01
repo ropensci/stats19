@@ -985,7 +985,7 @@ vignette("stats19") # view the introductory vignette
 
 This should now be sufficient to tackle the following exercises:
 
-1. Download and plot all crashes reported in Great Britain in 2018 (hint: see [the stats19 vignette](https://cran.r-project.org/web/packages/stats19/vignettes/stats19.html))
+1. Download and plot all crashes reported in Great Britain in 2018 (hint: see [the stats19 vignette](https://docs.ropensci.org/stats19/articles/stats19.html))
 1. Find the function in the `stats19` package that converts a `data.frame` object into an `sf` data frame. Use this function to convert the road crashes into an `sf` object, called `crashes_sf`, for example.
 1. Filter crashes that happened in the Isle of Wight based on attribute data (hint: the relevant column contains the word `local`)
 1. Filter crashes happened in the Isle of Wight using geographic subsetting (hint: remember `st_crs()`?)
