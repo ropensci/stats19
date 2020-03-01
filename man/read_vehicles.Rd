@@ -4,8 +4,12 @@
 \alias{read_vehicles}
 \title{Read in stats19 road safety data from .csv files downloaded.}
 \usage{
-read_vehicles(year = NULL, filename = "",
-  data_dir = get_data_directory(), format = TRUE)
+read_vehicles(
+  year = NULL,
+  filename = "",
+  data_dir = get_data_directory(),
+  format = TRUE
+)
 }
 \arguments{
 \item{year}{Single year for which data are to be read}

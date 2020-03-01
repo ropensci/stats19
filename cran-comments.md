@@ -1,7 +1,7 @@
-- Update to remove incorrect link (apologies for initially resubmitting the version with the incorrect URL)
+Fixes for R 4.0.0
 
 ## Test environments
-* local ubuntu 18.04, R 3.6.1
+* local ubuntu 18.04, R 3.6.2
 
 * ubuntu 14.04 (on travis-ci)
 
