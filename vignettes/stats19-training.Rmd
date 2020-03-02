@@ -829,7 +829,7 @@ Geographic joins involve assigning values from one object to a new column in ano
 With `sf` objects it works as follows:
 
 ```{r, message=FALSE}
-zones_joined = st_join(zones[NULL], crashes_sf)
+zones_joined = st_join(zones[1], crashes_sf)
 ```
 
 1. Plot the `casualty_age` variable of the new `zones_joined` object (see the figure below to verify the result).
