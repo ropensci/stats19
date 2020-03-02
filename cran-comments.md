@@ -1,4 +1,6 @@
-Fixes for R 4.0.0
+I have changed incorrect and broken links as per email.
+
+I have also updated the failing vignette in this resubmission.
 
 ## Test environments
 * local ubuntu 18.04, R 3.6.2
