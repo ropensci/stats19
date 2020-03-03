@@ -202,7 +202,7 @@ crashes_2017[random_n, key_vars]
 ## Format STATS19 data
 
 It is also possible to import the "raw" data as provided by the DfT.
-A [`.xls` file](http://data.dft.gov.uk/road-accidents-safety-data/Road-Accident-Safety-Data-Guide.xls) provided by the DfT defines the column names for the datasets provided.
+A [`.xls` file](http://data.dft.gov.uk/road-accidents-safety-data/variable%20lookup.xls) provided by the DfT defines the column names for the datasets provided.
 The packaged datasets `stats19_variables` and `stats19_schema` provide summary information about the contents of this data guide.
 These contain the full variable names in the guide (`stats19_variables`) and a complete look up table relating integer values to the `.csv` files provided by the DfT and their labels (`stats19_schema`).
 The first rows of each dataset are shown below:
