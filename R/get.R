@@ -127,6 +127,7 @@ get_stats19 = function(year = NULL,
   }
 
   if(is.vector(year) && length(year) > 1) {
+    year = check_overlapping_files(year)
     all  = list()
     i = 1
     for (aYear in year) {
@@ -196,6 +197,27 @@ get_stats19 = function(year = NULL,
   read_in
 }
 
-
-
+# This function is used to check if there is an overlapping of files with
+# multiple years. The matching between the years and the files work as follows:
+# lapply(1979:2018, stats19::find_file_name)
+# 1979 ... 2004 ---> 1979 - 2004
+# 2005 ... 2008 ---> 2005 - 2014
+# 2009          ---> 2009
+# 2010          ---> 2010
+# 2011          ---> 2011
+# ...
+# 2018          ---> 2018
+# So if I select 2005:2014 I should download only 2005 while if I select
+# 2009:2014 I should download all separate years.
+# See also https://github.com/ropensci/stats19/issues/168
+check_overlapping_files = function(year) {
+  year[year %in% 1979:2004] = 1979
+  if (any(year %in% 2005:2008)) {
+    # The year 2005 contains data since 2014 so I also exclude the years from
+    # 2005 to 2015
+    year[year %in% 2005:2014] = 2005
+  }
+  year = unique(year)
+  year
+}
 
