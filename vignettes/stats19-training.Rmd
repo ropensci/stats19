@@ -15,9 +15,17 @@ bibliography:
 
 # Introduction
 
-This document provides information, code and, vitally, exercises to test and improve your R skills.
-It starts with introductory R skills that will be of use in any domain but the focus is on R for Road Safety, in support of a [2 day course](https://www.racfoundation.org/introduction-to-r-for-road-safety).
+This document provides information, code and exercises to test and improve your R skills with an emphasis on road safety research.
+It was initially developed to support a [2 day course](https://www.racfoundation.org/introduction-to-r-for-road-safety).
 The course is based on open road crash records from the **stats19** package [@lovelace_stats19_2019].
+However, the content should be of use for anyone working with road crash data that has (at a minimum):
+
+- A timestamp
+- A location (or address that can be geocoded)
+- Attribute data, such as severity of crash, mode of vehicles involved etc.
+
+You should type, run and ensure you understand each line of code in this document.
+
 Code and data supporting the content can be found in the package's GitHub repo at [github.com/ropensci/stats19](https://github.com/ropensci/stats19/).
 The '[issue tracker](https://github.com/ropensci/stats19/issues)' associated with that repo is a good place to ask questions about the course. 
 
@@ -67,20 +75,6 @@ remotes::install_cran(pkgs)
 ```
 
 The workshop is based on a practical handout that can be found [here](https://github.com/ropensci/stats19/releases/download/1.1.0/stats-19-exercises.pdf).
-
-# Introduction
-
-This vignette supports workshops on road safety analysis with R.
-It was initially developed for a 2 day [Introduction to R for Road Safety](https://www.racfoundation.org/introduction-to-r-for-road-safety) course funded by the [RAC Foundation](https://www.racfoundation.org/), a charity that supports road safety research.
-
-The course is based on open access road crash data from the UK, which is provided in an accessible form to R users through the R package **stats19** [@lovelace_stats19_2019].
-However, the content should be of use for anyone working with road crash data that has (at a minimum):
-
-- A timestamp
-- A location (or address that can be geocoded)
-- Attribute data, such as severity of crash, mode of vehicles involved etc.
-
-You should type, run and ensure you understand each line of code in this document.
 
 # R and RStudio
 
