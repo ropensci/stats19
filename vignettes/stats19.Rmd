@@ -63,7 +63,7 @@ The raw data provided by the DfT contains only integers. Running `read_*(..., fo
 For example, `read_accidents(format = TRUE)` converts values in the `accident_severity` column from `1`, `2` and `3` to `Slight`, `Serious` and `Fatal` using `fromat_accidents()` function.
 To read-in raw data without formatting, set `format = FALSE`.
 
-Multiple functions (`read_*` and `format_*`) are needed for each step because of the structure of STATS19 data, which are divided into 3 tables, as described in an article that analyses 2005-2015 STATS19 data with reproducible R code by Christoph Freier ([2018](https://kawameicha.gitlab.io/inCodeWeTrust/2018/01/10-years-and-3.3-million-accidented-vehicles-in-the-uk/)):
+Multiple functions (`read_*` and `format_*`) are needed for each step because of the structure of STATS19 data, which are divided into 3 tables:
 
 1. "accident circumstances, with details about location, severity, weather, etc.; 
 2. casualties, referencing knowledge about the victims; and

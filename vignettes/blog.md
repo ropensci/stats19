@@ -554,7 +554,7 @@ There are many possible next steps, including:
 
 -   Comparing these datasets with interventions such as 20 mph zones (Grundy et al. 2009) and links with street morphology (Sarkar, Webster, and Kumari 2018).
 -   The creation of more general software for accessing and working with road crash data worldwide.
--   Making the data even more available by provide the data as part of an interactive web application, a technique successfully used in the Propensity to Cycle Tool (PCT) project hosted at [www.pct.bike/](http://www.pct.bike/) (this would likely take further times/resources beyond what we can provide in our spare time!).
+-   Making the data even more available by provide the data as part of an interactive web application, a technique successfully used in the Propensity to Cycle Tool (PCT) project hosted at [www.pct.bike/](https://www.pct.bike/) (this would likely take further times/resources beyond what we can provide in our spare time!).
 
 For now, however, we want to take the opportunity to celebrate the release of `stats19` 🎉, thank rOpenSci for a great review process 🙏 and let you know: the package and data are now out there, and are ready to be used 🚀.
 
