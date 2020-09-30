@@ -4,7 +4,9 @@
 \name{police_boundaries}
 \alias{police_boundaries}
 \title{Police force boundaries in England (2016)}
-\format{An sf data frame}
+\format{
+An sf data frame
+}
 \description{
 This dataset represents the 43 police forces in England and Wales.
 These are described on the
