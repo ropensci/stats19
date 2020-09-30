@@ -5,7 +5,9 @@
 \alias{accidents_sample}
 \alias{accidents_sample_raw}
 \title{Sample of stats19 data (2017 accidents)}
-\format{A data frame}
+\format{
+A data frame
+}
 \description{
 Sample of stats19 data (2017 accidents)
 }

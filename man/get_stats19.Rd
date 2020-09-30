@@ -66,12 +66,12 @@ See examples.
 \examples{
 \donttest{
 # default tibble output
-x = get_stats19(2009)
+x = get_stats19(2019)
 class(x)
 x = get_stats19(2017, silent = TRUE)
 
 # data.frame output
-x = get_stats19(2009, silent = TRUE, output_format = "data.frame")
+x = get_stats19(2019, silent = TRUE, output_format = "data.frame")
 class(x)
 
 # multiple years
