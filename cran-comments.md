@@ -1,14 +1,18 @@
-Second update of broken links (sorry I missed one)
-
-Windowbuilder finally comes up OK: https://win-builder.r-project.org/SrwobQ712IXi/00check.log
+Minor updates for new dataset
 
 ## Test environments
-* local ubuntu 18.04, R 3.6.2
+* local ubuntu 18.04, R 4.0.2
 
-* ubuntu 14.04 (on travis-ci)
+* ubuntu 16.04 (on travis-ci)
 
-* winbuilder: https://win-builder.r-project.org/SrwobQ712IXi/00check.log
+* winbuilder: none
 
 ## R CMD check results
 
-0 errors | 0 warnings | 0 notes
+0 errors | 0 warnings | 2 notes
+
+❯ checking package dependencies ... NOTE
+  Package suggested but not available for checking: ‘pkgdown’
+
+❯ checking for future file timestamps ... NOTE
+  unable to verify current time
