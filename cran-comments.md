@@ -1,4 +1,4 @@
-Minor updates for new dataset
+Minor updates for new dataset, URLs updated
 
 ## Test environments
 * local ubuntu 18.04, R 4.0.2
