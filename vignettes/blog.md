@@ -6,7 +6,7 @@ Layik Hama and Robin Lovelace
 Introduction
 ------------
 
-**stats19** is a new R package that enables access to and processing of Great Britain's official road traffic casualty database, [STATS19](https://data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data). It has been peer reviewed thanks to rOpenSci and is now published in the Journal of Open Source Software ([JOSS](http://joss.theoj.org/papers/10.21105/joss.01181)) (Lovelace et al. 2019). For installation and the code, see its home in rOpenSci: <https://github.com/ropensci/stats19>, and the package documentation at <https://itsleeds.github.io/stats19/>.
+**stats19** is a new R package that enables access to and processing of Great Britain's official road traffic casualty database, [STATS19](https://data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data). It has been peer reviewed thanks to rOpenSci and is now published in the Journal of Open Source Software ([JOSS](https://joss.theoj.org/papers/10.21105/joss.01181)) (Lovelace et al. 2019). For installation and the code, see its home in rOpenSci: <https://github.com/ropensci/stats19>, and the package documentation at <https://itsleeds.github.io/stats19/>.
 
 In this post for [rOpenSci](https://ropensci.github.io/), we'll provide a bit of context, show how the package works, and provide ideads for future work building on the experience. Now is a good time to report on the package: version [`0.2.0`](https://cran.r-project.org/web/packages/stats19/index.html) has just been release on CRAN, which contains a few improvements, some of which are used in this blog post (`ask = FALSE` in `get_stats19()`, for example, which makes it even quicker to get data with this package).
 
