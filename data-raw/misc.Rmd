@@ -34,7 +34,10 @@ file_names = setNames(as.list(dr), dr)
 # compare the objects
 waldo::compare(file_names_old, file_names)
 
+file_names$`accident-and-casualty-adjustment-2004-to-2019.zip` 
 file_names$`accident-and-casualty-adjustment-2004-to-2019.zip` = NULL
+file_names$`accident-and-casualty-adjustment-2004-to-2019.zip` 
+usethis::use_data(file_names, overwrite = TRUE)
 ```
 
 The `accidents_sample_raw` can be (re)generated using:
