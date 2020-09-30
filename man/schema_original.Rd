@@ -4,7 +4,9 @@
 \name{schema_original}
 \alias{schema_original}
 \title{Schema for stats19 data (UKDS)}
-\format{A data frame}
+\format{
+A data frame
+}
 \description{
 Schema for stats19 data (UKDS)
 }
