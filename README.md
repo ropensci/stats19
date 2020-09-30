@@ -8,7 +8,7 @@ downloads](https://cranlogs.r-pkg.org/badges/grand-total/stats19)](http://www.r-
 [![Life
 cycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/)
 [![](https://badges.ropensci.org/266_status.svg)](https://github.com/ropensci/onboarding/issues/266)
-[![DOI](http://joss.theoj.org/papers/10.21105/joss.01181/status.svg)](https://doi.org/10.21105/joss.01181)
+[![DOI](https://joss.theoj.org/papers/10.21105/joss.01181/status.svg)](https://doi.org/10.21105/joss.01181)
 
 <!-- [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.2540781.svg)](https://doi.org/10.5281/zenodo.2540781) -->
 
