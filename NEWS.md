@@ -1,4 +1,8 @@
-# stats19 (1.2.0)
+# stats19 1.3.0
+
+* Support for 2019 data (#171)
+
+# stats19 1.2.0
 
 * Tests now pass on the development version of R (4.0.0)
 * The package now has a hex sticker! See https://github.com/ropensci/stats19/issues/132 for discussion
