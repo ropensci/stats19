@@ -29,7 +29,10 @@ usethis::use_data(file_names, overwrite = TRUE)
 download.file("https://github.com/ropensci/stats19/raw/master/data/file_names.rda", "file_names_old.rda")
 load("file_names_old.rda")
 file_names_old = file_names
-usethis::use_data(file_names_old)
+usethis::use_data(file_names_old, overwrite = TRUE)
+file_names = setNames(as.list(dr), dr)
+# compare the objects
+waldo::compare(file_names_old, file_names)
 ```
 
 The `accidents_sample_raw` can be (re)generated using:
