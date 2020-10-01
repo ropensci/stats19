@@ -74,8 +74,6 @@ remotes::install_cran(pkgs)
 # remotes::install_github("ITSLeeds/pct")
 ```
 
-The workshop is based on a practical handout that can be found [here](https://github.com/ropensci/stats19/releases/download/1.1.0/stats-19-exercises.pdf).
-
 # R and RStudio
 
 The learning outcomes of this first session are to learn: 
