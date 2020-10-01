@@ -1,4 +1,6 @@
-Minor updates for new dataset, URLs updated
+Minor updates for new dataset, URLs updated.
+
+Apologies for missing some URLs in previous submission.
 
 ## Test environments
 * local ubuntu 18.04, R 4.0.2
