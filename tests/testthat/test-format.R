@@ -10,8 +10,9 @@ test_that("format_accidents works", {
 context("test-format: vehicles")
 
 test_that("format_vehicles works", {
-  fn = stats19::file_names$dftRoadSafetyData_Vehicles_2016.zip
   skip_download()
+  skip_on_cran()
+  fn = stats19::file_names$dftRoadSafetyData_Vehicles_2016.zip
   dl_stats19(file_name = fn)
   # read it
   read = read_vehicles(
@@ -27,6 +28,7 @@ context("test-format: casualties")
 test_that("format_casualties works", {
   fn = stats19::file_names$dftRoadSafetyData_Casualties_2016.zip
   skip_download()
+  skip_on_cran()
   dl_stats19(file_name = fn)
   # read it
   read = read_casualties(
