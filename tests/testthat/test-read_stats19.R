@@ -4,6 +4,7 @@ source("../skip-download.R")
 
 test_that("read_accidents works", {
   skip_download()
+  skip_on_cran()
   # download real data
   acc_2016 = stats19::file_names$dftRoadSafety_Accidents_2016.zip
   dl_stats19(file_name = acc_2016)
@@ -36,6 +37,7 @@ test_that("read_accidents works", {
 })
 test_that("read_* acc_index works", {
   skip_download()
+  skip_on_cran()
   veh_2009 = stats19::file_names$DfTRoadSafety_Vehicles_2009.zip
   dl_stats19(file_name = veh_2009)
   cas_2009 = stats19::file_names$DfTRoadSafety_Casualties_2009.zip
@@ -48,6 +50,7 @@ test_that("read_* acc_index works", {
 })
 test_that("read_vehicles works", {
   skip_download()
+  skip_on_cran()
   # download real data
   veh_2016 = stats19::file_names$dftRoadSafetyData_Vehicles_2016.zip
   dl_stats19(file_name = veh_2016)
@@ -99,6 +102,7 @@ test_that("read_vehicles works", {
 
 test_that("read_casualties works", {
   skip_download()
+  skip_on_cran()
   # download real data
   cas_2016 = stats19::file_names$dftRoadSafetyData_Casualties_2016.zip
   dl_stats19(file_name = cas_2016)
