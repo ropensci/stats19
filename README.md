@@ -71,7 +71,7 @@ provision of STATS19 data files, which are categorised by year (from
 vehicles, as outlined below). The following command, for example, gets
 crash data from 2017 (**note**: we follow the “crash not accident”
 campaign of
-[RoadPeace](http://www.roadpeace.org/take-action/crash-not-accident/) in
+[RoadPeace](https://www.roadpeace.org/take-action/crash-not-accident/) in
 naming crashes, although the DfT refers to the relevant tables as
 ‘accidents’ data):
 
