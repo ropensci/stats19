@@ -1,3 +1,7 @@
+# stats19 1.4.0
+
+* Add `get_stats19_adjustments()` function
+
 # stats19 1.3.0
 
 * Support for 2019 data (#171)
