@@ -1,6 +1,7 @@
 # stats19 1.4.0
 
 * Add `get_stats19_adjustments()` function
+* Use GH Actions for CI (#177)
 
 # stats19 1.3.0
 
