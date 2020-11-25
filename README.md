@@ -77,7 +77,7 @@ in naming crashes, although the DfT refers to the relevant tables as
 ‘accidents’ data):
 
 ``` r
-crashes = get_stats19(year = 2017, type = "accident", ask = FALSE)
+crashes = get_stats19(year = 2017, type = "accident")
 #> Files identified: dftRoadSafetyData_Accidents_2017.zip
 #>    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Accidents_2017.zip
 #> Data already exists in data_dir, not downloading
