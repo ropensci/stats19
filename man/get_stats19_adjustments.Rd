@@ -8,7 +8,8 @@ get_stats19_adjustments(
   data_dir = get_data_directory(),
   u = paste0("http://data.dft.gov.uk/road-accidents-safety-data/",
     "accident-and-casualty-adjustment-2004-to-2019.zip"),
-  filename = "accident_adjustment_lookup_2019.csv"
+  filename = "accident_adjustment_lookup_2019.csv",
+  adj_folder = "adjustment-data"
 )
 }
 \arguments{
@@ -16,7 +17,7 @@ get_stats19_adjustments(
 
 \item{filename}{The file name of the .csv file in the unzipped folder to read in}
 
-\item{adj_folder}{The folder where R will look for the unzipped adjustment files}
+\item{adj_folder}{The folder name where R will look for the unzipped adjustment files}
 }
 \description{
 See the DfT's documentation on adjustment factors
@@ -29,6 +30,6 @@ for details.
 \examples{
 \donttest{
 adjustment = get_stats19_adjustments()
-adjustment = get_stats19_adjustments(data_dir = "test-folder5")
+adjustment = get_stats19_adjustments(data_dir = "test-folder6")
 }
 }
