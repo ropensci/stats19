@@ -9,6 +9,7 @@
 #' @param u The URL of the zip file with adjustments to download
 #' @param adj_folder The folder name where R will look for the unzipped adjustment files
 #' @param filename The file name of the .csv file in the unzipped folder to read in
+#' @inheritParams read_accidents
 #' @export
 #' @examples
 #' \donttest{
