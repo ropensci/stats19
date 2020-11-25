@@ -10,17 +10,24 @@
 #' @param adj_folder The folder where R will look for the unzipped adjustment files
 #' @param filename The file name of the .csv file in the unzipped folder to read in
 #' @export
+#' @examples
+#' \donttest{
+#' adjustment = get_stats19_adjustments()
+#' adjustment = get_stats19_adjustments(data_dir = "test-folder")
+#' }
 get_stats19_adjustments = function(
   data_dir = get_data_directory(),
   u = paste0("http://data.dft.gov.uk/road-accidents-safety-data/",
     "accident-and-casualty-adjustment-2004-to-2019.zip"),
-  adj_folder = "accident-and-casualty-adjusted",
-  filename = "accident-adjustment.csv"
+  filename = "accident_adjustment_lookup_2019.csv"
 ) {
   f_zip = basename(u)
+  if(!dir.exists(data_dir)) {
+    message("Creating new folder ", data_dir)
+    dir.create(data_dir)
+  }
   adj_zip = file.path(data_dir, f_zip)
-  adj_folder_full = file.path(data_dir, adj_folder, adj_folder)
-  f_csv = file.path(adj_folder_full, filename)
+  f_csv = file.path(data_dir, filename)
 
   if(!file.exists(adj_zip)) {
     utils::download.file(
@@ -31,7 +38,7 @@ get_stats19_adjustments = function(
 
   utils::unzip(adj_zip, exdir = data_dir)
   message("Unzipped files from DfT can be found in the folder:\n", adj_folder_full)
-  message(paste(list.files(adj_folder_full), collapse = "\n"))
+  message(paste(list.files(data_dir), collapse = "\n"))
 
   # read-in adjustment figures
   adjustments = readr::read_csv(f_csv)
