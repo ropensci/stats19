@@ -13,7 +13,7 @@
 #' @examples
 #' \donttest{
 #' adjustment = get_stats19_adjustments()
-#' adjustment = get_stats19_adjustments(data_dir = "test-folder")
+#' adjustment = get_stats19_adjustments(data_dir = "test-folder5")
 #' }
 get_stats19_adjustments = function(
   data_dir = get_data_directory(),
@@ -37,7 +37,7 @@ get_stats19_adjustments = function(
   }
 
   utils::unzip(adj_zip, exdir = data_dir)
-  message("Unzipped files from DfT can be found in the folder:\n", adj_folder_full)
+  message("Unzipped files from DfT can be found in the folder:\n", data_dir)
   message(paste(list.files(data_dir), collapse = "\n"))
 
   # read-in adjustment figures
