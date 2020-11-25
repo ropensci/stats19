@@ -29,3 +29,4 @@ responses*
 data-raw/
 makefile
 ^docs$
+^\.github$
