@@ -13,7 +13,6 @@
 #' @examples
 #' \donttest{
 #' adjustment = get_stats19_adjustments()
-#' adjustment = get_stats19_adjustments(data_dir = "test-folder6")
 #' }
 get_stats19_adjustments = function(
   data_dir = get_data_directory(),
