@@ -66,7 +66,7 @@ install.packages("stats19")
 The following command, for example, gets crash data from 2017 (**note**: we follow the "crash not accident" campaign of [RoadPeace](https://www.roadpeace.org/take-action/crash-not-accident/) in naming crashes, although the DfT refers to the relevant tables as 'accidents' data):
 
 ```{r}
-crashes = get_stats19(year = 2017, type = "accident", ask = FALSE)
+crashes = get_stats19(year = 2017, type = "accident")
 ```
 
 What just happened?
