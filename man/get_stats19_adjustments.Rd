@@ -30,6 +30,5 @@ for details.
 \examples{
 \donttest{
 adjustment = get_stats19_adjustments()
-adjustment = get_stats19_adjustments(data_dir = "test-folder6")
 }
 }
