@@ -30,3 +30,4 @@ data-raw/
 makefile
 ^docs$
 ^\.github$
+^codecov\.yml$
