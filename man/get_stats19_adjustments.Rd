@@ -13,6 +13,8 @@ get_stats19_adjustments(
 )
 }
 \arguments{
+\item{data_dir}{Where sets of downloaded data would be found.}
+
 \item{u}{The URL of the zip file with adjustments to download}
 
 \item{filename}{The file name of the .csv file in the unzipped folder to read in}
