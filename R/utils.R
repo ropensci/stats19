@@ -75,7 +75,7 @@ find_file_name = function(years = NULL, type = NULL) {
   result = unlist(stats19::file_names, use.names = FALSE)
 
   if(!is.null(years)) {
-    years = vapply(years, check_year, integer(1)) # todo: vectorise?
+    years = sapply(years, check_year)
     years_regex = paste0(years, collapse = "|")
     result = result[grep(pattern = years_regex, x = result)]
   }
