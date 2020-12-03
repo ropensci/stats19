@@ -126,6 +126,10 @@ get_stats19 = function(year = NULL,
     output_format = "tibble"
   }
 
+  if(!is.null (year)) {
+    year = check_year(year)
+  }
+
   if(is.vector(year) && length(year) > 1) {
     year = check_overlapping_files(year)
     all  = list()
