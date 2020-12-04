@@ -6,7 +6,7 @@
 \usage{
 dl_stats19(
   year = NULL,
-  type = NULL,
+  type = "acc",
   data_dir = get_data_directory(),
   file_name = NULL,
   ask = FALSE,
@@ -46,7 +46,7 @@ have a sufficient internet access and hard disk space.
 
 \examples{
 \donttest{
-dl_stats19(year = 2017) # interactively select files...
+dl_stats19(year = 2017)
 # now you can read-in the data
 dl_stats19(year = 2009)
 dl_stats19(year = 2009, type = "casualties")
