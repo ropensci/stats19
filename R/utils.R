@@ -30,23 +30,24 @@ get_url = function(file_name = "",
 #' # check_year(1985)
 #' @inheritParams dl_stats19
 check_year = function(year) {
-  year = as.integer(year)
+  if(!is.numeric(year)) year = as.numeric(year)
   is_year = all(year %in% 1979:(current_year() - 1))
-  if(!is_year || is.na(year) || length(year) == 0) {
+  if(!is_year || any(is.na(year)) || length(year) == 0) {
     msg = paste0("Years must be in range 1979:", current_year() - 1)
     stop(msg, call. = FALSE)
   }
   # valid year, continue
-  if(all(year %in% 1980:2003)) {
+  if(all(year %in% 1979:2004)) {
     message("Year not in range, changing to match 1979:2004 data")
     year = 1979
   }
   # we have an overlap of year 2009 to 2014 as
   # individual zip files and
   # bundled within 2005-2014
-  if(any(year %in% 2006:2008)) {
+  if(any(year %in% 2005:2008)) {
     message("Year not in range, changing to match 2005:2014 data")
-    year = 2005
+    year[year %in% 2005:2014] = 2005
+    year = unique(year)
   }
   year
 }
