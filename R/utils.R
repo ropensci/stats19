@@ -23,7 +23,7 @@ get_url = function(file_name = "",
   path
 }
 
-#' This function does two things:
+#' This is a private function which does two things:
 #' 1. is used to check if there is an overlapping of files with
 #' multiple years. The matching between the years and the files works as follows:
 #' 1979 ... 2004 ---> 1979 - 2004
@@ -35,12 +35,13 @@ get_url = function(file_name = "",
 #' 2018          ---> 2018
 #' 2. it also does the sanity checking of the year(s) given
 #'
+#' @param year Year(s) vector to check.
 #' @examples
-#' # check_year("2018") # fails
-#' # check_year(2017)
+#' # check_year("2018")
+#' # check_year(1979:2018)
+#' #> c(1979, 2005, 2015:2018)
 #' # check_year(2006)
 #' # check_year(1985)
-#' @inheritParams dl_stats19
 check_year = function(year) {
   if(!is.numeric(year)) year = as.numeric(year)
   is_year = all(year %in% 1979:(current_year() - 1))
