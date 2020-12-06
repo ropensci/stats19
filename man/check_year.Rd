@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils.R
 \name{check_year}
 \alias{check_year}
-\title{This function does two things:
+\title{This is a private function which does two things:
 \enumerate{
 \item is used to check if there is an overlapping of files with
 multiple years. The matching between the years and the files works as follows:
@@ -19,10 +19,10 @@ multiple years. The matching between the years and the files works as follows:
 check_year(year)
 }
 \arguments{
-\item{year}{Single year for which file is to be downloaded.}
+\item{year}{Year(s) vector to check.}
 }
 \description{
-This function does two things:
+This is a private function which does two things:
 \enumerate{
 \item is used to check if there is an overlapping of files with
 multiple years. The matching between the years and the files works as follows:
@@ -37,8 +37,9 @@ multiple years. The matching between the years and the files works as follows:
 }
 }
 \examples{
-# check_year("2018") # fails
-# check_year(2017)
+# check_year("2018")
+# check_year(1979:2018)
+#> c(1979, 2005, 2015:2018)
 # check_year(2006)
 # check_year(1985)
 }
