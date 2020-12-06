@@ -22,7 +22,19 @@ get_url = function(file_name = "",
   path = file.path(domain, directory, file_name)
   path
 }
-#' check and convert year argument
+
+#' This function does two things:
+#' 1. is used to check if there is an overlapping of files with
+#' multiple years. The matching between the years and the files works as follows:
+#' 1979 ... 2004 ---> 1979 - 2004
+#' 2005 ... 2008 ---> 2005 - 2014
+#' 2009          ---> 2009
+#' 2010          ---> 2010
+#' 2011          ---> 2011
+#' ...
+#' 2018          ---> 2018
+#' 2. it also does the sanity checking of the year(s) given
+#'
 #' @examples
 #' # check_year("2018") # fails
 #' # check_year(2017)
@@ -37,9 +49,9 @@ check_year = function(year) {
     stop(msg, call. = FALSE)
   }
   # valid year, continue
-  if(all(year %in% 1979:2004)) {
+  if(any(year %in% 1979:2004)) {
     message("Year not in range, changing to match 1979:2004 data")
-    year = 1979
+    year[year %in% 1979:2004] = 1979
   }
   # we have an overlap of year 2009 to 2014 as
   # individual zip files and
@@ -47,8 +59,8 @@ check_year = function(year) {
   if(any(year %in% 2005:2008)) {
     message("Year not in range, changing to match 2005:2014 data")
     year[year %in% 2005:2014] = 2005
-    year = unique(year)
   }
+  year = unique(year)
   year
 }
 
