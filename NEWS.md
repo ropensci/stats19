@@ -4,6 +4,7 @@
 
 * Add `get_stats19_adjustments()` function
 * Use GH Actions for CI (#177)
+* Fixed a problem with `get_stats19()` and multiple years that be linked to the same data file (#168)
 
 # stats19 1.3.0
 
