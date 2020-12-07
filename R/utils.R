@@ -22,33 +22,47 @@ get_url = function(file_name = "",
   path = file.path(domain, directory, file_name)
   path
 }
-#' check and convert year argument
+
+#' This is a private function which does two things:
+#' 1. is used to check if there is an overlapping of files with
+#' multiple years. The matching between the years and the files works as follows:
+#' 1979 ... 2004 ---> 1979 - 2004
+#' 2005 ... 2008 ---> 2005 - 2014
+#' 2009          ---> 2009
+#' 2010          ---> 2010
+#' 2011          ---> 2011
+#' ...
+#' 2018          ---> 2018
+#' 2. it also does the sanity checking of the year(s) given
+#'
+#' @param year Year(s) vector to check.
 #' @examples
-#' # check_year("2018") # fails
-#' # check_year(2017)
+#' # check_year("2018")
+#' # check_year(1979:2018)
+#' #> c(1979, 2005, 2015:2018)
 #' # check_year(2006)
 #' # check_year(1985)
-#' @inheritParams dl_stats19
 check_year = function(year) {
-  year = as.integer(year)
+  if(!is.numeric(year)) year = as.numeric(year)
   is_year = all(year %in% 1979:(current_year() - 1))
-  if(!is_year || is.na(year) || length(year) == 0) {
+  if(!is_year || any(is.na(year)) || length(year) == 0) {
     msg = paste0("Years must be in range 1979:", current_year() - 1)
     stop(msg, call. = FALSE)
   }
   # valid year, continue
-  if(year %in% 1980:2003) {
+  if(any(year %in% 1979:2004)) {
     message("Year not in range, changing to match 1979:2004 data")
-    year = 1979
+    year[year %in% 1979:2004] = 1979
   }
   # we have an overlap of year 2009 to 2014 as
   # individual zip files and
   # bundled within 2005-2014
-  if(year %in% 2006:2008) {
+  if(any(year %in% 2005:2008)) {
     message("Year not in range, changing to match 2005:2014 data")
-    year = 2005
+    year[year %in% 2005:2014] = 2005
   }
-  as.integer(year)
+  year = unique(year)
+  year
 }
 
 # current_year()
@@ -75,7 +89,7 @@ find_file_name = function(years = NULL, type = NULL) {
   result = unlist(stats19::file_names, use.names = FALSE)
 
   if(!is.null(years)) {
-    years = vapply(years, check_year, integer(1)) # todo: vectorise?
+    years = sapply(years, check_year)
     years_regex = paste0(years, collapse = "|")
     result = result[grep(pattern = years_regex, x = result)]
   }

@@ -126,6 +126,10 @@ get_stats19 = function(year = NULL,
     output_format = "tibble"
   }
 
+  if(!is.null (year)) {
+    year = check_year(year)
+  }
+
   if(is.vector(year) && length(year) > 1) {
     all  = list()
     i = 1
@@ -195,7 +199,4 @@ get_stats19 = function(year = NULL,
 
   read_in
 }
-
-
-
 
