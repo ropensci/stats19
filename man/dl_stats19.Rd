@@ -14,7 +14,7 @@ dl_stats19(
 )
 }
 \arguments{
-\item{year}{Single year for which file is to be downloaded.}
+\item{year}{Valid vector of one or more years from 1979 up until last year.}
 
 \item{type}{One of 'Accidents', 'Casualties', 'Vehicles'; defaults to 'Accidents'.
 Or any variation of to search the file names with such as "acc" or "accid".}

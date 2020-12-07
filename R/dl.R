@@ -14,7 +14,7 @@
 #' @seealso [get_stats19()]
 #'
 #' @param file_name The file name (DfT named) to download.
-#' @param year Single year for which file is to be downloaded.
+#' @param year Valid vector of one or more years from 1979 up until last year.
 #' @param type One of 'Accidents', 'Casualties', 'Vehicles'; defaults to 'Accidents'.
 #' Or any variation of to search the file names with such as "acc" or "accid".
 #' @param data_dir Parent directory for all downloaded files. Defaults to `tempdir()`.
@@ -42,6 +42,23 @@ dl_stats19 = function(year = NULL,
   if(!is.null (year)) {
     year = check_year(year)
   }
+
+  if(is.vector(year) && length(year) > 1) {
+    if(!silent) message("Downloading ", length(year), " files.")
+
+    for (ayear in year) {
+      dl_stats19(
+        year = ayear,
+        type = type,
+        data_dir = data_dir,
+        file_name = file_name,
+        ask = ask,
+        silent = silent
+      )
+    }
+    return(TRUE) # convention?
+  }
+
   if(is.null(file_name)) {
     fnames = find_file_name(years = year, type = type)
     nfiles_found = length(fnames)
