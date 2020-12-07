@@ -26,11 +26,11 @@ test_that("dl_stats19 works for 2017", {
   expect_true(dl_stats19(2017:2018))
   # should also be true
   expect_true(dir.exists(file.path(
-    tempdir(), "dftRoadSafetyData_Accidents_2017"
+    get_data_directory(), "dftRoadSafetyData_Accidents_2017"
   )))
   # 2018 comes just as csv's
   expect_true(file.exists(file.path(
-    tempdir(), "dftRoadSafetyData_Accidents_2018.csv"
+    get_data_directory(), "dftRoadSafetyData_Accidents_2018.csv"
   )))
 })
 
