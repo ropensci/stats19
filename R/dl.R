@@ -56,47 +56,45 @@ dl_stats19 = function(year = NULL,
         silent = silent
       )
     }
-    return(TRUE) # convention?
-  }
-
-  if(is.null(file_name)) {
-    fnames = find_file_name(years = year, type = type)
-    nfiles_found = length(fnames)
-    many_found = nfiles_found > 1
-    if(many_found) {
-      if(interactive()) {
-        fnames = select_file(fnames)
-      } else {
-        if (isFALSE(silent)){
-          message("More than one file found, selecting the first.")
+  } else {
+    if(is.null(file_name)) {
+      fnames = find_file_name(years = year, type = type)
+      nfiles_found = length(fnames)
+      many_found = nfiles_found > 1
+      if(many_found) {
+        if(interactive()) {
+          fnames = select_file(fnames)
+        } else {
+          if (isFALSE(silent)){
+            message("More than one file found, selecting the first.")
+          }
+          fnames = fnames[1]
         }
-        fnames = fnames[1]
       }
+      zip_url = get_url(fnames)
+    } else {
+      many_found = FALSE
+      fnames = file_name
+      nfiles_found = length(fnames)
+      zip_url = get_url(file_name = file_name)
     }
-    zip_url = get_url(fnames)
-  } else {
-    many_found = FALSE
-    fnames = file_name
-    nfiles_found = length(fnames)
-    zip_url = get_url(file_name = file_name)
-  }
 
-  if (isFALSE(silent)) {
-    message("Files identified: ", paste0(fnames, "\n"))
-    message(paste0("   ", zip_url, collapse = "\n"))
-  }
+    if (isFALSE(silent)) {
+      message("Files identified: ", paste0(fnames, "\n"))
+      message(paste0("   ", zip_url, collapse = "\n"))
+    }
 
-  if (!dir.exists(data_dir)) {
-    dir.create(data_dir, recursive = TRUE)
-  }
+    if (!dir.exists(data_dir)) {
+      dir.create(data_dir, recursive = TRUE)
+    }
 
-  is_zip_file = grepl(pattern = "zip", zip_url)
-  exdir = sub(".zip", "", fnames)
-  if(is_zip_file) {
-    destfile = file.path(data_dir, paste0(exdir, ".zip"))
-  } else {
-    destfile = file.path(data_dir, paste0(exdir))
-  }
+    is_zip_file = grepl(pattern = "zip", zip_url)
+    exdir = sub(".zip", "", fnames)
+    if(is_zip_file) {
+      destfile = file.path(data_dir, paste0(exdir, ".zip"))
+    } else {
+      destfile = file.path(data_dir, paste0(exdir))
+    }
     data_already_exists = file.exists(destfile)
     if(data_already_exists) {
       if (isFALSE(silent)) {
@@ -127,4 +125,5 @@ dl_stats19 = function(year = NULL,
     } else if (isFALSE(silent)) {
       message("Data saved at ", destfile)
     }
+  }
 }

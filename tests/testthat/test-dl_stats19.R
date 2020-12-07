@@ -23,7 +23,7 @@ test_that("dl_stats19 works for 2017", {
   # already downloaded
   expect_message(dl_stats19(year = "2017"),
                  "Data already exists in data_dir")
-  expect_true(dl_stats19(2017:2018))
+  expect_message(dl_stats19(2017:2018))
   # should also be true
   expect_true(dir.exists(file.path(
     get_data_directory(), "dftRoadSafetyData_Accidents_2017"
