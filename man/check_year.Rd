@@ -2,19 +2,44 @@
 % Please edit documentation in R/utils.R
 \name{check_year}
 \alias{check_year}
-\title{check and convert year argument}
+\title{This is a private function which does two things:
+\enumerate{
+\item is used to check if there is an overlapping of files with
+multiple years. The matching between the years and the files works as follows:
+1979 ... 2004 ---> 1979 - 2004
+2005 ... 2008 ---> 2005 - 2014
+2009          ---> 2009
+2010          ---> 2010
+2011          ---> 2011
+...
+2018          ---> 2018
+\item it also does the sanity checking of the year(s) given
+}}
 \usage{
 check_year(year)
 }
 \arguments{
-\item{year}{Single year for which file is to be downloaded.}
+\item{year}{Year(s) vector to check.}
 }
 \description{
-check and convert year argument
+This is a private function which does two things:
+\enumerate{
+\item is used to check if there is an overlapping of files with
+multiple years. The matching between the years and the files works as follows:
+1979 ... 2004 ---> 1979 - 2004
+2005 ... 2008 ---> 2005 - 2014
+2009          ---> 2009
+2010          ---> 2010
+2011          ---> 2011
+...
+2018          ---> 2018
+\item it also does the sanity checking of the year(s) given
+}
 }
 \examples{
-# check_year("2018") # fails
-# check_year(2017)
+# check_year("2018")
+# check_year(1979:2018)
+#> c(1979, 2005, 2015:2018)
 # check_year(2006)
 # check_year(1985)
 }
