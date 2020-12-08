@@ -14,7 +14,7 @@
 #' @seealso [get_stats19()]
 #'
 #' @param file_name The file name (DfT named) to download.
-#' @param year Single year for which file is to be downloaded.
+#' @param year Valid vector of one or more years from 1979 up until last year.
 #' @param type One of 'Accidents', 'Casualties', 'Vehicles'; defaults to 'Accidents'.
 #' Or any variation of to search the file names with such as "acc" or "accid".
 #' @param data_dir Parent directory for all downloaded files. Defaults to `tempdir()`.
@@ -25,7 +25,10 @@
 #' @export
 #' @examples
 #' \donttest{
+#' # type by default is accidents table
 #' dl_stats19(year = 2017)
+#' # try multiple years
+#' dl_stats19(year = 2017:2018)
 #' # now you can read-in the data
 #' dl_stats19(year = 2009)
 #' dl_stats19(year = 2009, type = "casualties")
@@ -42,44 +45,59 @@ dl_stats19 = function(year = NULL,
   if(!is.null (year)) {
     year = check_year(year)
   }
-  if(is.null(file_name)) {
-    fnames = find_file_name(years = year, type = type)
-    nfiles_found = length(fnames)
-    many_found = nfiles_found > 1
-    if(many_found) {
-      if(interactive()) {
-        fnames = select_file(fnames)
-      } else {
-        if (isFALSE(silent)){
-          message("More than one file found, selecting the first.")
-        }
-        fnames = fnames[1]
-      }
+
+  if(is.vector(year) && length(year) > 1) {
+    if(!silent) message("Downloading ", length(year), " files.")
+
+    for (ayear in year) {
+      dl_stats19(
+        year = ayear,
+        type = type,
+        data_dir = data_dir,
+        file_name = file_name,
+        ask = ask,
+        silent = silent
+      )
     }
-    zip_url = get_url(fnames)
   } else {
-    many_found = FALSE
-    fnames = file_name
-    nfiles_found = length(fnames)
-    zip_url = get_url(file_name = file_name)
-  }
+    if(is.null(file_name)) {
+      fnames = find_file_name(years = year, type = type)
+      nfiles_found = length(fnames)
+      many_found = nfiles_found > 1
+      if(many_found) {
+        if(interactive()) {
+          fnames = select_file(fnames)
+        } else {
+          if (isFALSE(silent)){
+            message("More than one file found, selecting the first.")
+          }
+          fnames = fnames[1]
+        }
+      }
+      zip_url = get_url(fnames)
+    } else {
+      many_found = FALSE
+      fnames = file_name
+      nfiles_found = length(fnames)
+      zip_url = get_url(file_name = file_name)
+    }
 
-  if (isFALSE(silent)) {
-    message("Files identified: ", paste0(fnames, "\n"))
-    message(paste0("   ", zip_url, collapse = "\n"))
-  }
+    if (isFALSE(silent)) {
+      message("Files identified: ", paste0(fnames, "\n"))
+      message(paste0("   ", zip_url, collapse = "\n"))
+    }
 
-  if (!dir.exists(data_dir)) {
-    dir.create(data_dir, recursive = TRUE)
-  }
+    if (!dir.exists(data_dir)) {
+      dir.create(data_dir, recursive = TRUE)
+    }
 
-  is_zip_file = grepl(pattern = "zip", zip_url)
-  exdir = sub(".zip", "", fnames)
-  if(is_zip_file) {
-    destfile = file.path(data_dir, paste0(exdir, ".zip"))
-  } else {
-    destfile = file.path(data_dir, paste0(exdir))
-  }
+    is_zip_file = grepl(pattern = "zip", zip_url)
+    exdir = sub(".zip", "", fnames)
+    if(is_zip_file) {
+      destfile = file.path(data_dir, paste0(exdir, ".zip"))
+    } else {
+      destfile = file.path(data_dir, paste0(exdir))
+    }
     data_already_exists = file.exists(destfile)
     if(data_already_exists) {
       if (isFALSE(silent)) {
@@ -110,4 +128,5 @@ dl_stats19 = function(year = NULL,
     } else if (isFALSE(silent)) {
       message("Data saved at ", destfile)
     }
+  }
 }

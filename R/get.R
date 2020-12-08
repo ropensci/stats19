@@ -27,6 +27,7 @@
 #'   and `"ppp"`, that, respectively, returns objects of class [`data.frame`],
 #'   [`sf::sf`] and [`spatstat::ppp`]. Any other string is ignored and a tibble
 #'   output is returned. See details and examples.
+#' @param year Valid vector of one or more years from 1979 up until last year.
 #' @param ... Other arguments that should be passed to [format_sf()] or
 #'   [format_ppp()] functions. Read and run the examples.
 #'
