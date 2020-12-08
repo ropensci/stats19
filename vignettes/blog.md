@@ -6,7 +6,7 @@ Layik Hama and Robin Lovelace
 Introduction
 ------------
 
-**stats19** is a new R package that enables access to and processing of Great Britain's official road traffic casualty database, [STATS19](https://data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data). It has been peer reviewed thanks to rOpenSci and is now published in the Journal of Open Source Software ([JOSS](http://joss.theoj.org/papers/10.21105/joss.01181)) (Lovelace et al. 2019). For installation and the code, see its home in rOpenSci: <https://github.com/ropensci/stats19>, and the package documentation at <https://itsleeds.github.io/stats19/>.
+**stats19** is a new R package that enables access to and processing of Great Britain's official road traffic casualty database, [STATS19](https://data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data). It has been peer reviewed thanks to rOpenSci and is now published in the Journal of Open Source Software ([JOSS](https://joss.theoj.org/papers/10.21105/joss.01181)) (Lovelace et al. 2019). For installation and the code, see its home in rOpenSci: <https://github.com/ropensci/stats19>, and the package documentation at <https://itsleeds.github.io/stats19/>.
 
 In this post for [rOpenSci](https://ropensci.github.io/), we'll provide a bit of context, show how the package works, and provide ideads for future work building on the experience. Now is a good time to report on the package: version [`0.2.0`](https://cran.r-project.org/web/packages/stats19/index.html) has just been release on CRAN, which contains a few improvements, some of which are used in this blog post (`ask = FALSE` in `get_stats19()`, for example, which makes it even quicker to get data with this package).
 
@@ -554,7 +554,7 @@ There are many possible next steps, including:
 
 -   Comparing these datasets with interventions such as 20 mph zones (Grundy et al. 2009) and links with street morphology (Sarkar, Webster, and Kumari 2018).
 -   The creation of more general software for accessing and working with road crash data worldwide.
--   Making the data even more available by provide the data as part of an interactive web application, a technique successfully used in the Propensity to Cycle Tool (PCT) project hosted at [www.pct.bike/](http://www.pct.bike/) (this would likely take further times/resources beyond what we can provide in our spare time!).
+-   Making the data even more available by provide the data as part of an interactive web application, a technique successfully used in the Propensity to Cycle Tool (PCT) project hosted at [www.pct.bike/](https://www.pct.bike/) (this would likely take further times/resources beyond what we can provide in our spare time!).
 
 For now, however, we want to take the opportunity to celebrate the release of `stats19` 🎉, thank rOpenSci for a great review process 🙏 and let you know: the package and data are now out there, and are ready to be used 🚀.
 

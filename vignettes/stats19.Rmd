@@ -26,7 +26,7 @@ A description of variables in the database can be found in a [document](http://d
 The datasets are collectively called STATS19 after the form used to report them, which can be found [here](https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/230590/stats19.pdf).
 This vignette focuses on how to use the **stats19** package to work with STATS19 data.
 
-**Note**: The Department for Transport refers to "accidents", but "crashes" is a more appropriate term, as emphasised in the "crash not accident" arguments of road safety advocacy groups such as [RoadPeace](http://www.roadpeace.org/take-action/crash-not-accident/).
+**Note**: The Department for Transport refers to "accidents", but "crashes" is a more appropriate term, as emphasised in the "crash not accident" arguments of road safety advocacy groups such as [RoadPeace](https://www.roadpeace.org/take-action/crash-not-accident/).
 We use the term "accidents" only in reference to nomenclature within the data as provided.
 
 The development version is hosted on [GitHub](https://github.com/ITSLeeds/stats19) and can be installed and loaded as follows:
@@ -63,7 +63,7 @@ The raw data provided by the DfT contains only integers. Running `read_*(..., fo
 For example, `read_accidents(format = TRUE)` converts values in the `accident_severity` column from `1`, `2` and `3` to `Slight`, `Serious` and `Fatal` using `fromat_accidents()` function.
 To read-in raw data without formatting, set `format = FALSE`.
 
-Multiple functions (`read_*` and `format_*`) are needed for each step because of the structure of STATS19 data, which are divided into 3 tables, as described in an article that analyses 2005-2015 STATS19 data with reproducible R code by Christoph Freier ([2018](https://kawameicha.gitlab.io/inCodeWeTrust/2018/01/10-years-and-3.3-million-accidented-vehicles-in-the-uk/)):
+Multiple functions (`read_*` and `format_*`) are needed for each step because of the structure of STATS19 data, which are divided into 3 tables:
 
 1. "accident circumstances, with details about location, severity, weather, etc.; 
 2. casualties, referencing knowledge about the victims; and
@@ -175,7 +175,7 @@ We read-in data on all road crashes recorded by the police in 2017 across Great 
 The dataset contains `r ncol(crashes_2017_raw)` columns (variables) for `r format(nrow(crashes_2017_raw), big.mark = ",")` crashes.
 
 This work was done by `read_accidents(format = FALSE)`, which imported the "raw" STATS19 data without cleaning messy column names or re-categorising the outputs.
-`format_accidents()` function automates the process of matching column names with variable names and labels in a [`.xls` file](http://data.dft.gov.uk/road-accidents-safety-data/Road-Accident-Safety-Data-Guide.xls) provided by the DfT.
+`format_accidents()` function automates the process of matching column names with variable names and labels in a [`.xls` file](http://data.dft.gov.uk/road-accidents-safety-data/variable%20lookup.xls) provided by the DfT.
 This means `crashes_2017` is much more usable than `crashes_2017_raw`, as shown below, which shows some key variables in the messy and clean datasets:
 
 ```{r crashes2017-columns}
@@ -202,7 +202,7 @@ crashes_2017[random_n, key_vars]
 ## Format STATS19 data
 
 It is also possible to import the "raw" data as provided by the DfT.
-A [`.xls` file](http://data.dft.gov.uk/road-accidents-safety-data/Road-Accident-Safety-Data-Guide.xls) provided by the DfT defines the column names for the datasets provided.
+A [`.xls` file](http://data.dft.gov.uk/road-accidents-safety-data/variable%20lookup.xls) provided by the DfT defines the column names for the datasets provided.
 The packaged datasets `stats19_variables` and `stats19_schema` provide summary information about the contents of this data guide.
 These contain the full variable names in the guide (`stats19_variables`) and a complete look up table relating integer values to the `.csv` files provided by the DfT and their labels (`stats19_schema`).
 The first rows of each dataset are shown below:

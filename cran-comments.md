@@ -1,10 +1,20 @@
-- Update to remove incorrect link (apologies for initially resubmitting the version with the incorrect URL)
+Minor updates for new dataset, URLs updated.
+
+Apologies for missing some URLs in previous submission.
 
 ## Test environments
-* local ubuntu 18.04, R 3.6.1
+* local ubuntu 18.04, R 4.0.2
 
-* ubuntu 14.04 (on travis-ci)
+* ubuntu 16.04 (on travis-ci)
+
+* winbuilder: none
 
 ## R CMD check results
 
-0 errors | 0 warnings | 0 notes
+0 errors | 0 warnings | 2 notes
+
+❯ checking package dependencies ... NOTE
+  Package suggested but not available for checking: ‘pkgdown’
+
+❯ checking for future file timestamps ... NOTE
+  unable to verify current time

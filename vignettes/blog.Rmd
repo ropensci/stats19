@@ -43,7 +43,7 @@ data on the nature of road crashes in the UK more publicly accessible
 
 It has been peer reviewed thanks to rOpenSci and is now published in the
 Journal of Open Source Software
-([JOSS](http://joss.theoj.org/papers/10.21105/joss.01181)) (Lovelace et
+([JOSS](https://joss.theoj.org/papers/10.21105/joss.01181)) (Lovelace et
 al. 2019). For installation and the code, see its home in rOpenSci:
 <https://github.com/ropensci/stats19>, and the package documentation at
 <https://itsleeds.github.io/stats19/>.
@@ -391,7 +391,7 @@ There are many possible next steps, including:
 
 - Comparing these datasets with interventions such as 20 mph zones [@grundy_effect_2009] and links with street morphology [@sarkar_street_2018].
 - The creation of more general software for accessing and working with road crash data worldwide.
-- Making the data even more available by provide the data as part of an interactive web application, a technique successfully used in the Propensity to Cycle Tool (PCT) project hosted at [www.pct.bike/](http://www.pct.bike/) (this would likely take further times/resources beyond what we can provide in our spare time!).
+- Making the data even more available by provide the data as part of an interactive web application, a technique successfully used in the Propensity to Cycle Tool (PCT) project hosted at [www.pct.bike/](https://www.pct.bike/) (this would likely take further times/resources beyond what we can provide in our spare time!).
 
 For now, however, we want to take the opportunity to celebrate the release of `stats19` 🎉, thank rOpenSci for a great review process 🙏 and let you know: the package and data are now out there, and are ready to be used 🚀.
 
