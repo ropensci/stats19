@@ -25,7 +25,10 @@
 #' @export
 #' @examples
 #' \donttest{
+#' # type by default is accidents table
 #' dl_stats19(year = 2017)
+#' # try multiple years
+#' dl_stats19(year = 2017:2018)
 #' # now you can read-in the data
 #' dl_stats19(year = 2009)
 #' dl_stats19(year = 2009, type = "casualties")
