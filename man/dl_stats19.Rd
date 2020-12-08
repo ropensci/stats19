@@ -14,7 +14,7 @@ dl_stats19(
 )
 }
 \arguments{
-\item{year}{Single year for which file is to be downloaded.}
+\item{year}{Valid vector of one or more years from 1979 up until last year.}
 
 \item{type}{One of 'Accidents', 'Casualties', 'Vehicles'; defaults to 'Accidents'.
 Or any variation of to search the file names with such as "acc" or "accid".}
@@ -46,7 +46,10 @@ have a sufficient internet access and hard disk space.
 
 \examples{
 \donttest{
+# type by default is accidents table
 dl_stats19(year = 2017)
+# try multiple years
+dl_stats19(year = 2017:2018)
 # now you can read-in the data
 dl_stats19(year = 2009)
 dl_stats19(year = 2009, type = "casualties")
