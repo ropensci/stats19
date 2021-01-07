@@ -8,7 +8,7 @@ get_stats19_adjustments(
   data_dir = get_data_directory(),
   u = paste0("http://data.dft.gov.uk/road-accidents-safety-data/",
     "accident-and-casualty-adjustment-2004-to-2019.zip"),
-  filename = "accident_adjustment_lookup_2019.csv",
+  filename = "cas_adjustment_lookup_2019.csv",
   adj_folder = "adjustment-data"
 )
 }
