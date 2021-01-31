@@ -1,12 +1,15 @@
 #' Download, read and format STATS19 data in one function.
 #'
 #' @section Details:
-#' This function utilizes `dl_stats19` and `read_*` functions and returns a
-#' tibble (default), a data.frame, a sf object or a ppp object (according to the
-#' `output_format` parameter).
-#' The file downloaded would be for a specific year (e.g. 2017) or multiple
-#' years (e.g. c(2017, 2018)).
-#' See examples.
+#' This function uses gets STATS19 data. Behind the scenes it uses
+#' `dl_stats19()` and `read_*` functions, returning a
+#' `tibble` (default), `data.frame`, `sf` or `ppp` object, depending on the
+#' `output_format` parameter.
+#' The function returns data for a specific year (e.g. `year = 2017`) or multiple
+#' years (e.g. `year = c(2017, 2018)`).
+#' Note: for years before 2009 the function may return data from more years than are
+#' requested due to the nature of the files hosted at
+#' [data.gov.uk](https://data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data).
 #'
 #' As this function uses `dl_stats19` function, it can download many MB of data,
 #' so ensure you have a sufficient disk space.
