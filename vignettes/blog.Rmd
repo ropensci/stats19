@@ -124,6 +124,16 @@ Unzipped this contains the following 3 files, which occupy almost 2 GB on your h
 # total 1.753 GB data
 ```
 
+#### Note
+
+As of February 2021 we do not run any of the code in this vignette due to CRAN check issues.
+See https://ropensci.org/blog/2019/02/26/stats19/ for the final version of this vignette.
+
+```{r}
+knitr::opts_chunk$set(eval = FALSE)
+```
+
+
 #### How stats19 works
 
 With those introductions out of the way, lets see what the package can do and how it can empower people (including target audiences of academics, policy makers and road safety campaigners and R programmers/analysts wanting to test their skills on a large spatio-temporal dataset) to access STATS19 data, back to 1979.
