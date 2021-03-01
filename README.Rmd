@@ -302,7 +302,7 @@ Please tell people about the package, link to it and cite it if you use it in yo
 
 Examples of how the package can been used for policy making include:
 
-- Use of the package in a web app created by the library service of the UK Parliament. See [commonslibrary.parliament.uk](https://commonslibrary.parliament.uk/economy-business/transport/roads/constituency-data-traffic-accidents/), screenshots of which from December 2019 are shown below, for details.
+- Use of the package in a web app created by the library service of the UK Parliament. See [commonslibrary.parliament.uk](https://commonslibrary.parliament.uk/constituency-data-traffic-accidents/), screenshots of which from December 2019 are shown below, for details.
 
 ![](https://user-images.githubusercontent.com/1825120/70164249-bf730080-16b8-11ea-96d8-ec92c0b5cc69.png)
 
