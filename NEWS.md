@@ -1,4 +1,4 @@
-# stats19 (development version)
+# stats19 1.3.1
 
 # stats19 1.4.0
 
