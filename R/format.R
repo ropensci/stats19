@@ -207,7 +207,7 @@ format_ppp = function(data, window = NULL,  ...) {
     )
   }
 
-  data_ppp = spatstat.core::ppp(
+  data_ppp = spatstat.geom::ppp(
     x = data[[coords[[1]]]],
     y = data[[coords[[2]]]],
     window = window,
