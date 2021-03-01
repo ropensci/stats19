@@ -36,7 +36,7 @@ messages on the screen.}
 \item{output_format}{A string that specifies the desired output format. The
 default value is \code{"tibble"}. Other possible values are \code{"data.frame"}, \code{"sf"}
 and \code{"ppp"}, that, respectively, returns objects of class \code{\link{data.frame}},
-\code{\link[sf:sf]{sf::sf}} and \code{\link[spatstat.core:ppp]{spatstat.geom::ppp}}. Any other string is ignored and a tibble
+\code{\link[sf:sf]{sf::sf}} and \code{\link[spatstat.geom:ppp]{spatstat.geom::ppp}}. Any other string is ignored and a tibble
 output is returned. See details and examples.}
 
 \item{...}{Other arguments that should be passed to \code{\link[=format_sf]{format_sf()}} or
