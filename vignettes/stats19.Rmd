@@ -46,7 +46,7 @@ library(stats19)
 
 The easiest way to get STATS19 data is with `get_stats19()`.
 This function takes 2 main arguments, `year` and `type`.
-The year can be any year between 1979 and 2017 and it can be a vector of years including the full range of 1979 up to the year before current.
+The year can be any year between 1979 and xxxx where x is the current year minus one or two due to the delay in publishing STATS19 statistics (2019 is the latest year for which the datasets are available) and it can be a vector of years including the full range of 1979 up to the year before current.
 The type can be one of `accidents`, `casualties` and `vehicles`, described below.
 `get_stats19()` performs 3 jobs, corresponding to three main types of functions:
 
