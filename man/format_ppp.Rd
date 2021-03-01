@@ -16,25 +16,25 @@ events occurring in a specific region of UK (see the examples of
 \code{\link{get_stats19}}).}
 
 \item{...}{Additional parameters that should be passed to
-\code{\link[spatstat]{ppp}} function. Read the help page of that function
+\code{\link[spatstat.geom:ppp]{spatstat.geom::ppp()}} function. Read the help page of that function
 for a detailed description of the available parameters.}
 }
 \value{
 A ppp object.
 }
 \description{
-This function is a wrapper around \code{\link[spatstat]{ppp}} function and
+This function is a wrapper around the \code{\link[spatstat.geom:ppp]{spatstat.geom::ppp()}} function and
 it is used to transform STATS19 data into a ppp format.
 }
 \examples{
-if (requireNamespace("spatstat", quietly = TRUE)) {
+if (requireNamespace("spatstat.core", quietly = TRUE)) {
   x_ppp = format_ppp(accidents_sample)
-  spatstat::plot.ppp(spatstat::unmark(x_ppp))
+  x_ppp
 }
 
 }
 \seealso{
 \code{\link{format_sf}} for an analogous function used to convert
-data into sf format and \code{\link[spatstat]{ppp}} for the original
-spatstat function.
+data into sf format and \code{\link[spatstat.geom:ppp]{spatstat.geom::ppp()}} for the original
+spatstat.core function.
 }
