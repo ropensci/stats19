@@ -53,6 +53,8 @@ Suggests:
     tmap,
     jsonlite,
     pct,
+    spatstat.core,
+    spatstat.geom,
     spatstat,
     osmdata,
     covr
