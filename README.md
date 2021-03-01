@@ -428,7 +428,6 @@ crashes_dates = cj %>%
     passenger = sum(`Car occupant`)
     ) %>% 
   tidyr::gather(mode, casualties, -date)
-#> `summarise()` ungrouping output (override with `.groups` argument)
 ggplot(crashes_dates, aes(date, casualties)) +
   geom_smooth(aes(colour = mode), method = "loess") +
   ylab("Casualties per day")
@@ -454,7 +453,6 @@ crash_times = cj %>%
     passenger = sum(`Car occupant`)
     ) %>% 
   tidyr::gather(mode, casualties, -hour)
-#> `summarise()` ungrouping output (override with `.groups` argument)
 
 ggplot(crash_times, aes(hour, casualties)) +
   geom_line(aes(colour = mode))
@@ -476,7 +474,7 @@ Examples of how the package can been used for policy making include:
 
 -   Use of the package in a web app created by the library service of
     the UK Parliament. See
-    [commonslibrary.parliament.uk](https://commonslibrary.parliament.uk/economy-business/transport/roads/constituency-data-traffic-accidents/),
+    [commonslibrary.parliament.uk](https://commonslibrary.parliament.uk/constituency-data-traffic-accidents/),
     screenshots of which from December 2019 are shown below, for
     details.
 
