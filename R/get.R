@@ -28,7 +28,7 @@
 #' @param output_format A string that specifies the desired output format. The
 #'   default value is `"tibble"`. Other possible values are `"data.frame"`, `"sf"`
 #'   and `"ppp"`, that, respectively, returns objects of class [`data.frame`],
-#'   [`sf::sf`] and [`spatstat::ppp`]. Any other string is ignored and a tibble
+#'   [`sf::sf`] and [`spatstat.geom::ppp`]. Any other string is ignored and a tibble
 #'   output is returned. See details and examples.
 #' @param year Valid vector of one or more years from 1979 up until last year.
 #' @param ... Other arguments that should be passed to [format_sf()] or
@@ -59,10 +59,9 @@
 #' # multiple years
 #' get_stats19(c(2017, 2018), silent = TRUE, output_format = "sf")
 #'
-#' if (requireNamespace("spatstat", quietly = TRUE)) {
+#' if (requireNamespace("spatstat.core", quietly = TRUE)) {
 #' # ppp output
 #' x_ppp = get_stats19(2017, silent = TRUE, output_format = "ppp")
-#' spatstat::plot.ppp(x_ppp, use.marks = FALSE)
 #'
 #' # Multiple years
 #' get_stats19(c(2017, 2018), silent = TRUE, output_format = "ppp")
@@ -71,13 +70,13 @@
 #' # events occurred in a specific area. For example we can create a new bbox
 #' # of 5km around the city center of Leeds
 #'
-#' leeds_window = spatstat::owin(
+#' leeds_window = spatstat.geom::owin(
 #' xrange = c(425046.1, 435046.1),
 #' yrange = c(428577.2, 438577.2)
 #' )
 #'
 #' leeds_ppp = get_stats19(2017, silent = TRUE, output_format = "ppp", window = leeds_window)
-#' spatstat::plot.ppp(leeds_ppp, use.marks = FALSE, clipwin = leeds_window)
+#' spatstat.geom::plot.ppp(leeds_ppp, use.marks = FALSE, clipwin = leeds_window)
 #'
 #' # or even more fancy examples where we subset all the events occurred in a
 #' # pre-defined polygon area
@@ -91,10 +90,10 @@
 #' # greater_london_sf_polygon = sf::st_transform(greater_london_sf_polygon, 27700)
 #' # then we extract the coordinates and create the window object.
 #' # greater_london_polygon = sf::st_coordinates(greater_london_sf_polygon)[, c(1, 2)]
-#' # greater_london_window = spatstat::owin(poly = greater_london_polygon)
+#' # greater_london_window = spatstat.geom::owin(poly = greater_london_polygon)
 #'
 #' # greater_london_ppp = get_stats19(2017, output_format = "ppp", window = greater_london_window)
-#' # spatstat::plot.ppp(greater_london_ppp, use.marks = FALSE, clipwin = greater_london_window)
+#' # spatstat.geom::plot.ppp(greater_london_ppp, use.marks = FALSE, clipwin = greater_london_window)
 #' }
 #' }
 get_stats19 = function(year = NULL,
@@ -152,7 +151,7 @@ get_stats19 = function(year = NULL,
       i = i + 1
     }
     if (output_format == "ppp") {
-      all = do.call(spatstat::superimpose, all)
+      all = do.call(spatstat.geom::superimpose, all)
     } else {
       all_colnames = unique(unlist(lapply(all, names)))
       all = lapply(all, function(x) {
