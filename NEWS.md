@@ -1,5 +1,3 @@
-# stats19 1.3.1
-
 # stats19 1.4.0
 
 * Add `get_stats19_adjustments()` function
