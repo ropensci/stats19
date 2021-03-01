@@ -68,7 +68,7 @@ test_that("is it possible to change window object in format_ppp", {
     rd,
     # bounding box of leeds which is smaller the default bbox which
     # covers all UK
-    window = spatstat::owin(c(425046.1, 435046.1), c(428577.2, 438577.2))
+    window = spatstat.geom::owin(c(425046.1, 435046.1), c(428577.2, 438577.2))
   )
   # since the bbox is smaller there must be fewer points
   expect_true(rd_ppp2$n <= rd_ppp$n)
