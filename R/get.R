@@ -28,7 +28,7 @@
 #' @param output_format A string that specifies the desired output format. The
 #'   default value is `"tibble"`. Other possible values are `"data.frame"`, `"sf"`
 #'   and `"ppp"`, that, respectively, returns objects of class [`data.frame`],
-#'   [`sf::sf`] and [`spatstat.core::ppp`]. Any other string is ignored and a tibble
+#'   [`sf::sf`] and [`spatstat.geom::ppp`]. Any other string is ignored and a tibble
 #'   output is returned. See details and examples.
 #' @param year Valid vector of one or more years from 1979 up until last year.
 #' @param ... Other arguments that should be passed to [format_sf()] or
