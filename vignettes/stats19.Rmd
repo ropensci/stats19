@@ -46,7 +46,7 @@ library(stats19)
 
 The easiest way to get STATS19 data is with `get_stats19()`.
 This function takes 2 main arguments, `year` and `type`.
-The year can be any year between 1979 and 2017.
+The year can be any year between 1979 and xxxx where x is the current year minus one or two due to the delay in publishing STATS19 statistics (2019 is the latest year for which the datasets are available) and it can be a vector of years including the full range of 1979 up to the year before current.
 The type can be one of `accidents`, `casualties` and `vehicles`, described below.
 `get_stats19()` performs 3 jobs, corresponding to three main types of functions:
 
@@ -92,6 +92,8 @@ The `dl_stats19()` function prints out the location and final file name(s) of un
 `dl_stats19()` takes three parameters.
 Supplying a `file_name` is interpreted to mean that the user is aware of what to download and the other two parameters will be ignored.
 You can also use `years` and `type` to "search" through the file names, which are stored in a lazy-loaded dataset called `stats19::file_names`.
+
+In versions above `1.3.0`, function `dl_stats19()` behaves more like `get_stats19()`, that is parameter `type` is by default `accidents` and it can also download multiple years more efficiently.
 
 You can find out the names of files that can be downloaded with `names(stats19::file_names)`, an example of which is shown below:
 
