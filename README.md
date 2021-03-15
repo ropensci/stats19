@@ -7,7 +7,7 @@
 [![CRAN RStudio mirror
 downloads](https://cranlogs.r-pkg.org/badges/grand-total/stats19)](https://www.r-pkg.org/pkg/stats19)
 [![Life
-cycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/)
+cycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html)
 [![](https://badges.ropensci.org/266_status.svg)](https://github.com/ropensci/software-review/issues/266)
 [![DOI](https://joss.theoj.org/papers/10.21105/joss.01181/status.svg)](https://doi.org/10.21105/joss.01181)
 [![codecov](https://codecov.io/gh/ropensci/stats19/branch/master/graph/badge.svg)](https://codecov.io/gh/ropensci/stats19)
