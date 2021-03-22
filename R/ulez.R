@@ -1,10 +1,10 @@
 #' Download DVLA-based vehicle data from the TfL API using VRM.
 #'
 #' @section Details:
-#' This function takes a a character vector of vehicle registrations (VRMs) and returns DVLA-based vehicle data from TfL's API, included ULEZ eligibility.
+#' This function takes a character vector of vehicle registrations (VRMs) and returns DVLA-based vehicle data from TfL's API, included ULEZ eligibility.
 #' It returns a data frame of those VRMs which were successfully used with the TfL API.  Vehicles are either compliant, non-compliant or exempt.  ULEZ-exempt vehicles will not have all vehicle details returned - they will simply be marked "exempt".
 #'
-#' Be aware that the API has usage limits.  The function will therefore limit API calls to 50 per minute.
+#' Be aware that the API has usage limits.  The function will therefore limit API calls to below 50 per minute - this is the maximum rate before an API key is required.
 #'
 #' @param vrm A list of VRMs as character strings.
 #'
@@ -41,15 +41,15 @@ get_ULEZ = function(vrm) {
     starttime = Sys.time()
     URL = as.character(paste('https://api.tfl.gov.uk/Vehicle/UlezCompliance?vrm=',vrm[i],sep=""))
     d = curl::curl_fetch_memory(URL)
-    apistatus <- d$status_code
+    apistatus = d$status_code
     if(apistatus != 200L){
-      result <- as.data.frame(t(c(vrm[i],apistatus)))
+      result = as.data.frame(t(c(vrm[i],apistatus)))
       colnames(result) = c("vrm", "API Status")
-      result.list[[i]] <- result
+      result.list[[i]] = result
       rm(result, d)
       next()}
-    endtime <- Sys.time()
-    calltime <- as.numeric(endtime) - as.numeric(starttime)
+    endtime = Sys.time()
+    calltime = as.numeric(endtime) - as.numeric(starttime)
     if(calltime < timepercall){
       Sys.sleep(timepercall - calltime)
     }
@@ -57,8 +57,8 @@ get_ULEZ = function(vrm) {
     rm(starttime, endtime, calltime, URL, d)
     # Start assembling output data frame (called "result")
     result = as.data.frame(page.df)
-    result$X.type <- NULL
-    result$`API Status` <- apistatus
+    result$X.type = NULL
+    result$`API Status` = apistatus
     rm(apistatus)
     result.list[[i]] = result
     utils::setTxtProgressBar(pb, i)
