@@ -1,3 +1,7 @@
+# stats19 (development version)
+
+* Added a test to prevent rare failures in `get_stats19()` when `data_dir` points to the working directory.  
+
 # stats19 1.4.0
 
 * Add `get_stats19_adjustments()` function
