@@ -181,7 +181,9 @@ locate_one_file = function(filename = NULL,
   if(length(path) == 0) {
     stop("No files found under: ", data_dir, call. = FALSE)
   }
-  if(length(path) == 1 && file.exists(path)) {
+  # Test if path points to a single existing CSV file. See
+  # https://github.com/ropensci/stats19/issues/197 for more details.
+  if (length(path) == 1 && file.exists(path) && tools::file_ext(path) == "csv") {
     return(path)
   }
   scan1 = function(path, type) {
