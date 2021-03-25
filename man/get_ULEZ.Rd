@@ -14,10 +14,10 @@ Download DVLA-based vehicle data from the TfL API using VRM.
 }
 \section{Details}{
 
-This function takes a a character vector of vehicle registrations (VRMs) and returns DVLA-based vehicle data from TfL's API, included ULEZ eligibility.
+This function takes a character vector of vehicle registrations (VRMs) and returns DVLA-based vehicle data from TfL's API, included ULEZ eligibility.
 It returns a data frame of those VRMs which were successfully used with the TfL API.  Vehicles are either compliant, non-compliant or exempt.  ULEZ-exempt vehicles will not have all vehicle details returned - they will simply be marked "exempt".
 
-Be aware that the API has usage limits.  The function will therefore limit API calls to 50 per minute.
+Be aware that the API has usage limits.  The function will therefore limit API calls to below 50 per minute - this is the maximum rate before an API key is required.
 }
 
 \examples{
