@@ -34,7 +34,8 @@ Encoding: UTF-8
 LazyData: true
 Imports: 
     sf,
-    readr
+    readr,
+    tools
 Suggests: 
     curl (>= 3.2),
     dplyr,
