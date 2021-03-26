@@ -1,6 +1,8 @@
-# stats19 (development version)
+# stats19 1.4.1
 
-* Added a test to prevent rare failures in `get_stats19()` when `data_dir` points to the working directory.  
+* New function `get_ULEZ()` to get data on vehicles from a number plate (thanks to Ivo Wengraf)
+* Added a test to prevent rare failures in `get_stats19()` when `data_dir` points to the working directory
+
 
 # stats19 1.4.0
 
