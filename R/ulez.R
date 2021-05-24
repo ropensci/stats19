@@ -27,6 +27,7 @@ get_ULEZ = function(vrm) {
     if (grepl('[^[:alnum:]]', vrm[i])) stop("VRMs must be alphanumeric.  Check VRM number ", i, " in your list (", vrm[i], ").")
   }
   message("This script only does 50 vrms per minute at most")
+  message("Warning: TfL ULEZ API is producing some strange results currently")
 
   # Create an empty list for results
   result.list = list()

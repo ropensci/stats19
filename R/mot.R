@@ -134,27 +134,27 @@ get_MOT = function(vrm, apikey) {
   try(result.df$manufactureYear <- as.numeric(result.df$manufactureYear), silent = TRUE)
 
   # Convert all units to miles
-  result.df$latestOdometer[is.na(result.df$latestOdometerUnit)] = NA
-  result.df$prevOdometer[is.na(result.df$prevOdometerUnit)] = NA
-  result.df$latestOdometer[result.df$latestOdometerUnit == "km" & !is.na(result.df$latestOdometer)] = result.df$latestOdometer[result.df$latestOdometerUnit == "km" & !is.na(result.df$latestOdometer)] * 0.621371
-  result.df$prevOdometer[result.df$prevOdometerUnit == "km" & !is.na(result.df$prevOdometer)] = result.df$prevOdometer[result.df$prevOdometerUnit == "km" & !is.na(result.df$prevOdometer)] * 0.621371
-  result.df$latestOdometerUnit = NULL
-  result.df$prevOdometerUnit = NULL
+  try(result.df$latestOdometer[is.na(result.df$latestOdometerUnit)] <- NA, silent = TRUE)
+  try(result.df$prevOdometer[is.na(result.df$prevOdometerUnit)] <- NA, silent = TRUE)
+  try(result.df$latestOdometer[result.df$latestOdometerUnit == "km" & !is.na(result.df$latestOdometer)] <- result.df$latestOdometer[result.df$latestOdometerUnit == "km" & !is.na(result.df$latestOdometer)] * 0.621371, silent = TRUE)
+  try(result.df$prevOdometer[result.df$prevOdometerUnit == "km" & !is.na(result.df$prevOdometer)] <- result.df$prevOdometer[result.df$prevOdometerUnit == "km" & !is.na(result.df$prevOdometer)] * 0.621371, silent = TRUE)
+  try(result.df$latestOdometerUnit <- NULL, silent = TRUE)
+  try(result.df$prevOdometerUnit <- NULL, silent = TRUE)
 
   # Derive miles per year estimate
-  result.df$test_diff = as.Date(result.df$latestOdometerDate) - as.Date(result.df$prevOdometerDate)
-  result.df$test_diff[is.na(result.df$prevOdometerDate)] = as.Date(result.df$latestOdometerDate[is.na(result.df$prevOdometerDate)]) - as.Date(result.df$registrationDate[is.na(result.df$prevOdometerDate)])
-  result.df$dist_diff = result.df$latestOdometer - result.df$prevOdometer
-  result.df$dist_diff[is.na(result.df$prevOdometerDate)] = result.df$latestOdometer[is.na(result.df$prevOdometerDate)] - 0
-  result.df$latestAnnualEstMileage = (result.df$dist_diff/as.numeric(result.df$test_diff))*365.24
-  result.df$EstimatePeriod = result.df$test_diff/365.24
-  result.df$EstimatePeriod[is.na(result.df$latestAnnualEstMileage)] = NA
+  try(result.df$test_diff <- as.Date(result.df$latestOdometerDate) - as.Date(result.df$prevOdometerDate), silent = TRUE)
+  try(result.df$test_diff[is.na(result.df$prevOdometerDate)] <- as.Date(result.df$latestOdometerDate[is.na(result.df$prevOdometerDate)]) - as.Date(result.df$registrationDate[is.na(result.df$prevOdometerDate)]), silent = TRUE)
+  try(result.df$dist_diff <- result.df$latestOdometer - result.df$prevOdometer, silent = TRUE)
+  try(result.df$dist_diff[is.na(result.df$prevOdometerDate)] <- result.df$latestOdometer[is.na(result.df$prevOdometerDate)] - 0, silent = TRUE)
+  try(result.df$latestAnnualEstMileage <- (result.df$dist_diff/as.numeric(result.df$test_diff))*365.24, silent = TRUE)
+  try(result.df$EstimatePeriod <- result.df$test_diff/365.24, silent = TRUE)
+  try(result.df$EstimatePeriod[is.na(result.df$latestAnnualEstMileage)] <- NA, silent = TRUE)
 
   # Remove unwanted columns
-  result.df$test_diff = NULL
-  result.df$dist_diff = NULL
-  result.df$dvlaId = NULL
-  result.df$vehicleId = NULL
+  try(result.df$test_diff <- NULL, silent = TRUE)
+  try(result.df$dist_diff <- NULL, silent = TRUE)
+  try(result.df$dvlaId <- NULL, silent = TRUE)
+  try(result.df$vehicleId <- NULL, silent = TRUE)
 
   return(result.df)
 }
