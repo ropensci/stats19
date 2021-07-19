@@ -1,3 +1,5 @@
+# stats19 1.4.2
+
 # stats19 1.4.1
 
 * New function `get_ULEZ()` to get data on vehicles from a number plate (thanks to Ivo Wengraf)
