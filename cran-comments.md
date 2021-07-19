@@ -1,7 +1,11 @@
-Update vignettes to fix CRAN check warnings
+New function added to get data from Transport for London's ULEZ API, minor update.
+
+Note the example, which uses the internet, is wrapped by `\donttest{}`
+
+I assume this is currect but any further guidance welcome.
 
 ## Test environments
-* local ubuntu 18.04, R 4.0.4
+* local ubuntu 20.04, R 4.0.4
 
 * ubuntu 20.04 (GitHub Actions)
 
