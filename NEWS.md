@@ -1,4 +1,8 @@
-# stats19 1.4.2
+# stats19 1.4.2 2021-07
+
+* Fix CRAN checks associated with access to online resources (#204)
+* [Fix](https://github.com/ropensci/stats19/commit/826a1d0ed3b9fbcf80675b64fd5731ae8b7b0498) issues associated with `get_ULEZ()` and `get_MOT()` functions
+
 
 # stats19 1.4.1
 
