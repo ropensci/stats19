@@ -1,3 +1,5 @@
+Resubmitting with same version as only 3 urls have changed.
+
 This patch is designed to prevent warnings on CRAN as documented here https://cran.r-project.org/web/checks/check_results_stats19.html .
 I'm not sure why the tests were only failing on one system but believe this should fix the issue.
 
