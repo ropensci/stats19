@@ -1,17 +1,14 @@
-New function added to get data from Transport for London's ULEZ API, minor update.
+This patch is designed to prevent warnings on CRAN as documented here https://cran.r-project.org/web/checks/check_results_stats19.html .
+I'm not sure why the tests were only failing on one system but believe this should fix the issue.
 
-Note the example, which uses the internet, is wrapped by `\donttest{}`
-
-I assume this is currect but any further guidance welcome.
 
 ## Test environments
-* local ubuntu 20.04, R 4.0.4
-
-* ubuntu 20.04 (GitHub Actions)
-
-* winbuilder: GitHub Actions
+* local R installation, R 4.1.0
+* ubuntu 16.04 (on travis-ci), R 4.1.0
+* win-builder (devel)
 
 ## R CMD check results
 
-0 errors | 0 warnings | 0 notes
+0 errors | 0 warnings | 1 note
 
+* This is a new release.
