@@ -88,7 +88,7 @@ STATS19).
 
 The name comes from a UK police form called
 [STATS19](https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/775149/Operational_Metrics_Manual.pdf)
-(note the capital letters). There is another document called [STATS20](https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/230596/stats20-2011.pdf), which is the guidance to STATS19 officers filling in STATS19 form. 
+(note the capital letters). There is another document called [STATS20](https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/995423/stats20-2011.pdf), which is the guidance to STATS19 officers filling in STATS19 form. 
 
 An important point is that the dataset omits crashes in which
 nobody was hurt, as emphasised by another government
