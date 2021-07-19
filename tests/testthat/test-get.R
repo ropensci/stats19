@@ -49,9 +49,9 @@ test_that("get_stats19 multiple years", {
 
 test_that("get_stats19 works with multiple years and formats", {
   skip_on_cran()
-  cas_2013 <- get_stats19(2013, type = "cas", silent = TRUE)
-  cas_2014 <- get_stats19(2014, type = "cas", silent = TRUE)
-  cas_2015 <- get_stats19(2015, type = "cas", silent = TRUE)
+  cas_2013 = get_stats19(2013, type = "cas", silent = TRUE)
+  cas_2014 = get_stats19(2014, type = "cas", silent = TRUE)
+  cas_2015 = get_stats19(2015, type = "cas", silent = TRUE)
   expect_equal(
     length(
     names(cas_2014)[!names(cas_2014) %in% names(cas_2013)]),
@@ -60,13 +60,13 @@ test_that("get_stats19 works with multiple years and formats", {
     length(
       names(cas_2015)[!names(cas_2015) %in% names(cas_2014)]),
     1)
-  t1315 <- get_stats19(2013:2015, output_format = "sf", silent = TRUE)
+  t1315 = get_stats19(2013:2015, output_format = "sf", silent = TRUE)
   expect_s3_class(t1315, "sf")
 
-  t1315 <- get_stats19(2013:2015, output_format = "ppp", silent = TRUE)
+  t1315 = get_stats19(2013:2015, output_format = "ppp", silent = TRUE)
   expect_s3_class(t1315, "ppp")
 
-  t1315 <- get_stats19(2013:2015, silent = TRUE)
+  t1315 = get_stats19(2013:2015, silent = TRUE)
   expect_s3_class(t1315, "tbl_df")
 
   cas1315 = get_stats19(2013:2015, type = "cas")

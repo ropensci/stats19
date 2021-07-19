@@ -155,7 +155,7 @@ get_stats19 = function(year = NULL,
     } else {
       all_colnames = unique(unlist(lapply(all, names)))
       all = lapply(all, function(x) {
-        x[setdiff(all_colnames, names(x))] <- NA
+        x[setdiff(all_colnames, names(x))] = NA
         x
       })
       all = do.call(rbind, all)
