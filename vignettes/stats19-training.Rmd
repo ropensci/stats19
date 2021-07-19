@@ -15,7 +15,7 @@ bibliography:
 # Note
 
 This introductory practical vignette has largely been replaced by the workbook "Reproducible Road Safety Research with R", which can be found at https://itsleeds.github.io/rrsrr/ and as a PDF at [racfoundation.org](https://www.racfoundation.org/wp-content/uploads/Reproducible_road_safety_research_with_R_Lovelace_December_2020.pdf)  [@lovelace_reproducible_2020].
-That workbook is more comprehensive than the content in this tutorial so I recommend checking that out as a first port of call to learn how to work with road crash data in R, with reference to the bigger picture of learning R skills as well as the `stats19` package.
+That workbook is more comprehensive than the content in this tutorial and is the recommended place to learn about using R for reproducible road safety research.
 
 
 # Introduction
@@ -54,6 +54,7 @@ You should type, run and ensure you understand each line of code in this documen
 
 
 ```{r, include = FALSE}
+
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
@@ -776,6 +777,13 @@ See [Chapter 6](https://geocompr.robinlovelace.net/read-write.html) of Geocomput
 
 ## sf polygons
 
+Note: the code beyond this point is not evaluated in the vignette:
+
+```{r}
+knitr::opts_chunk$set(eval = FALSE)
+```
+
+
 `sf` objects can also represent administrative zones.
 This is illustrated below with reference to `zones`, a spatial object representing the Isle of Wight, that we will download using the `pct` package (note: the `[1:9]` appended to the function selects only the first 9 columns).
 
@@ -871,7 +879,7 @@ Currently buffer operations in R only work on objects with projected CRSs.
 Because `sf` objects are `data.frame`s, we can do non-spatial operations on them.
 Try the following attribute operations on the `zones` data.
 
-```{r, eval=TRUE}
+```{r}
 # load example dataset if it doesn't already exist
 zones = pct::get_pct_zones("isle-of-wight")
 sel = zones$all > 3000  # create a subsetting object
