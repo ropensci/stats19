@@ -27,6 +27,12 @@ read_accidents = function(year = NULL,
                           data_dir = get_data_directory(),
                           format = TRUE,
                           silent = FALSE) {
+  # Set the local edition for readr.
+  # See https://github.com/ropensci/stats19/issues/205
+  if (.Platform$OS.type == "windows" && utils::packageVersion("readr") >= "2.0.0") {
+    readr::local_edition(1)
+  }
+
   path = check_input_file(
     filename = filename,
     type = "accidents",
@@ -163,6 +169,12 @@ check_input_file = function(filename = NULL,
 # path = file.path(get_data_directory(), f)
 # read_ve_ca(path)
 read_ve_ca = function(path) {
+  # Set the local edition for readr.
+  # See https://github.com/ropensci/stats19/issues/205
+  if (.Platform$OS.type == "windows" && utils::packageVersion("readr") >= "2.0.0") {
+    readr::local_edition(1)
+  }
+
   h = utils::read.csv(path, nrows = 1)
   if(grepl("Accident_Index", names(h)[1])) {
     readr::read_csv(path, col_types = readr::cols(
