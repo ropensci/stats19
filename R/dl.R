@@ -120,10 +120,10 @@ dl_stats19 = function(year = NULL,
       utils::download.file(zip_url, destfile = destfile, quiet = silent)
     }
     if(is_zip_file) {
-      f = file.path(destfile, utils::unzip(destfile, list = TRUE)$Name)
+      f2 = file.path(destfile, utils::unzip(destfile, list = TRUE)$Name)
       utils::unzip(destfile, exdir = file.path(data_dir, exdir))
       if (isFALSE(silent)) {
-        message("Data saved at ", sub(".zip", "",f))
+        message("Data saved at ", sub(".zip", "", f2))
       }
     } else if (isFALSE(silent)) {
       message("Data saved at ", destfile)
