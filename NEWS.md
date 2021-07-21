@@ -1,3 +1,5 @@
+# stats19 1.4.3
+
 # stats19 1.4.2 2021-07
 
 * Fix CRAN checks associated with access to online resources (#204)
