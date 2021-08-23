@@ -29,9 +29,9 @@ read_accidents = function(year = NULL,
                           silent = FALSE) {
   # Set the local edition for readr.
   # See https://github.com/ropensci/stats19/issues/205
-  if (.Platform$OS.type == "windows" && utils::packageVersion("readr") >= "2.0.0") {
-    readr::local_edition(1)
-  }
+  # if (.Platform$OS.type == "windows" && utils::packageVersion("readr") >= "2.0.0") {
+  #   readr::local_edition(1)
+  # }
 
   path = check_input_file(
     filename = filename,
@@ -56,7 +56,8 @@ read_accidents = function(year = NULL,
         Time = readr::col_character(),
         `Local_Authority_(Highway)` = readr::col_character(),
         LSOA_of_Accident_Location = readr::col_character()
-      )
+      ),
+      lazy = FALSE
     )
   })
 
@@ -171,21 +172,21 @@ check_input_file = function(filename = NULL,
 read_ve_ca = function(path) {
   # Set the local edition for readr.
   # See https://github.com/ropensci/stats19/issues/205
-  if (.Platform$OS.type == "windows" && utils::packageVersion("readr") >= "2.0.0") {
-    readr::local_edition(1)
-  }
+  # if (.Platform$OS.type == "windows" && utils::packageVersion("readr") >= "2.0.0") {
+  #   readr::local_edition(1)
+  # }
 
   h = utils::read.csv(path, nrows = 1)
   if(grepl("Accident_Index", names(h)[1])) {
     readr::read_csv(path, col_types = readr::cols(
       .default = readr::col_integer(),
       Accident_Index = readr::col_character()
-    ))
+    ), lazy = FALSE)
   } else {
     x = readr::read_csv(path, col_types = readr::cols(
       .default = readr::col_integer(),
       Acc_Index = readr::col_character()
-    ))
+    ), lazy = FALSE)
     names(x)[names(x) == "Acc_Index"] = "Accident_Index"
     x
   }
