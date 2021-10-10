@@ -18,7 +18,7 @@ csvs = all_links %>% str_subset("\\.csv")
 r = c(zips, csvs)
 dr = c()
 for(i in 1:length(r)) {
-  dr[i] = sub("http://data.dft.gov.uk/road-accidents-safety-data/",
+  dr[i] = sub("https://data.dft.gov.uk/road-accidents-safety-data/",
               "", URLdecode(r[i]))
   dr[i] = sub("https://data.dft.gov.uk/road-accidents-safety-data/",
               "", dr[i])
