@@ -18,9 +18,9 @@ csvs = all_links %>% str_subset("\\.csv")
 r = c(zips, csvs)
 dr = c()
 for(i in 1:length(r)) {
-  dr[i] = sub("http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/",
-              "", URLdecode(r[i]))
   dr[i] = sub("http://data.dft.gov.uk/road-accidents-safety-data/",
+              "", URLdecode(r[i]))
+  dr[i] = sub("https://data.dft.gov.uk/road-accidents-safety-data/",
               "", dr[i])
 }
 file_names = setNames(as.list(dr), dr)
@@ -35,7 +35,7 @@ file_names = setNames(as.list(dr), dr)
 # compare the objects
 waldo::compare(file_names_old, file_names)
 class(file_names_old)
-file_names_char = unlist(file_names_old)
+file_names_char = unlist(file_names)
 writeLines(file_names_char, "data-raw/file_names.txt")
 file.edit("data-raw/file_names.txt")
 

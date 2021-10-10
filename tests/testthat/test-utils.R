@@ -4,7 +4,7 @@ source("../skip-download.R")
 
 test_that("geturl works", {
   expect_equal(get_url(),
-               file.path("http://data.dft.gov.uk.s3.amazonaws.com",
+               file.path("http://data.dft.gov.uk",
                          "road-accidents-safety-data/")
                )
 })
