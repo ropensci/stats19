@@ -6,7 +6,7 @@
 \usage{
 get_url(
   file_name = "",
-  domain = "http://data.dft.gov.uk.s3.amazonaws.com",
+  domain = "https://data.dft.gov.uk",
   directory = "road-accidents-safety-data"
 )
 }
@@ -23,11 +23,9 @@ Convert file names to urls
 \details{
 This function returns urls that allow data to be downloaded from the pages:
 
-http://data.dft.gov.uk/road-accidents-safety-data/road-accidents-safety-data/RoadSafetyData_2015.zip
+https://data.dft.gov.uk/road-accidents-safety-data/RoadSafetyData_2015.zip
 
-http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafety_Accidents_2016
-
-Last updated: 22nd Nov 2018.
+Last updated: October 2020.
 Files available from the s3 url in the default \code{domain} argument.
 }
 \examples{
