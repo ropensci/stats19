@@ -60,7 +60,7 @@ Suggests:
     osmdata,
     covr
 VignetteBuilder: knitr
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 Roxygen: list(markdown = TRUE)
 Language: en-US
 X-schema.org-keywords: stats19, road-safety, transport, car-crashes, ropensci, data
