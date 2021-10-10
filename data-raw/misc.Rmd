@@ -1,4 +1,5 @@
 To regenerate the file names use the following script:
+
 ```{r}
 library(rvest)
 library(stringr)
@@ -33,6 +34,10 @@ usethis::use_data(file_names_old, overwrite = TRUE)
 file_names = setNames(as.list(dr), dr)
 # compare the objects
 waldo::compare(file_names_old, file_names)
+class(file_names_old)
+file_names_char = unlist(file_names_old)
+writeLines(file_names_char, "data-raw/file_names.txt")
+file.edit("data-raw/file_names.txt")
 
 file_names$`accident-and-casualty-adjustment-2004-to-2019.zip` 
 file_names$`accident-and-casualty-adjustment-2004-to-2019.zip` = NULL
