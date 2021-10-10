@@ -91,7 +91,7 @@ read_schema = function(
 ```{r}
 dl_schema = function(data_dir = tempdir()) {
 u = paste0(
-  "http://data.dft.gov.uk/road-accidents-safety-data/",
+  "https://data.dft.gov.uk/road-accidents-safety-data/",
   "Road-Accident-Safety-Data-Guide.xls"
 )
 destfile = file.path(data_dir, "Road-Accident-Safety-Data-Guide.xls")

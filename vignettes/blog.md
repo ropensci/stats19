@@ -48,7 +48,7 @@ The road crash data in stats19
 
 There are three main different types of CSV files released by the DfT: `accidents`, `vehicles` and `casualties` tables. There is a schema covering these tables but a good amount of work is needed to understand it, let alone be able to the data contained within the files and convert the integers they contain into meaningful data.
 
-The annual statistics have not been released in a consistent way either, making it hard for people to download, or even find, the relevant files. For example, there are separate files for each of the above tables for certain years (e.g. 2016, 2017) but not for all of 1979 - 2017 or 2018 now. The largest chunk is the 1979 - 2004 data, which is made available in a huge ZIP file ([link](http://data.dft.gov.uk/road-accidents-safety-data/Stats19-Data1979-2004.zip)). Unzipped this contains the following 3 files, which occupy almost 2 GB on your hard drive:
+The annual statistics have not been released in a consistent way either, making it hard for people to download, or even find, the relevant files. For example, there are separate files for each of the above tables for certain years (e.g. 2016, 2017) but not for all of 1979 - 2017 or 2018 now. The largest chunk is the 1979 - 2004 data, which is made available in a huge ZIP file ([link](https://data.dft.gov.uk/road-accidents-safety-data/Stats19-Data1979-2004.zip)). Unzipped this contains the following 3 files, which occupy almost 2 GB on your hard drive:
 
 ``` sh
 721M Apr  3  2013 Accidents7904.csv
@@ -252,7 +252,7 @@ crashes_2017_raw = get_stats19(year = 2017, type = "Accidents", ask = FALSE, for
 
     ## Files identified: dftRoadSafetyData_Accidents_2017.zip
 
-    ##    http://data.dft.gov.uk/road-accidents-safety-data/dftRoadSafetyData_Accidents_2017.zip
+    ##    https://data.dft.gov.uk/road-accidents-safety-data/dftRoadSafetyData_Accidents_2017.zip
 
     ## Data already exists in data_dir, not downloading
 
