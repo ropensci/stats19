@@ -252,7 +252,7 @@ crashes_2017_raw = get_stats19(year = 2017, type = "Accidents", ask = FALSE, for
 
     ## Files identified: dftRoadSafetyData_Accidents_2017.zip
 
-    ##    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Accidents_2017.zip
+    ##    http://data.dft.gov.uk/road-accidents-safety-data/dftRoadSafetyData_Accidents_2017.zip
 
     ## Data already exists in data_dir, not downloading
 

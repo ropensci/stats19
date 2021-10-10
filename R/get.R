@@ -105,7 +105,7 @@ get_stats19 = function(year = NULL,
                       silent = FALSE,
                       output_format = "tibble",
                       ...) {
-  browser()
+  # browser()
   if(!exists("type")) {
     stop("Type is required", call. = FALSE)
   }

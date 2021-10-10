@@ -79,7 +79,7 @@ in naming crashes, although the DfT refers to the relevant tables as
 ``` r
 crashes = get_stats19(year = 2017, type = "accident")
 #> Files identified: dftRoadSafetyData_Accidents_2017.zip
-#>    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Accidents_2017.zip
+#>    http://data.dft.gov.uk/road-accidents-safety-data/dftRoadSafetyData_Accidents_2017.zip
 #> Data already exists in data_dir, not downloading
 #> Data saved at ~/stats19-data/dftRoadSafetyData_Accidents_2017/Acc.csv
 #> Reading in:
@@ -181,7 +181,7 @@ formatted as follows:
 ``` r
 casualties = get_stats19(year = 2017, type = "casualties", ask = FALSE)
 #> Files identified: dftRoadSafetyData_Casualties_2017.zip
-#>    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Casualties_2017.zip
+#>    http://data.dft.gov.uk/road-accidents-safety-data/dftRoadSafetyData_Casualties_2017.zip
 #> Data already exists in data_dir, not downloading
 #> Data saved at ~/stats19-data/dftRoadSafetyData_Casualties_2017/Cas.csv
 nrow(casualties)
@@ -234,7 +234,7 @@ and formatted as follows:
 ``` r
 vehicles = get_stats19(year = 2017, type = "vehicles", ask = FALSE)
 #> Files identified: dftRoadSafetyData_Vehicles_2017.zip
-#>    http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafetyData_Vehicles_2017.zip
+#>    http://data.dft.gov.uk/road-accidents-safety-data/dftRoadSafetyData_Vehicles_2017.zip
 #> Data already exists in data_dir, not downloading
 #> Data saved at ~/stats19-data/dftRoadSafetyData_Vehicles_2017/Veh.csv
 nrow(vehicles)
