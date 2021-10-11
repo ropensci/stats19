@@ -31,6 +31,8 @@ for details.
 }
 \examples{
 \donttest{
+if(curl::has_internet()) {
 adjustment = get_stats19_adjustments()
+}
 }
 }

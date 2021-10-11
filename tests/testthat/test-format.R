@@ -1,4 +1,5 @@
 source("../skip-download.R")
+# source("tests/skip-download.R") # from root directory
 
 context("test-format: accidents")
 
@@ -64,12 +65,14 @@ test_that("format_ppp returns ppp object", {
 test_that("is it possible to change window object in format_ppp", {
   rd = accidents_sample
   rd_ppp = format_ppp(rd)
-  rd_ppp2 = format_ppp(
-    rd,
-    # bounding box of leeds which is smaller the default bbox which
-    # covers all UK
-    window = spatstat.geom::owin(c(425046.1, 435046.1), c(428577.2, 438577.2))
-  )
+  suppressWarnings({
+    rd_ppp2 = format_ppp(
+      rd,
+      # bounding box of leeds which is smaller the default bbox which
+      # covers all UK
+      window = spatstat.geom::owin(c(425046.1, 435046.1), c(428577.2, 438577.2))
+    )
+  })
   # since the bbox is smaller there must be fewer points
   expect_true(rd_ppp2$n <= rd_ppp$n)
 })

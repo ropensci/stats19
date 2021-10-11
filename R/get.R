@@ -37,6 +37,7 @@
 #' @export
 #' @examples
 #' \donttest{
+#' if(curl::has_internet()) {
 #' # default tibble output
 #' x = get_stats19(2019)
 #' class(x)
@@ -94,6 +95,7 @@
 #'
 #' # greater_london_ppp = get_stats19(2017, output_format = "ppp", window = greater_london_window)
 #' # spatstat.geom::plot.ppp(greater_london_ppp, use.marks = FALSE, clipwin = greater_london_window)
+#' }
 #' }
 #' }
 get_stats19 = function(year = NULL,

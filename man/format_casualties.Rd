@@ -19,8 +19,10 @@ This function formats raw STATS19 data
 
 \examples{
 \donttest{
+if(curl::has_internet()) {
 dl_stats19(year = 2017, type = "casualties")
 x = read_casualties(year = 2017)
 casualties = format_casualties(x)
+}
 }
 }

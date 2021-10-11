@@ -11,8 +11,10 @@
 #' @export
 #' @examples
 #' \donttest{
+#' if(curl::has_internet()) {
 #' vrm = c("1RAC","P1RAC")
 #' get_ULEZ(vrm = vrm)
+#' }
 #' }
 get_ULEZ = function(vrm) {
   # Check arguments

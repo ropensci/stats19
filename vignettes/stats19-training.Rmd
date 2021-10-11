@@ -58,7 +58,8 @@ You should type, run and ensure you understand each line of code in this documen
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  out.width = "50%"
+  out.width = "50%",
+  eval = curl::has_internet()
 )
 ```
 

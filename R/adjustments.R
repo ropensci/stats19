@@ -13,7 +13,9 @@
 #' @export
 #' @examples
 #' \donttest{
+#' if(curl::has_internet()) {
 #' adjustment = get_stats19_adjustments()
+#' }
 #' }
 get_stats19_adjustments = function(
   data_dir = get_data_directory(),

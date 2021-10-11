@@ -32,7 +32,9 @@ in the STATS19 dataset.
 
 \examples{
 \donttest{
+if(curl::has_internet()) {
 dl_stats19(year = 2017, type = "casualties")
 casualties = read_casualties(year = 2017)
+}
 }
 }

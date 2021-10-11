@@ -25,6 +25,7 @@
 #' @export
 #' @examples
 #' \donttest{
+#' if(curl::has_internet()) {
 #' # type by default is accidents table
 #' dl_stats19(year = 2017)
 #' # try multiple years
@@ -34,6 +35,7 @@
 #' dl_stats19(year = 2009, type = "casualties")
 #' dl_stats19(type = "casualties")
 #' dl_stats19(year = 1985)
+#' }
 #' }
 dl_stats19 = function(year = NULL,
                       type = "acc",

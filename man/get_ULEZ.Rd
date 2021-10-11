@@ -22,7 +22,9 @@ Be aware that the API has usage limits.  The function will therefore limit API c
 
 \examples{
 \donttest{
+if(curl::has_internet()) {
 vrm = c("1RAC","P1RAC")
 get_ULEZ(vrm = vrm)
+}
 }
 }

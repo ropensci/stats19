@@ -7,12 +7,14 @@
 #' @export
 #' @examples
 #' \donttest{
+#' if(curl::has_internet()) {
 #' dl_stats19(year = 2017, type = "accident")
 #' x = read_accidents(year = 2017, format = FALSE)
 #' x[1:3, 1:12]
 #' crashes = format_accidents(x)
 #' crashes[1:3, 1:12]
 #' summary(crashes$datetime)
+#' }
 #' }
 #' @export
 format_accidents = function(x) {
@@ -27,9 +29,11 @@ format_accidents = function(x) {
 #' @export
 #' @examples
 #' \donttest{
+#' if(curl::has_internet()) {
 #' dl_stats19(year = 2017, type = "casualties")
 #' x = read_casualties(year = 2017)
 #' casualties = format_casualties(x)
+#' }
 #' }
 #' @export
 format_casualties = function(x) {
@@ -44,9 +48,11 @@ format_casualties = function(x) {
 #' @export
 #' @examples
 #' \donttest{
+#' if(curl::has_internet()) {
 #' dl_stats19(year = 2017, type = "vehicles", ask = FALSE)
 #' x = read_vehicles(year = 2017, format = FALSE)
 #' vehicles = format_vehicles(x)
+#' }
 #' }
 #' @export
 format_vehicles = function(x) {
@@ -101,10 +107,12 @@ format_stats19 = function(x, type) {
 #' @export
 #' @examples
 #' \donttest{
+#' if(curl::has_internet()) {
 #' crashes_raw = read_accidents(year = 2017)
 #' column_names = names(crashes_raw)
 #' column_names
 #' format_column_names(column_names = column_names)
+#' }
 #' }
 format_column_names = function(column_names) {
   x = tolower(column_names)

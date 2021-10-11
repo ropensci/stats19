@@ -39,6 +39,7 @@ test_that("get_stats19 works", {
 
 test_that("get_stats19 multiple years", {
   skip_on_cran()
+  skip_if_offline()
   t09 = get_stats19(year = 2009)
   t15 = get_stats19(year = 2015)
   t16 = get_stats19(year = 2016)
@@ -49,6 +50,7 @@ test_that("get_stats19 multiple years", {
 
 test_that("get_stats19 works with multiple years and formats", {
   skip_on_cran()
+  skip_if_offline()
   cas_2013 = get_stats19(2013, type = "cas", silent = TRUE)
   cas_2014 = get_stats19(2014, type = "cas", silent = TRUE)
   cas_2015 = get_stats19(2015, type = "cas", silent = TRUE)
