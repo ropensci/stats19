@@ -3,11 +3,9 @@
 #' @details
 #' This function returns urls that allow data to be downloaded from the pages:
 #'
-#' http://data.dft.gov.uk/road-accidents-safety-data/road-accidents-safety-data/RoadSafetyData_2015.zip
+#' https://data.dft.gov.uk/road-accidents-safety-data/RoadSafetyData_2015.zip
 #'
-#' http://data.dft.gov.uk.s3.amazonaws.com/road-accidents-safety-data/dftRoadSafety_Accidents_2016
-#'
-#' Last updated: 22nd Nov 2018.
+#' Last updated: October 2020.
 #' Files available from the s3 url in the default `domain` argument.
 #'
 #' @param file_name Optional file name to add to the url returned (empty by default)
@@ -16,7 +14,7 @@
 #' @examples
 #' # get_url(find_file_name(1985))
 get_url = function(file_name = "",
-                   domain = "http://data.dft.gov.uk.s3.amazonaws.com",
+                   domain = "https://data.dft.gov.uk",
                    directory = "road-accidents-safety-data"
                    ) {
   path = file.path(domain, directory, file_name)
