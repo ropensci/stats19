@@ -33,7 +33,7 @@ knitr::opts_chunk$set(
 **stats19** provides functions for downloading and formatting road crash data.
 Specifically, it enables access to the UK's official road traffic casualty database, [STATS19](https://data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data). (The name comes from the form used by the police to record car crashes and other incidents resulting in casualties on the roads.)
 
-A full overview of STATS19 variables be found in a [document](http://data.dft.gov.uk/road-accidents-safety-data/Brief-guide-to%20road-accidents-and-safety-data.doc) provided by the UK's Department for Transport (DfT).
+A full overview of STATS19 variables be found in a [document](https://data.dft.gov.uk/road-accidents-safety-data/Brief-guide-to%20road-accidents-and-safety-data.doc) provided by the UK's Department for Transport (DfT).
 
 The raw data is provided as a series of `.csv` files that contain integers and which are stored in dozens of `.zip` files.
 Finding, reading-in and formatting the data for research can be a time consuming process subject to human error.
