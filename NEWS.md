@@ -1,3 +1,7 @@
+# stats19 1.5.0 2021-10
+
+* Support new https download links (#208)
+
 # stats19 1.4.3 2021-07-21
 
 * Use 1st edition of `readr` on Windows to prevent errors on reading data (#205)
