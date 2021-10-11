@@ -561,7 +561,7 @@ For now, however, we want to take the opportunity to celebrate the release of `s
 References
 ----------
 
-Grundy, Chris, Rebecca Steinbach, Phil Edwards, Judith Green, Ben Armstrong, and Paul Wilkinson. 2009. “Effect of 20 Mph Traffic Speed Zones on Road Injuries in London, 1986-2006: Controlled Interrupted Time Series Analysis.” *BMJ* 339 (December): b4469. doi:[10.1136/bmj.b4469](https://doi.org/10.1136/bmj.b4469).
+Grundy, Chris, Rebecca Steinbach, Phil Edwards, Judith Green, Ben Armstrong, and Paul Wilkinson. 2009. “Effect of 20 Mph Traffic Speed Zones on Road Injuries in London, 1986-2006: Controlled Interrupted Time Series Analysis.” *BMJ* 339 (December): b4469. doi:10.1136/bmj.b4469.
 
 Lovelace, Robin, Malcolm Morgan, Layik Hama, Mark Padgham, and M Padgham. 2019. “Stats19 A Package for Working with Open Road Crash Data.” *Journal of Open Source Software* 4 (33): 1181. doi:[10.21105/joss.01181](https://doi.org/10.21105/joss.01181).
 
