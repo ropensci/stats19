@@ -16,11 +16,14 @@
 #' @export
 #' @examples
 #' \donttest{
+#' if(curl::has_internet()) {
+#' }
 #' dl_stats19(year = 2011, type = "Accidents")
 #' ac = read_accidents(year = 2011)
 #'
 #' dl_stats19(year = 2009, type = "Accidents")
 #' ac_2009 = read_accidents(year = 2009)
+#' }
 #' }
 read_accidents = function(year = NULL,
                           filename = "",
@@ -76,8 +79,10 @@ read_accidents = function(year = NULL,
 #' @export
 #' @examples
 #' \donttest{
+#' if(curl::has_internet()) {
 #' dl_stats19(year = 2009, type = "vehicles")
 #' ve = read_vehicles(year = 2009)
+#' }
 #' }
 read_vehicles = function(year = NULL,
                          filename = "",
@@ -109,8 +114,10 @@ read_vehicles = function(year = NULL,
 #' @export
 #' @examples
 #' \donttest{
+#' if(curl::has_internet()) {
 #' dl_stats19(year = 2017, type = "casualties")
 #' casualties = read_casualties(year = 2017)
+#' }
 #' }
 read_casualties = function(year = NULL,
                            filename = "",

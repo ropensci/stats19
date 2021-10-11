@@ -15,7 +15,8 @@ bibliography: references.bib
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  out.width = "100%"
+  out.width = "100%",
+  eval = curl::has_internet()
 )
 ```
 
@@ -174,7 +175,12 @@ ncol(crashes_2017)
 
 What just happened?
 We read-in data on all road crashes recorded by the police in 2017 across Great Britain.
-The dataset contains `r ncol(crashes_2017_raw)` columns (variables) for `r format(nrow(crashes_2017_raw), big.mark = ",")` crashes.
+The dataset contains
+`r # ncol(crashes_2017_raw)`
+32
+columns (variables) for 
+`r # format(nrow(crashes_2017_raw), big.mark = ",")`
+129,982 crashes.
 
 This work was done by `read_accidents(format = FALSE)`, which imported the "raw" STATS19 data without cleaning messy column names or re-categorising the outputs.
 `format_accidents()` function automates the process of matching column names with variable names and labels in a [`.xls` file](https://data.dft.gov.uk/road-accidents-safety-data/variable%20lookup.xls) provided by the DfT.
@@ -294,7 +300,13 @@ nrow(casualties_2017)
 ncol(casualties_2017)
 ```
 
-The results show that there were `r format(nrow(casualties_2017), big.mark=",")` casualties reported by the police in the STATS19 dataset in 2017, and `r ncol(casualties_2017)` columns (variables).
+The results show that there were 
+`r # format(nrow(casualties_2017), big.mark=",")`
+170,993
+casualties reported by the police in the STATS19 dataset in 2017, and 
+`r # ncol(casualties_2017)`
+16
+columns (variables).
 Values for a sample of these columns are shown below:
 
 ```{r 2017-cas-columns}
@@ -318,7 +330,13 @@ nrow(vehicles_2017)
 ncol(vehicles_2017)
 ```
 
-The results show that there were `r format(nrow(vehicles_2017), big.mark=",")` vehicles involved in crashes reported by the police in the STATS19 dataset in 2017, with `r ncol(vehicles_2017)` columns (variables).
+The results show that there were 
+`r # format(nrow(vehicles_2017), big.mark=",")`
+238,926
+vehicles involved in crashes reported by the police in the STATS19 dataset in 2017, with 
+`r # ncol(vehicles_2017)`
+23
+columns (variables).
 Values for a sample of these columns are shown below:
 
 ```{r 2017-veh-columns}
@@ -393,7 +411,9 @@ nrow(crashes_sf)
 nrow(crashes_wy)
 ```
 
-This subsetting has selected the `r format(nrow(crashes_wy), big.mark = ",")`
+This subsetting has selected the 
+`r # format(nrow(crashes_wy), big.mark = ",")`
+4,371
 crashes which occurred in West Yorkshire.
 
 
