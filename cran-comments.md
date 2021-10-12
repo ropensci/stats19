@@ -1,6 +1,10 @@
 This new version should stop the error messages on checks.
 See https://github.com/ropensci/stats19/issues/208 for details.
 
+URL changed based on this comment from CRAN:
+
+URL: https://codecov.io/gh/ropensci/stats19 (moved to https://app.codecov.io/gh/ropensci/stats19)
+
 ## Test environments
 * local R installation, R 4.1.1
 * ubuntu 20.04 (GitHub Actions), R 4.1.1
