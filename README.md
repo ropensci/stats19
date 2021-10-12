@@ -10,7 +10,7 @@ downloads](https://cranlogs.r-pkg.org/badges/grand-total/stats19)](https://www.r
 cycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html)
 [![](https://badges.ropensci.org/266_status.svg)](https://github.com/ropensci/software-review/issues/266)
 [![DOI](https://joss.theoj.org/papers/10.21105/joss.01181/status.svg)](https://doi.org/10.21105/joss.01181)
-[![codecov](https://codecov.io/gh/ropensci/stats19/branch/master/graph/badge.svg)](https://codecov.io/gh/ropensci/stats19)
+[![codecov](https://codecov.io/gh/ropensci/stats19/branch/master/graph/badge.svg)](https://app.codecov.io/gh/ropensci/stats19)
 <!-- badges: end -->
 
 <!-- [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.2540781.svg)](https://doi.org/10.5281/zenodo.2540781) -->
@@ -64,7 +64,7 @@ You can install the released version of stats19 from
 install.packages("stats19")
 ```
 
-## get\_stats19()
+## get_stats19()
 
 `get_stats19()` requires `year` and `type` parameters, mirroring the
 provision of STATS19 data files, which are categorised by year (from
@@ -80,10 +80,10 @@ in naming crashes, although the DfT refers to the relevant tables as
 crashes = get_stats19(year = 2017, type = "accident")
 #> Files identified: dftRoadSafetyData_Accidents_2017.zip
 #>    https://data.dft.gov.uk/road-accidents-safety-data/dftRoadSafetyData_Accidents_2017.zip
-#> Data already exists in data_dir, not downloading
-#> Data saved at ~/stats19-data/dftRoadSafetyData_Accidents_2017/Acc.csv
+#> Attempt downloading from:
+#> Data saved at /tmp/RtmpzmVObv/dftRoadSafetyData_Accidents_2017/Acc.csv
 #> Reading in:
-#> /home/robin/stats19-data/dftRoadSafetyData_Accidents_2017/Acc.csv
+#> /tmp/RtmpzmVObv/dftRoadSafetyData_Accidents_2017/Acc.csv
 #> date and time columns present, creating formatted datetime column
 ```
 
@@ -152,7 +152,7 @@ Some of the key variables in this dataset include:
 
 ``` r
 crashes[c(7, 18, 23, 25)]
-#> # A tibble: 129,982 x 4
+#> # A tibble: 129,982 × 4
 #>    accident_severity speed_limit pedestrian_crossing_human_… light_conditions   
 #>    <chr>                   <int> <chr>                       <chr>              
 #>  1 Fatal                      30 None within 50 metres       Darkness - lights …
@@ -182,8 +182,8 @@ formatted as follows:
 casualties = get_stats19(year = 2017, type = "casualties", ask = FALSE)
 #> Files identified: dftRoadSafetyData_Casualties_2017.zip
 #>    https://data.dft.gov.uk/road-accidents-safety-data/dftRoadSafetyData_Casualties_2017.zip
-#> Data already exists in data_dir, not downloading
-#> Data saved at ~/stats19-data/dftRoadSafetyData_Casualties_2017/Cas.csv
+#> Attempt downloading from:
+#> Data saved at /tmp/RtmpzmVObv/dftRoadSafetyData_Casualties_2017/Cas.csv
 nrow(casualties)
 #> [1] 170993
 ncol(casualties)
@@ -196,7 +196,7 @@ Values for a sample of these columns are shown below:
 
 ``` r
 casualties[c(4, 5, 6, 14)]
-#> # A tibble: 170,993 x 4
+#> # A tibble: 170,993 × 4
 #>    casualty_class  sex_of_casualty age_of_casualty casualty_type                
 #>    <chr>           <chr>                     <int> <chr>                        
 #>  1 Passenger       Female                       18 Car occupant                 
@@ -235,8 +235,8 @@ and formatted as follows:
 vehicles = get_stats19(year = 2017, type = "vehicles", ask = FALSE)
 #> Files identified: dftRoadSafetyData_Vehicles_2017.zip
 #>    https://data.dft.gov.uk/road-accidents-safety-data/dftRoadSafetyData_Vehicles_2017.zip
-#> Data already exists in data_dir, not downloading
-#> Data saved at ~/stats19-data/dftRoadSafetyData_Vehicles_2017/Veh.csv
+#> Attempt downloading from:
+#> Data saved at /tmp/RtmpzmVObv/dftRoadSafetyData_Vehicles_2017/Veh.csv
 nrow(vehicles)
 #> [1] 238926
 ncol(vehicles)
@@ -249,19 +249,19 @@ reported by the police in the STATS19 dataset in 2017, with 23 columns
 
 ``` r
 vehicles[c(3, 14:16)]
-#> # A tibble: 238,926 x 4
-#>    vehicle_type             journey_purpose_of_driv… sex_of_driver age_of_driver
-#>    <chr>                    <chr>                    <chr>                 <int>
-#>  1 Car                      Not known                Male                     24
-#>  2 Motorcycle 50cc and und… Not known                Male                     19
-#>  3 Car                      Not known                Male                     33
-#>  4 Car                      Not known                Male                     40
-#>  5 Car                      Not known                Not known                -1
-#>  6 Car                      Not known                Male                     35
-#>  7 Car                      Not known                Female                   31
-#>  8 Car                      Not known                Female                   37
-#>  9 Car                      Not known                Female                   29
-#> 10 Car                      Not known                Male                     78
+#> # A tibble: 238,926 × 4
+#>    vehicle_type              journey_purpose_of_dri… sex_of_driver age_of_driver
+#>    <chr>                     <chr>                   <chr>                 <int>
+#>  1 Car                       Not known               Male                     24
+#>  2 Motorcycle 50cc and under Not known               Male                     19
+#>  3 Car                       Not known               Male                     33
+#>  4 Car                       Not known               Male                     40
+#>  5 Car                       Not known               Not known                -1
+#>  6 Car                       Not known               Male                     35
+#>  7 Car                       Not known               Female                   31
+#>  8 Car                       Not known               Female                   37
+#>  9 Car                       Not known               Female                   29
+#> 10 Car                       Not known               Male                     78
 #> # … with 238,916 more rows
 ```
 
@@ -310,7 +310,7 @@ Wales).
 
 ``` r
 library(sf)
-#> Linking to GEOS 3.8.0, GDAL 3.0.4, PROJ 7.0.0
+#> Linking to GEOS 3.9.1, GDAL 3.3.2, PROJ 7.2.1
 library(dplyr)
 #> 
 #> Attaching package: 'dplyr'
@@ -321,6 +321,7 @@ library(dplyr)
 #> 
 #>     intersect, setdiff, setequal, union
 wy = filter(police_boundaries, pfa16nm == "West Yorkshire")
+#> old-style crs object detected; please recreate object with a recent sf::st_crs()
 crashes_wy = crashes_sf[wy, ]
 nrow(crashes_sf)
 #> [1] 129963
@@ -362,20 +363,20 @@ The original and joined data look like this:
 
 ``` r
 crashes_wy[1:2, c(1, 5)] %>% st_drop_geometry()
-#> # A tibble: 2 x 2
+#> # A tibble: 2 × 2
 #>   accident_index accident_severity
 #> * <chr>          <chr>            
 #> 1 2017120009776  Slight           
 #> 2 2017120010412  Slight
 cas_types[1:2, c("accident_index", "Cyclist")]
-#> # A tibble: 2 x 2
+#> # A tibble: 2 × 2
 #> # Groups:   accident_index [2]
 #>   accident_index Cyclist
 #>   <chr>            <dbl>
 #> 1 2017120009776        0
 #> 2 2017120010412        1
 cj[1:2, c(1, 5, 34)] %>% st_drop_geometry()
-#> # A tibble: 2 x 3
+#> # A tibble: 2 × 3
 #>   accident_index accident_severity `Bus or coach occupant (17 or more pass seat…
 #> * <chr>          <chr>                                                     <dbl>
 #> 1 2017120009776  Slight                                                        0
@@ -522,7 +523,7 @@ The **stats19** package builds on previous work, including:
 -   updated functions related to the
     [CyIPT](https://github.com/cyipt/stats19) project
 
-[![ropensci\_footer](https://ropensci.org/public_images/ropensci_footer.png)](https://ropensci.org)
+[![ropensci_footer](https://ropensci.org/public_images/ropensci_footer.png)](https://ropensci.org)
 
 ## References
 

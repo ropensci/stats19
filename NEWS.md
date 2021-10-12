@@ -1,6 +1,8 @@
 # stats19 1.5.0 2021-10
 
 * Support new https download links (#208)
+* Package tests now pass when wifi is turned off
+* URLs have been fixed
 
 # stats19 1.4.3 2021-07-21
 
