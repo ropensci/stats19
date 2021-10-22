@@ -23,7 +23,12 @@ for(i in 1:length(r)) {
   dr[i] = sub("https://data.dft.gov.uk/road-accidents-safety-data/",
               "", dr[i])
 }
+
 file_names = setNames(as.list(dr), dr)
+file_name_df = tibble::tibble(
+  file_name = unlist(file_names),
+  url = r
+  )
 usethis::use_data(file_names, overwrite = TRUE)
 
 # get original stats19 data filenames
@@ -37,7 +42,9 @@ waldo::compare(file_names_old, file_names)
 class(file_names_old)
 file_names_char = unlist(file_names)
 writeLines(file_names_char, "data-raw/file_names.txt")
+readr::write_csv(file_name_df, "data-raw/file_name_df.csv")
 file.edit("data-raw/file_names.txt")
+file.remove("file_names_old.rda")
 
 file_names$`accident-and-casualty-adjustment-2004-to-2019.zip` 
 file_names$`accident-and-casualty-adjustment-2004-to-2019.zip` = NULL
