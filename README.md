@@ -10,7 +10,7 @@ downloads](https://cranlogs.r-pkg.org/badges/grand-total/stats19)](https://www.r
 cycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html)
 [![](https://badges.ropensci.org/266_status.svg)](https://github.com/ropensci/software-review/issues/266)
 [![DOI](https://joss.theoj.org/papers/10.21105/joss.01181/status.svg)](https://doi.org/10.21105/joss.01181)
-[![codecov](https://codecov.io/gh/ropensci/stats19/branch/master/graph/badge.svg)](https://app.codecov.io/gh/ropensci/stats19)
+![codecov](https://codecov.io/gh/ropensci/stats19/branch/master/graph/badge.svg)
 <!-- badges: end -->
 
 <!-- [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.2540781.svg)](https://doi.org/10.5281/zenodo.2540781) -->
@@ -80,10 +80,10 @@ in naming crashes, although the DfT refers to the relevant tables as
 crashes = get_stats19(year = 2017, type = "accident")
 #> Files identified: dftRoadSafetyData_Accidents_2017.zip
 #>    https://data.dft.gov.uk/road-accidents-safety-data/dftRoadSafetyData_Accidents_2017.zip
-#> Attempt downloading from:
-#> Data saved at /tmp/RtmpzmVObv/dftRoadSafetyData_Accidents_2017/Acc.csv
+#> Data already exists in data_dir, not downloading
+#> Data saved at ~/stats19-data/dftRoadSafetyData_Accidents_2017/Acc.csv
 #> Reading in:
-#> /tmp/RtmpzmVObv/dftRoadSafetyData_Accidents_2017/Acc.csv
+#> /home/robin/stats19-data/dftRoadSafetyData_Accidents_2017/Acc.csv
 #> date and time columns present, creating formatted datetime column
 ```
 
@@ -182,8 +182,8 @@ formatted as follows:
 casualties = get_stats19(year = 2017, type = "casualties", ask = FALSE)
 #> Files identified: dftRoadSafetyData_Casualties_2017.zip
 #>    https://data.dft.gov.uk/road-accidents-safety-data/dftRoadSafetyData_Casualties_2017.zip
-#> Attempt downloading from:
-#> Data saved at /tmp/RtmpzmVObv/dftRoadSafetyData_Casualties_2017/Cas.csv
+#> Data already exists in data_dir, not downloading
+#> Data saved at ~/stats19-data/dftRoadSafetyData_Casualties_2017/Cas.csv
 nrow(casualties)
 #> [1] 170993
 ncol(casualties)
@@ -235,8 +235,8 @@ and formatted as follows:
 vehicles = get_stats19(year = 2017, type = "vehicles", ask = FALSE)
 #> Files identified: dftRoadSafetyData_Vehicles_2017.zip
 #>    https://data.dft.gov.uk/road-accidents-safety-data/dftRoadSafetyData_Vehicles_2017.zip
-#> Attempt downloading from:
-#> Data saved at /tmp/RtmpzmVObv/dftRoadSafetyData_Vehicles_2017/Veh.csv
+#> Data already exists in data_dir, not downloading
+#> Data saved at ~/stats19-data/dftRoadSafetyData_Vehicles_2017/Veh.csv
 nrow(vehicles)
 #> [1] 238926
 ncol(vehicles)
