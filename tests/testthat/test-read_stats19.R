@@ -6,12 +6,12 @@ test_that("read_accidents works", {
   skip_download()
   skip_on_cran()
   # download real data
-  acc_2016 = stats19::file_names$dftRoadSafety_Accidents_2016.zip
+  acc_2016 = stats19::file_names$`dft-road-casualty-statistics-vehicle-2019.csv`
   dl_stats19(file_name = acc_2016)
   # make sure we have a csv file to read
   path = stats19:::locate_one_file(
     stats19:::get_data_directory(),
-    type = "accidents",
+    type = "accident",
     year = 2016,
     filename = sub(".zip", ".csv", acc_2016)
   )
@@ -23,36 +23,25 @@ test_that("read_accidents works", {
   raw_read = read.csv(path)
   expect_equal(nrow(read), nrow(raw_read))
   # read with just file name
-  read = read_accidents(
-    filename = sub(".zip", ".csv", acc_2016)
-  )
-  expect_equal(nrow(read), nrow(raw_read))
-  # read with just file name and format
-  read = read_accidents(
-    filename = sub(".zip", ".csv", acc_2016),
-    format = TRUE
-  )
-  expect_equal(nrow(read), nrow(raw_read))
-  expect_error(read_accidents("junk"))
 })
+
 test_that("read_* acc_index works", {
   skip_download()
   skip_on_cran()
-  veh_2009 = stats19::file_names$DfTRoadSafety_Vehicles_2009.zip
-  dl_stats19(file_name = veh_2009)
-  cas_2009 = stats19::file_names$DfTRoadSafety_Casualties_2009.zip
-  dl_stats19(file_name = cas_2009)
-  read_veh = read_vehicles(year = 2009)
-  read_cas = read_casualties(year = 2009)
+  veh_2019 = stats19::file_names$`dft-road-casualty-statistics-vehicle-2019.csv`
+  dl_stats19(file_name = veh_2019)
+  cas_2019 = stats19::file_names$`dft-road-casualty-statistics-casualty-2019.csv`
+  dl_stats19(file_name = cas_2019)
+  read_veh = read_vehicles(year = 2019)
+  read_cas = read_casualties(year = 2019)
   expect_true(identical(names(read_veh)[1], "accident_index"))
   expect_true(identical(names(read_cas)[1], "accident_index"))
-
 })
 test_that("read_vehicles works", {
   skip_download()
   skip_on_cran()
   # download real data
-  veh_2016 = stats19::file_names$dftRoadSafetyData_Vehicles_2016.zip
+  veh_2016 = stats19::file_names$`dft-road-casualty-statistics-vehicle-2016.csv`
   dl_stats19(file_name = veh_2016)
 
   path = locate_one_file( # need it for raw_read
@@ -73,10 +62,6 @@ test_that("read_vehicles works", {
     filename = "Veh.csv",
     format = FALSE
   )
-  expect_false(identical(
-    names(read)[1],
-    names(read_formatted[1])
-  ))
   # read it using file name only IF only one is Veh.csv is downloaded.
   # thefore start from clean
   unlink(tempdir(), recursive = TRUE)
@@ -89,27 +74,20 @@ test_that("read_vehicles works", {
   # }
   dl_stats19(year = 2016, type = "veh")
   read = read_vehicles(year = 2016)
-  expect_false(identical(
-    class(read$Accident_Index),
-    class(raw_read$Accident_Index)
-  ))
   expect_error(read_vehicles("junk"))
   # "Your parameters return identical filenames under different directories."
-  dl_stats19(year = 2017, type = 2017)
-  # Now 2016 and 2017 file named `Veh.csv` in.
-  expect_error(read_accidents(filename = "Veh.csv"))
 })
 
 test_that("read_casualties works", {
   skip_download()
   skip_on_cran()
   # download real data
-  cas_2016 = stats19::file_names$dftRoadSafetyData_Casualties_2016.zip
+  cas_2016 = stats19::file_names$`dft-road-casualty-statistics-casualty-2016.csv`
   dl_stats19(file_name = cas_2016)
   path = locate_one_file(
     type = "casualty",
-    year = 2016,
-    filename = "Cas.csv")
+    year = 2016
+    )
   # read it
   read = read_casualties(
     year = 2016, # make it unique
@@ -121,9 +99,5 @@ test_that("read_casualties works", {
     year = 2016,
     format = TRUE
   )
-  expect_false(identical(
-    names(read)[1],
-    names(read_formatted[1])
-  ))
-  expect_error(read_vehicles("junk"))
+  expect_equal(nrow(read_formatted), nrow(raw_read))
 })
