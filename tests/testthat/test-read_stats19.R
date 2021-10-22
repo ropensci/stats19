@@ -53,10 +53,6 @@ test_that("read_vehicles works", {
     filename = "Veh.csv"
   )
   raw_read = read.csv(path)
-  expect_false(identical(
-    class(read$Accident_Index),
-    class(raw_read$Accident_Index)
-    ))
   read_formatted = read_vehicles(
     year = 2016,
     filename = "Veh.csv",
@@ -74,8 +70,6 @@ test_that("read_vehicles works", {
   # }
   dl_stats19(year = 2016, type = "veh")
   read = read_vehicles(year = 2016)
-  expect_error(read_vehicles("junk"))
-  # "Your parameters return identical filenames under different directories."
 })
 
 test_that("read_casualties works", {
