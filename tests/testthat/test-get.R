@@ -40,11 +40,10 @@ test_that("get_stats19 works", {
 test_that("get_stats19 multiple years", {
   skip_on_cran()
   skip_if_offline()
-  t09 = get_stats19(year = 2019)
-  t15 = get_stats19(year = 2015)
-  t16 = get_stats19(year = 2016)
+  t18 = get_stats19(year = 2018)
+  t19 = get_stats19(year = 2019)
   t = get_stats19(year = c(2018, 2019))
-  expect_equal(nrow(t), sum(nrow(t09), nrow(t15), nrow(t16)))
+  expect_equal(nrow(t), sum(nrow(t18), nrow(t19)))
 })
 
 test_that("get_stats19 works with multiple years and formats", {

@@ -123,15 +123,6 @@ Enter an item from the menu, or 0 to exit
 
 When R is running interactively, you can select which of the 3 matching files to download:
 those relating to vehicles, casualties or accidents in 2017.
-You can also search for file names, as illustrated below:
-
-```{r dl2017-search}
-d17 = "dftRoadSafetyData_Accidents_2017"
-dl_stats19(file_name = paste0(d17, ".zip"))
-```
-
-Note that this is the same file (containing the 'accidents' table from 2017) downloaded previously with the command `dl_stats19(year = 2017, type = "Accidents")`.
-If the file is already present, `dl_stats19()` will skip the download process.
 
 ## Read STATS19 data
 
@@ -140,10 +131,7 @@ The code below will download the `dftRoadSafetyData_Accidents_2017.zip` file fro
 Files are saved by default in `tempdir()`, but this can be overridden to ensure permanent storage in a user-defined location.
 
 ```{r dl2017-read}
-d17 = "dftRoadSafetyData_Accidents_2017"
-dl_stats19(file_name = paste0(d17, ".zip"))
-crashes_2017_raw = read_accidents(year = 2017,
-                                  filename = "Acc.csv")
+crashes_2017_raw = get_stats19(year = 2017, type = "acc", format = FALSE)
 ```
 
 **stats19** imports data with `readr::read_csv()` which results in a 'tibble' object: a data frame with more user-friendly printing and a few other features.
