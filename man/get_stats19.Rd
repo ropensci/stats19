@@ -6,7 +6,7 @@
 \usage{
 get_stats19(
   year = NULL,
-  type = "accidents",
+  type = "accident",
   data_dir = get_data_directory(),
   file_name = NULL,
   format = TRUE,
