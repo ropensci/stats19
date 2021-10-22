@@ -78,18 +78,38 @@ in naming crashes, although the DfT refers to the relevant tables as
 
 ``` r
 crashes = get_stats19(year = 2017, type = "accident")
-#> Files identified: dftRoadSafetyData_Accidents_2017.zip
-#>    https://data.dft.gov.uk/road-accidents-safety-data/dftRoadSafetyData_Accidents_2017.zip
+#> accident
+#> Files identified: dft-road-casualty-statistics-accident-2017.csv
+#>    https://data.dft.gov.uk/road-accidents-safety-data/dft-road-casualty-statistics-accident-2017.csv
 #> Data already exists in data_dir, not downloading
-#> Data saved at ~/stats19-data/dftRoadSafetyData_Accidents_2017/Acc.csv
+#> Data saved at ~/stats19-data/dft-road-casualty-statistics-accident-2017.csv
+#> Called from: check_input_file(filename = filename, type = "accident", data_dir = data_dir, 
+#>     year = year)
+#> debug at /mnt/57982e2a-2874-4246-a6fe-115c199bc6bd/orgs/ropensci/stats19/R/read.R#151: if (!is.null(year)) {
+#>     year = check_year(year)
+#> }
+#> debug at /mnt/57982e2a-2874-4246-a6fe-115c199bc6bd/orgs/ropensci/stats19/R/read.R#152: year = check_year(year)
+#> debug at /mnt/57982e2a-2874-4246-a6fe-115c199bc6bd/orgs/ropensci/stats19/R/read.R#154: path = locate_one_file(type = type, filename = filename, data_dir = data_dir, 
+#>     year = year)
+#> accident
+#> debug at /mnt/57982e2a-2874-4246-a6fe-115c199bc6bd/orgs/ropensci/stats19/R/read.R#160: if (identical(path, "More than one csv file found.")) stop("Multiple files with the same name found.", 
+#>     call. = FALSE)
+#> debug at /mnt/57982e2a-2874-4246-a6fe-115c199bc6bd/orgs/ropensci/stats19/R/read.R#163: if (is.null(path) || length(path) == 0 || !endsWith(path, ".csv") || 
+#>     !file.exists(path)) {
+#>     message(path)
+#>     stop("Change data_dir, filename, year or run dl_stats19() first.", 
+#>         call. = FALSE)
+#> }
+#> debug at /mnt/57982e2a-2874-4246-a6fe-115c199bc6bd/orgs/ropensci/stats19/R/read.R#170: return(path)
 #> Reading in:
-#> /home/robin/stats19-data/dftRoadSafetyData_Accidents_2017/Acc.csv
+#> ~/stats19-data/dft-road-casualty-statistics-accident-2017.csv
+#> Warning: One or more parsing issues, see `problems()` for details
 #> date and time columns present, creating formatted datetime column
 ```
 
 What just happened? For the `year` 2017 we read-in crash-level
 (`type = "accident"`) data on all road crashes recorded by the police
-across Great Britain. The dataset contains 33 columns (variables) for
+across Great Britain. The dataset contains 37 columns (variables) for
 129,982 crashes. We were not asked to download the file (by default you
 are asked to confirm the file that will be downloaded). The contents of
 this dataset, and other datasets provided by **stats19**, are outlined
@@ -145,27 +165,28 @@ Crash data was downloaded and read-in using the function
 nrow(crashes)
 #> [1] 129982
 ncol(crashes)
-#> [1] 33
+#> [1] 37
 ```
 
 Some of the key variables in this dataset include:
 
 ``` r
-crashes[c(7, 18, 23, 25)]
-#> # A tibble: 129,982 × 4
-#>    accident_severity speed_limit pedestrian_crossing_human_… light_conditions   
-#>    <chr>                   <int> <chr>                       <chr>              
-#>  1 Fatal                      30 None within 50 metres       Darkness - lights …
-#>  2 Slight                     30 None within 50 metres       Darkness - lights …
-#>  3 Slight                     30 None within 50 metres       Darkness - lights …
-#>  4 Slight                     30 None within 50 metres       Darkness - lights …
-#>  5 Serious                    20 None within 50 metres       Darkness - lights …
-#>  6 Slight                     30 None within 50 metres       Darkness - lights …
-#>  7 Slight                     40 None within 50 metres       Darkness - lights …
-#>  8 Slight                     30 Control by other authorise… Darkness - lights …
-#>  9 Serious                    50 None within 50 metres       Darkness - lights …
-#> 10 Serious                    30 None within 50 metres       Darkness - lights …
-#> # … with 129,972 more rows
+key_column_names = grepl(pattern = "severity|speed|pedestrian|light_conditions", x = names(crashes))
+crashes[key_column_names]
+#> # A tibble: 129,982 × 5
+#>    accident_severity speed_limit pedestrian_crossing… pedestrian_crossing_physi…
+#>    <chr>                   <int> <chr>                <chr>                     
+#>  1 Fatal                      30 None within 50 metr… No physical crossing faci…
+#>  2 Slight                     30 None within 50 metr… No physical crossing faci…
+#>  3 Slight                     30 None within 50 metr… No physical crossing faci…
+#>  4 Slight                     30 None within 50 metr… Pelican, puffin, toucan o…
+#>  5 Serious                    20 None within 50 metr… Pedestrian phase at traff…
+#>  6 Slight                     30 None within 50 metr… No physical crossing faci…
+#>  7 Slight                     40 None within 50 metr… Pelican, puffin, toucan o…
+#>  8 Slight                     30 Control by other au… Pedestrian phase at traff…
+#>  9 Serious                    50 None within 50 metr… Pelican, puffin, toucan o…
+#> 10 Serious                    30 None within 50 metr… No physical crossing faci…
+#> # … with 129,972 more rows, and 1 more variable: light_conditions <chr>
 ```
 
 For the full list of columns, run `names(crashes)` or see the
@@ -180,50 +201,102 @@ formatted as follows:
 
 ``` r
 casualties = get_stats19(year = 2017, type = "casualty", ask = FALSE)
-#> Files identified: dftRoadSafetyData_Casualties_2017.zip
-#>    https://data.dft.gov.uk/road-accidents-safety-data/dftRoadSafetyData_Casualties_2017.zip
+#> casualty
+#> Files identified: dft-road-casualty-statistics-casualty-2017.csv
+#>    https://data.dft.gov.uk/road-accidents-safety-data/dft-road-casualty-statistics-casualty-2017.csv
 #> Data already exists in data_dir, not downloading
-#> Data saved at ~/stats19-data/dftRoadSafetyData_Casualties_2017/Cas.csv
+#> Data saved at ~/stats19-data/dft-road-casualty-statistics-casualty-2017.csv
+#> Called from: check_input_file(filename = filename, type = "accident", data_dir = data_dir, 
+#>     year = year)
+#> debug at /mnt/57982e2a-2874-4246-a6fe-115c199bc6bd/orgs/ropensci/stats19/R/read.R#151: if (!is.null(year)) {
+#>     year = check_year(year)
+#> }
+#> debug at /mnt/57982e2a-2874-4246-a6fe-115c199bc6bd/orgs/ropensci/stats19/R/read.R#152: year = check_year(year)
+#> debug at /mnt/57982e2a-2874-4246-a6fe-115c199bc6bd/orgs/ropensci/stats19/R/read.R#154: path = locate_one_file(type = type, filename = filename, data_dir = data_dir, 
+#>     year = year)
+#> accident
+#> debug at /mnt/57982e2a-2874-4246-a6fe-115c199bc6bd/orgs/ropensci/stats19/R/read.R#160: if (identical(path, "More than one csv file found.")) stop("Multiple files with the same name found.", 
+#>     call. = FALSE)
+#> debug at /mnt/57982e2a-2874-4246-a6fe-115c199bc6bd/orgs/ropensci/stats19/R/read.R#163: if (is.null(path) || length(path) == 0 || !endsWith(path, ".csv") || 
+#>     !file.exists(path)) {
+#>     message(path)
+#>     stop("Change data_dir, filename, year or run dl_stats19() first.", 
+#>         call. = FALSE)
+#> }
+#> debug at /mnt/57982e2a-2874-4246-a6fe-115c199bc6bd/orgs/ropensci/stats19/R/read.R#170: return(path)
+#> Reading in:
+#> ~/stats19-data/dft-road-casualty-statistics-accident-2017.csv
+#> Warning: One or more parsing issues, see `problems()` for details
+#> date and time columns present, creating formatted datetime column
 nrow(casualties)
-#> [1] 170993
+#> [1] 129982
 ncol(casualties)
-#> [1] 16
+#> [1] 37
 ```
 
-The results show that there were 170,993 casualties reported by the
-police in the STATS19 dataset in 2017, and 16 columns (variables).
+The results show that there were 129,982 casualties reported by the
+police in the STATS19 dataset in 2017, and 37 columns (variables).
 Values for a sample of these columns are shown below:
 
 ``` r
 casualties[c(4, 5, 6, 14)]
-#> # A tibble: 170,993 × 4
-#>    casualty_class  sex_of_casualty age_of_casualty casualty_type                
-#>    <chr>           <chr>                     <int> <chr>                        
-#>  1 Passenger       Female                       18 Car occupant                 
-#>  2 Driver or rider Male                         19 Motorcycle 50cc and under ri…
-#>  3 Passenger       Male                         18 Motorcycle 50cc and under ri…
-#>  4 Passenger       Female                       33 Car occupant                 
-#>  5 Driver or rider Female                       31 Car occupant                 
-#>  6 Passenger       Male                          3 Car occupant                 
-#>  7 Pedestrian      Male                         45 Pedestrian                   
-#>  8 Driver or rider Male                         14 Motorcycle 125cc and under r…
-#>  9 Driver or rider Female                       58 Car occupant                 
-#> 10 Driver or rider Male                         27 Car occupant                 
-#> # … with 170,983 more rows
+#> # A tibble: 129,982 × 4
+#>    location_easting_osgr location_northing_osgr longitude  time
+#>                    <int>                  <int>     <int> <int>
+#>  1                532920                 196330        NA    NA
+#>  2                526790                 181970        NA    NA
+#>  3                535200                 181260        NA    NA
+#>  4                534340                 193560        NA    NA
+#>  5                533680                 187820        NA    NA
+#>  6                514510                 172370        NA    NA
+#>  7                508640                 181870        NA    NA
+#>  8                527880                 181950        NA    NA
+#>  9                520940                 192820        NA    NA
+#> 10                531430                 178450        NA    NA
+#> # … with 129,972 more rows
 ```
 
 The full list of column names in the `casualties` dataset is:
 
 ``` r
 names(casualties)
-#>  [1] "accident_index"                     "vehicle_reference"                 
-#>  [3] "casualty_reference"                 "casualty_class"                    
-#>  [5] "sex_of_casualty"                    "age_of_casualty"                   
-#>  [7] "age_band_of_casualty"               "casualty_severity"                 
-#>  [9] "pedestrian_location"                "pedestrian_movement"               
-#> [11] "car_passenger"                      "bus_or_coach_passenger"            
-#> [13] "pedestrian_road_maintenance_worker" "casualty_type"                     
-#> [15] "casualty_home_area_type"            "casualty_imd_decile"
+#>  [1] "accident_index"                             
+#>  [2] "accident_year"                              
+#>  [3] "accident_reference"                         
+#>  [4] "location_easting_osgr"                      
+#>  [5] "location_northing_osgr"                     
+#>  [6] "longitude"                                  
+#>  [7] "latitude"                                   
+#>  [8] "police_force"                               
+#>  [9] "accident_severity"                          
+#> [10] "number_of_vehicles"                         
+#> [11] "number_of_casualties"                       
+#> [12] "date"                                       
+#> [13] "day_of_week"                                
+#> [14] "time"                                       
+#> [15] "local_authority_district"                   
+#> [16] "local_authority_ons_district"               
+#> [17] "local_authority_highway"                    
+#> [18] "first_road_class"                           
+#> [19] "first_road_number"                          
+#> [20] "road_type"                                  
+#> [21] "speed_limit"                                
+#> [22] "junction_detail"                            
+#> [23] "junction_control"                           
+#> [24] "second_road_class"                          
+#> [25] "second_road_number"                         
+#> [26] "pedestrian_crossing_human_control"          
+#> [27] "pedestrian_crossing_physical_facilities"    
+#> [28] "light_conditions"                           
+#> [29] "weather_conditions"                         
+#> [30] "road_surface_conditions"                    
+#> [31] "special_conditions_at_site"                 
+#> [32] "carriageway_hazards"                        
+#> [33] "urban_or_rural_area"                        
+#> [34] "did_police_officer_attend_scene_of_accident"
+#> [35] "trunk_road_flag"                            
+#> [36] "lsoa_of_accident_location"                  
+#> [37] "datetime"
 ```
 
 ### Vehicles data
@@ -232,55 +305,103 @@ Data for vehicles involved in crashes in 2017 can be downloaded, read-in
 and formatted as follows:
 
 ``` r
-vehicles = get_stats19(year = 2017, type = "vehicles", ask = FALSE)
-#> Files identified: dftRoadSafetyData_Vehicles_2017.zip
-#>    https://data.dft.gov.uk/road-accidents-safety-data/dftRoadSafetyData_Vehicles_2017.zip
+vehicles = get_stats19(year = 2017, type = "vehicle", ask = FALSE)
+#> vehicle
+#> Files identified: dft-road-casualty-statistics-vehicle-2017.csv
+#>    https://data.dft.gov.uk/road-accidents-safety-data/dft-road-casualty-statistics-vehicle-2017.csv
 #> Data already exists in data_dir, not downloading
-#> Data saved at ~/stats19-data/dftRoadSafetyData_Vehicles_2017/Veh.csv
+#> Data saved at ~/stats19-data/dft-road-casualty-statistics-vehicle-2017.csv
+#> Called from: check_input_file(filename = filename, type = "accident", data_dir = data_dir, 
+#>     year = year)
+#> debug at /mnt/57982e2a-2874-4246-a6fe-115c199bc6bd/orgs/ropensci/stats19/R/read.R#151: if (!is.null(year)) {
+#>     year = check_year(year)
+#> }
+#> debug at /mnt/57982e2a-2874-4246-a6fe-115c199bc6bd/orgs/ropensci/stats19/R/read.R#152: year = check_year(year)
+#> debug at /mnt/57982e2a-2874-4246-a6fe-115c199bc6bd/orgs/ropensci/stats19/R/read.R#154: path = locate_one_file(type = type, filename = filename, data_dir = data_dir, 
+#>     year = year)
+#> accident
+#> debug at /mnt/57982e2a-2874-4246-a6fe-115c199bc6bd/orgs/ropensci/stats19/R/read.R#160: if (identical(path, "More than one csv file found.")) stop("Multiple files with the same name found.", 
+#>     call. = FALSE)
+#> debug at /mnt/57982e2a-2874-4246-a6fe-115c199bc6bd/orgs/ropensci/stats19/R/read.R#163: if (is.null(path) || length(path) == 0 || !endsWith(path, ".csv") || 
+#>     !file.exists(path)) {
+#>     message(path)
+#>     stop("Change data_dir, filename, year or run dl_stats19() first.", 
+#>         call. = FALSE)
+#> }
+#> debug at /mnt/57982e2a-2874-4246-a6fe-115c199bc6bd/orgs/ropensci/stats19/R/read.R#170: return(path)
+#> Reading in:
+#> ~/stats19-data/dft-road-casualty-statistics-accident-2017.csv
+#> Warning: One or more parsing issues, see `problems()` for details
+#> date and time columns present, creating formatted datetime column
 nrow(vehicles)
-#> [1] 238926
+#> [1] 129982
 ncol(vehicles)
-#> [1] 23
+#> [1] 37
 ```
 
-The results show that there were 238,926 vehicles involved in crashes
-reported by the police in the STATS19 dataset in 2017, with 23 columns
+The results show that there were 129,982 vehicles involved in crashes
+reported by the police in the STATS19 dataset in 2017, with 37 columns
 (variables). Values for a sample of these columns are shown below:
 
 ``` r
 vehicles[c(3, 14:16)]
-#> # A tibble: 238,926 × 4
-#>    vehicle_type              journey_purpose_of_dri… sex_of_driver age_of_driver
-#>    <chr>                     <chr>                   <chr>                 <int>
-#>  1 Car                       Not known               Male                     24
-#>  2 Motorcycle 50cc and under Not known               Male                     19
-#>  3 Car                       Not known               Male                     33
-#>  4 Car                       Not known               Male                     40
-#>  5 Car                       Not known               Not known                -1
-#>  6 Car                       Not known               Male                     35
-#>  7 Car                       Not known               Female                   31
-#>  8 Car                       Not known               Female                   37
-#>  9 Car                       Not known               Female                   29
-#> 10 Car                       Not known               Male                     78
-#> # … with 238,916 more rows
+#> # A tibble: 129,982 × 4
+#>    accident_reference  time local_authority_district local_authority_ons_distri…
+#>                 <int> <int> <chr>                                          <int>
+#>  1           10001708    NA Enfield                                           NA
+#>  2           10009342    NA Westminster                                       NA
+#>  3           10009344    NA Tower Hamlets                                     NA
+#>  4           10009348    NA Enfield                                           NA
+#>  5           10009350    NA Hackney                                           NA
+#>  6           10009351    NA Richmond upon Thames                              NA
+#>  7           10009353    NA Hillingdon                                        NA
+#>  8           10009354    NA Westminster                                       NA
+#>  9           10009357    NA Barnet                                            NA
+#> 10           10009358    NA Lambeth                                           NA
+#> # … with 129,972 more rows
 ```
 
 The full list of column names in the `vehicles` dataset is:
 
 ``` r
 names(vehicles)
-#>  [1] "accident_index"                   "vehicle_reference"               
-#>  [3] "vehicle_type"                     "towing_and_articulation"         
-#>  [5] "vehicle_manoeuvre"                "vehicle_location_restricted_lane"
-#>  [7] "junction_location"                "skidding_and_overturning"        
-#>  [9] "hit_object_in_carriageway"        "vehicle_leaving_carriageway"     
-#> [11] "hit_object_off_carriageway"       "first_point_of_impact"           
-#> [13] "was_vehicle_left_hand_drive"      "journey_purpose_of_driver"       
-#> [15] "sex_of_driver"                    "age_of_driver"                   
-#> [17] "age_band_of_driver"               "engine_capacity_cc"              
-#> [19] "propulsion_code"                  "age_of_vehicle"                  
-#> [21] "driver_imd_decile"                "driver_home_area_type"           
-#> [23] "vehicle_imd_decile"
+#>  [1] "accident_index"                             
+#>  [2] "accident_year"                              
+#>  [3] "accident_reference"                         
+#>  [4] "location_easting_osgr"                      
+#>  [5] "location_northing_osgr"                     
+#>  [6] "longitude"                                  
+#>  [7] "latitude"                                   
+#>  [8] "police_force"                               
+#>  [9] "accident_severity"                          
+#> [10] "number_of_vehicles"                         
+#> [11] "number_of_casualties"                       
+#> [12] "date"                                       
+#> [13] "day_of_week"                                
+#> [14] "time"                                       
+#> [15] "local_authority_district"                   
+#> [16] "local_authority_ons_district"               
+#> [17] "local_authority_highway"                    
+#> [18] "first_road_class"                           
+#> [19] "first_road_number"                          
+#> [20] "road_type"                                  
+#> [21] "speed_limit"                                
+#> [22] "junction_detail"                            
+#> [23] "junction_control"                           
+#> [24] "second_road_class"                          
+#> [25] "second_road_number"                         
+#> [26] "pedestrian_crossing_human_control"          
+#> [27] "pedestrian_crossing_physical_facilities"    
+#> [28] "light_conditions"                           
+#> [29] "weather_conditions"                         
+#> [30] "road_surface_conditions"                    
+#> [31] "special_conditions_at_site"                 
+#> [32] "carriageway_hazards"                        
+#> [33] "urban_or_rural_area"                        
+#> [34] "did_police_officer_attend_scene_of_accident"
+#> [35] "trunk_road_flag"                            
+#> [36] "lsoa_of_accident_location"                  
+#> [37] "datetime"
 ```
 
 ## Creating geographic crash data
@@ -342,14 +463,52 @@ casualties by severity for each crash:
 ``` r
 sel = casualties$accident_index %in% crashes_wy$accident_index
 casualties_wy = casualties[sel, ]
-cas_types = casualties_wy %>% 
-  select(accident_index, casualty_type) %>% 
-  mutate(n = 1) %>% 
-  group_by(accident_index, casualty_type) %>% 
-  summarise(n = sum(n)) %>% 
-  tidyr::spread(casualty_type, n, fill = 0) 
-cas_types$Total = rowSums(cas_types[-1])
-cj = left_join(crashes_wy, cas_types, by = "accident_index")
+names(casualties_wy)
+#>  [1] "accident_index"                             
+#>  [2] "accident_year"                              
+#>  [3] "accident_reference"                         
+#>  [4] "location_easting_osgr"                      
+#>  [5] "location_northing_osgr"                     
+#>  [6] "longitude"                                  
+#>  [7] "latitude"                                   
+#>  [8] "police_force"                               
+#>  [9] "accident_severity"                          
+#> [10] "number_of_vehicles"                         
+#> [11] "number_of_casualties"                       
+#> [12] "date"                                       
+#> [13] "day_of_week"                                
+#> [14] "time"                                       
+#> [15] "local_authority_district"                   
+#> [16] "local_authority_ons_district"               
+#> [17] "local_authority_highway"                    
+#> [18] "first_road_class"                           
+#> [19] "first_road_number"                          
+#> [20] "road_type"                                  
+#> [21] "speed_limit"                                
+#> [22] "junction_detail"                            
+#> [23] "junction_control"                           
+#> [24] "second_road_class"                          
+#> [25] "second_road_number"                         
+#> [26] "pedestrian_crossing_human_control"          
+#> [27] "pedestrian_crossing_physical_facilities"    
+#> [28] "light_conditions"                           
+#> [29] "weather_conditions"                         
+#> [30] "road_surface_conditions"                    
+#> [31] "special_conditions_at_site"                 
+#> [32] "carriageway_hazards"                        
+#> [33] "urban_or_rural_area"                        
+#> [34] "did_police_officer_attend_scene_of_accident"
+#> [35] "trunk_road_flag"                            
+#> [36] "lsoa_of_accident_location"                  
+#> [37] "datetime"
+# cas_types = casualties_wy %>% 
+#   select(accident_index, casualty_type) %>% 
+#   mutate(n = 1) %>% 
+#   group_by(accident_index, casualty_type) %>% 
+#   summarise(n = sum(n)) %>% 
+#   tidyr::spread(casualty_type, n, fill = 0) 
+# cas_types$Total = rowSums(cas_types[-1])
+# cj = left_join(crashes_wy, cas_types, by = "accident_index")
 ```
 
 What just happened? We found the subset of casualties that took place in
@@ -362,25 +521,15 @@ with columns counting how many road users of different types were hurt.
 The original and joined data look like this:
 
 ``` r
-crashes_wy[1:2, c(1, 5)] %>% st_drop_geometry()
-#> # A tibble: 2 × 2
-#>   accident_index accident_severity
-#> * <chr>          <chr>            
-#> 1 2017120009776  Slight           
-#> 2 2017120010412  Slight
+knitr::opts_chunk$set(eval = FALSE)
+```
+
+``` r
+crashes_wy %>%
+  select(accident_index, accident_severity) %>% 
+  st_drop_geometry()
 cas_types[1:2, c("accident_index", "Cyclist")]
-#> # A tibble: 2 × 2
-#> # Groups:   accident_index [2]
-#>   accident_index Cyclist
-#>   <chr>            <dbl>
-#> 1 2017120009776        0
-#> 2 2017120010412        1
 cj[1:2, c(1, 5, 34)] %>% st_drop_geometry()
-#> # A tibble: 2 × 3
-#>   accident_index accident_severity `Bus or coach occupant (17 or more pass seat…
-#> * <chr>          <chr>                                                     <dbl>
-#> 1 2017120009776  Slight                                                        0
-#> 2 2017120010412  Slight                                                        0
 ```
 
 ## Mapping crashes
@@ -393,8 +542,6 @@ enabling it to be mapped (for more advanced maps, see the
 cex = cj$Total / 3
 plot(cj["speed_limit"], cex = cex)
 ```
-
-<img src="man/figures/README-unnamed-chunk-2-1.png" width="100%" />
 
 The spatial distribution of crashes in West Yorkshire clearly relates to
 the region’s geography. Crashes tend to happen on busy Motorway roads
@@ -410,8 +557,6 @@ Yorkshire, which estimated the number of crashes per billion km cycled
 based on commuter cycling as a proxy for cycling levels overall (more
 sophisticated measures of cycling levels are now possible thanks to new
 data sources) (Lovelace, Roberts, and Kellar 2016):
-
-<img src="https://ars.els-cdn.com/content/image/1-s2.0-S136984781500039X-gr9.jpg" width="100%" />
 
 ## Time series analysis
 
@@ -432,10 +577,7 @@ crashes_dates = cj %>%
 ggplot(crashes_dates, aes(date, casualties)) +
   geom_smooth(aes(colour = mode), method = "loess") +
   ylab("Casualties per day")
-#> `geom_smooth()` using formula 'y ~ x'
 ```
-
-<img src="man/figures/README-crash-date-plot-1.png" width="100%" />
 
 Different types of crashes also tend to happen at different times of
 day. This is illustrated in the plot below, which shows the times of day
@@ -458,8 +600,6 @@ crash_times = cj %>%
 ggplot(crash_times, aes(hour, casualties)) +
   geom_line(aes(colour = mode))
 ```
-
-<img src="man/figures/README-crash-time-plot-1.png" width="100%" />
 
 Note that cycling manifests distinct morning and afternoon peaks (see
 Lovelace, Roberts, and Kellar 2016 for more on this).

@@ -26,7 +26,7 @@ Of the three dataset types in STATS19, the vehicle tables are perhaps the most r
 They look like this:
 
 ```{r}
-v = get_stats19(year = 2018, type = "vehicles")
+v = get_stats19(year = 2018, type = "vehicle")
 v
 ```
 
