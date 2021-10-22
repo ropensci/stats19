@@ -99,7 +99,7 @@
 #' }
 #' }
 get_stats19 = function(year = NULL,
-                      type = "accidents",
+                      type = "accident",
                       data_dir = get_data_directory(),
                       file_name = NULL,
                       format = TRUE,
@@ -185,7 +185,7 @@ get_stats19 = function(year = NULL,
       year = year,
       data_dir = data_dir,
       format = format)
-  } else { # inline with type = "accidents" by default
+  } else { # inline with type = "accident" by default
     read_in = read_accidents(
       year = year,
       data_dir = data_dir,

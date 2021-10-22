@@ -1,0 +1,71 @@
+table,variable,type,column_name
+accidents,Accident Index,other,accident_index
+accidents,Police Force,character,police_force
+accidents,Accident Severity,character,accident_severity
+accidents,Number of Vehicles,numeric,number_of_vehicles
+accidents,Number of Casualties,numeric,number_of_casualties
+accidents,Date (DD/MM/YYYY),date,date
+accidents,Day of Week,character,day_of_week
+accidents,Time (HH:MM),time,time
+accidents,Location Easting OSGR (Null if not known),location,location_easting_osgr
+accidents,Location Northing OSGR (Null if not known),location,location_northing_osgr
+accidents,Longitude (Null if not known),location,longitude
+accidents,Latitude (Null if not known),location,latitude
+accidents,Local Authority (District),character,local_authority_district
+accidents,Local Authority (Highway Authority - ONS code),character,local_authority_highway
+accidents,1st Road Class,character,first_road_class
+accidents,1st Road Number,numeric,first_road_number
+accidents,Road Type,character,road_type
+accidents,Speed limit,numeric,speed_limit
+accidents,Junction Detail,character,junction_detail
+accidents,Junction Control,character,junction_control
+accidents,2nd Road Class,character,second_road_class
+accidents,2nd Road Number,numeric,second_road_number
+accidents,Pedestrian Crossing-Human Control,character,pedestrian_crossing_human_control
+accidents,Pedestrian Crossing-Physical Facilities,character,pedestrian_crossing_physical_facilities
+accidents,Light Conditions,character,light_conditions
+accidents,Weather Conditions,character,weather_conditions
+accidents,Road Surface Conditions,character,road_surface_conditions
+accidents,Special Conditions at Site,character,special_conditions_at_site
+accidents,Carriageway Hazards,character,carriageway_hazards
+accidents,Urban or Rural Area,character,urban_or_rural_area
+accidents,Did Police Officer Attend Scene of Accident,other,did_police_officer_attend_scene_of_accident
+accidents,Lower Super Ouput Area of Accident_Location (England & Wales only),other,lsoa_of_accident_location
+casualties,Accident Index,other,accident_index
+casualties,Vehicle Reference,other,vehicle_reference
+casualties,Casualty Reference,other,casualty_reference
+casualties,Casualty Class,character,casualty_class
+casualties,Sex of Casualty,character,sex_of_casualty
+casualties,Age of Casualty,numeric,age_of_casualty
+casualties,Age Band of Casualty,character,age_band_of_casualty
+casualties,Casualty Severity,character,casualty_severity
+casualties,Pedestrian Location,character,pedestrian_location
+casualties,Pedestrian Movement,character,pedestrian_movement
+casualties,Car Passenger,character,car_passenger
+casualties,Bus or Coach Passenger,character,bus_or_coach_passenger
+casualties,Pedestrian Road Maintenance Worker (From 2011),character,pedestrian_road_maintenance_worker
+casualties,Casualty Type,character,casualty_type
+casualties,Casualty IMD Decile,character,casualty_imd_decile
+casualties,Casualty Home Area Type,character,casualty_home_area_type
+vehicles,Accident Index,other,accident_index
+vehicles,Vehicle Reference,other,vehicle_reference
+vehicles,Vehicle Type,character,vehicle_type
+vehicles,Towing and Articulation,character,towing_and_articulation
+vehicles,Vehicle Manoeuvre,character,vehicle_manoeuvre
+vehicles,Vehicle Location-Restricted Lane,other,vehicle_location_restricted_lane
+vehicles,Junction Location,character,junction_location
+vehicles,Skidding and Overturning,character,skidding_and_overturning
+vehicles,Hit Object in Carriageway,other,hit_object_in_carriageway
+vehicles,Vehicle Leaving Carriageway,other,vehicle_leaving_carriageway
+vehicles,Hit Object off Carriageway,other,hit_object_off_carriageway
+vehicles,1st Point of Impact,character,first_point_of_impact
+vehicles,Was Vehicle Left Hand Drive,character,was_vehicle_left_hand_drive
+vehicles,Journey Purpose of Driver,character,journey_purpose_of_driver
+vehicles,Sex of Driver,character,sex_of_driver
+vehicles,Age of Driver,numeric,age_of_driver
+vehicles,Age Band of Driver,other,age_band_of_driver
+vehicles,Engine Capacity,numeric,engine_capacity_cc
+vehicles,Vehicle Propulsion Code,character,propulsion_code
+vehicles,Age of Vehicle (manufacture),numeric,age_of_vehicle
+vehicles,Driver IMD Decile,other,driver_imd_decile
+vehicles,Driver Home Area Type,other,driver_home_area_type
