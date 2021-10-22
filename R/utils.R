@@ -85,7 +85,7 @@ current_year = function() as.integer(format(format(Sys.Date(), "%Y")))
 find_file_name = function(years = NULL, type = NULL) {
 
   result = unlist(stats19::file_names, use.names = FALSE)
-  if(min(years) >= 2016) {
+  if(!is.null(years) && min(years) >= 2016) {
     result = result[!grepl(pattern = "1979", x = result)]
   }
   result = result[!grepl(pattern = "adjust", x = result)]
