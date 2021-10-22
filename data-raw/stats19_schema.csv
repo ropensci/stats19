@@ -42,15 +42,15 @@ Accident,police_force,60,North Wales,NA,police_force,character
 Accident,police_force,61,Gwent,NA,police_force,character
 Accident,police_force,62,South Wales,NA,police_force,character
 Accident,police_force,63,Dyfed-Powys,NA,police_force,character
-Accident,police_force,91,Northern,category discontinued in 2019,NA,NA
-Accident,police_force,92,Grampian,category discontinued in 2019,NA,NA
-Accident,police_force,93,Tayside,category discontinued in 2019,NA,NA
-Accident,police_force,94,Fife,category discontinued in 2019,NA,NA
-Accident,police_force,95,Lothian and Borders,category discontinued in 2019,NA,NA
-Accident,police_force,96,Central,category discontinued in 2019,NA,NA
-Accident,police_force,97,Strathclyde,category discontinued in 2019,NA,NA
-Accident,police_force,98,Dumfries and Galloway,category discontinued in 2019,NA,NA
-Accident,police_force,99,Police Scotland,category introduced in 2019,NA,NA
+Accident,police_force,91,Northern,category discontinued in 2019,police_force,NA
+Accident,police_force,92,Grampian,category discontinued in 2019,police_force,NA
+Accident,police_force,93,Tayside,category discontinued in 2019,police_force,NA
+Accident,police_force,94,Fife,category discontinued in 2019,police_force,NA
+Accident,police_force,95,Lothian and Borders,category discontinued in 2019,police_force,NA
+Accident,police_force,96,Central,category discontinued in 2019,police_force,NA
+Accident,police_force,97,Strathclyde,category discontinued in 2019,police_force,NA
+Accident,police_force,98,Dumfries and Galloway,category discontinued in 2019,police_force,NA
+Accident,police_force,99,Police Scotland,category introduced in 2019,police_force,NA
 Accident,accident_severity,1,Fatal,NA,accident_severity,character
 Accident,accident_severity,2,Serious,NA,accident_severity,character
 Accident,accident_severity,3,Slight,NA,accident_severity,character
@@ -493,8 +493,8 @@ Accident,road_type,7,Slip road,NA,road_type,character
 Accident,road_type,9,Unknown,NA,road_type,character
 Accident,road_type,12,One way street/Slip road,NA,road_type,character
 Accident,road_type,-1,Data missing or out of range,NA,road_type,character
-Accident,speed_limit,-1,Data missing or out of range,NA,NA,NA
-Accident,speed_limit,99,unknown (self reported),NA,NA,NA
+Accident,speed_limit,-1,Data missing or out of range,NA,speed_limit,NA
+Accident,speed_limit,99,unknown (self reported),NA,speed_limit,NA
 Accident,junction_detail,0,Not at junction or within 20 metres,NA,junction_detail,character
 Accident,junction_detail,1,Roundabout,NA,junction_detail,character
 Accident,junction_detail,2,Mini-roundabout,NA,junction_detail,character
@@ -593,33 +593,33 @@ Accident,trunk_road_flag,2,Non-trunk,NA,trunk_road_flag,character
 Accident,trunk_road_flag,-1,Data missing or out of range,NA,trunk_road_flag,character
 Vehicle,vehicle_type,1,Pedal cycle,NA,vehicle_type,character
 Vehicle,vehicle_type,2,Motorcycle 50cc and under,NA,vehicle_type,character
-Vehicle,vehicle_type,3,Motorcycle 125cc and under,category introduced in 1999 specification,NA,NA
-Vehicle,vehicle_type,4,Motorcycle over 125cc and up to 500cc,category introduced in 2005 specification,NA,NA
-Vehicle,vehicle_type,5,Motorcycle over 500cc,category introduced in 2005 specification,NA,NA
-Vehicle,vehicle_type,8,Taxi/Private hire car,category introduced in 2005 specification,NA,NA
-Vehicle,vehicle_type,9,Car,category introduced in 2005 specification,NA,NA
-Vehicle,vehicle_type,10,Minibus (8 - 16 passenger seats),category introduced in 1999 specification,NA,NA
+Vehicle,vehicle_type,3,Motorcycle 125cc and under,category introduced in 1999 specification,vehicle_type,NA
+Vehicle,vehicle_type,4,Motorcycle over 125cc and up to 500cc,category introduced in 2005 specification,vehicle_type,NA
+Vehicle,vehicle_type,5,Motorcycle over 500cc,category introduced in 2005 specification,vehicle_type,NA
+Vehicle,vehicle_type,8,Taxi/Private hire car,category introduced in 2005 specification,vehicle_type,NA
+Vehicle,vehicle_type,9,Car,category introduced in 2005 specification,vehicle_type,NA
+Vehicle,vehicle_type,10,Minibus (8 - 16 passenger seats),category introduced in 1999 specification,vehicle_type,NA
 Vehicle,vehicle_type,11,Bus or coach (17 or more pass seats),NA,vehicle_type,character
-Vehicle,vehicle_type,16,Ridden horse,category introduced in 1999 specification,NA,NA
-Vehicle,vehicle_type,17,Agricultural vehicle,category introduced in 1999 specification,NA,NA
-Vehicle,vehicle_type,18,Tram,category introduced in 1999 specification,NA,NA
+Vehicle,vehicle_type,16,Ridden horse,category introduced in 1999 specification,vehicle_type,NA
+Vehicle,vehicle_type,17,Agricultural vehicle,category introduced in 1999 specification,vehicle_type,NA
+Vehicle,vehicle_type,18,Tram,category introduced in 1999 specification,vehicle_type,NA
 Vehicle,vehicle_type,19,Van / Goods 3.5 tonnes mgw or under,NA,vehicle_type,character
-Vehicle,vehicle_type,20,Goods over 3.5t. and under 7.5t,category introduced in 1999 specification,NA,NA
-Vehicle,vehicle_type,21,Goods 7.5 tonnes mgw and over,category introduced in 1999 specification,NA,NA
-Vehicle,vehicle_type,22,Mobility scooter,cateogry introduced in 2011 specification,NA,NA
-Vehicle,vehicle_type,23,Electric motorcycle,cateogry introduced in 2011 specification,NA,NA
-Vehicle,vehicle_type,90,Other vehicle,cateogry introduced in 2011 specification,NA,NA
-Vehicle,vehicle_type,97,Motorcycle - unknown cc,cateogry introduced in 2011 specification,NA,NA
-Vehicle,vehicle_type,98,Goods vehicle - unknown weight,cateogry introduced in 2011 specification,NA,NA
-Vehicle,vehicle_type,99,Unknown vehicle type (self rep only),cateogry introduced in 2011 specification,NA,NA
-Vehicle,vehicle_type,103,Motorcycle - Scooter (1979-1998),cateogory discontinued in 1999 specification,NA,NA
-Vehicle,vehicle_type,104,Motorcycle (1979-1998),cateogory discontinued in 1999 specification,NA,NA
-Vehicle,vehicle_type,105,Motorcycle - Combination (1979-1998),cateogory discontinued in 1999 specification,NA,NA
-Vehicle,vehicle_type,106,Motorcycle over 125cc (1999-2004),cateogory discontinued in 2005 specification,NA,NA
-Vehicle,vehicle_type,108,Taxi (excluding private hire cars) (1979-2004),cateogory discontinued in 2005 specification,NA,NA
-Vehicle,vehicle_type,109,Car (including private hire cars) (1979-2004),cateogory discontinued in 2005 specification,NA,NA
-Vehicle,vehicle_type,110,Minibus/Motor caravan (1979-1998),cateogory discontinued in 1999 specification,NA,NA
-Vehicle,vehicle_type,113,Goods over 3.5 tonnes (1979-1998),cateogory discontinued in 1999 specification,NA,NA
+Vehicle,vehicle_type,20,Goods over 3.5t. and under 7.5t,category introduced in 1999 specification,vehicle_type,NA
+Vehicle,vehicle_type,21,Goods 7.5 tonnes mgw and over,category introduced in 1999 specification,vehicle_type,NA
+Vehicle,vehicle_type,22,Mobility scooter,cateogry introduced in 2011 specification,vehicle_type,NA
+Vehicle,vehicle_type,23,Electric motorcycle,cateogry introduced in 2011 specification,vehicle_type,NA
+Vehicle,vehicle_type,90,Other vehicle,cateogry introduced in 2011 specification,vehicle_type,NA
+Vehicle,vehicle_type,97,Motorcycle - unknown cc,cateogry introduced in 2011 specification,vehicle_type,NA
+Vehicle,vehicle_type,98,Goods vehicle - unknown weight,cateogry introduced in 2011 specification,vehicle_type,NA
+Vehicle,vehicle_type,99,Unknown vehicle type (self rep only),cateogry introduced in 2011 specification,vehicle_type,NA
+Vehicle,vehicle_type,103,Motorcycle - Scooter (1979-1998),cateogory discontinued in 1999 specification,vehicle_type,NA
+Vehicle,vehicle_type,104,Motorcycle (1979-1998),cateogory discontinued in 1999 specification,vehicle_type,NA
+Vehicle,vehicle_type,105,Motorcycle - Combination (1979-1998),cateogory discontinued in 1999 specification,vehicle_type,NA
+Vehicle,vehicle_type,106,Motorcycle over 125cc (1999-2004),cateogory discontinued in 2005 specification,vehicle_type,NA
+Vehicle,vehicle_type,108,Taxi (excluding private hire cars) (1979-2004),cateogory discontinued in 2005 specification,vehicle_type,NA
+Vehicle,vehicle_type,109,Car (including private hire cars) (1979-2004),cateogory discontinued in 2005 specification,vehicle_type,NA
+Vehicle,vehicle_type,110,Minibus/Motor caravan (1979-1998),cateogory discontinued in 1999 specification,vehicle_type,NA
+Vehicle,vehicle_type,113,Goods over 3.5 tonnes (1979-1998),cateogory discontinued in 1999 specification,vehicle_type,NA
 Vehicle,vehicle_type,-1,Data missing or out of range,NA,vehicle_type,character
 Vehicle,towing_and_articulation,0,No tow/articulation,NA,towing_and_articulation,character
 Vehicle,towing_and_articulation,1,Articulated vehicle,NA,towing_and_articulation,character
@@ -650,25 +650,25 @@ Vehicle,vehicle_manoeuvre,18,Going ahead other,NA,vehicle_manoeuvre,character
 Vehicle,vehicle_manoeuvre,99,unknown (self reported),NA,vehicle_manoeuvre,character
 Vehicle,vehicle_manoeuvre,-1,Data missing or out of range,NA,vehicle_manoeuvre,character
 Vehicle,vehicle_direction_from,0,Parked,both vehicle_direction_from and vehicle_direction_to should be 0,vehicle_direction_from,character
-Vehicle,vehicle_direction_from,1,North,NA,NA,NA
-Vehicle,vehicle_direction_from,2,North East,NA,NA,NA
-Vehicle,vehicle_direction_from,3,East,NA,NA,NA
-Vehicle,vehicle_direction_from,4,South East,NA,NA,NA
-Vehicle,vehicle_direction_from,5,South East,NA,NA,NA
-Vehicle,vehicle_direction_from,6,South West,NA,NA,NA
-Vehicle,vehicle_direction_from,7,West,NA,NA,NA
-Vehicle,vehicle_direction_from,8,North West,NA,NA,NA
-Vehicle,vehicle_direction_from,9,unknown (self reported),both vehicle_direction_from and vehicle_direction_to should be 9,NA,NA
+Vehicle,vehicle_direction_from,1,North,NA,vehicle_direction_from,NA
+Vehicle,vehicle_direction_from,2,North East,NA,vehicle_direction_from,NA
+Vehicle,vehicle_direction_from,3,East,NA,vehicle_direction_from,NA
+Vehicle,vehicle_direction_from,4,South East,NA,vehicle_direction_from,NA
+Vehicle,vehicle_direction_from,5,South East,NA,vehicle_direction_from,NA
+Vehicle,vehicle_direction_from,6,South West,NA,vehicle_direction_from,NA
+Vehicle,vehicle_direction_from,7,West,NA,vehicle_direction_from,NA
+Vehicle,vehicle_direction_from,8,North West,NA,vehicle_direction_from,NA
+Vehicle,vehicle_direction_from,9,unknown (self reported),both vehicle_direction_from and vehicle_direction_to should be 9,vehicle_direction_from,NA
 Vehicle,vehicle_direction_to,0,Parked,both vehicle_direction_from and vehicle_direction_to should be 0,vehicle_direction_to,character
-Vehicle,vehicle_direction_to,1,North,NA,NA,NA
-Vehicle,vehicle_direction_to,2,North East,NA,NA,NA
-Vehicle,vehicle_direction_to,3,East,NA,NA,NA
-Vehicle,vehicle_direction_to,4,South East,NA,NA,NA
-Vehicle,vehicle_direction_to,5,South East,NA,NA,NA
-Vehicle,vehicle_direction_to,6,South West,NA,NA,NA
-Vehicle,vehicle_direction_to,7,West,NA,NA,NA
-Vehicle,vehicle_direction_to,8,North West,NA,NA,NA
-Vehicle,vehicle_direction_to,9,unknown (self reported),both vehicle_direction_from and vehicle_direction_to should be 9,NA,NA
+Vehicle,vehicle_direction_to,1,North,NA,vehicle_direction_to,NA
+Vehicle,vehicle_direction_to,2,North East,NA,vehicle_direction_to,NA
+Vehicle,vehicle_direction_to,3,East,NA,vehicle_direction_to,NA
+Vehicle,vehicle_direction_to,4,South East,NA,vehicle_direction_to,NA
+Vehicle,vehicle_direction_to,5,South East,NA,vehicle_direction_to,NA
+Vehicle,vehicle_direction_to,6,South West,NA,vehicle_direction_to,NA
+Vehicle,vehicle_direction_to,7,West,NA,vehicle_direction_to,NA
+Vehicle,vehicle_direction_to,8,North West,NA,vehicle_direction_to,NA
+Vehicle,vehicle_direction_to,9,unknown (self reported),both vehicle_direction_from and vehicle_direction_to should be 9,vehicle_direction_to,NA
 Vehicle,vehicle_location_restricted_lane,0,On main c'way - not in restricted lane,NA,vehicle_location_restricted_lane,character
 Vehicle,vehicle_location_restricted_lane,1,Tram/Light rail track,NA,vehicle_location_restricted_lane,character
 Vehicle,vehicle_location_restricted_lane,2,Bus lane,NA,vehicle_location_restricted_lane,character
@@ -757,7 +757,7 @@ Vehicle,journey_purpose_of_driver,3,Taking pupil to/from school,NA,journey_purpo
 Vehicle,journey_purpose_of_driver,4,Pupil riding to/from school,NA,journey_purpose_of_driver,character
 Vehicle,journey_purpose_of_driver,5,Other,NA,journey_purpose_of_driver,character
 Vehicle,journey_purpose_of_driver,6,Not known,NA,journey_purpose_of_driver,character
-Vehicle,journey_purpose_of_driver,15,Other/Not known,2005 specification only,NA,NA
+Vehicle,journey_purpose_of_driver,15,Other/Not known,2005 specification only,journey_purpose_of_driver,NA
 Vehicle,journey_purpose_of_driver,-1,Data missing or out of range,NA,journey_purpose_of_driver,character
 Vehicle,sex_of_driver,1,Male,NA,sex_of_driver,character
 Vehicle,sex_of_driver,2,Female,NA,sex_of_driver,character
@@ -868,38 +868,38 @@ Casualty,bus_or_coach_passenger,-1,Data missing or out of range,NA,bus_or_coach_
 Casualty,pedestrian_road_maintenance_worker,0,No / Not applicable,NA,pedestrian_road_maintenance_worker,character
 Casualty,pedestrian_road_maintenance_worker,1,Yes,NA,pedestrian_road_maintenance_worker,character
 Casualty,pedestrian_road_maintenance_worker,2,Not Known,NA,pedestrian_road_maintenance_worker,character
-Casualty,pedestrian_road_maintenance_worker,3,Probable,2005 specification only,NA,NA
+Casualty,pedestrian_road_maintenance_worker,3,Probable,2005 specification only,pedestrian_road_maintenance_worker,NA
 Casualty,pedestrian_road_maintenance_worker,-1,Data missing or out of range,NA,pedestrian_road_maintenance_worker,character
 Casualty,casualty_type,0,Pedestrian,NA,casualty_type,character
 Casualty,casualty_type,1,Cyclist,NA,casualty_type,character
 Casualty,casualty_type,2,Motorcycle 50cc and under rider or passenger,NA,casualty_type,character
-Casualty,casualty_type,3,Motorcycle 125cc and under rider or passenger,introduced in 1999 specification,NA,NA
-Casualty,casualty_type,4,Motorcycle over 125cc and up to 500cc rider or  passenger,introduced in 2005 specification,NA,NA
-Casualty,casualty_type,5,Motorcycle over 500cc rider or passenger,introduced in 2005 specification,NA,NA
-Casualty,casualty_type,8,Taxi/Private hire car occupant,introduced in 2005 specification,NA,NA
-Casualty,casualty_type,9,Car occupant,introduced in 2005 specification,NA,NA
-Casualty,casualty_type,10,Minibus (8 - 16 passenger seats) occupant,introduced in 1999 specification,NA,NA
+Casualty,casualty_type,3,Motorcycle 125cc and under rider or passenger,introduced in 1999 specification,casualty_type,NA
+Casualty,casualty_type,4,Motorcycle over 125cc and up to 500cc rider or  passenger,introduced in 2005 specification,casualty_type,NA
+Casualty,casualty_type,5,Motorcycle over 500cc rider or passenger,introduced in 2005 specification,casualty_type,NA
+Casualty,casualty_type,8,Taxi/Private hire car occupant,introduced in 2005 specification,casualty_type,NA
+Casualty,casualty_type,9,Car occupant,introduced in 2005 specification,casualty_type,NA
+Casualty,casualty_type,10,Minibus (8 - 16 passenger seats) occupant,introduced in 1999 specification,casualty_type,NA
 Casualty,casualty_type,11,Bus or coach occupant (17 or more pass seats),NA,casualty_type,character
-Casualty,casualty_type,16,Horse rider,introduced in 1999 specification,NA,NA
-Casualty,casualty_type,17,Agricultural vehicle occupant,introduced in 1999 specification,NA,NA
-Casualty,casualty_type,18,Tram occupant,introduced in 1999 specification,NA,NA
+Casualty,casualty_type,16,Horse rider,introduced in 1999 specification,casualty_type,NA
+Casualty,casualty_type,17,Agricultural vehicle occupant,introduced in 1999 specification,casualty_type,NA
+Casualty,casualty_type,18,Tram occupant,introduced in 1999 specification,casualty_type,NA
 Casualty,casualty_type,19,Van / Goods vehicle (3.5 tonnes mgw or under) occupant,NA,casualty_type,character
-Casualty,casualty_type,20,Goods vehicle (over 3.5t. and under 7.5t.) occupant,introduced in 1999 specification,NA,NA
-Casualty,casualty_type,21,Goods vehicle (7.5 tonnes mgw and over) occupant,introduced in 1999 specification,NA,NA
-Casualty,casualty_type,22,Mobility scooter rider,introduced in 2011 specification,NA,NA
-Casualty,casualty_type,23,Electric motorcycle rider or passenger,introduced in 2011 specification,NA,NA
-Casualty,casualty_type,90,Other vehicle occupant,introduced in 2011 specification,NA,NA
-Casualty,casualty_type,97,Motorcycle - unknown cc rider or passenger,introduced in 2011 specification,NA,NA
-Casualty,casualty_type,98,Goods vehicle (unknown weight) occupant,introduced in 2011 specification,NA,NA
-Casualty,casualty_type,99,Unknown vehicle type (self rep only),introduced in 2011 specification,NA,NA
-Casualty,casualty_type,103,Motorcycle - Scooter (1979-1998),dropped in 1999 specification,NA,NA
-Casualty,casualty_type,104,Motorcycle (1979-1998),dropped in 1999 specification,NA,NA
-Casualty,casualty_type,105,Motorcycle - Combination (1979-1998),dropped in 1999 specification,NA,NA
-Casualty,casualty_type,106,Motorcycle over 125cc (1999-2004),dropped in 2005 specification,NA,NA
-Casualty,casualty_type,108,Taxi (excluding private hire cars) (1979-2004),dropped in 2005 specification,NA,NA
-Casualty,casualty_type,109,Car (including private hire cars) (1979-2004),dropped in 2005 specification,NA,NA
-Casualty,casualty_type,110,Minibus/Motor caravan (1979-1998),dropped in 1999 specification,NA,NA
-Casualty,casualty_type,113,Goods over 3.5 tonnes (1979-1998),dropped in 1999 specification,NA,NA
+Casualty,casualty_type,20,Goods vehicle (over 3.5t. and under 7.5t.) occupant,introduced in 1999 specification,casualty_type,NA
+Casualty,casualty_type,21,Goods vehicle (7.5 tonnes mgw and over) occupant,introduced in 1999 specification,casualty_type,NA
+Casualty,casualty_type,22,Mobility scooter rider,introduced in 2011 specification,casualty_type,NA
+Casualty,casualty_type,23,Electric motorcycle rider or passenger,introduced in 2011 specification,casualty_type,NA
+Casualty,casualty_type,90,Other vehicle occupant,introduced in 2011 specification,casualty_type,NA
+Casualty,casualty_type,97,Motorcycle - unknown cc rider or passenger,introduced in 2011 specification,casualty_type,NA
+Casualty,casualty_type,98,Goods vehicle (unknown weight) occupant,introduced in 2011 specification,casualty_type,NA
+Casualty,casualty_type,99,Unknown vehicle type (self rep only),introduced in 2011 specification,casualty_type,NA
+Casualty,casualty_type,103,Motorcycle - Scooter (1979-1998),dropped in 1999 specification,casualty_type,NA
+Casualty,casualty_type,104,Motorcycle (1979-1998),dropped in 1999 specification,casualty_type,NA
+Casualty,casualty_type,105,Motorcycle - Combination (1979-1998),dropped in 1999 specification,casualty_type,NA
+Casualty,casualty_type,106,Motorcycle over 125cc (1999-2004),dropped in 2005 specification,casualty_type,NA
+Casualty,casualty_type,108,Taxi (excluding private hire cars) (1979-2004),dropped in 2005 specification,casualty_type,NA
+Casualty,casualty_type,109,Car (including private hire cars) (1979-2004),dropped in 2005 specification,casualty_type,NA
+Casualty,casualty_type,110,Minibus/Motor caravan (1979-1998),dropped in 1999 specification,casualty_type,NA
+Casualty,casualty_type,113,Goods over 3.5 tonnes (1979-1998),dropped in 1999 specification,casualty_type,NA
 Casualty,casualty_imd_decile,1,Most deprived 10%,field introduced in 2016,casualty_imd_decile,character
 Casualty,casualty_imd_decile,2,More deprived 10-20%,field introduced in 2016,casualty_imd_decile,character
 Casualty,casualty_imd_decile,3,More deprived 20-30%,field introduced in 2016,casualty_imd_decile,character
