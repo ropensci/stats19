@@ -75,8 +75,8 @@ current_year = function() as.integer(format(format(Sys.Date(), "%Y")))
 #'
 #' @examples
 #' find_file_name(2016)
-#' find_file_name(2016, type = "Accidents")
-#' find_file_name(1985, type = "Accidents")
+#' find_file_name(2016, type = "accident")
+#' find_file_name(1985, type = "accident")
 #' find_file_name(type = "cas")
 #' find_file_name(type = "accid")
 #' find_file_name(2006)
@@ -94,7 +94,7 @@ find_file_name = function(years = NULL, type = NULL) {
 
   # see https://github.com/ITSLeeds/stats19/issues/21
   if(!is.null(type)) {
-    type = gsub(pattern = "ccidents", replacement = "ccident", x = type)
+    # type = gsub(pattern = "ccidents", replacement = "ccident", x = type)
     type = gsub(pattern = "ties", replacement = "ty", x = type)
     type = gsub(pattern = "cles", replacement = "cle", x = type)
     result_type = result[grep(pattern = type, result, ignore.case = TRUE)]

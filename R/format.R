@@ -18,7 +18,7 @@
 #' }
 #' @export
 format_accidents = function(x) {
-  format_stats19(x, type = "accidents")
+  format_stats19(x, type = "accident")
 }
 #' Format STATS19 casualties
 #'
