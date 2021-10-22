@@ -68,6 +68,25 @@ stats19_schema_joined = stats19_schema_joined %>%
   filter(!is.na(as.numeric(code)))
 ```
 
+# Tests
+
+```{r}
+s = stats19_schema
+s
+s %>% 
+  filter(variable == "vehicle_type")
+s_na = s %>% 
+  filter(is.na(variable_formatted)) %>% 
+  select(variable_formatted, variable)
+View(s_na)
+stats19_schema$variable_formatted[
+  is.na(stats19_schema$variable_formatted)
+] = stats19_schema$variable[
+  is.na(stats19_schema$variable_formatted)
+] 
+```
+
+
 # Update the schemas
 
 ```{r}
