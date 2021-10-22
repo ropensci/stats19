@@ -175,7 +175,7 @@ get_stats19 = function(year = NULL,
              silent = silent)
   read_in = NULL
   # read in
-  if(grepl(type, "veh",  ignore.case = TRUE)){
+  if(grepl(type, "vehicles",  ignore.case = TRUE)){
     read_in = read_vehicles(
       year = year,
       data_dir = data_dir,
