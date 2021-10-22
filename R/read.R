@@ -17,11 +17,10 @@
 #' @examples
 #' \donttest{
 #' if(curl::has_internet()) {
-#' }
-#' dl_stats19(year = 2011, type = "Accidents")
+#' dl_stats19(year = 2011, type = "accident")
 #' ac = read_accidents(year = 2011)
 #'
-#' dl_stats19(year = 2009, type = "Accidents")
+#' dl_stats19(year = 2009, type = "accident")
 #' ac_2009 = read_accidents(year = 2009)
 #' }
 #' }
@@ -38,7 +37,7 @@ read_accidents = function(year = NULL,
 
   path = check_input_file(
     filename = filename,
-    type = "accidents",
+    type = "accident",
     data_dir = data_dir,
     year = year
   )
