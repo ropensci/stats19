@@ -82,7 +82,7 @@ goes back to 1979, providing a long period for comparison.
 The following code chunk, for example, downloads and unzips a .zip file containing STATS19 data from 2017:
 
 ```{r dl2017-accidents}
-dl_stats19(year = 2017, type = "Accidents", ask = FALSE)
+dl_stats19(year = 2017, type = "accident", ask = FALSE)
 ```
 
 Note that in the previous command, `ask = FALSE`, meaning you will not be asked.
@@ -99,7 +99,7 @@ In versions above `1.3.0`, function `dl_stats19()` behaves more like `get_stats1
 You can find out the names of files that can be downloaded with `names(stats19::file_names)`, an example of which is shown below:
 
 ```{r}
-stats19::file_names$dftRoadSafetyData_Vehicles_2017.zip
+stats19::file_names$DigitalBreathTestData2013.zip
 ```
 
 To see how `file_names` was created, see `?file_names`.
@@ -109,12 +109,13 @@ Just providing a year, for example, presents the user with multiple options (fro
 ```{r dl2017-all, eval=FALSE}
 dl_stats19(year = 2017)
 ```
+
 ```
 Multiple matches. Which do you want to download?
 
-1: dftRoadSafetyData_Vehicles_2017.zip
-2: dftRoadSafetyData_Casualties_2017.zip
-3: dftRoadSafetyData_Accidents_2017.zip
+1: dft-road-casualty-statistics-casualty-2017.csv
+2: dft-road-casualty-statistics-vehicle-2017.csv
+3: dft-road-casualty-statistics-accident-2017.csv
 
 Selection: 
 Enter an item from the menu, or 0 to exit

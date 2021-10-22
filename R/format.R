@@ -71,7 +71,7 @@ format_stats19 = function(x, type) {
   vkeep = new_names %in% stats19::stats19_schema$variable_formatted
   vars_to_change = which(vkeep)
 
-  # browser()
+  browser()
   for(i in vars_to_change) {
     lkp_name = lkp$column_name[lkp$column_name == new_names[i]]
     lookup = stats19::stats19_schema[
