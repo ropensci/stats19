@@ -37,7 +37,7 @@ test_that("locate_files & locate_one_file works", {
   dl_stats19(file_name = fn)
   x = locate_files(years = 2017, type = "cas")
   expect_true(length(x) > 0) # other files would have been downloaded already
-  x1 = locate_one_file(filename = "Cas.csv", year = 2017, type = "casualties")
+  x1 = locate_one_file(filename = "Cas.csv", year = 2017, type = "casualty")
   expect_true(length(x1) == 1)
   # now multiple
   fn = stats19::file_names$dftRoadSafetyData_Casualties_2016.zip

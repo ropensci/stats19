@@ -90,7 +90,7 @@ read_vehicles = function(year = NULL,
   # check inputs
   path = check_input_file(
     filename = filename,
-    type = "vehicles",
+    type = "vehicle",
     data_dir = data_dir,
     year = year
   )
@@ -114,7 +114,7 @@ read_vehicles = function(year = NULL,
 #' @examples
 #' \donttest{
 #' if(curl::has_internet()) {
-#' dl_stats19(year = 2017, type = "casualties")
+#' dl_stats19(year = 2017, type = "casualty")
 #' casualties = read_casualties(year = 2017)
 #' }
 #' }
