@@ -241,7 +241,7 @@ vehicles_2017_raw = read_vehicles(year = 2017)
 vehicles_2017 = format_vehicles(vehicles_2017_raw)
 
 # casualties data for 2017
-dl_stats19(year = 2017, type = "casualties", ask = FALSE)
+dl_stats19(year = 2017, type = "casualty", ask = FALSE)
 casualties_2017 = read_casualties(year = 2017)
 ```
 
@@ -294,7 +294,7 @@ knitr::kable(stats19::accidents_sample_raw[, key_vars])
 As with `crashes_2017`, casualty data for 2017 can be downloaded, read-in and formatted as follows:
 
 ```{r 2017-cas}
-dl_stats19(year = 2017, type = "casualties", ask = FALSE)
+dl_stats19(year = 2017, type = "casualty", ask = FALSE)
 casualties_2017 = read_casualties(year = 2017)
 nrow(casualties_2017)
 ncol(casualties_2017)

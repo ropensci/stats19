@@ -15,7 +15,7 @@
 #'
 #' @param file_name The file name (DfT named) to download.
 #' @param year Valid vector of one or more years from 1979 up until last year.
-#' @param type One of 'Accidents', 'Casualties', 'Vehicles'; defaults to 'Accidents'.
+#' @param type One of 'Accident', 'Casualty', 'Vehicle'; defaults to 'Accident'.
 #' Or any variation of to search the file names with such as "acc" or "accid".
 #' @param data_dir Parent directory for all downloaded files. Defaults to `tempdir()`.
 #' @param ask Should you be asked whether or not to download the files? `TRUE` by default.
@@ -32,8 +32,8 @@
 #' dl_stats19(year = 2017:2018)
 #' # now you can read-in the data
 #' dl_stats19(year = 2009)
-#' dl_stats19(year = 2009, type = "casualties")
-#' dl_stats19(type = "casualties")
+#' dl_stats19(year = 2009, type = "casualty")
+#' dl_stats19(type = "casualty")
 #' dl_stats19(year = 1985)
 #' }
 #' }

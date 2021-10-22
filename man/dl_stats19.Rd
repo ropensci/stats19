@@ -53,8 +53,8 @@ dl_stats19(year = 2017)
 dl_stats19(year = 2017:2018)
 # now you can read-in the data
 dl_stats19(year = 2009)
-dl_stats19(year = 2009, type = "casualties")
-dl_stats19(type = "casualties")
+dl_stats19(year = 2009, type = "casualty")
+dl_stats19(type = "casualty")
 dl_stats19(year = 1985)
 }
 }
