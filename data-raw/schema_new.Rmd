@@ -63,9 +63,24 @@ table(schema_dft$`code/format`)
 stats19_schema_dft = schema_dft %>% 
   rename(code = `code/format`, variable = `field name`)
 stats19_schema_joined = left_join(stats19_schema_dft, stats19_variables_joined) 
+stats19_schema_joined = stats19_schema_joined %>% 
+  rename(variable_formatted = column_name) %>% 
+  filter(!is.na(as.numeric(code)))
 ```
 
 # Update the schemas
 
+```{r}
+stats19_variables_old = stats19_variables
+stats19_variables = stats19_variables_joined
+readr::write_csv(stats19_variables, "data-raw/stats19_variables.csv")
+
+stats19_schema_old = stats19_schema
+stats19_schema = stats19_schema_joined
+readr::write_csv(stats19_schema, "data-raw/stats19_schema.csv")
+
+usethis::use_data(stats19_variables, overwrite = TRUE)
+usethis::use_data(stats19_schema, overwrite = TRUE)
+```
 
 
