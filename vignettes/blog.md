@@ -460,7 +460,7 @@ nrow(casualties_2017)
     ## [1] 170993
 
 ``` r
-vehicles_2017 = get_stats19(year = 2017, type = "Vehicles", ask = FALSE)
+vehicles_2017 = get_stats19(year = 2017, type = "vehicle", ask = FALSE)
 nrow(vehicles_2017)
 ```
 
