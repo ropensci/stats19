@@ -38,7 +38,7 @@
 #' }
 #' }
 dl_stats19 = function(year = NULL,
-                      type = NULL,
+                      type = "accident",
                       data_dir = get_data_directory(),
                       file_name = NULL,
                       ask = FALSE,

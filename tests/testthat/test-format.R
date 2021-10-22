@@ -87,3 +87,4 @@ test_that("format_ppp exclude events with missing coordinates", {
   # since the bbox is smaller there must be fewer points
   expect_true(rd_ppp2$n <= rd_ppp$n)
 })
+
