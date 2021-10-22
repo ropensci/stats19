@@ -79,7 +79,6 @@ current_year = function() as.integer(format(format(Sys.Date(), "%Y")))
 #' find_file_name(1985, type = "accident")
 #' find_file_name(type = "cas")
 #' find_file_name(type = "accid")
-#' find_file_name(2006)
 #' find_file_name(2016:2017)
 #' @export
 find_file_name = function(years = NULL, type = NULL) {
