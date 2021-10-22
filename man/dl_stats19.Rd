@@ -16,7 +16,7 @@ dl_stats19(
 \arguments{
 \item{year}{Valid vector of one or more years from 1979 up until last year.}
 
-\item{type}{One of 'Accidents', 'Casualties', 'Vehicles'; defaults to 'Accidents'.
+\item{type}{One of 'Accident', 'Casualty', 'Vehicle'; defaults to 'Accident'.
 Or any variation of to search the file names with such as "acc" or "accid".}
 
 \item{data_dir}{Parent directory for all downloaded files. Defaults to \code{tempdir()}.}
