@@ -95,6 +95,8 @@ find_file_name = function(years = NULL, type = NULL) {
   # see https://github.com/ITSLeeds/stats19/issues/21
   if(!is.null(type)) {
     type = gsub(pattern = "ccidents", replacement = "ccident", x = type)
+    type = gsub(pattern = "ties", replacement = "ty", x = type)
+    type = gsub(pattern = "cles", replacement = "cle", x = type)
     result_type = result[grep(pattern = type, result, ignore.case = TRUE)]
     if(length(result_type) > 0) {
       result = result_type
