@@ -56,7 +56,7 @@ test_that("read_vehicles works", {
   dl_stats19(file_name = veh_2016)
 
   path = locate_one_file( # need it for raw_read
-    type = "vehicles",
+    type = "vehicle",
     year = 2016)
   # read it
   read = read_vehicles(

@@ -236,7 +236,7 @@ The three functions: `format_accidents()`, `format_vehicles()` and
 crashes_2017 = format_accidents(crashes_2017_raw)
 
 # vehicle data for 2017
-dl_stats19(year = 2017, type = "vehicles", ask = FALSE)
+dl_stats19(year = 2017, type = "vehicle", ask = FALSE)
 vehicles_2017_raw = read_vehicles(year = 2017)
 vehicles_2017 = format_vehicles(vehicles_2017_raw)
 
@@ -324,7 +324,7 @@ names(casualties_2017)
 Data for vehicles involved in crashes in 2017 can be downloaded, read-in and formatted as follows:
 
 ```{r dl2017-vehicles}
-dl_stats19(year = 2017, type = "vehicles", ask = FALSE)
+dl_stats19(year = 2017, type = "vehicle", ask = FALSE)
 vehicles_2017 = read_vehicles(year = 2017)
 nrow(vehicles_2017)
 ncol(vehicles_2017)

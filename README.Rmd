@@ -46,7 +46,7 @@ For transparency and modularity, each stage can be undertaken separately, as doc
 
 Install and load the latest version with:
 
-```{r install, message=FALSE, results='hide'}
+```{r eval=FALSE}
 remotes::install_github("ropensci/stats19")
 ```
 
@@ -135,7 +135,7 @@ For the full list of columns, run `names(crashes)` or see the [vignette](https:/
 As with `crashes`, casualty data for 2017 can be downloaded, read-in and formatted as follows:
 
 ```{r 2017-cas}
-casualties = get_stats19(year = 2017, type = "casualties", ask = FALSE)
+casualties = get_stats19(year = 2017, type = "casualty", ask = FALSE)
 nrow(casualties)
 ncol(casualties)
 ```
@@ -158,7 +158,7 @@ names(casualties)
 Data for vehicles involved in crashes in 2017 can be downloaded, read-in and formatted as follows:
 
 ```{r dl2017-vehicles}
-vehicles = get_stats19(year = 2017, type = "vehicles", ask = FALSE)
+vehicles = get_stats19(year = 2017, type = "vehicle", ask = FALSE)
 nrow(vehicles)
 ncol(vehicles)
 ```
@@ -211,14 +211,15 @@ This is demonstrated in the code chunk below, which subsets all casualties that 
 ```{r table-join, message = FALSE}
 sel = casualties$accident_index %in% crashes_wy$accident_index
 casualties_wy = casualties[sel, ]
-cas_types = casualties_wy %>% 
-  select(accident_index, casualty_type) %>% 
-  mutate(n = 1) %>% 
-  group_by(accident_index, casualty_type) %>% 
-  summarise(n = sum(n)) %>% 
-  tidyr::spread(casualty_type, n, fill = 0) 
-cas_types$Total = rowSums(cas_types[-1])
-cj = left_join(crashes_wy, cas_types, by = "accident_index")
+names(casualties_wy)
+# cas_types = casualties_wy %>% 
+#   select(accident_index, casualty_type) %>% 
+#   mutate(n = 1) %>% 
+#   group_by(accident_index, casualty_type) %>% 
+#   summarise(n = sum(n)) %>% 
+#   tidyr::spread(casualty_type, n, fill = 0) 
+# cas_types$Total = rowSums(cas_types[-1])
+# cj = left_join(crashes_wy, cas_types, by = "accident_index")
 ```
 
 What just happened? We found the subset of casualties that took place in West Yorkshire with reference to the `accident_index` variable.
@@ -227,8 +228,15 @@ We then joined the updated casualty data onto the `crashes_wy` dataset.
 The result is a spatial (`sf`) data frame of crashes in Leeds, with columns counting how many road users of different types were hurt.
 The original and joined data look like this:
 
+```{r}
+knitr::opts_chunk$set(eval = FALSE)
+```
+
+
 ```{r table-join-examples}
-crashes_wy[1:2, c(1, 5)] %>% st_drop_geometry()
+crashes_wy %>%
+  select(accident_index, accident_severity) %>% 
+  st_drop_geometry()
 cas_types[1:2, c("accident_index", "Cyclist")]
 cj[1:2, c(1, 5, 34)] %>% st_drop_geometry()
 ```
