@@ -493,8 +493,6 @@ Accident,road_type,7,Slip road,NA,road_type,character
 Accident,road_type,9,Unknown,NA,road_type,character
 Accident,road_type,12,One way street/Slip road,NA,road_type,character
 Accident,road_type,-1,Data missing or out of range,NA,road_type,character
-Accident,speed_limit,-1,Data missing or out of range,NA,speed_limit,NA
-Accident,speed_limit,99,unknown (self reported),NA,speed_limit,NA
 Accident,junction_detail,0,Not at junction or within 20 metres,NA,junction_detail,character
 Accident,junction_detail,1,Roundabout,NA,junction_detail,character
 Accident,junction_detail,2,Mini-roundabout,NA,junction_detail,character
