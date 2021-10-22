@@ -11,7 +11,7 @@ vignette: >
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  eval = curl::has_internet()
+  eval = FALSE
 )
 ```
 
