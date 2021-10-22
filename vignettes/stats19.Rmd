@@ -491,6 +491,7 @@ crashes_types = cj %>%
     passenger > 0 ~ "Passenger",
     TRUE ~ "Other"
   ))
+table(crashes_types$speed_limit)
 ggplot(crashes_types, aes(size = Total, colour = speed_limit)) +
   geom_sf(show.legend = "point", alpha = 0.3) +
   facet_grid(vars(type), vars(accident_severity)) +
@@ -498,7 +499,7 @@ ggplot(crashes_types, aes(size = Total, colour = speed_limit)) +
     breaks = c(1:3, 12),
     labels = c(1:2, "3+", 12)
     ) +
-  scale_color_gradientn(colours = c("blue", "yellow", "red")) +
+  scale_color_discrete() +
   theme(axis.text = element_blank(), axis.ticks = element_blank())
 ```
 

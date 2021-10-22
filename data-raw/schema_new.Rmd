@@ -86,6 +86,12 @@ stats19_schema$variable_formatted[
 ] 
 ```
 
+```{r}
+stats19_schema = stats19_schema %>% 
+  filter(variable != "speed_limit")
+```
+
+
 
 # Update the schemas
 
