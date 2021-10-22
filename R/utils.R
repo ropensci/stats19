@@ -85,6 +85,10 @@ current_year = function() as.integer(format(format(Sys.Date(), "%Y")))
 find_file_name = function(years = NULL, type = NULL) {
 
   result = unlist(stats19::file_names, use.names = FALSE)
+  if(min(years) >= 2016) {
+    result = result[!grepl(pattern = "1979", x = result)]
+  }
+  result = result[!grepl(pattern = "adjust", x = result)]
 
   if(!is.null(years)) {
     years = sapply(years, check_year)
@@ -94,10 +98,6 @@ find_file_name = function(years = NULL, type = NULL) {
 
   # see https://github.com/ITSLeeds/stats19/issues/21
   if(!is.null(type)) {
-    message(type)
-    # type = gsub(pattern = "ccidents", replacement = "ccident", x = type)
-    # type = gsub(pattern = "ties", replacement = "ty", x = type)
-    # type = gsub(pattern = "cles", replacement = "cle", x = type)
     type = gsub(pattern = "cas", replacement = "ics-cas", x = type)
     result_type = result[grep(pattern = type, result, ignore.case = TRUE)]
     if(length(result_type) > 0) {

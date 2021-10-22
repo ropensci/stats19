@@ -6,7 +6,7 @@
 \usage{
 dl_stats19(
   year = NULL,
-  type = "acc",
+  type = NULL,
   data_dir = get_data_directory(),
   file_name = NULL,
   ask = FALSE,
