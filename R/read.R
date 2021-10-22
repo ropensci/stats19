@@ -182,19 +182,8 @@ read_ve_ca = function(path) {
     readr::local_edition(1)
   }
 
-  h = utils::read.csv(path, nrows = 1)
-  if(grepl("Accident_Index", names(h)[1])) {
-    readr::read_csv(path, col_types = readr::cols(
-      .default = readr::col_integer(),
-      Accident_Index = readr::col_character()
-    ))
-  } else {
-    x = readr::read_csv(path, col_types = readr::cols(
-      .default = readr::col_integer(),
-      Acc_Index = readr::col_character()
-    ))
-    names(x)[names(x) == "Acc_Index"] = "Accident_Index"
-    x
-  }
+  # h = utils::read.csv(path, nrows = 1)
+  x = readr::read_csv(path)
+  x
 }
 
