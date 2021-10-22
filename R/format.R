@@ -18,7 +18,7 @@
 #' }
 #' @export
 format_accidents = function(x) {
-  format_stats19(x, type = "accident")
+  format_stats19(x, type = "Accident")
 }
 #' Format STATS19 casualties
 #'
@@ -37,7 +37,7 @@ format_accidents = function(x) {
 #' }
 #' @export
 format_casualties = function(x) {
-  format_stats19(x, type = "casualties")
+  format_stats19(x, type = "Casualty")
 }
 #' Format STATS19 vehicles data
 #'
@@ -56,7 +56,7 @@ format_casualties = function(x) {
 #' }
 #' @export
 format_vehicles = function(x) {
-  format_stats19(x, type = "vehicles")
+  format_stats19(x, type = "Vehicle")
 }
 
 format_stats19 = function(x, type) {
@@ -71,6 +71,7 @@ format_stats19 = function(x, type) {
   vkeep = new_names %in% stats19::stats19_schema$variable_formatted
   vars_to_change = which(vkeep)
 
+  browser()
   for(i in vars_to_change) {
     lkp_name = lkp$column_name[lkp$column_name == new_names[i]]
     lookup = stats19::stats19_schema[stats19::stats19_schema$variable_formatted == lkp_name, 1:2]
