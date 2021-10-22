@@ -58,9 +58,14 @@ stats19_variables_joined$type[
 
 ```{r}
 stats19_schema
+readr::write_csv(stats19_schema, "data-raw/stats19_schema.csv")
 table(schema_dft$`code/format`)
 stats19_schema_dft = schema_dft %>% 
   rename(code = `code/format`, variable = `field name`)
 stats19_schema_joined = left_join(stats19_schema_dft, stats19_variables_joined) 
 ```
+
+# Update the schemas
+
+
 
