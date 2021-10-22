@@ -47,19 +47,7 @@ read_accidents = function(year = NULL,
   }
   # read the data in
   suppressWarnings({
-    ac = readr::read_csv(
-      path,
-      col_types = readr::cols(
-        .default = readr::col_integer(),
-        Accident_Index = readr::col_character(),
-        Longitude = readr::col_double(),
-        Latitude = readr::col_double(),
-        Date = readr::col_character(),
-        Time = readr::col_character(),
-        `Local_Authority_(Highway)` = readr::col_character(),
-        LSOA_of_Accident_Location = readr::col_character()
-      )
-    )
+    ac = readr::read_csv(path)
   })
 
   if(format)
