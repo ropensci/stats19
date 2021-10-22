@@ -122,7 +122,8 @@ ncol(crashes)
 Some of the key variables in this dataset include:
 
 ```{r crashes2017-columns}
-crashes[c(7, 18, 23, 25)]
+key_column_names = grepl(pattern = "severity|speed|pedestrian|light_conditions", x = names(crashes))
+crashes[key_column_names]
 ```
 
 For the full list of columns, run `names(crashes)` or see the [vignette](https://github.com/ropensci/stats19/blob/master/vignettes/stats19.Rmd).

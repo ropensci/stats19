@@ -453,7 +453,7 @@ We can combine the three sets of tables to analyse the data further. Lets read t
 
 ``` r
 #crashes_2017 = get_stats19(year = 2017, type = "Accidents", ask = FALSE)
-casualties_2017 = get_stats19(year = 2017, type = "Casualties", ask = FALSE)
+casualties_2017 = get_stats19(year = 2017, type = "casualty", ask = FALSE)
 nrow(casualties_2017)
 ```
 

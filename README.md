@@ -179,7 +179,7 @@ As with `crashes`, casualty data for 2017 can be downloaded, read-in and
 formatted as follows:
 
 ``` r
-casualties = get_stats19(year = 2017, type = "casualties", ask = FALSE)
+casualties = get_stats19(year = 2017, type = "casualty", ask = FALSE)
 #> Files identified: dftRoadSafetyData_Casualties_2017.zip
 #>    https://data.dft.gov.uk/road-accidents-safety-data/dftRoadSafetyData_Casualties_2017.zip
 #> Data already exists in data_dir, not downloading

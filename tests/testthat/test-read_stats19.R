@@ -107,7 +107,7 @@ test_that("read_casualties works", {
   cas_2016 = stats19::file_names$dftRoadSafetyData_Casualties_2016.zip
   dl_stats19(file_name = cas_2016)
   path = locate_one_file(
-    type = "Casualties",
+    type = "casualty",
     year = 2016,
     filename = "Cas.csv")
   # read it
