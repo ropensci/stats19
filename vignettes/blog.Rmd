@@ -5,7 +5,7 @@ author:
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{stats19-blog}
+  %\VignetteIndexEntry{stats19: a package for road safety research}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 bibliography: references.bib
