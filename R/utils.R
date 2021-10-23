@@ -21,48 +21,6 @@ get_url = function(file_name = "",
   path
 }
 
-#' This is a private function which does two things:
-#' 1. is used to check if there is an overlapping of files with
-#' multiple years. The matching between the years and the files works as follows:
-#' 1979 ... 2004 ---> 1979 - 2004
-#' 2005 ... 2008 ---> 2005 - 2014
-#' 2009          ---> 2009
-#' 2010          ---> 2010
-#' 2011          ---> 2011
-#' ...
-#' 2018          ---> 2018
-#' 2. it also does the sanity checking of the year(s) given
-#'
-#' @param year Year(s) vector to check.
-#' @examples
-#' # check_year("2018")
-#' # check_year(1979:2018)
-#' #> c(1979, 2005, 2015:2018)
-#' # check_year(2006)
-#' # check_year(1985)
-check_year = function(year) {
-  if(!is.numeric(year)) year = as.numeric(year)
-  is_year = all(year %in% 1979:(current_year() - 1))
-  if(!is_year || any(is.na(year)) || length(year) == 0) {
-    msg = paste0("Years must be in range 1979:", current_year() - 1)
-    stop(msg, call. = FALSE)
-  }
-  # valid year, continue
-  if(any(year %in% 1979:2004)) {
-    message("Year not in range, changing to match 1979:2004 data")
-    year[year %in% 1979:2004] = 1979
-  }
-  # we have an overlap of year 2009 to 2014 as
-  # individual zip files and
-  # bundled within 2005-2014
-  if(any(year %in% 2005:2008)) {
-    message("Year not in range, changing to match 2005:2014 data")
-    year[year %in% 2005:2014] = 2005
-  }
-  year = unique(year)
-  year
-}
-
 # current_year()
 current_year = function() as.integer(format(format(Sys.Date(), "%Y")))
 
@@ -83,17 +41,16 @@ current_year = function() as.integer(format(format(Sys.Date(), "%Y")))
 #' @export
 find_file_name = function(years = NULL, type = NULL) {
 
-  result = unlist(stats19::file_names, use.names = FALSE)
-  if(!is.null(years) && min(years) >= 2016) {
-    result = result[!grepl(pattern = "1979", x = result)]
-  }
-  result = result[!grepl(pattern = "adjust", x = result)]
+  # browser()
 
+  result = unlist(stats19::file_names, use.names = FALSE)
   if(!is.null(years)) {
-    years = sapply(years, check_year)
-    years_regex = paste0(years, collapse = "|")
-    result = result[grep(pattern = years_regex, x = result)]
-  }
+    if(min(years) >= 2016) {
+      result = result[!grepl(pattern = "1979", x = result)]
+    }
+    result = result[!grepl(pattern = "adjust", x = result)]
+    result = result[grepl(pattern = years, x = result)]
+    }
 
   # see https://github.com/ITSLeeds/stats19/issues/21
   if(!is.null(type)) {
@@ -108,12 +65,6 @@ find_file_name = function(years = NULL, type = NULL) {
         message("No files of that type found for that year.")
       }
     }
-  }
-  if(any(grepl("Stats19-Data1979-2004.zip", result))) {
-    # extra warnings
-    message("\033[31mThis will download 240 MB+ (1.8 GB unzipped).\033[39m")
-    message("Coordinates and other variables may be unreliable in these datasets.")
-    message("See https://github.com/ropensci/stats19/issues/101 and https://github.com/ropensci/stats19/issues/102")
   }
 
   if(length(result) < 1)
