@@ -143,22 +143,15 @@ format_column_names = function(column_names) {
 
 format_sf = function(x, lonlat = FALSE) {
   n = names(x)
+  coords = n[grep(pattern = "easting|northing",
+                  x = n,
+                  ignore.case = TRUE)]
+  coord_null = is.na(x[[coords[1]]] | x[[coords[2]]])
+  message(sum(coord_null), " rows removed with no coordinates")
+  x = x[!coord_null, ]
+  x_sf = sf::st_as_sf(x, coords = coords, crs = 27700)
   if(lonlat) {
-    coords = n[grep(pattern = "longitude|latitude",
-                    x = n,
-                    ignore.case = TRUE)]
-    coord_null = is.na(x[[coords[1]]] | x[[coords[2]]])
-    x = x[!coord_null, ]
-    message(sum(coord_null), " rows removed with no coordinates")
-    x_sf = sf::st_as_sf(x, coords = coords, crs = 4326)
-  } else {
-    coords = n[grep(pattern = "easting|northing",
-                    x = n,
-                    ignore.case = TRUE)]
-    coord_null = is.na(x[[coords[1]]] | x[[coords[2]]])
-    message(sum(coord_null), " rows removed with no coordinates")
-    x = x[!coord_null, ]
-    x_sf = sf::st_as_sf(x, coords = coords, crs = 27700)
+    x_sf = sf::st_transform(x_sf, crs = 4326)
   }
   x_sf
 }
