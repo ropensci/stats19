@@ -163,8 +163,6 @@ read_ve_ca = function(path) {
   if (.Platform$OS.type == "windows" && utils::packageVersion("readr") >= "2.0.0") {
     readr::local_edition(1)
   }
-
-  # h = utils::read.csv(path, nrows = 1)
   x = read_null(path)
   x
 }
