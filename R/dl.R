@@ -117,7 +117,7 @@ dl_stats19 = function(year = NULL,
 }
 
 download_file_check = function(url, destfile, quiet = FALSE, ...) {
-  try(download.file(url, destfile, quiet = quiet, ...))
+  try(utils::download.file(url, destfile, quiet = quiet, ...))
   if (!file.exists(destfile))
     return(FALSE)
 }
