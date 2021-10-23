@@ -5,9 +5,9 @@
 #' `dl_stats19()` and `read_*` functions, returning a
 #' `tibble` (default), `data.frame`, `sf` or `ppp` object, depending on the
 #' `output_format` parameter.
-#' The function returns data for a specific year (e.g. `year = 2017`) or multiple
-#' years (e.g. `year = c(2017, 2018)`).
-#' Note: for years before 2009 the function may return data from more years than are
+#' The function returns data for a specific year (e.g. `year = 2017`)
+#'
+#' Note: for years before 2016 the function may return data from more years than are
 #' requested due to the nature of the files hosted at
 #' [data.gov.uk](https://data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data).
 #'
@@ -17,8 +17,7 @@
 #' If `output_format = "data.frame"` or `output_format = "sf"` or `output_format
 #' = "ppp"` then the output data is transformed into a data.frame, sf or ppp
 #' object using the [as.data.frame()] or [format_sf()] or [format_ppp()]
-#' functions, respectively.
-#' See examples.
+#' functions, as shown in the examples.
 #'
 #' @seealso [dl_stats19()]
 #' @seealso [read_accidents()]
@@ -30,8 +29,8 @@
 #'   and `"ppp"`, that, respectively, returns objects of class [`data.frame`],
 #'   [`sf::sf`] and [`spatstat.geom::ppp`]. Any other string is ignored and a tibble
 #'   output is returned. See details and examples.
-#' @param year Valid vector of one or more years from 1979 up until last year.
-#' @param ... Other arguments that should be passed to [format_sf()] or
+#' @param year One or more years from 1979 up until last year, e.g. `2020`
+#' @param ... Other arguments be passed to [format_sf()] or
 #'   [format_ppp()] functions. Read and run the examples.
 #'
 #' @export
@@ -47,10 +46,8 @@
 #' x = get_stats19(2017, silent = TRUE, output_format = "data.frame")
 #' class(x)
 #'
+#' # Run tests only if endpoint is alive:
 #' if(nrow(x) > 0) {
-#'
-#' # multiple years
-#' get_stats19(c(2017, 2018), silent = TRUE)
 #'
 #' # sf output
 #' x_sf = get_stats19(2017, silent = TRUE, output_format = "sf")
@@ -62,9 +59,6 @@
 #' if (requireNamespace("spatstat.core", quietly = TRUE)) {
 #' # ppp output
 #' x_ppp = get_stats19(2017, silent = TRUE, output_format = "ppp")
-#'
-#' # Multiple years
-#' get_stats19(c(2017, 2018), silent = TRUE, output_format = "ppp")
 #'
 #' # We can use the window parameter of format_ppp function to filter only the
 #' # events occurred in a specific area. For example we can create a new bbox
