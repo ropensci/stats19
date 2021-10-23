@@ -2,7 +2,7 @@
 % Please edit documentation in R/dl.R
 \name{dl_stats19}
 \alias{dl_stats19}
-\title{Download STATS19 data for a year or range of two years.}
+\title{Download STATS19 data for a year}
 \usage{
 dl_stats19(
   year = NULL,
@@ -29,7 +29,7 @@ Or any variation of to search the file names with such as "acc" or "accid".}
 messages on the screen.}
 }
 \description{
-Download STATS19 data for a year or range of two years.
+Download STATS19 data for a year
 }
 \section{Details}{
 
@@ -50,7 +50,7 @@ if(curl::has_internet()) {
 # type by default is accidents table
 dl_stats19(year = 2017)
 # try multiple years
-dl_stats19(year = 2017:2018)
+dl_stats19(year = 2018)
 }
 }
 }
