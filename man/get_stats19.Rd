@@ -17,7 +17,7 @@ get_stats19(
 )
 }
 \arguments{
-\item{year}{Valid vector of one or more years from 1979 up until last year.}
+\item{year}{One or more years from 1979 up until last year, e.g. \code{2020}}
 
 \item{type}{One of 'Accident', 'Casualty', 'Vehicle'; defaults to 'Accident'.
 Or any variation of to search the file names with such as "acc" or "accid".}
@@ -39,7 +39,7 @@ and \code{"ppp"}, that, respectively, returns objects of class \code{\link{data.
 \code{\link[sf:sf]{sf::sf}} and \code{\link[spatstat.geom:ppp]{spatstat.geom::ppp}}. Any other string is ignored and a tibble
 output is returned. See details and examples.}
 
-\item{...}{Other arguments that should be passed to \code{\link[=format_sf]{format_sf()}} or
+\item{...}{Other arguments be passed to \code{\link[=format_sf]{format_sf()}} or
 \code{\link[=format_ppp]{format_ppp()}} functions. Read and run the examples.}
 }
 \description{
@@ -51,9 +51,9 @@ This function uses gets STATS19 data. Behind the scenes it uses
 \code{dl_stats19()} and \verb{read_*} functions, returning a
 \code{tibble} (default), \code{data.frame}, \code{sf} or \code{ppp} object, depending on the
 \code{output_format} parameter.
-The function returns data for a specific year (e.g. \code{year = 2017}) or multiple
-years (e.g. \code{year = c(2017, 2018)}).
-Note: for years before 2009 the function may return data from more years than are
+The function returns data for a specific year (e.g. \code{year = 2017})
+
+Note: for years before 2016 the function may return data from more years than are
 requested due to the nature of the files hosted at
 \href{https://data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data}{data.gov.uk}.
 
@@ -62,8 +62,7 @@ so ensure you have a sufficient disk space.
 
 If \code{output_format = "data.frame"} or \code{output_format = "sf"} or \code{output_format = "ppp"} then the output data is transformed into a data.frame, sf or ppp
 object using the \code{\link[=as.data.frame]{as.data.frame()}} or \code{\link[=format_sf]{format_sf()}} or \code{\link[=format_ppp]{format_ppp()}}
-functions, respectively.
-See examples.
+functions, as shown in the examples.
 }
 
 \examples{
@@ -78,10 +77,8 @@ x = get_stats19(2017, silent = TRUE)
 x = get_stats19(2017, silent = TRUE, output_format = "data.frame")
 class(x)
 
+# Run tests only if endpoint is alive:
 if(nrow(x) > 0) {
-
-# multiple years
-get_stats19(c(2017, 2018), silent = TRUE)
 
 # sf output
 x_sf = get_stats19(2017, silent = TRUE, output_format = "sf")
@@ -93,9 +90,6 @@ sf::st_crs(x_sf)
 if (requireNamespace("spatstat.core", quietly = TRUE)) {
 # ppp output
 x_ppp = get_stats19(2017, silent = TRUE, output_format = "ppp")
-
-# Multiple years
-get_stats19(c(2017, 2018), silent = TRUE, output_format = "ppp")
 
 # We can use the window parameter of format_ppp function to filter only the
 # events occurred in a specific area. For example we can create a new bbox
