@@ -134,9 +134,9 @@ Files are saved by default in `tempdir()`, but this can be overridden to ensure 
 crashes_2017_raw = get_stats19(year = 2017, type = "acc", format = FALSE)
 ```
 
-```{r}
+```{r, echo=FALSE}
 # skip vignettes if resource unavailable
-if(nrow(crashes_2017_raw) == 0) {
+if(object.size(crashes_2017_raw) < 1000) {
   knitr::opts_chunk$set(eval = FALSE)
 }
 ```
