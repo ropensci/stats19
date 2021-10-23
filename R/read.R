@@ -151,9 +151,12 @@ check_input_file = function(filename = NULL,
   if (is.null(path) || length(path) == 0 || !endsWith(path, ".csv")
       || !file.exists(path)) {
     # locate_files malfunctioned or just path returned with no filename
-    message(path)
-    stop("Change data_dir, filename, year or run dl_stats19() first.",
-         call. = FALSE)
+    message(path, " not found")
+    message(
+      "Try running dl_stats19(), change arguments or try later.",
+      call. = FALSE
+      )
+    return(NULL)
   }
   return(path)
 }
@@ -166,7 +169,11 @@ read_ve_ca = function(path) {
   }
 
   # h = utils::read.csv(path, nrows = 1)
-  x = readr::read_csv(path)
+  x = read_null(path)
   x
 }
 
+read_null = function(path, ...) {
+  if(is.null(path)) return(NULL)
+  readr::read_csv(path, ...)
+}
