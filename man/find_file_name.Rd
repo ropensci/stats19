@@ -7,7 +7,7 @@
 find_file_name(years = NULL, type = NULL)
 }
 \arguments{
-\item{years}{Years for which data are to be found}
+\item{years}{Year for which data are to be found}
 
 \item{type}{One of 'Accidents', 'Casualties', 'Vehicles'; defaults to 'Accidents', ignores case.}
 }
@@ -20,5 +20,5 @@ find_file_name(2016, type = "accident")
 find_file_name(1985, type = "accident")
 find_file_name(type = "cas")
 find_file_name(type = "accid")
-find_file_name(2016:2017)
+find_file_name(2016:2017) # warning when multiple years requested
 }
