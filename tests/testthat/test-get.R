@@ -56,24 +56,25 @@ test_that("get_stats19 works with multiple years and formats", {
     names(cas_2016),
     names(cas_2017)
     )
-  sf1618 = get_stats19(2016:2018, output_format = "sf", silent = TRUE)
-  expect_s3_class(sf1618, "sf")
-
-  ppp1618 = get_stats19(2016:2018, output_format = "ppp", silent = TRUE)
-  expect_s3_class(ppp1618, "ppp")
-
-  df1618 = get_stats19(2016:2018, silent = TRUE)
-  expect_s3_class(df1618, "tbl_df")
-
-  cas1618 = get_stats19(2016:2018, type = "cas")
-  # not missing cols
-  expect_true(any(grepl("age_of_casualty", names(cas1618))))
-  expect_true(any(grepl("casualty_imd_decile", names(cas1618))))
+  # # commenting out time consuming tests
+  # sf1618 = get_stats19(2016:2018, output_format = "sf", silent = TRUE)
+  # expect_s3_class(sf1618, "sf")
+  #
+  # ppp1618 = get_stats19(2016:2018, output_format = "ppp", silent = TRUE)
+  # expect_s3_class(ppp1618, "ppp")
+  #
+  # df1618 = get_stats19(2016:2018, silent = TRUE)
+  # expect_s3_class(df1618, "tbl_df")
+  #
+  # cas1618 = get_stats19(2016:2018, type = "cas")
+  # # not missing cols
+  # expect_true(any(grepl("age_of_casualty", names(cas1618))))
+  # expect_true(any(grepl("casualty_imd_decile", names(cas1618))))
   # not missing rows
-  expect_equal(
-    nrow(cas_2016) + nrow(cas_2017) + nrow(cas_2018),
-    nrow(cas1618)
-  )
+  # expect_equal(
+  #   nrow(cas_2016) + nrow(cas_2017) + nrow(cas_2018),
+  #   nrow(cas1618)
+  # )
 })
 
 

@@ -22,10 +22,12 @@ This is a helper function to format raw STATS19 data
 if(curl::has_internet()) {
 dl_stats19(year = 2017, type = "accident")
 x = read_accidents(year = 2017, format = FALSE)
+if(nrow(x) > 0) {
 x[1:3, 1:12]
 crashes = format_accidents(x)
 crashes[1:3, 1:12]
 summary(crashes$datetime)
+}
 }
 }
 }
