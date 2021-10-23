@@ -67,8 +67,9 @@ find_file_name = function(years = NULL, type = NULL) {
     }
   }
 
-  if(length(result) < 1)
-    stop("No files of that type exist", call. = FALSE)
+  if(length(result) < 1) {
+    message("No files found. Check the stats19 website on data.gov.uk")
+  }
   unique(result)
 }
 
