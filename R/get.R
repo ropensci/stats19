@@ -29,7 +29,9 @@
 #'   and `"ppp"`, that, respectively, returns objects of class [`data.frame`],
 #'   [`sf::sf`] and [`spatstat.geom::ppp`]. Any other string is ignored and a tibble
 #'   output is returned. See details and examples.
-#' @param year One or more years from 1979 up until last year, e.g. `2020`
+#' @param year A year matching file names on the STATS19
+#' [data release page](https://data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data)
+#'  e.g. `2020`
 #' @param ... Other arguments be passed to [format_sf()] or
 #'   [format_ppp()] functions. Read and run the examples.
 #'
@@ -128,36 +130,6 @@ get_stats19 = function(year = NULL,
 
   if(!is.null (year)) {
     year = check_year(year)
-  }
-
-  if(is.vector(year) && length(year) > 1) {
-    all  = list()
-    i = 1
-    for (aYear in year) {
-      all[[i]] = get_stats19(
-        year = aYear,
-        type = type,
-        data_dir = data_dir,
-        file_name = file_name,
-        format = format,
-        ask = ask,
-        silent = silent,
-        output_format = output_format,
-        ...
-      )
-      i = i + 1
-    }
-    if (output_format == "ppp") {
-      all = do.call(spatstat.geom::superimpose, all)
-    } else {
-      all_colnames = unique(unlist(lapply(all, names)))
-      all = lapply(all, function(x) {
-        x[setdiff(all_colnames, names(x))] = NA
-        x
-      })
-      all = do.call(rbind, all)
-    }
-    return(all)
   }
 
   # download what the user wanted
