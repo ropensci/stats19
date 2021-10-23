@@ -1,3 +1,5 @@
+# stats19 2.0.0
+
 # stats19 1.5.0 2021-10
 
 * Support new https download links (#208)
