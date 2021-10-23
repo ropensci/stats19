@@ -17,11 +17,11 @@
 #' @examples
 #' \donttest{
 #' if(curl::has_internet()) {
-#' dl_stats19(year = 2011, type = "accident")
-#' ac = read_accidents(year = 2011)
+#' dl_stats19(year = 2019, type = "accident")
+#' ac = read_accidents(year = 2019)
 #'
-#' dl_stats19(year = 2009, type = "accident")
-#' ac_2009 = read_accidents(year = 2009)
+#' dl_stats19(year = 2019, type = "accident")
+#' ac_2019 = read_accidents(year = 2019)
 #' }
 #' }
 read_accidents = function(year = NULL,
@@ -67,8 +67,8 @@ read_accidents = function(year = NULL,
 #' @examples
 #' \donttest{
 #' if(curl::has_internet()) {
-#' dl_stats19(year = 2009, type = "vehicle")
-#' ve = read_vehicles(year = 2009)
+#' dl_stats19(year = 2019, type = "vehicle")
+#' ve = read_vehicles(year = 2019)
 #' }
 #' }
 read_vehicles = function(year = NULL,
@@ -158,11 +158,6 @@ check_input_file = function(filename = NULL,
   return(path)
 }
 
-# # informal test
-# dl_stats19(year = 2009, type = "vehicle")
-# f = "DfTRoadSafety_Vehicles_2009/DfTRoadSafety_Vehicles_2009.csv"
-# path = file.path(get_data_directory(), f)
-# read_ve_ca(path)
 read_ve_ca = function(path) {
   # Set the local edition for readr.
   # See https://github.com/ropensci/stats19/issues/205
