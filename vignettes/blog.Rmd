@@ -91,12 +91,7 @@ The name comes from a UK police form called
 (note the capital letters). There is another document called [STATS20](https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/995423/stats20-2011.pdf), which is the guidance to STATS19 officers filling in STATS19 form. 
 
 An important point is that the dataset omits crashes in which
-nobody was hurt, as emphasised by another government
-[document](https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/743853/reported-road-casualties-gb-notes-definitions.pdf):
-
-> The STATS19 data are therefore not a complete record of all injury accidents and this should be borne in mind when using and analysing the data. However, they remain the most detailed, complete and reliable single source of information on road casualties covering the whole of Great Britain, in particular for monitoring trends over time
-
-
+nobody was hurt.
 The Department for Transport (DfT) also names the dataset [STATS19 on the main web page that links to open access road crash data](https://data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data).
 
 The importance of road safety and informed decision making based on crash data cannot be overstated. Deliberately avoiding the matter of life and death of road safety, two numbers from a strategy [document](https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/8146/strategicframework.pdf) by the UK government (2011) are worth mentioning to show the scale of the numbers: 
