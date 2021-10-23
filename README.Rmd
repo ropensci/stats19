@@ -85,16 +85,18 @@ Data files can be downloaded without reading them in using the function `dl_stat
 If there are multiple matches, you will be asked to choose from a range of options.
 Providing just the year, for example, will result in the following options:
 
-```{r dl2017-all, eval=FALSE}
-dl_stats19(year = 2017)
+```{r dl2017-all}
+dl_stats19(year = 2020, data_dir = tempdir())
 ```
 
 ```
 Multiple matches. Which do you want to download?
 
-1: dftRoadSafetyData_vehicles.zip
-2: dftRoadSafetyData_casualties.zip
-3: dftRoadSafetyData_Accidents_2017.zip
+1: dft-road-casualty-statistics-casualty-2020.csv
+2: dft-road-casualty-statistics-vehicle-2020.csv
+3: dft-road-casualty-statistics-accident-2020.csv
+4: dft-road-casualty-statistics-vehicle-e-scooter-2020.csv
+5: road-safety-data-mid-year-provisional-estimates-2020.csv
 
 Selection: 
 Enter an item from the menu, or 0 to exit
@@ -212,14 +214,14 @@ This is demonstrated in the code chunk below, which subsets all casualties that 
 sel = casualties$accident_index %in% crashes_wy$accident_index
 casualties_wy = casualties[sel, ]
 names(casualties_wy)
-# cas_types = casualties_wy %>% 
-#   select(accident_index, casualty_type) %>% 
-#   mutate(n = 1) %>% 
-#   group_by(accident_index, casualty_type) %>% 
-#   summarise(n = sum(n)) %>% 
-#   tidyr::spread(casualty_type, n, fill = 0) 
-# cas_types$Total = rowSums(cas_types[-1])
-# cj = left_join(crashes_wy, cas_types, by = "accident_index")
+cas_types = casualties_wy %>%
+  select(accident_index, casualty_type) %>%
+  mutate(n = 1) %>%
+  group_by(accident_index, casualty_type) %>%
+  summarise(n = sum(n)) %>%
+  tidyr::spread(casualty_type, n, fill = 0)
+cas_types$Total = rowSums(cas_types[-1])
+cj = left_join(crashes_wy, cas_types, by = "accident_index")
 ```
 
 What just happened? We found the subset of casualties that took place in West Yorkshire with reference to the `accident_index` variable.
@@ -227,11 +229,6 @@ Then we used functions from the **tidyverse** package **dplyr** (and `spread()` 
 We then joined the updated casualty data onto the `crashes_wy` dataset.
 The result is a spatial (`sf`) data frame of crashes in Leeds, with columns counting how many road users of different types were hurt.
 The original and joined data look like this:
-
-```{r}
-knitr::opts_chunk$set(eval = FALSE)
-```
-
 
 ```{r table-join-examples}
 crashes_wy %>%
