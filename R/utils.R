@@ -28,7 +28,7 @@ current_year = function() as.integer(format(format(Sys.Date(), "%Y")))
 #'
 #' Currently, there are 52 file names to download/read data from.
 #'
-#' @param years Years for which data are to be found
+#' @param years Year for which data are to be found
 #' @param type One of 'Accidents', 'Casualties', 'Vehicles'; defaults to 'Accidents', ignores case.
 #'
 #' @examples
@@ -37,12 +37,9 @@ current_year = function() as.integer(format(format(Sys.Date(), "%Y")))
 #' find_file_name(1985, type = "accident")
 #' find_file_name(type = "cas")
 #' find_file_name(type = "accid")
-#' find_file_name(2016:2017)
+#' find_file_name(2016:2017) # warning when multiple years requested
 #' @export
 find_file_name = function(years = NULL, type = NULL) {
-
-  # browser()
-
   result = unlist(stats19::file_names, use.names = FALSE)
   if(!is.null(years)) {
     if(min(years) >= 2016) {

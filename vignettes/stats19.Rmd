@@ -47,7 +47,7 @@ library(stats19)
 
 The easiest way to get STATS19 data is with `get_stats19()`.
 This function takes 2 main arguments, `year` and `type`.
-The year can be any year between 1979 and xxxx where x is the current year minus one or two due to the delay in publishing STATS19 statistics (2019 is the latest year for which the datasets are available) and it can be a vector of years including the full range of 1979 up to the year before current.
+The year can be any year between 1979 and 202x where x is the current year minus one or two due to the delay in publishing STATS19 statistics.
 The type can be one of `accidents`, `casualties` and `vehicles`, described below.
 `get_stats19()` performs 3 jobs, corresponding to three main types of functions:
 
@@ -70,8 +70,8 @@ Multiple functions (`read_*` and `format_*`) are needed for each step because of
 2. casualties, referencing knowledge about the victims; and
 3. vehicles, which contains more information about the vehicle type and manoeuvres, as well the some information about the driver."
 
-The data can be downloaded for many years.
-Datasets since 1979 are broadly consistent, meaning that STATS19 data represents a very rich historic geographic, as stated in the DfT's road casualties report in [2017](https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/744077/reported-road-casualties-annual-report-2017.pdf):
+Data files containing multiple years worth of data can be downloaded.
+Datasets since 1979 are broadly consistent, meaning that STATS19 data represents a rich historic geographic record of road casualties at a national level, as stated in the DfT's road casualties report in [2017](https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/744077/reported-road-casualties-annual-report-2017.pdf):
 
 > The current set of definitions and detail of information 
 goes back to 1979, providing a long period for comparison.
@@ -92,9 +92,9 @@ The `dl_stats19()` function prints out the location and final file name(s) of un
 
 `dl_stats19()` takes three parameters.
 Supplying a `file_name` is interpreted to mean that the user is aware of what to download and the other two parameters will be ignored.
-You can also use `years` and `type` to "search" through the file names, which are stored in a lazy-loaded dataset called `stats19::file_names`.
+You can also use `year` and `type` to "search" through the file names, which are stored in a lazy-loaded dataset called `stats19::file_names`.
 
-In versions above `1.3.0`, function `dl_stats19()` behaves more like `get_stats19()`, that is parameter `type` is by default `accidents` and it can also download multiple years more efficiently.
+<!-- In versions above `1.3.0`, function `dl_stats19()` behaves more like `get_stats19()`, that is parameter `type` is by default `accidents` and it can also download multiple years more efficiently. -->
 
 You can find out the names of files that can be downloaded with `names(stats19::file_names)`, an example of which is shown below:
 
