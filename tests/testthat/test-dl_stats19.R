@@ -17,27 +17,13 @@ test_that("dl_stats19 works for no data_dir", {
   # tempdir created.
 })
 
-test_that("dl_stats19 works for 2017", {
-  skip_on_cran()
-  skip_download()
-  # already downloaded
-  # expect_message(dl_stats19(year = "2017", type = "accident"), "Data already exists in data_dir")
-  expect_message(dl_stats19(2017:2018, type = "accident"))
-})
-
-# This test serves little purpose
-# test_that("dl_stats19 works for a type", {
-#   skip_on_cran()
-#   skip_download()
-#   # already downloaded
-#   expect_message(dl_stats19(type = "accid"),
-#                  "More than one file found, selecting the first")
-# })
-
 test_that("dl_stats19 works for chosen file name", {
   skip_on_cran()
   skip_download()
-  expect_message(dl_stats19(
-    file_name = stats19::file_names$`dft-road-casualty-statistics-accident-2019.csv`),
-                 "Files identified: dft-road-casualty-statistics-accident-2019.csv")
+  expect_message(
+    dl_stats19(
+      file_name = stats19::file_names$`dft-road-casualty-statistics-accident-2019.csv`
+    ),
+    "Files identified: dft-road-casualty-statistics-accident-2019.csv"
+  )
 })
