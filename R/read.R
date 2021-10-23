@@ -135,10 +135,6 @@ check_input_file = function(filename = NULL,
                             type = NULL,
                             data_dir = NULL,
                             year = NULL) {
-  # browser()
-  if(!is.null (year)) {
-    year = check_year(year)
-  }
   path = locate_one_file(
     type = type,
     filename = filename,
