@@ -35,8 +35,7 @@ LazyData: true
 Imports: 
     sf,
     readr,
-    tools,
-    crul
+    tools
 Suggests: 
     curl (>= 3.2),
     dplyr,
