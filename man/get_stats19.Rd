@@ -88,9 +88,6 @@ x_sf = get_stats19(2017, silent = TRUE, output_format = "sf")
 x_sf = get_stats19(2017, silent = TRUE, output_format = "sf", lonlat = TRUE)
 sf::st_crs(x_sf)
 
-# multiple years
-get_stats19(c(2017, 2018), silent = TRUE, output_format = "sf")
-
 if (requireNamespace("spatstat.core", quietly = TRUE)) {
 # ppp output
 x_ppp = get_stats19(2017, silent = TRUE, output_format = "ppp")
