@@ -21,7 +21,7 @@ test_that("dl_stats19 works for 2017", {
   skip_on_cran()
   skip_download()
   # already downloaded
-  expect_message(dl_stats19(year = "2017", type = "accident"), "Data already exists in data_dir")
+  # expect_message(dl_stats19(year = "2017", type = "accident"), "Data already exists in data_dir")
   expect_message(dl_stats19(2017:2018, type = "accident"))
 })
 

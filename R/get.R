@@ -44,8 +44,10 @@
 #' x = get_stats19(2017, silent = TRUE)
 #'
 #' # data.frame output
-#' x = get_stats19(2019, silent = TRUE, output_format = "data.frame")
+#' x = get_stats19(2017, silent = TRUE, output_format = "data.frame")
 #' class(x)
+#'
+#' if(nrow(x) > 0) {
 #'
 #' # multiple years
 #' get_stats19(c(2017, 2018), silent = TRUE)
@@ -92,6 +94,7 @@
 #'
 #' # greater_london_ppp = get_stats19(2017, output_format = "ppp", window = greater_london_window)
 #' # spatstat.geom::plot.ppp(greater_london_ppp, use.marks = FALSE, clipwin = greater_london_window)
+#' }
 #' }
 #' }
 #' }
