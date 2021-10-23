@@ -5,8 +5,7 @@ source("../skip-download.R")
 test_that("geturl works", {
   expect_equal(get_url(),
                file.path("https://data.dft.gov.uk",
-                         "road-accidents-safety-data/")
-               )
+                         "road-accidents-safety-data/"))
 })
 
 test_that("find_file_name works", {
@@ -15,11 +14,12 @@ test_that("find_file_name works", {
                "dft-road-casualty-statistics-accident-2016.csv")
   # cover https://github.com/ITSLeeds/stats19/issues/21
   # start OR end year is between 79 and 04
-  expect_error (find_file_name(years = 1974:2004))
-  expect_error (find_file_name(years = -1))
-  #expect_error (find_file_name(years = "text"))
-  # TODO: Should this be a message rather than error?:
-  expect_error (find_file_name(years = 1973))
+  expect_warning(find_file_name(years = 1974:2004))
+  expect_message(
+    find_file_name(years = -888),
+    "No files found. Check the stats19 website on data.gov.uk"
+    )
+  expect_message(find_file_name(years = 1973))
 })
 
 test_that("locate_files & locate_one_file works", {
