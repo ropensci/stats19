@@ -134,6 +134,14 @@ Files are saved by default in `tempdir()`, but this can be overridden to ensure 
 crashes_2017_raw = get_stats19(year = 2017, type = "acc", format = FALSE)
 ```
 
+```{r}
+# skip vignettes if resource unavailable
+if(nrow(crashes_2017_raw) == 0) {
+  knitr::opts_chunk$set(eval = FALSE)
+}
+```
+
+
 **stats19** imports data with `readr::read_csv()` which results in a 'tibble' object: a data frame with more user-friendly printing and a few other features.
 
 ```{r crashes2017-class}

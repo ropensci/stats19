@@ -112,9 +112,10 @@ dl_stats19 = function(year = NULL,
         }
       }
       if (isFALSE(silent)) {
-        message("Attempt downloading from: ")
+        message("Attempt downloading from: ", zip_url)
       }
-      utils::download.file(zip_url, destfile = destfile, quiet = silent)
+      download_file_check(zip_url, destfile = destfile, quiet = silent)
+      return(NULL)
     }
     if(is_zip_file) {
       f2 = file.path(destfile, utils::unzip(destfile, list = TRUE)$Name)
@@ -125,5 +126,15 @@ dl_stats19 = function(year = NULL,
     } else if (isFALSE(silent)) {
       message("Data saved at ", destfile)
     }
+  }
+}
+
+download_file_check = function(url, destfile, quiet = FALSE, ...){
+  if (crul::ok(url)) {
+    message("Trying to download") # todo remove
+    download.file(url = url, destfile = destfile, quiet = quiet, ...)
+  } else {
+    message(url, " not available currently")
+    return(FALSE)
   }
 }
