@@ -49,7 +49,7 @@ have a sufficient internet access and hard disk space.
 if(curl::has_internet()) {
 # type by default is accidents table
 dl_stats19(year = 2017)
-# try multiple years
+# try another year
 dl_stats19(year = 2018)
 }
 }

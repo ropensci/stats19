@@ -28,7 +28,7 @@
 #' if(curl::has_internet()) {
 #' # type by default is accidents table
 #' dl_stats19(year = 2017)
-#' # try multiple years
+#' # try another year
 #' dl_stats19(year = 2018)
 #' }
 #' }
@@ -38,10 +38,6 @@ dl_stats19 = function(year = NULL,
                       file_name = NULL,
                       ask = FALSE,
                       silent = FALSE) {
-  if (!is.null (year)) {
-    year = check_year(year)
-  }
-
   if (is.null(file_name)) {
     fnames = find_file_name(years = year, type = type)
     nfiles_found = length(fnames)

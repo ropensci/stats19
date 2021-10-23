@@ -128,10 +128,6 @@ get_stats19 = function(year = NULL,
     output_format = "tibble"
   }
 
-  if(!is.null (year)) {
-    year = check_year(year)
-  }
-
   # download what the user wanted
   dl_stats19(year = year,
              type = type,
