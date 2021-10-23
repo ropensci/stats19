@@ -6,20 +6,17 @@ test_that("read_accidents works", {
   skip_download()
   skip_on_cran()
   # download real data
-  acc_2016 = stats19::file_names$`dft-road-casualty-statistics-vehicle-2019.csv`
-  dl_stats19(file_name = acc_2016)
+  acc_2019 = stats19::file_names$`dft-road-casualty-statistics-vehicle-2019.csv`
+  dl_stats19(file_name = acc_2019)
   # make sure we have a csv file to read
   path = stats19:::locate_one_file(
     stats19:::get_data_directory(),
     type = "accident",
-    year = 2016,
-    filename = sub(".zip", ".csv", acc_2016)
+    year = 2019,
+    filename = sub(".zip", ".csv", acc_2019)
   )
   # read it
-  read = read_accidents(
-    year = 2016, # make it unique
-    # filename = sub(".zip", ".csv", acc_2016)
-  )
+  read = read_accidents(year = 2019)
   raw_read = read.csv(path)
   expect_equal(nrow(read), nrow(raw_read))
   # read with just file name
@@ -42,21 +39,21 @@ test_that("read_casualties works", {
   skip_download()
   skip_on_cran()
   # download real data
-  cas_2016 = stats19::file_names$`dft-road-casualty-statistics-casualty-2016.csv`
-  dl_stats19(file_name = cas_2016)
+  cas_2019 = stats19::file_names$`dft-road-casualty-statistics-casualty-2019.csv`
+  dl_stats19(file_name = cas_2019)
   path = locate_one_file(
     type = "casualty",
-    year = 2016
+    year = 2019
     )
   # read it
   read = read_casualties(
-    year = 2016, # make it unique
+    year = 2019, # make it unique
     filename = "Cas.csv",
     format = FALSE
   )
   raw_read = read.csv(path)
   read_formatted = read_casualties(
-    year = 2016,
+    year = 2019,
     format = TRUE
   )
   expect_equal(nrow(read_formatted), nrow(raw_read))
