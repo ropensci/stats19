@@ -47,7 +47,7 @@ library(stats19)
 
 The easiest way to get STATS19 data is with `get_stats19()`.
 This function takes 2 main arguments, `year` and `type`.
-The year can be any year between 1979 and xxxx where x is the current year minus one or two due to the delay in publishing STATS19 statistics (2019 is the latest year for which the datasets are available) and it can be a vector of years including the full range of 1979 up to the year before current.
+The year can be any year between 1979 and 202x where x is the current year minus one or two due to the delay in publishing STATS19 statistics.
 The type can be one of `accidents`, `casualties` and `vehicles`, described below.
 `get_stats19()` performs 3 jobs, corresponding to three main types of functions:
 
@@ -70,8 +70,8 @@ Multiple functions (`read_*` and `format_*`) are needed for each step because of
 2. casualties, referencing knowledge about the victims; and
 3. vehicles, which contains more information about the vehicle type and manoeuvres, as well the some information about the driver."
 
-The data can be downloaded for many years.
-Datasets since 1979 are broadly consistent, meaning that STATS19 data represents a very rich historic geographic, as stated in the DfT's road casualties report in [2017](https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/744077/reported-road-casualties-annual-report-2017.pdf):
+Data files containing multiple years worth of data can be downloaded.
+Datasets since 1979 are broadly consistent, meaning that STATS19 data represents a rich historic geographic record of road casualties at a national level, as stated in the DfT's road casualties report in [2017](https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/744077/reported-road-casualties-annual-report-2017.pdf):
 
 > The current set of definitions and detail of information 
 goes back to 1979, providing a long period for comparison.
@@ -82,7 +82,7 @@ goes back to 1979, providing a long period for comparison.
 The following code chunk, for example, downloads and unzips a .zip file containing STATS19 data from 2017:
 
 ```{r dl2017-accidents}
-dl_stats19(year = 2017, type = "Accidents", ask = FALSE)
+dl_stats19(year = 2017, type = "accident", ask = FALSE)
 ```
 
 Note that in the previous command, `ask = FALSE`, meaning you will not be asked.
@@ -92,14 +92,14 @@ The `dl_stats19()` function prints out the location and final file name(s) of un
 
 `dl_stats19()` takes three parameters.
 Supplying a `file_name` is interpreted to mean that the user is aware of what to download and the other two parameters will be ignored.
-You can also use `years` and `type` to "search" through the file names, which are stored in a lazy-loaded dataset called `stats19::file_names`.
+You can also use `year` and `type` to "search" through the file names, which are stored in a lazy-loaded dataset called `stats19::file_names`.
 
-In versions above `1.3.0`, function `dl_stats19()` behaves more like `get_stats19()`, that is parameter `type` is by default `accidents` and it can also download multiple years more efficiently.
+<!-- In versions above `1.3.0`, function `dl_stats19()` behaves more like `get_stats19()`, that is parameter `type` is by default `accidents` and it can also download multiple years more efficiently. -->
 
 You can find out the names of files that can be downloaded with `names(stats19::file_names)`, an example of which is shown below:
 
 ```{r}
-stats19::file_names$dftRoadSafetyData_Vehicles_2017.zip
+stats19::file_names$DigitalBreathTestData2013.zip
 ```
 
 To see how `file_names` was created, see `?file_names`.
@@ -109,12 +109,13 @@ Just providing a year, for example, presents the user with multiple options (fro
 ```{r dl2017-all, eval=FALSE}
 dl_stats19(year = 2017)
 ```
+
 ```
 Multiple matches. Which do you want to download?
 
-1: dftRoadSafetyData_Vehicles_2017.zip
-2: dftRoadSafetyData_Casualties_2017.zip
-3: dftRoadSafetyData_Accidents_2017.zip
+1: dft-road-casualty-statistics-casualty-2017.csv
+2: dft-road-casualty-statistics-vehicle-2017.csv
+3: dft-road-casualty-statistics-accident-2017.csv
 
 Selection: 
 Enter an item from the menu, or 0 to exit
@@ -122,15 +123,6 @@ Enter an item from the menu, or 0 to exit
 
 When R is running interactively, you can select which of the 3 matching files to download:
 those relating to vehicles, casualties or accidents in 2017.
-You can also search for file names, as illustrated below:
-
-```{r dl2017-search}
-d17 = "dftRoadSafetyData_Accidents_2017"
-dl_stats19(file_name = paste0(d17, ".zip"))
-```
-
-Note that this is the same file (containing the 'accidents' table from 2017) downloaded previously with the command `dl_stats19(year = 2017, type = "Accidents")`.
-If the file is already present, `dl_stats19()` will skip the download process.
 
 ## Read STATS19 data
 
@@ -139,11 +131,16 @@ The code below will download the `dftRoadSafetyData_Accidents_2017.zip` file fro
 Files are saved by default in `tempdir()`, but this can be overridden to ensure permanent storage in a user-defined location.
 
 ```{r dl2017-read}
-d17 = "dftRoadSafetyData_Accidents_2017"
-dl_stats19(file_name = paste0(d17, ".zip"))
-crashes_2017_raw = read_accidents(year = 2017,
-                                  filename = "Acc.csv")
+crashes_2017_raw = get_stats19(year = 2017, type = "acc", format = FALSE)
 ```
+
+```{r, echo=FALSE}
+# skip vignettes if resource unavailable
+if(object.size(crashes_2017_raw) < 1000) {
+  knitr::opts_chunk$set(eval = FALSE)
+}
+```
+
 
 **stats19** imports data with `readr::read_csv()` which results in a 'tibble' object: a data frame with more user-friendly printing and a few other features.
 
@@ -236,12 +233,12 @@ The three functions: `format_accidents()`, `format_vehicles()` and
 crashes_2017 = format_accidents(crashes_2017_raw)
 
 # vehicle data for 2017
-dl_stats19(year = 2017, type = "vehicles", ask = FALSE)
+dl_stats19(year = 2017, type = "vehicle", ask = FALSE)
 vehicles_2017_raw = read_vehicles(year = 2017)
 vehicles_2017 = format_vehicles(vehicles_2017_raw)
 
 # casualties data for 2017
-dl_stats19(year = 2017, type = "casualties", ask = FALSE)
+dl_stats19(year = 2017, type = "casualty", ask = FALSE)
 casualties_2017 = read_casualties(year = 2017)
 ```
 
@@ -294,7 +291,7 @@ knitr::kable(stats19::accidents_sample_raw[, key_vars])
 As with `crashes_2017`, casualty data for 2017 can be downloaded, read-in and formatted as follows:
 
 ```{r 2017-cas}
-dl_stats19(year = 2017, type = "casualties", ask = FALSE)
+dl_stats19(year = 2017, type = "casualty", ask = FALSE)
 casualties_2017 = read_casualties(year = 2017)
 nrow(casualties_2017)
 ncol(casualties_2017)
@@ -324,7 +321,7 @@ names(casualties_2017)
 Data for vehicles involved in crashes in 2017 can be downloaded, read-in and formatted as follows:
 
 ```{r dl2017-vehicles}
-dl_stats19(year = 2017, type = "vehicles", ask = FALSE)
+dl_stats19(year = 2017, type = "vehicle", ask = FALSE)
 vehicles_2017 = read_vehicles(year = 2017)
 nrow(vehicles_2017)
 ncol(vehicles_2017)
@@ -490,6 +487,7 @@ crashes_types = cj %>%
     passenger > 0 ~ "Passenger",
     TRUE ~ "Other"
   ))
+table(crashes_types$speed_limit)
 ggplot(crashes_types, aes(size = Total, colour = speed_limit)) +
   geom_sf(show.legend = "point", alpha = 0.3) +
   facet_grid(vars(type), vars(accident_severity)) +
@@ -577,7 +575,7 @@ There is much potential to extend the package beyond downloading, reading and fo
 The greatest potential is to provide functions that will help with analysis of STATS19 data, to help with road safety research.
 Much academic research has been done using the data, a few examples of which are highlighted below to demonstrate the wide potential for further work.
 
-- Research exploring the effectiveness of road safety policies such as speed limits. An example in this area is @grundy_effect_2009, who found that areas with 20mph speed limits were safer. This raises the question: can the same result be repeated using reproducible methods? Does the finding hold for more recent 20 mph zones? Is the recent finding of the Department for Transport's ([2018](https://www.gov.uk/government/publications/20-mph-speed-limits-on-roads)) research, that 20 mph zones alone do not reduce crash rates, supported by reproducible analysis? What are the factors that make speed limits more or less effective [see @sarkar_street_2018 for example]?
+- Research exploring the effectiveness of road safety policies such as speed limits. An example in this area is this [paper on 20 mph zones](https://pubmed.ncbi.nlm.nih.gov/20007666/) who found that areas with 20mph speed limits were safer. This raises the question: can the same result be repeated using reproducible methods? Does the finding hold for more recent 20 mph zones? Is the recent finding of the Department for Transport's ([2018](https://www.gov.uk/government/publications/20-mph-speed-limits-on-roads)) research, that 20 mph zones alone do not reduce crash rates, supported by reproducible analysis? What are the factors that make speed limits more or less effective [see @sarkar_street_2018 for example]?
 - Research into weather as a contributing factor to road traffic casualties [e.g. @edwards_relationship_1998]. This raises the question: could matching crash data from the STATS19 data with historic weather data from other R packages help advance knowledge in this area?
 - Assessment of crash rates normalised by estimated exposure rates (risk). An example of this type of research by an author of the package found substantial spatial variation in the number of cyclist casualties across West Yorkshire [@lovelace_who_2016]. This raises the questions: are similar spatial differences found in other regions? What are the factors leading to relatively high and low rates of different types of crash? 
 

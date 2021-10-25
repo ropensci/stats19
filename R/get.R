@@ -5,9 +5,9 @@
 #' `dl_stats19()` and `read_*` functions, returning a
 #' `tibble` (default), `data.frame`, `sf` or `ppp` object, depending on the
 #' `output_format` parameter.
-#' The function returns data for a specific year (e.g. `year = 2017`) or multiple
-#' years (e.g. `year = c(2017, 2018)`).
-#' Note: for years before 2009 the function may return data from more years than are
+#' The function returns data for a specific year (e.g. `year = 2017`)
+#'
+#' Note: for years before 2016 the function may return data from more years than are
 #' requested due to the nature of the files hosted at
 #' [data.gov.uk](https://data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data).
 #'
@@ -17,8 +17,7 @@
 #' If `output_format = "data.frame"` or `output_format = "sf"` or `output_format
 #' = "ppp"` then the output data is transformed into a data.frame, sf or ppp
 #' object using the [as.data.frame()] or [format_sf()] or [format_ppp()]
-#' functions, respectively.
-#' See examples.
+#' functions, as shown in the examples.
 #'
 #' @seealso [dl_stats19()]
 #' @seealso [read_accidents()]
@@ -30,8 +29,7 @@
 #'   and `"ppp"`, that, respectively, returns objects of class [`data.frame`],
 #'   [`sf::sf`] and [`spatstat.geom::ppp`]. Any other string is ignored and a tibble
 #'   output is returned. See details and examples.
-#' @param year Valid vector of one or more years from 1979 up until last year.
-#' @param ... Other arguments that should be passed to [format_sf()] or
+#' @param ... Other arguments be passed to [format_sf()] or
 #'   [format_ppp()] functions. Read and run the examples.
 #'
 #' @export
@@ -44,11 +42,11 @@
 #' x = get_stats19(2017, silent = TRUE)
 #'
 #' # data.frame output
-#' x = get_stats19(2019, silent = TRUE, output_format = "data.frame")
+#' x = get_stats19(2017, silent = TRUE, output_format = "data.frame")
 #' class(x)
 #'
-#' # multiple years
-#' get_stats19(c(2017, 2018), silent = TRUE)
+#' # Run tests only if endpoint is alive:
+#' if(nrow(x) > 0) {
 #'
 #' # sf output
 #' x_sf = get_stats19(2017, silent = TRUE, output_format = "sf")
@@ -57,15 +55,9 @@
 #' x_sf = get_stats19(2017, silent = TRUE, output_format = "sf", lonlat = TRUE)
 #' sf::st_crs(x_sf)
 #'
-#' # multiple years
-#' get_stats19(c(2017, 2018), silent = TRUE, output_format = "sf")
-#'
 #' if (requireNamespace("spatstat.core", quietly = TRUE)) {
 #' # ppp output
 #' x_ppp = get_stats19(2017, silent = TRUE, output_format = "ppp")
-#'
-#' # Multiple years
-#' get_stats19(c(2017, 2018), silent = TRUE, output_format = "ppp")
 #'
 #' # We can use the window parameter of format_ppp function to filter only the
 #' # events occurred in a specific area. For example we can create a new bbox
@@ -95,6 +87,7 @@
 #'
 #' # greater_london_ppp = get_stats19(2017, output_format = "ppp", window = greater_london_window)
 #' # spatstat.geom::plot.ppp(greater_london_ppp, use.marks = FALSE, clipwin = greater_london_window)
+#' }
 #' }
 #' }
 #' }
@@ -132,40 +125,6 @@ get_stats19 = function(year = NULL,
     output_format = "tibble"
   }
 
-  if(!is.null (year)) {
-    year = check_year(year)
-  }
-
-  if(is.vector(year) && length(year) > 1) {
-    all  = list()
-    i = 1
-    for (aYear in year) {
-      all[[i]] = get_stats19(
-        year = aYear,
-        type = type,
-        data_dir = data_dir,
-        file_name = file_name,
-        format = format,
-        ask = ask,
-        silent = silent,
-        output_format = output_format,
-        ...
-      )
-      i = i + 1
-    }
-    if (output_format == "ppp") {
-      all = do.call(spatstat.geom::superimpose, all)
-    } else {
-      all_colnames = unique(unlist(lapply(all, names)))
-      all = lapply(all, function(x) {
-        x[setdiff(all_colnames, names(x))] = NA
-        x
-      })
-      all = do.call(rbind, all)
-    }
-    return(all)
-  }
-
   # download what the user wanted
   dl_stats19(year = year,
              type = type,
@@ -180,7 +139,7 @@ get_stats19 = function(year = NULL,
       year = year,
       data_dir = data_dir,
       format = format)
-  } else if(grepl(type, "casualties", ignore.case = TRUE)) {
+  } else if(grepl(type, "casualty", ignore.case = TRUE)) {
     read_in = read_casualties(
       year = year,
       data_dir = data_dir,
