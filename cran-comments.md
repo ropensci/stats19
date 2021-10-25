@@ -2,6 +2,9 @@ Major update, simpler codebase, fixes issues associated with UK government chang
 
 The package is now simpler and should be easier to maintain.
 
+Update without errant URL.
+
+
 ## Test environments
 * local R installation, R 4.1.1
 * ubuntu 20.04 (GitHub Actions), R 4.1.1
