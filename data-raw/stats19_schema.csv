@@ -1,0 +1,915 @@
+table,variable,code,label,note,variable_formatted,type
+Accident,police_force,1,Metropolitan Police,NA,police_force,character
+Accident,police_force,3,Cumbria,NA,police_force,character
+Accident,police_force,4,Lancashire,NA,police_force,character
+Accident,police_force,5,Merseyside,NA,police_force,character
+Accident,police_force,6,Greater Manchester,NA,police_force,character
+Accident,police_force,7,Cheshire,NA,police_force,character
+Accident,police_force,10,Northumbria,NA,police_force,character
+Accident,police_force,11,Durham,NA,police_force,character
+Accident,police_force,12,North Yorkshire,NA,police_force,character
+Accident,police_force,13,West Yorkshire,NA,police_force,character
+Accident,police_force,14,South Yorkshire,NA,police_force,character
+Accident,police_force,16,Humberside,NA,police_force,character
+Accident,police_force,17,Cleveland,NA,police_force,character
+Accident,police_force,20,West Midlands,NA,police_force,character
+Accident,police_force,21,Staffordshire,NA,police_force,character
+Accident,police_force,22,West Mercia,NA,police_force,character
+Accident,police_force,23,Warwickshire,NA,police_force,character
+Accident,police_force,30,Derbyshire,NA,police_force,character
+Accident,police_force,31,Nottinghamshire,NA,police_force,character
+Accident,police_force,32,Lincolnshire,NA,police_force,character
+Accident,police_force,33,Leicestershire,NA,police_force,character
+Accident,police_force,34,Northamptonshire,NA,police_force,character
+Accident,police_force,35,Cambridgeshire,NA,police_force,character
+Accident,police_force,36,Norfolk,NA,police_force,character
+Accident,police_force,37,Suffolk,NA,police_force,character
+Accident,police_force,40,Bedfordshire,NA,police_force,character
+Accident,police_force,41,Hertfordshire,NA,police_force,character
+Accident,police_force,42,Essex,NA,police_force,character
+Accident,police_force,43,Thames Valley,NA,police_force,character
+Accident,police_force,44,Hampshire,NA,police_force,character
+Accident,police_force,45,Surrey,NA,police_force,character
+Accident,police_force,46,Kent,NA,police_force,character
+Accident,police_force,47,Sussex,NA,police_force,character
+Accident,police_force,48,City of London,NA,police_force,character
+Accident,police_force,50,Devon and Cornwall,NA,police_force,character
+Accident,police_force,52,Avon and Somerset,NA,police_force,character
+Accident,police_force,53,Gloucestershire,NA,police_force,character
+Accident,police_force,54,Wiltshire,NA,police_force,character
+Accident,police_force,55,Dorset,NA,police_force,character
+Accident,police_force,60,North Wales,NA,police_force,character
+Accident,police_force,61,Gwent,NA,police_force,character
+Accident,police_force,62,South Wales,NA,police_force,character
+Accident,police_force,63,Dyfed-Powys,NA,police_force,character
+Accident,police_force,91,Northern,category discontinued in 2019,police_force,NA
+Accident,police_force,92,Grampian,category discontinued in 2019,police_force,NA
+Accident,police_force,93,Tayside,category discontinued in 2019,police_force,NA
+Accident,police_force,94,Fife,category discontinued in 2019,police_force,NA
+Accident,police_force,95,Lothian and Borders,category discontinued in 2019,police_force,NA
+Accident,police_force,96,Central,category discontinued in 2019,police_force,NA
+Accident,police_force,97,Strathclyde,category discontinued in 2019,police_force,NA
+Accident,police_force,98,Dumfries and Galloway,category discontinued in 2019,police_force,NA
+Accident,police_force,99,Police Scotland,category introduced in 2019,police_force,NA
+Accident,accident_severity,1,Fatal,NA,accident_severity,character
+Accident,accident_severity,2,Serious,NA,accident_severity,character
+Accident,accident_severity,3,Slight,NA,accident_severity,character
+Accident,day_of_week,1,Sunday,NA,day_of_week,character
+Accident,day_of_week,2,Monday,NA,day_of_week,character
+Accident,day_of_week,3,Tuesday,NA,day_of_week,character
+Accident,day_of_week,4,Wednesday,NA,day_of_week,character
+Accident,day_of_week,5,Thursday,NA,day_of_week,character
+Accident,day_of_week,6,Friday,NA,day_of_week,character
+Accident,day_of_week,7,Saturday,NA,day_of_week,character
+Accident,local_authority_district,1,Westminster,NA,local_authority_district,character
+Accident,local_authority_district,2,Camden,NA,local_authority_district,character
+Accident,local_authority_district,3,Islington,NA,local_authority_district,character
+Accident,local_authority_district,4,Hackney,NA,local_authority_district,character
+Accident,local_authority_district,5,Tower Hamlets,NA,local_authority_district,character
+Accident,local_authority_district,6,Greenwich,NA,local_authority_district,character
+Accident,local_authority_district,7,Lewisham,NA,local_authority_district,character
+Accident,local_authority_district,8,Southwark,NA,local_authority_district,character
+Accident,local_authority_district,9,Lambeth,NA,local_authority_district,character
+Accident,local_authority_district,10,Wandsworth,NA,local_authority_district,character
+Accident,local_authority_district,11,Hammersmith and Fulham,NA,local_authority_district,character
+Accident,local_authority_district,12,Kensington and Chelsea,NA,local_authority_district,character
+Accident,local_authority_district,13,Waltham Forest,NA,local_authority_district,character
+Accident,local_authority_district,14,Redbridge,NA,local_authority_district,character
+Accident,local_authority_district,15,Havering,NA,local_authority_district,character
+Accident,local_authority_district,16,Barking and Dagenham,NA,local_authority_district,character
+Accident,local_authority_district,17,Newham,NA,local_authority_district,character
+Accident,local_authority_district,18,Bexley,NA,local_authority_district,character
+Accident,local_authority_district,19,Bromley,NA,local_authority_district,character
+Accident,local_authority_district,20,Croydon,NA,local_authority_district,character
+Accident,local_authority_district,21,Sutton,NA,local_authority_district,character
+Accident,local_authority_district,22,Merton,NA,local_authority_district,character
+Accident,local_authority_district,23,Kingston upon Thames,NA,local_authority_district,character
+Accident,local_authority_district,24,Richmond upon Thames,NA,local_authority_district,character
+Accident,local_authority_district,25,Hounslow,NA,local_authority_district,character
+Accident,local_authority_district,26,Hillingdon,NA,local_authority_district,character
+Accident,local_authority_district,27,Ealing,NA,local_authority_district,character
+Accident,local_authority_district,28,Brent,NA,local_authority_district,character
+Accident,local_authority_district,29,Harrow,NA,local_authority_district,character
+Accident,local_authority_district,30,Barnet,NA,local_authority_district,character
+Accident,local_authority_district,31,Haringey,NA,local_authority_district,character
+Accident,local_authority_district,32,Enfield,NA,local_authority_district,character
+Accident,local_authority_district,33,Hertsmere,NA,local_authority_district,character
+Accident,local_authority_district,38,Epsom and Ewell,NA,local_authority_district,character
+Accident,local_authority_district,40,Spelthorne,NA,local_authority_district,character
+Accident,local_authority_district,57,London Airport (Heathrow),NA,local_authority_district,character
+Accident,local_authority_district,60,Allerdale,NA,local_authority_district,character
+Accident,local_authority_district,61,Barrow-in-Furness,NA,local_authority_district,character
+Accident,local_authority_district,62,Carlisle,NA,local_authority_district,character
+Accident,local_authority_district,63,Copeland,NA,local_authority_district,character
+Accident,local_authority_district,64,Eden,NA,local_authority_district,character
+Accident,local_authority_district,65,South Lakeland,NA,local_authority_district,character
+Accident,local_authority_district,70,Blackburn with Darwen,NA,local_authority_district,character
+Accident,local_authority_district,71,Blackpool,NA,local_authority_district,character
+Accident,local_authority_district,72,Burnley,NA,local_authority_district,character
+Accident,local_authority_district,73,Chorley,NA,local_authority_district,character
+Accident,local_authority_district,74,Fylde,NA,local_authority_district,character
+Accident,local_authority_district,75,Hyndburn,NA,local_authority_district,character
+Accident,local_authority_district,76,Lancaster,NA,local_authority_district,character
+Accident,local_authority_district,77,Pendle,NA,local_authority_district,character
+Accident,local_authority_district,79,Preston,NA,local_authority_district,character
+Accident,local_authority_district,80,Ribble Valley,NA,local_authority_district,character
+Accident,local_authority_district,82,Rossendale,NA,local_authority_district,character
+Accident,local_authority_district,83,South Ribble,NA,local_authority_district,character
+Accident,local_authority_district,84,West Lancashire,NA,local_authority_district,character
+Accident,local_authority_district,85,Wyre,NA,local_authority_district,character
+Accident,local_authority_district,90,Knowsley,NA,local_authority_district,character
+Accident,local_authority_district,91,Liverpool,NA,local_authority_district,character
+Accident,local_authority_district,92,St. Helens,NA,local_authority_district,character
+Accident,local_authority_district,93,Sefton,NA,local_authority_district,character
+Accident,local_authority_district,95,Wirral,NA,local_authority_district,character
+Accident,local_authority_district,100,Bolton,NA,local_authority_district,character
+Accident,local_authority_district,101,Bury,NA,local_authority_district,character
+Accident,local_authority_district,102,Manchester,NA,local_authority_district,character
+Accident,local_authority_district,104,Oldham,NA,local_authority_district,character
+Accident,local_authority_district,106,Rochdale,NA,local_authority_district,character
+Accident,local_authority_district,107,Salford,NA,local_authority_district,character
+Accident,local_authority_district,109,Stockport,NA,local_authority_district,character
+Accident,local_authority_district,110,Tameside,NA,local_authority_district,character
+Accident,local_authority_district,112,Trafford,NA,local_authority_district,character
+Accident,local_authority_district,114,Wigan,NA,local_authority_district,character
+Accident,local_authority_district,120,Chester,NA,local_authority_district,character
+Accident,local_authority_district,121,Congleton,NA,local_authority_district,character
+Accident,local_authority_district,122,Crewe and Nantwich,NA,local_authority_district,character
+Accident,local_authority_district,123,Ellesmere Port and Neston,NA,local_authority_district,character
+Accident,local_authority_district,124,Halton,NA,local_authority_district,character
+Accident,local_authority_district,126,Macclesfield,NA,local_authority_district,character
+Accident,local_authority_district,127,Vale Royal,NA,local_authority_district,character
+Accident,local_authority_district,128,Warrington,NA,local_authority_district,character
+Accident,local_authority_district,129,Cheshire East,NA,local_authority_district,character
+Accident,local_authority_district,130,Cheshire West and Chester,NA,local_authority_district,character
+Accident,local_authority_district,139,Northumberland,NA,local_authority_district,character
+Accident,local_authority_district,140,Alnwick,NA,local_authority_district,character
+Accident,local_authority_district,141,Berwick-upon-Tweed,NA,local_authority_district,character
+Accident,local_authority_district,142,Blyth Valley,NA,local_authority_district,character
+Accident,local_authority_district,143,Castle Morpeth,NA,local_authority_district,character
+Accident,local_authority_district,144,Tynedale,NA,local_authority_district,character
+Accident,local_authority_district,145,Wansbeck,NA,local_authority_district,character
+Accident,local_authority_district,146,Gateshead,NA,local_authority_district,character
+Accident,local_authority_district,147,Newcastle upon Tyne,NA,local_authority_district,character
+Accident,local_authority_district,148,North Tyneside,NA,local_authority_district,character
+Accident,local_authority_district,149,South Tyneside,NA,local_authority_district,character
+Accident,local_authority_district,150,Sunderland,NA,local_authority_district,character
+Accident,local_authority_district,160,Chester-le-Street,NA,local_authority_district,character
+Accident,local_authority_district,161,Darlington,NA,local_authority_district,character
+Accident,local_authority_district,162,Derwentside,NA,local_authority_district,character
+Accident,local_authority_district,163,Durham,NA,local_authority_district,character
+Accident,local_authority_district,164,Easington,NA,local_authority_district,character
+Accident,local_authority_district,165,Sedgefield,NA,local_authority_district,character
+Accident,local_authority_district,166,Teesdale,NA,local_authority_district,character
+Accident,local_authority_district,168,Wear Valley,NA,local_authority_district,character
+Accident,local_authority_district,169,County Durham,NA,local_authority_district,character
+Accident,local_authority_district,180,Craven,NA,local_authority_district,character
+Accident,local_authority_district,181,Hambleton,NA,local_authority_district,character
+Accident,local_authority_district,182,Harrogate,NA,local_authority_district,character
+Accident,local_authority_district,184,Richmondshire,NA,local_authority_district,character
+Accident,local_authority_district,185,Ryedale,NA,local_authority_district,character
+Accident,local_authority_district,186,Scarborough,NA,local_authority_district,character
+Accident,local_authority_district,187,Selby,NA,local_authority_district,character
+Accident,local_authority_district,189,York,NA,local_authority_district,character
+Accident,local_authority_district,200,Bradford,NA,local_authority_district,character
+Accident,local_authority_district,202,Calderdale,NA,local_authority_district,character
+Accident,local_authority_district,203,Kirklees,NA,local_authority_district,character
+Accident,local_authority_district,204,Leeds,NA,local_authority_district,character
+Accident,local_authority_district,206,Wakefield,NA,local_authority_district,character
+Accident,local_authority_district,210,Barnsley,NA,local_authority_district,character
+Accident,local_authority_district,211,Doncaster,NA,local_authority_district,character
+Accident,local_authority_district,213,Rotherham,NA,local_authority_district,character
+Accident,local_authority_district,215,Sheffield,NA,local_authority_district,character
+Accident,local_authority_district,228,"Kingston upon Hull, City of",NA,local_authority_district,character
+Accident,local_authority_district,231,East Riding of Yorkshire,NA,local_authority_district,character
+Accident,local_authority_district,232,North Lincolnshire,NA,local_authority_district,character
+Accident,local_authority_district,233,North East Lincolnshire,NA,local_authority_district,character
+Accident,local_authority_district,240,Hartlepool,NA,local_authority_district,character
+Accident,local_authority_district,241,Redcar and Cleveland,NA,local_authority_district,character
+Accident,local_authority_district,243,Middlesbrough,NA,local_authority_district,character
+Accident,local_authority_district,245,Stockton-on-Tees,NA,local_authority_district,character
+Accident,local_authority_district,250,Cannock Chase,NA,local_authority_district,character
+Accident,local_authority_district,251,East Staffordshire,NA,local_authority_district,character
+Accident,local_authority_district,252,Lichfield,NA,local_authority_district,character
+Accident,local_authority_district,253,Newcastle-under-Lyme,NA,local_authority_district,character
+Accident,local_authority_district,254,South Staffordshire,NA,local_authority_district,character
+Accident,local_authority_district,255,Stafford,NA,local_authority_district,character
+Accident,local_authority_district,256,Staffordshire Moorlands,NA,local_authority_district,character
+Accident,local_authority_district,257,Stoke-on-Trent,NA,local_authority_district,character
+Accident,local_authority_district,258,Tamworth,NA,local_authority_district,character
+Accident,local_authority_district,270,Bromsgrove,NA,local_authority_district,character
+Accident,local_authority_district,273,Malvern Hills,NA,local_authority_district,character
+Accident,local_authority_district,274,Redditch,NA,local_authority_district,character
+Accident,local_authority_district,276,Worcester,NA,local_authority_district,character
+Accident,local_authority_district,277,Wychavon,NA,local_authority_district,character
+Accident,local_authority_district,278,Wyre Forest,NA,local_authority_district,character
+Accident,local_authority_district,279,Bridgnorth,NA,local_authority_district,character
+Accident,local_authority_district,280,North Shropshire,NA,local_authority_district,character
+Accident,local_authority_district,281,Oswestry,NA,local_authority_district,character
+Accident,local_authority_district,282,Shrewsbury and Atcham,NA,local_authority_district,character
+Accident,local_authority_district,283,South Shropshire,NA,local_authority_district,character
+Accident,local_authority_district,284,Telford and Wrekin,NA,local_authority_district,character
+Accident,local_authority_district,285,"Herefordshire, County of",NA,local_authority_district,character
+Accident,local_authority_district,286,Shropshire,NA,local_authority_district,character
+Accident,local_authority_district,290,North Warwickshire,NA,local_authority_district,character
+Accident,local_authority_district,291,Nuneaton and Bedworth,NA,local_authority_district,character
+Accident,local_authority_district,292,Rugby,NA,local_authority_district,character
+Accident,local_authority_district,293,Stratford-upon-Avon,NA,local_authority_district,character
+Accident,local_authority_district,294,Warwick,NA,local_authority_district,character
+Accident,local_authority_district,300,Birmingham,NA,local_authority_district,character
+Accident,local_authority_district,302,Coventry,NA,local_authority_district,character
+Accident,local_authority_district,303,Dudley,NA,local_authority_district,character
+Accident,local_authority_district,305,Sandwell,NA,local_authority_district,character
+Accident,local_authority_district,306,Solihull,NA,local_authority_district,character
+Accident,local_authority_district,307,Walsall,NA,local_authority_district,character
+Accident,local_authority_district,309,Wolverhampton,NA,local_authority_district,character
+Accident,local_authority_district,320,Amber Valley,NA,local_authority_district,character
+Accident,local_authority_district,321,Bolsover,NA,local_authority_district,character
+Accident,local_authority_district,322,Chesterfield,NA,local_authority_district,character
+Accident,local_authority_district,323,Derby,NA,local_authority_district,character
+Accident,local_authority_district,324,Erewash,NA,local_authority_district,character
+Accident,local_authority_district,325,High Peak,NA,local_authority_district,character
+Accident,local_authority_district,327,North East Derbyshire,NA,local_authority_district,character
+Accident,local_authority_district,328,South Derbyshire,NA,local_authority_district,character
+Accident,local_authority_district,329,Derbyshire Dales,NA,local_authority_district,character
+Accident,local_authority_district,340,Ashfield,NA,local_authority_district,character
+Accident,local_authority_district,341,Bassetlaw,NA,local_authority_district,character
+Accident,local_authority_district,342,Broxtowe,NA,local_authority_district,character
+Accident,local_authority_district,343,Gedling,NA,local_authority_district,character
+Accident,local_authority_district,344,Mansfield,NA,local_authority_district,character
+Accident,local_authority_district,345,Newark and Sherwood,NA,local_authority_district,character
+Accident,local_authority_district,346,Nottingham,NA,local_authority_district,character
+Accident,local_authority_district,347,Rushcliffe,NA,local_authority_district,character
+Accident,local_authority_district,350,Boston,NA,local_authority_district,character
+Accident,local_authority_district,351,East Lindsey,NA,local_authority_district,character
+Accident,local_authority_district,352,Lincoln,NA,local_authority_district,character
+Accident,local_authority_district,353,North Kesteven,NA,local_authority_district,character
+Accident,local_authority_district,354,South Holland,NA,local_authority_district,character
+Accident,local_authority_district,355,South Kesteven,NA,local_authority_district,character
+Accident,local_authority_district,356,West Lindsey,NA,local_authority_district,character
+Accident,local_authority_district,360,Blaby,NA,local_authority_district,character
+Accident,local_authority_district,361,Hinckley and Bosworth,NA,local_authority_district,character
+Accident,local_authority_district,362,Charnwood,NA,local_authority_district,character
+Accident,local_authority_district,363,Harborough,NA,local_authority_district,character
+Accident,local_authority_district,364,Leicester,NA,local_authority_district,character
+Accident,local_authority_district,365,Melton,NA,local_authority_district,character
+Accident,local_authority_district,366,North West Leicestershire,NA,local_authority_district,character
+Accident,local_authority_district,367,Oadby and Wigston,NA,local_authority_district,character
+Accident,local_authority_district,368,Rutland,NA,local_authority_district,character
+Accident,local_authority_district,380,Corby,NA,local_authority_district,character
+Accident,local_authority_district,381,Daventry,NA,local_authority_district,character
+Accident,local_authority_district,382,East Northamptonshire,NA,local_authority_district,character
+Accident,local_authority_district,383,Kettering,NA,local_authority_district,character
+Accident,local_authority_district,384,Northampton,NA,local_authority_district,character
+Accident,local_authority_district,385,South Northamptonshire,NA,local_authority_district,character
+Accident,local_authority_district,386,Wellingborough,NA,local_authority_district,character
+Accident,local_authority_district,390,Cambridge,NA,local_authority_district,character
+Accident,local_authority_district,391,East Cambridgeshire,NA,local_authority_district,character
+Accident,local_authority_district,392,Fenland,NA,local_authority_district,character
+Accident,local_authority_district,393,Huntingdonshire,NA,local_authority_district,character
+Accident,local_authority_district,394,Peterborough,NA,local_authority_district,character
+Accident,local_authority_district,395,South Cambridgeshire,NA,local_authority_district,character
+Accident,local_authority_district,400,Breckland,NA,local_authority_district,character
+Accident,local_authority_district,401,Broadland,NA,local_authority_district,character
+Accident,local_authority_district,402,Great Yarmouth,NA,local_authority_district,character
+Accident,local_authority_district,404,Norwich,NA,local_authority_district,character
+Accident,local_authority_district,405,North Norfolk,NA,local_authority_district,character
+Accident,local_authority_district,406,South Norfolk,NA,local_authority_district,character
+Accident,local_authority_district,407,King's Lynn and West Norfolk,NA,local_authority_district,character
+Accident,local_authority_district,410,Babergh,NA,local_authority_district,character
+Accident,local_authority_district,411,Forest Heath,NA,local_authority_district,character
+Accident,local_authority_district,412,Ipswich,NA,local_authority_district,character
+Accident,local_authority_district,413,Mid Suffolk,NA,local_authority_district,character
+Accident,local_authority_district,414,St. Edmundsbury,NA,local_authority_district,character
+Accident,local_authority_district,415,Suffolk Coastal,NA,local_authority_district,character
+Accident,local_authority_district,416,Waveney,NA,local_authority_district,character
+Accident,local_authority_district,420,Bedford,NA,local_authority_district,character
+Accident,local_authority_district,421,Luton,NA,local_authority_district,character
+Accident,local_authority_district,422,Mid Bedfordshire,NA,local_authority_district,character
+Accident,local_authority_district,423,South Bedfordshire,NA,local_authority_district,character
+Accident,local_authority_district,424,Central Bedfordshire,NA,local_authority_district,character
+Accident,local_authority_district,430,Broxbourne,NA,local_authority_district,character
+Accident,local_authority_district,431,Dacorum,NA,local_authority_district,character
+Accident,local_authority_district,432,East Hertfordshire,NA,local_authority_district,character
+Accident,local_authority_district,433,North Hertfordshire,NA,local_authority_district,character
+Accident,local_authority_district,434,St. Albans,NA,local_authority_district,character
+Accident,local_authority_district,435,Stevenage,NA,local_authority_district,character
+Accident,local_authority_district,436,Three Rivers,NA,local_authority_district,character
+Accident,local_authority_district,437,Watford,NA,local_authority_district,character
+Accident,local_authority_district,438,Welwyn Hatfield,NA,local_authority_district,character
+Accident,local_authority_district,450,Basildon,NA,local_authority_district,character
+Accident,local_authority_district,451,Braintree,NA,local_authority_district,character
+Accident,local_authority_district,452,Brentwood,NA,local_authority_district,character
+Accident,local_authority_district,453,Castle Point,NA,local_authority_district,character
+Accident,local_authority_district,454,Chelmsford,NA,local_authority_district,character
+Accident,local_authority_district,455,Colchester,NA,local_authority_district,character
+Accident,local_authority_district,456,Epping Forest,NA,local_authority_district,character
+Accident,local_authority_district,457,Harlow,NA,local_authority_district,character
+Accident,local_authority_district,458,Maldon,NA,local_authority_district,character
+Accident,local_authority_district,459,Rochford,NA,local_authority_district,character
+Accident,local_authority_district,460,Southend-on-Sea,NA,local_authority_district,character
+Accident,local_authority_district,461,Tendring,NA,local_authority_district,character
+Accident,local_authority_district,462,Thurrock,NA,local_authority_district,character
+Accident,local_authority_district,463,Uttlesford,NA,local_authority_district,character
+Accident,local_authority_district,470,Bracknell Forest,NA,local_authority_district,character
+Accident,local_authority_district,471,West Berkshire,NA,local_authority_district,character
+Accident,local_authority_district,472,Reading,NA,local_authority_district,character
+Accident,local_authority_district,473,Slough,NA,local_authority_district,character
+Accident,local_authority_district,474,Windsor and Maidenhead,NA,local_authority_district,character
+Accident,local_authority_district,475,Wokingham,NA,local_authority_district,character
+Accident,local_authority_district,476,Aylesbury Vale,NA,local_authority_district,character
+Accident,local_authority_district,477,South Bucks,NA,local_authority_district,character
+Accident,local_authority_district,478,Chiltern,NA,local_authority_district,character
+Accident,local_authority_district,479,Milton Keynes,NA,local_authority_district,character
+Accident,local_authority_district,480,Wycombe,NA,local_authority_district,character
+Accident,local_authority_district,481,Cherwell,NA,local_authority_district,character
+Accident,local_authority_district,482,Oxford,NA,local_authority_district,character
+Accident,local_authority_district,483,Vale of White Horse,NA,local_authority_district,character
+Accident,local_authority_district,484,South Oxfordshire,NA,local_authority_district,character
+Accident,local_authority_district,485,West Oxfordshire,NA,local_authority_district,character
+Accident,local_authority_district,490,Basingstoke and Deane,NA,local_authority_district,character
+Accident,local_authority_district,491,Eastleigh,NA,local_authority_district,character
+Accident,local_authority_district,492,Fareham,NA,local_authority_district,character
+Accident,local_authority_district,493,Gosport,NA,local_authority_district,character
+Accident,local_authority_district,494,Hart,NA,local_authority_district,character
+Accident,local_authority_district,495,Havant,NA,local_authority_district,character
+Accident,local_authority_district,496,New Forest,NA,local_authority_district,character
+Accident,local_authority_district,497,East Hampshire,NA,local_authority_district,character
+Accident,local_authority_district,498,Portsmouth,NA,local_authority_district,character
+Accident,local_authority_district,499,Rushmoor,NA,local_authority_district,character
+Accident,local_authority_district,500,Southampton,NA,local_authority_district,character
+Accident,local_authority_district,501,Test Valley,NA,local_authority_district,character
+Accident,local_authority_district,502,Winchester,NA,local_authority_district,character
+Accident,local_authority_district,505,Isle of Wight,NA,local_authority_district,character
+Accident,local_authority_district,510,Elmbridge,NA,local_authority_district,character
+Accident,local_authority_district,511,Guildford,NA,local_authority_district,character
+Accident,local_authority_district,512,Mole Valley,NA,local_authority_district,character
+Accident,local_authority_district,513,Reigate and Banstead,NA,local_authority_district,character
+Accident,local_authority_district,514,Runnymede,NA,local_authority_district,character
+Accident,local_authority_district,515,Surrey Heath,NA,local_authority_district,character
+Accident,local_authority_district,516,Tandridge,NA,local_authority_district,character
+Accident,local_authority_district,517,Waverley,NA,local_authority_district,character
+Accident,local_authority_district,518,Woking,NA,local_authority_district,character
+Accident,local_authority_district,530,Ashford,NA,local_authority_district,character
+Accident,local_authority_district,531,Canterbury,NA,local_authority_district,character
+Accident,local_authority_district,532,Dartford,NA,local_authority_district,character
+Accident,local_authority_district,533,Dover,NA,local_authority_district,character
+Accident,local_authority_district,535,Gravesham,NA,local_authority_district,character
+Accident,local_authority_district,536,Maidstone,NA,local_authority_district,character
+Accident,local_authority_district,538,Sevenoaks,NA,local_authority_district,character
+Accident,local_authority_district,539,Shepway,NA,local_authority_district,character
+Accident,local_authority_district,540,Swale,NA,local_authority_district,character
+Accident,local_authority_district,541,Thanet,NA,local_authority_district,character
+Accident,local_authority_district,542,Tonbridge and Malling,NA,local_authority_district,character
+Accident,local_authority_district,543,Tunbridge Wells,NA,local_authority_district,character
+Accident,local_authority_district,544,Medway,NA,local_authority_district,character
+Accident,local_authority_district,551,Eastbourne,NA,local_authority_district,character
+Accident,local_authority_district,552,Hastings,NA,local_authority_district,character
+Accident,local_authority_district,554,Lewes,NA,local_authority_district,character
+Accident,local_authority_district,555,Rother,NA,local_authority_district,character
+Accident,local_authority_district,556,Wealden,NA,local_authority_district,character
+Accident,local_authority_district,557,Adur,NA,local_authority_district,character
+Accident,local_authority_district,558,Arun,NA,local_authority_district,character
+Accident,local_authority_district,559,Chichester,NA,local_authority_district,character
+Accident,local_authority_district,560,Crawley,NA,local_authority_district,character
+Accident,local_authority_district,562,Horsham,NA,local_authority_district,character
+Accident,local_authority_district,563,Mid Sussex,NA,local_authority_district,character
+Accident,local_authority_district,564,Worthing,NA,local_authority_district,character
+Accident,local_authority_district,565,Brighton and Hove,NA,local_authority_district,character
+Accident,local_authority_district,570,City of London,NA,local_authority_district,character
+Accident,local_authority_district,580,East Devon,NA,local_authority_district,character
+Accident,local_authority_district,581,Exeter,NA,local_authority_district,character
+Accident,local_authority_district,582,North Devon,NA,local_authority_district,character
+Accident,local_authority_district,583,Plymouth,NA,local_authority_district,character
+Accident,local_authority_district,584,South Hams,NA,local_authority_district,character
+Accident,local_authority_district,585,Teignbridge,NA,local_authority_district,character
+Accident,local_authority_district,586,Mid Devon,NA,local_authority_district,character
+Accident,local_authority_district,587,Torbay,NA,local_authority_district,character
+Accident,local_authority_district,588,Torridge,NA,local_authority_district,character
+Accident,local_authority_district,589,West Devon,NA,local_authority_district,character
+Accident,local_authority_district,590,Caradon,NA,local_authority_district,character
+Accident,local_authority_district,591,Carrick,NA,local_authority_district,character
+Accident,local_authority_district,592,Kerrier,NA,local_authority_district,character
+Accident,local_authority_district,593,North Cornwall,NA,local_authority_district,character
+Accident,local_authority_district,594,Penwith,NA,local_authority_district,character
+Accident,local_authority_district,595,Restormel,NA,local_authority_district,character
+Accident,local_authority_district,596,Cornwall,NA,local_authority_district,character
+Accident,local_authority_district,601,"Bristol, City of",NA,local_authority_district,character
+Accident,local_authority_district,605,North Somerset,NA,local_authority_district,character
+Accident,local_authority_district,606,Mendip,NA,local_authority_district,character
+Accident,local_authority_district,607,Sedgemoor,NA,local_authority_district,character
+Accident,local_authority_district,608,Taunton Deane,NA,local_authority_district,character
+Accident,local_authority_district,609,West Somerset,NA,local_authority_district,character
+Accident,local_authority_district,610,South Somerset,NA,local_authority_district,character
+Accident,local_authority_district,611,Bath and North East Somerset,NA,local_authority_district,character
+Accident,local_authority_district,612,South Gloucestershire,NA,local_authority_district,character
+Accident,local_authority_district,620,Cheltenham,NA,local_authority_district,character
+Accident,local_authority_district,621,Cotswold,NA,local_authority_district,character
+Accident,local_authority_district,622,Forest of Dean,NA,local_authority_district,character
+Accident,local_authority_district,623,Gloucester,NA,local_authority_district,character
+Accident,local_authority_district,624,Stroud,NA,local_authority_district,character
+Accident,local_authority_district,625,Tewkesbury,NA,local_authority_district,character
+Accident,local_authority_district,630,Kennet,NA,local_authority_district,character
+Accident,local_authority_district,631,North Wiltshire,NA,local_authority_district,character
+Accident,local_authority_district,632,Salisbury,NA,local_authority_district,character
+Accident,local_authority_district,633,Swindon,NA,local_authority_district,character
+Accident,local_authority_district,634,West Wiltshire,NA,local_authority_district,character
+Accident,local_authority_district,635,Wiltshire,NA,local_authority_district,character
+Accident,local_authority_district,640,Bournemouth,NA,local_authority_district,character
+Accident,local_authority_district,641,Christchurch,NA,local_authority_district,character
+Accident,local_authority_district,642,North Dorset,NA,local_authority_district,character
+Accident,local_authority_district,643,Poole,NA,local_authority_district,character
+Accident,local_authority_district,644,Purbeck,NA,local_authority_district,character
+Accident,local_authority_district,645,West Dorset,NA,local_authority_district,character
+Accident,local_authority_district,646,Weymouth and Portland,NA,local_authority_district,character
+Accident,local_authority_district,647,East Dorset,NA,local_authority_district,character
+Accident,local_authority_district,720,Isle of Anglesey,NA,local_authority_district,character
+Accident,local_authority_district,721,Conwy,NA,local_authority_district,character
+Accident,local_authority_district,722,Gwynedd,NA,local_authority_district,character
+Accident,local_authority_district,723,Denbighshire,NA,local_authority_district,character
+Accident,local_authority_district,724,Flintshire,NA,local_authority_district,character
+Accident,local_authority_district,725,Wrexham,NA,local_authority_district,character
+Accident,local_authority_district,730,Blaenau Gwent,NA,local_authority_district,character
+Accident,local_authority_district,731,Caerphilly,NA,local_authority_district,character
+Accident,local_authority_district,732,Monmouthshire,NA,local_authority_district,character
+Accident,local_authority_district,733,Newport,NA,local_authority_district,character
+Accident,local_authority_district,734,Torfaen,NA,local_authority_district,character
+Accident,local_authority_district,740,Bridgend,NA,local_authority_district,character
+Accident,local_authority_district,741,Cardiff,NA,local_authority_district,character
+Accident,local_authority_district,742,Merthyr Tydfil,NA,local_authority_district,character
+Accident,local_authority_district,743,Neath Port Talbot,NA,local_authority_district,character
+Accident,local_authority_district,744,"Rhondda, Cynon, Taff",NA,local_authority_district,character
+Accident,local_authority_district,745,Swansea,NA,local_authority_district,character
+Accident,local_authority_district,746,The Vale of Glamorgan,NA,local_authority_district,character
+Accident,local_authority_district,750,Ceredigion,NA,local_authority_district,character
+Accident,local_authority_district,751,Carmarthenshire,NA,local_authority_district,character
+Accident,local_authority_district,752,Pembrokeshire,NA,local_authority_district,character
+Accident,local_authority_district,753,Powys,NA,local_authority_district,character
+Accident,local_authority_district,910,Aberdeen City,NA,local_authority_district,character
+Accident,local_authority_district,911,Aberdeenshire,NA,local_authority_district,character
+Accident,local_authority_district,912,Angus,NA,local_authority_district,character
+Accident,local_authority_district,913,Argyll and Bute,NA,local_authority_district,character
+Accident,local_authority_district,914,Scottish Borders,NA,local_authority_district,character
+Accident,local_authority_district,915,Clackmannanshire,NA,local_authority_district,character
+Accident,local_authority_district,916,West Dunbartonshire,NA,local_authority_district,character
+Accident,local_authority_district,917,Dumfries and Galloway,NA,local_authority_district,character
+Accident,local_authority_district,918,Dundee City,NA,local_authority_district,character
+Accident,local_authority_district,919,East Ayrshire,NA,local_authority_district,character
+Accident,local_authority_district,920,East Dunbartonshire,NA,local_authority_district,character
+Accident,local_authority_district,921,East Lothian,NA,local_authority_district,character
+Accident,local_authority_district,922,East Renfrewshire,NA,local_authority_district,character
+Accident,local_authority_district,923,"Edinburgh, City of",NA,local_authority_district,character
+Accident,local_authority_district,924,Falkirk,NA,local_authority_district,character
+Accident,local_authority_district,925,Fife,NA,local_authority_district,character
+Accident,local_authority_district,926,Glasgow City,NA,local_authority_district,character
+Accident,local_authority_district,927,Highland,NA,local_authority_district,character
+Accident,local_authority_district,928,Inverclyde,NA,local_authority_district,character
+Accident,local_authority_district,929,Midlothian,NA,local_authority_district,character
+Accident,local_authority_district,930,Moray,NA,local_authority_district,character
+Accident,local_authority_district,931,North Ayrshire,NA,local_authority_district,character
+Accident,local_authority_district,932,North Lanarkshire,NA,local_authority_district,character
+Accident,local_authority_district,933,Orkney Islands,NA,local_authority_district,character
+Accident,local_authority_district,934,Perth and Kinross,NA,local_authority_district,character
+Accident,local_authority_district,935,Renfrewshire,NA,local_authority_district,character
+Accident,local_authority_district,936,Shetland Islands,NA,local_authority_district,character
+Accident,local_authority_district,937,South Ayrshire,NA,local_authority_district,character
+Accident,local_authority_district,938,South Lanarkshire,NA,local_authority_district,character
+Accident,local_authority_district,939,Stirling,NA,local_authority_district,character
+Accident,local_authority_district,940,West Lothian,NA,local_authority_district,character
+Accident,local_authority_district,941,Western Isles,NA,local_authority_district,character
+Accident,first_road_class,1,Motorway,NA,first_road_class,character
+Accident,first_road_class,2,A(M),NA,first_road_class,character
+Accident,first_road_class,3,A,NA,first_road_class,character
+Accident,first_road_class,4,B,NA,first_road_class,character
+Accident,first_road_class,5,C,NA,first_road_class,character
+Accident,first_road_class,6,Unclassified,NA,first_road_class,character
+Accident,first_road_number,-1,Unknown,NA,first_road_number,character
+Accident,first_road_number,0,first_road_class is C or Unclassified. These roads do not have official numbers so recorded as zero,NA,first_road_number,character
+Accident,road_type,1,Roundabout,NA,road_type,character
+Accident,road_type,2,One way street,NA,road_type,character
+Accident,road_type,3,Dual carriageway,NA,road_type,character
+Accident,road_type,6,Single carriageway,NA,road_type,character
+Accident,road_type,7,Slip road,NA,road_type,character
+Accident,road_type,9,Unknown,NA,road_type,character
+Accident,road_type,12,One way street/Slip road,NA,road_type,character
+Accident,road_type,-1,Data missing or out of range,NA,road_type,character
+Accident,junction_detail,0,Not at junction or within 20 metres,NA,junction_detail,character
+Accident,junction_detail,1,Roundabout,NA,junction_detail,character
+Accident,junction_detail,2,Mini-roundabout,NA,junction_detail,character
+Accident,junction_detail,3,T or staggered junction,NA,junction_detail,character
+Accident,junction_detail,5,Slip road,NA,junction_detail,character
+Accident,junction_detail,6,Crossroads,NA,junction_detail,character
+Accident,junction_detail,7,More than 4 arms (not roundabout),NA,junction_detail,character
+Accident,junction_detail,8,Private drive or entrance,NA,junction_detail,character
+Accident,junction_detail,9,Other junction,NA,junction_detail,character
+Accident,junction_detail,99,unknown (self reported),NA,junction_detail,character
+Accident,junction_detail,-1,Data missing or out of range,NA,junction_detail,character
+Accident,junction_control,0,Not at junction or within 20 metres,NA,junction_control,character
+Accident,junction_control,1,Authorised person,NA,junction_control,character
+Accident,junction_control,2,Auto traffic signal,NA,junction_control,character
+Accident,junction_control,3,Stop sign,NA,junction_control,character
+Accident,junction_control,4,Give way or uncontrolled,NA,junction_control,character
+Accident,junction_control,-1,Data missing or out of range,NA,junction_control,character
+Accident,junction_control,9,unknown (self reported),NA,junction_control,character
+Accident,second_road_class,0,Not at junction or within 20 metres,NA,second_road_class,character
+Accident,second_road_class,1,Motorway,NA,second_road_class,character
+Accident,second_road_class,2,A(M),NA,second_road_class,character
+Accident,second_road_class,3,A,NA,second_road_class,character
+Accident,second_road_class,4,B,NA,second_road_class,character
+Accident,second_road_class,5,C,NA,second_road_class,character
+Accident,second_road_class,6,Unclassified,NA,second_road_class,character
+Accident,second_road_number,-1,Unknown,NA,second_road_number,character
+Accident,second_road_number,0,first_road_class is C or Unclassified. These roads do not have official numbers so recorded as zero,NA,second_road_number,character
+Accident,pedestrian_crossing_human_control,0,None within 50 metres,NA,pedestrian_crossing_human_control,character
+Accident,pedestrian_crossing_human_control,1,Control by school crossing patrol,NA,pedestrian_crossing_human_control,character
+Accident,pedestrian_crossing_human_control,2,Control by other authorised person,NA,pedestrian_crossing_human_control,character
+Accident,pedestrian_crossing_human_control,-1,Data missing or out of range,NA,pedestrian_crossing_human_control,character
+Accident,pedestrian_crossing_human_control,9,unknown (self reported),NA,pedestrian_crossing_human_control,character
+Accident,pedestrian_crossing_physical_facilities,0,No physical crossing facilities within 50 metres,NA,pedestrian_crossing_physical_facilities,character
+Accident,pedestrian_crossing_physical_facilities,1,Zebra,NA,pedestrian_crossing_physical_facilities,character
+Accident,pedestrian_crossing_physical_facilities,4,"Pelican, puffin, toucan or similar non-junction pedestrian light crossing",NA,pedestrian_crossing_physical_facilities,character
+Accident,pedestrian_crossing_physical_facilities,5,Pedestrian phase at traffic signal junction,NA,pedestrian_crossing_physical_facilities,character
+Accident,pedestrian_crossing_physical_facilities,7,Footbridge or subway,NA,pedestrian_crossing_physical_facilities,character
+Accident,pedestrian_crossing_physical_facilities,8,Central refuge,NA,pedestrian_crossing_physical_facilities,character
+Accident,pedestrian_crossing_physical_facilities,-1,Data missing or out of range,NA,pedestrian_crossing_physical_facilities,character
+Accident,pedestrian_crossing_physical_facilities,9,unknown (self reported),NA,pedestrian_crossing_physical_facilities,character
+Accident,light_conditions,1,Daylight,NA,light_conditions,character
+Accident,light_conditions,4,Darkness - lights lit,NA,light_conditions,character
+Accident,light_conditions,5,Darkness - lights unlit,NA,light_conditions,character
+Accident,light_conditions,6,Darkness - no lighting,NA,light_conditions,character
+Accident,light_conditions,7,Darkness - lighting unknown,NA,light_conditions,character
+Accident,light_conditions,-1,Data missing or out of range,NA,light_conditions,character
+Accident,weather_conditions,1,Fine no high winds,NA,weather_conditions,character
+Accident,weather_conditions,2,Raining no high winds,NA,weather_conditions,character
+Accident,weather_conditions,3,Snowing no high winds,NA,weather_conditions,character
+Accident,weather_conditions,4,Fine + high winds,NA,weather_conditions,character
+Accident,weather_conditions,5,Raining + high winds,NA,weather_conditions,character
+Accident,weather_conditions,6,Snowing + high winds,NA,weather_conditions,character
+Accident,weather_conditions,7,Fog or mist,NA,weather_conditions,character
+Accident,weather_conditions,8,Other,NA,weather_conditions,character
+Accident,weather_conditions,9,Unknown,NA,weather_conditions,character
+Accident,weather_conditions,-1,Data missing or out of range,NA,weather_conditions,character
+Accident,road_surface_conditions,1,Dry,NA,road_surface_conditions,character
+Accident,road_surface_conditions,2,Wet or damp,NA,road_surface_conditions,character
+Accident,road_surface_conditions,3,Snow,NA,road_surface_conditions,character
+Accident,road_surface_conditions,4,Frost or ice,NA,road_surface_conditions,character
+Accident,road_surface_conditions,5,Flood over 3cm. deep,NA,road_surface_conditions,character
+Accident,road_surface_conditions,6,Oil or diesel,NA,road_surface_conditions,character
+Accident,road_surface_conditions,7,Mud,NA,road_surface_conditions,character
+Accident,road_surface_conditions,-1,Data missing or out of range,NA,road_surface_conditions,character
+Accident,road_surface_conditions,9,unknown (self reported),NA,road_surface_conditions,character
+Accident,special_conditions_at_site,0,None,NA,special_conditions_at_site,character
+Accident,special_conditions_at_site,1,Auto traffic signal - out,NA,special_conditions_at_site,character
+Accident,special_conditions_at_site,2,Auto signal part defective,NA,special_conditions_at_site,character
+Accident,special_conditions_at_site,3,Road sign or marking defective or obscured,NA,special_conditions_at_site,character
+Accident,special_conditions_at_site,4,Roadworks,NA,special_conditions_at_site,character
+Accident,special_conditions_at_site,5,Road surface defective,NA,special_conditions_at_site,character
+Accident,special_conditions_at_site,6,Oil or diesel,NA,special_conditions_at_site,character
+Accident,special_conditions_at_site,7,Mud,NA,special_conditions_at_site,character
+Accident,special_conditions_at_site,-1,Data missing or out of range,NA,special_conditions_at_site,character
+Accident,special_conditions_at_site,9,unknown (self reported),NA,special_conditions_at_site,character
+Accident,carriageway_hazards,0,None,NA,carriageway_hazards,character
+Accident,carriageway_hazards,1,Vehicle load on road,NA,carriageway_hazards,character
+Accident,carriageway_hazards,2,Other object on road,NA,carriageway_hazards,character
+Accident,carriageway_hazards,3,Previous accident,NA,carriageway_hazards,character
+Accident,carriageway_hazards,4,Dog on road,NA,carriageway_hazards,character
+Accident,carriageway_hazards,5,Other animal on road,NA,carriageway_hazards,character
+Accident,carriageway_hazards,6,Pedestrian in carriageway - not injured,NA,carriageway_hazards,character
+Accident,carriageway_hazards,7,Any animal in carriageway (except ridden horse),NA,carriageway_hazards,character
+Accident,carriageway_hazards,-1,Data missing or out of range,NA,carriageway_hazards,character
+Accident,carriageway_hazards,9,unknown (self reported),NA,carriageway_hazards,character
+Accident,urban_or_rural_area,1,Urban,field introduced in 1994,urban_or_rural_area,character
+Accident,urban_or_rural_area,2,Rural,field introduced in 1994,urban_or_rural_area,character
+Accident,urban_or_rural_area,3,Unallocated,field introduced in 1994,urban_or_rural_area,character
+Accident,urban_or_rural_area,-1,Data missing or out of range,field introduced in 1994,urban_or_rural_area,character
+Accident,did_police_officer_attend_scene_of_accident,1,Yes,NA,did_police_officer_attend_scene_of_accident,character
+Accident,did_police_officer_attend_scene_of_accident,2,No,NA,did_police_officer_attend_scene_of_accident,character
+Accident,did_police_officer_attend_scene_of_accident,3,No - accident was reported using a self completion  form (self rep only),NA,did_police_officer_attend_scene_of_accident,character
+Accident,did_police_officer_attend_scene_of_accident,-1,Data missing or out of range,NA,did_police_officer_attend_scene_of_accident,character
+Accident,trunk_road_flag,1,Trunk (Roads managed by Highways England),NA,trunk_road_flag,character
+Accident,trunk_road_flag,2,Non-trunk,NA,trunk_road_flag,character
+Accident,trunk_road_flag,-1,Data missing or out of range,NA,trunk_road_flag,character
+Vehicle,vehicle_type,1,Pedal cycle,NA,vehicle_type,character
+Vehicle,vehicle_type,2,Motorcycle 50cc and under,NA,vehicle_type,character
+Vehicle,vehicle_type,3,Motorcycle 125cc and under,category introduced in 1999 specification,vehicle_type,NA
+Vehicle,vehicle_type,4,Motorcycle over 125cc and up to 500cc,category introduced in 2005 specification,vehicle_type,NA
+Vehicle,vehicle_type,5,Motorcycle over 500cc,category introduced in 2005 specification,vehicle_type,NA
+Vehicle,vehicle_type,8,Taxi/Private hire car,category introduced in 2005 specification,vehicle_type,NA
+Vehicle,vehicle_type,9,Car,category introduced in 2005 specification,vehicle_type,NA
+Vehicle,vehicle_type,10,Minibus (8 - 16 passenger seats),category introduced in 1999 specification,vehicle_type,NA
+Vehicle,vehicle_type,11,Bus or coach (17 or more pass seats),NA,vehicle_type,character
+Vehicle,vehicle_type,16,Ridden horse,category introduced in 1999 specification,vehicle_type,NA
+Vehicle,vehicle_type,17,Agricultural vehicle,category introduced in 1999 specification,vehicle_type,NA
+Vehicle,vehicle_type,18,Tram,category introduced in 1999 specification,vehicle_type,NA
+Vehicle,vehicle_type,19,Van / Goods 3.5 tonnes mgw or under,NA,vehicle_type,character
+Vehicle,vehicle_type,20,Goods over 3.5t. and under 7.5t,category introduced in 1999 specification,vehicle_type,NA
+Vehicle,vehicle_type,21,Goods 7.5 tonnes mgw and over,category introduced in 1999 specification,vehicle_type,NA
+Vehicle,vehicle_type,22,Mobility scooter,cateogry introduced in 2011 specification,vehicle_type,NA
+Vehicle,vehicle_type,23,Electric motorcycle,cateogry introduced in 2011 specification,vehicle_type,NA
+Vehicle,vehicle_type,90,Other vehicle,cateogry introduced in 2011 specification,vehicle_type,NA
+Vehicle,vehicle_type,97,Motorcycle - unknown cc,cateogry introduced in 2011 specification,vehicle_type,NA
+Vehicle,vehicle_type,98,Goods vehicle - unknown weight,cateogry introduced in 2011 specification,vehicle_type,NA
+Vehicle,vehicle_type,99,Unknown vehicle type (self rep only),cateogry introduced in 2011 specification,vehicle_type,NA
+Vehicle,vehicle_type,103,Motorcycle - Scooter (1979-1998),cateogory discontinued in 1999 specification,vehicle_type,NA
+Vehicle,vehicle_type,104,Motorcycle (1979-1998),cateogory discontinued in 1999 specification,vehicle_type,NA
+Vehicle,vehicle_type,105,Motorcycle - Combination (1979-1998),cateogory discontinued in 1999 specification,vehicle_type,NA
+Vehicle,vehicle_type,106,Motorcycle over 125cc (1999-2004),cateogory discontinued in 2005 specification,vehicle_type,NA
+Vehicle,vehicle_type,108,Taxi (excluding private hire cars) (1979-2004),cateogory discontinued in 2005 specification,vehicle_type,NA
+Vehicle,vehicle_type,109,Car (including private hire cars) (1979-2004),cateogory discontinued in 2005 specification,vehicle_type,NA
+Vehicle,vehicle_type,110,Minibus/Motor caravan (1979-1998),cateogory discontinued in 1999 specification,vehicle_type,NA
+Vehicle,vehicle_type,113,Goods over 3.5 tonnes (1979-1998),cateogory discontinued in 1999 specification,vehicle_type,NA
+Vehicle,vehicle_type,-1,Data missing or out of range,NA,vehicle_type,character
+Vehicle,towing_and_articulation,0,No tow/articulation,NA,towing_and_articulation,character
+Vehicle,towing_and_articulation,1,Articulated vehicle,NA,towing_and_articulation,character
+Vehicle,towing_and_articulation,2,Double or multiple trailer,NA,towing_and_articulation,character
+Vehicle,towing_and_articulation,3,Caravan,NA,towing_and_articulation,character
+Vehicle,towing_and_articulation,4,Single trailer,NA,towing_and_articulation,character
+Vehicle,towing_and_articulation,5,Other tow,NA,towing_and_articulation,character
+Vehicle,towing_and_articulation,9,unknown (self reported),NA,towing_and_articulation,character
+Vehicle,towing_and_articulation,-1,Data missing or out of range,NA,towing_and_articulation,character
+Vehicle,vehicle_manoeuvre,1,Reversing,NA,vehicle_manoeuvre,character
+Vehicle,vehicle_manoeuvre,2,Parked,NA,vehicle_manoeuvre,character
+Vehicle,vehicle_manoeuvre,3,Waiting to go - held up,NA,vehicle_manoeuvre,character
+Vehicle,vehicle_manoeuvre,4,Slowing or stopping,NA,vehicle_manoeuvre,character
+Vehicle,vehicle_manoeuvre,5,Moving off,NA,vehicle_manoeuvre,character
+Vehicle,vehicle_manoeuvre,6,U-turn,NA,vehicle_manoeuvre,character
+Vehicle,vehicle_manoeuvre,7,Turning left,NA,vehicle_manoeuvre,character
+Vehicle,vehicle_manoeuvre,8,Waiting to turn left,NA,vehicle_manoeuvre,character
+Vehicle,vehicle_manoeuvre,9,Turning right,NA,vehicle_manoeuvre,character
+Vehicle,vehicle_manoeuvre,10,Waiting to turn right,NA,vehicle_manoeuvre,character
+Vehicle,vehicle_manoeuvre,11,Changing lane to left,NA,vehicle_manoeuvre,character
+Vehicle,vehicle_manoeuvre,12,Changing lane to right,NA,vehicle_manoeuvre,character
+Vehicle,vehicle_manoeuvre,13,Overtaking moving vehicle - offside,NA,vehicle_manoeuvre,character
+Vehicle,vehicle_manoeuvre,14,Overtaking static vehicle - offside,NA,vehicle_manoeuvre,character
+Vehicle,vehicle_manoeuvre,15,Overtaking - nearside,NA,vehicle_manoeuvre,character
+Vehicle,vehicle_manoeuvre,16,Going ahead left-hand bend,NA,vehicle_manoeuvre,character
+Vehicle,vehicle_manoeuvre,17,Going ahead right-hand bend,NA,vehicle_manoeuvre,character
+Vehicle,vehicle_manoeuvre,18,Going ahead other,NA,vehicle_manoeuvre,character
+Vehicle,vehicle_manoeuvre,99,unknown (self reported),NA,vehicle_manoeuvre,character
+Vehicle,vehicle_manoeuvre,-1,Data missing or out of range,NA,vehicle_manoeuvre,character
+Vehicle,vehicle_direction_from,0,Parked,both vehicle_direction_from and vehicle_direction_to should be 0,vehicle_direction_from,character
+Vehicle,vehicle_direction_from,1,North,NA,vehicle_direction_from,NA
+Vehicle,vehicle_direction_from,2,North East,NA,vehicle_direction_from,NA
+Vehicle,vehicle_direction_from,3,East,NA,vehicle_direction_from,NA
+Vehicle,vehicle_direction_from,4,South East,NA,vehicle_direction_from,NA
+Vehicle,vehicle_direction_from,5,South East,NA,vehicle_direction_from,NA
+Vehicle,vehicle_direction_from,6,South West,NA,vehicle_direction_from,NA
+Vehicle,vehicle_direction_from,7,West,NA,vehicle_direction_from,NA
+Vehicle,vehicle_direction_from,8,North West,NA,vehicle_direction_from,NA
+Vehicle,vehicle_direction_from,9,unknown (self reported),both vehicle_direction_from and vehicle_direction_to should be 9,vehicle_direction_from,NA
+Vehicle,vehicle_direction_to,0,Parked,both vehicle_direction_from and vehicle_direction_to should be 0,vehicle_direction_to,character
+Vehicle,vehicle_direction_to,1,North,NA,vehicle_direction_to,NA
+Vehicle,vehicle_direction_to,2,North East,NA,vehicle_direction_to,NA
+Vehicle,vehicle_direction_to,3,East,NA,vehicle_direction_to,NA
+Vehicle,vehicle_direction_to,4,South East,NA,vehicle_direction_to,NA
+Vehicle,vehicle_direction_to,5,South East,NA,vehicle_direction_to,NA
+Vehicle,vehicle_direction_to,6,South West,NA,vehicle_direction_to,NA
+Vehicle,vehicle_direction_to,7,West,NA,vehicle_direction_to,NA
+Vehicle,vehicle_direction_to,8,North West,NA,vehicle_direction_to,NA
+Vehicle,vehicle_direction_to,9,unknown (self reported),both vehicle_direction_from and vehicle_direction_to should be 9,vehicle_direction_to,NA
+Vehicle,vehicle_location_restricted_lane,0,On main c'way - not in restricted lane,NA,vehicle_location_restricted_lane,character
+Vehicle,vehicle_location_restricted_lane,1,Tram/Light rail track,NA,vehicle_location_restricted_lane,character
+Vehicle,vehicle_location_restricted_lane,2,Bus lane,NA,vehicle_location_restricted_lane,character
+Vehicle,vehicle_location_restricted_lane,3,Busway (including guided busway),NA,vehicle_location_restricted_lane,character
+Vehicle,vehicle_location_restricted_lane,4,Cycle lane (on main carriageway),NA,vehicle_location_restricted_lane,character
+Vehicle,vehicle_location_restricted_lane,5,Cycleway or shared use footway (not part of  main carriageway),NA,vehicle_location_restricted_lane,character
+Vehicle,vehicle_location_restricted_lane,6,On lay-by or hard shoulder,NA,vehicle_location_restricted_lane,character
+Vehicle,vehicle_location_restricted_lane,7,Entering lay-by or hard shoulder,NA,vehicle_location_restricted_lane,character
+Vehicle,vehicle_location_restricted_lane,8,Leaving lay-by or hard shoulder,NA,vehicle_location_restricted_lane,character
+Vehicle,vehicle_location_restricted_lane,9,Footway (pavement),NA,vehicle_location_restricted_lane,character
+Vehicle,vehicle_location_restricted_lane,10,Not on carriageway,NA,vehicle_location_restricted_lane,character
+Vehicle,vehicle_location_restricted_lane,99,unknown (self reported),NA,vehicle_location_restricted_lane,character
+Vehicle,vehicle_location_restricted_lane,-1,Data missing or out of range,NA,vehicle_location_restricted_lane,character
+Vehicle,junction_location,0,Not at or within 20 metres of junction,NA,junction_location,character
+Vehicle,junction_location,1,Approaching junction or waiting/parked at junction approach,NA,junction_location,character
+Vehicle,junction_location,2,Cleared junction or waiting/parked at junction exit,NA,junction_location,character
+Vehicle,junction_location,3,Leaving roundabout,NA,junction_location,character
+Vehicle,junction_location,4,Entering roundabout,NA,junction_location,character
+Vehicle,junction_location,5,Leaving main road,NA,junction_location,character
+Vehicle,junction_location,6,Entering main road,NA,junction_location,character
+Vehicle,junction_location,7,Entering from slip road,NA,junction_location,character
+Vehicle,junction_location,8,Mid Junction - on roundabout or on main road,NA,junction_location,character
+Vehicle,junction_location,9,unknown (self reported),NA,junction_location,character
+Vehicle,junction_location,-1,Data missing or out of range,NA,junction_location,character
+Vehicle,skidding_and_overturning,0,None,NA,skidding_and_overturning,character
+Vehicle,skidding_and_overturning,1,Skidded,NA,skidding_and_overturning,character
+Vehicle,skidding_and_overturning,2,Skidded and overturned,NA,skidding_and_overturning,character
+Vehicle,skidding_and_overturning,3,Jackknifed,NA,skidding_and_overturning,character
+Vehicle,skidding_and_overturning,4,Jackknifed and overturned,NA,skidding_and_overturning,character
+Vehicle,skidding_and_overturning,5,Overturned,NA,skidding_and_overturning,character
+Vehicle,skidding_and_overturning,9,unknown (self reported),NA,skidding_and_overturning,character
+Vehicle,skidding_and_overturning,-1,Data missing or out of range,NA,skidding_and_overturning,character
+Vehicle,hit_object_in_carriageway,0,None,NA,hit_object_in_carriageway,character
+Vehicle,hit_object_in_carriageway,1,Previous accident,NA,hit_object_in_carriageway,character
+Vehicle,hit_object_in_carriageway,2,Road works,NA,hit_object_in_carriageway,character
+Vehicle,hit_object_in_carriageway,4,Parked vehicle,NA,hit_object_in_carriageway,character
+Vehicle,hit_object_in_carriageway,5,Bridge (roof),NA,hit_object_in_carriageway,character
+Vehicle,hit_object_in_carriageway,6,Bridge (side),NA,hit_object_in_carriageway,character
+Vehicle,hit_object_in_carriageway,7,Bollard or refuge,NA,hit_object_in_carriageway,character
+Vehicle,hit_object_in_carriageway,8,Open door of vehicle,NA,hit_object_in_carriageway,character
+Vehicle,hit_object_in_carriageway,9,Central island of roundabout,NA,hit_object_in_carriageway,character
+Vehicle,hit_object_in_carriageway,10,Kerb,NA,hit_object_in_carriageway,character
+Vehicle,hit_object_in_carriageway,11,Other object,NA,hit_object_in_carriageway,character
+Vehicle,hit_object_in_carriageway,12,Any animal (except ridden horse),NA,hit_object_in_carriageway,character
+Vehicle,hit_object_in_carriageway,99,unknown (self reported),NA,hit_object_in_carriageway,character
+Vehicle,hit_object_in_carriageway,-1,Data missing or out of range,NA,hit_object_in_carriageway,character
+Vehicle,vehicle_leaving_carriageway,0,Did not leave carriageway,NA,vehicle_leaving_carriageway,character
+Vehicle,vehicle_leaving_carriageway,1,Nearside,NA,vehicle_leaving_carriageway,character
+Vehicle,vehicle_leaving_carriageway,2,Nearside and rebounded,NA,vehicle_leaving_carriageway,character
+Vehicle,vehicle_leaving_carriageway,3,Straight ahead at junction,NA,vehicle_leaving_carriageway,character
+Vehicle,vehicle_leaving_carriageway,4,Offside on to central reservation,NA,vehicle_leaving_carriageway,character
+Vehicle,vehicle_leaving_carriageway,5,Offside on to centrl res + rebounded,NA,vehicle_leaving_carriageway,character
+Vehicle,vehicle_leaving_carriageway,6,Offside - crossed central reservation,NA,vehicle_leaving_carriageway,character
+Vehicle,vehicle_leaving_carriageway,7,Offside,NA,vehicle_leaving_carriageway,character
+Vehicle,vehicle_leaving_carriageway,8,Offside and rebounded,NA,vehicle_leaving_carriageway,character
+Vehicle,vehicle_leaving_carriageway,9,unknown (self reported),NA,vehicle_leaving_carriageway,character
+Vehicle,vehicle_leaving_carriageway,-1,Data missing or out of range,NA,vehicle_leaving_carriageway,character
+Vehicle,hit_object_off_carriageway,0,None,NA,hit_object_off_carriageway,character
+Vehicle,hit_object_off_carriageway,1,Road sign or traffic signal,NA,hit_object_off_carriageway,character
+Vehicle,hit_object_off_carriageway,2,Lamp post,NA,hit_object_off_carriageway,character
+Vehicle,hit_object_off_carriageway,3,Telegraph or electricity pole,NA,hit_object_off_carriageway,character
+Vehicle,hit_object_off_carriageway,4,Tree,NA,hit_object_off_carriageway,character
+Vehicle,hit_object_off_carriageway,5,Bus stop or bus shelter,NA,hit_object_off_carriageway,character
+Vehicle,hit_object_off_carriageway,6,Central crash barrier,NA,hit_object_off_carriageway,character
+Vehicle,hit_object_off_carriageway,7,Near/Offside crash barrier,NA,hit_object_off_carriageway,character
+Vehicle,hit_object_off_carriageway,8,Submerged in water,NA,hit_object_off_carriageway,character
+Vehicle,hit_object_off_carriageway,9,Entered ditch,NA,hit_object_off_carriageway,character
+Vehicle,hit_object_off_carriageway,10,Other permanent object,NA,hit_object_off_carriageway,character
+Vehicle,hit_object_off_carriageway,11,Wall or fence,NA,hit_object_off_carriageway,character
+Vehicle,hit_object_off_carriageway,99,unknown (self reported),NA,hit_object_off_carriageway,character
+Vehicle,hit_object_off_carriageway,-1,Data missing or out of range,NA,hit_object_off_carriageway,character
+Vehicle,first_point_of_impact,0,Did not impact,NA,first_point_of_impact,character
+Vehicle,first_point_of_impact,1,Front,NA,first_point_of_impact,character
+Vehicle,first_point_of_impact,2,Back,NA,first_point_of_impact,character
+Vehicle,first_point_of_impact,3,Offside,NA,first_point_of_impact,character
+Vehicle,first_point_of_impact,4,Nearside,NA,first_point_of_impact,character
+Vehicle,first_point_of_impact,9,unknown (self reported),NA,first_point_of_impact,character
+Vehicle,first_point_of_impact,-1,Data missing or out of range,NA,first_point_of_impact,character
+Vehicle,vehicle_left_hand_drive,1,No,NA,vehicle_left_hand_drive,character
+Vehicle,vehicle_left_hand_drive,2,Yes,NA,vehicle_left_hand_drive,character
+Vehicle,vehicle_left_hand_drive,9,Unknown,NA,vehicle_left_hand_drive,character
+Vehicle,vehicle_left_hand_drive,-1,Data missing or out of range,NA,vehicle_left_hand_drive,character
+Vehicle,journey_purpose_of_driver,1,Journey as part of work,NA,journey_purpose_of_driver,character
+Vehicle,journey_purpose_of_driver,2,Commuting to/from work,NA,journey_purpose_of_driver,character
+Vehicle,journey_purpose_of_driver,3,Taking pupil to/from school,NA,journey_purpose_of_driver,character
+Vehicle,journey_purpose_of_driver,4,Pupil riding to/from school,NA,journey_purpose_of_driver,character
+Vehicle,journey_purpose_of_driver,5,Other,NA,journey_purpose_of_driver,character
+Vehicle,journey_purpose_of_driver,6,Not known,NA,journey_purpose_of_driver,character
+Vehicle,journey_purpose_of_driver,15,Other/Not known,2005 specification only,journey_purpose_of_driver,NA
+Vehicle,journey_purpose_of_driver,-1,Data missing or out of range,NA,journey_purpose_of_driver,character
+Vehicle,sex_of_driver,1,Male,NA,sex_of_driver,character
+Vehicle,sex_of_driver,2,Female,NA,sex_of_driver,character
+Vehicle,sex_of_driver,3,Not known,NA,sex_of_driver,character
+Vehicle,sex_of_driver,-1,Data missing or out of range,NA,sex_of_driver,character
+Vehicle,age_of_driver,-1,Data missing or out of range,NA,age_of_driver,character
+Vehicle,age_band_of_driver,1,0 - 5,NA,age_band_of_driver,character
+Vehicle,age_band_of_driver,2,6 - 10,NA,age_band_of_driver,character
+Vehicle,age_band_of_driver,3,11 - 15,NA,age_band_of_driver,character
+Vehicle,age_band_of_driver,4,16 - 20,NA,age_band_of_driver,character
+Vehicle,age_band_of_driver,5,21 - 25,NA,age_band_of_driver,character
+Vehicle,age_band_of_driver,6,26 - 35,NA,age_band_of_driver,character
+Vehicle,age_band_of_driver,7,36 - 45,NA,age_band_of_driver,character
+Vehicle,age_band_of_driver,8,46 - 55,NA,age_band_of_driver,character
+Vehicle,age_band_of_driver,9,56 - 65,NA,age_band_of_driver,character
+Vehicle,age_band_of_driver,10,66 - 75,NA,age_band_of_driver,character
+Vehicle,age_band_of_driver,11,Over 75,NA,age_band_of_driver,character
+Vehicle,age_band_of_driver,-1,Data missing or out of range,NA,age_band_of_driver,character
+Vehicle,engine_capacity_cc,-1,Data missing or out of range,NA,engine_capacity_cc,character
+Vehicle,propulsion_code,1,Petrol,NA,propulsion_code,character
+Vehicle,propulsion_code,2,Heavy oil,NA,propulsion_code,character
+Vehicle,propulsion_code,3,Electric,NA,propulsion_code,character
+Vehicle,propulsion_code,4,Steam,NA,propulsion_code,character
+Vehicle,propulsion_code,5,Gas,NA,propulsion_code,character
+Vehicle,propulsion_code,6,Petrol/Gas (LPG),NA,propulsion_code,character
+Vehicle,propulsion_code,7,Gas/Bi-fuel,NA,propulsion_code,character
+Vehicle,propulsion_code,8,Hybrid electric,NA,propulsion_code,character
+Vehicle,propulsion_code,9,Gas Diesel,NA,propulsion_code,character
+Vehicle,propulsion_code,10,New fuel technology,NA,propulsion_code,character
+Vehicle,propulsion_code,11,Fuel cells,NA,propulsion_code,character
+Vehicle,propulsion_code,12,Electric diesel,NA,propulsion_code,character
+Vehicle,propulsion_code,-1,Undefined,NA,propulsion_code,character
+Vehicle,generic_make_model,-1,Data missing or out of range,field introduced in 2020,generic_make_model,character
+Vehicle,driver_imd_decile,1,Most deprived 10%,field introduced in 2016,driver_imd_decile,character
+Vehicle,driver_imd_decile,2,More deprived 10-20%,field introduced in 2016,driver_imd_decile,character
+Vehicle,driver_imd_decile,3,More deprived 20-30%,field introduced in 2016,driver_imd_decile,character
+Vehicle,driver_imd_decile,4,More deprived 30-40%,field introduced in 2016,driver_imd_decile,character
+Vehicle,driver_imd_decile,5,More deprived 40-50%,field introduced in 2016,driver_imd_decile,character
+Vehicle,driver_imd_decile,6,Less deprived 40-50%,field introduced in 2016,driver_imd_decile,character
+Vehicle,driver_imd_decile,7,Less deprived 30-40%,field introduced in 2016,driver_imd_decile,character
+Vehicle,driver_imd_decile,8,Less deprived 20-30%,field introduced in 2016,driver_imd_decile,character
+Vehicle,driver_imd_decile,9,Less deprived 10-20%,field introduced in 2016,driver_imd_decile,character
+Vehicle,driver_imd_decile,10,Least deprived 10%,field introduced in 2016,driver_imd_decile,character
+Vehicle,driver_imd_decile,-1,Data missing or out of range,field introduced in 2016,driver_imd_decile,character
+Vehicle,driver_home_area_type,1,Urban area,field introduced in 1999,driver_home_area_type,character
+Vehicle,driver_home_area_type,2,Small town,field introduced in 1999,driver_home_area_type,character
+Vehicle,driver_home_area_type,3,Rural,field introduced in 1999,driver_home_area_type,character
+Vehicle,driver_home_area_type,-1,Data missing or out of range,field introduced in 1999,driver_home_area_type,character
+e_scooter,vehicle_type,90,Other vehicle,cateogry introduced in 2011 specification,vehicle_type,character
+Casualty,casualty_class,1,Driver or rider,NA,casualty_class,character
+Casualty,casualty_class,2,Passenger,NA,casualty_class,character
+Casualty,casualty_class,3,Pedestrian,NA,casualty_class,character
+Casualty,sex_of_casualty,1,Male,NA,sex_of_casualty,character
+Casualty,sex_of_casualty,2,Female,NA,sex_of_casualty,character
+Casualty,sex_of_casualty,9,unknown (self reported),NA,sex_of_casualty,character
+Casualty,sex_of_casualty,-1,Data missing or out of range,NA,sex_of_casualty,character
+Casualty,age_of_casualty,-1,Data missing or out of range,NA,age_of_casualty,character
+Casualty,age_band_of_casualty,1,0 - 5,NA,age_band_of_casualty,character
+Casualty,age_band_of_casualty,2,6 - 10,NA,age_band_of_casualty,character
+Casualty,age_band_of_casualty,3,11 - 15,NA,age_band_of_casualty,character
+Casualty,age_band_of_casualty,4,16 - 20,NA,age_band_of_casualty,character
+Casualty,age_band_of_casualty,5,21 - 25,NA,age_band_of_casualty,character
+Casualty,age_band_of_casualty,6,26 - 35,NA,age_band_of_casualty,character
+Casualty,age_band_of_casualty,7,36 - 45,NA,age_band_of_casualty,character
+Casualty,age_band_of_casualty,8,46 - 55,NA,age_band_of_casualty,character
+Casualty,age_band_of_casualty,9,56 - 65,NA,age_band_of_casualty,character
+Casualty,age_band_of_casualty,10,66 - 75,NA,age_band_of_casualty,character
+Casualty,age_band_of_casualty,11,Over 75,NA,age_band_of_casualty,character
+Casualty,age_band_of_casualty,-1,Data missing or out of range,NA,age_band_of_casualty,character
+Casualty,casualty_severity,1,Fatal,NA,casualty_severity,character
+Casualty,casualty_severity,2,Serious,NA,casualty_severity,character
+Casualty,casualty_severity,3,Slight,NA,casualty_severity,character
+Casualty,pedestrian_location,0,Not a Pedestrian,NA,pedestrian_location,character
+Casualty,pedestrian_location,1,Crossing on pedestrian crossing facility,NA,pedestrian_location,character
+Casualty,pedestrian_location,2,Crossing in zig-zag approach lines,NA,pedestrian_location,character
+Casualty,pedestrian_location,3,Crossing in zig-zag exit lines,NA,pedestrian_location,character
+Casualty,pedestrian_location,4,Crossing elsewhere within 50m. of pedestrian crossing,NA,pedestrian_location,character
+Casualty,pedestrian_location,5,"In carriageway, crossing elsewhere",NA,pedestrian_location,character
+Casualty,pedestrian_location,6,On footway or verge,NA,pedestrian_location,character
+Casualty,pedestrian_location,7,"On refuge, central island or central reservation",NA,pedestrian_location,character
+Casualty,pedestrian_location,8,"In centre of carriageway - not on refuge, island or central reservation",NA,pedestrian_location,character
+Casualty,pedestrian_location,9,"In carriageway, not crossing",NA,pedestrian_location,character
+Casualty,pedestrian_location,10,Unknown or other,NA,pedestrian_location,character
+Casualty,pedestrian_location,-1,Data missing or out of range,NA,pedestrian_location,character
+Casualty,pedestrian_movement,0,Not a Pedestrian,NA,pedestrian_movement,character
+Casualty,pedestrian_movement,1,Crossing from driver's nearside,NA,pedestrian_movement,character
+Casualty,pedestrian_movement,2,Crossing from nearside - masked by parked or stationary vehicle,NA,pedestrian_movement,character
+Casualty,pedestrian_movement,3,Crossing from driver's offside,NA,pedestrian_movement,character
+Casualty,pedestrian_movement,4,Crossing from offside - masked by  parked or stationary vehicle,NA,pedestrian_movement,character
+Casualty,pedestrian_movement,5,"In carriageway, stationary - not crossing  (standing or playing)",NA,pedestrian_movement,character
+Casualty,pedestrian_movement,6,"In carriageway, stationary - not crossing  (standing or playing) - masked by parked or stationary vehicle",NA,pedestrian_movement,character
+Casualty,pedestrian_movement,7,"Walking along in carriageway, facing traffic",NA,pedestrian_movement,character
+Casualty,pedestrian_movement,8,"Walking along in carriageway, back to traffic",NA,pedestrian_movement,character
+Casualty,pedestrian_movement,9,Unknown or other,NA,pedestrian_movement,character
+Casualty,pedestrian_movement,-1,Data missing or out of range,NA,pedestrian_movement,character
+Casualty,car_passenger,0,Not car passenger,NA,car_passenger,character
+Casualty,car_passenger,1,Front seat passenger,NA,car_passenger,character
+Casualty,car_passenger,2,Rear seat passenger,NA,car_passenger,character
+Casualty,car_passenger,9,unknown (self reported),NA,car_passenger,character
+Casualty,car_passenger,-1,Data missing or out of range,NA,car_passenger,character
+Casualty,bus_or_coach_passenger,0,Not a bus or coach passenger,NA,bus_or_coach_passenger,character
+Casualty,bus_or_coach_passenger,1,Boarding,NA,bus_or_coach_passenger,character
+Casualty,bus_or_coach_passenger,2,Alighting,NA,bus_or_coach_passenger,character
+Casualty,bus_or_coach_passenger,3,Standing passenger,NA,bus_or_coach_passenger,character
+Casualty,bus_or_coach_passenger,4,Seated passenger,NA,bus_or_coach_passenger,character
+Casualty,bus_or_coach_passenger,9,unknown (self reported),NA,bus_or_coach_passenger,character
+Casualty,bus_or_coach_passenger,-1,Data missing or out of range,NA,bus_or_coach_passenger,character
+Casualty,pedestrian_road_maintenance_worker,0,No / Not applicable,NA,pedestrian_road_maintenance_worker,character
+Casualty,pedestrian_road_maintenance_worker,1,Yes,NA,pedestrian_road_maintenance_worker,character
+Casualty,pedestrian_road_maintenance_worker,2,Not Known,NA,pedestrian_road_maintenance_worker,character
+Casualty,pedestrian_road_maintenance_worker,3,Probable,2005 specification only,pedestrian_road_maintenance_worker,NA
+Casualty,pedestrian_road_maintenance_worker,-1,Data missing or out of range,NA,pedestrian_road_maintenance_worker,character
+Casualty,casualty_type,0,Pedestrian,NA,casualty_type,character
+Casualty,casualty_type,1,Cyclist,NA,casualty_type,character
+Casualty,casualty_type,2,Motorcycle 50cc and under rider or passenger,NA,casualty_type,character
+Casualty,casualty_type,3,Motorcycle 125cc and under rider or passenger,introduced in 1999 specification,casualty_type,NA
+Casualty,casualty_type,4,Motorcycle over 125cc and up to 500cc rider or  passenger,introduced in 2005 specification,casualty_type,NA
+Casualty,casualty_type,5,Motorcycle over 500cc rider or passenger,introduced in 2005 specification,casualty_type,NA
+Casualty,casualty_type,8,Taxi/Private hire car occupant,introduced in 2005 specification,casualty_type,NA
+Casualty,casualty_type,9,Car occupant,introduced in 2005 specification,casualty_type,NA
+Casualty,casualty_type,10,Minibus (8 - 16 passenger seats) occupant,introduced in 1999 specification,casualty_type,NA
+Casualty,casualty_type,11,Bus or coach occupant (17 or more pass seats),NA,casualty_type,character
+Casualty,casualty_type,16,Horse rider,introduced in 1999 specification,casualty_type,NA
+Casualty,casualty_type,17,Agricultural vehicle occupant,introduced in 1999 specification,casualty_type,NA
+Casualty,casualty_type,18,Tram occupant,introduced in 1999 specification,casualty_type,NA
+Casualty,casualty_type,19,Van / Goods vehicle (3.5 tonnes mgw or under) occupant,NA,casualty_type,character
+Casualty,casualty_type,20,Goods vehicle (over 3.5t. and under 7.5t.) occupant,introduced in 1999 specification,casualty_type,NA
+Casualty,casualty_type,21,Goods vehicle (7.5 tonnes mgw and over) occupant,introduced in 1999 specification,casualty_type,NA
+Casualty,casualty_type,22,Mobility scooter rider,introduced in 2011 specification,casualty_type,NA
+Casualty,casualty_type,23,Electric motorcycle rider or passenger,introduced in 2011 specification,casualty_type,NA
+Casualty,casualty_type,90,Other vehicle occupant,introduced in 2011 specification,casualty_type,NA
+Casualty,casualty_type,97,Motorcycle - unknown cc rider or passenger,introduced in 2011 specification,casualty_type,NA
+Casualty,casualty_type,98,Goods vehicle (unknown weight) occupant,introduced in 2011 specification,casualty_type,NA
+Casualty,casualty_type,99,Unknown vehicle type (self rep only),introduced in 2011 specification,casualty_type,NA
+Casualty,casualty_type,103,Motorcycle - Scooter (1979-1998),dropped in 1999 specification,casualty_type,NA
+Casualty,casualty_type,104,Motorcycle (1979-1998),dropped in 1999 specification,casualty_type,NA
+Casualty,casualty_type,105,Motorcycle - Combination (1979-1998),dropped in 1999 specification,casualty_type,NA
+Casualty,casualty_type,106,Motorcycle over 125cc (1999-2004),dropped in 2005 specification,casualty_type,NA
+Casualty,casualty_type,108,Taxi (excluding private hire cars) (1979-2004),dropped in 2005 specification,casualty_type,NA
+Casualty,casualty_type,109,Car (including private hire cars) (1979-2004),dropped in 2005 specification,casualty_type,NA
+Casualty,casualty_type,110,Minibus/Motor caravan (1979-1998),dropped in 1999 specification,casualty_type,NA
+Casualty,casualty_type,113,Goods over 3.5 tonnes (1979-1998),dropped in 1999 specification,casualty_type,NA
+Casualty,casualty_imd_decile,1,Most deprived 10%,field introduced in 2016,casualty_imd_decile,character
+Casualty,casualty_imd_decile,2,More deprived 10-20%,field introduced in 2016,casualty_imd_decile,character
+Casualty,casualty_imd_decile,3,More deprived 20-30%,field introduced in 2016,casualty_imd_decile,character
+Casualty,casualty_imd_decile,4,More deprived 30-40%,field introduced in 2016,casualty_imd_decile,character
+Casualty,casualty_imd_decile,5,More deprived 40-50%,field introduced in 2016,casualty_imd_decile,character
+Casualty,casualty_imd_decile,6,Less deprived 40-50%,field introduced in 2016,casualty_imd_decile,character
+Casualty,casualty_imd_decile,7,Less deprived 30-40%,field introduced in 2016,casualty_imd_decile,character
+Casualty,casualty_imd_decile,8,Less deprived 20-30%,field introduced in 2016,casualty_imd_decile,character
+Casualty,casualty_imd_decile,9,Less deprived 10-20%,field introduced in 2016,casualty_imd_decile,character
+Casualty,casualty_imd_decile,10,Least deprived 10%,field introduced in 2016,casualty_imd_decile,character
+Casualty,casualty_imd_decile,-1,Data missing or out of range,field introduced in 2016,casualty_imd_decile,character
+Casualty,casualty_home_area_type,1,Urban area,field introduced in 1999,casualty_home_area_type,character
+Casualty,casualty_home_area_type,2,Small town,field introduced in 1999,casualty_home_area_type,character
+Casualty,casualty_home_area_type,3,Rural,field introduced in 1999,casualty_home_area_type,character
+Casualty,casualty_home_area_type,-1,Data missing or out of range,field introduced in 1999,casualty_home_area_type,character

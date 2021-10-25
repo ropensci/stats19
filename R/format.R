@@ -10,15 +10,17 @@
 #' if(curl::has_internet()) {
 #' dl_stats19(year = 2017, type = "accident")
 #' x = read_accidents(year = 2017, format = FALSE)
+#' if(nrow(x) > 0) {
 #' x[1:3, 1:12]
 #' crashes = format_accidents(x)
 #' crashes[1:3, 1:12]
 #' summary(crashes$datetime)
 #' }
 #' }
+#' }
 #' @export
 format_accidents = function(x) {
-  format_stats19(x, type = "accident")
+  format_stats19(x, type = "Accident")
 }
 #' Format STATS19 casualties
 #'
@@ -30,14 +32,14 @@ format_accidents = function(x) {
 #' @examples
 #' \donttest{
 #' if(curl::has_internet()) {
-#' dl_stats19(year = 2017, type = "casualties")
+#' dl_stats19(year = 2017, type = "casualty")
 #' x = read_casualties(year = 2017)
 #' casualties = format_casualties(x)
 #' }
 #' }
 #' @export
 format_casualties = function(x) {
-  format_stats19(x, type = "casualties")
+  format_stats19(x, type = "Casualty")
 }
 #' Format STATS19 vehicles data
 #'
@@ -49,14 +51,14 @@ format_casualties = function(x) {
 #' @examples
 #' \donttest{
 #' if(curl::has_internet()) {
-#' dl_stats19(year = 2017, type = "vehicles", ask = FALSE)
+#' dl_stats19(year = 2017, type = "vehicle", ask = FALSE)
 #' x = read_vehicles(year = 2017, format = FALSE)
 #' vehicles = format_vehicles(x)
 #' }
 #' }
 #' @export
 format_vehicles = function(x) {
-  format_stats19(x, type = "vehicles")
+  format_stats19(x, type = "Vehicle")
 }
 
 format_stats19 = function(x, type) {
@@ -71,9 +73,13 @@ format_stats19 = function(x, type) {
   vkeep = new_names %in% stats19::stats19_schema$variable_formatted
   vars_to_change = which(vkeep)
 
+  # browser()
   for(i in vars_to_change) {
     lkp_name = lkp$column_name[lkp$column_name == new_names[i]]
-    lookup = stats19::stats19_schema[stats19::stats19_schema$variable_formatted == lkp_name, 1:2]
+    lookup = stats19::stats19_schema[
+      stats19::stats19_schema$variable_formatted == lkp_name,
+      c("code", "label")
+      ]
     x[[i]] = lookup$label[match(x[[i]], lookup$code)]
   }
 
@@ -139,22 +145,15 @@ format_column_names = function(column_names) {
 
 format_sf = function(x, lonlat = FALSE) {
   n = names(x)
+  coords = n[grep(pattern = "easting|northing",
+                  x = n,
+                  ignore.case = TRUE)]
+  coord_null = is.na(x[[coords[1]]] | x[[coords[2]]])
+  message(sum(coord_null), " rows removed with no coordinates")
+  x = x[!coord_null, ]
+  x_sf = sf::st_as_sf(x, coords = coords, crs = 27700)
   if(lonlat) {
-    coords = n[grep(pattern = "longitude|latitude",
-                    x = n,
-                    ignore.case = TRUE)]
-    coord_null = is.na(x[[coords[1]]] | x[[coords[2]]])
-    x = x[!coord_null, ]
-    message(sum(coord_null), " rows removed with no coordinates")
-    x_sf = sf::st_as_sf(x, coords = coords, crs = 4326)
-  } else {
-    coords = n[grep(pattern = "easting|northing",
-                    x = n,
-                    ignore.case = TRUE)]
-    coord_null = is.na(x[[coords[1]]] | x[[coords[2]]])
-    message(sum(coord_null), " rows removed with no coordinates")
-    x = x[!coord_null, ]
-    x_sf = sf::st_as_sf(x, coords = coords, crs = 27700)
+    x_sf = sf::st_transform(x_sf, crs = 4326)
   }
   x_sf
 }

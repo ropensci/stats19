@@ -2,11 +2,11 @@
 % Please edit documentation in R/dl.R
 \name{dl_stats19}
 \alias{dl_stats19}
-\title{Download STATS19 data for a year or range of two years.}
+\title{Download STATS19 data for a year}
 \usage{
 dl_stats19(
   year = NULL,
-  type = "acc",
+  type = NULL,
   data_dir = get_data_directory(),
   file_name = NULL,
   ask = FALSE,
@@ -14,9 +14,11 @@ dl_stats19(
 )
 }
 \arguments{
-\item{year}{Valid vector of one or more years from 1979 up until last year.}
+\item{year}{A year matching file names on the STATS19
+\href{https://data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data}{data release page}
+e.g. \code{2020}}
 
-\item{type}{One of 'Accidents', 'Casualties', 'Vehicles'; defaults to 'Accidents'.
+\item{type}{One of 'Accident', 'Casualty', 'Vehicle'; defaults to 'Accident'.
 Or any variation of to search the file names with such as "acc" or "accid".}
 
 \item{data_dir}{Parent directory for all downloaded files. Defaults to \code{tempdir()}.}
@@ -29,7 +31,7 @@ Or any variation of to search the file names with such as "acc" or "accid".}
 messages on the screen.}
 }
 \description{
-Download STATS19 data for a year or range of two years.
+Download STATS19 data for a year
 }
 \section{Details}{
 
@@ -49,13 +51,8 @@ have a sufficient internet access and hard disk space.
 if(curl::has_internet()) {
 # type by default is accidents table
 dl_stats19(year = 2017)
-# try multiple years
-dl_stats19(year = 2017:2018)
-# now you can read-in the data
-dl_stats19(year = 2009)
-dl_stats19(year = 2009, type = "casualties")
-dl_stats19(type = "casualties")
-dl_stats19(year = 1985)
+# try another year
+dl_stats19(year = 2018)
 }
 }
 }

@@ -13,39 +13,17 @@ test_that("dl_stats19 works for no data_dir", {
   skip_download()
   # remove tempdir
   unlink(tempdir(), recursive = TRUE)
-  expect_message(dl_stats19(year = "2017"))
+  expect_message(dl_stats19(year = "2017", type = "accident"))
   # tempdir created.
-})
-
-test_that("dl_stats19 works for 2017", {
-  skip_on_cran()
-  skip_download()
-  # already downloaded
-  expect_message(dl_stats19(year = "2017"),
-                 "Data already exists in data_dir")
-  expect_message(dl_stats19(2017:2018))
-  # should also be true
-  expect_true(dir.exists(file.path(
-    get_data_directory(), "dftRoadSafetyData_Accidents_2017"
-  )))
-  # 2018 comes just as csv's
-  expect_true(file.exists(file.path(
-    get_data_directory(), "dftRoadSafetyData_Accidents_2018.csv"
-  )))
-})
-
-test_that("dl_stats19 works for a type", {
-  skip_on_cran()
-  skip_download()
-  # already downloaded
-  expect_message(dl_stats19(type = "accid"),
-                 "More than one file found, selecting the first")
 })
 
 test_that("dl_stats19 works for chosen file name", {
   skip_on_cran()
   skip_download()
-  expect_message(dl_stats19(
-    file_name = stats19::file_names$DfTRoadSafety_Accidents_2009.zip),
-                 "Files identified: DfTRoadSafety_Accidents_2009.zip")
+  expect_message(
+    dl_stats19(
+      file_name = stats19::file_names$`dft-road-casualty-statistics-accident-2019.csv`
+    ),
+    "Files identified: dft-road-casualty-statistics-accident-2019.csv"
+  )
 })

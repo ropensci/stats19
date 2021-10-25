@@ -35,3 +35,14 @@ The function returns a data frame, in which each record is a reported incident i
 STATS19 data.
 }
 
+\examples{
+\donttest{
+if(curl::has_internet()) {
+dl_stats19(year = 2019, type = "accident")
+ac = read_accidents(year = 2019)
+
+dl_stats19(year = 2019, type = "accident")
+ac_2019 = read_accidents(year = 2019)
+}
+}
+}

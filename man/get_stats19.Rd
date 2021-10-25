@@ -6,7 +6,7 @@
 \usage{
 get_stats19(
   year = NULL,
-  type = "accidents",
+  type = "accident",
   data_dir = get_data_directory(),
   file_name = NULL,
   format = TRUE,
@@ -17,9 +17,11 @@ get_stats19(
 )
 }
 \arguments{
-\item{year}{Valid vector of one or more years from 1979 up until last year.}
+\item{year}{A year matching file names on the STATS19
+\href{https://data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data}{data release page}
+e.g. \code{2020}}
 
-\item{type}{One of 'Accidents', 'Casualties', 'Vehicles'; defaults to 'Accidents'.
+\item{type}{One of 'Accident', 'Casualty', 'Vehicle'; defaults to 'Accident'.
 Or any variation of to search the file names with such as "acc" or "accid".}
 
 \item{data_dir}{Parent directory for all downloaded files. Defaults to \code{tempdir()}.}
@@ -39,7 +41,7 @@ and \code{"ppp"}, that, respectively, returns objects of class \code{\link{data.
 \code{\link[sf:sf]{sf::sf}} and \code{\link[spatstat.geom:ppp]{spatstat.geom::ppp}}. Any other string is ignored and a tibble
 output is returned. See details and examples.}
 
-\item{...}{Other arguments that should be passed to \code{\link[=format_sf]{format_sf()}} or
+\item{...}{Other arguments be passed to \code{\link[=format_sf]{format_sf()}} or
 \code{\link[=format_ppp]{format_ppp()}} functions. Read and run the examples.}
 }
 \description{
@@ -51,9 +53,9 @@ This function uses gets STATS19 data. Behind the scenes it uses
 \code{dl_stats19()} and \verb{read_*} functions, returning a
 \code{tibble} (default), \code{data.frame}, \code{sf} or \code{ppp} object, depending on the
 \code{output_format} parameter.
-The function returns data for a specific year (e.g. \code{year = 2017}) or multiple
-years (e.g. \code{year = c(2017, 2018)}).
-Note: for years before 2009 the function may return data from more years than are
+The function returns data for a specific year (e.g. \code{year = 2017})
+
+Note: for years before 2016 the function may return data from more years than are
 requested due to the nature of the files hosted at
 \href{https://data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data}{data.gov.uk}.
 
@@ -62,8 +64,7 @@ so ensure you have a sufficient disk space.
 
 If \code{output_format = "data.frame"} or \code{output_format = "sf"} or \code{output_format = "ppp"} then the output data is transformed into a data.frame, sf or ppp
 object using the \code{\link[=as.data.frame]{as.data.frame()}} or \code{\link[=format_sf]{format_sf()}} or \code{\link[=format_ppp]{format_ppp()}}
-functions, respectively.
-See examples.
+functions, as shown in the examples.
 }
 
 \examples{
@@ -75,11 +76,11 @@ class(x)
 x = get_stats19(2017, silent = TRUE)
 
 # data.frame output
-x = get_stats19(2019, silent = TRUE, output_format = "data.frame")
+x = get_stats19(2017, silent = TRUE, output_format = "data.frame")
 class(x)
 
-# multiple years
-get_stats19(c(2017, 2018), silent = TRUE)
+# Run tests only if endpoint is alive:
+if(nrow(x) > 0) {
 
 # sf output
 x_sf = get_stats19(2017, silent = TRUE, output_format = "sf")
@@ -88,15 +89,9 @@ x_sf = get_stats19(2017, silent = TRUE, output_format = "sf")
 x_sf = get_stats19(2017, silent = TRUE, output_format = "sf", lonlat = TRUE)
 sf::st_crs(x_sf)
 
-# multiple years
-get_stats19(c(2017, 2018), silent = TRUE, output_format = "sf")
-
 if (requireNamespace("spatstat.core", quietly = TRUE)) {
 # ppp output
 x_ppp = get_stats19(2017, silent = TRUE, output_format = "ppp")
-
-# Multiple years
-get_stats19(c(2017, 2018), silent = TRUE, output_format = "ppp")
 
 # We can use the window parameter of format_ppp function to filter only the
 # events occurred in a specific area. For example we can create a new bbox
@@ -126,6 +121,7 @@ spatstat.geom::plot.ppp(leeds_ppp, use.marks = FALSE, clipwin = leeds_window)
 
 # greater_london_ppp = get_stats19(2017, output_format = "ppp", window = greater_london_window)
 # spatstat.geom::plot.ppp(greater_london_ppp, use.marks = FALSE, clipwin = greater_london_window)
+}
 }
 }
 }
