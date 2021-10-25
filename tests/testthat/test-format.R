@@ -13,7 +13,7 @@ context("test-format: vehicles")
 test_that("format_vehicles works", {
   skip_download()
   skip_on_cran()
-  fn = stats19::file_names$dftRoadSafetyData_Vehicles_2016.zip
+  fn = stats19::file_names$`dft-road-casualty-statistics-vehicle-2016.csv`
   dl_stats19(file_name = fn)
   # read it
   read = read_vehicles(
@@ -27,7 +27,7 @@ test_that("format_vehicles works", {
 context("test-format: casualties")
 
 test_that("format_casualties works", {
-  fn = stats19::file_names$dftRoadSafetyData_Casualties_2016.zip
+  fn = stats19::file_names$`dft-road-casualty-statistics-casualty-2016.csv`
   skip_download()
   skip_on_cran()
   dl_stats19(file_name = fn)
@@ -87,3 +87,4 @@ test_that("format_ppp exclude events with missing coordinates", {
   # since the bbox is smaller there must be fewer points
   expect_true(rd_ppp2$n <= rd_ppp$n)
 })
+
