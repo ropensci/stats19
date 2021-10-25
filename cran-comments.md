@@ -1,8 +1,6 @@
-Major update, simpler codebase, fixes issues associated with UK government changing many URLs.
+I just realised that the errant URL was still there in the previous submission.
 
-The package is now simpler and should be easier to maintain.
-
-Update without errant URL.
+Apologies, this one should fix it! Many thanks.
 
 
 ## Test environments
