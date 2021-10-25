@@ -394,7 +394,7 @@ We think it could help many people, especially, including campaigners, academics
 
 There are many possible next steps, including:
 
-- Comparing these datasets with interventions such as 20 mph zones [@grundy_effect_2009] and links with street morphology [@sarkar_street_2018].
+- Comparing these datasets with interventions such as [20 mph zones](https://pubmed.ncbi.nlm.nih.gov/20007666/) and links with street morphology [@sarkar_street_2018].
 - The creation of more general software for accessing and working with road crash data worldwide.
 - Making the data even more available by provide the data as part of an interactive web application, a technique successfully used in the Propensity to Cycle Tool (PCT) project hosted at [www.pct.bike/](https://www.pct.bike/) (this would likely take further times/resources beyond what we can provide in our spare time!).
 
