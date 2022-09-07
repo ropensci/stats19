@@ -1,0 +1,27 @@
+
+## Getting started
+
+Hello world
+
+
+```{r, eval=FALSE}
+install.packages("stats19")
+```
+
+```{r}
+library(stats19)
+library(tidyverse)
+dl_stats19(year = 2019, type = "Accident", data_dir = "/tmp")
+crashes = get_stats19(year = 2020)
+crashes
+
+crashes_yearly = crashes %>% 
+  group_by(date) %>% 
+  summarise(
+    n = n()
+  )
+crashes_yearly %>% 
+  ggplot() +
+  geom_line(aes(date, n)) +
+  ylim(c(0, NA))
+```
