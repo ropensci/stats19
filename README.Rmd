@@ -46,7 +46,7 @@ For transparency and modularity, each stage can be undertaken separately, as doc
 
 Install and load the latest version with:
 
-```{r install, message=FALSE, results='hide'}
+```{r eval=FALSE}
 remotes::install_github("ropensci/stats19")
 ```
 
@@ -85,16 +85,18 @@ Data files can be downloaded without reading them in using the function `dl_stat
 If there are multiple matches, you will be asked to choose from a range of options.
 Providing just the year, for example, will result in the following options:
 
-```{r dl2017-all, eval=FALSE}
-dl_stats19(year = 2017)
+```{r dl2017-all}
+dl_stats19(year = 2020, data_dir = tempdir())
 ```
 
 ```
 Multiple matches. Which do you want to download?
 
-1: dftRoadSafetyData_vehicles.zip
-2: dftRoadSafetyData_casualties.zip
-3: dftRoadSafetyData_Accidents_2017.zip
+1: dft-road-casualty-statistics-casualty-2020.csv
+2: dft-road-casualty-statistics-vehicle-2020.csv
+3: dft-road-casualty-statistics-accident-2020.csv
+4: dft-road-casualty-statistics-vehicle-e-scooter-2020.csv
+5: road-safety-data-mid-year-provisional-estimates-2020.csv
 
 Selection: 
 Enter an item from the menu, or 0 to exit
@@ -122,7 +124,8 @@ ncol(crashes)
 Some of the key variables in this dataset include:
 
 ```{r crashes2017-columns}
-crashes[c(7, 18, 23, 25)]
+key_column_names = grepl(pattern = "severity|speed|pedestrian|light_conditions", x = names(crashes))
+crashes[key_column_names]
 ```
 
 For the full list of columns, run `names(crashes)` or see the [vignette](https://github.com/ropensci/stats19/blob/master/vignettes/stats19.Rmd).
@@ -134,7 +137,7 @@ For the full list of columns, run `names(crashes)` or see the [vignette](https:/
 As with `crashes`, casualty data for 2017 can be downloaded, read-in and formatted as follows:
 
 ```{r 2017-cas}
-casualties = get_stats19(year = 2017, type = "casualties", ask = FALSE)
+casualties = get_stats19(year = 2017, type = "casualty", ask = FALSE)
 nrow(casualties)
 ncol(casualties)
 ```
@@ -157,7 +160,7 @@ names(casualties)
 Data for vehicles involved in crashes in 2017 can be downloaded, read-in and formatted as follows:
 
 ```{r dl2017-vehicles}
-vehicles = get_stats19(year = 2017, type = "vehicles", ask = FALSE)
+vehicles = get_stats19(year = 2017, type = "vehicle", ask = FALSE)
 nrow(vehicles)
 ncol(vehicles)
 ```
@@ -210,12 +213,13 @@ This is demonstrated in the code chunk below, which subsets all casualties that 
 ```{r table-join, message = FALSE}
 sel = casualties$accident_index %in% crashes_wy$accident_index
 casualties_wy = casualties[sel, ]
-cas_types = casualties_wy %>% 
-  select(accident_index, casualty_type) %>% 
-  mutate(n = 1) %>% 
-  group_by(accident_index, casualty_type) %>% 
-  summarise(n = sum(n)) %>% 
-  tidyr::spread(casualty_type, n, fill = 0) 
+names(casualties_wy)
+cas_types = casualties_wy %>%
+  select(accident_index, casualty_type) %>%
+  mutate(n = 1) %>%
+  group_by(accident_index, casualty_type) %>%
+  summarise(n = sum(n)) %>%
+  tidyr::spread(casualty_type, n, fill = 0)
 cas_types$Total = rowSums(cas_types[-1])
 cj = left_join(crashes_wy, cas_types, by = "accident_index")
 ```
@@ -227,7 +231,9 @@ The result is a spatial (`sf`) data frame of crashes in Leeds, with columns coun
 The original and joined data look like this:
 
 ```{r table-join-examples}
-crashes_wy[1:2, c(1, 5)] %>% st_drop_geometry()
+crashes_wy %>%
+  select(accident_index, accident_severity) %>% 
+  st_drop_geometry()
 cas_types[1:2, c("accident_index", "Cyclist")]
 cj[1:2, c(1, 5, 34)] %>% st_drop_geometry()
 ```
