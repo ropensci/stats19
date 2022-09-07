@@ -1,24 +1,21 @@
-This new version should stop the error messages on checks.
-See https://github.com/ropensci/stats19/issues/208 for details.
+I just realised that the errant URL was still there in the previous submission.
 
-URL changed based on this comment from CRAN:
+Apologies, this one should fix it! Many thanks.
 
-URL: https://codecov.io/gh/ropensci/stats19 (moved to https://app.codecov.io/gh/ropensci/stats19)
-
-doi field removed from bibliography in response to this message from CRAN:
-
-   URL: https://doi.org/10.1136/bmj.b4469
-      From: inst/doc/blog.html
-            inst/doc/stats19.html
-      Status: 403
-      Message: Forbidden
-      
-I thought the URL was OK but have removed it in the hope that it hasten's the package's reappearance on CRAN.
 
 ## Test environments
 * local R installation, R 4.1.1
 * ubuntu 20.04 (GitHub Actions), R 4.1.1
 * win-builder (devel)
+
+Your package stats19_2.0.0.tar.gz has been built (if working) and checked for Windows.
+Please check the log files and (if working) the binary package at:
+https://win-builder.r-project.org/GFSUVmV38fB2
+The files will be removed after roughly 72 hours.
+Installation time in seconds: 6
+Check time in seconds: 241
+Status: 1 NOTE
+R Under development (unstable) (2021-10-18 r81071)
 
 ## R CMD check results
 

@@ -20,7 +20,7 @@ This function formats raw STATS19 data
 \examples{
 \donttest{
 if(curl::has_internet()) {
-dl_stats19(year = 2017, type = "vehicles", ask = FALSE)
+dl_stats19(year = 2017, type = "vehicle", ask = FALSE)
 x = read_vehicles(year = 2017, format = FALSE)
 vehicles = format_vehicles(x)
 }
