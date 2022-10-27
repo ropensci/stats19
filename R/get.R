@@ -55,7 +55,7 @@
 #' x_sf = get_stats19(2017, silent = TRUE, output_format = "sf", lonlat = TRUE)
 #' sf::st_crs(x_sf)
 #'
-#' if (requireNamespace("spatstat.core", quietly = TRUE)) {
+#' if (requireNamespace("spatstat.geom", quietly = TRUE)) {
 #' # ppp output
 #' x_ppp = get_stats19(2017, silent = TRUE, output_format = "ppp")
 #'
