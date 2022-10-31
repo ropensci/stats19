@@ -175,8 +175,7 @@ format_sf = function(x, lonlat = FALSE) {
 #'
 #' @return A ppp object.
 #' @seealso \code{\link{format_sf}} for an analogous function used to convert
-#'   data into sf format and [spatstat.geom::ppp()] for the original
-#'   spatstat.geom function.
+#'   data into sf format and [spatstat.geom::ppp()] for the original function.
 #' @export
 #'
 #' @examples
