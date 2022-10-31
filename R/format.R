@@ -175,21 +175,20 @@ format_sf = function(x, lonlat = FALSE) {
 #'
 #' @return A ppp object.
 #' @seealso \code{\link{format_sf}} for an analogous function used to convert
-#'   data into sf format and [spatstat.geom::ppp()] for the original
-#'   spatstat.core function.
+#'   data into sf format and [spatstat.geom::ppp()] for the original function.
 #' @export
 #'
 #' @examples
-#' if (requireNamespace("spatstat.core", quietly = TRUE)) {
+#' if (requireNamespace("spatstat.geom", quietly = TRUE)) {
 #'   x_ppp = format_ppp(accidents_sample)
 #'   x_ppp
 #' }
 #'
 
 format_ppp = function(data, window = NULL,  ...) {
-  # check that spatstat.core is installed
-  if (!requireNamespace("spatstat.core", quietly = TRUE)) {
-    stop("package spatstat.core required, please install it first")
+  # check that spatstat.geom is installed
+  if (!requireNamespace("spatstat.geom", quietly = TRUE)) {
+    stop("package spatstat.geom required, please install it first")
   }
 
   # look for column names of coordinates
