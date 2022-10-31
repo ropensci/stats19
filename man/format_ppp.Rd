@@ -27,7 +27,7 @@ This function is a wrapper around the \code{\link[spatstat.geom:ppp]{spatstat.ge
 it is used to transform STATS19 data into a ppp format.
 }
 \examples{
-if (requireNamespace("spatstat.core", quietly = TRUE)) {
+if (requireNamespace("spatstat.geom", quietly = TRUE)) {
   x_ppp = format_ppp(accidents_sample)
   x_ppp
 }
@@ -35,6 +35,5 @@ if (requireNamespace("spatstat.core", quietly = TRUE)) {
 }
 \seealso{
 \code{\link{format_sf}} for an analogous function used to convert
-data into sf format and \code{\link[spatstat.geom:ppp]{spatstat.geom::ppp()}} for the original
-spatstat.core function.
+data into sf format and \code{\link[spatstat.geom:ppp]{spatstat.geom::ppp()}} for the original function.
 }
