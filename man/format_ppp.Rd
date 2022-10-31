@@ -35,6 +35,5 @@ if (requireNamespace("spatstat.geom", quietly = TRUE)) {
 }
 \seealso{
 \code{\link{format_sf}} for an analogous function used to convert
-data into sf format and \code{\link[spatstat.geom:ppp]{spatstat.geom::ppp()}} for the original
-spatstat.geom function.
+data into sf format and \code{\link[spatstat.geom:ppp]{spatstat.geom::ppp()}} for the original function.
 }
