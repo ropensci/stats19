@@ -1,3 +1,5 @@
+# stats19 2.0.1
+
 # stats19 2.0.0 2020-10
 
 * Major changes to the datasets provided by the DfT have led to major changes to the package. See (#212) for details.
