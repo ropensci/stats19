@@ -24,7 +24,7 @@ Description: Tools to help download, process and analyse the UK road collision d
   statistics relate only to personal casualties on public roads that are reported
   to the police, and subsequently recorded, using the 'STATS19' accident reporting form. See
   the Department for Transport website 
-  <https://data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data> for more
+  <https://www.data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data> for more
   information on these data.
 Depends: R (>= 3.5.0)
 License: GPL-3
