@@ -22,7 +22,7 @@ cycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://l
 **stats19** provides functions for downloading and formatting road crash
 data. Specifically, it enables access to the UK’s official road traffic
 casualty database,
-[STATS19](https://data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data).
+[STATS19](https://www.data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data).
 (The name comes from the form used by the police to record car crashes
 and other incidents resulting in casualties on the roads.)
 
@@ -72,7 +72,7 @@ provision of STATS19 data files, which are categorised by year (from
 vehicles, as outlined below). The following command, for example, gets
 crash data from 2017 (**note**: we follow the “crash not accident”
 campaign of
-[RoadPeace](https://www.roadpeace.org/take-action/crash-not-accident/)
+[RoadPeace](https://www.roadpeace.org/get-involved/crash-not-accident/)
 in naming crashes, although the DfT refers to the relevant tables as
 ‘accidents’ data):
 

@@ -1077,7 +1077,7 @@ names(roads_agg)[1] = "N. Crashes"
 
 # Bonus exercises
 
-Identify a region and zonal units of interest from http://geoportal.statistics.gov.uk/ or from the object `police_boundaries` in the `stats19` package.
+Identify a region and zonal units of interest from https://geoportal.statistics.gov.uk/ or from the object `police_boundaries` in the `stats19` package.
 
 1. Read them into R as an `sf` object
 1. Create a map showing the number of crashes in each zone
