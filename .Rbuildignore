@@ -31,3 +31,4 @@ makefile
 ^docs$
 ^\.github$
 ^codecov\.yml$
+^CRAN-SUBMISSION$

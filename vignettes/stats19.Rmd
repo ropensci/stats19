@@ -22,12 +22,12 @@ knitr::opts_chunk$set(
 
 ## Introduction
 
-**stats19** enables access to and processing of Great Britain's official road traffic casualty database, [STATS19](https://data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data). 
+**stats19** enables access to and processing of Great Britain's official road traffic casualty database, [STATS19](https://www.data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data). 
 A description of variables in the database can be found in a [document](https://data.dft.gov.uk/road-accidents-safety-data/Brief-guide-to%20road-accidents-and-safety-data.doc) provided by the UK's Department for Transport (DfT).
 The datasets are collectively called STATS19 after the form used to report them, which can be found [here](https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/995422/stats19.pdf).
 This vignette focuses on how to use the **stats19** package to work with STATS19 data.
 
-**Note**: The Department for Transport refers to "accidents", but "crashes" is a more appropriate term, as emphasised in the "crash not accident" arguments of road safety advocacy groups such as [RoadPeace](https://www.roadpeace.org/take-action/crash-not-accident/).
+**Note**: The Department for Transport refers to "accidents", but "crashes" is a more appropriate term, as emphasised in the "crash not accident" arguments of road safety advocacy groups such as [RoadPeace](https://www.roadpeace.org/get-involved/crash-not-accident/).
 We use the term "accidents" only in reference to nomenclature within the data as provided.
 
 The development version is hosted on [GitHub](https://github.com/ITSLeeds/stats19) and can be installed and loaded as follows:
