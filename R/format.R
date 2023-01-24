@@ -69,8 +69,23 @@ format_stats19 = function(x, type) {
 
   # create lookup table
   lkp = stats19::stats19_variables[stats19::stats19_variables$table == type,]
-
-  vkeep = new_names %in% stats19::stats19_schema$variable_formatted
+  
+  #create a copy of the schema within which cases of variables that have a mix of categorical and non-categorical levels are removed (they will be uncoded later).
+  schema_mixcoding_omit = stats19::stats19_schema
+  
+  if(type == "Vehicle"){
+    schema_mixcoding_omit = schema_mixcoding_omit[!schema_mixcoding_omit$variable_formatted %in% c("age_of_driver", "engine_capacity_cc", "generic_make_model"), ]
+  }
+  
+  if(type == "Accident"){
+    schema_mixcoding_omit = schema_mixcoding_omit[!schema_mixcoding_omit$variable_formatted %in% c("first_road_number", "second_road_number"), ]
+  }
+  
+  if(type == "Casualty"){
+    schema_mixcoding_omit = schema_mixcoding_omit[!schema_mixcoding_omit$variable_formatted %in% "age_of_casualty", ]
+  }
+  
+  vkeep = new_names %in% schema_mixcoding_omit$variable_formatted # changed to '%in% schema_mixcoding_omit$variable_formatted'
   vars_to_change = which(vkeep)
 
   # browser()
@@ -83,6 +98,25 @@ format_stats19 = function(x, type) {
     x[[i]] = lookup$label[match(x[[i]], lookup$code)]
   }
 
+    
+  # uncode the specific levels of variables that weren't uncoded in the earlier stage due to having a mix of categorical and non-categorical data.
+  if(type == "Vehicle"){
+    x$age_of_driver[x$age_of_driver == -1] = "Data missing or out of range"
+    x$engine_capacity_cc[x$engine_capacity_cc == -1] = "Data missing or out of range"
+    x$generic_make_model[x$generic_make_model == -1] = "Data missing or out of range"
+    }
+  
+  if(type == "Accident"){
+    x$first_road_number[x$first_road_number == -1] = "Unknown"
+    x$first_road_number[x$first_road_number == 0] = "first_road_class is C or Unclassified. These roads do not have official numbers so recorded as zero "
+    x$second_road_number[x$second_road_number == -1] = "Unknown"
+    x$second_road_number[x$second_road_number == 0] = "first_road_class is C or Unclassified. These roads do not have official numbers so recorded as zero "
+    }
+  
+  if(type == "Casualty"){
+    x$age_of_casualty[x$age_of_casualty == -1] = "Data missing or out of range"
+    }
+  
   date_in_names = "date" %in% names(x)
   if(date_in_names) {
     date_char = x$date
