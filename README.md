@@ -326,7 +326,7 @@ An important feature of STATS19 data is that the “accidents” table
 contains geographic coordinates. These are provided at \~10m resolution
 in the UK’s official coordinate reference system (the Ordnance Survey
 National Grid, EPSG code 27700). **stats19** converts the non-geographic
-tables created by `format_accidents()` into the geographic data form of
+tables created by `format_collisions()` into the geographic data form of
 the [`sf` package](https://cran.r-project.org/package=sf) with the
 function `format_sf()` as follows:
 

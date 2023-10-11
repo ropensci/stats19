@@ -61,7 +61,7 @@ accidents_2017_raw = read_collisions(year = 2017)
 set.seed(350)
 sel = sample(nrow(accidents_2017_raw), 3)
 accidents_sample_raw = accidents_2017_raw[sel, ]
-accidents_sample = format_accidents(accidents_sample_raw)
+accidents_sample = format_collisions(accidents_sample_raw)
 ```
 
 Similarly for casualites, use:

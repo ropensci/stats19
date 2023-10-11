@@ -3,8 +3,8 @@ source("../skip-download.R")
 
 context("test-format: accidents")
 
-test_that("format_accidents works", {
-  df = format_accidents(stats19::accidents_sample_raw)
+test_that("format_collisions works", {
+  df = format_collisions(stats19::accidents_sample_raw)
   expect_equal(nrow(df), nrow(stats19::accidents_sample_raw))
 })
 
@@ -47,7 +47,7 @@ test_that("format_column_names works", {
   expect_equal(nrow(rd), nrow(format_column_names(rd)))
 })
 test_that("format_sf works", {
-  rd = format_accidents(stats19::accidents_sample_raw)
+  rd = format_collisions(stats19::accidents_sample_raw)
   df1 = format_sf(rd)
   df2 = format_sf(rd, lonlat = TRUE)
   expect_equal(nrow(df1), nrow(rd))
