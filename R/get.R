@@ -36,12 +36,8 @@
 #' @examples
 #' \donttest{
 #' if(curl::has_internet()) {
-#' # default tibble output
-#' x = get_stats19(2019)
-
+#' x = get_stats19(2022, silent = TRUE, format = TRUE)
 #' class(x)
-#' x = get_stats19(2022, silent = TRUE)
-#'
 #' # data.frame output
 #' x = get_stats19(2022, silent = TRUE, output_format = "data.frame")
 #' class(x)
@@ -96,12 +92,11 @@ get_stats19 = function(year = NULL,
                       type = "collision",
                       data_dir = get_data_directory(),
                       file_name = NULL,
-                      format = FALSE,
+                      format = TRUE,
                       ask = FALSE,
                       silent = FALSE,
                       output_format = "tibble",
                       ...) {
-  # browser()
   if(!exists("type")) {
     stop("Type is required", call. = FALSE)
   }
