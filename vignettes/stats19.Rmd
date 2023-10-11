@@ -61,7 +61,7 @@ The type can be one of `accidents`, `casualties` and `vehicles`, described below
 
 - **Format**: There are corresponding `format_*()` functions for each of the `read_*()` functions. These have been exported for convenience, as the two sets of functions are closely related, there is also a `format` parameter for the `read_*()` functions, which by default is `TRUE`, adds labels to the tables. 
 The raw data provided by the DfT contains only integers. Running `read_*(..., format = TRUE)` converts these integer values to the corresponding character variables for each of the three tables.
-For example, `read_collisions(format = TRUE)` converts values in the `accident_severity` column from `1`, `2` and `3` to `Slight`, `Serious` and `Fatal` using `fromat_accidents()` function.
+For example, `read_collisions(format = TRUE)` converts values in the `accident_severity` column from `1`, `2` and `3` to `Slight`, `Serious` and `Fatal` using `fromat_collisions()` function.
 To read-in raw data without formatting, set `format = FALSE`.
 
 Multiple functions (`read_*` and `format_*`) are needed for each step because of the structure of STATS19 data, which are divided into 3 tables:
@@ -163,7 +163,7 @@ After raw data files have been downloaded as described in the previous section, 
 
 ```{r read2017-raw-format}
 crashes_2017_raw = read_collisions(year = 2017, format = FALSE)
-crashes_2017 = format_accidents(crashes_2017_raw)
+crashes_2017 = format_collisions(crashes_2017_raw)
 nrow(crashes_2017_raw)
 ncol(crashes_2017_raw)
 nrow(crashes_2017)
@@ -180,7 +180,7 @@ columns (variables) for
 129,982 crashes.
 
 This work was done by `read_collisions(format = FALSE)`, which imported the "raw" STATS19 data without cleaning messy column names or re-categorising the outputs.
-`format_accidents()` function automates the process of matching column names with variable names and labels in a [`.xls` file](https://data.dft.gov.uk/road-accidents-safety-data/variable%20lookup.xls) provided by the DfT.
+`format_collisions()` function automates the process of matching column names with variable names and labels in a [`.xls` file](https://data.dft.gov.uk/road-accidents-safety-data/variable%20lookup.xls) provided by the DfT.
 This means `crashes_2017` is much more usable than `crashes_2017_raw`, as shown below, which shows some key variables in the messy and clean datasets:
 
 ```{r crashes2017-columns}
@@ -188,7 +188,7 @@ crashes_2017_raw[c(7, 18, 23, 25)]
 crashes_2017[c(7, 18, 23, 25)]
 ```
 
-By default, `format = TRUE`, meaning that the two stages of `read_collisions(format = FALSE)` and `format_accidents()` yield the same result as `read_collisions(format = TRUE)`.
+By default, `format = TRUE`, meaning that the two stages of `read_collisions(format = FALSE)` and `format_collisions()` yield the same result as `read_collisions(format = TRUE)`.
 For the full list of columns, run `names(crashes_2017)`.
 
 <!-- This means `crashes_2017` is much more usable than `crashes_2017_raw`, as shown below, which shows three records and some key variables in the messy and clean datasets: -->
@@ -226,11 +226,11 @@ format_column_names(stats19_variables$variable[1:3])
 ```
 
 Previous approaches to data formatting `STATS19` data involved hard-coding results. This more automated approach to data cleaning is more consistent and fail-safe.
-The three functions: `format_accidents()`, `format_vehicles()` and
+The three functions: `format_collisions()`, `format_vehicles()` and
 `format_casualties()` do the data formatting on the respective data frames, as illustrated below:
 
 ```{r format-main}
-crashes_2017 = format_accidents(crashes_2017_raw)
+crashes_2017 = format_collisions(crashes_2017_raw)
 
 # vehicle data for 2017
 dl_stats19(year = 2017, type = "vehicle", ask = FALSE)
@@ -367,7 +367,7 @@ table(ac$Accident_Severity)
 
 An important feature of STATS19 data is that the "accidents" table contains geographic coordinates.
 These are provided at ~10m resolution in the UK's official coordinate reference system (the Ordnance Survey National Grid, EPSG code 27700).
-**stats19** converts the non-geographic tables created by `format_accidents()` into the geographic data form of the [`sf` package](https://cran.r-project.org/package=sf) with the function `format_sf()` as follows:
+**stats19** converts the non-geographic tables created by `format_collisions()` into the geographic data form of the [`sf` package](https://cran.r-project.org/package=sf) with the function `format_sf()` as follows:
 
 ```{r format-crashes-sf}
 crashes_sf = format_sf(crashes_2017)

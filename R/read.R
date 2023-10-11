@@ -37,7 +37,7 @@ read_collisions = function(year = NULL,
 
   path = check_input_file(
     filename = filename,
-    type = "accident",
+    type = "collision",
     data_dir = data_dir,
     year = year
   )
@@ -51,7 +51,7 @@ read_collisions = function(year = NULL,
   })
 
   if(format)
-    return(format_accidents(ac))
+    return(format_collisions(ac))
   ac
 }
 
