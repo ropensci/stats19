@@ -131,7 +131,7 @@ The code below will download the `dftRoadSafetyData_Accidents_2022.zip` file fro
 Files are saved by default in `tempdir()`, but this can be overridden to ensure permanent storage in a user-defined location.
 
 ```{r dl2022-read}
-crashes_2022_raw = get_stats19(year = 2022, type = "acc", format = FALSE)
+crashes_2022_raw = get_stats19(year = 2022, type = "collision", format = FALSE)
 ```
 
 ```{r, echo=FALSE}

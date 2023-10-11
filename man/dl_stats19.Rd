@@ -19,7 +19,7 @@ dl_stats19(
 e.g. \code{2020}}
 
 \item{type}{One of 'Accident', 'Casualty', 'Vehicle'; defaults to 'Accident'.
-Or any variation of to search the file names with such as "acc" or "accid".}
+Or any variation of to search the file names with such as "collision".}
 
 \item{data_dir}{Parent directory for all downloaded files. Defaults to \code{tempdir()}.}
 
