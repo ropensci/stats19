@@ -37,14 +37,14 @@ tm_shape(iow_bb, ext = 1.05) +
   tm_scale_bar()
 
 # download car crashes data and transform in sf
-car_collisions_2017 = get_stats19(year = 2018)
-car_collisions_2017 = car_collisions_2017 %>%
+car_collisions_2022 = get_stats19(year = 2018)
+car_collisions_2022 = car_collisions_2022 %>%
   filter(!is.na(longitude), !is.na(latitude)) %>% # NA in coordinates
   st_as_sf(coords = c("longitude", "latitude"), crs = 4326) %>%
   st_transform(crs = 27700)
 
 # filter car crashes in IOW
-car_collisions_2017_iow = car_collisions_2017[iow_bb, ]
+car_collisions_2022_iow = car_collisions_2022[iow_bb, ]
 
 # plot
 tm_shape(iow_bb, ext = 1.05) +
@@ -57,14 +57,14 @@ tm_shape(iow_bb, ext = 1.05) +
     title.col = "Highway Type",
     labels = c("Primary Roads", "Secondary Roads", "Tertiary Roads"),
   ) +
-  tm_shape(car_collisions_2017_iow) +
+  tm_shape(car_collisions_2022_iow) +
   tm_dots(size = 0.075) +
   tm_compass(type = "8star", position = c("left", "top")) +
   tm_scale_bar()
 
 
 # Exclude car crashes far from all streets
-car_collisions_2017_iow = car_collisions_2017_iow[iow_geofabric,
+car_collisions_2022_iow = car_collisions_2022_iow[iow_geofabric,
   op = st_is_within_distance, dist = units::set_units(50, "m")
 ]
 
@@ -79,13 +79,13 @@ tm_shape(iow_bb, ext = 1.05) +
     title.col = "Highway Type",
     labels = c("Primary Roads", "Secondary Roads", "Tertiary Roads"),
   ) +
-  tm_shape(car_collisions_2017_iow) +
+  tm_shape(car_collisions_2022_iow) +
   tm_dots(size = 0.075) +
   tm_compass(type = "8star", position = c("left", "top")) +
   tm_scale_bar()
 
 # match each car crashes with its nearest highway
-ID_nearest_highway = st_nearest_feature(car_collisions_2017_iow, iow_geofabric)
+ID_nearest_highway = st_nearest_feature(car_collisions_2022_iow, iow_geofabric)
 number_of_car_collisions = factor(ID_nearest_highway, levels = seq_len(nrow(iow_geofabric))) %>%
   table() %>% as.numeric()
 
@@ -102,7 +102,7 @@ tm_shape(iow_bb) +
     palette = "-RdYlGn",
     legend.col.show = FALSE
   ) +
-  tm_shape(car_collisions_2017_iow) +
+  tm_shape(car_collisions_2022_iow) +
   tm_dots(size = 0.075)
 
 # problems...
@@ -126,9 +126,9 @@ tm_shape(iow_bb, ext = 1.05) +
     col = "number_of_car_collisions_smooth",
     lwd = 2.5,
     palette = "-RdYlGn",
-    title.col = "Smoothed number of car crashes in 2017"
+    title.col = "Smoothed number of car crashes in 2022"
   ) +
-  tm_shape(car_collisions_2017_iow) +
+  tm_shape(car_collisions_2022_iow) +
   tm_dots(size = 0.075) +
   tm_compass(type = "8star", position = c("left", "top")) +
   tm_scale_bar()
@@ -147,9 +147,9 @@ tm_shape(iow_bb, ext = 1.05) +
     col = "number_of_car_collisions_smooth",
     lwd = 2.5,
     palette = "-RdYlGn",
-    title.col = "Smoothed number of car crashes in 2017"
+    title.col = "Smoothed number of car crashes in 2022"
   ) +
-  tm_shape(car_collisions_2017_iow) +
+  tm_shape(car_collisions_2022_iow) +
   tm_dots(size = 0.075) +
   tm_compass(type = "8star", position = c("left", "top")) +
   tm_scale_bar()
@@ -171,9 +171,9 @@ tm_shape(iow_bb, ext = 1.05) +
     col = "number_of_car_collisions_smooth",
     lwd = 2.5,
     palette = "-RdYlGn",
-    title.col = "Smoothed number of car crashes in 2017"
+    title.col = "Smoothed number of car crashes in 2022"
   ) +
-  tm_shape(car_collisions_2017_iow) +
+  tm_shape(car_collisions_2022_iow) +
   tm_dots(size = 0.075) +
   tm_compass(type = "8star", position = c("left", "top")) +
   tm_scale_bar()

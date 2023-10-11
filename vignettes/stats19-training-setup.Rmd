@@ -59,7 +59,7 @@ To test your computer is ready to work with road crash data in R, try running th
 library(stats19)
 library(tidyverse)
 library(tmap) # installed alongside mapview
-crashes = get_stats19(year = 2017, type = "ac")
+crashes = get_stats19(year = 2022, type = "ac")
 crashes_iow = crashes %>% 
   filter(local_authority_district == "Isle of Wight") %>% 
   format_sf()
