@@ -9,7 +9,7 @@ library(forecast)
 
 # data
 my_years = 2010:2018
-accidents_10_18 = map_df(my_years, get_stats19, type = "accidents")
+accidents_10_18 = map_df(my_years, get_stats19, type = collision)
 accidents_10_18 = format_sf(accidents_10_18, lonlat = TRUE)
 
 # aggregating data
