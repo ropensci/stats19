@@ -81,7 +81,7 @@ Review Comments
 
 Thank you.
 
-> I wonder you could possibly merge the formatting and reading step with a raw = TRUE or format = TRUE argument in the read_* functions. But perhaps that's my tendency towards abstraction. Something like ac = read_accidents(year = 2017, format = TRUE)
+> I wonder you could possibly merge the formatting and reading step with a raw = TRUE or format = TRUE argument in the read_* functions. But perhaps that's my tendency towards abstraction. Something like ac = read_collisions(year = 2017, format = TRUE)
 
 Done, appreciate your input.
 

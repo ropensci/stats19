@@ -91,7 +91,7 @@ These have been demoted to `Suggests`.
 
 - [ ] I also would suggest making use of `@seealso` in documentation. For example, the `dl_stats19()` example works great in the help files, but from there I have the data but it's not in R. Using the `@seealso` you can let the user know about the `read_*()` functions.
 
-- [ ] I downloaded files using `dl_stats19()`, selecting "Casualties", and then ran `read_accidents()` and got 
+- [ ] I downloaded files using `dl_stats19()`, selecting "Casualties", and then ran `read_collisions()` and got 
 Is it possible to be more descriptive and say that I've used the wrong `read_*()` based on the file/data found and offer to import it?
 
 - [ ] Missing "." after "e.g." in dl.R on lines 8 and 9, there may be others that I didn't spy.

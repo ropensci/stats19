@@ -20,7 +20,7 @@
 #' functions, as shown in the examples.
 #'
 #' @seealso [dl_stats19()]
-#' @seealso [read_accidents()]
+#' @seealso [read_collisions()]
 #'
 #' @inheritParams dl_stats19
 #' @param format Switch to return raw read from file, default is `TRUE`.
@@ -38,6 +38,7 @@
 #' if(curl::has_internet()) {
 #' # default tibble output
 #' x = get_stats19(2019)
+
 #' class(x)
 #' x = get_stats19(2017, silent = TRUE)
 #'
@@ -145,7 +146,7 @@ get_stats19 = function(year = NULL,
       data_dir = data_dir,
       format = format)
   } else { # inline with type = "accident" by default
-    read_in = read_accidents(
+    read_in = read_collisions(
       year = year,
       data_dir = data_dir,
       format = format,

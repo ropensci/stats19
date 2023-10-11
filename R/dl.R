@@ -71,13 +71,8 @@ dl_stats19 = function(year = NULL,
     dir.create(data_dir, recursive = TRUE)
   }
 
-  is_zip_file = grepl(pattern = "zip", zip_url)
   exdir = sub(".zip", "", fnames)
-  if (is_zip_file) {
-    destfile = file.path(data_dir, paste0(exdir, ".zip"))
-  } else {
-    destfile = file.path(data_dir, paste0(exdir))
-  }
+  destfile = file.path(data_dir, paste0(exdir))
   data_already_exists = file.exists(destfile)
   if (data_already_exists) {
     if (isFALSE(silent)) {
@@ -103,13 +98,7 @@ dl_stats19 = function(year = NULL,
     download_file_check(zip_url, destfile = destfile, quiet = silent)
     return(NULL)
   }
-  if (is_zip_file) {
-    f2 = file.path(destfile, utils::unzip(destfile, list = TRUE)$Name)
-    utils::unzip(destfile, exdir = file.path(data_dir, exdir))
-    if (isFALSE(silent)) {
-      message("Data saved at ", sub(".zip", "", f2))
-    }
-  } else if (isFALSE(silent)) {
+  if (isFALSE(silent)) {
     message("Data saved at ", destfile)
   }
 }

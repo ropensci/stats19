@@ -3,13 +3,13 @@
 #' @section Details:
 #' This is a helper function to format raw STATS19 data
 #'
-#' @param x Data frame created with `read_accidents()`
+#' @param x Data frame created with `read_collisions()`
 #' @export
 #' @examples
 #' \donttest{
 #' if(curl::has_internet()) {
 #' dl_stats19(year = 2017, type = "accident")
-#' x = read_accidents(year = 2017, format = FALSE)
+#' x = read_collisions(year = 2017, format = FALSE)
 #' if(nrow(x) > 0) {
 #' x[1:3, 1:12]
 #' crashes = format_accidents(x)
@@ -114,7 +114,7 @@ format_stats19 = function(x, type) {
 #' @examples
 #' \donttest{
 #' if(curl::has_internet()) {
-#' crashes_raw = read_accidents(year = 2017)
+#' crashes_raw = read_collisions(year = 2017)
 #' column_names = names(crashes_raw)
 #' column_names
 #' format_column_names(column_names = column_names)
@@ -133,7 +133,7 @@ format_column_names = function(column_names) {
 
 #' Format convert STATS19 data into spatial (sf) object
 #'
-#' @param x Data frame created with `read_accidents()`
+#' @param x Data frame created with `read_collisions()`
 #' @param lonlat Should the results be returned in longitude/latitude?
 #' By default `FALSE`, meaning the British National Grid (EPSG code: 27700)
 #' is used.
