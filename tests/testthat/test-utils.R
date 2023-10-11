@@ -23,9 +23,9 @@ test_that("find_file_name works", {
 })
 
 test_that("locate_files & locate_one_file works", {
-  fn = stats19::file_names$`dft-road-casualty-statistics-accident-2017.csv`
+  fn = stats19::file_names$`dft-road-casualty-statistics-accident-2022.csv`
   skip_download()
   dl_stats19(file_name = fn)
-  x = locate_files(years = 2017, type = "cas")
+  x = locate_files(years = 2022, type = "cas")
   expect_true(length(x) > 0) # other files would have been downloaded already
 })
