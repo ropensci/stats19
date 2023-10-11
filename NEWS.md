@@ -1,4 +1,6 @@
-# stats19 3.0.0
+# stats19 3.0.0 2023-10
+
+* Major update so the package works with the new csv files
 
 # stats19 2.0.1 2022-11
 

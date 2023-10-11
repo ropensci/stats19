@@ -26,20 +26,6 @@ test_that("format_vehicles works", {
 
 context("test-format: casualties")
 
-test_that("format_casualties works", {
-  fn = stats19::file_names$`dft-road-casualty-statistics-casualty-2016.csv`
-  skip_download()
-  skip_on_cran()
-  dl_stats19(file_name = fn)
-  # read it
-  read = read_casualties(
-    year = 2016,
-    filename = "Cas.csv"
-  )
-  df = format_casualties(head(read))
-  expect_true(is(df, "data.frame"))
-})
-
 context("test-format: sf")
 test_that("format_column_names works", {
   # basic
