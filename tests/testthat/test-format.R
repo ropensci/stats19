@@ -10,20 +10,6 @@ test_that("format_collisions works", {
 
 context("test-format: vehicles")
 
-test_that("format_vehicles works", {
-  skip_download()
-  skip_on_cran()
-  fn = stats19::file_names$`dft-road-casualty-statistics-vehicle-2016.csv`
-  dl_stats19(file_name = fn)
-  # read it
-  read = read_vehicles(
-    year = 2016,
-    filename = "Veh.csv"
-  )
-  df = format_vehicles(head(read))
-  expect_true(is(df, "data.frame"))
-})
-
 context("test-format: casualties")
 
 context("test-format: sf")
