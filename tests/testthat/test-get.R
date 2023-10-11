@@ -12,7 +12,7 @@ test_that("get_stats19 works", {
   acc = get_stats19(year = 2019)
   expect_true(nrow(acc) > 100000)
   # get_stats19 defaults to accidents and downloads first
-  # from menu (2017) so multilple will found for read_
+  # from menu (2022) so multilple will found for read_
   # which is expected.
   # expect_error(get_stats19(type = "veh"))
 
@@ -49,11 +49,11 @@ test_that("get_stats19 works with multiple years and formats", {
   skip_on_cran()
   skip_if_offline()
   cas_2018 = get_stats19(2018, type = "cas", silent = TRUE)
-  cas_2017 = get_stats19(2017, type = "cas", silent = TRUE)
+  cas_2022 = get_stats19(2022, type = "cas", silent = TRUE)
   cas_2016 = get_stats19(2016, type = "cas", silent = TRUE)
   expect_equal(
     names(cas_2016),
-    names(cas_2017)
+    names(cas_2022)
     )
 })
 

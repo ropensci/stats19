@@ -179,7 +179,7 @@ Informal test:
 variable_types = stats19_vtype(stats19_variables$variable)
 names(variable_types) = stats19_variables$variable
 variable_types
-x = names(get_stats19(year = 2017, type = "accidents", ask = FALSE))
+x = names(get_stats19(year = 2022, type = "accidents", ask = FALSE))
 n = stats19_vtype(x)
 names(n) = x
 n

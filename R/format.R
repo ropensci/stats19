@@ -8,8 +8,8 @@
 #' @examples
 #' \donttest{
 #' if(curl::has_internet()) {
-#' dl_stats19(year = 2017, type = "accident")
-#' x = read_collisions(year = 2017, format = FALSE)
+#' dl_stats19(year = 2022, type = "collision")
+#' x = read_collisions(year = 2022, format = FALSE)
 #' if(nrow(x) > 0) {
 #' x[1:3, 1:12]
 #' crashes = format_collisions(x)
@@ -32,8 +32,8 @@ format_collisions = function(x) {
 #' @examples
 #' \donttest{
 #' if(curl::has_internet()) {
-#' dl_stats19(year = 2017, type = "casualty")
-#' x = read_casualties(year = 2017)
+#' dl_stats19(year = 2022, type = "casualty")
+#' x = read_casualties(year = 2022)
 #' casualties = format_casualties(x)
 #' }
 #' }
@@ -51,8 +51,8 @@ format_casualties = function(x) {
 #' @examples
 #' \donttest{
 #' if(curl::has_internet()) {
-#' dl_stats19(year = 2017, type = "vehicle", ask = FALSE)
-#' x = read_vehicles(year = 2017, format = FALSE)
+#' dl_stats19(year = 2022, type = "vehicle", ask = FALSE)
+#' x = read_vehicles(year = 2022, format = FALSE)
 #' vehicles = format_vehicles(x)
 #' }
 #' }
@@ -114,7 +114,7 @@ format_stats19 = function(x, type) {
 #' @examples
 #' \donttest{
 #' if(curl::has_internet()) {
-#' crashes_raw = read_collisions(year = 2017)
+#' crashes_raw = read_collisions(year = 2022)
 #' column_names = names(crashes_raw)
 #' column_names
 #' format_column_names(column_names = column_names)

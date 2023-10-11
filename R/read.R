@@ -17,10 +17,10 @@
 #' @examples
 #' \donttest{
 #' if(curl::has_internet()) {
-#' dl_stats19(year = 2019, type = "accident")
+#' dl_stats19(year = 2019, type = "collision")
 #' ac = read_collisions(year = 2019)
 #'
-#' dl_stats19(year = 2019, type = "accident")
+#' dl_stats19(year = 2019, type = "collision")
 #' ac_2019 = read_collisions(year = 2019)
 #' }
 #' }
@@ -102,8 +102,8 @@ read_vehicles = function(year = NULL,
 #' @examples
 #' \donttest{
 #' if(curl::has_internet()) {
-#' dl_stats19(year = 2017, type = "casualty")
-#' casualties = read_casualties(year = 2017)
+#' dl_stats19(year = 2022, type = "casualty")
+#' casualties = read_casualties(year = 2022)
 #' }
 #' }
 read_casualties = function(year = NULL,
