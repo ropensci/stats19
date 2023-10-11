@@ -18,13 +18,13 @@
 #' \donttest{
 #' if(curl::has_internet()) {
 #' dl_stats19(year = 2019, type = "accident")
-#' ac = read_accidents(year = 2019)
+#' ac = read_collisions(year = 2019)
 #'
 #' dl_stats19(year = 2019, type = "accident")
-#' ac_2019 = read_accidents(year = 2019)
+#' ac_2019 = read_collisions(year = 2019)
 #' }
 #' }
-read_accidents = function(year = NULL,
+read_collisions = function(year = NULL,
                           filename = "",
                           data_dir = get_data_directory(),
                           format = TRUE,
@@ -61,7 +61,7 @@ read_accidents = function(year = NULL,
 #' The function returns a data frame, in which each record is a reported vehicle in the
 #' STATS19 dataset for the data_dir and filename provided.
 #'
-#' @inheritParams read_accidents
+#' @inheritParams read_collisions
 #'
 #' @export
 #' @examples
@@ -96,7 +96,7 @@ read_vehicles = function(year = NULL,
 #' The function returns a data frame, in which each record is a reported casualty
 #' in the STATS19 dataset.
 #'
-#' @inheritParams read_accidents
+#' @inheritParams read_collisions
 #'
 #' @export
 #' @examples

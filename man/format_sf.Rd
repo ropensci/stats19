@@ -7,7 +7,7 @@
 format_sf(x, lonlat = FALSE)
 }
 \arguments{
-\item{x}{Data frame created with \code{read_accidents()}}
+\item{x}{Data frame created with \code{read_collisions()}}
 
 \item{lonlat}{Should the results be returned in longitude/latitude?
 By default \code{FALSE}, meaning the British National Grid (EPSG code: 27700)
