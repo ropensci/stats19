@@ -25,7 +25,7 @@ read_schema = function(
                                         sheet = 2,
                                         skip = 2)
     export_variables_collisions = tibble::tibble(
-      table = "accidents",
+      table = collision,
       variable = export_variables$`Accident Circumstances`
     )
     export_variables_vehicles =  tibble::tibble(
@@ -179,7 +179,7 @@ Informal test:
 variable_types = stats19_vtype(stats19_variables$variable)
 names(variable_types) = stats19_variables$variable
 variable_types
-x = names(get_stats19(year = 2022, type = "accidents", ask = FALSE))
+x = names(get_stats19(year = 2022, type = collision, ask = FALSE))
 n = stats19_vtype(x)
 names(n) = x
 n

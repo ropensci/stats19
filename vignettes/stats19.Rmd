@@ -27,8 +27,8 @@ A description of variables in the database can be found in a [document](https://
 The datasets are collectively called STATS19 after the form used to report them, which can be found [here](https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/995422/stats19.pdf).
 This vignette focuses on how to use the **stats19** package to work with STATS19 data.
 
-**Note**: The Department for Transport refers to "accidents", but "crashes" is a more appropriate term, as emphasised in the "crash not accident" arguments of road safety advocacy groups such as [RoadPeace](https://www.roadpeace.org/get-involved/crash-not-accident/).
-We use the term "accidents" only in reference to nomenclature within the data as provided.
+**Note**: The Department for Transport used to refer to 'accidents', but "crashes" may be a more appropriate term, as emphasised in the "crash not accident" arguments of road safety advocacy groups such as [RoadPeace](https://www.roadpeace.org/get-involved/crash-not-accident/).
+We use the term collision only in reference to nomenclature within the data as provided.
 
 The development version is hosted on [GitHub](https://github.com/ITSLeeds/stats19) and can be installed and loaded as follows:
 
@@ -202,7 +202,7 @@ crashes_2022_raw[random_n, key_vars]
 crashes_2022[random_n, key_vars]
 ```
 
-**Note**: As indicated above, the term "accidents" is only used as directly provided by the DfT; "crashes" is a more appropriate term, hence we call our resultant datasets `crashes_*`.
+**Note**: As indicated above, the term collision is only used as directly provided by the DfT; "crashes" is a more appropriate term, hence we call our resultant datasets `crashes_*`.
 
 ## Format STATS19 data
 
@@ -365,7 +365,7 @@ table(ac$Accident_Severity)
 
 ## Creating geographic crash data
 
-An important feature of STATS19 data is that the "accidents" table contains geographic coordinates.
+An important feature of STATS19 data is that the collision table contains geographic coordinates.
 These are provided at ~10m resolution in the UK's official coordinate reference system (the Ordnance Survey National Grid, EPSG code 27700).
 **stats19** converts the non-geographic tables created by `format_collisions()` into the geographic data form of the [`sf` package](https://cran.r-project.org/package=sf) with the function `format_sf()` as follows:
 
