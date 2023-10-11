@@ -56,8 +56,8 @@ The `accidents_sample_raw` can be (re)generated using:
 
 ```{r}
 # Obtained with:
-dl_stats19(year = 2017, type = "Accide")
-accidents_2017_raw = read_accidents(year = 2017)
+dl_stats19(year = 2017, type = "collison")
+accidents_2017_raw = read_collisions(year = 2017)
 set.seed(350)
 sel = sample(nrow(accidents_2017_raw), 3)
 accidents_sample_raw = accidents_2017_raw[sel, ]

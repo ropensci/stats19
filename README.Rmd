@@ -76,7 +76,7 @@ We were not asked to download the file (by default you are asked to confirm the 
 The contents of this dataset, and other datasets provided by **stats19**, are outlined below and described in more detail in the [stats19 vignette](https://itsleeds.github.io/stats19/articles/stats19.html).
 
 We will see below how the function also works to get the corresponding casualty and vehicle datasets for 2017.
-The package also allows STATS19 files to be downloaded and read-in separately, allowing more control over what you download, and subsequently read-in, with `read_accidents()`, `read_casualties()` and `read_vehicles()`, as described in the vignette.
+The package also allows STATS19 files to be downloaded and read-in separately, allowing more control over what you download, and subsequently read-in, with `read_collisions()`, `read_casualties()` and `read_vehicles()`, as described in the vignette.
 
 
 ## Data download

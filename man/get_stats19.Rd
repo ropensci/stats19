@@ -129,5 +129,5 @@ spatstat.geom::plot.ppp(leeds_ppp, use.marks = FALSE, clipwin = leeds_window)
 \seealso{
 \code{\link[=dl_stats19]{dl_stats19()}}
 
-\code{\link[=read_accidents]{read_accidents()}}
+\code{\link[=read_collisions]{read_collisions()}}
 }

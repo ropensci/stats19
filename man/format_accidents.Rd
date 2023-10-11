@@ -7,7 +7,7 @@
 format_accidents(x)
 }
 \arguments{
-\item{x}{Data frame created with \code{read_accidents()}}
+\item{x}{Data frame created with \code{read_collisions()}}
 }
 \description{
 Format STATS19 'accidents' data
@@ -21,7 +21,7 @@ This is a helper function to format raw STATS19 data
 \donttest{
 if(curl::has_internet()) {
 dl_stats19(year = 2017, type = "accident")
-x = read_accidents(year = 2017, format = FALSE)
+x = read_collisions(year = 2017, format = FALSE)
 if(nrow(x) > 0) {
 x[1:3, 1:12]
 crashes = format_accidents(x)

@@ -109,7 +109,7 @@ We will see below how the function also works to get the corresponding
 casualty and vehicle datasets for 2017. The package also allows STATS19
 files to be downloaded and read-in separately, allowing more control
 over what you download, and subsequently read-in, with
-`read_accidents()`, `read_casualties()` and `read_vehicles()`, as
+`read_collisions()`, `read_casualties()` and `read_vehicles()`, as
 described in the vignette.
 
 ## Data download
