@@ -39,7 +39,7 @@ This function downloads and unzips UK road crash data.
 It results in unzipped .csv files that are put
 in the temporary directory specified by \code{get_data_directory()} or provided \code{data_dir}.
 
-The file downloaded would be for a specific year (e.g. 2017).
+The file downloaded would be for a specific year (e.g. 2022).
 It could also be a file containing data for a range of two (e.g. 2005-2014).
 
 The \verb{dl_*} functions can download many MB of data so ensure you
@@ -50,7 +50,7 @@ have a sufficient internet access and hard disk space.
 \donttest{
 if(curl::has_internet()) {
 # type by default is accidents table
-dl_stats19(year = 2017)
+dl_stats19(year = 2022)
 # try another year
 dl_stats19(year = 2018)
 }

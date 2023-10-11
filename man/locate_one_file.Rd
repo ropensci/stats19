@@ -20,7 +20,7 @@ otherwise disk scan would be needed.}
 
 \item{year}{Single year for which file is to be found.}
 
-\item{type}{One of: 'Accidents', 'Casualties', 'Vehicles'; ignores case.}
+\item{type}{One of: 'Collision', 'Casualties', 'Vehicles'; ignores case.}
 }
 \value{
 One of: path for one file, a message \verb{More than one file found} or error if none found.
