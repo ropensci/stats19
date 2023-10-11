@@ -18,7 +18,7 @@
 #' [data release page](https://data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data)
 #'  e.g. `2020`
 #' @param type One of 'Accident', 'Casualty', 'Vehicle'; defaults to 'Accident'.
-#' Or any variation of to search the file names with such as "acc" or "accid".
+#' Or any variation of to search the file names with such as "collision".
 #' @param data_dir Parent directory for all downloaded files. Defaults to `tempdir()`.
 #' @param ask Should you be asked whether or not to download the files? `TRUE` by default.
 #' @param silent Boolean. If `FALSE` (default value), display useful progress

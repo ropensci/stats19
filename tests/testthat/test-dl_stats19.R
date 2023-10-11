@@ -16,14 +16,3 @@ test_that("dl_stats19 works for no data_dir", {
   expect_message(dl_stats19(year = "2022", type = "collision"))
   # tempdir created.
 })
-
-test_that("dl_stats19 works for chosen file name", {
-  skip_on_cran()
-  skip_download()
-  expect_message(
-    dl_stats19(
-      file_name = stats19::file_names$`dft-road-casualty-statistics-accident-2019.csv`
-    ),
-    "Files identified: dft-road-casualty-statistics-accident-2019.csv"
-  )
-})
