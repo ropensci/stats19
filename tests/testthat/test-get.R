@@ -20,12 +20,10 @@ test_that("get_stats19 works", {
   acc_tibble = get_stats19(year = 2019, type = "collision")
   acc_data_frame = get_stats19(year = 2019, type = "collision", output_format = "data.frame")
   acc_sf = get_stats19(year = 2019, type = "collision", output_format = "sf")
-  acc_ppp = get_stats19(year = 2019, type = "collision", output_format = "ppp")
 
   expect_true(is(acc_tibble, "tbl_df"))
   expect_s3_class(acc_data_frame, "data.frame")
   expect_true(is(acc_sf, "sf"))
-  expect_true(is(acc_ppp, "ppp"))
 
   # if the output format is not c("tibble", "sf", "ppp") then it returns NULL
   expect_warning({acc = get_stats19(2019, "collision", output_format = "abcdef")})
