@@ -15,7 +15,7 @@ dl_stats19(
 }
 \arguments{
 \item{year}{A year matching file names on the STATS19
-\href{https://data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data}{data release page}
+\href{https://www.data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data}{data release page}
 e.g. \code{2020}}
 
 \item{type}{One of 'Accident', 'Casualty', 'Vehicle'; defaults to 'Accident'.
