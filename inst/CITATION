@@ -3,8 +3,8 @@ citHeader(
   "www.nationalarchives.gov.uk/doc/open-government-licence/version/3/\n",
   "To cite stats19 in publications, please use:"
 )
-citEntry(
-  entry = "Article",
+bibentry(
+  bibtype = "Article",
   author = c(
     person("Robin", "Lovelace", email = "rob00x@gmail.com", role = c("aut", "cre"),
       comment = c(ORCID = "0000-0001-5679-6536")),
