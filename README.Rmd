@@ -85,18 +85,16 @@ Data files can be downloaded without reading them in using the function `dl_stat
 If there are multiple matches, you will be asked to choose from a range of options.
 Providing just the year, for example, will result in the following options:
 
-```{r dl2022-all}
-dl_stats19(year = 2020, data_dir = tempdir())
+```{r dl2022-all, eval=FALSE}
+dl_stats19(year = 2022, data_dir = tempdir())
 ```
 
 ```
 Multiple matches. Which do you want to download?
 
-1: dft-road-casualty-statistics-casualty-2020.csv
-2: dft-road-casualty-statistics-vehicle-2020.csv
-3: dft-road-casualty-statistics-accident-2020.csv
-4: dft-road-casualty-statistics-vehicle-e-scooter-2020.csv
-5: road-safety-data-mid-year-provisional-estimates-2020.csv
+1: dft-road-casualty-statistics-casualty-2022.csv
+2: dft-road-casualty-statistics-vehicle-2022.csv
+3: dft-road-casualty-statistics-collision-2022.csv
 
 Selection: 
 Enter an item from the menu, or 0 to exit
@@ -137,7 +135,7 @@ For the full list of columns, run `names(crashes)` or see the [vignette](https:/
 As with `crashes`, casualty data for 2022 can be downloaded, read-in and formatted as follows:
 
 ```{r 2022-cas}
-casualties = get_stats19(year = 2022, type = "casualty", ask = FALSE)
+casualties = get_stats19(year = 2022, type = "casualty", ask = FALSE, format = TRUE)
 nrow(casualties)
 ncol(casualties)
 ```
@@ -160,7 +158,7 @@ names(casualties)
 Data for vehicles involved in crashes in 2022 can be downloaded, read-in and formatted as follows:
 
 ```{r dl2022-vehicles}
-vehicles = get_stats19(year = 2022, type = "vehicle", ask = FALSE)
+vehicles = get_stats19(year = 2022, type = "vehicle", ask = FALSE, format = TRUE)
 nrow(vehicles)
 ncol(vehicles)
 ```
@@ -268,7 +266,7 @@ crashes_dates = cj %>%
   st_set_geometry(NULL) %>% 
   group_by(date) %>% 
   summarise(
-    walking = sum(Pedestrian),
+    walking = sum(),
     cycling = sum(Cyclist),
     passenger = sum(`Car occupant`)
     ) %>% 
@@ -325,7 +323,7 @@ There is much important research that needs to be done to help make the transpor
 Even if you're not working with UK data, we hope that the data provided by **stats19** data can help safety researchers develop new methods to better understand the reasons why people are needlessly hurt and killed on the roads.
 
 The next step is to gain a deeper understanding of **stats19** and the data it provides.
-Then it's time to pose interesting research questions, some of which could provide an evidence-base in support policies that save lives [e.g. @sarkar_street_2018].
+Then it's time to pose interesting research questions, some of which could provide an evidence-base in support policies that save lives.
 For more on these next steps, see the package's introductory [vignette](https://itsleeds.github.io/stats19/articles/stats19.html).
 
 ## Further information
