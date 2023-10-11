@@ -71,10 +71,7 @@ Multiple functions (`read_*` and `format_*`) are needed for each step because of
 3. vehicles, which contains more information about the vehicle type and manoeuvres, as well the some information about the driver."
 
 Data files containing multiple years worth of data can be downloaded.
-Datasets since 1979 are broadly consistent, meaning that STATS19 data represents a rich historic geographic record of road casualties at a national level, as stated in the DfT's road casualties report in [2022](https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/744077/reported-road-casualties-annual-report-2022.pdf):
-
-> The current set of definitions and detail of information 
-goes back to 1979, providing a long period for comparison.
+Datasets since 1979 are broadly consistent, meaning that STATS19 data represents a rich historic geographic record of road casualties at a national level.
 
 ## Download STATS19 data
 
