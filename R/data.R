@@ -33,10 +33,7 @@ NULL
 #' `data-raw` directory (`misc.Rmd` file).
 #'
 #' @examples
-#' \dontrun{
-#'  length(file_names)
-#'  file_names$dftRoadSafetyData_Vehicles_2017.zip
-#' }
+#' head(file_names)
 #' @docType data
 #' @keywords datasets
 #' @name file_names
@@ -44,7 +41,7 @@ NULL
 #' @aliases file_names_old
 NULL
 
-#' Sample of stats19 data (2017 accidents)
+#' Sample of stats19 data (2022 accidents)
 #'
 #' @note These were generated using the script in the
 #' `data-raw` directory (`misc.Rmd` file).
@@ -61,7 +58,7 @@ NULL
 #' @format A data frame
 NULL
 
-#' Sample of stats19 data (2017 casualties)
+#' Sample of stats19 data (2022 casualties)
 #'
 #' @note These were generated using the script in the
 #' `data-raw` directory (`misc.Rmd` file).
@@ -78,7 +75,7 @@ NULL
 #' @format A data frame
 NULL
 
-#' Sample of stats19 data (2017 vehicles)
+#' Sample of stats19 data (2022 vehicles)
 #'
 #' @note These were generated using the script in the
 #' `data-raw` directory (`misc.Rmd` file).

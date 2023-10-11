@@ -56,38 +56,47 @@ The `accidents_sample_raw` can be (re)generated using:
 
 ```{r}
 # Obtained with:
-dl_stats19(year = 2017, type = "Accide")
-accidents_2017_raw = read_accidents(year = 2017)
+dl_stats19(year = 2022, type = "collison")
+accidents_2022_raw = read_collisions(year = 2022)
 set.seed(350)
-sel = sample(nrow(accidents_2017_raw), 3)
-accidents_sample_raw = accidents_2017_raw[sel, ]
-accidents_sample = format_accidents(accidents_sample_raw)
+sel = sample(nrow(accidents_2022_raw), 3)
+accidents_sample_raw = accidents_2022_raw[sel, ]
+# accidents_sample = format_collisions(accidents_sample_raw)
+accidents_sample = accidents_sample_raw
+waldo::compare(accidents_sample_raw, accidents_sample)
+usethis::use_data(accidents_sample_raw, overwrite = TRUE)
+usethis::use_data(accidents_sample, overwrite = TRUE)
 ```
 
 Similarly for casualites, use:
 
 ```{r}
 # Obtained with:
-dl_stats19(year = 2017, type = "cas")
-casualties_2017_raw = read_casualties(year = 2017)
+dl_stats19(year = 2022, type = "cas")
+casualties_2022_raw = read_casualties(year = 2022)
 set.seed(350)
-sel = sample(nrow(casualties_2017_raw), 3)
-casualties_sample_raw = casualties_2017_raw[sel, ]
-casualties_sample = format_casualties(casualties_sample_raw)
+sel = sample(nrow(casualties_2022_raw), 3)
+casualties_sample_raw = casualties_2022_raw[sel, ]
+# casualties_sample = format_casualties(casualties_sample_raw)
+casualties_sample = casualties_sample_raw
+usethis::use_data(casualties_sample, overwrite = TRUE)
 ```
 
 and for vehicles, use:
 ```{r}
 # Obtained with:
-dl_stats19(year = 2017, type = "veh")
-vehicles_2017_raw = read_vehicles(year = 2017)
+dl_stats19(year = 2022, type = "veh")
+vehicles_2022_raw = read_vehicles(year = 2022)
 set.seed(350)
-sel = sample(nrow(vehicles_2017_raw), 3)
-vehicles_sample_raw = vehicles_2017_raw[sel, ]
-vehicles_sample = format_vehicles(vehicles_sample_raw)
+sel = sample(nrow(vehicles_2022_raw), 3)
+vehicles_sample_raw = vehicles_2022_raw[sel, ]
+# vehicles_sample = format_vehicles(vehicles_sample_raw)
+vehicles_sample = vehicles_2022_raw
+usethis::use_data(vehicles_sample, overwrite = TRUE)
 ```
 
-Aslso, to (re)generate the `police_boundaries` data, use:
+Also, to (re)generate the `police_boundaries` data, use:
+
 ```{r}
 # Obtained with:
 library(sf)
@@ -98,3 +107,4 @@ police_boundaries = st_transform(police_boundaries_wgs, 27700)
 names(police_boundaries)
 police_boundaries = police_boundaries[c("pfa16cd", "pfa16nm")]
 ```
+

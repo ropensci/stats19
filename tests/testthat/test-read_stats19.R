@@ -2,7 +2,7 @@ context("test-read_stats19")
 
 source("../skip-download.R")
 
-test_that("read_accidents works", {
+test_that("read_collisions works", {
   skip_download()
   skip_on_cran()
   # download real data
@@ -11,12 +11,12 @@ test_that("read_accidents works", {
   # make sure we have a csv file to read
   path = stats19:::locate_one_file(
     stats19:::get_data_directory(),
-    type = "accident",
+    type = "collision",
     year = 2019,
     filename = sub(".zip", ".csv", acc_2019)
   )
   # read it
-  read = read_accidents(year = 2019)
+  read = read_collisions(year = 2019)
   raw_read = read.csv(path)
   expect_equal(nrow(read), nrow(raw_read))
   # read with just file name

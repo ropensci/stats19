@@ -1,0 +1,49 @@
+---
+output: github_document
+---
+
+
+```{r}
+library(tidyverse)
+remotes::install_cran("stats19")
+remotes::install_cran("fedmatch")
+remotes::install_cran("fuzzyjoin")
+library(stats19)
+```
+
+Data was obtained from 
+
+```{r}
+# Works:
+casualties_all = read_csv("https://data.dft.gov.uk/road-accidents-safety-data/dft-road-casualty-statistics-casualty-1979-latest-published-year.csv")
+crashes_all = read_csv("https://data.dft.gov.uk/road-accidents-safety-data/dft-road-casualty-statistics-collision-1979-latest-published-year.csv")
+
+waldo::compare(names(stats19::accidents_sample_raw), names(crashes_all))
+
+length(stats19::accidents_sample_raw)
+length(crashes_all)
+
+names_old = names(stats19::accidents_sample_raw)
+names_new = names(crashes_all)
+
+df1 = data.frame(old = tolower(names_old), x = seq(length(names_old)))
+df2 = data.frame(new = names_new, y = seq(length(names_new)))
+df1 = df1 |> 
+  mutate(old_processed = gsub(replacement = "first", "1st", x = old)) |> 
+  mutate(old_processed = gsub(replacement = "second", "2nd", x = old_processed)) 
+df3 = df1 |> 
+  select(old_processed, x)
+
+joined = fuzzyjoin::stringdist_full_join(df1, df2, by = c(old_processed = "new"))
+joined_minimal = joined |> 
+  select(old_processed, new)
+joined_minimal
+
+# format_collisions(crashes_all)
+```
+
+```{r}
+```
+
+```{r}
+```

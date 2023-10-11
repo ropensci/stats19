@@ -24,8 +24,8 @@ read_schema = function(
     export_variables = readxl::read_xls(path = file_path,
                                         sheet = 2,
                                         skip = 2)
-    export_variables_accidents = tibble::tibble(
-      table = "accidents",
+    export_variables_collisions = tibble::tibble(
+      table = collision,
       variable = export_variables$`Accident Circumstances`
     )
     export_variables_vehicles =  tibble::tibble(
@@ -37,7 +37,7 @@ read_schema = function(
       variable = export_variables$Casualty
     )
     export_variables_long = rbind(
-      export_variables_accidents,
+      export_variables_collisions,
       export_variables_casualties,
       export_variables_vehicles
     )
@@ -179,7 +179,7 @@ Informal test:
 variable_types = stats19_vtype(stats19_variables$variable)
 names(variable_types) = stats19_variables$variable
 variable_types
-x = names(get_stats19(year = 2017, type = "accidents", ask = FALSE))
+x = names(get_stats19(year = 2022, type = collision, ask = FALSE))
 n = stats19_vtype(x)
 names(n) = x
 n

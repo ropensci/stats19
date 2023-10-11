@@ -20,7 +20,7 @@ Great Britain’s official road traffic casualty database,
 
 We started the package in late 2018 following three main motivations:
 
-1.  The release of the 2017 road crash statistics, which showed
+1.  The release of the 2022 road crash statistics, which showed
     worsening road safety in some areas, increasing the importance of
     making the data more accessible.
 2.  The realisation that many researchers were writing add-hoc code to
@@ -100,7 +100,7 @@ The importance of road safety and informed decision making based on crash data c
 
 Even more shocking are the [global statistics](https://www.who.int/data/gho/data/themes/road-safety), as summarised by an open access and reproducible academic [paper that uses data from the package to explore car-pedestrian crashes](https://github.com/Robinlovelace/stats19-gisruk):
 
-> While so many people die on the roads each year in the UK (1,793 people in 2017, 3 deaths per 100,000) and worldwide (1,250,000 people in 2015, 17 deaths per 100,000) and ‘vision zero’ remains a Swedish dream (Johansson 2009), we urge people researching STATS19 and other road safety datasets to focus on a more urgent question: how to stop this carnage?
+> While so many people die on the roads each year in the UK (1,793 people in 2022, 3 deaths per 100,000) and worldwide (1,250,000 people in 2015, 17 deaths per 100,000) and ‘vision zero’ remains a Swedish dream (Johansson 2009), we urge people researching STATS19 and other road safety datasets to focus on a more urgent question: how to stop this carnage?
 
 #### The road crash data in stats19
 
@@ -108,7 +108,7 @@ There are three main different types of CSV files released by the DfT: `accident
 There is a schema covering these tables but a good amount of work is needed to understand it, let alone be able to the data contained within the files and convert the integers they contain into meaningful data.
 
 The annual statistics have not been released in a consistent way either, making it hard for people to download, or even find, the relevant files.
-For example, there are separate files for each of the above tables for certain years (e.g. 2016, 2017) but not for all of 1979 - 2017 or 2018 now.
+For example, there are separate files for each of the above tables for certain years (e.g. 2016, 2022) but not for all of 1979 - 2022 or 2018 now.
 The largest chunk is the 1979 - 2004 data, which is made available in a huge ZIP file ([link](https://data.dft.gov.uk/road-accidents-safety-data/Stats19-Data1979-2004.zip)).
 Unzipped this contains the following 3 files, which occupy almost 2 GB on your hard drive: 
 
@@ -149,60 +149,60 @@ library(stats19)
 
 The easiest way to get STATS19 data is with `get_stats19()`.
 This function takes 2 main arguments, `year` and `type`.
-The year can be any year between 1979 and 2017.
+The year can be any year between 1979 and 2022.
 
-```{r dl2017-accidents, message=FALSE}
-crashes_2017 = get_stats19(year = 2017, type = "Accidents", ask = FALSE)
-nrow(crashes_2017)
+```{r dl2022-accidents, message=FALSE}
+crashes_2022 = get_stats19(year = 2022, type = "Accidents", ask = FALSE)
+nrow(crashes_2022)
 ```
 
 What just happened?
-We just downloaded, cleaned and read-in data on all road crashes recorded by the police in 2017 across Great Britain. We can explore the `crashes_2017` object a little more:
+We just downloaded, cleaned and read-in data on all road crashes recorded by the police in 2022 across Great Britain. We can explore the `crashes_2022` object a little more:
 
-```{r crashes_2017-explore}
-column_names = names(crashes_2017)
+```{r crashes_2022-explore}
+column_names = names(crashes_2022)
 length(column_names)
 head(column_names)
-class(crashes_2017)
-kableExtra::kable(head(crashes_2017[, c(1, 4, 5, 7, 10)]))
+class(crashes_2022)
+kableExtra::kable(head(crashes_2022[, c(1, 4, 5, 7, 10)]))
 ```
 
 The package contains the names of all "zip" files released by the DfT and hosted on Amazon servers to download. These file names have been included in the package and can be found under `file_names` variable name. for example:
 
 ```{r file_names}
-stats19::file_names$dftRoadSafetyData_Vehicles_2017.zip
+stats19::file_names$dftRoadSafetyData_Vehicles_2022.zip
 ```
 
 You can also get the raw data (if you really want!) to see how much more useful the data is after it has been cleaned and labelled by the `stats19` package, compared with the data provided by government:
 
 ```{r}
-crashes_2017_raw = get_stats19(year = 2017, type = "Accidents", ask = FALSE, format = FALSE)
+crashes_2022_raw = get_stats19(year = 2022, type = "Accidents", ask = FALSE, format = FALSE)
 ```
 The first two columns are raw read, the next two are formatted by `stats19` package:
 
-```{r crashes_2017-raw}
-kableExtra::kable(cbind(head(crashes_2017_raw[1:2, c(7, 10)]), head(crashes_2017[1:2, c(7, 10)])))
-class(crashes_2017_raw$Date)
-class(crashes_2017$date)
+```{r crashes_2022-raw}
+kableExtra::kable(cbind(head(crashes_2022_raw[1:2, c(7, 10)]), head(crashes_2022[1:2, c(7, 10)])))
+class(crashes_2022_raw$Date)
+class(crashes_2022$date)
 ```
 
 Note: the severity type is not labelled (this problem affects dozens of columns), the column names are inconsistent, and the dates have note been cleaned and converted into a user-friendly date (`POSIXct`) class:
 
 
 ```{r}
-class(crashes_2017$date)
-class(crashes_2017_raw$Date)
+class(crashes_2022$date)
+class(crashes_2022_raw$Date)
 ```
 
 #### Creating geographic crash data
 
-An important feature of STATS19 data is that the "accidents" table contains geographic coordinates.
+An important feature of STATS19 data is that the collision table contains geographic coordinates.
 These are provided at ~10m resolution in the UK's official coordinate reference system (the Ordnance Survey National Grid, EPSG code 27700).
-**stats19** converts the non-geographic tables created by `format_accidents()` into the geographic data form of the [`sf` package](https://cran.r-project.org/package=sf) with the function `format_sf()` as follows:
+**stats19** converts the non-geographic tables created by `format_collisions()` into the geographic data form of the [`sf` package](https://cran.r-project.org/package=sf) with the function `format_sf()` as follows:
 
 ```{r format-crashes-sf}
-crashes_sf = format_sf(crashes_2017)
-# crashes_sf = format_sf(crashes_2017, lonlat = TRUE) # provides the data in lon/lat format
+crashes_sf = format_sf(crashes_2022)
+# crashes_sf = format_sf(crashes_2022, lonlat = TRUE) # provides the data in lon/lat format
 ```
 
 An example of an administrative zone dataset of relevance to STATS19 data is the boundaries of police forces in England, which is provided in the packaged dataset `police_boundaries`.
@@ -233,12 +233,12 @@ nrow(crashes_wy) # which is 3.36%
 
 We can combine the three sets of tables to analyse the data further. Lets read the datasets first:
 
-```{r dl2017-vehcas, message=FALSE}
-#crashes_2017 = get_stats19(year = 2017, type = "Accidents", ask = FALSE)
-casualties_2017 = get_stats19(year = 2017, type = "casualty", ask = FALSE)
-nrow(casualties_2017)
-vehicles_2017 = get_stats19(year = 2017, type = "vehicle", ask = FALSE)
-nrow(vehicles_2017)
+```{r dl2022-vehcas, message=FALSE}
+#crashes_2022 = get_stats19(year = 2022, type = "Accidents", ask = FALSE)
+casualties_2022 = get_stats19(year = 2022, type = "casualty", ask = FALSE)
+nrow(casualties_2022)
+vehicles_2022 = get_stats19(year = 2022, type = "vehicle", ask = FALSE)
+nrow(vehicles_2022)
 ```
 
 Lets now read in casualties that took place in West Yorkshire (using `crashes_wy` object above), and count the number of casualties by severity for each crash:
@@ -246,8 +246,8 @@ Lets now read in casualties that took place in West Yorkshire (using `crashes_wy
 ```{r table-join, message = FALSE}
 library(tidyr)
 library(dplyr)
-sel = casualties_2017$accident_index %in% crashes_wy$accident_index
-casualties_wy = casualties_2017[sel, ]
+sel = casualties_2022$accident_index %in% crashes_wy$accident_index
+casualties_wy = casualties_2022[sel, ]
 cas_types = casualties_wy %>% 
   select(accident_index, casualty_type) %>% 
   group_by(accident_index) %>% 
@@ -276,7 +276,7 @@ In addition to the `Total` number of people hurt/killed, `cj` contains a column 
 It also contains the `geometry` column from `crashes_sf`.
 In other words, joins allow the casualties and vehicles tables to be geo-referenced.
 We can then explore the spatial distribution of different casualty types.
-The following figure, for example, shows the spatial distribution of pedestrians and car passengers hurt in car crashes across West Yorkshire in 2017:
+The following figure, for example, shows the spatial distribution of pedestrians and car passengers hurt in car crashes across West Yorkshire in 2022:
 
 ```{r sfplot, fig.show='hold', out.width="100%", fig.cap="Spatial distribution of serious and fatal collisions in which people who were walking on the road network ('pedestrians') were hit by a car or other vehicle.", fig.width=9, fig.height=7}
 library(ggplot2)
@@ -302,7 +302,7 @@ ggplot(crashes_types, aes(size = Total, colour = speed_limit)) +
 To show what is possible when the data are in this form, and allude to next steps, let's create an interactive map.
 We will plot crashes in which pedestrians were hurt, from the `crashes_types`, using `leaflet` package:
 
-```{r crashes-map, fig.show='hold', out.width="100%", fig.cap="Spatial distribution of all collisions in which people who were walking on the road network ('pedestrians') were hit by a car or other vehicle in 2017 within West Yorkshire boundary.", fig.width=9, fig.height=7}
+```{r crashes-map, fig.show='hold', out.width="100%", fig.cap="Spatial distribution of all collisions in which people who were walking on the road network ('pedestrians') were hit by a car or other vehicle in 2022 within West Yorkshire boundary.", fig.width=9, fig.height=7}
 library(leaflet)
 crashes_pedestrians = crashes_types %>% 
   filter(walking > 0)
@@ -371,7 +371,7 @@ template = paste0('
 		return this._div;
 	};
 	info.update = function (props) {
-		this._div.innerHTML = "<h6>Crashes in West Yorkshire (2017)</h6>";
+		this._div.innerHTML = "<h6>Crashes in West Yorkshire (2022)</h6>";
 	};
 	info.addTo(map);
 </script>

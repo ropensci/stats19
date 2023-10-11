@@ -127,7 +127,7 @@ Huge cobenefits of downsizing
 knitr::include_graphics("https://royalsocietypublishing.org/cms/attachment/6cf8790d-1cc3-4e01-b140-e913718b3f2e/rsta20160364f03.jpg")
 ```
 
-Serrenho et al (2017) The impact of reducing car weight on global emissions: the future fleet in Great Britain  https://doi.org/10.1098/rsta.2016.0364
+Serrenho et al (2022) The impact of reducing car weight on global emissions: the future fleet in Great Britain  https://doi.org/10.1098/rsta.2016.0364
 
 
 ???
@@ -165,7 +165,7 @@ Too techy for me, about managing 100s of people!
 .pull-left[
 
 ```{r, echo=FALSE}
-knitr::include_graphics("https://ec.europa.eu/easme/sites/easme-site/files/getreal_growinggap_e_year2017.jpg")
+knitr::include_graphics("https://ec.europa.eu/easme/sites/easme-site/files/getreal_growinggap_e_year2022.jpg")
 ```
 
 ]

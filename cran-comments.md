@@ -1,11 +1,7 @@
-Updated with fixed urls
-
-
-## Test environments
-* local R installation, 
-* ubuntu 20.04 (GitHub Actions)
-* win-builder (devel)
+Major update fixing issues associated with upstream changes in the files the package reads in.
 
 ## R CMD check results
 
-0 errors | 0 warnings | 0 notes
+0 errors | 0 warnings | 1 note
+
+* This is a new release.

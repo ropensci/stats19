@@ -101,7 +101,7 @@ dmy("17/10/2019") # works
 c_sample = stats19::accidents_sample
 c_sample$date
 c_sample$date_formatted = dmy(c_sample$date)
-c_sample$date_formatted > ymd("2017-08-01")
+c_sample$date_formatted > ymd("2022-08-01")
 ```
 
 ---

@@ -13,14 +13,14 @@ That is:
 E.g.:
 
 ```{r, eval=FALSE}
-dl_stats19(year = 2017)
+dl_stats19(year = 2022)
 # Multiple matches. Which do you want to download?
 # 
-# 1: dftRoadSafetyData_Vehicles_2017.zip
-# 2: dftRoadSafetyData_Casualties_2017.zip
-# 3: dftRoadSafetyData_Accidents_2017.zip
-dl_stats19(year = 2017, type = "ac")
-# Files identified: dftRoadSafetyData_Accidents_2017.zip
+# 1: dftRoadSafetyData_Vehicles_2022.zip
+# 2: dftRoadSafetyData_Casualties_2022.zip
+# 3: dftRoadSafetyData_Accidents_2022.zip
+dl_stats19(year = 2022, type = "ac")
+# Files identified: dftRoadSafetyData_Accidents_2022.zip
 # 
 # Wanna do it (y = enter, n = esc)? 
 dl_stats19(year = 1985)
@@ -81,7 +81,7 @@ Review Comments
 
 Thank you.
 
-> I wonder you could possibly merge the formatting and reading step with a raw = TRUE or format = TRUE argument in the read_* functions. But perhaps that's my tendency towards abstraction. Something like ac = read_accidents(year = 2017, format = TRUE)
+> I wonder you could possibly merge the formatting and reading step with a raw = TRUE or format = TRUE argument in the read_* functions. But perhaps that's my tendency towards abstraction. Something like ac = read_collisions(year = 2022, format = TRUE)
 
 Done, appreciate your input.
 

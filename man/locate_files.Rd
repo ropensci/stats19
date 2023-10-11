@@ -14,7 +14,7 @@ locate_files(
 \arguments{
 \item{data_dir}{Super directory where dataset(s) were first downloaded to.}
 
-\item{type}{One of 'Accidents', 'Casualties', 'Vehicles'; defaults to 'Accidents', ignores case.}
+\item{type}{One of 'Collision', 'Casualties', 'Vehicles'; defaults to 'Collision', ignores case.}
 
 \item{years}{Years for which data are to be found}
 

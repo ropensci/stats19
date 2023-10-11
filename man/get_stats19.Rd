@@ -6,7 +6,7 @@
 \usage{
 get_stats19(
   year = NULL,
-  type = "accident",
+  type = "collision",
   data_dir = get_data_directory(),
   file_name = NULL,
   format = TRUE,
@@ -18,11 +18,11 @@ get_stats19(
 }
 \arguments{
 \item{year}{A year matching file names on the STATS19
-\href{https://www.data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data}{data release page}
+\href{https://data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data}{data release page}
 e.g. \code{2020}}
 
 \item{type}{One of 'Accident', 'Casualty', 'Vehicle'; defaults to 'Accident'.
-Or any variation of to search the file names with such as "acc" or "accid".}
+Or any variation of to search the file names with such as "collision".}
 
 \item{data_dir}{Parent directory for all downloaded files. Defaults to \code{tempdir()}.}
 
@@ -53,11 +53,11 @@ This function uses gets STATS19 data. Behind the scenes it uses
 \code{dl_stats19()} and \verb{read_*} functions, returning a
 \code{tibble} (default), \code{data.frame}, \code{sf} or \code{ppp} object, depending on the
 \code{output_format} parameter.
-The function returns data for a specific year (e.g. \code{year = 2017})
+The function returns data for a specific year (e.g. \code{year = 2022})
 
 Note: for years before 2016 the function may return data from more years than are
 requested due to the nature of the files hosted at
-\href{https://www.data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data}{data.gov.uk}.
+\href{https://data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data}{data.gov.uk}.
 
 As this function uses \code{dl_stats19} function, it can download many MB of data,
 so ensure you have a sufficient disk space.
@@ -70,28 +70,25 @@ functions, as shown in the examples.
 \examples{
 \donttest{
 if(curl::has_internet()) {
-# default tibble output
-x = get_stats19(2019)
+x = get_stats19(2022, silent = TRUE, format = TRUE)
 class(x)
-x = get_stats19(2017, silent = TRUE)
-
 # data.frame output
-x = get_stats19(2017, silent = TRUE, output_format = "data.frame")
+x = get_stats19(2022, silent = TRUE, output_format = "data.frame")
 class(x)
 
 # Run tests only if endpoint is alive:
 if(nrow(x) > 0) {
 
 # sf output
-x_sf = get_stats19(2017, silent = TRUE, output_format = "sf")
+x_sf = get_stats19(2022, silent = TRUE, output_format = "sf")
 
 # sf output with lonlat coordinates
-x_sf = get_stats19(2017, silent = TRUE, output_format = "sf", lonlat = TRUE)
+x_sf = get_stats19(2022, silent = TRUE, output_format = "sf", lonlat = TRUE)
 sf::st_crs(x_sf)
 
 if (requireNamespace("spatstat.geom", quietly = TRUE)) {
 # ppp output
-x_ppp = get_stats19(2017, silent = TRUE, output_format = "ppp")
+x_ppp = get_stats19(2022, silent = TRUE, output_format = "ppp")
 
 # We can use the window parameter of format_ppp function to filter only the
 # events occurred in a specific area. For example we can create a new bbox
@@ -102,7 +99,7 @@ xrange = c(425046.1, 435046.1),
 yrange = c(428577.2, 438577.2)
 )
 
-leeds_ppp = get_stats19(2017, silent = TRUE, output_format = "ppp", window = leeds_window)
+leeds_ppp = get_stats19(2022, silent = TRUE, output_format = "ppp", window = leeds_window)
 spatstat.geom::plot.ppp(leeds_ppp, use.marks = FALSE, clipwin = leeds_window)
 
 # or even more fancy examples where we subset all the events occurred in a
@@ -119,7 +116,7 @@ spatstat.geom::plot.ppp(leeds_ppp, use.marks = FALSE, clipwin = leeds_window)
 # greater_london_polygon = sf::st_coordinates(greater_london_sf_polygon)[, c(1, 2)]
 # greater_london_window = spatstat.geom::owin(poly = greater_london_polygon)
 
-# greater_london_ppp = get_stats19(2017, output_format = "ppp", window = greater_london_window)
+# greater_london_ppp = get_stats19(2022, output_format = "ppp", window = greater_london_window)
 # spatstat.geom::plot.ppp(greater_london_ppp, use.marks = FALSE, clipwin = greater_london_window)
 }
 }
@@ -129,5 +126,5 @@ spatstat.geom::plot.ppp(leeds_ppp, use.marks = FALSE, clipwin = leeds_window)
 \seealso{
 \code{\link[=dl_stats19]{dl_stats19()}}
 
-\code{\link[=read_accidents]{read_accidents()}}
+\code{\link[=read_collisions]{read_collisions()}}
 }

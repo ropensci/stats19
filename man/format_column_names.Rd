@@ -20,7 +20,7 @@ such as spaces and \code{-} are returned.
 \examples{
 \donttest{
 if(curl::has_internet()) {
-crashes_raw = read_accidents(year = 2017)
+crashes_raw = read_collisions(year = 2022)
 column_names = names(crashes_raw)
 column_names
 format_column_names(column_names = column_names)

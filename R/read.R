@@ -17,14 +17,14 @@
 #' @examples
 #' \donttest{
 #' if(curl::has_internet()) {
-#' dl_stats19(year = 2019, type = "accident")
-#' ac = read_accidents(year = 2019)
+#' dl_stats19(year = 2019, type = "collision")
+#' ac = read_collisions(year = 2019)
 #'
-#' dl_stats19(year = 2019, type = "accident")
-#' ac_2019 = read_accidents(year = 2019)
+#' dl_stats19(year = 2019, type = "collision")
+#' ac_2019 = read_collisions(year = 2019)
 #' }
 #' }
-read_accidents = function(year = NULL,
+read_collisions = function(year = NULL,
                           filename = "",
                           data_dir = get_data_directory(),
                           format = TRUE,
@@ -37,7 +37,7 @@ read_accidents = function(year = NULL,
 
   path = check_input_file(
     filename = filename,
-    type = "accident",
+    type = "collision",
     data_dir = data_dir,
     year = year
   )
@@ -51,7 +51,7 @@ read_accidents = function(year = NULL,
   })
 
   if(format)
-    return(format_accidents(ac))
+    return(format_collisions(ac))
   ac
 }
 
@@ -61,7 +61,7 @@ read_accidents = function(year = NULL,
 #' The function returns a data frame, in which each record is a reported vehicle in the
 #' STATS19 dataset for the data_dir and filename provided.
 #'
-#' @inheritParams read_accidents
+#' @inheritParams read_collisions
 #'
 #' @export
 #' @examples
@@ -96,14 +96,14 @@ read_vehicles = function(year = NULL,
 #' The function returns a data frame, in which each record is a reported casualty
 #' in the STATS19 dataset.
 #'
-#' @inheritParams read_accidents
+#' @inheritParams read_collisions
 #'
 #' @export
 #' @examples
 #' \donttest{
 #' if(curl::has_internet()) {
-#' dl_stats19(year = 2017, type = "casualty")
-#' casualties = read_casualties(year = 2017)
+#' dl_stats19(year = 2022, type = "casualty")
+#' casualties = read_casualties(year = 2022)
 #' }
 #' }
 read_casualties = function(year = NULL,
