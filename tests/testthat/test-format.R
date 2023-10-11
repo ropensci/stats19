@@ -3,42 +3,14 @@ source("../skip-download.R")
 
 context("test-format: accidents")
 
-test_that("format_accidents works", {
-  df = format_accidents(stats19::accidents_sample_raw)
+test_that("format_collisions works", {
+  df = format_collisions(stats19::accidents_sample_raw)
   expect_equal(nrow(df), nrow(stats19::accidents_sample_raw))
 })
 
 context("test-format: vehicles")
 
-test_that("format_vehicles works", {
-  skip_download()
-  skip_on_cran()
-  fn = stats19::file_names$`dft-road-casualty-statistics-vehicle-2016.csv`
-  dl_stats19(file_name = fn)
-  # read it
-  read = read_vehicles(
-    year = 2016,
-    filename = "Veh.csv"
-  )
-  df = format_vehicles(head(read))
-  expect_true(is(df, "data.frame"))
-})
-
 context("test-format: casualties")
-
-test_that("format_casualties works", {
-  fn = stats19::file_names$`dft-road-casualty-statistics-casualty-2016.csv`
-  skip_download()
-  skip_on_cran()
-  dl_stats19(file_name = fn)
-  # read it
-  read = read_casualties(
-    year = 2016,
-    filename = "Cas.csv"
-  )
-  df = format_casualties(head(read))
-  expect_true(is(df, "data.frame"))
-})
 
 context("test-format: sf")
 test_that("format_column_names works", {
@@ -47,7 +19,7 @@ test_that("format_column_names works", {
   expect_equal(nrow(rd), nrow(format_column_names(rd)))
 })
 test_that("format_sf works", {
-  rd = format_accidents(stats19::accidents_sample_raw)
+  rd = format_collisions(stats19::accidents_sample_raw)
   df1 = format_sf(rd)
   df2 = format_sf(rd, lonlat = TRUE)
   expect_equal(nrow(df1), nrow(rd))

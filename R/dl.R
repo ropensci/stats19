@@ -5,7 +5,7 @@
 #' It results in unzipped .csv files that are put
 #' in the temporary directory specified by `get_data_directory()` or provided `data_dir`.
 #'
-#' The file downloaded would be for a specific year (e.g. 2017).
+#' The file downloaded would be for a specific year (e.g. 2022).
 #' It could also be a file containing data for a range of two (e.g. 2005-2014).
 #'
 #' The `dl_*` functions can download many MB of data so ensure you
@@ -18,7 +18,7 @@
 #' [data release page](https://data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data)
 #'  e.g. `2020`
 #' @param type One of 'Accident', 'Casualty', 'Vehicle'; defaults to 'Accident'.
-#' Or any variation of to search the file names with such as "acc" or "accid".
+#' Or any variation of to search the file names with such as "collision".
 #' @param data_dir Parent directory for all downloaded files. Defaults to `tempdir()`.
 #' @param ask Should you be asked whether or not to download the files? `TRUE` by default.
 #' @param silent Boolean. If `FALSE` (default value), display useful progress
@@ -29,7 +29,7 @@
 #' \donttest{
 #' if(curl::has_internet()) {
 #' # type by default is accidents table
-#' dl_stats19(year = 2017)
+#' dl_stats19(year = 2022)
 #' # try another year
 #' dl_stats19(year = 2018)
 #' }
@@ -71,13 +71,8 @@ dl_stats19 = function(year = NULL,
     dir.create(data_dir, recursive = TRUE)
   }
 
-  is_zip_file = grepl(pattern = "zip", zip_url)
   exdir = sub(".zip", "", fnames)
-  if (is_zip_file) {
-    destfile = file.path(data_dir, paste0(exdir, ".zip"))
-  } else {
-    destfile = file.path(data_dir, paste0(exdir))
-  }
+  destfile = file.path(data_dir, paste0(exdir))
   data_already_exists = file.exists(destfile)
   if (data_already_exists) {
     if (isFALSE(silent)) {
@@ -103,13 +98,7 @@ dl_stats19 = function(year = NULL,
     download_file_check(zip_url, destfile = destfile, quiet = silent)
     return(NULL)
   }
-  if (is_zip_file) {
-    f2 = file.path(destfile, utils::unzip(destfile, list = TRUE)$Name)
-    utils::unzip(destfile, exdir = file.path(data_dir, exdir))
-    if (isFALSE(silent)) {
-      message("Data saved at ", sub(".zip", "", f2))
-    }
-  } else if (isFALSE(silent)) {
+  if (isFALSE(silent)) {
     message("Data saved at ", destfile)
   }
 }

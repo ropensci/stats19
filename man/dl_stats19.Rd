@@ -15,11 +15,11 @@ dl_stats19(
 }
 \arguments{
 \item{year}{A year matching file names on the STATS19
-\href{https://www.data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data}{data release page}
+\href{https://data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data}{data release page}
 e.g. \code{2020}}
 
 \item{type}{One of 'Accident', 'Casualty', 'Vehicle'; defaults to 'Accident'.
-Or any variation of to search the file names with such as "acc" or "accid".}
+Or any variation of to search the file names with such as "collision".}
 
 \item{data_dir}{Parent directory for all downloaded files. Defaults to \code{tempdir()}.}
 
@@ -39,7 +39,7 @@ This function downloads and unzips UK road crash data.
 It results in unzipped .csv files that are put
 in the temporary directory specified by \code{get_data_directory()} or provided \code{data_dir}.
 
-The file downloaded would be for a specific year (e.g. 2017).
+The file downloaded would be for a specific year (e.g. 2022).
 It could also be a file containing data for a range of two (e.g. 2005-2014).
 
 The \verb{dl_*} functions can download many MB of data so ensure you
@@ -50,7 +50,7 @@ have a sufficient internet access and hard disk space.
 \donttest{
 if(curl::has_internet()) {
 # type by default is accidents table
-dl_stats19(year = 2017)
+dl_stats19(year = 2022)
 # try another year
 dl_stats19(year = 2018)
 }
