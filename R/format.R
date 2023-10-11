@@ -12,14 +12,14 @@
 #' x = read_collisions(year = 2017, format = FALSE)
 #' if(nrow(x) > 0) {
 #' x[1:3, 1:12]
-#' crashes = format_accidents(x)
+#' crashes = format_collisions(x)
 #' crashes[1:3, 1:12]
 #' summary(crashes$datetime)
 #' }
 #' }
 #' }
 #' @export
-format_accidents = function(x) {
+format_collisions = function(x) {
   format_stats19(x, type = "Accident")
 }
 #' Format STATS19 casualties

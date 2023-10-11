@@ -1051,7 +1051,7 @@ You should already have road crashes for the Isle of Wight from the previous sta
 If not, load crash data as follows:
 
 ```{r}
-u = "https://github.com/ropensci/stats19/releases/download/1.1.0/car_accidents_2017_iow.Rds"
+u = "https://github.com/ropensci/stats19/releases/download/1.1.0/car_collisions_2017_iow.Rds"
 crashes_iow = readRDS(url(u))
 ```
 
