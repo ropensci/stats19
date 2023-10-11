@@ -18,9 +18,6 @@ These were generated using the script in the
 \code{data-raw} directory (\code{misc.Rmd} file).
 }
 \examples{
-\dontrun{
- length(file_names)
- file_names$dftRoadSafetyData_Vehicles_2017.zip
-}
+head(file_names)
 }
 \keyword{datasets}

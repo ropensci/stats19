@@ -7,19 +7,14 @@
 get_stats19_adjustments(
   data_dir = get_data_directory(),
   u = paste0("https://data.dft.gov.uk/road-accidents-safety-data/",
-    "accident-and-casualty-adjustment-2004-to-2019.zip"),
-  filename = "cas_adjustment_lookup_2019.csv",
-  adj_folder = "adjustment-data"
+    "dft-road-casualty-statistics-casualty-adjustment-lookup_",
+    "2004-latest-published-year.csv")
 )
 }
 \arguments{
 \item{data_dir}{Where sets of downloaded data would be found.}
 
 \item{u}{The URL of the zip file with adjustments to download}
-
-\item{filename}{The file name of the .csv file in the unzipped folder to read in}
-
-\item{adj_folder}{The folder name where R will look for the unzipped adjustment files}
 }
 \description{
 See the DfT's documentation on adjustment factors

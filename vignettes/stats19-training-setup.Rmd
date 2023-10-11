@@ -23,7 +23,7 @@ Reading sections 1.1 to 1.3 of that book and trying a few of the examples are co
 
 Optionally, if you want a more interactive learning environment, you can try getting started with online resources, such as those found at [education.rstudio.com/learn](https://education.rstudio.com/learn/beginner/).
 
-And for more information on how R can be used for transport research, the Transportation chapter of Geocomputation with R is a good place to start: https://geocompr.robinlovelace.net/transport.html
+And for more information on how R can be used for transport research, the Transportation chapter of Geocomputation with R is a good place to start: https://r.geocompx.org/transport.html
 
 **Your computer should also have the necessary software installed.**
 
@@ -59,7 +59,7 @@ To test your computer is ready to work with road crash data in R, try running th
 library(stats19)
 library(tidyverse)
 library(tmap) # installed alongside mapview
-crashes = get_stats19(year = 2017, type = "ac")
+crashes = get_stats19(year = 2022, type = "ac")
 crashes_iow = crashes %>% 
   filter(local_authority_district == "Isle of Wight") %>% 
   format_sf()
@@ -111,10 +111,10 @@ For the more structured 2 day course for R beginners, a preliminary agenda is as
 13:30-15:00 Working with spatial data
 
 - Spatial data in R
-- Context: spatial ecosystem (see section [1.4 of Geocomputation with R - package ecosystem](https://geocompr.robinlovelace.net/intro.html#rs-spatial-ecosystem))
-- [Exercises](https://geocompr.robinlovelace.net/attr.html#exercises-1): Section 6 of the handout
+- Context: spatial ecosystem (see section [1.4 of Geocomputation with R - package ecosystem](https://r.geocompx.org/intro.html))
+- [Exercises](https://r.geocompx.org/attr.html): Section 6 of the handout
 
-- Further reading: [Section 3.2 to 3.2.2](https://geocompr.robinlovelace.net/attr.html#vector-attribute-manipulation) of handouts
+- Further reading: [Section 3.2 to 3.2.2](https://r.geocompx.org/attr.html) of handouts
 
 **Break**
   

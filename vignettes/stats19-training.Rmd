@@ -677,12 +677,12 @@ Exercises:
 1. Filter only the events that ocurred after midday (i.e. the PM events). Hint: your answer may include `>= 12`.
 1. Filter only the events that ocurred between 15:00 and 19:00
 <!-- 1. Round all hours to the next hour. Hint: Look at the help page of the `round_date` function.  -->
-1. **Bonus (difficult):** run the following code, which downloades data for car crashes occurred during 2017.
+1. **Bonus (difficult):** run the following code, which downloades data for car crashes occurred during 2022.
 
 ```{r, eval=FALSE}
 library(stats19)
-crashes_2017 = stats19::get_stats19(year = 2017, type = "ac")
-crashes_2017
+crashes_2022 = stats19::get_stats19(year = 2022, type = "ac")
+crashes_2022
 ```
 
 Extract the weekday from the variable called `date`.
@@ -695,30 +695,30 @@ How many crashes happened on Monday?
 crashes %>% filter(casualty_hour >= 12)
 crashes %>% filter(casualty_hour > 15 & casualty_hour < 19)
 
-crashes_2017 %>% 
+crashes_2022 %>% 
   mutate(my_weekdays = weekdays(date)) %>%
   filter(my_weekdays == "Monday") %>% 
   nrow()
-crashes_2017 %>% 
+crashes_2022 %>% 
   mutate(my_weekdays = weekdays(date)) %>%
   filter(my_weekdays == "Friday") %>% 
   nrow()
 
-crashes_2017 %>% 
+crashes_2022 %>% 
   mutate(my_weekdays = weekdays(date)) %>% 
   group_by(my_weekdays) %>% 
   summarize(n = n()) %>% 
   ggplot() + 
   geom_col(aes(x = my_weekdays, y = n))
 
-crashes_2017 %>% 
+crashes_2022 %>% 
   mutate(my_hours = hour(hm(time))) %>% 
   group_by(my_hours) %>% 
   summarize(n = n()) %>% 
   ggplot() + 
   geom_col(aes(x = my_hours, y = n))
 
-crashes_2017 %>% 
+crashes_2022 %>% 
   mutate(my_weekdays = weekdays(date), my_hours = hour(hm(time))) %>% 
   group_by(my_weekdays, my_hours) %>% 
   summarise(n = n()) %>% 
@@ -774,7 +774,7 @@ write_sf(zones, "zmapinfo", driver = "MapInfo file")
 read_sf("zmapinfo") # read in mapinfo file
 ```
 
-See [Chapter 6](https://geocompr.robinlovelace.net/read-write.html) of Geocomputation with R for further information.
+See [Chapter 6](https://r.geocompx.org/read-write.html) of Geocomputation with R for further information.
 
 ## sf polygons
 
@@ -842,7 +842,7 @@ zones_joined = st_join(zones[1], crashes_sf)
 1. How many zones are returned in the previous command? 
 1. Select only the `geo_code` column from the `zones` and the `dark` column from `crashes_sf` and use the `left = FALSE` argument to return only zones in which crashes occured. Plot the result.
 
-See [Chapter 4](https://geocompr.robinlovelace.net/spatial-operations.html#spatial-joining) of Geocomputation with R [@lovelace_geocomputation_2019] for further information on geographic joins.
+See [Chapter 4](https://r.geocompx.org/spatial-operations.html) of Geocomputation with R [@lovelace_geocomputation_2019] for further information on geographic joins.
 
 ```{r joinf, echo=FALSE, out.width="40%", fig.show='hold', message=FALSE}
 plot(zones_joined["casualty_age"])
@@ -864,7 +864,7 @@ crashes_osgb = st_transform(crashes_sf, 27700)
 1. Create `zones_osgb` by transforming the `zones` object.
 1. **Bonus:** use `st_crs()` to find out the units measurement of the British National Grid?
 
-For more information on CRSs see [Chapter 6](https://geocompr.robinlovelace.net/reproj-geo-data.html) of Geocompuation with R.
+For more information on CRSs see [Chapter 6](https://r.geocompx.org/reproj-geo-data.html) of Geocompuation with R.
 
 ## Buffers
 
@@ -1051,14 +1051,14 @@ You should already have road crashes for the Isle of Wight from the previous sta
 If not, load crash data as follows:
 
 ```{r}
-u = "https://github.com/ropensci/stats19/releases/download/1.1.0/car_accidents_2017_iow.Rds"
+u = "https://github.com/ropensci/stats19/releases/download/1.1.0/car_collisions_2022_iow.Rds"
 crashes_iow = readRDS(url(u))
 ```
 
 1. Plot the roads with the crashes overlaid.
 2. Create a buffer around the roads with a distance of 200 m.
 3. How many crashes fall outside the buffered roads?
-3. Bonus: Use the `aggregate()` function to identify how many crashes happened per segment and plot the result (hint: see `?aggregate.sf` and take a read of Section [4.2.5](https://geocompr.robinlovelace.net/spatial-operations.html#spatial-aggr) of Geocomputation with R) with `tmap` and plot the crashes that happened outside the road buffers on top.
+3. Bonus: Use the `aggregate()` function to identify how many crashes happened per segment and plot the result (hint: see `?aggregate.sf` and take a read of Section [4.2.5](https://r.geocompx.org/spatial-operations.html) of Geocomputation with R) with `tmap` and plot the crashes that happened outside the road buffers on top.
 
 ```{r, echo=FALSE, out.width="49%", fig.show='hold', message=FALSE}
 plot(roads$geometry)
