@@ -1,3 +1,5 @@
+# stats19 3.0.0
+
 # stats19 2.0.1 2022-11
 
 * Changes spatstat.core related code (#217)
