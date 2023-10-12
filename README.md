@@ -93,11 +93,12 @@ crashes = get_stats19(year = 2022, type = "collision")
 #> 
 #> ℹ Use `spec()` to retrieve the full column specification for this data.
 #> ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+#> date and time columns present, creating formatted datetime column
 ```
 
 What just happened? For the `year` 2022 we read-in crash-level
 (`type = "collision"`) data on all road crashes recorded by the police
-across Great Britain. The dataset contains 36 columns (variables) for
+across Great Britain. The dataset contains 37 columns (variables) for
 106,004 crashes. We were not asked to download the file (by default you
 are asked to confirm the file that will be downloaded). The contents of
 this dataset, and other datasets provided by **stats19**, are outlined
@@ -153,7 +154,7 @@ Crash data was downloaded and read-in using the function
 nrow(crashes)
 #> [1] 106004
 ncol(crashes)
-#> [1] 36
+#> [1] 37
 ```
 
 Some of the key variables in this dataset include:
@@ -163,21 +164,21 @@ key_column_names = grepl(pattern = "severity|speed|pedestrian|light_conditions",
 crashes[key_column_names]
 #> # A tibble: 106,004 × 5
 #>    accident_severity speed_limit pedestrian_crossing_hu…¹ pedestrian_crossing_…²
-#>                <dbl>       <dbl>                    <dbl>                  <dbl>
-#>  1                 3          30                        0                      0
-#>  2                 3          50                        0                      4
-#>  3                 3          30                        0                      0
-#>  4                 3          30                        0                      0
-#>  5                 3          50                        0                      0
-#>  6                 2          30                        0                      0
-#>  7                 3          30                        0                      0
-#>  8                 3          40                        0                      0
-#>  9                 3          30                        0                      5
-#> 10                 2          20                        0                      1
+#>    <chr>                   <dbl> <chr>                    <chr>                 
+#>  1 Slight                     30 None within 50 metres    No physical crossing …
+#>  2 Slight                     50 None within 50 metres    Pelican, puffin, touc…
+#>  3 Slight                     30 None within 50 metres    No physical crossing …
+#>  4 Slight                     30 None within 50 metres    No physical crossing …
+#>  5 Slight                     50 None within 50 metres    No physical crossing …
+#>  6 Serious                    30 None within 50 metres    No physical crossing …
+#>  7 Slight                     30 None within 50 metres    No physical crossing …
+#>  8 Slight                     40 None within 50 metres    No physical crossing …
+#>  9 Slight                     30 None within 50 metres    Pedestrian phase at t…
+#> 10 Serious                    20 None within 50 metres    Zebra                 
 #> # ℹ 105,994 more rows
 #> # ℹ abbreviated names: ¹​pedestrian_crossing_human_control,
 #> #   ²​pedestrian_crossing_physical_facilities
-#> # ℹ 1 more variable: light_conditions <dbl>
+#> # ℹ 1 more variable: light_conditions <chr>
 ```
 
 For the full list of columns, run `names(crashes)` or see the
@@ -411,17 +412,17 @@ crashes_wy %>%
   st_drop_geometry()
 #> # A tibble: 4,400 × 2
 #>    accident_index accident_severity
-#>  * <chr>                      <dbl>
-#>  1 2022121205585                  3
-#>  2 2022131127664                  3
-#>  3 2022131127681                  2
-#>  4 2022131127764                  2
-#>  5 2022131127766                  3
-#>  6 2022131127829                  3
-#>  7 2022131127841                  2
-#>  8 2022131127847                  3
-#>  9 2022131127861                  3
-#> 10 2022131127881                  3
+#>  * <chr>          <chr>            
+#>  1 2022121205585  Slight           
+#>  2 2022131127664  Slight           
+#>  3 2022131127681  Serious          
+#>  4 2022131127764  Serious          
+#>  5 2022131127766  Slight           
+#>  6 2022131127829  Slight           
+#>  7 2022131127841  Serious          
+#>  8 2022131127847  Slight           
+#>  9 2022131127861  Slight           
+#> 10 2022131127881  Slight           
 #> # ℹ 4,390 more rows
 cas_types[1:2, c("accident_index", "Cyclist")]
 #> # A tibble: 2 × 2
@@ -475,11 +476,16 @@ day of the year:
 
 ``` r
 library(ggplot2)
+head(cj$date)
+#> [1] "2022-08-03" "2022-01-01" "2022-01-01" "2022-01-01" "2022-01-01"
+#> [6] "2022-01-01"
+class(cj$date)
+#> [1] "Date"
 crashes_dates = cj %>% 
   st_set_geometry(NULL) %>% 
   group_by(date) %>% 
   summarise(
-    walking = sum(),
+    walking = sum(Pedestrian),
     cycling = sum(Cyclist),
     passenger = sum(`Car occupant`)
     ) %>% 
@@ -562,8 +568,7 @@ why people are needlessly hurt and killed on the roads.
 The next step is to gain a deeper understanding of **stats19** and the
 data it provides. Then it’s time to pose interesting research questions,
 some of which could provide an evidence-base in support policies that
-save lives (e.g. **sarkar_street_2018?**). For more on these next steps,
-see the package’s introductory
+save lives. For more on these next steps, see the package’s introductory
 [vignette](https://itsleeds.github.io/stats19/articles/stats19.html).
 
 ## Further information
