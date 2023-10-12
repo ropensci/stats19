@@ -262,11 +262,13 @@ We can also explore seasonal trends in crashes by aggregating crashes by day of 
 
 ```{r crash-date-plot}
 library(ggplot2)
+head(cj$date)
+class(cj$date)
 crashes_dates = cj %>% 
   st_set_geometry(NULL) %>% 
   group_by(date) %>% 
   summarise(
-    walking = sum(),
+    walking = sum(Pedestrian),
     cycling = sum(Cyclist),
     passenger = sum(`Car occupant`)
     ) %>% 
