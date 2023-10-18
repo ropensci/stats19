@@ -107,7 +107,7 @@ dl_stats19 = function(year = NULL,
     }
     # Save to tempfile first, to avoid partial downloads
     tmp_file = tempfile()
-    utils::download.file(url, tmp_file, quiet = silent)
+    utils::download.file(zip_url, tmp_file, quiet = silent)
     file.rename(tmp_file, destfile)
     if (isFALSE(silent)) {
       message("Data saved at ", destfile)
