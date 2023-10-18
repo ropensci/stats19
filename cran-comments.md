@@ -1,4 +1,4 @@
-Major update fixing issues associated with upstream changes in the files the package reads in.
+Minor update to prevent faulty data being downloaded
 
 ## R CMD check results
 
