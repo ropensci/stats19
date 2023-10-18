@@ -104,9 +104,9 @@ dl_stats19 = function(year = NULL,
 }
 
 download_file_check = function(url, destfile, quiet = FALSE, ...) {
-  # Temporarily set timeout to 10 minutes: 
+  # Temporarily set timeout to 10 minutes:
   op = options(timeout = 600)
-  on.exit(options(op)
+  on.exit(options(op))
   utils::download.file(url, destfile, quiet = quiet, ...)
   if (!file.exists(destfile))
     return(FALSE)
