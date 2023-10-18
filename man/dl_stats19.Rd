@@ -10,7 +10,8 @@ dl_stats19(
   data_dir = get_data_directory(),
   file_name = NULL,
   ask = FALSE,
-  silent = FALSE
+  silent = FALSE,
+  timeout = 600
 )
 }
 \arguments{
@@ -29,6 +30,9 @@ Or any variation of to search the file names with such as "collision".}
 
 \item{silent}{Boolean. If \code{FALSE} (default value), display useful progress
 messages on the screen.}
+
+\item{timeout}{Timeout in seconds for the download if current option is less than
+this value. Defaults to 600 (10 minutes).}
 }
 \description{
 Download STATS19 data for a year
@@ -48,11 +52,11 @@ have a sufficient internet access and hard disk space.
 
 \examples{
 \donttest{
-if(curl::has_internet()) {
-# type by default is accidents table
-dl_stats19(year = 2022)
-# try another year
-dl_stats19(year = 2018)
+if (curl::has_internet()) {
+  # type by default is accidents table
+  dl_stats19(year = 2022)
+  # try another year
+  dl_stats19(year = 2018)
 }
 }
 }

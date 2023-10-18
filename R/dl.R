@@ -23,23 +23,31 @@
 #' @param ask Should you be asked whether or not to download the files? `TRUE` by default.
 #' @param silent Boolean. If `FALSE` (default value), display useful progress
 #'   messages on the screen.
+#' @param timeout Timeout in seconds for the download if current option is less than
+#'   this value. Defaults to 600 (10 minutes).
 #'
 #' @export
 #' @examples
 #' \donttest{
-#' if(curl::has_internet()) {
-#' # type by default is accidents table
-#' dl_stats19(year = 2022)
-#' # try another year
-#' dl_stats19(year = 2018)
+#' if (curl::has_internet()) {
+#'   # type by default is accidents table
+#'   dl_stats19(year = 2022)
+#'   # try another year
+#'   dl_stats19(year = 2018)
 #' }
 #' }
 dl_stats19 = function(year = NULL,
-                      type = NULL,
-                      data_dir = get_data_directory(),
-                      file_name = NULL,
-                      ask = FALSE,
-                      silent = FALSE) {
+                       type = NULL,
+                       data_dir = get_data_directory(),
+                       file_name = NULL,
+                       ask = FALSE,
+                       silent = FALSE,
+                       timeout = 600) {
+  current_timeout = getOption("timeout")
+  if (current_timeout < timeout) {
+    options(timeout = timeout)
+    on.exit(options(timeout = current_timeout))
+  }
   if (is.null(file_name)) {
     fnames = find_file_name(years = year, type = type)
     nfiles_found = length(fnames)
@@ -86,28 +94,24 @@ dl_stats19 = function(year = NULL,
         resp = ""
       }
       if (resp != "" &
-          !grepl(pattern = "yes|y",
-                 x = resp,
-                 ignore.case = TRUE)) {
+        !grepl(
+          pattern = "yes|y",
+          x = resp,
+          ignore.case = TRUE
+        )) {
         stop("Stopping as requested", call. = FALSE)
       }
     }
     if (isFALSE(silent)) {
       message("Attempt downloading from: ", zip_url)
     }
-    download_file_check(zip_url, destfile = destfile, quiet = silent)
+    # Save to tempfile first, to avoid partial downloads
+    tmp_file = tempfile()
+    utils::download.file(url, tmp_file, quiet = silent)
+    file.rename(tmp_file, destfile)
+    if (isFALSE(silent)) {
+      message("Data saved at ", destfile)
+    }
     return(NULL)
   }
-  if (isFALSE(silent)) {
-    message("Data saved at ", destfile)
-  }
-}
-
-download_file_check = function(url, destfile, quiet = FALSE, ...) {
-  # Temporarily set timeout to 10 minutes:
-  op = options(timeout = 600)
-  on.exit(options(op))
-  utils::download.file(url, destfile, quiet = quiet, ...)
-  if (!file.exists(destfile))
-    return(FALSE)
 }
