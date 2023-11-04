@@ -1,3 +1,5 @@
+# stats19 3.0.2
+
 # stats19 3.0.1 2023-10
 
 * Minor update to increase default `timeout` in `get_stats19()` to 10 minutes (#226)
