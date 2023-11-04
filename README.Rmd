@@ -42,6 +42,9 @@ By allowing public access to properly labelled road crash data, **stats19** aims
 
 For transparency and modularity, each stage can be undertaken separately, as documented in the [stats19 vignette](https://itsleeds.github.io/stats19/articles/stats19.html).
 
+The package has now been peer reviewed and is stable, and has been published in the Journal of Open Source Software [@lovelace_stats19_2019].
+Please tell people about the package, link to it and cite it if you use it in your work.
+
 ## Installation
 
 Install and load the latest version with:
@@ -302,9 +305,6 @@ ggplot(crash_times, aes(hour, casualties)) +
 Note that cycling manifests distinct morning and afternoon peaks [see @lovelace_who_2016 for more on this].
 
 ## Usage in research and policy contexts
-
-The package has now been peer reviewed and is stable, and has been published in the Journal of Open Source Software [@lovelace_stats19_2019].
-Please tell people about the package, link to it and cite it if you use it in your work.
 
 Examples of how the package can been used for policy making include:
 
