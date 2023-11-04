@@ -13,14 +13,14 @@ Accident,first_road_class,NA,first_road_class,character
 Accident,first_road_number,NA,first_road_number,character
 Accident,junction_control,NA,junction_control,character
 Accident,junction_detail,NA,junction_detail,character
-Accident,Latitude,Null if not known,latitude,character
+Accident,Latitude,Null if not known,latitude,numeric
 Accident,light_conditions,NA,light_conditions,character
 Accident,local_authority_district,NA,local_authority_district,character
 Accident,local_authority_highway,NA,local_authority_highway,character
 Accident,local_authority_ons_district,NA,local_authority_ons_district,character
-Accident,location_easting_osgr,Null if not known,location_easting_osgr,character
-Accident,location_northing_osgr,Null if not known,location_northing_osgr,character
-Accident,longitude,Null if not known,longitude,character
+Accident,location_easting_osgr,Null if not known,location_easting_osgr,numeric
+Accident,location_northing_osgr,Null if not known,location_northing_osgr,numeric
+Accident,longitude,Null if not known,longitude,numeric
 Accident,lsoa_of_accident_location,England and Wales only. See Office for National Statistics (ONS) guidance: https://www.ons.gov.uk/methodology/geography/ukgeographies/censusgeography,lsoa_of_accident_location,character
 Accident,number_of_casualties,NA,number_of_casualties,character
 Accident,number_of_vehicles,NA,number_of_vehicles,character
