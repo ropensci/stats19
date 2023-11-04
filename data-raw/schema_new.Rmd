@@ -97,7 +97,9 @@ stats19_schema = stats19_schema %>%
 
 ```{r}
 stats19_variables_old = stats19_variables
-stats19_variables = stats19_variables_joined
+# stats19_variables = stats19_variables_joined
+# After manual edits:
+stats19_variables = read_csv("data-raw/stats19_variables.csv")
 readr::write_csv(stats19_variables, "data-raw/stats19_variables.csv")
 
 stats19_schema_old = stats19_schema

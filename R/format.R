@@ -10,6 +10,7 @@
 #' if(curl::has_internet()) {
 #' dl_stats19(year = 2022, type = "collision")
 #' x = read_collisions(year = 2022, format = FALSE)
+#' x = readr::read_csv("https://github.com/ropensci/stats19/releases/download/v3.0.0/fatalities.csv")
 #' if(nrow(x) > 0) {
 #' x[1:3, 1:12]
 #' crashes = format_collisions(x)
@@ -99,7 +100,14 @@ format_stats19 = function(x, type) {
     x$datetime = as.POSIXct(paste(date_char, x$time), tz = 'Europe/London', format = "%d/%m/%Y %H:%M")
     # summary(x$datetime)
   }
-
+  cregex = "easting|northing|latitude|longitude"
+  names_coordinates = names(x)[grepl(pattern = cregex, x = names(x), ignore.case = TRUE)]
+  # convert them to numeric if not already:
+  for(i in names_coordinates) {
+    if(!is.numeric(x[[i]])) {
+      x[[i]] = as.numeric(x[[i]])
+    }
+  }
   x
 }
 
@@ -148,7 +156,7 @@ format_sf = function(x, lonlat = FALSE) {
   coords = n[grep(pattern = "easting|northing",
                   x = n,
                   ignore.case = TRUE)]
-  coord_null = is.na(x[[coords[1]]] | x[[coords[2]]])
+  coord_null = is.na(x[[coords[1]]]) | is.na(x[[coords[2]]])
   message(sum(coord_null), " rows removed with no coordinates")
   x = x[!coord_null, ]
   x_sf = sf::st_as_sf(x, coords = coords, crs = 27700)

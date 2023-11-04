@@ -43,6 +43,11 @@ For transparency and modularity, each stage can be undertaken
 separately, as documented in the [stats19
 vignette](https://itsleeds.github.io/stats19/articles/stats19.html).
 
+The package has now been peer reviewed and is stable, and has been
+published in the Journal of Open Source Software (Lovelace et al. 2019).
+Please tell people about the package, link to it and cite it if you use
+it in your work.
+
 ## Installation
 
 Install and load the latest version with:
@@ -81,7 +86,6 @@ crashes = get_stats19(year = 2022, type = "collision")
 #> Files identified: dft-road-casualty-statistics-collision-2022.csv
 #>    https://data.dft.gov.uk/road-accidents-safety-data/dft-road-casualty-statistics-collision-2022.csv
 #> Data already exists in data_dir, not downloading
-#> Data saved at ~/data/stats19/dft-road-casualty-statistics-collision-2022.csv
 #> Reading in:
 #> ~/data/stats19/dft-road-casualty-statistics-collision-2022.csv
 #> Rows: 106004 Columns: 36
@@ -196,7 +200,6 @@ casualties = get_stats19(year = 2022, type = "casualty", ask = FALSE, format = T
 #> Files identified: dft-road-casualty-statistics-casualty-2022.csv
 #>    https://data.dft.gov.uk/road-accidents-safety-data/dft-road-casualty-statistics-casualty-2022.csv
 #> Data already exists in data_dir, not downloading
-#> Data saved at ~/data/stats19/dft-road-casualty-statistics-casualty-2022.csv
 #> Rows: 135480 Columns: 19
 #> ── Column specification ────────────────────────────────────────────────────────
 #> Delimiter: ","
@@ -259,7 +262,6 @@ vehicles = get_stats19(year = 2022, type = "vehicle", ask = FALSE, format = TRUE
 #> Files identified: dft-road-casualty-statistics-vehicle-2022.csv
 #>    https://data.dft.gov.uk/road-accidents-safety-data/dft-road-casualty-statistics-vehicle-2022.csv
 #> Data already exists in data_dir, not downloading
-#> Data saved at ~/data/stats19/dft-road-casualty-statistics-vehicle-2022.csv
 #> Rows: 193545 Columns: 28
 #> ── Column specification ────────────────────────────────────────────────────────
 #> Delimiter: ","
@@ -526,11 +528,6 @@ Note that cycling manifests distinct morning and afternoon peaks (see
 Lovelace, Roberts, and Kellar 2016 for more on this).
 
 ## Usage in research and policy contexts
-
-The package has now been peer reviewed and is stable, and has been
-published in the Journal of Open Source Software (Lovelace et al. 2019).
-Please tell people about the package, link to it and cite it if you use
-it in your work.
 
 Examples of how the package can been used for policy making include:
 
