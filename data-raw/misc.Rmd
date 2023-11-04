@@ -91,7 +91,7 @@ set.seed(350)
 sel = sample(nrow(vehicles_2022_raw), 3)
 vehicles_sample_raw = vehicles_2022_raw[sel, ]
 # vehicles_sample = format_vehicles(vehicles_sample_raw)
-vehicles_sample = vehicles_2022_raw
+vehicles_sample = vehicles_2022_raw[sel,]
 usethis::use_data(vehicles_sample, overwrite = TRUE)
 ```
 
