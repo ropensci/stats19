@@ -1,3 +1,5 @@
+Errant README.html file removed and correct doi: text added.
+
 This is a minor bug fix update.
 
 I have added some references to the DESCRIPTION file.

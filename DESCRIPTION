@@ -27,7 +27,7 @@ Description: Tools to help download, process and analyse the UK road collision d
   <https://www.data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data> for more
   information on these datasets.
   The package is described in a paper in the Journal of Open Source Software
-  (Lovelace et al. 2019) <10.21105/joss.01181>.
+  (Lovelace et al. 2019) <doi:10.21105/joss.01181>.
   See 
   Gilardi et al. (2022) <doi:10.1111/rssa.12823>,
   Vidal-Tortosa et al. (2021) <doi:10.1016/j.jth.2021.101291>, and
