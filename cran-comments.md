@@ -1,4 +1,8 @@
-Minor update to prevent faulty data being downloaded
+This is a minor bug fix update.
+
+I have added some references to the DESCRIPTION file.
+
+These generated an automated note from CRAN that I have responded to.
 
 ## R CMD check results
 
