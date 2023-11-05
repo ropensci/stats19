@@ -1,4 +1,4 @@
-# stats19 3.0.2
+# stats19 3.0.2 2023-11
 
 * Fix issue with coordinates as characters (#228)
 
