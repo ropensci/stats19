@@ -1,4 +1,6 @@
-# stats19 3.0.3
+# stats19 3.0.3 2024-02
+
+* Update documentation to account for the shift in table names, replacing `accidents` with `collisions` and `casualty` with `casualties` (#232)
 
 # stats19 3.0.2 2023-11
 
