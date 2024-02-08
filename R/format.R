@@ -1,4 +1,4 @@
-#' Format STATS19 'accidents' data
+#' Format STATS19 'collisions' data
 #'
 #' @section Details:
 #' This is a helper function to format raw STATS19 data

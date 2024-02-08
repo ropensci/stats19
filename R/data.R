@@ -41,7 +41,7 @@ NULL
 #' @aliases file_names_old
 NULL
 
-#' Sample of stats19 data (2022 accidents)
+#' Sample of stats19 data (2022 collisions)
 #'
 #' @note These were generated using the script in the
 #' `data-raw` directory (`misc.Rmd` file).
