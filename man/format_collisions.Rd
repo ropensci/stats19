@@ -2,7 +2,7 @@
 % Please edit documentation in R/format.R
 \name{format_collisions}
 \alias{format_collisions}
-\title{Format STATS19 'accidents' data}
+\title{Format STATS19 'collisions' data}
 \usage{
 format_collisions(x)
 }
@@ -10,7 +10,7 @@ format_collisions(x)
 \item{x}{Data frame created with \code{read_collisions()}}
 }
 \description{
-Format STATS19 'accidents' data
+Format STATS19 'collisions' data
 }
 \section{Details}{
 
@@ -22,6 +22,7 @@ This is a helper function to format raw STATS19 data
 if(curl::has_internet()) {
 dl_stats19(year = 2022, type = "collision")
 x = read_collisions(year = 2022, format = FALSE)
+x = readr::read_csv("https://github.com/ropensci/stats19/releases/download/v3.0.0/fatalities.csv")
 if(nrow(x) > 0) {
 x[1:3, 1:12]
 crashes = format_collisions(x)

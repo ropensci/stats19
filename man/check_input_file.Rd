@@ -10,8 +10,8 @@ check_input_file(filename = NULL, type = NULL, data_dir = NULL, year = NULL)
 \item{filename}{Character string of the filename of the .csv to read, if this is given, type and
 years determine whether there is a target to read, otherwise disk scan would be needed.}
 
-\item{type}{The type of file to be downloaded (e.g. 'Accidents', 'Casualties' or
-'Vehicles'). Not case sensitive and searches using regular expressions ('acc' will work).}
+\item{type}{The type of file to be downloaded (e.g. 'collisions', 'casualty' or
+'vehicles'). Not case sensitive and searches using regular expressions ('acc' will work).}
 
 \item{data_dir}{Where sets of downloaded data would be found.}
 
