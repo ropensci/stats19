@@ -4,12 +4,12 @@
 \name{accidents_sample}
 \alias{accidents_sample}
 \alias{accidents_sample_raw}
-\title{Sample of stats19 data (2022 accidents)}
+\title{Sample of stats19 data (2022 collisions)}
 \format{
 A data frame
 }
 \description{
-Sample of stats19 data (2022 accidents)
+Sample of stats19 data (2022 collisions)
 }
 \note{
 These were generated using the script in the
