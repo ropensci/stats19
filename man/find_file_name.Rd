@@ -9,7 +9,8 @@ find_file_name(years = NULL, type = NULL)
 \arguments{
 \item{years}{Year for which data are to be found}
 
-\item{type}{One of 'Accidents', 'Casualties', 'Vehicles'; defaults to 'Accidents', ignores case.}
+\item{type}{One of 'collisions', 'casualty' or
+'vehicles' ignores case.}
 }
 \description{
 Currently, there are 52 file names to download/read data from.

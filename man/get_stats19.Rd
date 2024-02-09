@@ -21,8 +21,8 @@ get_stats19(
 \href{https://www.data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data}{data release page}
 e.g. \code{2020}}
 
-\item{type}{One of 'Accident', 'Casualty', 'Vehicle'; defaults to 'Accident'.
-Or any variation of to search the file names with such as "collision".}
+\item{type}{One of 'collision', 'casualty', 'Vehicle'; defaults to 'collision'.
+This text string is used to match the file names released by the DfT.}
 
 \item{data_dir}{Parent directory for all downloaded files. Defaults to \code{tempdir()}.}
 
