@@ -29,7 +29,8 @@ current_year = function() as.integer(format(format(Sys.Date(), "%Y")))
 #' Currently, there are 52 file names to download/read data from.
 #'
 #' @param years Year for which data are to be found
-#' @param type One of 'Accidents', 'Casualties', 'Vehicles'; defaults to 'Accidents', ignores case.
+#' @param type One of 'collisions', 'casualty' or
+#' 'vehicles' ignores case.
 #'
 #' @examples
 #' find_file_name(2016)
