@@ -88,6 +88,7 @@
 #' }
 #' }
 #' }
+
 get_stats19 = function(year = NULL,
                       type = "collision",
                       data_dir = get_data_directory(),
@@ -97,6 +98,7 @@ get_stats19 = function(year = NULL,
                       silent = FALSE,
                       output_format = "tibble",
                       ...) {
+
   if(!exists("type")) {
     stop("Type is required", call. = FALSE)
   }
@@ -122,31 +124,35 @@ get_stats19 = function(year = NULL,
   }
 
   # download what the user wanted
-  dl_stats19(year = year,
+  # this is saved in the directory defined by data_dir
+  file_path <- dl_stats19(year = year,
              type = type,
              data_dir = data_dir,
              file_name = file_name,
              ask = ask,
              silent = silent)
+
+  # make sure read_in doesn't have any left over variables
   read_in = NULL
-  # read in
+  # read in from the file path defined above
   if(grepl(type, "vehicles",  ignore.case = TRUE)){
-    read_in = read_vehicles(
-      year = year,
-      data_dir = data_dir,
-      format = format)
+    if(format) {
+      ve = format_vehicles(ve)
+    } else {
+      ve
+    }
   } else if(grepl(type, "casualty", ignore.case = TRUE)) {
-    read_in = read_casualties(
-      year = year,
-      data_dir = data_dir,
-      format = format)
+    if(format) {
+      ve = format_casualties(ve)
+    } else {
+      ve
+    }
   } else { # inline with type = "collision" by default
-    read_in = read_collisions(
-      year = year,
-      data_dir = data_dir,
-      format = format,
-      silent = silent)
-  }
+    if(format) {
+      ve = format_collisions(ve)
+    } else {
+      ve
+    }
 
   # transform read_in into the desired format
   if (output_format != "tibble") {
@@ -159,5 +165,40 @@ get_stats19 = function(year = NULL,
   }
 
   read_in
+  }
+
 }
 
+#' Convert file names to urls
+#'
+#' @details
+#' This function returns urls that allow data to be downloaded from the pages:
+#'
+#' https://data.dft.gov.uk/road-accidents-safety-data/RoadSafetyData_2015.zip
+#'
+#' Last updated: October 2020.
+#' Files available from the s3 url in the default `domain` argument.
+#'
+#' @param file_name Optional file name to add to the url returned (empty by default)
+#' @param domain The domain from where the data will be downloaded
+#' @param directory The subdirectory of the url
+#' @examples
+#' # get_url(find_file_name(1985))
+get_url = function(file_name = "",
+                   domain = "https://data.dft.gov.uk",
+                   directory = "road-accidents-safety-data"
+) {
+  path = file.path(domain, directory, file_name)
+  path
+}
+
+#' Get data download dir
+#' @examples
+#' # get_data_directory()
+get_data_directory = function() {
+  data_directory = Sys.getenv("STATS19_DOWNLOAD_DIRECTORY")
+  if(data_directory != "") {
+    return(data_directory)
+  }
+  tempdir()
+}
