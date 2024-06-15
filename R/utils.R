@@ -1,25 +1,4 @@
-#' Convert file names to urls
-#'
-#' @details
-#' This function returns urls that allow data to be downloaded from the pages:
-#'
-#' https://data.dft.gov.uk/road-accidents-safety-data/RoadSafetyData_2015.zip
-#'
-#' Last updated: October 2020.
-#' Files available from the s3 url in the default `domain` argument.
-#'
-#' @param file_name Optional file name to add to the url returned (empty by default)
-#' @param domain The domain from where the data will be downloaded
-#' @param directory The subdirectory of the url
-#' @examples
-#' # get_url(find_file_name(1985))
-get_url = function(file_name = "",
-                   domain = "https://data.dft.gov.uk",
-                   directory = "road-accidents-safety-data"
-                   ) {
-  path = file.path(domain, directory, file_name)
-  path
-}
+
 
 # current_year()
 current_year = function() as.integer(format(format(Sys.Date(), "%Y")))
@@ -47,7 +26,7 @@ find_file_name = function(years = NULL, type = NULL) {
       result = result[!grepl(pattern = "1979", x = result)]
     }
     result = result[!grepl(pattern = "adjust", x = result)]
-    result = result[grepl(pattern = years, x = result)]
+    result = result[grepl(pattern = "1979", x = result)]
     }
 
   # see https://github.com/ITSLeeds/stats19/issues/21
@@ -97,11 +76,12 @@ locate_files = function(data_dir = get_data_directory(),
   file_names = tools::file_path_sans_ext(file_names)
   dir_files = list.dirs(data_dir)
   # check is any file names match those on disk
-  files_on_disk = vapply(file_names, function(i) any(grepl(i, dir_files)),
-                logical(1))
-  if(any(files_on_disk)) { # return those on disk which match file names
-    files_on_disk = names(files_on_disk[files_on_disk])
-  }
+  files_on_disk <- list.files(dir_files, pattern = file_names, full.names = TRUE)
+  # files_on_disk = vapply(file_names, function(i) any(grepl(i, dir_files)),
+  #               logical(1))
+  # if(any(files_on_disk)) { # return those on disk which match file names
+  #   files_on_disk = names(files_on_disk[files_on_disk])
+  # }
   return(files_on_disk)
 }
 
@@ -152,6 +132,7 @@ locate_one_file = function(filename = NULL,
     return("More than one csv file found.")
   return(res)
 }
+
 utils::globalVariables(
   c("stats19_variables", "stats19_schema", "skip", "accidents_sample",
     "accidents_sample_raw", "casualties_sample", "casualties_sample_raw",
@@ -181,17 +162,6 @@ select_file = function(fnames) {
   message("Multiple matches. Which do you want to download?")
   selection = utils::menu(choices = fnames)
   fnames[selection]
-}
-
-#' Get data download dir
-#' @examples
-#' # get_data_directory()
-get_data_directory = function() {
-  data_directory = Sys.getenv("STATS19_DOWNLOAD_DIRECTORY")
-  if(data_directory != "") {
-    return(data_directory)
-  }
-  tempdir()
 }
 
 #' Set data download dir
