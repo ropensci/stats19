@@ -22,9 +22,10 @@ current_year = function() as.integer(format(format(Sys.Date(), "%Y")))
 find_file_name = function(years = NULL, type = NULL) {
   result = unlist(stats19::file_names, use.names = FALSE)
   if(!is.null(years)) {
-    if(min(years) >= 2016) {
-      result = result[!grepl(pattern = "1979", x = result)]
+    if(min(years) >= 2018) {
+      result = result[grepl(pattern = years, x = result)]
     }
+    if(min(years) <= 2017) {
     result = result[!grepl(pattern = "adjust", x = result)]
     result = result[grepl(pattern = "1979", x = result)]
     }
@@ -48,6 +49,7 @@ find_file_name = function(years = NULL, type = NULL) {
     message("No files found. Check the stats19 website on data.gov.uk")
   }
   unique(result)
+  }
 }
 
 #' Locate a file on disk
