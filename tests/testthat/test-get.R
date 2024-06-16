@@ -1,5 +1,11 @@
 context("test-get")
 
+test_that("geturl works", {
+  expect_equal(get_url(),
+               file.path("https://data.dft.gov.uk",
+                         "road-accidents-safety-data/"))
+})
+
 test_that("get_stats19 works", {
   skip_download()
   skip_on_cran()
