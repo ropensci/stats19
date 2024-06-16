@@ -132,26 +132,28 @@ get_stats19 = function(year = NULL,
              ask = ask,
              silent = silent)
 
-  # make sure read_in doesn't have any left over variables
+  ## read in file
+  ve = read_ve_ca(path = file_path)
+  ## read in set to NULL
   read_in = NULL
   # read in from the file path defined above
   if(grepl(type, "vehicles",  ignore.case = TRUE)){
     if(format) {
-      ve = format_vehicles(ve)
+      read_in = format_vehicles(ve)
     } else {
-      ve
+      read_in = ve
     }
   } else if(grepl(type, "casualty", ignore.case = TRUE)) {
     if(format) {
-      ve = format_casualties(ve)
+      read_in = format_casualties(ve)
     } else {
-      ve
+      read_in = ve
     }
   } else { # inline with type = "collision" by default
     if(format) {
-      ve = format_collisions(ve)
+      read_in = format_collisions(ve)
     } else {
-      ve
+      read_in = ve
     }
 
   # transform read_in into the desired format
