@@ -2,8 +2,7 @@
 title: "Reproducing Reported road casualties in Great Britain: pedestrian factsheet 2022"
 author: "Blaise Kelly"
 format: gfm
-editor: source
-self-contained: true
+#self-contained: true
 ---
 
 ```{r setup, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE}
