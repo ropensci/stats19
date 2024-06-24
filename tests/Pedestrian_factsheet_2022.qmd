@@ -20,37 +20,49 @@ library(knitr)
 
 report_casualty <- "Pedestrian"
 
-#load("../all_years.RData")
-
 yrz <-  c(2018,2019,2020, 2021,2022)
-col_list <- list()
-cas_list <- list()
-veh_list <- list()
-for(y in yrz){
+# col_list <- list()
+# cas_list <- list()
+# veh_list <- list()
+# for(y in yrz){
+# 
+# ## request collision data
+# crashes = get_stats19(year = y, type = "collision", ask = FALSE, format = TRUE, output_format = "data.frame") %>%
+#   select(-accident_year)
+# 
+# ## request casualty
+# casualties = get_stats19(year = y, type = "casualty", ask = FALSE, format = TRUE, output_format = "data.frame")%>%
+#   select(-accident_year)
+# 
+# ## request vehicle
+# vehicles = get_stats19(year = y, type = "vehicle", ask = FALSE, format = TRUE, output_format = "data.frame")%>%
+#   select(-accident_year)
+# 
+# 
+# ## add each year to a list
+#   col_list[[as.character(y)]] <- crashes
+#   cas_list[[as.character(y)]] <- casualties
+#   veh_list[[as.character(y)]] <- vehicles
+# 
+# }
+# 
+# ## extract from list
+# all_cra <- do.call(rbind,col_list)
+# all_cas <- do.call(rbind,cas_list)
+# all_veh <- do.call(rbind,veh_list)
+# 
+# ## casualty type data fundamental to this analysis
+# crash_cas <- all_cra %>% 
+#   left_join(all_cas, by = "accident_reference") 
+# 
+# crash_veh <- all_cra %>% 
+#   left_join(all_veh, by = "accident_reference")
 
-## request collision data
-crashes = get_stats19(year = y, type = "collision", ask = FALSE, format = TRUE, output_format = "data.frame") %>%
-  select(-accident_year)
+## save having to import each time
+#save(crash_cas, crash_veh, all_cra,all_cas, all_veh, file = "all_years.RData")
 
-## request casualty
-casualties = get_stats19(year = y, type = "casualty", ask = FALSE, format = TRUE, output_format = "data.frame")%>%
-  select(-accident_year)
-
-## request vehicle
-vehicles = get_stats19(year = y, type = "vehicle", ask = FALSE, format = TRUE, output_format = "data.frame")%>%
-  select(-accident_year)
-
-
-## add each year to a list
-  col_list[[as.character(y)]] <- crashes
-  cas_list[[as.character(y)]] <- casualties
-  veh_list[[as.character(y)]] <- vehicles
-
-}
-
-all_cra <- do.call(rbind,col_list)
-all_cas <- do.call(rbind,cas_list)
-all_veh <- do.call(rbind,veh_list)
+## load in saved data
+load("../all_years.RData")
 
 ```
 
@@ -65,6 +77,7 @@ Averaged over the period 2018 to 2022:
 dths_per_wk <- crash_cas %>% 
   mutate(wk = isoweek(date)) %>% ## calculate the day of week, Monday is 1
   select(wk, accident_severity, casualty_type, number_of_casualties,accident_reference) %>% ## pick out the columns needed
+  filter(casualty_type == "Pedestrian") %>% 
   mutate(count = 1) %>% ## there are multiple rows for each casualty, add a 1 so we can sum up the number for each circumstance
   filter(casualty_type == report_casualty) %>%  ## pick out casualty the stats will focus on
   group_by(wk, accident_severity) %>%
