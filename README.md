@@ -1,5 +1,5 @@
-# Reproducing *Reported road casualties in Great Britain: pedestrian
-factsheet, 2022*
+# Reproducing Reported road casualties in Great Britain: pedestrian
+factsheet 2022
 Blaise Kelly
 
 # Introduction
