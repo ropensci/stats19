@@ -61,8 +61,9 @@ yrz <-  c(2018,2019,2020, 2021,2022)
 ## save having to import each time
 #save(crash_cas, crash_veh, all_cra,all_cas, all_veh, file = "all_years.RData")
 
-## load in saved data
-load("../all_years.RData")
+report_casualty <- "Pedestrian"
+
+load("all_years.RData")
 
 ```
 
@@ -75,13 +76,14 @@ Averaged over the period 2018 to 2022:
 ```{r, echo = FALSE, warning=FALSE, message=FALSE}
 
 dths_per_wk <- crash_cas %>% 
-  mutate(wk = isoweek(date)) %>% ## calculate the day of week, Monday is 1
-  select(wk, accident_severity, casualty_type, number_of_casualties,accident_reference) %>% ## pick out the columns needed
-  filter(casualty_type == "Pedestrian") %>% 
+  mutate(wk = isoweek(date),
+         yr = year(date)) %>% ## calculate the day of week, Monday is 1
+  select(wk,yr, accident_severity, casualty_type, number_of_casualties,accident_reference) %>% ## pick out the columns needed
   mutate(count = 1) %>% ## there are multiple rows for each casualty, add a 1 so we can sum up the number for each circumstance
   filter(casualty_type == report_casualty) %>%  ## pick out casualty the stats will focus on
-  group_by(wk, accident_severity) %>%
+  group_by(wk, yr, accident_severity) %>%
   summarise(casualties = sum(count))
+
 
   ## filter for only fatal collisions
 fatal_wk <- dths_per_wk %>% 
@@ -93,8 +95,7 @@ serious_wk <- dths_per_wk %>%
 
 ## 20m junction
 junctions <- crash_cas %>% 
-  mutate(wk = isoweek(date)) %>% 
-  select(wk, accident_severity, casualty_type, junction_detail, number_of_casualties,accident_reference) %>% 
+  select(accident_severity, casualty_type, junction_detail, number_of_casualties,accident_reference) %>% 
   filter(casualty_type == "Pedestrian") %>% 
   mutate(count = 1) %>% 
   group_by(accident_severity, junction_detail) %>% 
@@ -198,11 +199,11 @@ fatal_2022 <- filter(severity_2022, accident_severity == "Fatal")
 
 serious_2022 <- filter(severity_2022, accident_severity == "Serious")
 
-
+slight_2022 <- filter(severity_2022, accident_severity == "Slight")
 
 ```
 
-In 2022, `r round(fatal_2022$casualties)` pedestrians were killed in Great Britain, whilst `r round(serious_2022$casualties)` were reported to be seriously injured (adjusted) and 13,041 slightly injured (adjusted).
+In 2022, `r round(fatal_2022$casualties)` pedestrians were killed in Great Britain, whilst `r round(serious_2022$casualties)` were reported to be seriously injured (adjusted) and `r as.character(slight_2022$casualties)` slightly injured (adjusted).
 
 ```{r, echo = FALSE, warning=FALSE, message=FALSE}
 
@@ -235,7 +236,7 @@ table_yrs <- crash_cas %>%
   dcast(accident_year ~ accident_severity) %>% 
   mutate(total = Fatal+Serious+Slight)
 
-kable(table_yrs, caption = "Table 2: ")
+#kable(table_yrs, caption = "Table 2: ")
   
 ```
 

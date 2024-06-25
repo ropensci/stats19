@@ -14,7 +14,7 @@ report published on 28th September 2023.
 
 Averaged over the period 2018 to 2022:
 
-- an average of 41 pedestrians died and 505 were seriously injured
+- an average of 8 pedestrians died and 102 were seriously injured
   (adjusted) per week in reported road collisions
 
 - a majority of pedestrian fatalities (57%) do not occur at or within
@@ -35,21 +35,11 @@ contributory factors included in this data?*
 # Pedestrian traffic and reported casualties
 
 In 2022, 556 pedestrians were killed in Great Britain, whilst 6986 were
-reported to be seriously injured (adjusted) and 13,041 slightly injured
+reported to be seriously injured (adjusted) and 14485 slightly injured
 (adjusted).
 
 Between 2021 and 2022, pedestrian fatalities increased by 8% while
 pedestrian traffic (distance walked) increased by ?.
-
-| accident_year | Fatal | Serious | Slight | total |
-|--------------:|------:|--------:|-------:|------:|
-|          2018 |   492 |    6041 |  16214 | 22747 |
-|          2019 |   517 |    6065 |  15505 | 22087 |
-|          2020 |   368 |    4067 |  10347 | 14782 |
-|          2021 |   385 |    4816 |  11475 | 16676 |
-|          2022 |   417 |    5757 |  13184 | 19358 |
-
-Table 2:
 
 # Sex and age comparisons
 
