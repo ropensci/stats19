@@ -13,6 +13,10 @@ test_that("dl_stats19 works for no data_dir", {
   skip_download()
   # remove tempdir
   unlink(tempdir(), recursive = TRUE)
-  expect_message(dl_stats19(year = "2022", type = "collision"))
+  y = "2022"
+  t = "collision"
+  expect_message(dl_stats19(year = y, type = t))
   # tempdir created.
+  file = find_file_name(years = y, type = t)
+  expect_match(file, t)
 })
