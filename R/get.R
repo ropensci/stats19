@@ -36,10 +36,8 @@
 #' @examples
 #' \donttest{
 #' if(curl::has_internet()) {
-#' col = get_stats19(year = 2022, type = "collision")
-#' cas2 = get_stats19(year = 2022, type = "casualty")
-#' veh = get_stats19(year = 2022, type = "vehicle")
-#' class(col)
+#' x = get_stats19(2022, silent = TRUE, format = TRUE)
+#' class(x)
 #' # data.frame output
 #' x = get_stats19(2022, silent = TRUE, output_format = "data.frame")
 #' class(x)
@@ -90,6 +88,7 @@
 #' }
 #' }
 #' }
+
 get_stats19 = function(year = NULL,
                       type = "collision",
                       data_dir = get_data_directory(),
@@ -99,9 +98,9 @@ get_stats19 = function(year = NULL,
                       silent = FALSE,
                       output_format = "tibble",
                       ...) {
-  # Set type to "collision" if it's "accident" or similar:
-  if (grepl("acc", x = type, ignore.case = TRUE)) {
-    type = "collision"
+
+  if(!exists("type")) {
+    stop("Type is required", call. = FALSE)
   }
   if (!output_format %in% c("tibble", "data.frame", "sf", "ppp")) {
     warning(
@@ -125,31 +124,37 @@ get_stats19 = function(year = NULL,
   }
 
   # download what the user wanted
-  dl_stats19(year = year,
+  # this is saved in the directory defined by data_dir
+  file_path <- dl_stats19(year = year,
              type = type,
              data_dir = data_dir,
              file_name = file_name,
              ask = ask,
              silent = silent)
+
+  ## read in file
+  ve = read_ve_ca(path = file_path)
+  ## read in set to NULL
   read_in = NULL
-  # read in
-  if(grepl("veh", x = type, ignore.case = TRUE)){
-    read_in = read_vehicles(
-      year = year,
-      data_dir = data_dir,
-      format = format)
-  } else if(grepl("cas", x = type, ignore.case = TRUE)) {
-    read_in = read_casualties(
-      year = year,
-      data_dir = data_dir,
-      format = format)
+  # read in from the file path defined above
+  if(grepl(type, "vehicles",  ignore.case = TRUE)){
+    if(format) {
+      read_in = format_vehicles(ve)
+    } else {
+      read_in = ve
+    }
+  } else if(grepl(type, "casualty", ignore.case = TRUE)) {
+    if(format) {
+      read_in = format_casualties(ve)
+    } else {
+      read_in = ve
+    }
   } else { # inline with type = "collision" by default
-    read_in = read_collisions(
-      year = year,
-      data_dir = data_dir,
-      format = format,
-      silent = silent)
-  }
+    if(format) {
+      read_in = format_collisions(ve)
+    } else {
+      read_in = ve
+    }
 
   # transform read_in into the desired format
   if (output_format != "tibble") {
@@ -162,5 +167,6 @@ get_stats19 = function(year = NULL,
   }
 
   read_in
-}
+  }
 
+}

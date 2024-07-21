@@ -45,23 +45,26 @@ dl_stats19 = function(year = NULL,
                        ask = FALSE,
                        silent = FALSE,
                        timeout = 600) {
+
+  # download what the user wanted
   current_timeout = getOption("timeout")
   if (current_timeout < timeout) {
     options(timeout = timeout)
     on.exit(options(timeout = current_timeout))
   }
+  ## generate file name if one is not specified
   if (is.null(file_name)) {
     fnames = find_file_name(years = year, type = type)
     nfiles_found = length(fnames)
+    ## test for multliple files
     many_found = nfiles_found > 1
+    ## decide which one to import, as the escooters file seems to be unique for 2020 it defaults to the file names that matches 2017-2022
     if (many_found) {
-      if (interactive()) {
+      if (isTRUE(ask)) {
         fnames = select_file(fnames)
       } else {
-        if (isFALSE(silent)) {
-          message("More than one file found, selecting the first.")
-        }
-        fnames = fnames[1]
+        message(paste0("More than one file found, selecting ", fnames[2], " ignoring ", fnames[-2]))
+        fnames = fnames[2]
       }
     }
     zip_url = get_url(fnames)
@@ -96,11 +99,11 @@ dl_stats19 = function(year = NULL,
         resp = ""
       }
       if (resp != "" &
-        !grepl(
-          pattern = "yes|y",
-          x = resp,
-          ignore.case = TRUE
-        )) {
+          !grepl(
+            pattern = "yes|y",
+            x = resp,
+            ignore.case = TRUE
+          )) {
         stop("Stopping as requested", call. = FALSE)
       }
     }
@@ -114,6 +117,8 @@ dl_stats19 = function(year = NULL,
     if (isFALSE(silent)) {
       message("Data saved at ", destfile)
     }
-    return(NULL)
+
   }
+
+  return(destfile)
 }
