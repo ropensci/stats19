@@ -112,7 +112,7 @@ get_stats19 = function(year = NULL,
     )
     output_format = "tibble"
   }
-  if (grepl(type, "casualties", ignore.case = TRUE) && output_format %in% c("sf", "ppp")) {
+  if (grepl("casualties", type, ignore.case = TRUE) && output_format %in% c("sf", "ppp")) {
     warning(
       "You cannot select output_format = 'sf' or output_format = 'ppp' when type = 'casualties'.\n",
       "Casualties do not have a spatial dimension.\n",
@@ -137,13 +137,13 @@ get_stats19 = function(year = NULL,
   ## read in set to NULL
   read_in = NULL
   # read in from the file path defined above
-  if(grepl(type, "vehicles",  ignore.case = TRUE)){
+  if(grepl("vehicles", type, ignore.case = TRUE)){
     if(format) {
       read_in = format_vehicles(ve)
     } else {
       read_in = ve
     }
-  } else if(grepl(type, "casualty", ignore.case = TRUE)) {
+  } else if(grepl("casualty", type, ignore.case = TRUE)) {
     if(format) {
       read_in = format_casualties(ve)
     } else {
