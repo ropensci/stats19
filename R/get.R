@@ -170,3 +170,24 @@ get_stats19 = function(year = NULL,
   }
 
 }
+
+#' Get data download dir
+#' @examples
+#' # get_data_directory()
+get_data_directory = function() {
+  data_directory = Sys.getenv("STATS19_DOWNLOAD_DIRECTORY")
+  if(data_directory != "") {
+    return(data_directory)
+  }
+  tempdir()
+}
+
+#' Set data download dir
+#'
+#' Handy function to manage `stats19` package underlying environment
+#' variable. If run interactively it makes sure user does not change
+#' directory by mistatke.
+#'
+#' @param data_path valid existing path to save downloaded files in.
+#' @examples
+#' # set_data_directory("MY_PATH")
