@@ -484,6 +484,7 @@ crashes_types = cj %>%
     passenger > 0 ~ "Passenger",
     TRUE ~ "Other"
   ))
+crashes_types$speed_limit = as.integer(crashes_types$speed_limit)
 table(crashes_types$speed_limit)
 ggplot(crashes_types, aes(size = Total, colour = speed_limit)) +
   geom_sf(show.legend = "point", alpha = 0.3) +
@@ -507,6 +508,7 @@ This can be done with **tidyvers** functions follows:
 
 ```{r ggplot-ped-severity, fig.height=5, fig.width=6}
 table(cj$light_conditions)
+cj$speed_limit = as.integer(cj$speed_limit)
 cj %>% 
   filter(walking > 0) %>% 
   mutate(light = case_when(
