@@ -177,7 +177,7 @@ read_null = function(path, ...) {
 convert_to_col_type <- function(type) {
   switch(type,
          character = readr::col_character(),
-         numeric = readr::col_double(),
+         numeric = readr::col_integer(),
          integer = readr::col_integer(),
          logical = readr::col_logical(),
          date = readr::col_date(),
