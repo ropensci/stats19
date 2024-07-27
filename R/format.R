@@ -81,7 +81,9 @@ format_stats19 = function(x, type) {
       stats19::stats19_schema$variable_formatted == lkp_name,
       c("code", "label")
       ]
+    original_class = class(x[[i]])
     x[[i]] = lookup$label[match(x[[i]], lookup$code)]
+    x[[i]] = as(x[[i]], original_class)
   }
 
   date_in_names = "date" %in% names(x)
@@ -110,6 +112,7 @@ format_stats19 = function(x, type) {
   }
   x
 }
+
 
 #' Format column names of raw STATS19 data
 #'
