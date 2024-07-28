@@ -63,7 +63,7 @@ format_vehicles = function(x) {
 }
 
 format_stats19 = function(x, type) {
-  # rename colums
+  # Rename columns
   old_names = names(x)
   new_names = format_column_names(old_names)
   names(x) = new_names
@@ -82,7 +82,10 @@ format_stats19 = function(x, type) {
       c("code", "label")
       ]
     original_class = class(x[[i]])
-    x[[i]] = lookup$label[match(x[[i]], lookup$code)]
+    # Use lookup to replace codes with labels, but keep original values for non-matches
+    # See https://github.com/ropensci/stats19/issues/235#issuecomment-2254257770
+    matched_labels = lookup$label[match(x[[i]], lookup$code)]
+    x[[i]] = ifelse(is.na(matched_labels), x[[i]], matched_labels)
     x[[i]] = as(x[[i]], original_class)
   }
 
