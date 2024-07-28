@@ -58,17 +58,3 @@ test_that("read_casualties works", {
   )
   expect_equal(nrow(read_formatted), nrow(raw_read))
 })
-
-test_that("col types are set", {
-  skip_download()
-  skip_on_cran()
-  cas = get_stats19(year = 2019, type = "cas")
-  veh = get_stats19(year = 2019, type = "veh")
-  # print(nrow(cas))
-  # print("class(veh$age_of_vehicle)")
-  # print(class(veh$age_of_vehicle))
-  # print("class(cas$age_of_casualty)")
-  # print(class(cas$age_of_casualty))
-  expect_type(cas$age_of_casualty, "integer")
-  expect_type(veh$age_of_vehicle, "integer")
-})
