@@ -1,4 +1,5 @@
 # stats19 3.1.0
+* stats19 now relies on the ``stats19_variables` object to format the different tables columns. 
 
 # stats19 3.0.3 2024-02
 
