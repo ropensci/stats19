@@ -47,7 +47,7 @@ read_collisions = function(year = NULL,
   }
   # read the data in
   suppressWarnings({
-    ac = readr::read_csv(path, col_types = readr::cols(!!!col_types))
+    ac = readr::read_csv(path, col_types = col_spec)
   })
 
   if(format)
@@ -169,7 +169,7 @@ read_ve_ca = function(path) {
 
 read_null = function(path, ...) {
   if(is.null(path)) return(NULL)
-  readr::read_csv(path, col_types = readr::cols(!!!col_types), ...)
+  readr::read_csv(path, col_types = col_spec, ...)
 }
 
 # possibly in utils
@@ -195,3 +195,4 @@ unique_types = sapply(unique_vars, function(v) {
 })
 
 col_types = setNames(unique_types, unique_vars)
+col_spec = do.call(readr::cols, col_types)
