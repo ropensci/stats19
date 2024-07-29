@@ -46,4 +46,29 @@ test_that("get_stats19 works with multiple years and formats", {
     )
 })
 
+find_cols_with_many_NAs = function(df, na_threshold = 0.5) {
+  # Calculate the proportion of NAs in each column
+  na_proportions = sapply(df, function(col) sum(is.na(col)) / length(col))
 
+  # Find columns where the proportion of NAs is greater than the threshold
+  cols_with_many_NAs = names(na_proportions[na_proportions > na_threshold])
+
+  return(cols_with_many_NAs)
+}
+
+test_that("col types are set", {
+  skip_download()
+  skip_on_cran()
+  cas = get_stats19(year = 2019, type = "cas")
+  veh = get_stats19(year = 2019, type = "veh")
+  # print(nrow(cas))
+  # print("class(veh$age_of_vehicle)")
+  # print(class(veh$age_of_vehicle))
+  # print("class(cas$age_of_casualty)")
+  # print(class(cas$age_of_casualty))
+  expect_type(cas$age_of_casualty, "integer")
+  expect_type(veh$age_of_vehicle, "integer")
+  # no NAs introduced
+  expect_length(find_cols_with_many_NAs(cas), 0)
+  expect_length(find_cols_with_many_NAs(veh), 0)
+})
