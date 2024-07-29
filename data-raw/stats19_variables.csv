@@ -43,7 +43,7 @@ Casualty,accident_index,unique value for each accident. The accident_index combi
 Casualty,accident_reference,"In year id used by the police to reference a collision. It is not unique outside of the year, use accident_index for linking to other years",accident_reference,character
 Casualty,accident_year,NA,accident_year,numeric
 Casualty,age_band_of_casualty,NA,age_band_of_casualty,character
-Casualty,age_of_casualty,NA,age_of_casualty,character
+Casualty,age_of_casualty,NA,age_of_casualty,numeric
 Casualty,bus_or_coach_passenger,NA,bus_or_coach_passenger,character
 Casualty,car_passenger,NA,car_passenger,character
 Casualty,casualty_class,NA,casualty_class,character
@@ -73,8 +73,8 @@ Vehicle,accident_index,unique value for each accident. The accident_index combin
 Vehicle,accident_reference,"In year id used by the police to reference a collision. It is not unique outside of the year, use accident_index for linking to other years",accident_reference,character
 Vehicle,accident_year,NA,accident_year,numeric
 Vehicle,age_band_of_driver,NA,age_band_of_driver,character
-Vehicle,age_of_driver,NA,age_of_driver,character
-Vehicle,age_of_vehicle,NA,age_of_vehicle,character
+Vehicle,age_of_driver,NA,age_of_driver,numeric
+Vehicle,age_of_vehicle,NA,age_of_vehicle,numeric
 Vehicle,driver_home_area_type,field introduced in 1999,driver_home_area_type,character
 Vehicle,driver_imd_decile,field introduced in 2016,driver_imd_decile,character
 Vehicle,engine_capacity_cc,NA,engine_capacity_cc,character
