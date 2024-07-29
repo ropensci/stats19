@@ -174,7 +174,7 @@ read_null = function(path, ...) {
 
 # possibly in utils
 # Convert the 'type' column to readr's col_type format
-convert_to_col_type <- function(type) {
+convert_to_col_type = function(type) {
   switch(type,
          character = readr::col_character(),
          numeric = readr::col_integer(),
