@@ -109,15 +109,7 @@ There is a schema covering these tables but a good amount of work is needed to u
 
 The annual statistics have not been released in a consistent way either, making it hard for people to download, or even find, the relevant files.
 For example, there are separate files for each of the above tables for certain years (e.g. 2016, 2022) but not for all of 1979 - 2022 or 2018 now.
-The largest chunk is the 1979 - 2004 data, which is made available in a huge ZIP file ([link](https://data.dft.gov.uk/road-accidents-safety-data/Stats19-Data1979-2004.zip)).
-Unzipped this contains the following 3 files, which occupy almost 2 GB on your hard drive: 
-
-```sh
-721M Apr  3  2013 Accidents7904.csv
-344M Apr  3  2013 Casualty7904.csv
-688M Apr  3  2013 Vehicles7904.csv
-# total 1.753 GB data
-```
+The largest chunk contains data from 1979.
 
 #### Note
 
