@@ -1,5 +1,6 @@
 
 <!-- badges: start -->
+
 <!-- [![Travis build status](https://travis-ci.org/ropensci/stats19.svg?branch=master)](https://travis-ci.org/ropensci/stats19) -->
 
 [![](http://www.r-pkg.org/badges/version/stats19)](https://www.r-pkg.org/pkg/stats19)
@@ -14,7 +15,9 @@ cycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://l
 <!-- badges: end -->
 
 <!-- [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.2540781.svg)](https://doi.org/10.5281/zenodo.2540781) -->
+
 <!-- [![Gitter chat](https://badges.gitter.im/ITSLeeds/stats19.png)](https://gitter.im/stats19/Lobby?source=orgpage) -->
+
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 # stats19 <a href='https://docs.ropensci.org/stats19/'><img src='https://raw.githubusercontent.com/ropensci/stats19/master/man/figures/logo.png' align="right" height=215/></a>
@@ -25,10 +28,6 @@ casualty database,
 [STATS19](https://www.data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data).
 (The name comes from the form used by the police to record car crashes
 and other incidents resulting in casualties on the roads.)
-
-A full overview of STATS19 variables be found in a
-[document](https://data.dft.gov.uk/road-accidents-safety-data/Brief-guide-to%20road-accidents-and-safety-data.doc)
-provided by the UK’s Department for Transport (DfT).
 
 The raw data is provided as a series of `.csv` files that contain
 integers and which are stored in dozens of `.zip` files. Finding,
@@ -69,7 +68,7 @@ You can install the released version of stats19 from
 install.packages("stats19")
 ```
 
-## get_stats19()
+## get\_stats19()
 
 `get_stats19()` requires `year` and `type` parameters, mirroring the
 provision of STATS19 data files, which are categorised by year (from
@@ -87,26 +86,20 @@ crashes = get_stats19(year = 2022, type = "collision")
 #>    https://data.dft.gov.uk/road-accidents-safety-data/dft-road-casualty-statistics-collision-2022.csv
 #> Data already exists in data_dir, not downloading
 #> Reading in:
-#> ~/data/stats19/dft-road-casualty-statistics-collision-2022.csv
-#> Rows: 106004 Columns: 36
-#> ── Column specification ────────────────────────────────────────────────────────
-#> Delimiter: ","
-#> chr   (6): accident_index, accident_reference, date, local_authority_ons_dis...
-#> dbl  (29): accident_year, location_easting_osgr, location_northing_osgr, lon...
-#> time  (1): time
-#> 
-#> ℹ Use `spec()` to retrieve the full column specification for this data.
-#> ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+#> ~/data/bronze/stats19/dft-road-casualty-statistics-collision-2022.csv
 #> date and time columns present, creating formatted datetime column
+#> Warning in format_stats19(x, type = "Accident"): NAs introduced by coercion
+#> Warning in format_stats19(x, type = "Accident"): NAs introduced by coercion
+#> Warning in format_stats19(x, type = "Accident"): NAs introduced by coercion
 ```
 
-What just happened? For the `year` 2022 we read-in crash-level
-(`type = "collision"`) data on all road crashes recorded by the police
-across Great Britain. The dataset contains 37 columns (variables) for
-106,004 crashes. We were not asked to download the file (by default you
-are asked to confirm the file that will be downloaded). The contents of
-this dataset, and other datasets provided by **stats19**, are outlined
-below and described in more detail in the [stats19
+What just happened? For the `year` 2022 we read-in crash-level (`type =
+"collision"`) data on all road crashes recorded by the police across
+Great Britain. The dataset contains 37 columns (variables) for 106,004
+crashes. We were not asked to download the file (by default you are
+asked to confirm the file that will be downloaded). The contents of this
+dataset, and other datasets provided by **stats19**, are outlined below
+and described in more detail in the [stats19
 vignette](https://itsleeds.github.io/stats19/articles/stats19.html).
 
 We will see below how the function also works to get the corresponding
@@ -128,11 +121,11 @@ dl_stats19(year = 2022, data_dir = tempdir())
 ```
 
     Multiple matches. Which do you want to download?
-
+    
     1: dft-road-casualty-statistics-casualty-2022.csv
     2: dft-road-casualty-statistics-vehicle-2022.csv
     3: dft-road-casualty-statistics-collision-2022.csv
-
+    
     Selection: 
     Enter an item from the menu, or 0 to exit
 
@@ -140,12 +133,12 @@ dl_stats19(year = 2022, data_dir = tempdir())
 
 STATS19 data consists of 3 main tables:
 
-- Accidents, the main table which contains information on the crash
-  time, location and other variables (37 columns in total)
-- Casualties, containing data on people hurt or killed in each crash (19
-  columns in total)
-- Vehicles, containing data on vehicles involved in or causing each
-  crash (28 columns in total)
+  - Collisions, the main table which contains information on the crash
+    time, location and other variables (37 columns in total)
+  - Casualties, containing data on people hurt or killed in each crash
+    (19 columns in total)
+  - Vehicles, containing data on vehicles involved in or causing each
+    crash (28 columns in total)
 
 The contents of each is outlined below.
 
@@ -168,17 +161,17 @@ key_column_names = grepl(pattern = "severity|speed|pedestrian|light_conditions",
 crashes[key_column_names]
 #> # A tibble: 106,004 × 5
 #>    accident_severity speed_limit pedestrian_crossing_hu…¹ pedestrian_crossing_…²
-#>    <chr>                   <dbl> <chr>                    <chr>                 
-#>  1 Slight                     30 None within 50 metres    No physical crossing …
-#>  2 Slight                     50 None within 50 metres    Pelican, puffin, touc…
-#>  3 Slight                     30 None within 50 metres    No physical crossing …
-#>  4 Slight                     30 None within 50 metres    No physical crossing …
-#>  5 Slight                     50 None within 50 metres    No physical crossing …
-#>  6 Serious                    30 None within 50 metres    No physical crossing …
-#>  7 Slight                     30 None within 50 metres    No physical crossing …
-#>  8 Slight                     40 None within 50 metres    No physical crossing …
-#>  9 Slight                     30 None within 50 metres    Pedestrian phase at t…
-#> 10 Serious                    20 None within 50 metres    Zebra                 
+#>    <chr>             <chr>       <chr>                    <chr>                 
+#>  1 Slight            30          None within 50 metres    No physical crossing …
+#>  2 Slight            50          None within 50 metres    Pelican, puffin, touc…
+#>  3 Slight            30          None within 50 metres    No physical crossing …
+#>  4 Slight            30          None within 50 metres    No physical crossing …
+#>  5 Slight            50          None within 50 metres    No physical crossing …
+#>  6 Serious           30          None within 50 metres    No physical crossing …
+#>  7 Slight            30          None within 50 metres    No physical crossing …
+#>  8 Slight            40          None within 50 metres    No physical crossing …
+#>  9 Slight            30          None within 50 metres    Pedestrian phase at t…
+#> 10 Serious           20          None within 50 metres    Zebra                 
 #> # ℹ 105,994 more rows
 #> # ℹ abbreviated names: ¹​pedestrian_crossing_human_control,
 #> #   ²​pedestrian_crossing_physical_facilities
@@ -199,15 +192,28 @@ formatted as follows:
 casualties = get_stats19(year = 2022, type = "casualty", ask = FALSE, format = TRUE)
 #> Files identified: dft-road-casualty-statistics-casualty-2022.csv
 #>    https://data.dft.gov.uk/road-accidents-safety-data/dft-road-casualty-statistics-casualty-2022.csv
-#> Data already exists in data_dir, not downloading
-#> Rows: 135480 Columns: 19
-#> ── Column specification ────────────────────────────────────────────────────────
-#> Delimiter: ","
-#> chr  (3): accident_index, accident_reference, lsoa_of_casualty
-#> dbl (16): accident_year, vehicle_reference, casualty_reference, casualty_cla...
-#> 
-#> ℹ Use `spec()` to retrieve the full column specification for this data.
-#> ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+#> Attempt downloading from: https://data.dft.gov.uk/road-accidents-safety-data/dft-road-casualty-statistics-casualty-2022.csv
+#> Data saved at ~/data/bronze/stats19/dft-road-casualty-statistics-casualty-2022.csv
+#> Warning: The following named parsers don't match the column names:
+#> accident_severity, carriageway_hazards, date, day_of_week,
+#> did_police_officer_attend_scene_of_accident, first_road_class,
+#> first_road_number, junction_control, junction_detail, Latitude,
+#> light_conditions, local_authority_district, local_authority_highway,
+#> local_authority_ons_district, location_easting_osgr, location_northing_osgr,
+#> longitude, lsoa_of_accident_location, number_of_casualties, number_of_vehicles,
+#> pedestrian_crossing_human_control, pedestrian_crossing_physical_facilities,
+#> police_force, road_surface_conditions, road_type, second_road_class,
+#> second_road_number, special_conditions_at_site, speed_limit, time,
+#> trunk_road_flag, urban_or_rural_area, weather_conditions, vehicle_text,
+#> vehicle_type, age_band_of_driver, age_of_driver, age_of_vehicle,
+#> driver_home_area_type, driver_imd_decile, engine_capacity_cc,
+#> first_point_of_impact, generic_make_model, hit_object_in_carriageway,
+#> hit_object_off_carriageway, journey_purpose_of_driver, junction_location,
+#> propulsion_code, sex_of_driver, skidding_and_overturning,
+#> towing_and_articulation, vehicle_direction_from, vehicle_direction_to,
+#> vehicle_leaving_carriageway, vehicle_left_hand_drive,
+#> vehicle_location_restricted_lane, vehicle_manoeuvre
+#> Warning in asMethod(object): NAs introduced by coercion
 nrow(casualties)
 #> [1] 135480
 ncol(casualties)
@@ -222,17 +228,17 @@ Values for a sample of these columns are shown below:
 casualties[c(4, 5, 6, 14)]
 #> # A tibble: 135,480 × 4
 #>    vehicle_reference casualty_reference casualty_class  bus_or_coach_passenger  
-#>                <dbl>              <dbl> <chr>           <chr>                   
-#>  1                 2                  1 Driver or rider Not a bus or coach pass…
-#>  2                 1                  1 Driver or rider Not a bus or coach pass…
-#>  3                 1                  1 Driver or rider Not a bus or coach pass…
-#>  4                 1                  1 Driver or rider Not a bus or coach pass…
-#>  5                 1                  2 Passenger       Not a bus or coach pass…
-#>  6                 1                  1 Driver or rider Not a bus or coach pass…
-#>  7                 2                  2 Driver or rider Not a bus or coach pass…
-#>  8                 3                  3 Driver or rider Not a bus or coach pass…
-#>  9                 1                  1 Driver or rider Not a bus or coach pass…
-#> 10                 1                  2 Passenger       Not a bus or coach pass…
+#>    <chr>             <chr>              <chr>           <chr>                   
+#>  1 2                 1                  Driver or rider Not a bus or coach pass…
+#>  2 1                 1                  Driver or rider Not a bus or coach pass…
+#>  3 1                 1                  Driver or rider Not a bus or coach pass…
+#>  4 1                 1                  Driver or rider Not a bus or coach pass…
+#>  5 1                 2                  Passenger       Not a bus or coach pass…
+#>  6 1                 1                  Driver or rider Not a bus or coach pass…
+#>  7 2                 2                  Driver or rider Not a bus or coach pass…
+#>  8 3                 3                  Driver or rider Not a bus or coach pass…
+#>  9 1                 1                  Driver or rider Not a bus or coach pass…
+#> 10 1                 2                  Passenger       Not a bus or coach pass…
 #> # ℹ 135,470 more rows
 ```
 
@@ -261,15 +267,24 @@ and formatted as follows:
 vehicles = get_stats19(year = 2022, type = "vehicle", ask = FALSE, format = TRUE)
 #> Files identified: dft-road-casualty-statistics-vehicle-2022.csv
 #>    https://data.dft.gov.uk/road-accidents-safety-data/dft-road-casualty-statistics-vehicle-2022.csv
-#> Data already exists in data_dir, not downloading
-#> Rows: 193545 Columns: 28
-#> ── Column specification ────────────────────────────────────────────────────────
-#> Delimiter: ","
-#> chr  (4): accident_index, accident_reference, generic_make_model, lsoa_of_dr...
-#> dbl (24): accident_year, vehicle_reference, vehicle_type, towing_and_articul...
-#> 
-#> ℹ Use `spec()` to retrieve the full column specification for this data.
-#> ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+#> Attempt downloading from: https://data.dft.gov.uk/road-accidents-safety-data/dft-road-casualty-statistics-vehicle-2022.csv
+#> Data saved at ~/data/bronze/stats19/dft-road-casualty-statistics-vehicle-2022.csv
+#> Warning: The following named parsers don't match the column names:
+#> accident_severity, carriageway_hazards, date, day_of_week,
+#> did_police_officer_attend_scene_of_accident, first_road_class,
+#> first_road_number, junction_control, junction_detail, Latitude,
+#> light_conditions, local_authority_district, local_authority_highway,
+#> local_authority_ons_district, location_easting_osgr, location_northing_osgr,
+#> longitude, lsoa_of_accident_location, number_of_casualties, number_of_vehicles,
+#> pedestrian_crossing_human_control, pedestrian_crossing_physical_facilities,
+#> police_force, road_surface_conditions, road_type, second_road_class,
+#> second_road_number, special_conditions_at_site, speed_limit, time,
+#> trunk_road_flag, urban_or_rural_area, weather_conditions, age_band_of_casualty,
+#> age_of_casualty, bus_or_coach_passenger, car_passenger, casualty_class,
+#> casualty_home_area_type, casualty_imd_decile, casualty_reference,
+#> casualty_severity, casualty_type, pedestrian_location, pedestrian_movement,
+#> pedestrian_road_maintenance_worker, sex_of_casualty, vehicle_text
+#> Warning in asMethod(object): NAs introduced by coercion
 nrow(vehicles)
 #> [1] 193545
 ncol(vehicles)
@@ -322,7 +337,7 @@ names(vehicles)
 ## Creating geographic crash data
 
 An important feature of STATS19 data is that the collision table
-contains geographic coordinates. These are provided at ~10m resolution
+contains geographic coordinates. These are provided at \~10m resolution
 in the UK’s official coordinate reference system (the Ordnance Survey
 National Grid, EPSG code 27700). **stats19** converts the non-geographic
 tables created by `format_collisions()` into the geographic data form of
@@ -346,7 +361,7 @@ Wales).
 
 ``` r
 library(sf)
-#> Linking to GEOS 3.11.1, GDAL 3.6.4, PROJ 9.1.1; sf_use_s2() is TRUE
+#> Linking to GEOS 3.12.1, GDAL 3.8.4, PROJ 9.3.1; sf_use_s2() is TRUE
 library(dplyr)
 #> 
 #> Attaching package: 'dplyr'
@@ -531,28 +546,29 @@ Lovelace, Roberts, and Kellar 2016 for more on this).
 
 Examples of how the package can been used for policy making include:
 
-- Use of the package in a web app created by the library service of the
-  UK Parliament. See
-  [commonslibrary.parliament.uk](https://commonslibrary.parliament.uk/constituency-data-traffic-accidents/),
-  screenshots of which from December 2019 are shown below, for details.
+  - Use of the package in a web app created by the library service of
+    the UK Parliament. See
+    [commonslibrary.parliament.uk](https://commonslibrary.parliament.uk/constituency-data-traffic-accidents/),
+    screenshots of which from December 2019 are shown below, for
+    details.
 
 ![](https://user-images.githubusercontent.com/1825120/70164249-bf730080-16b8-11ea-96d8-ec92c0b5cc69.png)
 
-- Use of methods taught in the
-  [stats19-training](https://docs.ropensci.org/stats19/articles/stats19-training.html)
-  vignette by road safety analysts at Essex Highways and the Safer Essex
-  Roads Partnership ([SERP](https://saferessexroads.org/)) to inform the
-  deployment of proactive front-line police enforcement in the region
-  (credit: Will Cubbin).
+  - Use of methods taught in the
+    [stats19-training](https://docs.ropensci.org/stats19/articles/stats19-training.html)
+    vignette by road safety analysts at Essex Highways and the Safer
+    Essex Roads Partnership ([SERP](https://saferessexroads.org/)) to
+    inform the deployment of proactive front-line police enforcement in
+    the region (credit: Will Cubbin).
 
-- Mention of road crash data analysis based on the package in an
-  [article](https://www.theguardian.com/cities/2019/oct/07/a-deadly-problem-should-we-ban-suvs-from-our-cities)
-  on urban SUVs. The question of how vehicle size and type relates to
-  road safety is an important area of future research. A starting point
-  for researching this topic can be found in the
-  [`stats19-vehicles`](https://docs.ropensci.org/stats19/articles/stats19-vehicles.html)
-  vignette, representing a possible next step in terms of how the data
-  can be used.
+  - Mention of road crash data analysis based on the package in an
+    [article](https://www.theguardian.com/cities/2019/oct/07/a-deadly-problem-should-we-ban-suvs-from-our-cities)
+    on urban SUVs. The question of how vehicle size and type relates to
+    road safety is an important area of future research. A starting
+    point for researching this topic can be found in the
+    [`stats19-vehicles`](https://docs.ropensci.org/stats19/articles/stats19-vehicles.html)
+    vignette, representing a possible next step in terms of how the data
+    can be used.
 
 ## Next steps
 
@@ -572,20 +588,20 @@ save lives. For more on these next steps, see the package’s introductory
 
 The **stats19** package builds on previous work, including:
 
-- code in the [bikeR](https://github.com/Robinlovelace/bikeR) repo
-  underlying an academic paper on collisions involving cyclists
-- functions in [**stplanr**](https://docs.ropensci.org/stplanr/) for
-  downloading Stats19 data
-- updated functions related to the
-  [CyIPT](https://github.com/cyipt/stats19) project
+  - code in the [bikeR](https://github.com/Robinlovelace/bikeR) repo
+    underlying an academic paper on collisions involving cyclists
+  - functions in [**stplanr**](https://docs.ropensci.org/stplanr/) for
+    downloading Stats19 data
+  - updated functions related to the
+    [CyIPT](https://github.com/cyipt/stats19) project
 
-[![ropensci_footer](https://ropensci.org/public_images/ropensci_footer.png)](https://ropensci.org)
+[![ropensci\_footer](https://ropensci.org/public_images/ropensci_footer.png)](https://ropensci.org)
 
 ## References
 
-<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="refs" class="references hanging-indent">
 
-<div id="ref-lovelace_stats19_2019" class="csl-entry">
+<div id="ref-lovelace_stats19_2019">
 
 Lovelace, Robin, Malcolm Morgan, Layik Hama, Mark Padgham, and M
 Padgham. 2019. “Stats19 A Package for Working with Open Road Crash
@@ -594,7 +610,7 @@ Data.” *Journal of Open Source Software* 4 (33): 1181.
 
 </div>
 
-<div id="ref-lovelace_who_2016" class="csl-entry">
+<div id="ref-lovelace_who_2016">
 
 Lovelace, Robin, Hannah Roberts, and Ian Kellar. 2016. “Who, Where,
 When: The Demographic and Geographic Distribution of Bicycle Crashes in
