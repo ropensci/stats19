@@ -40,6 +40,7 @@ BugReports: https://github.com/ropensci/stats19/issues
 Encoding: UTF-8
 LazyData: true
 Imports: 
+    methods,
     sf,
     readr,
     tools
