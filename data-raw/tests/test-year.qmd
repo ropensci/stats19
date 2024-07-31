@@ -1,0 +1,11 @@
+---
+format: gfm
+---
+
+Test date:
+
+
+```{r}
+devtools::load_all()
+crashes = get_stats19(year = 2005, type = "accidents")
+```
