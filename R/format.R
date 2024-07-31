@@ -86,7 +86,7 @@ format_stats19 = function(x, type) {
     # See https://github.com/ropensci/stats19/issues/235#issuecomment-2254257770
     matched_labels = lookup$label[match(x[[i]], lookup$code)]
     x[[i]] = ifelse(is.na(matched_labels), x[[i]], matched_labels)
-    x[[i]] = as(x[[i]], original_class)
+    x[[i]] = methods::as(x[[i]], original_class)
   }
 
   date_in_names = "date" %in% names(x)

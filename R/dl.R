@@ -89,7 +89,7 @@ dl_stats19 = function(year = NULL,
       message("Data already exists in data_dir, not downloading")
     }
   } else {
-    if (interactive() & !many_found) {
+    if (interactive() && !many_found) {
       if (ask) {
         resp = readline(phrase())
       } else {
