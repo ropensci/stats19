@@ -185,8 +185,6 @@ convert_to_col_type = function(type) {
          readr::col_guess())
 }
 
-data("stats19_variables", package = "stats19")
-
 # Create a named list of column types
 unique_vars = unique(stats19_variables$variable)
 unique_types = sapply(unique_vars, function(v) {
