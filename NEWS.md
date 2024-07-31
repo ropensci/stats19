@@ -1,6 +1,7 @@
 # stats19 3.1.0 2024-07
 
 * stats19 now relies on the `stats19_variables` object to format the different tables columns (#245) (credit @layik), fixing an issue in which ages were removed from the `casualties` table, fixing (#235)
+* If `year` is less than 2018 the package auto-downloads the full dataset (#239)
 
 # stats19 3.0.3 2024-02
 
