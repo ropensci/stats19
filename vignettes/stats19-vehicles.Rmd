@@ -26,7 +26,7 @@ Of the three dataset types in STATS19, the vehicle tables are perhaps the most r
 They look like this:
 
 ```{r}
-v = get_stats19(year = 2018, type = "vehicle")
+v = get_stats19(year = 2022, type = "vehicle")
 names(v)
 v
 ```
@@ -71,7 +71,7 @@ In addition to these factors appearing in prior road safety research and debate,
 To explore the relationship between vehicles and crash severity, we must first join on the 'accidents' table:
 
 ```{r}
-a = get_stats19(year = 2018, type = collision)
+a = get_stats19(year = 2022, type = collision)
 va = dplyr::inner_join(v, a)
 ```
 
