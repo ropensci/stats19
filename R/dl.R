@@ -111,15 +111,13 @@ dl_stats19 = function(year = NULL,
       message("No internet connection detected. Please check your connection and try again.")
       return(NULL)
     }
+    if (isFALSE(silent)) {
+      message("Attempt downloading from: ", zip_url)
+    }
     res = curl::curl_fetch_disk(zip_url, tmp_file)
     if (res$status != 200) {
       message("Failed to download file: ", zip_url)
       return(NULL)
-    } else {
-      if (isFALSE(silent)) {
-        message("Attempt downloading from: ", zip_url)
-      }
-      utils::download.file(zip_url, tmp_file, quiet = silent)
     }
     file.rename(tmp_file, destfile)
     if (isFALSE(silent)) {
