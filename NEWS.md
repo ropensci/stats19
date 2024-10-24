@@ -1,4 +1,4 @@
-# stats19 (development version)
+# stats19 3.2.0
 
 # stats19 3.1.0 2024-07
 
