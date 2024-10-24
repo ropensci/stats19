@@ -104,12 +104,23 @@ dl_stats19 = function(year = NULL,
         stop("Stopping as requested", call. = FALSE)
       }
     }
-    if (isFALSE(silent)) {
-      message("Attempt downloading from: ", zip_url)
-    }
     # Save to tempfile first, to avoid partial downloads
     tmp_file = tempfile()
-    utils::download.file(zip_url, tmp_file, quiet = silent)
+    # Check to see if zip_url is a valid URL with the curl package:
+    if (!curl::has_internet()) {
+      message("No internet connection detected. Please check your connection and try again.")
+      return(NULL)
+    }
+    res = curl::curl_fetch_disk(zip_url, tmp_file)
+    if (res$status != 200) {
+      message("Failed to download file: ", zip_url)
+      return(NULL)
+    } else {
+      if (isFALSE(silent)) {
+        message("Attempt downloading from: ", zip_url)
+      }
+      utils::download.file(zip_url, tmp_file, quiet = silent)
+    }
     file.rename(tmp_file, destfile)
     if (isFALSE(silent)) {
       message("Data saved at ", destfile)
