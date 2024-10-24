@@ -46,6 +46,10 @@ read_collisions = function(year = NULL,
     message(path)
   }
   # read the data in
+  if (is.null(path)) {
+    message("File not found.")
+    return(NULL)
+  }
   suppressWarnings({
     ac = readr::read_csv(path, col_types = col_spec())
   })
