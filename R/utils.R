@@ -126,7 +126,6 @@ locate_one_file = function(filename = NULL,
                            year = NULL,
                            type = NULL) {
   # see if locate_files can pin it down
-  # browser()
   path = locate_files(data_dir = data_dir,
                       type = type,
                       years = year,
