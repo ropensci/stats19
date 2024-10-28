@@ -604,5 +604,6 @@ Behaviour*, Bicycling and bicycle safety, 41, Part B.
 
 </div>
 
-[^1]: 
-    <https://commonslibrary.parliament.uk/constituency-data-traffic-accidents/>
+[^1]:  Got to the following URL:
+    commonslibrary.parliament.uk/constituency-data-traffic-accidents
+    online
