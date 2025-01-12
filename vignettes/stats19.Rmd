@@ -22,7 +22,7 @@ knitr::opts_chunk$set(
 
 ## Introduction
 
-**stats19** enables access to and processing of Great Britain's official road traffic casualty database, [STATS19](https://www.data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data). 
+**stats19** enables access to and processing of Great Britain's official road traffic casualty database, [STATS19](https://www.data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-accidents-safety-data). 
 A description of variables in the database can be found in a [guidance](https://www.gov.uk/guidance/road-accident-and-safety-statistics-guidance) provided by the UK's Department for Transport (DfT).
 The datasets are collectively called STATS19 after the form used to report them, which can be found [here](https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/995422/stats19.pdf).
 This vignette focuses on how to use the **stats19** package to work with STATS19 data.
@@ -154,7 +154,6 @@ After raw data files have been downloaded as described in the previous section, 
 ```{r read2022-raw-format}
 crashes_2022_raw = read_collisions(year = 2022, format = FALSE)
 crashes_2022 = format_collisions(crashes_2022_raw)
-waldo::compare(crashes_2022_raw, crashes_2022)
 nrow(crashes_2022_raw)
 ncol(crashes_2022_raw)
 nrow(crashes_2022)
