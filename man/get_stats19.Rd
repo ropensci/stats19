@@ -70,8 +70,10 @@ functions, as shown in the examples.
 \examples{
 \donttest{
 if(curl::has_internet()) {
-x = get_stats19(2022, silent = TRUE, format = TRUE)
-class(x)
+col = get_stats19(year = 2022, type = "collision")
+cas2 = get_stats19(year = 2022, type = "casualty")
+veh = get_stats19(year = 2022, type = "vehicle")
+class(col)
 # data.frame output
 x = get_stats19(2022, silent = TRUE, output_format = "data.frame")
 class(x)
