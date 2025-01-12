@@ -35,7 +35,7 @@
 #'   # with type as casualty
 #'   dl_stats19(year = 2022, type = "casualty")
 #'   # try another year
-#'   dl_stats19(year = 2018)
+#'   dl_stats19(year = 2023)
 #' }
 #' }
 dl_stats19 = function(year = NULL,
