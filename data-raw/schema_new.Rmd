@@ -5,15 +5,16 @@ for details).
 
 ```{r}
 library(tidyverse)
+devtools::load_all()
 ```
 
 
 # Load stats19 schema and save variable names
 
 ```{r}
-schema_url = "https://data.dft.gov.uk/road-accidents-safety-data/Road-Safety-Open-Dataset-Data-Guide.xlsx"
+schema_url = "https://data.dft.gov.uk/road-accidents-safety-data/dft-road-casualty-statistics-road-safety-open-dataset-data-guide-2024.xlsx"
 schema_f = basename(schema_url)
-schema_saved = file.path(stats19::get_data_directory(), schema_f)
+schema_saved = file.path(get_data_directory(), schema_f)
 download.file(schema_url, destfile = schema_saved)
 schema_dft = readxl::read_excel(schema_saved)
 schema_dft
@@ -29,29 +30,68 @@ stats19_variables_dft
 summary(stats19_variables$table %in% stats19_variables_dft$table)
 summary(in_original <- stats19_variables$column_name %in% stats19_variables_dft$variable)
 stats19_variables$column_name[!in_original]
-# [1] "latitude"                    "was_vehicle_left_hand_drive"
+# [1] "vehicle_text"
 summary(in_new <- stats19_variables_dft$variable %in% stats19_variables$column_name)
 stats19_variables_dft$variable[!in_new]
-#  [1] "accident_reference"           "accident_year"                "Latitude"                    
-#  [4] "local_authority_ons_district" "trunk_road_flag"              "accident_reference"          
-#  [7] "accident_year"                "accident_reference"           "accident_year"               
-# [10] "vehicle_text"                 "accident_reference"           "accident_year"               
-# [13] "generic_make_model"           "vehicle_direction_from"       "vehicle_direction_to"        
-# [16] "vehicle_left_hand_drive"   
+#  [1] "collision_index"                             
+#  [2] "collision_reference"                         
+#  [3] "collision_year"                              
+#  [4] "did_police_officer_attend_scene_of_collision"
+#  [5] "enhanced_collision_severity"                 
+#  [6] "legacy_collision_severity"                   
+#  [7] "lsoa_of_collision_location"                  
+#  [8] "casualty_distance_banding"                   
+#  [9] "collision_index"                             
+# [10] "collision_reference"                         
+# [11] "collision_year"                              
+# [12] "enhanced_casualty_severity"                  
+# [13] "lsoa_of_casualty"                            
+# [14] "adjusted_serious"                            
+# [15] "adjusted_slight"                             
+# [16] "injury_based"                                
+# [17] "adjusted_serious"                            
+# [18] "adjusted_slight"                             
+# [19] "injury_based"                                
+# [20] "accident_ref_no"                             
+# [21] "effective_date_of_change"                    
+# [22] "previously_published_value"                  
+# [23] "replacement_value"                           
+# [24] "variable"                                    
+# [25] "collision_index"                             
+# [26] "collision_reference"                         
+# [27] "collision_year"                              
+# [28] "dir_from_e"                                  
+# [29] "dir_from_n"                                  
+# [30] "dir_to_e"                                    
+# [31] "dir_to_n"                                    
+# [32] "driver_distance_banding"                     
+# [33] "escooter_flag"                               
+# [34] "lsoa_of_driver"    
 stats19_variables_dft$column_name = snakecase::to_snake_case(stats19_variables_dft$variable)
 stats19_variables_minimal = stats19_variables %>% 
   select(column_name, type)
 stats19_variables_joined = left_join(stats19_variables_dft, stats19_variables_minimal)
 table(stats19_variables_joined$type)
-# character      date  location   numeric     other      time 
-#        40         1         3         9        28         1 
+# table of extent 0 >
 stats19_variables_joined %>% 
   filter(is.na(type))
 stats19_variables_joined$type = "character"
 stats19_variables_joined$type[
   grepl(pattern = "year", x = stats19_variables_joined$column_name) 
 ] = "numeric"
-
+# Check variables:
+stats19_variables_joined$variable
+stats19_variables_joined |>
+  filter(str_detect(variable, "age_of"))
+stats19_variables_joined$type[
+  grepl(pattern = "age_of", x = stats19_variables_joined$column_name) 
+] = "numeric"
+reg = "adjusted|engine|east|north|longitude|latitude"
+stats19_variables_joined |>
+  filter(str_detect(variable, reg))
+stats19_variables_joined$type[
+  grepl(pattern = reg, x = stats19_variables_joined$column_name) 
+] = "numeric"
 ```
 
 # Save the schema
