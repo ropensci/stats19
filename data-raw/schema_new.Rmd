@@ -12,17 +12,17 @@ devtools::load_all()
 # Load stats19 schema and save variable names
 
 ```{r}
-schema_url <- "https://data.dft.gov.uk/road-accidents-safety-data/dft-road-casualty-statistics-road-safety-open-dataset-data-guide-2024.xlsx"
-schema_f <- basename(schema_url)
-schema_saved <- file.path(get_data_directory(), schema_f)
+schema_url = "https://data.dft.gov.uk/road-accidents-safety-data/dft-road-casualty-statistics-road-safety-open-dataset-data-guide-2024.xlsx"
+schema_f = basename(schema_url)
+schema_saved = file.path(get_data_directory(), schema_f)
 download.file(schema_url, destfile = schema_saved)
-schema_dft <- readxl::read_excel(schema_saved)
+schema_dft = readxl::read_excel(schema_saved)
 schema_dft
 
 # Pre-prepared dataset:
 stats19_variables
 # readr::write_csv(stats19_variables, "data-raw/stats19_variables.csv")
-stats19_variables_dft <- schema_dft %>%
+stats19_variables_dft = schema_dft %>%
   rename(variable = `field name`) %>%
   group_by(table, variable) %>%
   summarise(
@@ -30,10 +30,10 @@ stats19_variables_dft <- schema_dft %>%
   )
 stats19_variables_dft
 summary(stats19_variables$table %in% stats19_variables_dft$table)
-summary(in_original <- stats19_variables$column_name %in% stats19_variables_dft$variable)
+summary(in_original = stats19_variables$column_name %in% stats19_variables_dft$variable)
 stats19_variables$column_name[!in_original]
 # [1] "vehicle_text"
-summary(in_new <- stats19_variables_dft$variable %in% stats19_variables$column_name)
+summary(in_new = stats19_variables_dft$variable %in% stats19_variables$column_name)
 stats19_variables_dft$variable[!in_new]
 #  [1] "collision_index"
 #  [2] "collision_reference"
@@ -69,31 +69,31 @@ stats19_variables_dft$variable[!in_new]
 # [32] "driver_distance_banding"
 # [33] "escooter_flag"
 # [34] "lsoa_of_driver"
-stats19_variables_dft$column_name <- snakecase::to_snake_case(stats19_variables_dft$variable)
-stats19_variables_minimal <- stats19_variables %>%
+stats19_variables_dft$column_name = snakecase::to_snake_case(stats19_variables_dft$variable)
+stats19_variables_minimal = stats19_variables %>%
   select(column_name, type)
-stats19_variables_joined <- left_join(stats19_variables_dft, stats19_variables_minimal)
+stats19_variables_joined = left_join(stats19_variables_dft, stats19_variables_minimal)
 table(stats19_variables_joined$type)
 # table of extent 0 >
 stats19_variables_joined %>%
   filter(is.na(type))
-stats19_variables_joined$type <- "character"
+stats19_variables_joined$type = "character"
 stats19_variables_joined$type[
   grepl(pattern = "year", x = stats19_variables_joined$column_name)
-] <- "numeric"
+] = "numeric"
 # Check variables:
 stats19_variables_joined$variable
 stats19_variables_joined |>
   filter(str_detect(variable, "age_of"))
 stats19_variables_joined$type[
   grepl(pattern = "age_of", x = stats19_variables_joined$column_name)
-] <- "numeric"
-reg <- "adjusted|engine|east|north|longitude|latitude"
+] = "numeric"
+reg = "adjusted|engine|east|north|longitude|latitude"
 stats19_variables_joined |>
   filter(str_detect(variable, reg))
 stats19_variables_joined$type[
   grepl(pattern = reg, x = stats19_variables_joined$column_name)
-] <- "numeric"
+] = "numeric"
 ```
 
 ```{r}
@@ -112,8 +112,8 @@ readr::write_csv(stats19_variables, "data-raw/stats19_variables.csv")
 stats19_schema
 readr::write_csv(stats19_schema, "data-raw/stats19_schema.csv")
 table(schema_dft$`code/format`)
-stats19_schema_joined <- left_join(stats19_schema_dft, stats19_variables_joined)
-stats19_schema_joined <- stats19_schema_joined %>%
+stats19_schema_joined = left_join(stats19_schema_dft, stats19_variables_joined)
+stats19_schema_joined = stats19_schema_joined %>%
   rename(variable_formatted = column_name) %>%
   filter(!is.na(as.numeric(code)))
 ```
@@ -121,37 +121,37 @@ stats19_schema_joined <- stats19_schema_joined %>%
 # Tests
 
 ```{r}
-s <- stats19_schema
+s = stats19_schema
 s
 s %>%
   filter(variable == "vehicle_type")
-s_na <- s %>%
+s_na = s %>%
   filter(is.na(variable_formatted)) %>%
   select(variable_formatted, variable)
 nrow(s_na) # no NAs
 stats19_schema$variable_formatted[
   is.na(stats19_schema$variable_formatted)
-] <- stats19_schema$variable[
+] = stats19_schema$variable[
   is.na(stats19_schema$variable_formatted)
 ]
 ```
 
 ```{r}
-stats19_schema <- stats19_schema %>%
+stats19_schema = stats19_schema %>%
   filter(variable != "speed_limit")
 ```
 
 # Update the schemas
 
 ```{r}
-stats19_variables_old <- stats19_variables
+stats19_variables_old = stats19_variables
 # stats19_variables = stats19_variables_joined
 # After manual edits:
-stats19_variables <- read_csv("data-raw/stats19_variables.csv")
+stats19_variables = read_csv("data-raw/stats19_variables.csv")
 readr::write_csv(stats19_variables, "data-raw/stats19_variables.csv")
 
-stats19_schema_old <- stats19::stats19_schema
-stats19_schema <- stats19_schema_joined
+stats19_schema_old = stats19::stats19_schema
+stats19_schema = stats19_schema_joined
 waldo::compare(names(stats19_schema_old), names(stats19_schema)) # Same names
 waldo::compare(stats19_schema_old, stats19_schema) # Different values
 readr::write_csv(stats19_schema, "data-raw/stats19_schema.csv")
