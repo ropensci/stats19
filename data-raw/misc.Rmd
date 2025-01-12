@@ -67,13 +67,14 @@ devtools::load_all()
 # Obtained with:
 dl_stats19(year = 2023, type = "collision")
 accidents_2023_raw = read_collisions(year = 2023)
-get_stats19(year = 2023, type = "collision", data_dir = tempdir())
+accidents_2023_raw = get_stats19(year = 2023, type = "collision", data_dir = tempdir(), format = FALSE)
 set.seed(350)
 sel = sample(nrow(accidents_2023_raw), 3)
 accidents_sample_raw = accidents_2023_raw[sel, ]
 # accidents_sample = format_collisions(accidents_sample_raw)
 accidents_sample = accidents_sample_raw
-waldo::compare(accidents_sample_raw, accidents_sample)
+accidents_sample_formatted = format_collisions(accidents_sample)
+waldo::compare(accidents_sample_raw, accidents_sample_formatted)
 usethis::use_data(accidents_sample_raw, overwrite = TRUE)
 usethis::use_data(accidents_sample, overwrite = TRUE)
 ```
@@ -82,26 +83,27 @@ Similarly for casualites, use:
 
 ```{r}
 # Obtained with:
-dl_stats19(year = 2023, type = "cas")
-casualties_2023_raw = read_casualties(year = 2023)
+casualties_2023_raw = get_stats19(year = 2023, type = "casualty", data_dir = tempdir(), format = FALSE)
 set.seed(350)
 sel = sample(nrow(casualties_2023_raw), 3)
 casualties_sample_raw = casualties_2023_raw[sel, ]
 # casualties_sample = format_casualties(casualties_sample_raw)
 casualties_sample = casualties_sample_raw
+casualties_sample_formatted = format_casualties(casualties_sample)
+waldo::compare(casualties_sample_raw, casualties_sample_formatted)
 usethis::use_data(casualties_sample, overwrite = TRUE)
 ```
 
 and for vehicles, use:
+
 ```{r}
-# Obtained with:
-dl_stats19(year = 2023, type = "veh")
-vehicles_2023_raw = read_vehicles(year = 2023)
+vehicles_2023_raw = get_stats19(year = 2023, type = "vehicle", data_dir = tempdir(), format = FALSE)
 set.seed(350)
 sel = sample(nrow(vehicles_2023_raw), 3)
 vehicles_sample_raw = vehicles_2023_raw[sel, ]
-# vehicles_sample = format_vehicles(vehicles_sample_raw)
+vehicles_sample_formatted = format_vehicles(vehicles_sample_raw)
 vehicles_sample = vehicles_2023_raw[sel,]
+waldo::compare(vehicles_sample_raw, vehicles_sample_formatted)
 usethis::use_data(vehicles_sample, overwrite = TRUE)
 ```
 
