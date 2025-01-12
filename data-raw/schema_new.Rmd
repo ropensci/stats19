@@ -17,89 +17,43 @@ schema_f = basename(schema_url)
 schema_saved = file.path(get_data_directory(), schema_f)
 download.file(schema_url, destfile = schema_saved)
 schema_dft = readxl::read_excel(schema_saved)
+names(schema_dft)
+# [1] "table"       "field name"  "code/format" "label"       "note"       
 schema_dft
+stats19_schema_dft = schema_dft %>%
+  rename(variable = `field name`, code = `code/format`) 
 
 # Pre-prepared dataset:
 stats19_variables
-# readr::write_csv(stats19_variables, "data-raw/stats19_variables.csv")
-stats19_variables_dft = schema_dft %>%
-  rename(variable = `field name`) %>%
+stats19_variables_dft = stats19_schema_dft %>%
   group_by(table, variable) %>%
   summarise(
     note = first(note)
   )
 stats19_variables_dft
-summary(stats19_variables$table %in% stats19_variables_dft$table)
-summary(in_original = stats19_variables$column_name %in% stats19_variables_dft$variable)
-stats19_variables$column_name[!in_original]
-# [1] "vehicle_text"
-summary(in_new = stats19_variables_dft$variable %in% stats19_variables$column_name)
-stats19_variables_dft$variable[!in_new]
-#  [1] "collision_index"
-#  [2] "collision_reference"
-#  [3] "collision_year"
-#  [4] "did_police_officer_attend_scene_of_collision"
-#  [5] "enhanced_collision_severity"
-#  [6] "legacy_collision_severity"
-#  [7] "lsoa_of_collision_location"
-#  [8] "casualty_distance_banding"
-#  [9] "collision_index"
-# [10] "collision_reference"
-# [11] "collision_year"
-# [12] "enhanced_casualty_severity"
-# [13] "lsoa_of_casualty"
-# [14] "adjusted_serious"
-# [15] "adjusted_slight"
-# [16] "injury_based"
-# [17] "adjusted_serious"
-# [18] "adjusted_slight"
-# [19] "injury_based"
-# [20] "accident_ref_no"
-# [21] "effective_date_of_change"
-# [22] "previously_published_value"
-# [23] "replacement_value"
-# [24] "variable"
-# [25] "collision_index"
-# [26] "collision_reference"
-# [27] "collision_year"
-# [28] "dir_from_e"
-# [29] "dir_from_n"
-# [30] "dir_to_e"
-# [31] "dir_to_n"
-# [32] "driver_distance_banding"
-# [33] "escooter_flag"
-# [34] "lsoa_of_driver"
-stats19_variables_dft$column_name = snakecase::to_snake_case(stats19_variables_dft$variable)
-stats19_variables_minimal = stats19_variables %>%
-  select(column_name, type)
-stats19_variables_joined = left_join(stats19_variables_dft, stats19_variables_minimal)
-table(stats19_variables_joined$type)
-# table of extent 0 >
-stats19_variables_joined %>%
-  filter(is.na(type))
-stats19_variables_joined$type = "character"
-stats19_variables_joined$type[
-  grepl(pattern = "year", x = stats19_variables_joined$column_name)
+stats19_variables_dft$type = "character"
+stats19_variables_dft$type[
+  grepl(pattern = "year", x = stats19_variables_dft$variable)
 ] = "numeric"
 # Check variables:
-stats19_variables_joined$variable
-stats19_variables_joined |>
+stats19_variables_dft$variable
+stats19_variables_dft |>
   filter(str_detect(variable, "age_of"))
-stats19_variables_joined$type[
-  grepl(pattern = "age_of", x = stats19_variables_joined$column_name)
+stats19_variables_dft$type[
+  grepl(pattern = "age_of", x = stats19_variables_dft$variable)
 ] = "numeric"
 reg = "adjusted|engine|east|north|longitude|latitude"
-stats19_variables_joined |>
+stats19_variables_dft |>
   filter(str_detect(variable, reg))
-stats19_variables_joined$type[
-  grepl(pattern = reg, x = stats19_variables_joined$column_name)
+stats19_variables_dft$type[
+  grepl(pattern = reg, x = stats19_variables_dft$variable)
 ] = "numeric"
 ```
 
 ```{r}
 # Save the updated variables
 stats_19_variables_old = read_csv("data-raw/stats19_variables.csv")
-stats19_variables = stats19_variables_joined
+stats19_variables = stats19_variables_dft
 waldo::compare(names(stats_19_variables_old), names(stats19_variables)) # Same names
 waldo::compare(stats_19_variables_old, stats19_variables) # Different values
 readr::write_csv(stats19_variables, "data-raw/stats19_variables.csv")
@@ -111,49 +65,20 @@ readr::write_csv(stats19_variables, "data-raw/stats19_variables.csv")
 # Previous version of the dataset
 stats19_schema
 readr::write_csv(stats19_schema, "data-raw/stats19_schema.csv")
-table(schema_dft$`code/format`)
-stats19_schema_joined = left_join(stats19_schema_dft, stats19_variables_joined)
-stats19_schema_joined = stats19_schema_joined %>%
-  rename(variable_formatted = column_name) %>%
-  filter(!is.na(as.numeric(code)))
-```
-
-# Tests
-
-```{r}
-s = stats19_schema
-s
-s %>%
-  filter(variable == "vehicle_type")
-s_na = s %>%
-  filter(is.na(variable_formatted)) %>%
-  select(variable_formatted, variable)
-nrow(s_na) # no NAs
-stats19_schema$variable_formatted[
-  is.na(stats19_schema$variable_formatted)
-] = stats19_schema$variable[
-  is.na(stats19_schema$variable_formatted)
-]
-```
-
-```{r}
-stats19_schema = stats19_schema %>%
-  filter(variable != "speed_limit")
+table(stats19_schema_dft$variable)
+stats19_schema_joined = left_join(stats19_schema_dft, stats19_variables_dft %>% select(variable, type)) 
 ```
 
 # Update the schemas
 
 ```{r}
 stats19_variables_old = stats19_variables
-# stats19_variables = stats19_variables_joined
-# After manual edits:
-stats19_variables = read_csv("data-raw/stats19_variables.csv")
-readr::write_csv(stats19_variables, "data-raw/stats19_variables.csv")
-
 stats19_schema_old = stats19::stats19_schema
 stats19_schema = stats19_schema_joined
 waldo::compare(names(stats19_schema_old), names(stats19_schema)) # Same names
 waldo::compare(stats19_schema_old, stats19_schema) # Different values
+summary(is.na(stats19_schema))
+table(stats19_schema$type)
 readr::write_csv(stats19_schema, "data-raw/stats19_schema.csv")
 usethis::use_data(stats19_variables, overwrite = TRUE)
 usethis::use_data(stats19_schema, overwrite = TRUE)
