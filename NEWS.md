@@ -1,3 +1,5 @@
+# stats19 3.3.0
+
 # stats19 3.2.0 2024-10
 
 * Updates so package functions fail gracefully when input data is not as expected, e.g. due to URL changes (#252)
