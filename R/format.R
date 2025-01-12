@@ -63,18 +63,17 @@ format_vehicles = function(x) {
 }
 
 format_stats19 = function(x, type) {
-  # browser()
   # Rename columns
   old_names = names(x)
   new_names = format_column_names(old_names)
   # waldo::compare(old_names, new_names) They are the same for 2023 date
-  # TODO: remove format_column_names() and use stats19::stats19_schema$variable_formatted
+  # TODO: remove format_column_names() and use stats19::stats19_schema$variable
   names(x) = new_names
 
   # create lookup table
   lkp = stats19::stats19_variables[stats19::stats19_variables$table == tolower(type),]
 
-  vkeep = new_names %in% stats19::stats19_schema$variable_formatted
+  vkeep = new_names %in% stats19::stats19_schema$variable
   vars_to_change = which(vkeep)
 
   # # for testing
@@ -82,9 +81,9 @@ format_stats19 = function(x, type) {
   # i = 1
   # x_old = x
   for(i in vars_to_change) {
-    lkp_name = unique(lkp$column_name[lkp$column_name %in% new_names[i]])
+    lkp_name = unique(lkp$variable[lkp$variable %in% new_names[i]])
     lookup = stats19::stats19_schema[
-      stats19::stats19_schema$variable_formatted %in% lkp_name,
+      stats19::stats19_schema$variable %in% lkp_name,
       c("code", "label")
       ]
     original_class = class(x[[i]])
