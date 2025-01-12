@@ -77,10 +77,10 @@ format_stats19 = function(x, type) {
   vkeep = new_names %in% stats19::stats19_schema$variable_formatted
   vars_to_change = which(vkeep)
 
+  # # for testing
   # browser()
-  # for testing
-  i = 1
-  x_old = x
+  # i = 1
+  # x_old = x
   for(i in vars_to_change) {
     lkp_name = unique(lkp$column_name[lkp$column_name %in% new_names[i]])
     lookup = stats19::stats19_schema[
@@ -94,7 +94,7 @@ format_stats19 = function(x, type) {
     x[[i]] = ifelse(is.na(matched_labels), x[[i]], matched_labels)
     x[[i]] = methods::as(x[[i]], original_class)
   }
-  waldo::compare(x_old, x)
+  # waldo::compare(x_old, x)
 
   date_in_names = "date" %in% names(x)
   if(date_in_names) {
