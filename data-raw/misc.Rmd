@@ -12,10 +12,8 @@ all_links = page %>%
   html_nodes("a") %>%       # find all links
   html_attr("href")
 
-zips = all_links %>% str_subset("\\.zip")
-csvs = all_links %>% str_subset("\\.csv")
+r = all_links %>% str_subset("\\.csv")
 
-r = c(zips, csvs)
 dr = c()
 for(i in 1:length(r)) {
   dr[i] = sub("https://data.dft.gov.uk/road-accidents-safety-data/",
@@ -45,25 +43,38 @@ writeLines(file_names_char, "data-raw/file_names.txt")
 readr::write_csv(file_name_df, "data-raw/file_name_df.csv")
 file.edit("data-raw/file_names.txt")
 file.remove("file_names_old.rda")
+# All file names with 1979 in the name
+file_names_1979 = file_names[grepl("1979", names(file_names))]
+# $`dft-road-casualty-statistics-casualty-1979-latest-published-year.csv`
+# [1] "dft-road-casualty-statistics-casualty-1979-latest-published-year.csv"
 
-file_names$`accident-and-casualty-adjustment-2004-to-2019.zip` 
-file_names$`accident-and-casualty-adjustment-2004-to-2019.zip` = NULL
-file_names$`accident-and-casualty-adjustment-2004-to-2019.zip` 
+# $`dft-road-casualty-statistics-vehicle-1979-latest-published-year.csv`
+# [1] "dft-road-casualty-statistics-vehicle-1979-latest-published-year.csv"
+
+# $`dft-road-casualty-statistics-collision-1979-latest-published-year.csv`
+# [1] "dft-road-casualty-statistics-collision-1979-latest-published-year.csv"
+
+# 2023 data:
+file_names_2023 = file_names[grepl("2023", names(file_names))]
+
 usethis::use_data(file_names, overwrite = TRUE)
 ```
 
 The `accidents_sample_raw` can be (re)generated using:
 
 ```{r}
+devtools::load_all()
 # Obtained with:
-dl_stats19(year = 2022, type = "collison")
-accidents_2022_raw = read_collisions(year = 2022)
+dl_stats19(year = 2023, type = "collision")
+accidents_2023_raw = read_collisions(year = 2023)
+accidents_2023_raw = get_stats19(year = 2023, type = "collision", data_dir = tempdir(), format = FALSE)
 set.seed(350)
-sel = sample(nrow(accidents_2022_raw), 3)
-accidents_sample_raw = accidents_2022_raw[sel, ]
+sel = sample(nrow(accidents_2023_raw), 3)
+accidents_sample_raw = accidents_2023_raw[sel, ]
 # accidents_sample = format_collisions(accidents_sample_raw)
 accidents_sample = accidents_sample_raw
-waldo::compare(accidents_sample_raw, accidents_sample)
+accidents_sample_formatted = format_collisions(accidents_sample)
+waldo::compare(accidents_sample_raw, accidents_sample_formatted)
 usethis::use_data(accidents_sample_raw, overwrite = TRUE)
 usethis::use_data(accidents_sample, overwrite = TRUE)
 ```
@@ -72,26 +83,27 @@ Similarly for casualites, use:
 
 ```{r}
 # Obtained with:
-dl_stats19(year = 2022, type = "cas")
-casualties_2022_raw = read_casualties(year = 2022)
+casualties_2023_raw = get_stats19(year = 2023, type = "casualty", data_dir = tempdir(), format = FALSE)
 set.seed(350)
-sel = sample(nrow(casualties_2022_raw), 3)
-casualties_sample_raw = casualties_2022_raw[sel, ]
+sel = sample(nrow(casualties_2023_raw), 3)
+casualties_sample_raw = casualties_2023_raw[sel, ]
 # casualties_sample = format_casualties(casualties_sample_raw)
 casualties_sample = casualties_sample_raw
+casualties_sample_formatted = format_casualties(casualties_sample)
+waldo::compare(casualties_sample_raw, casualties_sample_formatted)
 usethis::use_data(casualties_sample, overwrite = TRUE)
 ```
 
 and for vehicles, use:
+
 ```{r}
-# Obtained with:
-dl_stats19(year = 2022, type = "veh")
-vehicles_2022_raw = read_vehicles(year = 2022)
+vehicles_2023_raw = get_stats19(year = 2023, type = "vehicle", data_dir = tempdir(), format = FALSE)
 set.seed(350)
-sel = sample(nrow(vehicles_2022_raw), 3)
-vehicles_sample_raw = vehicles_2022_raw[sel, ]
-# vehicles_sample = format_vehicles(vehicles_sample_raw)
-vehicles_sample = vehicles_2022_raw[sel,]
+sel = sample(nrow(vehicles_2023_raw), 3)
+vehicles_sample_raw = vehicles_2023_raw[sel, ]
+vehicles_sample_formatted = format_vehicles(vehicles_sample_raw)
+vehicles_sample = vehicles_2023_raw[sel,]
+waldo::compare(vehicles_sample_raw, vehicles_sample_formatted)
 usethis::use_data(vehicles_sample, overwrite = TRUE)
 ```
 

@@ -22,7 +22,7 @@ cycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://l
 **stats19** provides functions for downloading and formatting road crash
 data. Specifically, it enables access to the UK’s official road traffic
 casualty database,
-[STATS19](https://www.data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data).
+[STATS19](https://www.data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-accidents-safety-data).
 (The name comes from the form used by the police to record car crashes
 and other incidents resulting in casualties on the roads.)
 

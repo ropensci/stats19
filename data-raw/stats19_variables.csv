@@ -1,99 +1,129 @@
-table,variable,note,column_name,type
-Accident,accident_index,unique value for each accident. The accident_index combines the accident_year and accident_ref_no to form a unique ID. It can be used to join to Vehicle and Casualty,accident_index,character
-Accident,accident_index,unique value for each accident. The accident_index combines the accident_year and accident_ref_no to form a unique ID. It can be used to join to Vehicle and Casualty,accident_index,character
-Accident,accident_index,unique value for each accident. The accident_index combines the accident_year and accident_ref_no to form a unique ID. It can be used to join to Vehicle and Casualty,accident_index,character
-Accident,accident_reference,"In year id used by the police to reference a collision. It is not unique outside of the year, use accident_index for linking to other years",accident_reference,character
-Accident,accident_severity,NA,accident_severity,character
-Accident,accident_year,NA,accident_year,numeric
-Accident,carriageway_hazards,NA,carriageway_hazards,character
-Accident,date,NA,date,character
-Accident,day_of_week,NA,day_of_week,character
-Accident,did_police_officer_attend_scene_of_accident,NA,did_police_officer_attend_scene_of_accident,character
-Accident,first_road_class,NA,first_road_class,character
-Accident,first_road_number,NA,first_road_number,character
-Accident,junction_control,NA,junction_control,character
-Accident,junction_detail,NA,junction_detail,character
-Accident,Latitude,Null if not known,latitude,numeric
-Accident,light_conditions,NA,light_conditions,character
-Accident,local_authority_district,NA,local_authority_district,character
-Accident,local_authority_highway,NA,local_authority_highway,character
-Accident,local_authority_ons_district,NA,local_authority_ons_district,character
-Accident,location_easting_osgr,Null if not known,location_easting_osgr,numeric
-Accident,location_northing_osgr,Null if not known,location_northing_osgr,numeric
-Accident,longitude,Null if not known,longitude,numeric
-Accident,lsoa_of_accident_location,England and Wales only. See Office for National Statistics (ONS) guidance: https://www.ons.gov.uk/methodology/geography/ukgeographies/censusgeography,lsoa_of_accident_location,character
-Accident,number_of_casualties,NA,number_of_casualties,character
-Accident,number_of_vehicles,NA,number_of_vehicles,character
-Accident,pedestrian_crossing_human_control,NA,pedestrian_crossing_human_control,character
-Accident,pedestrian_crossing_physical_facilities,NA,pedestrian_crossing_physical_facilities,character
-Accident,police_force,NA,police_force,character
-Accident,road_surface_conditions,NA,road_surface_conditions,character
-Accident,road_type,NA,road_type,character
-Accident,second_road_class,NA,second_road_class,character
-Accident,second_road_number,NA,second_road_number,character
-Accident,special_conditions_at_site,NA,special_conditions_at_site,character
-Accident,speed_limit,"20,30,40,50,60,70 are the only valid speed limits on public highways",speed_limit,character
-Accident,time,Null if not known,time,character
-Accident,trunk_road_flag,NA,trunk_road_flag,character
-Accident,urban_or_rural_area,field introduced in 1994,urban_or_rural_area,character
-Accident,weather_conditions,NA,weather_conditions,character
-Casualty,accident_index,unique value for each accident. The accident_index combines the accident_year and accident_ref_no to form a unique ID. It can be used to join to Vehicle and Casualty,accident_index,character
-Casualty,accident_index,unique value for each accident. The accident_index combines the accident_year and accident_ref_no to form a unique ID. It can be used to join to Vehicle and Casualty,accident_index,character
-Casualty,accident_index,unique value for each accident. The accident_index combines the accident_year and accident_ref_no to form a unique ID. It can be used to join to Vehicle and Casualty,accident_index,character
-Casualty,accident_reference,"In year id used by the police to reference a collision. It is not unique outside of the year, use accident_index for linking to other years",accident_reference,character
-Casualty,accident_year,NA,accident_year,numeric
-Casualty,age_band_of_casualty,NA,age_band_of_casualty,character
-Casualty,age_of_casualty,NA,age_of_casualty,numeric
-Casualty,bus_or_coach_passenger,NA,bus_or_coach_passenger,character
-Casualty,car_passenger,NA,car_passenger,character
-Casualty,casualty_class,NA,casualty_class,character
-Casualty,casualty_home_area_type,field introduced in 1999,casualty_home_area_type,character
-Casualty,casualty_imd_decile,field introduced in 2016,casualty_imd_decile,character
-Casualty,casualty_reference,unique value for each casualty in a singular accident (historical years may be unique to a singular vehicle in a road accident),casualty_reference,character
-Casualty,casualty_severity,NA,casualty_severity,character
-Casualty,casualty_type,NA,casualty_type,character
-Casualty,pedestrian_location,NA,pedestrian_location,character
-Casualty,pedestrian_movement,NA,pedestrian_movement,character
-Casualty,pedestrian_road_maintenance_worker,NA,pedestrian_road_maintenance_worker,character
-Casualty,sex_of_casualty,NA,sex_of_casualty,character
-Casualty,vehicle_reference,unique value for each vehicle in a singular accident. Can be used to join a Casualty to a vehicle,vehicle_reference,character
-Casualty,vehicle_reference,unique value for each vehicle in a singular accident. Can be used to join a Casualty to a vehicle,vehicle_reference,character
-e_scooter,accident_index,unique value for each accident. The accident_index combines the accident_year and accident_ref_no to form a unique ID. It can be used to join to Vehicle and Casualty,accident_index,character
-e_scooter,accident_index,unique value for each accident. The accident_index combines the accident_year and accident_ref_no to form a unique ID. It can be used to join to Vehicle and Casualty,accident_index,character
-e_scooter,accident_index,unique value for each accident. The accident_index combines the accident_year and accident_ref_no to form a unique ID. It can be used to join to Vehicle and Casualty,accident_index,character
-e_scooter,accident_reference,"In year id used by the police to reference a collision. It is not unique outside of the year, use accident_index for linking to other years",accident_reference,character
-e_scooter,accident_year,NA,accident_year,numeric
-e_scooter,vehicle_reference,unique value for each vehicle in a singular accident. Can be used to join a Casualty to a vehicle,vehicle_reference,character
-e_scooter,vehicle_reference,unique value for each vehicle in a singular accident. Can be used to join a Casualty to a vehicle,vehicle_reference,character
-e_scooter,vehicle_text,NA,vehicle_text,character
-e_scooter,vehicle_type,cateogry introduced in 2011 specification,vehicle_type,character
-Vehicle,accident_index,unique value for each accident. The accident_index combines the accident_year and accident_ref_no to form a unique ID. It can be used to join to Vehicle and Casualty,accident_index,character
-Vehicle,accident_index,unique value for each accident. The accident_index combines the accident_year and accident_ref_no to form a unique ID. It can be used to join to Vehicle and Casualty,accident_index,character
-Vehicle,accident_index,unique value for each accident. The accident_index combines the accident_year and accident_ref_no to form a unique ID. It can be used to join to Vehicle and Casualty,accident_index,character
-Vehicle,accident_reference,"In year id used by the police to reference a collision. It is not unique outside of the year, use accident_index for linking to other years",accident_reference,character
-Vehicle,accident_year,NA,accident_year,numeric
-Vehicle,age_band_of_driver,NA,age_band_of_driver,character
-Vehicle,age_of_driver,NA,age_of_driver,numeric
-Vehicle,age_of_vehicle,NA,age_of_vehicle,numeric
-Vehicle,driver_home_area_type,field introduced in 1999,driver_home_area_type,character
-Vehicle,driver_imd_decile,field introduced in 2016,driver_imd_decile,character
-Vehicle,engine_capacity_cc,NA,engine_capacity_cc,character
-Vehicle,first_point_of_impact,NA,first_point_of_impact,character
-Vehicle,generic_make_model,field introduced in 2020,generic_make_model,character
-Vehicle,hit_object_in_carriageway,NA,hit_object_in_carriageway,character
-Vehicle,hit_object_off_carriageway,NA,hit_object_off_carriageway,character
-Vehicle,journey_purpose_of_driver,NA,journey_purpose_of_driver,character
-Vehicle,junction_location,NA,junction_location,character
-Vehicle,propulsion_code,NA,propulsion_code,character
-Vehicle,sex_of_driver,NA,sex_of_driver,character
-Vehicle,skidding_and_overturning,NA,skidding_and_overturning,character
-Vehicle,towing_and_articulation,NA,towing_and_articulation,character
-Vehicle,vehicle_direction_from,both vehicle_direction_from and vehicle_direction_to should be 0,vehicle_direction_from,character
-Vehicle,vehicle_direction_to,both vehicle_direction_from and vehicle_direction_to should be 0,vehicle_direction_to,character
-Vehicle,vehicle_leaving_carriageway,NA,vehicle_leaving_carriageway,character
-Vehicle,vehicle_left_hand_drive,NA,vehicle_left_hand_drive,character
-Vehicle,vehicle_location_restricted_lane,NA,vehicle_location_restricted_lane,character
-Vehicle,vehicle_manoeuvre,NA,vehicle_manoeuvre,character
-Vehicle,vehicle_reference,unique value for each vehicle in a singular accident. Can be used to join a Casualty to a vehicle,vehicle_reference,character
-Vehicle,vehicle_reference,unique value for each vehicle in a singular accident. Can be used to join a Casualty to a vehicle,vehicle_reference,character
-Vehicle,vehicle_type,NA,vehicle_type,character
+table,variable,note,type
+accident,accident_index,unique value for each accident. The accident_index combines the accident_year and accident_ref_no to form a unique ID. It can be used to join to Vehicle and Casualty,character
+accident,accident_reference,"In year id used by the police to reference a collision. It is not unique outside of the year, use accident_index for linking to other years",character
+accident,accident_severity,NA,character
+accident,accident_year,NA,numeric
+accident,carriageway_hazards,NA,character
+accident,collision_index,unique value for each accident. The accident_index combines the accident_year and accident_ref_no to form a unique ID. It can be used to join to Vehicle and Casualty,character
+accident,collision_reference,"In year id used by the police to reference a collision. It is not unique outside of the year, use accident_index for linking to other years",character
+accident,collision_year,NA,numeric
+accident,date,NA,character
+accident,day_of_week,NA,character
+accident,did_police_officer_attend_scene_of_accident,NA,character
+accident,did_police_officer_attend_scene_of_collision,NA,character
+accident,enhanced_collision_severity,category introduced where collected in 2023,character
+accident,first_road_class,NA,character
+accident,first_road_number,NA,character
+accident,junction_control,NA,character
+accident,junction_detail,NA,character
+accident,latitude,Null if not known,numeric
+accident,legacy_collision_severity,NA,character
+accident,light_conditions,NA,character
+accident,local_authority_district,NA,character
+accident,local_authority_highway,NA,character
+accident,local_authority_ons_district,NA,character
+accident,location_easting_osgr,Null if not known,numeric
+accident,location_northing_osgr,Null if not known,numeric
+accident,longitude,Null if not known,numeric
+accident,lsoa_of_accident_location,England and Wales only. See Office for National Statistics (ONS) guidance: https://www.ons.gov.uk/methodology/geography/ukgeographies/censusgeography,character
+accident,lsoa_of_collision_location,England and Wales only. See Office for National Statistics (ONS) guidance: https://www.ons.gov.uk/methodology/geography/ukgeographies/censusgeography,character
+accident,number_of_casualties,NA,character
+accident,number_of_vehicles,NA,character
+accident,pedestrian_crossing_human_control,NA,character
+accident,pedestrian_crossing_physical_facilities,NA,character
+accident,police_force,NA,character
+accident,road_surface_conditions,NA,character
+accident,road_type,NA,character
+accident,second_road_class,NA,character
+accident,second_road_number,NA,character
+accident,special_conditions_at_site,NA,character
+accident,speed_limit,"20,30,40,50,60,70 are the only valid speed limits on public highways",character
+accident,time,Null if not known,character
+accident,trunk_road_flag,NA,character
+accident,urban_or_rural_area,field introduced in 1994,character
+accident,weather_conditions,NA,character
+casualty,accident_index,unique value for each accident. The accident_index combines the accident_year and accident_ref_no to form a unique ID. It can be used to join to Vehicle and Casualty,character
+casualty,accident_reference,"In year id used by the police to reference a collision. It is not unique outside of the year, use accident_index for linking to other years",character
+casualty,accident_year,NA,numeric
+casualty,age_band_of_casualty,NA,character
+casualty,age_of_casualty,NA,numeric
+casualty,bus_or_coach_passenger,NA,character
+casualty,car_passenger,NA,character
+casualty,casualty_class,NA,character
+casualty,casualty_distance_banding,field introduced in 2023,character
+casualty,casualty_home_area_type,field introduced in 1999,character
+casualty,casualty_imd_decile,field introduced in 2016,character
+casualty,casualty_reference,unique value for each casualty in a singular accident (historical years may be unique to a singular vehicle in a road accident),character
+casualty,casualty_severity,NA,character
+casualty,casualty_type,NA,character
+casualty,collision_index,NA,character
+casualty,collision_reference,NA,character
+casualty,collision_year,NA,numeric
+casualty,enhanced_casualty_severity,category introduced where collected in 2023,character
+casualty,lsoa_of_casualty,England and Wales only. See Office for National Statistics (ONS) guidance: https://www.ons.gov.uk/methodology/geography/ukgeographies/censusgeography,character
+casualty,pedestrian_location,NA,character
+casualty,pedestrian_movement,NA,character
+casualty,pedestrian_road_maintenance_worker,NA,character
+casualty,sex_of_casualty,NA,character
+casualty,vehicle_reference,unique value for each vehicle in a singular accident. Can be used to join a Casualty to a vehicle,character
+casualty_adjustment,accident_index,NA,character
+casualty_adjustment,accident_reference,"In year id used by the police to reference a collision. It is not unique outside of the year, use accident_index for linking to other years",character
+casualty_adjustment,accident_year,NA,numeric
+casualty_adjustment,adjusted_serious,unique value for each casualty in a singular accident (historical years may be unique to a singular vehicle in a road accident),numeric
+casualty_adjustment,adjusted_slight,NA,numeric
+casualty_adjustment,casualty_reference,unique value for each vehicle in a singular accident. Can be used to join a Casualty to a vehicle,character
+casualty_adjustment,injury_based,NA,character
+casualty_adjustment,vehicle_reference,unique value for each accident. The accident_index combines the accident_year and accident_ref_no to form a unique ID. It can be used to join to Vehicle and Casualty,character
+collision_adjustment,accident_index,unique value for each accident. The accident_index combines the accident_year and accident_ref_no to form a unique ID. It can be used to join to Vehicle and Casualty,character
+collision_adjustment,accident_reference,"In year id used by the police to reference a collision. It is not unique outside of the year, use accident_index for linking to other years",character
+collision_adjustment,accident_year,NA,numeric
+collision_adjustment,adjusted_serious,NA,numeric
+collision_adjustment,adjusted_slight,NA,numeric
+collision_adjustment,injury_based,NA,character
+historical_revisions,accident_index,unique value for each accident. The accident_index combines the accident_year and accident_ref_no to form a unique ID. It can be used to join to Vehicle and Casualty,character
+historical_revisions,accident_ref_no,"In year id used by the police to reference a collision. It is not unique outside of the year, use accident_index for linking to other years",character
+historical_revisions,accident_year,NA,numeric
+historical_revisions,casualty_reference,unique value for each casualty in a singular accident (historical years may be unique to a singular vehicle in a road accident),character
+historical_revisions,effective_date_of_change,Date the change was made,character
+historical_revisions,police_force,(See above),character
+historical_revisions,previously_published_value,NA,character
+historical_revisions,replacement_value,NA,character
+historical_revisions,variable,(See police_force values in accident listings for values),character
+historical_revisions,vehicle_reference,unique value for each vehicle in a singular accident. Can be used to join a Casualty to a vehicle,character
+vehicle,accident_index,unique value for each accident. The accident_index combines the accident_year and accident_ref_no to form a unique ID. It can be used to join to Vehicle and Casualty,character
+vehicle,accident_reference,"In year id used by the police to reference a collision. It is not unique outside of the year, use accident_index for linking to other years",character
+vehicle,accident_year,NA,numeric
+vehicle,age_band_of_driver,NA,character
+vehicle,age_of_driver,NA,numeric
+vehicle,age_of_vehicle,NA,numeric
+vehicle,collision_index,unique value for each accident. The accident_index combines the accident_year and accident_ref_no to form a unique ID. It can be used to join to Vehicle and Casualty,character
+vehicle,collision_reference,"In year id used by the police to reference a collision. It is not unique outside of the year, use accident_index for linking to other years",character
+vehicle,collision_year,NA,numeric
+vehicle,dir_from_e,field introduced in 2023,character
+vehicle,dir_from_n,field introduced in 2023,character
+vehicle,dir_to_e,field introduced in 2023,character
+vehicle,dir_to_n,field introduced in 2023,character
+vehicle,driver_distance_banding,field introduced in 2023,character
+vehicle,driver_home_area_type,field introduced in 1999,character
+vehicle,driver_imd_decile,field introduced in 2016,character
+vehicle,engine_capacity_cc,NA,numeric
+vehicle,escooter_flag,field introduced in 2023,character
+vehicle,first_point_of_impact,NA,character
+vehicle,generic_make_model,field introduced in 2020,character
+vehicle,hit_object_in_carriageway,NA,character
+vehicle,hit_object_off_carriageway,NA,character
+vehicle,journey_purpose_of_driver,NA,character
+vehicle,junction_location,NA,character
+vehicle,lsoa_of_driver,England and Wales only. See Office for National Statistics (ONS) guidance: https://www.ons.gov.uk/methodology/geography/ukgeographies/censusgeography,character
+vehicle,propulsion_code,NA,character
+vehicle,sex_of_driver,NA,character
+vehicle,skidding_and_overturning,NA,character
+vehicle,towing_and_articulation,NA,character
+vehicle,vehicle_direction_from,both vehicle_direction_from and vehicle_direction_to should be 0,character
+vehicle,vehicle_direction_to,both vehicle_direction_from and vehicle_direction_to should be 0,character
+vehicle,vehicle_leaving_carriageway,NA,character
+vehicle,vehicle_left_hand_drive,NA,character
+vehicle,vehicle_location_restricted_lane,NA,character
+vehicle,vehicle_manoeuvre,NA,character
+vehicle,vehicle_reference,unique value for each vehicle in a singular accident. Can be used to join a Casualty to a vehicle,character
+vehicle,vehicle_type,NA,character

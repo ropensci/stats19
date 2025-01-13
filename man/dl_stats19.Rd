@@ -16,7 +16,7 @@ dl_stats19(
 }
 \arguments{
 \item{year}{A year matching file names on the STATS19
-\href{https://www.data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data}{data release page}
+\href{https://www.data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-accidents-safety-data}{data release page}
 e.g. \code{2020}}
 
 \item{type}{One of 'collision', 'casualty', 'Vehicle'; defaults to 'collision'.
@@ -58,7 +58,7 @@ if (curl::has_internet()) {
   # with type as casualty
   dl_stats19(year = 2022, type = "casualty")
   # try another year
-  dl_stats19(year = 2018)
+  dl_stats19(year = 2023)
 }
 }
 }

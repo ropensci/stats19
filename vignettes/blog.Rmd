@@ -16,7 +16,7 @@ always_allow_html: yes
 
 `stats19` is a new R package that enables access to and processing of
 Great Britain’s official road traffic casualty database,
-[STATS19](https://www.data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data).
+[STATS19](https://www.data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-accidents-safety-data).
 
 We started the package in late 2018 following three main motivations:
 
@@ -92,7 +92,7 @@ The name comes from a UK police form called
 
 An important point is that the dataset omits crashes in which
 nobody was hurt.
-The Department for Transport (DfT) also names the dataset [STATS19 on the main web page that links to open access road crash data](https://www.data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data).
+The Department for Transport (DfT) also names the dataset [STATS19 on the main web page that links to open access road crash data](https://www.data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-accidents-safety-data).
 
 The importance of road safety and informed decision making based on crash data cannot be overstated. Deliberately avoiding the matter of life and death of road safety, two numbers from a strategy [document](https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/8146/strategicframework.pdf) by the UK government (2011) are worth mentioning to show the scale of the numbers: 
 
