@@ -2,7 +2,7 @@
 title: "An introduction to road safety analysis with R: setup notes"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{stats19-training-setup}
+  %\VignetteIndexEntry{An introduction to road safety analysis with R: setup notes}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -151,4 +151,3 @@ For the more structured 2 day course for R beginners, a preliminary agenda is as
 15:15-15:30: Talk on Road Safety 3
 
 15:30-16:30 Applying the methods to your own data
-

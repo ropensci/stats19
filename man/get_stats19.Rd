@@ -18,7 +18,7 @@ get_stats19(
 }
 \arguments{
 \item{year}{A year matching file names on the STATS19
-\href{https://www.data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data}{data release page}
+\href{https://www.data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-accidents-safety-data}{data release page}
 e.g. \code{2020}}
 
 \item{type}{One of 'collision', 'casualty', 'Vehicle'; defaults to 'collision'.
@@ -57,7 +57,7 @@ The function returns data for a specific year (e.g. \code{year = 2022})
 
 Note: for years before 2016 the function may return data from more years than are
 requested due to the nature of the files hosted at
-\href{https://www.data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data}{data.gov.uk}.
+\href{https://www.data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-accidents-safety-data}{data.gov.uk}.
 
 As this function uses \code{dl_stats19} function, it can download many MB of data,
 so ensure you have a sufficient disk space.
@@ -70,8 +70,10 @@ functions, as shown in the examples.
 \examples{
 \donttest{
 if(curl::has_internet()) {
-x = get_stats19(2022, silent = TRUE, format = TRUE)
-class(x)
+col = get_stats19(year = 2022, type = "collision")
+cas2 = get_stats19(year = 2022, type = "casualty")
+veh = get_stats19(year = 2022, type = "vehicle")
+class(col)
 # data.frame output
 x = get_stats19(2022, silent = TRUE, output_format = "data.frame")
 class(x)
