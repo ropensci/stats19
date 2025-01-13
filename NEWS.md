@@ -1,3 +1,8 @@
+# stats19 3.3.0 2025-01
+
+* Support for 2023 data (#251)
+* Another round of updates to the schema files thanks to updates from the DfT
+
 # stats19 3.2.0 2024-10
 
 * Updates so package functions fail gracefully when input data is not as expected, e.g. due to URL changes (#252)

@@ -22,7 +22,7 @@ knitr::opts_chunk$set(
 
 ## Introduction
 
-**stats19** enables access to and processing of Great Britain's official road traffic casualty database, [STATS19](https://www.data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data). 
+**stats19** enables access to and processing of Great Britain's official road traffic casualty database, [STATS19](https://www.data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-accidents-safety-data). 
 A description of variables in the database can be found in a [guidance](https://www.gov.uk/guidance/road-accident-and-safety-statistics-guidance) provided by the UK's Department for Transport (DfT).
 The datasets are collectively called STATS19 after the form used to report them, which can be found [here](https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/995422/stats19.pdf).
 This vignette focuses on how to use the **stats19** package to work with STATS19 data.
@@ -93,12 +93,6 @@ You can also use `year` and `type` to "search" through the file names, which are
 
 <!-- In versions above `1.3.0`, function `dl_stats19()` behaves more like `get_stats19()`, that is parameter `type` is by default `accidents` and it can also download multiple years more efficiently. -->
 
-You can find out the names of files that can be downloaded with `names(stats19::file_names)`, an example of which is shown below:
-
-```{r}
-stats19::file_names$DigitalBreathTestData2013.zip
-```
-
 To see how `file_names` was created, see `?file_names`.
 Data files from other years can be selected interactively.
 Just providing a year, for example, presents the user with multiple options (from `file_names`), illustrated below:
@@ -124,8 +118,7 @@ those relating to vehicles, casualties or accidents in 2022.
 ## Read STATS19 data
 
 In a similar approach to the download section before, we can read files downloaded using a `data_dir` location of the file and the `filename` to read.
-The code below will download the `dftRoadSafetyData_Accidents_2022.zip` file from the DfT servers and read its content.
-Files are saved by default in `tempdir()`, but this can be overridden to ensure permanent storage in a user-defined location.
+The code below downloads and reads-in the 2022 crash data:
 
 ```{r dl2022-read}
 crashes_2022_raw = get_stats19(year = 2022, type = "collision", format = FALSE)
@@ -169,20 +162,15 @@ ncol(crashes_2022)
 
 What just happened?
 We read-in data on all road crashes recorded by the police in 2022 across Great Britain.
-The dataset contains
-`r # ncol(crashes_2022_raw)`
-32
-columns (variables) for 
-`r # format(nrow(crashes_2022_raw), big.mark = ",")`
-129,982 crashes.
 
 This work was done by `read_collisions(format = FALSE)`, which imported the "raw" STATS19 data without cleaning messy column names or re-categorising the outputs.
 `format_collisions()` function automates the process of matching column names with variable names provided by the DfT.
 This means `crashes_2022` is much more usable than `crashes_2022_raw`, as shown below, which shows some key variables in the messy and clean datasets:
 
 ```{r crashes2022-columns}
-crashes_2022_raw[c(7, 18, 23, 25)]
-crashes_2022[c(7, 18, 23, 25)]
+names(crashes_2022_raw)
+crashes_2022_raw[c(8, 18, 23, 25)]
+crashes_2022[c(8, 18, 23, 25)]
 ```
 
 By default, `format = TRUE`, meaning that the two stages of `read_collisions(format = FALSE)` and `format_collisions()` yield the same result as `read_collisions(format = TRUE)`.
@@ -227,10 +215,9 @@ The three functions: `format_collisions()`, `format_vehicles()` and
 
 ```{r format-main}
 crashes_2022 = format_collisions(crashes_2022_raw)
-
 # vehicle data for 2022
 dl_stats19(year = 2022, type = "vehicle", ask = FALSE)
-vehicles_2022_raw = read_vehicles(year = 2022)
+vehicles_2022_raw = read_vehicles(year = 2022, format = FALSE)
 vehicles_2022 = format_vehicles(vehicles_2022_raw)
 
 # casualties data for 2022
@@ -420,6 +407,7 @@ library(tidyr)
 library(dplyr)
 sel = casualties_2022$accident_index %in% crashes_wy$accident_index
 casualties_wy = casualties_2022[sel, ]
+table(casualties_wy$casualty_type)
 cas_types = casualties_wy %>% 
   select(accident_index, casualty_type) %>% 
   group_by(accident_index) %>% 
@@ -430,6 +418,7 @@ cas_types = casualties_wy %>%
     passenger = sum(casualty_type == "Car occupant")
     ) 
 cj = left_join(crashes_wy, cas_types)
+summary(cj)
 ```
 
 What just happened? We found the subset of casualties that took place in West Yorkshire with reference to the `accident_index` variable.
