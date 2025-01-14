@@ -1,4 +1,6 @@
-# stats19 3.3.1
+# stats19 3.3.1 2025-01
+
+* Downloads now work when you are on networks with firewalls (#255)
 
 # stats19 3.3.0 2025-01
 
