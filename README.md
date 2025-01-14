@@ -54,6 +54,8 @@ remotes::install_github("ropensci/stats19")
 
 ``` r
 library(stats19)
+#> Data provided under OGL v3.0. Cite the source and link to:
+#> www.nationalarchives.gov.uk/doc/open-government-licence/version/3/
 ```
 
 You can install the released version of stats19 from
@@ -63,42 +65,45 @@ You can install the released version of stats19 from
 install.packages("stats19")
 ```
 
+Load the development version of the package from this repository with:
+
+``` r
+devtools::load_all()
+```
+
 ## get_stats19()
 
 `get_stats19()` requires `year` and `type` parameters, mirroring the
 provision of STATS19 data files, which are categorised by year (from
 1979 onward) and type (with separate tables for crashes, casualties and
 vehicles, as outlined below). The following command, for example, gets
-crash data from 2022 (**note**: we follow the “crash not accident”
+crash data from 2023 (**note**: we follow the “crash not accident”
 campaign of
 [RoadPeace](https://www.roadpeace.org/working-for-change/crash-not-accident/)
 in naming crashes, although the DfT refers to the relevant tables as
 ‘accidents’ data):
 
 ``` r
-crashes = get_stats19(year = 2022, type = "collision")
-#> Files identified: dft-road-casualty-statistics-collision-2022.csv
-#>    https://data.dft.gov.uk/road-accidents-safety-data/dft-road-casualty-statistics-collision-2022.csv
+crashes = get_stats19(year = 2023, type = "collision")
+#> Files identified: dft-road-casualty-statistics-collision-2023.csv
+#>    https://data.dft.gov.uk/road-accidents-safety-data/dft-road-casualty-statistics-collision-2023.csv
 #> Data already exists in data_dir, not downloading
 #> Reading in:
-#> ~/data/stats19/dft-road-casualty-statistics-collision-2022.csv
+#> ~/data/stats19/dft-road-casualty-statistics-collision-2023.csv
 #> date and time columns present, creating formatted datetime column
-#> Warning: NAs introduced by coercion
-#> Warning: NAs introduced by coercion
-#> Warning: NAs introduced by coercion
 ```
 
-What just happened? For the `year` 2022 we read-in crash-level
+What just happened? For the `year` 2023 we read-in crash-level
 (`type = "collision"`) data on all road crashes recorded by the police
-across Great Britain. The dataset contains 37 columns (variables) for
-106,004 crashes. We were not asked to download the file (by default you
+across Great Britain. The dataset contains 38 columns (variables) for
+104,258 crashes. We were not asked to download the file (by default you
 are asked to confirm the file that will be downloaded). The contents of
 this dataset, and other datasets provided by **stats19**, are outlined
 below and described in more detail in the [stats19
 vignette](https://itsleeds.github.io/stats19/articles/stats19.html).
 
 We will see below how the function also works to get the corresponding
-casualty and vehicle datasets for 2022. The package also allows STATS19
+casualty and vehicle datasets for 2023. The package also allows STATS19
 files to be downloaded and read-in separately, allowing more control
 over what you download, and subsequently read-in, with
 `read_collisions()`, `read_casualties()` and `read_vehicles()`, as
@@ -112,14 +117,14 @@ choose from a range of options. Providing just the year, for example,
 will result in the following options:
 
 ``` r
-dl_stats19(year = 2022, data_dir = tempdir())
+dl_stats19(year = 2023, data_dir = tempdir())
 ```
 
     Multiple matches. Which do you want to download?
 
-    1: dft-road-casualty-statistics-casualty-2022.csv
-    2: dft-road-casualty-statistics-vehicle-2022.csv
-    3: dft-road-casualty-statistics-collision-2022.csv
+    1: dft-road-casualty-statistics-casualty-2023.csv
+    2: dft-road-casualty-statistics-vehicle-2023.csv
+    3: dft-road-casualty-statistics-collision-2023.csv
 
     Selection: 
     Enter an item from the menu, or 0 to exit
@@ -130,10 +135,10 @@ STATS19 data consists of 3 main tables:
 
 - Collisions, the main table which contains information on the crash
   time, location and other variables (37 columns in total)
-- Casualties, containing data on people hurt or killed in each crash (19
+- Casualties, containing data on people hurt or killed in each crash (21
   columns in total)
 - Vehicles, containing data on vehicles involved in or causing each
-  crash (28 columns in total)
+  crash (34 columns in total)
 
 The contents of each is outlined below.
 
@@ -144,9 +149,9 @@ Crash data was downloaded and read-in using the function
 
 ``` r
 nrow(crashes)
-#> [1] 106004
+#> [1] 104258
 ncol(crashes)
-#> [1] 37
+#> [1] 38
 ```
 
 Some of the key variables in this dataset include:
@@ -154,23 +159,23 @@ Some of the key variables in this dataset include:
 ``` r
 key_column_names = grepl(pattern = "severity|speed|pedestrian|light_conditions", x = names(crashes))
 crashes[key_column_names]
-#> # A tibble: 106,004 × 5
+#> # A tibble: 104,258 × 6
 #>    accident_severity speed_limit pedestrian_crossing_hu…¹ pedestrian_crossing_…²
 #>    <chr>             <chr>       <chr>                    <chr>                 
-#>  1 Slight            30          None within 50 metres    No physical crossing …
-#>  2 Slight            50          None within 50 metres    Pelican, puffin, touc…
+#>  1 Slight            20          Control by other author… Pedestrian phase at t…
+#>  2 Slight            30          None within 50 metres    Zebra                 
 #>  3 Slight            30          None within 50 metres    No physical crossing …
 #>  4 Slight            30          None within 50 metres    No physical crossing …
-#>  5 Slight            50          None within 50 metres    No physical crossing …
-#>  6 Serious           30          None within 50 metres    No physical crossing …
-#>  7 Slight            30          None within 50 metres    No physical crossing …
-#>  8 Slight            40          None within 50 metres    No physical crossing …
-#>  9 Slight            30          None within 50 metres    Pedestrian phase at t…
-#> 10 Serious           20          None within 50 metres    Zebra                 
-#> # ℹ 105,994 more rows
+#>  5 Slight            30          None within 50 metres    No physical crossing …
+#>  6 Slight            30          Control by other author… Pedestrian phase at t…
+#>  7 Slight            20          None within 50 metres    No physical crossing …
+#>  8 Slight            50          None within 50 metres    No physical crossing …
+#>  9 Slight            20          None within 50 metres    Pelican, puffin, touc…
+#> 10 Slight            20          Control by school cross… Pelican, puffin, touc…
+#> # ℹ 104,248 more rows
 #> # ℹ abbreviated names: ¹​pedestrian_crossing_human_control,
 #> #   ²​pedestrian_crossing_physical_facilities
-#> # ℹ 1 more variable: light_conditions <chr>
+#> # ℹ 2 more variables: light_conditions <chr>, enhanced_severity_collision <dbl>
 ```
 
 For the full list of columns, run `names(crashes)` or see the
@@ -180,60 +185,65 @@ For the full list of columns, run `names(crashes)` or see the
 
 ### Casualties data
 
-As with `crashes`, casualty data for 2022 can be downloaded, read-in and
+As with `crashes`, casualty data for 2023 can be downloaded, read-in and
 formatted as follows:
 
 ``` r
-casualties = get_stats19(year = 2022, type = "casualty", ask = FALSE, format = TRUE)
-#> Files identified: dft-road-casualty-statistics-casualty-2022.csv
-#>    https://data.dft.gov.uk/road-accidents-safety-data/dft-road-casualty-statistics-casualty-2022.csv
+casualties = get_stats19(year = 2023, type = "casualty", ask = FALSE, format = TRUE)
+#> Files identified: dft-road-casualty-statistics-casualty-2023.csv
+#>    https://data.dft.gov.uk/road-accidents-safety-data/dft-road-casualty-statistics-casualty-2023.csv
 #> Data already exists in data_dir, not downloading
 #> Warning: The following named parsers don't match the column names:
-#> accident_severity, carriageway_hazards, date, day_of_week,
-#> did_police_officer_attend_scene_of_accident, first_road_class,
-#> first_road_number, junction_control, junction_detail, Latitude,
-#> light_conditions, local_authority_district, local_authority_highway,
+#> accident_severity, carriageway_hazards, collision_index, collision_reference,
+#> collision_year, date, day_of_week, did_police_officer_attend_scene_of_accident,
+#> did_police_officer_attend_scene_of_collision, enhanced_collision_severity,
+#> first_road_class, first_road_number, junction_control, junction_detail,
+#> latitude, legacy_collision_severity, light_conditions,
+#> local_authority_district, local_authority_highway,
 #> local_authority_ons_district, location_easting_osgr, location_northing_osgr,
-#> longitude, lsoa_of_accident_location, number_of_casualties, number_of_vehicles,
-#> pedestrian_crossing_human_control, pedestrian_crossing_physical_facilities,
-#> police_force, road_surface_conditions, road_type, second_road_class,
-#> second_road_number, special_conditions_at_site, speed_limit, time,
-#> trunk_road_flag, urban_or_rural_area, weather_conditions, vehicle_text,
-#> vehicle_type, age_band_of_driver, age_of_driver, age_of_vehicle,
-#> driver_home_area_type, driver_imd_decile, engine_capacity_cc,
-#> first_point_of_impact, generic_make_model, hit_object_in_carriageway,
-#> hit_object_off_carriageway, journey_purpose_of_driver, junction_location,
-#> propulsion_code, sex_of_driver, skidding_and_overturning,
-#> towing_and_articulation, vehicle_direction_from, vehicle_direction_to,
-#> vehicle_leaving_carriageway, vehicle_left_hand_drive,
-#> vehicle_location_restricted_lane, vehicle_manoeuvre
+#> longitude, lsoa_of_accident_location, lsoa_of_collision_location,
+#> number_of_casualties, number_of_vehicles, pedestrian_crossing_human_control,
+#> pedestrian_crossing_physical_facilities, police_force, road_surface_conditions,
+#> road_type, second_road_class, second_road_number, special_conditions_at_site,
+#> speed_limit, time, trunk_road_flag, urban_or_rural_area, weather_conditions,
+#> adjusted_serious, adjusted_slight, injury_based, accident_ref_no,
+#> effective_date_of_change, previously_published_value, replacement_value,
+#> variable, age_band_of_driver, age_of_driver, age_of_vehicle, dir_from_e,
+#> dir_from_n, dir_to_e, dir_to_n, driver_distance_banding, driver_home_area_type,
+#> driver_imd_decile, engine_capacity_cc, escooter_flag, first_point_of_impact,
+#> generic_make_model, hit_object_in_carriageway, hit_object_off_carriageway,
+#> journey_purpose_of_driver, junction_location, lsoa_of_driver, propulsion_code,
+#> sex_of_driver, skidding_and_overturning, towing_and_articulation,
+#> vehicle_direction_from, vehicle_direction_to, vehicle_leaving_carriageway,
+#> vehicle_left_hand_drive, vehicle_location_restricted_lane, vehicle_manoeuvre,
+#> vehicle_type
 #> Warning in asMethod(object): NAs introduced by coercion
 nrow(casualties)
-#> [1] 135480
+#> [1] 132977
 ncol(casualties)
-#> [1] 19
+#> [1] 21
 ```
 
-The results show that there were 135,480 casualties reported by the
-police in the STATS19 dataset in 2022, and 19 columns (variables).
+The results show that there were 132,977 casualties reported by the
+police in the STATS19 dataset in 2023, and 21 columns (variables).
 Values for a sample of these columns are shown below:
 
 ``` r
 casualties[c(4, 5, 6, 14)]
-#> # A tibble: 135,480 × 4
+#> # A tibble: 132,977 × 4
 #>    vehicle_reference casualty_reference casualty_class  bus_or_coach_passenger  
 #>    <chr>             <chr>              <chr>           <chr>                   
-#>  1 2                 1                  Driver or rider Not a bus or coach pass…
-#>  2 1                 1                  Driver or rider Not a bus or coach pass…
-#>  3 1                 1                  Driver or rider Not a bus or coach pass…
+#>  1 1                 1                  Pedestrian      Not a bus or coach pass…
+#>  2 2                 1                  Driver or rider Not a bus or coach pass…
+#>  3 3                 2                  Passenger       Not a bus or coach pass…
 #>  4 1                 1                  Driver or rider Not a bus or coach pass…
-#>  5 1                 2                  Passenger       Not a bus or coach pass…
-#>  6 1                 1                  Driver or rider Not a bus or coach pass…
-#>  7 2                 2                  Driver or rider Not a bus or coach pass…
-#>  8 3                 3                  Driver or rider Not a bus or coach pass…
+#>  5 2                 1                  Driver or rider Not a bus or coach pass…
+#>  6 2                 1                  Driver or rider Not a bus or coach pass…
+#>  7 1                 1                  Pedestrian      Not a bus or coach pass…
+#>  8 1                 1                  Driver or rider Not a bus or coach pass…
 #>  9 1                 1                  Driver or rider Not a bus or coach pass…
-#> 10 1                 2                  Passenger       Not a bus or coach pass…
-#> # ℹ 135,470 more rows
+#> 10 1                 1                  Pedestrian      Not a bus or coach pass…
+#> # ℹ 132,967 more rows
 ```
 
 The full list of column names in the `casualties` dataset is:
@@ -249,61 +259,69 @@ names(casualties)
 #> [13] "car_passenger"                      "bus_or_coach_passenger"            
 #> [15] "pedestrian_road_maintenance_worker" "casualty_type"                     
 #> [17] "casualty_home_area_type"            "casualty_imd_decile"               
-#> [19] "lsoa_of_casualty"
+#> [19] "lsoa_of_casualty"                   "enhanced_casualty_severity"        
+#> [21] "casualty_distance_banding"
 ```
 
 ### Vehicles data
 
-Data for vehicles involved in crashes in 2022 can be downloaded, read-in
+Data for vehicles involved in crashes in 2023 can be downloaded, read-in
 and formatted as follows:
 
 ``` r
-vehicles = get_stats19(year = 2022, type = "vehicle", ask = FALSE, format = TRUE)
-#> Files identified: dft-road-casualty-statistics-vehicle-2022.csv
-#>    https://data.dft.gov.uk/road-accidents-safety-data/dft-road-casualty-statistics-vehicle-2022.csv
+vehicles = get_stats19(year = 2023, type = "vehicle", ask = FALSE, format = TRUE)
+#> Files identified: dft-road-casualty-statistics-vehicle-2023.csv
+#>    https://data.dft.gov.uk/road-accidents-safety-data/dft-road-casualty-statistics-vehicle-2023.csv
 #> Data already exists in data_dir, not downloading
 #> Warning: The following named parsers don't match the column names:
-#> accident_severity, carriageway_hazards, date, day_of_week,
-#> did_police_officer_attend_scene_of_accident, first_road_class,
-#> first_road_number, junction_control, junction_detail, Latitude,
-#> light_conditions, local_authority_district, local_authority_highway,
+#> accident_severity, carriageway_hazards, collision_index, collision_reference,
+#> collision_year, date, day_of_week, did_police_officer_attend_scene_of_accident,
+#> did_police_officer_attend_scene_of_collision, enhanced_collision_severity,
+#> first_road_class, first_road_number, junction_control, junction_detail,
+#> latitude, legacy_collision_severity, light_conditions,
+#> local_authority_district, local_authority_highway,
 #> local_authority_ons_district, location_easting_osgr, location_northing_osgr,
-#> longitude, lsoa_of_accident_location, number_of_casualties, number_of_vehicles,
-#> pedestrian_crossing_human_control, pedestrian_crossing_physical_facilities,
-#> police_force, road_surface_conditions, road_type, second_road_class,
-#> second_road_number, special_conditions_at_site, speed_limit, time,
-#> trunk_road_flag, urban_or_rural_area, weather_conditions, age_band_of_casualty,
-#> age_of_casualty, bus_or_coach_passenger, car_passenger, casualty_class,
-#> casualty_home_area_type, casualty_imd_decile, casualty_reference,
-#> casualty_severity, casualty_type, pedestrian_location, pedestrian_movement,
-#> pedestrian_road_maintenance_worker, sex_of_casualty, vehicle_text
+#> longitude, lsoa_of_accident_location, lsoa_of_collision_location,
+#> number_of_casualties, number_of_vehicles, pedestrian_crossing_human_control,
+#> pedestrian_crossing_physical_facilities, police_force, road_surface_conditions,
+#> road_type, second_road_class, second_road_number, special_conditions_at_site,
+#> speed_limit, time, trunk_road_flag, urban_or_rural_area, weather_conditions,
+#> age_band_of_casualty, age_of_casualty, bus_or_coach_passenger, car_passenger,
+#> casualty_class, casualty_distance_banding, casualty_home_area_type,
+#> casualty_imd_decile, casualty_reference, casualty_severity, casualty_type,
+#> enhanced_casualty_severity, lsoa_of_casualty, pedestrian_location,
+#> pedestrian_movement, pedestrian_road_maintenance_worker, sex_of_casualty,
+#> adjusted_serious, adjusted_slight, injury_based, accident_ref_no,
+#> effective_date_of_change, previously_published_value, replacement_value,
+#> variable
+#> Warning in asMethod(object): NAs introduced by coercion
 #> Warning in asMethod(object): NAs introduced by coercion
 nrow(vehicles)
-#> [1] 193545
+#> [1] 189815
 ncol(vehicles)
-#> [1] 28
+#> [1] 34
 ```
 
-The results show that there were 193,545 vehicles involved in crashes
-reported by the police in the STATS19 dataset in 2022, with 28 columns
+The results show that there were 189,815 vehicles involved in crashes
+reported by the police in the STATS19 dataset in 2023, with 34 columns
 (variables). Values for a sample of these columns are shown below:
 
 ``` r
 vehicles[c(3, 14:16)]
-#> # A tibble: 193,545 × 4
-#>    accident_reference vehicle_leaving_carriageway hit_object_off_carriageway 
-#>    <chr>              <chr>                       <chr>                      
-#>  1 010352073          Did not leave carriageway   None                       
-#>  2 010352073          Did not leave carriageway   None                       
-#>  3 010352573          Nearside                    Road sign or traffic signal
-#>  4 010352573          Did not leave carriageway   None                       
-#>  5 010352575          Did not leave carriageway   None                       
-#>  6 010352575          Did not leave carriageway   None                       
-#>  7 010352578          Did not leave carriageway   None                       
-#>  8 010352578          Did not leave carriageway   None                       
-#>  9 010352580          Did not leave carriageway   None                       
-#> 10 010352580          Did not leave carriageway   None                       
-#> # ℹ 193,535 more rows
+#> # A tibble: 189,815 × 4
+#>    accident_reference vehicle_leaving_carriageway hit_object_off_carriageway
+#>    <chr>              <chr>                       <chr>                     
+#>  1 010419171          Did not leave carriageway   None                      
+#>  2 010419183          Did not leave carriageway   None                      
+#>  3 010419183          Did not leave carriageway   None                      
+#>  4 010419183          Did not leave carriageway   None                      
+#>  5 010419189          Did not leave carriageway   None                      
+#>  6 010419189          Did not leave carriageway   None                      
+#>  7 010419191          Did not leave carriageway   None                      
+#>  8 010419191          Did not leave carriageway   None                      
+#>  9 010419192          Did not leave carriageway   None                      
+#> 10 010419192          Did not leave carriageway   None                      
+#> # ℹ 189,805 more rows
 #> # ℹ 1 more variable: first_point_of_impact <chr>
 ```
 
@@ -324,7 +342,10 @@ names(vehicles)
 #> [21] "age_band_of_driver"               "engine_capacity_cc"              
 #> [23] "propulsion_code"                  "age_of_vehicle"                  
 #> [25] "generic_make_model"               "driver_imd_decile"               
-#> [27] "driver_home_area_type"            "lsoa_of_driver"
+#> [27] "driver_home_area_type"            "lsoa_of_driver"                  
+#> [29] "escooter_flag"                    "dir_from_e"                      
+#> [31] "dir_from_n"                       "dir_to_e"                        
+#> [33] "dir_to_n"                         "driver_distance_banding"
 ```
 
 ## Creating geographic crash data
@@ -339,7 +360,7 @@ function `format_sf()` as follows:
 
 ``` r
 crashes_sf = format_sf(crashes)
-#> 22 rows removed with no coordinates
+#> 12 rows removed with no coordinates
 ```
 
 The note arises because `NA` values are not permitted in `sf`
@@ -354,18 +375,27 @@ Wales).
 
 ``` r
 library(sf)
+#> Linking to GEOS 3.12.1, GDAL 3.8.4, PROJ 9.3.1; sf_use_s2() is TRUE
 library(dplyr)
+#> 
+#> Attaching package: 'dplyr'
+#> The following objects are masked from 'package:stats':
+#> 
+#>     filter, lag
+#> The following objects are masked from 'package:base':
+#> 
+#>     intersect, setdiff, setequal, union
 wy = filter(police_boundaries, pfa16nm == "West Yorkshire")
 #> old-style crs object detected; please recreate object with a recent sf::st_crs()
 crashes_wy = crashes_sf[wy, ]
 nrow(crashes_sf)
-#> [1] 105982
+#> [1] 104246
 nrow(crashes_wy)
-#> [1] 4400
+#> [1] 4249
 ```
 
-This subsetting has selected the 4,400 crashes which occurred within
-West Yorkshire in 2022.
+This subsetting has selected the 4,249 crashes which occurred within
+West Yorkshire in 2023.
 
 ## Joining tables
 
@@ -387,7 +417,8 @@ names(casualties_wy)
 #> [13] "car_passenger"                      "bus_or_coach_passenger"            
 #> [15] "pedestrian_road_maintenance_worker" "casualty_type"                     
 #> [17] "casualty_home_area_type"            "casualty_imd_decile"               
-#> [19] "lsoa_of_casualty"
+#> [19] "lsoa_of_casualty"                   "enhanced_casualty_severity"        
+#> [21] "casualty_distance_banding"
 cas_types = casualties_wy %>%
   select(accident_index, casualty_type) %>%
   mutate(n = 1) %>%
@@ -411,33 +442,33 @@ The original and joined data look like this:
 crashes_wy %>%
   select(accident_index, accident_severity) %>% 
   st_drop_geometry()
-#> # A tibble: 4,400 × 2
+#> # A tibble: 4,249 × 2
 #>    accident_index accident_severity
 #>  * <chr>          <chr>            
-#>  1 2022121205585  Slight           
-#>  2 2022131127664  Slight           
-#>  3 2022131127681  Serious          
-#>  4 2022131127764  Serious          
-#>  5 2022131127766  Slight           
-#>  6 2022131127829  Slight           
-#>  7 2022131127841  Serious          
-#>  8 2022131127847  Slight           
-#>  9 2022131127861  Slight           
-#> 10 2022131127881  Slight           
-#> # ℹ 4,390 more rows
+#>  1 2023121345088  Slight           
+#>  2 2023122300320  Fatal            
+#>  3 2023122300338  Slight           
+#>  4 2023131258653  Slight           
+#>  5 2023131258655  Slight           
+#>  6 2023131258661  Serious          
+#>  7 2023131258672  Slight           
+#>  8 2023131258685  Slight           
+#>  9 2023131258728  Slight           
+#> 10 2023131258735  Slight           
+#> # ℹ 4,239 more rows
 cas_types[1:2, c("accident_index", "Cyclist")]
 #> # A tibble: 2 × 2
 #> # Groups:   accident_index [2]
 #>   accident_index Cyclist
 #>   <chr>            <dbl>
-#> 1 2022121205585        0
-#> 2 2022131127664        0
+#> 1 2023121345088        1
+#> 2 2023122300320        1
 cj[1:2, c(1, 5, 34)] %>% st_drop_geometry()
 #> # A tibble: 2 × 3
 #>   accident_index latitude lsoa_of_accident_location
-#> * <chr>             <dbl> <chr>                    
-#> 1 2022121205585      53.8 E01027904                
-#> 2 2022131127664      53.7 E01011132
+#> * <chr>             <int> <chr>                    
+#> 1 2023121345088        NA E01027735                
+#> 2 2023122300320        NA E01027735
 ```
 
 ## Mapping crashes
@@ -451,7 +482,7 @@ cex = cj$Total / 3
 plot(cj["speed_limit"], cex = cex)
 ```
 
-<img src="man/figures/README-unnamed-chunk-3-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-4-1.png" width="100%" />
 
 The spatial distribution of crashes in West Yorkshire clearly relates to
 the region’s geography. Crashes tend to happen on busy Motorway roads
@@ -478,8 +509,8 @@ day of the year:
 ``` r
 library(ggplot2)
 head(cj$date)
-#> [1] "2022-08-03" "2022-01-01" "2022-01-01" "2022-01-01" "2022-01-01"
-#> [6] "2022-01-01"
+#> [1] "2023-08-22" "2023-04-02" "2023-03-29" "2023-01-01" "2023-01-01"
+#> [6] "2023-01-01"
 class(cj$date)
 #> [1] "Date"
 crashes_dates = cj %>% 
