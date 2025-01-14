@@ -1,4 +1,4 @@
-Various updates, including removal of `pct` from Suggests, and fixes to support new datasets from the UK Department for Transport.
+With apologies for 2 submissions in quick succession, this fix is needed for users working behind firewalls (many if not most academics using Eduroam)
 
 ## R CMD check results
 

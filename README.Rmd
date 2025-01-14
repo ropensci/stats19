@@ -61,22 +61,28 @@ You can install the released version of stats19 from [CRAN](https://cran.r-proje
 install.packages("stats19")
 ```
 
+Load the development version of the package from this repository with:
+
+```{r eval=FALSE}
+devtools::load_all()
+```
+
 ## get_stats19()
 
 `get_stats19()` requires `year` and `type` parameters, mirroring the provision of STATS19 data files, which are categorised by year (from 1979 onward) and type (with separate tables for crashes, casualties and vehicles, as outlined below).
-The following command, for example, gets crash data from 2022 (**note**: we follow the "crash not accident" campaign of [RoadPeace](https://www.roadpeace.org/working-for-change/crash-not-accident/) in naming crashes, although the DfT refers to the relevant tables as 'accidents' data):
+The following command, for example, gets crash data from 2023 (**note**: we follow the "crash not accident" campaign of [RoadPeace](https://www.roadpeace.org/working-for-change/crash-not-accident/) in naming crashes, although the DfT refers to the relevant tables as 'accidents' data):
 
 ```{r}
-crashes = get_stats19(year = 2022, type = "collision")
+crashes = get_stats19(year = 2023, type = "collision")
 ```
 
 What just happened?
-For the `year` 2022 we read-in crash-level (`type = "collision"`) data on all road crashes recorded by the police across Great Britain.
+For the `year` 2023 we read-in crash-level (`type = "collision"`) data on all road crashes recorded by the police across Great Britain.
 The dataset contains `r ncol(crashes)` columns (variables) for `r format(nrow(crashes), big.mark = ",")` crashes.
 We were not asked to download the file (by default you are asked to confirm the file that will be downloaded).
 The contents of this dataset, and other datasets provided by **stats19**, are outlined below and described in more detail in the [stats19 vignette](https://itsleeds.github.io/stats19/articles/stats19.html).
 
-We will see below how the function also works to get the corresponding casualty and vehicle datasets for 2022.
+We will see below how the function also works to get the corresponding casualty and vehicle datasets for 2023.
 The package also allows STATS19 files to be downloaded and read-in separately, allowing more control over what you download, and subsequently read-in, with `read_collisions()`, `read_casualties()` and `read_vehicles()`, as described in the vignette.
 
 
@@ -86,16 +92,16 @@ Data files can be downloaded without reading them in using the function `dl_stat
 If there are multiple matches, you will be asked to choose from a range of options.
 Providing just the year, for example, will result in the following options:
 
-```{r dl2022-all, eval=FALSE}
-dl_stats19(year = 2022, data_dir = tempdir())
+```{r dl2023-all, eval=FALSE}
+dl_stats19(year = 2023, data_dir = tempdir())
 ```
 
 ```
 Multiple matches. Which do you want to download?
 
-1: dft-road-casualty-statistics-casualty-2022.csv
-2: dft-road-casualty-statistics-vehicle-2022.csv
-3: dft-road-casualty-statistics-collision-2022.csv
+1: dft-road-casualty-statistics-casualty-2023.csv
+2: dft-road-casualty-statistics-vehicle-2023.csv
+3: dft-road-casualty-statistics-collision-2023.csv
 
 Selection: 
 Enter an item from the menu, or 0 to exit
@@ -115,14 +121,14 @@ The contents of each is outlined below.
 
 Crash data was downloaded and read-in using the function `get_stats19()`, as described above.
 
-```{r read2022-raw-format}
+```{r read2023-raw-format}
 nrow(crashes)
 ncol(crashes)
 ```
 
 Some of the key variables in this dataset include:
 
-```{r crashes2022-columns}
+```{r crashes2023-columns}
 key_column_names = grepl(pattern = "severity|speed|pedestrian|light_conditions", x = names(crashes))
 crashes[key_column_names]
 ```
@@ -133,47 +139,47 @@ For the full list of columns, run `names(crashes)` or see the [vignette](https:/
 
 ### Casualties data
 
-As with `crashes`, casualty data for 2022 can be downloaded, read-in and formatted as follows:
+As with `crashes`, casualty data for 2023 can be downloaded, read-in and formatted as follows:
 
-```{r 2022-cas}
-casualties = get_stats19(year = 2022, type = "casualty", ask = FALSE, format = TRUE)
+```{r 2023-cas}
+casualties = get_stats19(year = 2023, type = "casualty", ask = FALSE, format = TRUE)
 nrow(casualties)
 ncol(casualties)
 ```
 
-The results show that there were `r format(nrow(casualties), big.mark=",")` casualties reported by the police in the STATS19 dataset in 2022, and `r ncol(casualties)` columns (variables).
+The results show that there were `r format(nrow(casualties), big.mark=",")` casualties reported by the police in the STATS19 dataset in 2023, and `r ncol(casualties)` columns (variables).
 Values for a sample of these columns are shown below:
 
-```{r 2022-cas-columns}
+```{r 2023-cas-columns}
 casualties[c(4, 5, 6, 14)]
 ```
 
 The full list of column names in the `casualties` dataset is:
 
-```{r 2022-cas-columns-all}
+```{r 2023-cas-columns-all}
 names(casualties)
 ```
 
 ### Vehicles data
 
-Data for vehicles involved in crashes in 2022 can be downloaded, read-in and formatted as follows:
+Data for vehicles involved in crashes in 2023 can be downloaded, read-in and formatted as follows:
 
-```{r dl2022-vehicles}
-vehicles = get_stats19(year = 2022, type = "vehicle", ask = FALSE, format = TRUE)
+```{r dl2023-vehicles}
+vehicles = get_stats19(year = 2023, type = "vehicle", ask = FALSE, format = TRUE)
 nrow(vehicles)
 ncol(vehicles)
 ```
 
-The results show that there were `r format(nrow(vehicles), big.mark=",")` vehicles involved in crashes reported by the police in the STATS19 dataset in 2022, with `r ncol(vehicles)` columns (variables).
+The results show that there were `r format(nrow(vehicles), big.mark=",")` vehicles involved in crashes reported by the police in the STATS19 dataset in 2023, with `r ncol(vehicles)` columns (variables).
 Values for a sample of these columns are shown below:
 
-```{r 2022-veh-columns}
+```{r 2023-veh-columns}
 vehicles[c(3, 14:16)]
 ```
 
 The full list of column names in the `vehicles` dataset is:
 
-```{r 2022-veh-columns-all}
+```{r 2023-veh-columns-all}
 names(vehicles)
 ```
 
@@ -201,7 +207,7 @@ nrow(crashes_wy)
 ```
 
 This subsetting has selected the `r format(nrow(crashes_wy), big.mark = ",")`
-crashes which occurred within West Yorkshire in 2022.
+crashes which occurred within West Yorkshire in 2023.
 
 
 ## Joining tables
