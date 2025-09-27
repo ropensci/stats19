@@ -43,20 +43,8 @@ library(tidyr)
 
   ## request casualty
   casualties = get_stats19(year = "2004", type = "casualty", ask = FALSE, format = TRUE, output_format = "data.frame") |>
-    filter(collision_year >= 2004)
-
-
-  # add a fatal column
-  fat_cas <- casualties |>
-  filter(casualty_severity == "Fatal") |>
-  mutate(fatal_count = 1)
-
-  # same for non fatal
-  other_cas <- casualties |>
-  filter(!casualty_severity == "Fatal") |>
-  mutate(fatal_count = 0)
-
-  casualties <- rbind(fat_cas,other_cas)
+    filter(collision_year >= 2004) |> 
+    mutate(fatal_count = if_else(casualty_severity == "Fatal", 1, 0)) # add a column for fatal tally to enable same method to be used for serious and slight
 
   ## request vehicle
   vehicles = get_stats19(year = "2004", type = "vehicle", ask = FALSE, format = TRUE, output_format = "data.frame") |>
@@ -381,19 +369,20 @@ Table 1 and Chart 1 show that pedestrian traffic (measured by distance walked) h
 
 ```{r, echo = FALSE, warning=FALSE, message=FALSE}
 ## change between this year (TY) and last year (LY)
-diff_fatal <- (table_1$Fatal[20]-table_1$Fatal[19])/table_1$Fatal[19]
 
-diff_trips <- abs(table_1$Traffic[20]-table_1$Traffic[19])/table_1$Traffic[19]
+diff_fatal <- (table_1$Fatal[NROW(table_1)]-table_1$Fatal[NROW(table_1)-1])/table_1$Fatal[NROW(table_1)-1]
+
+diff_trips <- abs(table_1$Traffic[NROW(table_1)]-table_1$Traffic[NROW(table_1)-1])/table_1$Traffic[NROW(table_1)-1]
 
 # pedestrian fatalities increased or decreased
-if(table_1$Fatal[20]>table_1$Fatal[19]){
+if(table_1$Fatal[NROW(table_1)]>table_1$Fatal[NROW(table_1)-1]){
   pf <- "increased"
 } else {
   pf <- "decreased"
 }
 
 # pedestrian casualties all severities increased or decreased
-if(table_1$All[20]>table_1$All[19]){
+if(table_1$All[NROW(table_1)]>table_1$All[NROW(table_1)-1]){
   pcr <- "increased"
 } else {
   pcr <- "fallen"
@@ -496,7 +485,7 @@ rates_2 <- table_2 %>%
 ```
 
 # 3. How far do pedestrians travel?
-The National Travel Survey (NTS) which provides the [number of trips and average distance travelled](https://www.gov.uk/government/statistical-data-sets/nts03-modal-comparisons) (NTS0303) by person per year for English residents. This is used to derive casualty rates per mile travelled for pedestrians, which also use the Great Britain population figure to estimate total distance walked each year.
+The National Travel Survey (NTS) which provides the [number of trips and average distance travelled](https://www.gov.uk/government/statistical-data-sets/nts03-modal-comparisons) (NTS0303) by person per year for English residents. This is used to derive casualty rates per mile travelled for pedestrians, which also use the Great Britain [population figure](https://www.ons.gov.uk/file?uri=/peoplepopulationandcommunity/populationandmigration/populationestimates/datasets/populationestimatestimeseriesdataset/current/pop.csv) to estimate total distance walked each year.
 
 # 4. Casualty rates per mile travelled
 The pedestrian casualty rate has `r pcr` for all severities in `r yr2calc` compared to 2004.
@@ -504,10 +493,10 @@ The pedestrian casualty rate has `r pcr` for all severities in `r yr2calc` compa
 ```{r, echo = FALSE, warning=FALSE, message=FALSE}
 
 # compare the last year to 2004 for all stats
-diff_all_2004 <- (1-(rates_2$All[20]/rates_2$All[1]))*100
-diff_fat_2004 <- (1-(rates_2$Fatal[20]/rates_2$Fatal[1]))*100
-diff_sev_2004 <- (1-(rates_2$Serious[20]/rates_2$Serious[1]))*100
-diff_sli_2004 <- (1-(rates_2$Slight[20]/rates_2$Slight[1]))*100
+diff_all_2004 <- (1-(rates_2$All[NROW(rates_2)]/rates_2$All[1]))*100
+diff_fat_2004 <- (1-(rates_2$Fatal[NROW(rates_2)]/rates_2$Fatal[1]))*100
+diff_sev_2004 <- (1-(rates_2$Serious[NROW(rates_2)]/rates_2$Serious[1]))*100
+diff_sli_2004 <- (1-(rates_2$Slight[NROW(rates_2)]/rates_2$Slight[1]))*100
 
 ```
 
