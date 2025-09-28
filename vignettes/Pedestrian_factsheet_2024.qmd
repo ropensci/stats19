@@ -68,10 +68,10 @@ library(tidyr)
     left_join(uk_pop, by = "Year") |>
     mutate(tot_dist_billion_miles = (`Walk [notes 2, 3]`*Population)/10^9)
 
+  # speed up debugging by saving these key dfs locally
   #save(casualties,crashes,vehicles, trips, file = "all_years.RData")
   
   #load("all_years.RData")
-
 
     # # most of the data is based on the last 5 years, speed up calcs by creating df for this
 #crashes$number_of_casualties <- as.numeric(crashes$number_of_casualties)
@@ -568,12 +568,10 @@ gt(table_2,auto_align = FALSE) |>
 
 ```{r, echo = FALSE, warning=FALSE, message=FALSE}
 
-## by sex and age
+# by sex and age
+# use raw casualty df as there are multiple rows per collision. Bin the ages into custom bins that match the document
 sac_all <- cas_L5Y %>% 
-  #filter(collision_year >= yr2calc) |> 
   filter(casualty_type == report_casualty) |> 
-  #filter(sex_of_casualty %in% c("Male", "Female")) |> 
-  #filter(!casualty_severity == "Slight") |> 
   mutate(age_band = cut(as.numeric(age_of_casualty), breaks=c(0,11,15,19,24,29,39,49,59,69,100),labels=c("0-11","12-15","16-19","20-24","25-29","30-39","40-49","50-59","60-69","70+"))) |> 
   group_by(sex_of_casualty, age_band) %>% 
   summarise(Fatal = sum(fatal_count),
@@ -763,7 +761,8 @@ crash_time <- cas_summary |>
          dow == "Sunday" ~  "Sunday")) |> 
   #mutate(dow = case_when(dow > 1 & dow < 7 ~  "Monday to Friday", dow == 7 ~ "Saturday", dow == 1 ~ "Sunday")) |> 
   group_by(collision_hr, dow) |> 
-    summarise(KSI = sum(KSI))
+    summarise(KSI = sum(KSI)) |> 
+  mutate(KSI = if_else(dow == "Monday to Friday", KSI/5, KSI))
 
 MF_peak <- crash_time |> filter(dow == "Monday to Friday") |> arrange(desc(KSI)) |> mutate(hr = str_sub(gsub(" ","", tolower(format(strptime(collision_hr, format = "%H"), "%I %p"))),2))
 
