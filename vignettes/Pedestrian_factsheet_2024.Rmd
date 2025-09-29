@@ -3,9 +3,10 @@ title: "Reproducing _Reported road casualties in Great Britain: pedestrian facts
 author: "Blaise Kelly"
 editor: source
 self-contained: true
-format:
+format: 
   html:
-    df-print: default
+    toc: true
+    toc-location: left
 ---
 
 
@@ -83,7 +84,7 @@ library(tidyr)
 
 ```
 # Introduction
-This document aims to reproduce the `r yr2calc-4`-`r yr2calc` sections of the ["Accredited official statistics Reported road casualties in Great Britain: pedestrian factsheet, 2023"](https://www.gov.uk/government/statistics/reported-road-casualties-great-britain-pedestrian-factsheet-2024/reported-road-casualties-in-great-britain-pedestrian-factsheet-2024) report published on 25th September 2025.
+This document aims to reproduce the `r yr2calc-4`-`r yr2calc` sections of the ["Accredited official statistics Reported road casualties in Great Britain: pedestrian factsheet, 2024"](https://www.gov.uk/government/statistics/reported-road-casualties-great-britain-pedestrian-factsheet-2024/reported-road-casualties-in-great-britain-pedestrian-factsheet-2024) report published on 25th September 2025.
 
 ```{r, echo = FALSE, warning=FALSE, message=FALSE}
 
@@ -646,7 +647,7 @@ ggplot(sac_all, aes(x = age_band, y = pc_ksi, fill = sex_of_casualty)) +
 ```{r, echo = FALSE, warning=FALSE, message=FALSE}
 
 
-
+# split up different vehicle numbers into individual dfs and join later for the table
 single_vehicles <- veh_cas_sum |> 
   filter(number_of_vehicles == 1) |> 
   group_by(summary_group) |> 
@@ -795,18 +796,6 @@ The weekday peak time for pedestrian KSIs is from `r min(MF_peak$hr[1:4])` to `r
 
 # see section 1 for original table
   
-# road_type_bar <- rbind(road_types, road_type_all) |> 
-#   filter(!road_class == "Data missing or out of range") 
-  # group_by(collision_severity,road_type) %>%
-  # summarise(casualties = sum(casualties)) %>%
-  # mutate(pc = casualties/sum(casualties)*100)
-
-# all_cas_type <- rbind(m_way, rural_urban) %>%
-#   group_by(road_class) %>%
-#   summarise(casualties = sum(casualties))
-#   mutate(pc = casualties/sum(casualties)*100) %>%
-#   mutate(name = "All casualties")
-
 road_type_bar <- rbind(road_types, road_type_all) |> 
   filter(!road_class == "Data missing or out of range")
 
