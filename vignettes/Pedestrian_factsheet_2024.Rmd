@@ -1,12 +1,12 @@
 ---
-title: "Reproducing _Reported road casualties in Great Britain: pedestrian factsheet"
+title: "Reproducing Reported road casualties in Great Britain: pedestrian factsheet"
 author: "Blaise Kelly"
-editor: source
-self-contained: true
-format: 
-  html:
-    toc: true
-    toc-location: left
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Reproducing Reported road casualties in Great Britain: pedestrian factsheet}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
 
 
