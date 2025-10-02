@@ -10,7 +10,7 @@
 #' @inheritParams read_collisions
 #' @export
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' if(curl::has_internet()) {
 #' adjustment = get_stats19_adjustments()
 #' }
