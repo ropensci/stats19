@@ -23,7 +23,8 @@ get_stats19_adjustments = function(
     "2004-latest-published-year.csv"
     )
 ) {
-  adjustments = readr::read_csv(u)
-  adjustments
+  #adjustments = readr::read_csv(u)
+  #adjustments
+  return(print("Data not downloaded. Adjustment table is now merged into casualty table. Use get_stats19 function with 'casualty'. Adjusted data is under the column headings 'casualty_adjusted_severity_serious' and 'casualty_adjusted_severity_slight'"))
 
 }
