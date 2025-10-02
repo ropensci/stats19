@@ -25,7 +25,7 @@ See \href{https://assets.publishing.service.gov.uk/government/uploads/system/upl
 for details.
 }
 \examples{
-\donttest{
+\dontrun{
 if(curl::has_internet()) {
 adjustment = get_stats19_adjustments()
 }
