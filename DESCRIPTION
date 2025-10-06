@@ -16,7 +16,7 @@ Authors@R: c(
     person("Ivo", "Wengraf", role = c("ctb")),
     person(given = "RAC Foundation", role = c("fnd")),
     person("Blaise", "Kelly", email = "blaise@kello.co.uk", role = c("aut"),
-      comment = c(ORCID = "0000-0003-2623-1598")),
+      comment = c(ORCID = "0000-0003-2623-1598"))
   )
 Description: Tools to help download, process and analyse the UK road collision data collected using the
   'STATS19' form. The datasets are provided as 'CSV' files with detailed road safety information about the
