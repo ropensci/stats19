@@ -13,7 +13,7 @@
 #' }
 #' @export
 format_collisions = function(x) {
-  format_stats19(x, type = "Accident")
+  format_stats19(x, type = "Collision")
 }
 #' Format STATS19 casualties
 #'
