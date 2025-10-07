@@ -32,8 +32,7 @@ body {
 
 # https://www.gov.uk/government/statistics/reported-road-casualties-great-britain-pedestrian-factsheet-2023/reported-road-casualties-in-great-britain-pedestrian-factsheet-2023
 
-# Ensuring you have the latest version:
-# pak::pak("ropensci/stats19")
+#library(stats19)
 library(stats19)
 library(sf)
 library(dplyr)
@@ -43,7 +42,6 @@ library(ggplot2)
 library(knitr)
 library(readODS)
 library(gt)
-#library(gtExtras)
 library(clock)
 library(stringr)
 library(tidyr)
@@ -53,52 +51,51 @@ knitr::opts_chunk$set(
   out.width = "100%"  # scale relative to text width
 )
 
-
   # what casualty is the report for? options Pedestrian, Cyclist, escooters
   report_casualty <- "Pedestrian"
 
   # stats19 usually updated in September, so if it is October last years data should be there
   yr2calc <- 2024
 
-#   # request collision data (entering 2004 results in a table with all years)
-#   crashes = get_stats19(year = "2004", type = "collision", ask = FALSE, format = TRUE, output_format = "data.frame") |>
-#     filter(collision_year >= 2004)
-# 
-#   # import the adjusted casualty data ready to join to the original
-#   #adj <- get_stats19_adjustments()
-# 
-# 
-#   ## request casualty
-#   casualties = get_stats19(year = "2004", type = "casualty", ask = FALSE, format = TRUE, output_format = "data.frame") |>
-#     filter(collision_year >= 2004) |> 
-#     mutate(fatal_count = if_else(casualty_severity == "Fatal", 1, 0)) # add a column for fatal tally to enable same method to be used for serious and slight
-# 
-#   ## request vehicle
-#   vehicles = get_stats19(year = "2004", type = "vehicle", ask = FALSE, format = TRUE, output_format = "data.frame") |>
-#     filter(collision_year >= 2004)
-# 
-# 
-# # get population data from https://www.ons.gov.uk/peoplepopulationandcommunity/populationandmigration/populationestimates
-#   uk_pop <- read.csv("https://www.ons.gov.uk/file?uri=/peoplepopulationandcommunity/populationandmigration/populationestimates/datasets/populationestimatestimeseriesdataset/current/pop.csv", skip = 7)
-#   uk_pop <- uk_pop[,c(1,6)]
-#   names(uk_pop) <- c("Year", "Population")
-# 
-# 
-#   # get trip data NTS0303 https://www.gov.uk/government/statistical-data-sets/nts03-modal-comparisons
-#   download.file("https://assets.publishing.service.gov.uk/media/66ce0f118e33f28aae7e1f75/nts0303.ods", destfile = "nts0303.ods", mode = "wb")
-#   # dataset links to this sheet, but it is total distance and not dissagregated by travel mode
-#   #download.file("https://assets.publishing.service.gov.uk/media/66ce0e818e33f28aae7e1f71/nts0101.ods", destfile = "nts0101.ods", mode = "wb")
-# 
-# 
-#   # read in trip data
-#   trips <- read_ods("nts0303.ods", sheet = "NTS0303c_miles", skip = 5) |>
-#     left_join(uk_pop, by = "Year") |>
-#     mutate(tot_dist_billion_miles = (`Walk [notes 2, 3]`*Population)/10^9)
-# 
-#   # speed up debugging by saving these key dfs locally
+  # request collision data (entering 2004 results in a table with all years)
+  crashes = get_stats19(year = "2004", type = "collision", ask = FALSE, format = TRUE, output_format = "data.frame") |>
+    filter(collision_year >= 2004)
+
+  # import the adjusted casualty data ready to join to the original
+  #adj <- get_stats19_adjustments()
+
+
+  ## request casualty
+  casualties = get_stats19(year = "2004", type = "casualty", ask = FALSE, format = TRUE, output_format = "data.frame") |>
+    filter(collision_year >= 2004) |>
+    mutate(fatal_count = if_else(casualty_severity == "Fatal", 1, 0)) # add a column for fatal tally to enable same method to be used for serious and slight
+
+  ## request vehicle
+  vehicles = get_stats19(year = "2004", type = "vehicle", ask = FALSE, format = TRUE, output_format = "data.frame") |>
+    filter(collision_year >= 2004)
+
+
+# get population data from https://www.ons.gov.uk/peoplepopulationandcommunity/populationandmigration/populationestimates
+  uk_pop <- read.csv("https://www.ons.gov.uk/file?uri=/peoplepopulationandcommunity/populationandmigration/populationestimates/datasets/populationestimatestimeseriesdataset/current/pop.csv", skip = 7)
+  uk_pop <- uk_pop[,c(1,6)]
+  names(uk_pop) <- c("Year", "Population")
+
+
+  # get trip data NTS0303 https://www.gov.uk/government/statistical-data-sets/nts03-modal-comparisons
+  download.file("https://assets.publishing.service.gov.uk/media/66ce0f118e33f28aae7e1f75/nts0303.ods", destfile = "nts0303.ods", mode = "wb")
+  # dataset links to this sheet, but it is total distance and not dissagregated by travel mode
+  #download.file("https://assets.publishing.service.gov.uk/media/66ce0e818e33f28aae7e1f71/nts0101.ods", destfile = "nts0101.ods", mode = "wb")
+
+
+  # read in trip data
+  trips <- read_ods("nts0303.ods", sheet = "NTS0303c_miles", skip = 5) |>
+    left_join(uk_pop, by = "Year") |>
+    mutate(tot_dist_billion_miles = (`Walk [notes 2, 3]`*Population)/10^9)
+
+  # speed up debugging by saving these key dfs locally
 #   save(casualties,crashes,vehicles, trips, file = "all_years.RData")
   
-  load("all_years.RData")
+  #load("all_years.RData")
 
     # # most of the data is based on the last 5 years, speed up calcs by creating df for this
 #crashes$number_of_casualties <- as.numeric(crashes$number_of_casualties)
