@@ -1,6 +1,9 @@
-dft-road-casualty-statistics-vehicle-provisional-mid-year-unvalidated-2024.csv
-dft-road-casualty-statistics-casualty-provisional-mid-year-unvalidated-2024.csv
-dft-road-casualty-statistics-collision-provisional-mid-year-unvalidated-2024.csv
+dft-road-casualty-statistics-vehicle-provisional-mid-year-unvalidated-2025.csv
+dft-road-casualty-statistics-casualty-provisional-mid-year-unvalidated-2025.csv
+dft-road-casualty-statistics-collision-provisional-mid-year-unvalidated-2025.csv
+dft-road-casualty-statistics-casualty-2024.csv
+dft-road-casualty-statistics-vehicle-2024.csv
+dft-road-casualty-statistics-collision-2024.csv
 dft-road-casualty-statistics-casualty-2023.csv
 dft-road-casualty-statistics-vehicle-2023.csv
 dft-road-casualty-statistics-collision-2023.csv
