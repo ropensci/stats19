@@ -38,7 +38,6 @@ current_year = function() as.integer(format(format(Sys.Date(), "%Y")))
 #' find_file_name(1985, type = "collision")
 #' find_file_name(type = "cas")
 #' find_file_name(type = "collision")
-#' find_file_name(2016:2022) # warning when multiple years requested
 #' @export
 find_file_name = function(years = NULL, type = NULL) {
   result = unlist(stats19::file_names, use.names = FALSE)
