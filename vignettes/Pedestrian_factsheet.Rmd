@@ -32,8 +32,9 @@ body {
 
 # https://www.gov.uk/government/statistics/reported-road-casualties-great-britain-pedestrian-factsheet-2023/reported-road-casualties-in-great-britain-pedestrian-factsheet-2023
 
-#library(stats19)
-devtools::load_all("D://onedrive/github/stats19/")
+# Ensuring you have the latest version:
+# pak::pak("ropensci/stats19")
+library(stats19)
 library(sf)
 library(dplyr)
 library(lubridate)
