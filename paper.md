@@ -29,7 +29,7 @@ bibliography: paper.bib
 # Summary
 
 **stats19** provides functions for downloading and formatting road crash data.
-Specifically, it enables access to the UK's official road traffic casualty database, [STATS19](https://www.data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data) (the name comes from the form used by the police to record car crashes and other incidents resulting in casualties on the roads).
+Specifically, it enables access to the UK's official road traffic casualty database, [STATS19](https://www.data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-accidents-safety-data) (the name comes from the form used by the police to record car crashes and other incidents resulting in casualties on the roads).
 Finding, reading-in and formatting the data for research can be a time consuming process subject to human error, leading to previous (incomplete) attempts to facilitate the processes with open source software [@lovelace_stplanr_Inpress].
 **stats19** speeds-up these data access and cleaning stages by streamlining the work into 3 stages:
 

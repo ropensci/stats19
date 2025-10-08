@@ -16,7 +16,7 @@
 #'
 #' Note: for years before 2016 the function may return data from more years than are
 #' requested due to the nature of the files hosted at
-#' [data.gov.uk](https://www.data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data).
+#' [data.gov.uk](https://www.data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-accidents-safety-data).
 #'
 #' As this function uses `dl_stats19` function, it can download many MB of data,
 #' so ensure you have a sufficient disk space.

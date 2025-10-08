@@ -111,7 +111,7 @@ We are open minded about changing the name but, as with so many things, there ar
   - - there are other types of road crash data, also the data currently provided is technically for Great Britain, but **roadcrashesGB** doesn't work so well, and we may want to add data access options for Northern Ireland at some point also
 
 - **roadSafetyData**
-  - + Matches DfT's [webpage](https://www.data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data) title on the topic
+  - + Matches DfT's [webpage](https://www.data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-accidents-safety-data) title on the topic
   - - longer and, again, is less specific.
   
 The main benefit we can see of changing the name would be making the package easier to find.
