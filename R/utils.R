@@ -3,7 +3,7 @@
 #' @details
 #' This function returns urls that allow data to be downloaded from the pages:
 #'
-#' https://data.dft.gov.uk/road-accidents-safety-data/
+https://www.gov.uk/government/collections/road-accidents-and-safety-statistics
 #'
 #' Last updated: October 2020.
 #' Files available from the s3 url in the default `domain` argument.
