@@ -76,7 +76,7 @@ Datasets since 1979 are broadly consistent, meaning that STATS19 data represents
 ## Download STATS19 data
 
 **stats19** enables download of raw STATS19 data with `dl_*` functions.
-The following code chunk, for example, downloads and unzips a .zip file containing STATS19 data from 2022:
+The following code chunk, for example, downloads a file containing STATS19 data from 2022:
 
 ```{r dl2022-accidents}
 dl_stats19(year = 2022, type = "collision", ask = FALSE)
@@ -84,8 +84,8 @@ dl_stats19(year = 2022, type = "collision", ask = FALSE)
 
 Note that in the previous command, `ask = FALSE`, meaning you will not be asked.
 By default you are asked to confirm, before downloading large files.
-Currently, these files are downloaded to a default location of `tempdir` which is a platform independent "safe" but temporary location to download the data in. Once downloaded, they are unzipped under original DfT file names.
-The `dl_stats19()` function prints out the location and final file name(s) of unzipped files(s) as shown above.
+Currently, these files are downloaded to a default location of `tempdir` which is a platform independent "safe" but temporary location to download the data in.
+The `dl_stats19()` function prints out the location and final file name(s) of files(s) as shown above.
 
 `dl_stats19()` takes three parameters.
 Supplying a `file_name` is interpreted to mean that the user is aware of what to download and the other two parameters will be ignored.
