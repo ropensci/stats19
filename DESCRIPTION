@@ -44,10 +44,9 @@ LazyData: true
 Imports: 
     methods,
     sf,
-    readr,
-    tools
-Suggests: 
     curl (>= 3.2),
+    readr
+Suggests: 
     dplyr,
     ggplot2,
     knitr,
