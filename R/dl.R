@@ -1,8 +1,8 @@
 #' Download STATS19 data for a year
 #'
 #' @section Details:
-#' This function downloads and unzips UK road crash data.
-#' It results in unzipped .csv files that are put
+#' This function downloads UK road crash data.
+#' It results in .csv files that are put
 #' in a directory that can be set with [get_data_directory()].
 #' By default, stats19 downloads files to a temporary directory.
 #' You can change this behavior to save the files in a permanent directory.
@@ -69,25 +69,24 @@ dl_stats19 = function(year = NULL,
         fnames = fnames[1]
       }
     }
-    zip_url = get_url(fnames)
+    file_url = get_url(fnames)
   } else {
     many_found = FALSE
     fnames = file_name
     nfiles_found = length(fnames)
-    zip_url = get_url(file_name = file_name)
+    file_url = get_url(file_name = file_name)
   }
 
   if (isFALSE(silent)) {
     message("Files identified: ", paste0(fnames, "\n"))
-    message(paste0("   ", zip_url, collapse = "\n"))
+    message(paste0("   ", file_url, collapse = "\n"))
   }
 
   if (!dir.exists(data_dir)) {
     dir.create(data_dir, recursive = TRUE)
   }
 
-  exdir = sub(".zip", "", fnames)
-  destfile = file.path(data_dir, paste0(exdir))
+  destfile = file.path(data_dir, fnames)
   data_already_exists = file.exists(destfile)
   if (data_already_exists) {
     if (isFALSE(silent)) {
@@ -110,11 +109,12 @@ dl_stats19 = function(year = NULL,
       }
     }
     
-    res = curl::curl_fetch_disk(zip_url, destfile)
-    if (res$status != 200) {
-      message("Failed to download file: ", zip_url)
+    tryCatch({
+      curl::curl_download(file_url, destfile)
+    }, error = function(e) {
+      message("Failed to download file: ", file_url)
       return(NULL)
-    }
+    })
     if (isFALSE(silent)) {
       message("Data saved at ", destfile)
     }
