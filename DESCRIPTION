@@ -45,12 +45,13 @@ Imports:
     methods,
     sf,
     curl (>= 3.2),
-    readr
-Suggests: 
+    readr,
     dplyr,
+    lubridate,
+    jsonlite
+Suggests: 
     ggplot2,
     knitr,
-    lubridate,
     rmarkdown,
     stringr,
     testthat (>= 2.1.0),
@@ -61,7 +62,6 @@ Suggests:
     geojsonsf,
     htmltools,
     tmap,
-    jsonlite,
     spatstat.geom,
     osmdata,
     covr,
