@@ -9,6 +9,22 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  eval = FALSE,
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+> **Note:** This vignette is not evaluated during package checks to reduce build time and dependencies. 
+> 
+> **See rendered results online:**
+> 
+> - [2024 Pedestrian Factsheet](https://rpubs.com/Blaise/stats19_pfs_2024)
+> - [2023 Pedestrian Factsheet](https://rpubs.com/Blaise/stats19_pfs_2023)
+>
+> To reproduce the results yourself, download the source code of this vignette and set `eval=TRUE` in the knitr options, or view the discussion in [GitHub issue #240](https://github.com/ropensci/stats19/issues/240).
 
 ```{r setup, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE}
 
@@ -899,4 +915,3 @@ gt(table_4,auto_align = FALSE) |>
 ```
 
 Sections 10 not reproducible as data is not public and sections 11 and 14 are simply explanatory text.
-
