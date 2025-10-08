@@ -69,8 +69,6 @@ Suggests:
     readODS,
     gt,
     clock
-VignetteBuilder: knitr,
-    tidyr
 VignetteBuilder: knitr
 RoxygenNote: 7.3.2
 Roxygen: list(markdown = TRUE)
