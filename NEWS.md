@@ -1,5 +1,6 @@
 # stats19 3.4.0
 
+* Major updates to deal with new file names and column names in updated files hosted by the Department for Transport (#268)
 * Refactored download logic to no longer use .zip files, which are no longer served by the DfT. The package now downloads .csv files directly.
 * Switched from `download.file()` to `curl::curl_download()` for more robust downloads.
 * Improved documentation around setting a permanent download directory using the `STATS19_DOWNLOAD_DIRECTORY` environment variable.
