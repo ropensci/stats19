@@ -33,8 +33,8 @@ STATS19 dataset for the data_dir and filename provided.
 \examples{
 \donttest{
 if(curl::has_internet()) {
-dl_stats19(year = 2019, type = "vehicle")
-ve = read_vehicles(year = 2019)
+dl_stats19(year = 2024, type = "vehicle")
+ve = read_vehicles(year = 2024)
 }
 }
 }

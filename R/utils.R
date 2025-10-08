@@ -3,7 +3,7 @@
 #' @details
 #' This function returns urls that allow data to be downloaded from the pages:
 #'
-#' https://data.dft.gov.uk/road-accidents-safety-data/RoadSafetyData_2015.zip
+#' https://www.gov.uk/government/collections/road-accidents-and-safety-statistics
 #'
 #' Last updated: October 2020.
 #' Files available from the s3 url in the default `domain` argument.
@@ -91,18 +91,13 @@ locate_files = function(data_dir = get_data_directory(),
                         quiet = FALSE) {
   stopifnot(dir.exists(data_dir))
   file_names = find_file_name(years = years, type = type)
-  if(all(grepl(pattern = "csv", file_names))) {
-    return(file.path(data_dir, file_names))
+  files_on_disk = file.path(data_dir, file_names)
+  files_exist = file.exists(files_on_disk)
+  if(any(files_exist)) {
+    return(files_on_disk[files_exist])
+  } else {
+    return(character(0))
   }
-  file_names = tools::file_path_sans_ext(file_names)
-  dir_files = list.dirs(data_dir)
-  # check is any file names match those on disk
-  files_on_disk = vapply(file_names, function(i) any(grepl(i, dir_files)),
-                logical(1))
-  if(any(files_on_disk)) { # return those on disk which match file names
-    files_on_disk = names(files_on_disk[files_on_disk])
-  }
-  return(files_on_disk)
 }
 
 #' Pin down a file on disk from four parameters.
@@ -133,23 +128,13 @@ locate_one_file = function(filename = NULL,
   if(length(path) == 0) {
     stop("No files found under: ", data_dir, call. = FALSE)
   }
-  # Test if path points to a single existing CSV file. See
-  # https://github.com/ropensci/stats19/issues/197 for more details.
-  if (length(path) == 1 && file.exists(path) && tools::file_ext(path) == "csv") {
-    return(path)
-  }
-  scan1 = function(path, type) {
-    lf = list.files(file.path(data_dir, path), ".csv$", full.names = TRUE)
-    if(!is.null(type))
-      lf = lf [grep(type, lf, ignore.case = TRUE)]
-    return(lf)
-  }
-  res = unlist(lapply(path, function(i) scan1(i, type)))
   if(!is.null(filename))
-    res = res [grep(filename, res)]
-  if(length(res) > 1)
-    return("More than one csv file found.")
-  return(res)
+    path = path [grep(filename, path)]
+  if(length(path) > 1) {
+    # message("More than one csv file found, returning the first.")
+    return(path[1])
+  }
+  return(path)
 }
 utils::globalVariables(
   c("stats19_variables", "stats19_schema", "skip", "accidents_sample",
@@ -183,6 +168,14 @@ select_file = function(fnames) {
 }
 
 #' Get data download dir
+#'
+#' @details By default, stats19 downloads files to a temporary directory.
+#' You can change this behavior to save the files in a permanent directory.
+#' This is done by setting the `STATS19_DOWNLOAD_DIRECTORY` environment variable.
+#' A convenient way to do this is by adding `STATS19_DOWNLOAD_DIRECTORY=/path/to/a/dir`
+#' to your `.Renviron` file, which can be opened by `usethis::edit_r_environ()`.
+#'
+#' @export
 #' @examples
 #' # get_data_directory()
 get_data_directory = function() {

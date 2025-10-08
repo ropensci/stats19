@@ -22,7 +22,7 @@ e.g. \code{2020}}
 \item{type}{One of 'collision', 'casualty', 'Vehicle'; defaults to 'collision'.
 This text string is used to match the file names released by the DfT.}
 
-\item{data_dir}{Parent directory for all downloaded files. Defaults to \code{tempdir()}.}
+\item{data_dir}{Parent directory for all downloaded files. See \code{\link[=get_data_directory]{get_data_directory()}} for details.}
 
 \item{file_name}{The file name (DfT named) to download.}
 
@@ -39,9 +39,14 @@ Download STATS19 data for a year
 }
 \section{Details}{
 
-This function downloads and unzips UK road crash data.
-It results in unzipped .csv files that are put
-in the temporary directory specified by \code{get_data_directory()} or provided \code{data_dir}.
+This function downloads UK road crash data.
+It results in .csv files that are put
+in a directory that can be set with \code{\link[=get_data_directory]{get_data_directory()}}.
+By default, stats19 downloads files to a temporary directory.
+You can change this behavior to save the files in a permanent directory.
+This is done by setting the \code{STATS19_DOWNLOAD_DIRECTORY} environment variable.
+A convenient way to do this is by adding \verb{STATS19_DOWNLOAD_DIRECTORY=/path/to/a/dir}
+to your \code{.Renviron} file, which can be opened with \code{usethis::edit_r_environ()}.
 
 The file downloaded would be for a specific year (e.g. 2022).
 It could also be a file containing data for a range of two (e.g. 2005-2014).

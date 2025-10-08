@@ -17,11 +17,11 @@
 #' @examples
 #' \donttest{
 #' if(curl::has_internet()) {
-#' dl_stats19(year = 2019, type = "collision")
-#' ac = read_collisions(year = 2019)
+#' dl_stats19(year = 2024, type = "collision")
+#' ac = read_collisions(year = 2024)
 #'
-#' dl_stats19(year = 2019, type = "collision")
-#' ac_2019 = read_collisions(year = 2019)
+#' dl_stats19(year = 2024, type = "collision")
+#' ac_2019 = read_collisions(year = 2024)
 #' }
 #' }
 read_collisions = function(year = NULL,
@@ -71,8 +71,8 @@ read_collisions = function(year = NULL,
 #' @examples
 #' \donttest{
 #' if(curl::has_internet()) {
-#' dl_stats19(year = 2019, type = "vehicle")
-#' ve = read_vehicles(year = 2019)
+#' dl_stats19(year = 2024, type = "vehicle")
+#' ve = read_vehicles(year = 2024)
 #' }
 #' }
 read_vehicles = function(year = NULL,
