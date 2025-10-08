@@ -961,7 +961,7 @@ ggplot(road_type_bar, aes(fill=road_class, y=pc, x=name, label = paste0(round(pc
 
 ```
 
-In this report, urban roads are defined as those within an area of population of 10,000 or more in England and Wales or more than 3,000 in Scotland - roads outside of these areas are classified as rural [https://www.gov.uk/government/publications/road-length-statistics-information/road-lengths-in-great-britain-statistics-notes-and-definitions](Department for Transport types of road definitions).
+In this report, urban roads are defined as those within an area of population of 10,000 or more in England and Wales or more than 3,000 in Scotland - roads outside of these areas are classified as rural [https://www.gov.uk/government/publications/road-length-statistics-information/road-lengths-in-great-britain-statistics-notes-and-definitions](https://www.gov.uk/government/publications/road-length-statistics-information/road-lengths-in-great-britain-statistics-notes-and-definitions).
 
 # 9. Vehicle movement on the road
 ```{r, echo = FALSE, warning=FALSE, message=FALSE}
