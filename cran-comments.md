@@ -1,7 +1,10 @@
-With apologies for 2 submissions in quick succession, this fix is needed for users working behind firewalls (many if not most academics using Eduroam)
+This submission includes several updates and fixes:
+
+* Fixed an invalid URI in a vignette that was picked up by CRAN checks.
+* Updated the documentation to reflect that the data is available up to 2024.
+* Added a new reference to a paper that uses the package.
 
 ## R CMD check results
 
-0 errors | 0 warnings | 1 note
+0 errors | 0 warnings | 0 notes
 
-* This is a new release.
