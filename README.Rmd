@@ -39,7 +39,7 @@ This is done by setting the `STATS19_DOWNLOAD_DIRECTORY` environment variable.
 A convenient way to do this is by adding `STATS19_DOWNLOAD_DIRECTORY=/path/to/a/dir`
 to your `.Renviron` file, which can be opened with `usethis::edit_r_environ()`.
 
-The raw data is provided as a series of `.csv` files that contain integers and which are stored in dozens of `.zip` files.
+The raw data is provided as a series of `.csv` files.
 Finding, reading-in and formatting the data for research can be a time consuming process subject to human error.
 **stats19** speeds up these vital but boring and error-prone stages of the research process with a single function: `get_stats19()`.
 By allowing public access to properly labelled road crash data, **stats19** aims to make road safety research more reproducible and accessible.
