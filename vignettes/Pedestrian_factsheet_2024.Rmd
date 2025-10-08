@@ -18,7 +18,6 @@ library(stats19)
 library(sf)
 library(dplyr)
 library(lubridate)
-library(reshape2)
 library(ggplot2)
 library(knitr)
 library(readODS)
@@ -404,7 +403,12 @@ rates <- table_1 %>%
          Slight = Slight/bm_vals$Slight*100,
          Traffic = Traffic/bm_vals$Traffic*100)
 
-chart_1 <- rates |> melt("collision_year")
+chart_1 <- rates |> 
+  pivot_longer(
+    cols = !collision_year,
+    names_to = "variable",
+    values_to = "value"
+  )
 
 cols <- rev(c("#001a70", "#ff7733", "#1de9b6","#006853"))
 cust_theme <- theme(panel.grid.major = element_line(size = 2))
@@ -509,8 +513,12 @@ The overall casualty rate decreased by `r round(diff_all_2004)`%. The fatality r
 
 # pick out traffic
 chart_2 <- rates_2 |> 
-  melt("collision_year") |> 
-  filter(!variable == "All")
+  select(-All) |> 
+  pivot_longer(
+    cols = !collision_year,
+    names_to = "variable",
+    values_to = "value"
+  )
 
 # define the colour palette
 cols <- rev(c("#ff7733", "#1de9b6","#006853"))
