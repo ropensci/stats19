@@ -1,10 +1,17 @@
 #' Download, read and format STATS19 data in one function.
 #'
 #' @section Details:
-#' This function uses gets STATS19 data. Behind the scenes it uses
+#' This function gets STATS19 data. Behind the scenes it uses
 #' `dl_stats19()` and `read_*` functions, returning a
 #' `tibble` (default), `data.frame`, `sf` or `ppp` object, depending on the
 #' `output_format` parameter.
+#'
+#' By default, stats19 downloads files to a temporary directory.
+#' You can change this behavior to save the files in a permanent directory.
+#' This is done by setting the `STATS19_DOWNLOAD_DIRECTORY` environment variable.
+#' A convenient way to do this is by adding `STATS19_DOWNLOAD_DIRECTORY=/path/to/a/dir`
+#' to your `.Renviron` file, which can be opened with `usethis::edit_r_environ()`.
+#'
 #' The function returns data for a specific year (e.g. `year = 2022`)
 #'
 #' Note: for years before 2016 the function may return data from more years than are
