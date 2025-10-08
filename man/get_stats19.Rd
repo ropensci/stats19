@@ -24,7 +24,7 @@ e.g. \code{2020}}
 \item{type}{One of 'collision', 'casualty', 'Vehicle'; defaults to 'collision'.
 This text string is used to match the file names released by the DfT.}
 
-\item{data_dir}{Parent directory for all downloaded files. Defaults to \code{tempdir()}.}
+\item{data_dir}{Parent directory for all downloaded files. See \code{\link[=get_data_directory]{get_data_directory()}} for details.}
 
 \item{file_name}{The file name (DfT named) to download.}
 
@@ -49,10 +49,17 @@ Download, read and format STATS19 data in one function.
 }
 \section{Details}{
 
-This function uses gets STATS19 data. Behind the scenes it uses
+This function gets STATS19 data. Behind the scenes it uses
 \code{dl_stats19()} and \verb{read_*} functions, returning a
 \code{tibble} (default), \code{data.frame}, \code{sf} or \code{ppp} object, depending on the
 \code{output_format} parameter.
+
+By default, stats19 downloads files to a temporary directory.
+You can change this behavior to save the files in a permanent directory.
+This is done by setting the \code{STATS19_DOWNLOAD_DIRECTORY} environment variable.
+A convenient way to do this is by adding \verb{STATS19_DOWNLOAD_DIRECTORY=/path/to/a/dir}
+to your \code{.Renviron} file, which can be opened with \code{usethis::edit_r_environ()}.
+
 The function returns data for a specific year (e.g. \code{year = 2022})
 
 Note: for years before 2016 the function may return data from more years than are
