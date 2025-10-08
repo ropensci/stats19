@@ -38,11 +38,11 @@ STATS19 data.
 \examples{
 \donttest{
 if(curl::has_internet()) {
-dl_stats19(year = 2019, type = "collision")
-ac = read_collisions(year = 2019)
+dl_stats19(year = 2024, type = "collision")
+ac = read_collisions(year = 2024)
 
-dl_stats19(year = 2019, type = "collision")
-ac_2019 = read_collisions(year = 2019)
+dl_stats19(year = 2024, type = "collision")
+ac_2019 = read_collisions(year = 2024)
 }
 }
 }
