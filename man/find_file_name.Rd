@@ -21,5 +21,4 @@ find_file_name(2016, type = "collision")
 find_file_name(1985, type = "collision")
 find_file_name(type = "cas")
 find_file_name(type = "collision")
-find_file_name(2016:2022) # warning when multiple years requested
 }

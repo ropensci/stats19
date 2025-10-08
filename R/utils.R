@@ -38,17 +38,31 @@ current_year = function() as.integer(format(format(Sys.Date(), "%Y")))
 #' find_file_name(1985, type = "collision")
 #' find_file_name(type = "cas")
 #' find_file_name(type = "collision")
-#' find_file_name(2016:2022) # warning when multiple years requested
 #' @export
 find_file_name = function(years = NULL, type = NULL) {
   result = unlist(stats19::file_names, use.names = FALSE)
   if(!is.null(years)) {
-    if(min(years) >= 2020) {
+    if(min(years) >= 2020 & min(years) <= 2050) { # for individual years
       result = result[!grepl(pattern = "1979", x = result)]
+      result = result[!grepl(pattern = "adjust", x = result)]
+      result = result[grepl(pattern = years, x = result)]
     }
-    result = result[!grepl(pattern = "adjust", x = result)]
-    result = result[grepl(pattern = years, x = result)]
+    if(min(years) < 2020 & min(years) > 1979) { # for full data set
+      result = result[grepl(pattern = "1979", x = result)]
     }
+    if(length(years) < 2) {
+      if(years == 5) { # for last 5 years
+      result = result[grepl(pattern = "last-5-years", x = result)]
+      result = result[!grepl(pattern = "adjust", x = result)]
+      }
+    }
+    if(length(years) < 2) {
+      if(years == "5 years"){# for last 5 years
+      result = result[grepl(pattern = "last-5-years", x = result)]
+      result = result[!grepl(pattern = "adjust", x = result)]
+      }
+    }
+  }
 
   # see https://github.com/ITSLeeds/stats19/issues/21
   if(!is.null(type)) {
