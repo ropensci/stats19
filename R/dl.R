@@ -3,7 +3,12 @@
 #' @section Details:
 #' This function downloads and unzips UK road crash data.
 #' It results in unzipped .csv files that are put
-#' in the temporary directory specified by `get_data_directory()` or provided `data_dir`.
+#' in a directory that can be set with [get_data_directory()].
+#' By default, stats19 downloads files to a temporary directory.
+#' You can change this behavior to save the files in a permanent directory.
+#' This is done by setting the `STATS19_DOWNLOAD_DIRECTORY` environment variable.
+#' A convenient way to do this is by adding `STATS19_DOWNLOAD_DIRECTORY=/path/to/a/dir`
+#' to your `.Renviron` file, which can be opened with `usethis::edit_r_environ()`.
 #'
 #' The file downloaded would be for a specific year (e.g. 2022).
 #' It could also be a file containing data for a range of two (e.g. 2005-2014).
@@ -19,7 +24,7 @@
 #'  e.g. `2020`
 #' @param type One of 'collision', 'casualty', 'Vehicle'; defaults to 'collision'.
 #' This text string is used to match the file names released by the DfT.
-#' @param data_dir Parent directory for all downloaded files. Defaults to `tempdir()`.
+#' @param data_dir Parent directory for all downloaded files. See [get_data_directory()] for details.
 #' @param ask Should you be asked whether or not to download the files? `TRUE` by default.
 #' @param silent Boolean. If `FALSE` (default value), display useful progress
 #'   messages on the screen.
@@ -95,7 +100,7 @@ dl_stats19 = function(year = NULL,
       } else {
         resp = ""
       }
-      if (resp != "" &
+      if (resp != "" &&
         !grepl(
           pattern = "yes|y",
           x = resp,
