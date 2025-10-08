@@ -50,13 +50,17 @@ find_file_name = function(years = NULL, type = NULL) {
     if(min(years) < 2020 & min(years) > 1979) { # for full data set
       result = result[grepl(pattern = "1979", x = result)]
     }
-    if(years == 5) { # for last 5 years
+    if(length(years) < 2) {
+      if(years == 5) { # for last 5 years
       result = result[grepl(pattern = "last-5-years", x = result)]
       result = result[!grepl(pattern = "adjust", x = result)]
+      }
     }
-    if(years == "5 years") { # for last 5 years
+    if(length(years) < 2) {
+      if(years == "5 years"){# for last 5 years
       result = result[grepl(pattern = "last-5-years", x = result)]
       result = result[!grepl(pattern = "adjust", x = result)]
+      }
     }
   }
 
