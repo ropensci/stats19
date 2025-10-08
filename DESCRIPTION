@@ -23,7 +23,7 @@ Description: Work with and download road traffic casualty data from Great
     'STATS19'. Enables users to specify a download directory for the data,
     which can be set permanently by adding `STATS19_DOWNLOAD_DIRECTORY=/path/to/a/dir`
     to your `.Renviron` file, which can be opened with `usethis::edit_r_environ()`.
-    The data is provided as a series of `.csv` files that have been zipped.
+    The data is provided as a series of `.csv` files.
     This package downloads, reads-in and formats the data, making it suitable
     for analysis. See the stats19 vignette for details. Data available from
     1979 to 2022. See the official data series at
