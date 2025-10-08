@@ -1,11 +1,14 @@
-# stats19 3.4.0
+# stats19 3.4.0 2025-10
 
 * Major updates to deal with new file names and column names in updated files hosted by the Department for Transport (#268)
 * Refactored download logic to no longer use .zip files, which are no longer served by the DfT. The package now downloads .csv files directly.
-* Switched from `download.file()` to `curl::curl_download()` for more robust downloads.
-* Improved documentation around setting a permanent download directory using the `STATS19_DOWNLOAD_DIRECTORY` environment variable.
+* Switched from `download.file()` to `curl::curl_download()` for more robust downloads (#258).
+* Improved documentation around setting a permanent download directory using the `STATS19_DOWNLOAD_DIRECTORY` environment variable (#211).
 * Promoted essential packages for data download and formatting (`dplyr`, `lubridate`, `jsonlite`) from `Suggests` to `Imports`.
-* Replaced `reshape2` with `tidyr` for data manipulation.
+* Replaced `reshape2` with `tidyr` for data manipulation (#276).
+* Added support for downloading the last 5 years of data using `year = "5 years"` (#261).
+* The `get_stats19_adjustments()` function now returns a message explaining that adjustments are included in the main casualty dataset, as the separate adjustments file is no longer provided by the DfT (#266).
+* Added a new vignette that reproduces the DfT's pedestrian factsheet (#240, #277).
 
 # stats19 3.3.1 2025-01
 
