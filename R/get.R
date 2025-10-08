@@ -137,11 +137,6 @@ get_stats19 = function(year = NULL,
     output_format = "tibble"
   }
 
-  # Update year to 1979 if it's NULL or before 2018:
-  # if (is.null(year) || year < 2020) {
-  #   year = 1979
-  # }
-
   # download what the user wanted
   dl_stats19(year = year,
              type = type,
