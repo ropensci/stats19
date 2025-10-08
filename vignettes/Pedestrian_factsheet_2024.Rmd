@@ -100,7 +100,9 @@ library(tidyr)
 ```
 # Introduction
 
-This document aims to reproduce the <!-- `r yr2calc-4`-`r yr2calc` --> 2020-2024 sections of the ["Accredited official statistics Reported road casualties in Great Britain: pedestrian factsheet, 2024"](https://www.gov.uk/government/statistics/reported-road-casualties-great-britain-pedestrian-factsheet-2024/reported-road-casualties-in-great-britain-pedestrian-factsheet-2024) report published on 25th September 2025.
+This document aims to reproduce the 2020-2024
+<!-- # `r yr2calc-4`-`r yr2calc` -->
+sections of the ["Accredited official statistics Reported road casualties in Great Britain: pedestrian factsheet, 2024"](https://www.gov.uk/government/statistics/reported-road-casualties-great-britain-pedestrian-factsheet-2024/reported-road-casualties-in-great-britain-pedestrian-factsheet-2024) report published on 25th September 2025.
 
 ```{r, echo = FALSE, warning=FALSE, message=FALSE}
 
@@ -143,13 +145,23 @@ if(dist_walked_TY$tot_dist_billion_miles<dist_walked_2004$tot_dist_billion_miles
 
 ```
 # 1. Main findings
-Between 2004 and <!-- `r yr2calc` --> 2024:
+Between 2004 and 2024:
+<!-- # `r yr2calc` -->
 
- - fatalities were <!-- `r ud` --> down <!-- `r fat_cas_diff` --> 39% from <!-- `r NROW(fat_cas_2004)` --> 677 to <!-- `r NROW(fat_cas_TY)` --> 409
- - serious injuries (adjusted) decreased by <!-- `r round(ser_cas_diff)` --> 48%  
- - pedestrian traffic (distance walked) <!-- `r ped_miles_id` --> decreased by <!-- `r round(ped_traf*100)` --> 13%
+ - fatalities were down 39% from 677 to 409
+ <!-- # `r ud` -->
+ <!-- # `r fat_cas_diff` -->
+ <!-- # `r NROW(fat_cas_2004)` -->
+ <!-- # `r NROW(fat_cas_TY)` -->
+ - serious injuries (adjusted) decreased by 48%  
+ <!-- # `r round(ser_cas_diff)` -->
+ - pedestrian traffic (distance walked) decreased by 13%
+ <!-- # `r ped_miles_id` -->
+ <!-- # `r round(ped_traf*100)` -->
 
-Averaged over the period <!-- `r yr2calc-4` --> 2020 to <!-- `r yr2calc` --> 2024:
+Averaged over the period 2020 to 2024:
+<!-- # `r yr2calc-4` -->
+<!-- # `r yr2calc` -->
 
 ```{r, echo = FALSE, warning=FALSE, message=FALSE}
 
@@ -175,7 +187,9 @@ dths_per_wk_ser <- crash_cas %>%
 
 ```
 
- - an average of <!-- `r round(mean(dths_per_wk_fat$casualties))` --> 8 pedestrians died and <!-- `r round(mean(dths_per_wk_ser$casualties, na.rm = TRUE))` --> 115 were seriously injured (adjusted) per week in reported road collisions
+ - an average of 8 pedestrians died and 115 were seriously injured (adjusted) per week in reported road collisions
+ <!-- # `r round(mean(dths_per_wk_fat$casualties))` -->
+ <!-- # `r round(mean(dths_per_wk_ser$casualties, na.rm = TRUE))` -->
  
 ```{r, echo = FALSE, warning=FALSE, message=FALSE}
 
@@ -212,7 +226,9 @@ not_within_20 <- junction_pc %>%
 
 ```
 
- - a majority of pedestrian fatalities (<!-- `r round(not_within_20$Fatalities)` --> 58%) do not occur at or within 20m of a junction compared to <!-- `r round(not_within_20$Serious)` --> 42% of all seriously injured (adjusted) casualties
+ - a majority of pedestrian fatalities (58%) do not occur at or within 20m of a junction compared to 42% of all seriously injured (adjusted) casualties
+ <!-- # `r round(not_within_20$Fatalities)` -->
+ <!-- # `r round(not_within_20$Serious)` -->
 
 ```{r, echo = FALSE, warning=FALSE, message=FALSE}
 
@@ -254,7 +270,8 @@ single_car <- filter(all_vehicles, number_of_vehicles == 1 & summary_group == "c
 
 ```
 
- - <!-- `r round(single_car$pc_fat)` --> 66% of pedestrian fatalities were in collisions involving a single car
+ - 66% of pedestrian fatalities were in collisions involving a single car
+ <!-- # `r round(single_car$pc_fat)` -->
 
 
 ```{r, echo = FALSE, warning=FALSE, message=FALSE}
@@ -314,7 +331,9 @@ fatal_rural <- filter(road_types,road_class == "Rural" & name == "Fatal")
 
 ```
 
- - <!-- `r round(fatal_rural$pc)` --> 33% of pedestrian fatalities occurred on rural roads compared to <!-- `r round(rural_all$pc)` --> 14% of all pedestrian casualties
+ - 33% of pedestrian fatalities occurred on rural roads compared to 14% of all pedestrian casualties
+ <!-- # `r round(fatal_rural$pc)` -->
+ <!-- # `r round(rural_all$pc)` -->
 
 ```{r, echo = FALSE, warning=FALSE, message=FALSE}
 
@@ -337,7 +356,8 @@ pc_fatal_serious_male <- filter(serious_fatal_male, sex_of_casualty == "Male")
 
 ```
 
- - <!-- `r round(pc_fatal_serious_male$pc_ksi*100)` --> 65% of pedestrian killed or seriously injured (KSI) (adjusted) casualties were male
+ - 65% of pedestrian killed or seriously injured (KSI) (adjusted) casualties were male
+ <!-- # `r round(pc_fatal_serious_male$pc_ksi*100)` -->
 
 The most common contributory factor allocated to pedestrians *no contributory factors included in the public data*
 
@@ -353,7 +373,11 @@ slight_TY <- filter(casualties, collision_year == yr2calc, casualty_type == repo
 
 ```
 
-In <!-- `r yr2calc` --> 2024, <!-- `r NROW(fatal_TY)` --> 409 pedestrians were killed in Great Britain, whilst <!-- `r round(sum(serious_TY$casualty_adjusted_severity_serious,na.rm = TRUE))` --> 5965 were reported to be seriously injured and <!-- `r as.character(round(sum(slight_TY$casualty_adjusted_severity_slight, na.rm = TRUE)))` --> 13381 slightly injured.
+In 2024, 409 pedestrians were killed in Great Britain, whilst 5965 were reported to be seriously injured and 13381 slightly injured.
+<!-- # `r yr2calc` -->
+<!-- # `r NROW(fatal_TY)` -->
+<!-- # `r round(sum(serious_TY$casualty_adjusted_severity_serious,na.rm = TRUE))` -->
+<!-- # `r as.character(round(sum(slight_TY$casualty_adjusted_severity_slight, na.rm = TRUE)))` -->
 
 ```{r, echo = FALSE, warning=FALSE, message=FALSE}
 
@@ -382,7 +406,9 @@ if(dist_walked_2004$Traffic > dist_walked_TY$Traffic){
 
 ```
 
-Table 1 and Chart 1 show that pedestrian traffic (measured by distance walked) has <!-- `r dw` --> decreased between 2004 and <!-- `r yr2calc` --> 2024 whilst fatalities, serious and slight injuries have fallen.
+Table 1 and Chart 1 show that pedestrian traffic (measured by distance walked) has decreased between 2004 and 2024 whilst fatalities, serious and slight injuries have fallen.
+<!-- # `r dw` -->
+<!-- # `r yr2calc` -->
 
 ```{r, echo = FALSE, warning=FALSE, message=FALSE}
 ## change between this year (TY) and last year (LY)
@@ -407,7 +433,13 @@ if(table_1$All[NROW(table_1)]>table_1$All[NROW(table_1)-1]){
 
 ```
 
-Between <!-- `r yr2calc-1` --> 2023 and <!-- `r yr2calc` --> 2024, pedestrian fatalities <!-- `r pf` --> decreased by <!-- `r round(diff_fatal*100)` --> 3% while pedestrian traffic (distance walked) <!-- `r dw` --> increased by <!-- `r round(diff_trips*100)` --> 1%.
+Between 2023 and 2024, pedestrian fatalities decreased by 3% while pedestrian traffic (distance walked) increased by 1%.
+<!-- # `r yr2calc-1` -->
+<!-- # `r yr2calc` -->
+<!-- # `r pf` -->
+<!-- # `r round(diff_fatal*100)` -->
+<!-- # `r dw` -->
+<!-- # `r round(diff_trips*100)` -->
 
 ```{r, echo = FALSE, warning=FALSE, message=FALSE}
 
@@ -510,7 +542,9 @@ rates_2 <- table_2 %>%
 The National Travel Survey (NTS) which provides the [number of trips and average distance travelled](https://www.gov.uk/government/statistical-data-sets/nts03-modal-comparisons) (NTS0303) by person per year for English residents. This is used to derive casualty rates per mile travelled for pedestrians, which also use the Great Britain [population figure](https://www.ons.gov.uk/file?uri=/peoplepopulationandcommunity/populationandmigration/populationestimates/datasets/populationestimatestimeseriesdataset/current/pop.csv) to estimate total distance walked each year.
 
 # 4. Casualty rates per mile travelled
-The pedestrian casualty rate has <!-- `r pcr` --> fallen for all severities in <!-- `r yr2calc` --> 2024 compared to 2004.
+The pedestrian casualty rate has fallen for all severities in 2024 compared to 2004.
+<!-- # `r pcr` -->
+<!-- # `r yr2calc` -->
 
 ```{r, echo = FALSE, warning=FALSE, message=FALSE}
 
@@ -522,7 +556,11 @@ diff_sli_2004 <- (1-(rates_2$Slight[NROW(rates_2)]/rates_2$Slight[1]))*100
 
 ```
 
-The overall casualty rate decreased by <!-- `r round(diff_all_2004)` --> 53%. The fatality rate decreased by <!-- `r round(diff_fat_2004)` --> 30% compared to a <!-- `r round(diff_sev_2004)` --> 41% reduction for serious injuries and a <!-- `r round(diff_sli_2004)` --> 57% reduction for slight injuries.
+The overall casualty rate decreased by 53%. The fatality rate decreased by 30% compared to a 41% reduction for serious injuries and a 57% reduction for slight injuries.
+<!-- # `r round(diff_all_2004)` -->
+<!-- # `r round(diff_fat_2004)` -->
+<!-- # `r round(diff_sev_2004)` -->
+<!-- # `r round(diff_sli_2004)` -->
 
 ```{r, echo = FALSE, warning=FALSE, message=FALSE}
 
@@ -636,9 +674,20 @@ sac_ab3 <- sac_all |>  filter(age_band == ab3)
 sac_all <- sac_all |> ungroup() |> mutate(pc_ksi = (All/sum(All))*100) |> filter(sex_of_casualty %in% c("Male", "Female"))
 
 ```
-Between <!-- `r yr2calc-4` --> 2020 and <!-- `r yr2calc` --> 2024, <!-- `r round(male_tot$pc*100)` --> 65% of pedestrian casualties were male and <!-- `r round(female_tot$pc*100)` --> 35% female.
+Between 2020 and 2024, 65% of pedestrian casualties were male and 35% female.
+<!-- # `r yr2calc-4` -->
+<!-- # `r yr2calc` -->
+<!-- # `r round(male_tot$pc*100)` -->
+<!-- # `r round(female_tot$pc*100)` -->
 
-There are <!-- `r round(male_times, 1)` --> 1.9 times more male than female pedestrian casualties overall. This compares to <!-- `r round(sac_ab1$All[3]/sac_ab1$All[2],1)` --> 2.3 more for <!-- `r ab1` --> 30-39,  <!-- `r round(sac_ab2$All[3]/sac_ab2$All[2],1)` --> 1.5 more for <!-- `r ab2` --> 0-11 and <!-- `r round(sac_ab3$All[3]/sac_ab3$All[2],1)` --> 0.9 more for <!-- `r ab3` --> 70+ - the only age group in which female casualties outnumber males.
+There are 1.9 times more male than female pedestrian casualties overall. This compares to 2.3 more for 30-39,  1.5 more for 0-11 and 0.9 more for 70+ - the only age group in which female casualties outnumber males.
+<!-- # `r round(male_times, 1)` -->
+<!-- # `r round(sac_ab1$All[3]/sac_ab1$All[2],1)` -->
+<!-- # `r ab1` -->
+<!-- # `r round(sac_ab2$All[3]/sac_ab2$All[2],1)` -->
+<!-- # `r ab2` -->
+<!-- # `r round(sac_ab3$All[3]/sac_ab3$All[2],1)` -->
+<!-- # `r ab3` -->
 
 ```{r, echo = FALSE, warning=FALSE, message=FALSE}
 
@@ -725,9 +774,18 @@ totals <- rbind(single_vehicles,two_vehicles,GT_two_vehicles) |>
 
 ```
 
-Between <!-- `r yr2calc-4` --> 2020 and <!-- `r yr2calc` --> 2024, most pedestrian fatalities occurred in  <!-- `r all_vehicles$number_of_vehicles[1]` --> 1 vehicle collisions involving  a <!-- `r all_vehicles$summary_group[1]` --> car (<!-- `r all_vehicles$Fatal[1]` --> 275).
+Between 2020 and 2024, most pedestrian fatalities occurred in  1 vehicle collisions involving  a car (275).
+<!-- # `r yr2calc-4` -->
+<!-- # `r yr2calc` -->
+<!-- # `r all_vehicles$number_of_vehicles[1]` -->
+<!-- # `r all_vehicles$summary_group[1]` -->
+<!-- # `r all_vehicles$Fatal[1]` -->
 
-However, the highest proportion of casualties from single vehicle collisions involve <!-- `r most_fat$summary_group[1]` --> 1 heavy goods vehicle (<!-- `r most_fat$pc_fat[1]` --> 4.8%). The second highest proportion (<!-- `r most_fat$pc_fat[2]` --> 3.3%) occurred in collisions when <!-- `r most_fat$summary_group[2]` --> 3 or more other vehicles involved.
+However, the highest proportion of casualties from single vehicle collisions involve 1 heavy goods vehicle (4.8%). The second highest proportion (3.3%) occurred in collisions when 3 or more other vehicles involved.
+<!-- # `r most_fat$summary_group[1]` -->
+<!-- # `r most_fat$pc_fat[1]` -->
+<!-- # `r most_fat$pc_fat[2]` -->
+<!-- # `r most_fat$summary_group[2]` -->
 
 ```{r, echo = FALSE, warning=FALSE, message=FALSE}
 
@@ -813,7 +871,11 @@ crash_time %>%
 
 ```
 
-The weekday peak time for pedestrian KSIs is from <!-- `r min(MF_peak$hr[1:4])` --> 3pm to <!-- `r max(MF_peak$hr[1:4])` --> 6pm. By contrast, the peak is from <!-- `r min(SS_peak$hr[1:4])` --> 1am to <!-- `r max(SS_peak$hr[1:4])` --> 9pm at weekends.
+The weekday peak time for pedestrian KSIs is from 3pm to 6pm. By contrast, the peak is from 1am to 9pm at weekends.
+<!-- # `r min(MF_peak$hr[1:4])` -->
+<!-- # `r max(MF_peak$hr[1:4])` -->
+<!-- # `r min(SS_peak$hr[1:4])` -->
+<!-- # `r max(SS_peak$hr[1:4])` -->
 
 
 # 8. What type of road?
@@ -832,7 +894,12 @@ fatal_mway <- filter(road_type_bar, name == "Fatal" & road_class == "Motorway")
 
 ```
 
-Chart 5 shows that between <!-- `r yr2calc-4` --> 2020 and <!-- `r yr2calc` --> 2024, <!-- `r round(fatal_urban$pc)` --> 63% of pedestrian fatalities occurred on urban roads compared to <!-- `r round(all_cas$pc)` --> 85% of all pedestrian casualties. <!-- `r round(fatal_mway$pc)` --> 4% of pedestrian fatalities occurred on motorways. This would be people outside their vehicles whether they are moving at the time or not.
+Chart 5 shows that between 2020 and 2024, 63% of pedestrian fatalities occurred on urban roads compared to 85% of all pedestrian casualties. 4% of pedestrian fatalities occurred on motorways. This would be people outside their vehicles whether they are moving at the time or not.
+<!-- # `r yr2calc-4` -->
+<!-- # `r yr2calc` -->
+<!-- # `r round(fatal_urban$pc)` -->
+<!-- # `r round(all_cas$pc)` -->
+<!-- # `r round(fatal_mway$pc)` -->
 
 ```{r, echo = FALSE, warning=FALSE, message=FALSE}
 
@@ -877,7 +944,14 @@ roundabouts <- junction_pc |> filter(Junction %in% c("Roundabout", "Mini-roundab
 
 ```
 
-A majority of pedestrian fatalities (<!-- `r highest_fat$Fatalities[1]` --> 58.4%) occur <!-- `r tolower(highest_fat$Junction[1])` --> not at junction or within 20 metres compared to <!-- `r highest_sev$Serious[1]` --> 42.1% of serious injuries (adjusted). However, <!-- `r round(sum(junc$Fatalities))` --> 29% of fatalities occur at a junction compared to <!-- `r round(sum(junc$Serious))` --> 43% of serious injuries (adjusted). Pedestrian fatalities at roundabouts represent <!-- `r round(sum(roundabouts$Fatalities))` --> 3% of all fatalities in contrast to <!-- `r round(sum(roundabouts$Serious))` --> 6% of serious injuries (adjusted).
+A majority of pedestrian fatalities (58.4%) occur not at junction or within 20 metres compared to 42.1% of serious injuries (adjusted). However, 29% of fatalities occur at a junction compared to 43% of serious injuries (adjusted). Pedestrian fatalities at roundabouts represent 3% of all fatalities in contrast to 6% of serious injuries (adjusted).
+<!-- # `r highest_fat$Fatalities[1]` -->
+<!-- # `r tolower(highest_fat$Junction[1])` -->
+<!-- # `r highest_sev$Serious[1]` -->
+<!-- # `r round(sum(junc$Fatalities))` -->
+<!-- # `r round(sum(junc$Serious))` -->
+<!-- # `r round(sum(roundabouts$Fatalities))` -->
+<!-- # `r round(sum(roundabouts$Serious))` -->
 
 ```{r, echo = FALSE, warning=FALSE, message=FALSE}
 
