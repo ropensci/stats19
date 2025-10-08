@@ -3,6 +3,8 @@
 * Refactored download logic to no longer use .zip files, which are no longer served by the DfT. The package now downloads .csv files directly.
 * Switched from `download.file()` to `curl::curl_download()` for more robust downloads.
 * Improved documentation around setting a permanent download directory using the `STATS19_DOWNLOAD_DIRECTORY` environment variable.
+* Promoted essential packages for data download and formatting (`dplyr`, `lubridate`, `jsonlite`) from `Suggests` to `Imports`.
+* Replaced `reshape2` with `tidyr` for data manipulation.
 
 # stats19 3.3.1 2025-01
 
