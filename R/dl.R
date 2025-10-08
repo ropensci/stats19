@@ -20,7 +20,7 @@
 #'
 #' @param file_name The file name (DfT named) to download.
 #' @param year A year matching file names on the STATS19
-#' [data release page](https://www.data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data)
+#' [data release page](https://www.data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-accidents-safety-data)
 #'  e.g. `2020`
 #' @param type One of 'collision', 'casualty', 'Vehicle'; defaults to 'collision'.
 #' This text string is used to match the file names released by the DfT.

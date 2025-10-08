@@ -27,7 +27,7 @@ Description: Work with and download road traffic casualty data from Great
     This package downloads, reads-in and formats the data, making it suitable
     for analysis. See the stats19 vignette for details. Data available from
     1979 to 2022. See the official data series at
-    <https://www.data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-safety-data>.
+    <https://www.data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-accidents-safety-data>.
   The package is described in a paper in the Journal of Open Source Software
   (Lovelace et al. 2019) <doi:10.21105/joss.01181>.
   See 
