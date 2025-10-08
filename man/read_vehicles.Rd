@@ -34,7 +34,7 @@ STATS19 dataset for the data_dir and filename provided.
 \donttest{
 if(curl::has_internet()) {
 dl_stats19(year = 2024, type = "vehicle")
-ve = read_vehicles(year = 2019)
+ve = read_vehicles(year = 2024)
 }
 }
 }
