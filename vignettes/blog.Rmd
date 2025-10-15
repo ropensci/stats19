@@ -48,7 +48,7 @@ al. 2019). For installation and the code, see its home in rOpenSci:
 <https://github.com/ropensci/stats19>, and the package documentation at
 <https://itsleeds.github.io/stats19/>.
 
-In this post, we’ll provide a bit of context, show how the package works, and provide ideads for future work building on the experience. Now is a good time to report on the package: version [`0.2.0`](https://cran.r-project.org/package=stats19) has just been release on CRAN, which contains a few improvements, some of which are used in this blog post (`ask = FALSE` in `get_stats19()`, for example, which makes it even quicker to get data with this package).
+In this post, we’ll provide a bit of context, show how the package works, and provide ideas for future work building on the experience. Now is a good time to report on the package: version [`0.2.0`](https://cran.r-project.org/package=stats19) has just been release on CRAN, which contains a few improvements, some of which are used in this blog post (`ask = FALSE` in `get_stats19()`, for example, which makes it even quicker to get data with this package).
 
 #### Short history and affiliations
 
@@ -83,12 +83,12 @@ roadcrashesUK and roadSafetyData were not popular. Furthermore, the term
 ‘stats19’ is strongly associated with road crash data online. The URL
 <https://en.wikipedia.org/wiki/STATS19> resolves to
 <https://en.wikipedia.org/wiki/Reported_Road_Casualties_Great_Britain>,
-for example (this page is provides and excellent introduction to
+for example (this page provides an excellent introduction to
 STATS19).
 
 The name comes from a UK police form called
 [STATS19](https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/775149/Operational_Metrics_Manual.pdf)
-(note the capital letters). There is another document called [STATS20](https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/995423/stats20-2011.pdf), which is the guidance to STATS19 officers filling in STATS19 form. 
+(note the capital letters). There is another document called [STATS20](https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/995423/stats20-2011.pdf), which is the guidance to STATS19 officers filling in the STATS19 form. 
 
 An important point is that the dataset omits crashes in which
 nobody was hurt.
@@ -105,7 +105,7 @@ Even more shocking are the [global statistics](https://www.who.int/data/gho/data
 #### The road crash data in stats19
 
 There are three main different types of CSV files released by the DfT: `accidents`, `vehicles` and `casualties` tables.
-There is a schema covering these tables but a good amount of work is needed to understand it, let alone be able to the data contained within the files and convert the integers they contain into meaningful data.
+There is a schema covering these tables but a good amount of work is needed to understand it, let alone be able to analyze the data contained within the files and convert the integers they contain into meaningful data.
 
 The annual statistics have not been released in a consistent way either, making it hard for people to download, or even find, the relevant files.
 For example, there are separate files for each of the above tables for certain years (e.g. 2016, 2022) but not for all of 1979 - 2022 or 2018 now.
@@ -123,7 +123,7 @@ knitr::opts_chunk$set(eval = FALSE)
 
 #### How stats19 works
 
-With those introductions out of the way, lets see what the package can do and how it can empower people (including target audiences of academics, policy makers and road safety campaigners and R programmers/analysts wanting to test their skills on a large spatio-temporal dataset) to access STATS19 data, back to 1979.
+With those introductions out of the way, let's see what the package can do and how it can empower people (including target audiences of academics, policy makers and road safety campaigners and R programmers/analysts wanting to test their skills on a large spatio-temporal dataset) to access STATS19 data, back to 1979.
 First install the package in the usual way:
 
 ```{r, eval=FALSE, message=FALSE}
@@ -159,7 +159,7 @@ class(crashes_2022)
 kableExtra::kable(head(crashes_2022[, c(1, 4, 5, 7, 10)]))
 ```
 
-The package contains the names of all "zip" files released by the DfT and hosted on Amazon servers to download. These file names have been included in the package and can be found under `file_names` variable name. for example:
+The package contains the names of all "zip" files released by the DfT and hosted on Amazon servers to download. These file names have been included in the package and can be found under `file_names` variable name. For example:
 
 ```{r file_names}
 stats19::file_names$dftRoadSafetyData_Vehicles_2022.zip
@@ -223,7 +223,7 @@ nrow(crashes_wy) # which is 3.36%
 
 #### The big picture: road safety
 
-We can combine the three sets of tables to analyse the data further. Lets read the datasets first:
+We can combine the three sets of tables to analyse the data further. Let's read the datasets first:
 
 ```{r dl2022-vehcas, message=FALSE}
 #crashes_2022 = get_stats19(year = 2022, type = "Accidents", ask = FALSE)
@@ -233,7 +233,7 @@ vehicles_2022 = get_stats19(year = 2022, type = "vehicle", ask = FALSE)
 nrow(vehicles_2022)
 ```
 
-Lets now read in casualties that took place in West Yorkshire (using `crashes_wy` object above), and count the number of casualties by severity for each crash:
+Let's now read in casualties that took place in West Yorkshire (using `crashes_wy` object above), and count the number of casualties by severity for each crash:
 
 ```{r table-join, message = FALSE}
 library(tidyr)
