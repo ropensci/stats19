@@ -1,0 +1,31 @@
+---
+title: "Make and model data in STATS19"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Make and model data in STATS19}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  eval = FALSE
+)
+```
+
+```{r setup}
+# install.packages("stats19")
+library(stats19)
+```
+
+# Make and model data
+
+```{r}
+vehicles_1979 = get_stats19(year = 1979, type = "vehicle")
+names(vehicles_1979)
+summary(vehicles_1979$collision_year)
+summary(is.na(vehicles_1979$generic_make_model))
+summary(as.factor(vehicles_1979$generic_make_model))
+```
