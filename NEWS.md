@@ -1,3 +1,7 @@
+# stats19 (development version)
+
+* Fixed issue where `year = 1979` now correctly returns data for 1979 only, rather than all years from 1979 onwards (#282)
+
 # stats19 3.4.0 2025-10
 
 * Major updates to deal with new file names and column names in updated files hosted by the Department for Transport (#268)
