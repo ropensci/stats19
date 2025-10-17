@@ -1,0 +1,91 @@
+---
+title: "Make and model data in STATS19"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Make and model data in STATS19}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  eval = FALSE
+)
+```
+
+```{r setup}
+# install.packages("stats19")
+library(stats19)
+library(dplyr)
+```
+
+# Make and model data
+
+Basic make/model data is shown below, which highlights that the data is generally complete from 1990 onwards.
+
+```{r}
+# usethis::edit_r_environ() # and set STATS19_DOWNLOAD_DIRECTORY to keep the data files
+vehicles = get_stats19(type = "vehicle", year = 1979)
+range(vehicles$collision_year)
+# [1] 1979 2024
+sum(is.na(vehicles$generic_make_model)) # 0 NA values
+```
+
+```{r}
+# Number of distinct makes and models over the years
+n_per_year = vehicles |>
+  filter(collision_year >= 1989) |>
+  group_by(collision_year) |>
+  summarise(
+    n_make_model = n_distinct(generic_make_model),
+    percent_na = round(sum(grepl("missing", generic_make_model)) / n() * 100),
+    top_5_make_model = paste(
+      names(sort(table(generic_make_model), decreasing = TRUE)[2:6]),
+      collapse = ", "
+    )
+  ) 
+knitr::kable(n_per_year)
+```
+
+
+
+| collision_year| n_make_model| percent_na|top_5_make_model                                                         |
+|--------------:|------------:|----------:|:------------------------------------------------------------------------|
+|           1989|            1|        100|NA, NA, NA, NA, NA                                                       |
+|           1990|          706|         26|FORD ESCORT, FORD FIESTA, VAUXHALL CAVALIER, FORD SIERRA, AUSTIN METRO   |
+|           1991|          713|         23|FORD ESCORT, FORD FIESTA, VAUXHALL CAVALIER, FORD SIERRA, VAUXHALL ASTRA |
+|           1992|          703|         23|FORD ESCORT, FORD FIESTA, FORD SIERRA, VAUXHALL CAVALIER, VAUXHALL ASTRA |
+|           1993|          700|         21|FORD ESCORT, FORD FIESTA, VAUXHALL CAVALIER, FORD SIERRA, VAUXHALL ASTRA |
+|           1994|          684|         21|FORD ESCORT, FORD FIESTA, VAUXHALL CAVALIER, FORD SIERRA, VAUXHALL ASTRA |
+|           1995|          690|         23|FORD ESCORT, FORD FIESTA, VAUXHALL CAVALIER, FORD SIERRA, VAUXHALL ASTRA |
+|           1996|          683|         23|FORD ESCORT, FORD FIESTA, VAUXHALL CAVALIER, VAUXHALL ASTRA, FORD SIERRA |
+|           1997|          711|         23|FORD ESCORT, FORD FIESTA, VAUXHALL CAVALIER, VAUXHALL ASTRA, FORD SIERRA |
+|           1998|          742|         23|FORD ESCORT, FORD FIESTA, VAUXHALL ASTRA, VAUXHALL CAVALIER, FORD SIERRA |
+|           1999|          762|         24|FORD ESCORT, FORD FIESTA, VAUXHALL ASTRA, VAUXHALL CAVALIER, FORD SIERRA |
+|           2000|          802|         23|FORD ESCORT, FORD FIESTA, VAUXHALL ASTRA, VAUXHALL CAVALIER, FORD MONDEO |
+|           2001|          818|         24|FORD ESCORT, FORD FIESTA, VAUXHALL ASTRA, VAUXHALL CAVALIER, FORD MONDEO |
+|           2002|          836|         21|FORD FIESTA, FORD ESCORT, VAUXHALL ASTRA, FORD MONDEO, VAUXHALL CAVALIER |
+|           2003|          855|         23|FORD FIESTA, FORD ESCORT, VAUXHALL ASTRA, FORD MONDEO, VAUXHALL CORSA    |
+|           2004|          846|         25|FORD FIESTA, FORD ESCORT, VAUXHALL ASTRA, VAUXHALL CORSA, FORD MONDEO    |
+|           2005|          831|         32|FORD FIESTA, VAUXHALL ASTRA, VAUXHALL CORSA, FORD ESCORT, FORD MONDEO    |
+|           2006|          844|         32|FORD FIESTA, VAUXHALL ASTRA, VAUXHALL CORSA, FORD FOCUS, RENAULT CLIO    |
+|           2007|          863|         25|FORD FIESTA, VAUXHALL ASTRA, VAUXHALL CORSA, FORD FOCUS, RENAULT CLIO    |
+|           2008|          831|         29|FORD FIESTA, VAUXHALL ASTRA, VAUXHALL CORSA, FORD FOCUS, RENAULT CLIO    |
+|           2009|          835|         25|VAUXHALL CORSA, FORD FIESTA, VAUXHALL ASTRA, FORD FOCUS, RENAULT CLIO    |
+|           2010|          805|         25|FORD FIESTA, VAUXHALL CORSA, VAUXHALL ASTRA, FORD FOCUS, RENAULT CLIO    |
+|           2011|          843|         27|VAUXHALL CORSA, FORD FIESTA, VAUXHALL ASTRA, FORD FOCUS, VOLKSWAGEN GOLF |
+|           2012|          830|         28|FORD FIESTA, FORD FOCUS, VAUXHALL CORSA, VAUXHALL ASTRA, VOLKSWAGEN GOLF |
+|           2013|          828|         27|VAUXHALL CORSA, FORD FOCUS, FORD FIESTA, VAUXHALL ASTRA, VOLKSWAGEN GOLF |
+|           2014|          857|         27|FORD FIESTA, VAUXHALL CORSA, FORD FOCUS, VAUXHALL ASTRA, VOLKSWAGEN GOLF |
+|           2015|          826|         32|FORD FOCUS, VAUXHALL CORSA, FORD FIESTA, VAUXHALL ASTRA, VOLKSWAGEN GOLF |
+|           2016|          857|         25|FORD FIESTA, VAUXHALL CORSA, FORD FOCUS, VAUXHALL ASTRA, VOLKSWAGEN GOLF |
+|           2017|          828|         24|FORD FIESTA, VAUXHALL CORSA, FORD FOCUS, VAUXHALL ASTRA, VOLKSWAGEN GOLF |
+|           2018|          830|         25|FORD FIESTA, FORD FOCUS, VAUXHALL CORSA, VAUXHALL ASTRA, VOLKSWAGEN GOLF |
+|           2019|          808|         27|FORD FIESTA, VAUXHALL CORSA, FORD FOCUS, VAUXHALL ASTRA, VOLKSWAGEN GOLF |
+|           2020|          708|         29|FORD FIESTA, VAUXHALL CORSA, VAUXHALL ASTRA, FORD FOCUS, VOLKSWAGEN GOLF |
+|           2021|          723|         26|FORD FIESTA, VAUXHALL CORSA, VOLKSWAGEN GOLF, FORD FOCUS, VAUXHALL ASTRA |
+|           2022|          700|         24|FORD FIESTA, VAUXHALL CORSA, VOLKSWAGEN GOLF, FORD FOCUS, VAUXHALL ASTRA |
+|           2023|          684|         24|FORD FIESTA, VAUXHALL CORSA, VOLKSWAGEN GOLF, FORD FOCUS, VAUXHALL ASTRA |
+|           2024|          730|         29|FORD FIESTA, VAUXHALL CORSA, VOLKSWAGEN GOLF, FORD FOCUS, VAUXHALL ASTRA |
