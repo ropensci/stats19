@@ -17,32 +17,19 @@ knitr::opts_chunk$set(
 
 ```{r setup}
 # install.packages("stats19")
-install.packages("purrr")
-install.packages("dplyr")
-install.packages("tidyverse")
 library(stats19)
-library(purrr)
 library(dplyr)
-library('tidyverse')
 ```
 
 # Make and model data
 
 ```{r}
-# Request data for all years. Approximately 1.6GB
-target_file <- "dft-road-casualty-statistics-vehicle-1979-latest-published-year.csv"
+# usethis::edit_r_environ() # and set STATS19_DOWNLOAD_DIRECTORY to keep the data files
+vehicles = get_stats19(type = "vehicle", year = 1979) 
 ```
 
 ```{r}
-# Get our dataset
-data <- get_stats19(
-  type = "vehicle",
-  filename = target_file
-) 
-```
-
-```{r}
-presence_table <- data |>
+presence_table <- vehicles |>
   select(year = collision_year, make_model = generic_make_model) |>
   filter(!is.na(make_model)) |>
   distinct() |>
