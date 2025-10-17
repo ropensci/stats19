@@ -47,7 +47,7 @@ find_file_name = function(years = NULL, type = NULL) {
       result = result[!grepl(pattern = "adjust", x = result)]
       result = result[grepl(pattern = years, x = result)]
     }
-    if(min(years) < 2020 & min(years) > 1979) { # for full data set
+    if(min(years) < 2020 & min(years) >= 1979) { # for full data set
       result = result[grepl(pattern = "1979", x = result)]
     }
     if(length(years) < 2) {
