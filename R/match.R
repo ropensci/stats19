@@ -84,30 +84,45 @@ match_TAG = function(
 
     # get table average_value_road_type
     ras4001 = readODS::read_ods(tmpfile, sheet = "Average_value_road_type", skip = 3) |>
+      dplyr::rename(
+        built_up = tidyselect::matches("Built-up roads"),
+        not_built_up = tidyselect::matches("Non built-up roads"),
+        Motorway = tidyselect::matches("Motorways")
+      ) |>
       dplyr::transmute(collision_year = `Collision data year`,
                        collision_severity = Severity,
-                       built_up = `Built-up roads (£) [note 3]`,
-                       not_built_up = `Non built-up roads (£) [note 3]`,
-                       Motorway = `Motorways (£) [note 3]`) |>
+                       built_up = built_up1,
+                       not_built_up,
+                       Motorway) |>
       dplyr::filter(collision_severity %in% c("Fatal", "Serious", "Slight")) |>
-      reshape2::melt(c("collision_year", "collision_severity"), variable.name = "ons_road", value.name = "cost")
+      tidyr::pivot_longer(
+        cols = -c(collision_year, collision_severity),
+        names_to = "ons_road",
+        values_to = "cost"
+      )
 
     # define road category, first by motorway or not, then speed limit and 3 collisions had no speed data but did have urban or rural, so that also used.
     tag_cost = crashes |>
       dplyr::mutate(speed_limit = as.numeric(speed_limit)) |>
-      dplyr::mutate(ons_road = if_else(first_road_class == "Motorway", "Motorway", if_else(speed_limit <= "40", "built_up", "not_built_up"))) |>
-      dplyr::mutate(ons_road = if_else(is.na(speed_limit) & urban_or_rural_area == "Urban", "built_up",ons_road)) |>
-      dplyr::mutate(ons_road = if_else(is.na(speed_limit) & urban_or_rural_area == "Rural", "not_built_up",ons_road)) |>
+      dplyr::mutate(ons_road = ifelse(first_road_class == "Motorway", "Motorway", ifelse(speed_limit <= "40", "built_up", "not_built_up"))) |>
+      dplyr::mutate(ons_road = ifelse(is.na(speed_limit) & urban_or_rural_area == "Urban", "built_up",ons_road)) |>
+      dplyr::mutate(ons_road = ifelse(is.na(speed_limit) & urban_or_rural_area == "Rural", "not_built_up",ons_road)) |>
       dplyr::left_join(ras4001, by = c("collision_year", "collision_severity", "ons_road"))
 
     if(isTRUE(summarise)){
 
+      if (inherits(tag_cost, "sf")) {
+        tag_cost <- sf::st_set_geometry(tag_cost, NULL)
+      }
+
       # summarise to severity and road type
       tag_cost = tag_cost |>
-        st_set_geometry(NULL) |>
         dplyr::group_by(collision_severity, ons_road) |>
         dplyr::summarise(costs_millions = round(sum(cost)/1e6)) |>
-        reshape2::dcast(collision_severity~ons_road)
+        tidyr::pivot_wider(
+          names_from  = ons_road,
+          values_from = costs_millions
+        )
 
     }
 
@@ -123,19 +138,22 @@ match_TAG = function(
 
     # read in applicable sheet and tidy up ready to be used
     ras4001 = readODS::read_ods(tmpfile, sheet = "Average_value_road_type", skip = 3) |>
-      dplyr::transmute(
-        collision_year     = `Collision data year`,
-        collision_severity = Severity,
-        built_up           = `Built-up roads (£) [note 3]`,
-        not_built_up       = `Non built-up roads (£) [note 3]`,
-        Motorway           = `Motorways (£) [note 3]`
+      dplyr::rename(
+        built_up = tidyselect::matches("Built-up roads"),
+        not_built_up = tidyselect::matches("Non built-up roads"),
+        Motorway = tidyselect::matches("Motorways")
       ) |>
+      dplyr::transmute(collision_year = `Collision data year`,
+                       collision_severity = Severity,
+                       built_up = built_up1,
+                       not_built_up,
+                       Motorway) |>
       dplyr::filter(collision_severity %in% c("Fatal", "Serious", "Slight")) |>
-      reshape2::melt(
-        id.vars       = c("collision_year", "collision_severity"),
-        variable.name = "ons_road",
-        value.name    = "cost"
-      )
+    tidyr::pivot_longer(
+      cols = -c(collision_year, collision_severity),
+      names_to = "ons_road",
+      values_to = "cost"
+    )
 
     # ---- LOAD ONS BUILT-UP AREAS ----
     message("Downloading ONS Built-Up Areas gpkg...")
@@ -158,30 +176,37 @@ match_TAG = function(
 
       # determine collision location based on ONS built up area shape file
       tag_cost = crashes |>
-        st_transform(4326) |>
-        st_join(bua_gb) |>
-        mutate(speed_limit = as.numeric(speed_limit)) |>
-        mutate(ons_road = if_else(!is.na(BUA22CD), "built_up", if_else(first_road_class == "Motorway", "Motorway", "not_built_up"))) |>
-        left_join(ras4001, by = c("collision_year", "collision_severity", "ons_road"))
+        sf::st_transform(4326) |>
+        sf::st_join(bua_gb) |>
+        dplyr::mutate(speed_limit = as.numeric(speed_limit)) |>
+        dplyr::mutate(ons_road = ifelse(!is.na(BUA22CD), "built_up", ifelse(first_road_class == "Motorway", "Motorway", "not_built_up"))) |>
+        dplyr::left_join(ras4001, by = c("collision_year", "collision_severity", "ons_road"))
 
     } else {
 
       # determine collision location based on ONS built up area shape file
       tag_cost = crashes |>
-        st_transform(4326) |>
-        st_join(bua_gb) |>
-        mutate(speed_limit = as.numeric(speed_limit)) |>
-        mutate(ons_road = if_else(first_road_class == "Motorway", "Motorway", if_else(!is.na(BUA22CD), "built_up", "not_built_up"))) |>
-        left_join(ras4001, by = c("collision_year", "collision_severity", "ons_road"))
+        sf::st_transform(4326) |>
+        sf::st_join(bua_gb) |>
+        dplyr::mutate(speed_limit = as.numeric(speed_limit)) |>
+        dplyr::mutate(ons_road = ifelse(first_road_class == "Motorway", "Motorway", ifelse(!is.na(BUA22CD), "built_up", "not_built_up"))) |>
+        dplyr::left_join(ras4001, by = c("collision_year", "collision_severity", "ons_road"))
 
     }
 
     if (isTRUE(summarise)) {
+
+      if (inherits(tag_cost, "sf")) {
+        tag_cost <- sf::st_set_geometry(tag_cost, NULL)
+      }
+
       tag_cost = tag_cost |>
-        sf::st_set_geometry(NULL) |>
         dplyr::group_by(collision_severity, ons_road) |>
-        dplyr::summarise(costs_millions = round(sum(cost, na.rm = TRUE)/1e6)) |>
-        reshape2::dcast(collision_severity ~ ons_road)
+        dplyr::summarise(costs_millions = round(sum(cost, na.rm = TRUE)/1e6))
+        tidyr::pivot_wider(
+          names_from  = ons_road,
+          values_from = costs_millions
+        )
     }
 
     return(tag_cost)
