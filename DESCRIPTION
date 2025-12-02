@@ -58,6 +58,7 @@ Suggests:
     stringr,
     testthat (>= 2.1.0),
     tidyr,
+    tidyselect,
     pkgdown,
     kableExtra,
     leaflet,
