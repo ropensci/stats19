@@ -29,8 +29,10 @@
 #' }
 #'
 #' @export
-match_TAG = function(
+match_tag = function(
     crashes,
+    shapes_url = "https://open-geography-portalx-ons.hub.arcgis.com/api/download/v1/items/ad30b234308f4b02b4bb9b0f4766f7bb/geoPackage?layers=0",
+    costs_url = "https://assets.publishing.service.gov.uk/media/68d421cc275fc9339a248c8e/ras4001.ods",
     match_with = c("severity", "severity_road", "severity_road_bua"),
     include_motorway_bua = FALSE,
     summarise = FALSE
@@ -38,11 +40,11 @@ match_TAG = function(
 
 
   # ---- DOWNLOAD RAS4001 ----
-  url = "https://assets.publishing.service.gov.uk/media/68d421cc275fc9339a248c8e/ras4001.ods"
+
   tmpfile = tempfile(fileext = ".ods")
 
   message("Downloading RAS4001 ODS...")
-  utils::download.file(url, destfile = tmpfile, mode = "wb")
+  utils::download.file(costs_url, destfile = tmpfile, mode = "wb")
 
   # ---------------------------------------------------------------
   #  MATCH WITH: SEVERITY ONLY
@@ -158,7 +160,7 @@ match_TAG = function(
     # ---- LOAD ONS BUILT-UP AREAS ----
     message("Downloading ONS Built-Up Areas gpkg...")
     bua_gb = sf::st_read(
-      "https://open-geography-portalx-ons.hub.arcgis.com/api/download/v1/items/ad30b234308f4b02b4bb9b0f4766f7bb/geoPackage?layers=0",
+      shapes_url,
       quiet = TRUE
     ) |>
       dplyr::select(BUA22CD, BUA22NM, SHAPE) |>
