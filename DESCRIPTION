@@ -72,7 +72,7 @@ Suggests:
     gt,
     clock
 VignetteBuilder: knitr
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 Roxygen: list(markdown = TRUE)
 Language: en-US
 X-schema.org-keywords: stats19, road-safety, transport, car-crashes, ropensci, data
