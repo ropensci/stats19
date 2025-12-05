@@ -80,11 +80,10 @@ match_tag = function(
     crashes,
     shapes_url = "https://open-geography-portalx-ons.hub.arcgis.com/api/download/v1/items/ad30b234308f4b02b4bb9b0f4766f7bb/geoPackage?layers=0",
     costs_url = "https://assets.publishing.service.gov.uk/media/68d421cc275fc9339a248c8e/ras4001.ods",
-    match_with = c("severity", "severity_road", "severity_road_bua"),
+    match_with = "severity",
     include_motorway_bua = FALSE,
     summarise = FALSE
 ){
-
 
   # ---- DOWNLOAD RAS4001 ----
 
@@ -136,7 +135,7 @@ match_tag = function(
       dplyr::rename(
         built_up = tidyselect::matches("Built-up roads"),
         not_built_up = tidyselect::matches("Non built-up roads"),
-        Motorway = tidyselect::matches("Motorways")
+        Motorway = tidyselect::matches(c("A(M)", "Motorways"))
       ) |>
       dplyr::transmute(collision_year = `Collision data year`,
                        collision_severity = Severity,
@@ -153,7 +152,7 @@ match_tag = function(
     # define road category, first by motorway or not, then speed limit and 3 collisions had no speed data but did have urban or rural, so that also used.
     tag_cost = crashes |>
       dplyr::mutate(speed_limit = as.numeric(speed_limit)) |>
-      dplyr::mutate(ons_road = ifelse(first_road_class == "Motorway", "Motorway", ifelse(speed_limit <= "40", "built_up", "not_built_up"))) |>
+      dplyr::mutate(ons_road = ifelse(first_road_class %in% c("A(M)", "Motorway"), "Motorway", ifelse(speed_limit <= "40", "built_up", "not_built_up"))) |>
       dplyr::mutate(ons_road = ifelse(is.na(speed_limit) & urban_or_rural_area == "Urban", "built_up",ons_road)) |>
       dplyr::mutate(ons_road = ifelse(is.na(speed_limit) & urban_or_rural_area == "Rural", "not_built_up",ons_road)) |>
       dplyr::left_join(ras4001, by = c("collision_year", "collision_severity", "ons_road"))
@@ -190,7 +189,7 @@ match_tag = function(
       dplyr::rename(
         built_up = tidyselect::matches("Built-up roads"),
         not_built_up = tidyselect::matches("Non built-up roads"),
-        Motorway = tidyselect::matches("Motorways")
+        Motorway = tidyselect::matches(c("A(M)", "Motorways"))
       ) |>
       dplyr::transmute(collision_year = `Collision data year`,
                        collision_severity = Severity,
@@ -228,7 +227,8 @@ match_tag = function(
         sf::st_transform(4326) |>
         sf::st_join(bua_gb) |>
         dplyr::mutate(speed_limit = as.numeric(speed_limit)) |>
-        dplyr::mutate(ons_road = ifelse(!is.na(BUA22CD), "built_up", ifelse(first_road_class == "Motorway", "Motorway", "not_built_up"))) |>
+        # logical test, is it inside bua shape file? If yes "built up", if not is it on a mway, if so mway, everything else is not built up
+        dplyr::mutate(ons_road = ifelse(!is.na(BUA22CD), "built_up", ifelse(first_road_class %in% c("A(M)", "Motorway"), "Motorway", "not_built_up"))) |>
         dplyr::left_join(ras4001, by = c("collision_year", "collision_severity", "ons_road"))
 
     } else {
@@ -238,7 +238,8 @@ match_tag = function(
         sf::st_transform(4326) |>
         sf::st_join(bua_gb) |>
         dplyr::mutate(speed_limit = as.numeric(speed_limit)) |>
-        dplyr::mutate(ons_road = ifelse(first_road_class == "Motorway", "Motorway", ifelse(!is.na(BUA22CD), "built_up", "not_built_up"))) |>
+        # logical test, it a motorway? If so "motorway", if not is it inside built up area shape file? if so "built up", if not "not built up"
+        dplyr::mutate(ons_road = ifelse(first_road_class %in% c("A(M)", "Motorway"), "Motorway", ifelse(!is.na(BUA22CD), "built_up", "not_built_up"))) |>
         dplyr::left_join(ras4001, by = c("collision_year", "collision_severity", "ons_road"))
 
     }
@@ -251,11 +252,11 @@ match_tag = function(
 
       tag_cost = tag_cost |>
         dplyr::group_by(collision_severity, ons_road) |>
-        dplyr::summarise(costs_millions = round(sum(cost, na.rm = TRUE)/1e6))
-      tidyr::pivot_wider(
-        names_from  = ons_road,
-        values_from = costs_millions
-      )
+        dplyr::summarise(costs_millions = round(sum(cost, na.rm = TRUE)/1e6)) |>
+        tidyr::pivot_wider(
+          names_from  = ons_road,
+          values_from = costs_millions
+        )
     }
 
     return(tag_cost)
