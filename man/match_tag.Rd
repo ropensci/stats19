@@ -10,7 +10,7 @@ match_tag(
     "https://open-geography-portalx-ons.hub.arcgis.com/api/download/v1/items/ad30b234308f4b02b4bb9b0f4766f7bb/geoPackage?layers=0",
   costs_url =
     "https://assets.publishing.service.gov.uk/media/68d421cc275fc9339a248c8e/ras4001.ods",
-  match_with = c("severity", "severity_road", "severity_road_bua"),
+  match_with = "severity",
   include_motorway_bua = FALSE,
   summarise = FALSE
 )
