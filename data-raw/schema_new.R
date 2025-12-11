@@ -1,28 +1,25 @@
-This function generates the data object `stats19_schema`.
+#This function generates the data object `stats19_schema`.
 
-The function also generates `stats19_variables` (see the function's source code
-for details).
+#The function also generates `stats19_variables` (see the function's source code
+#for details).
 
-```{r}
 library(tidyverse)
+library(openxlsx)
 devtools::load_all()
-```
-
 
 # Load stats19 schema and save variable names
 
-```{r}
-library(openxlsx)
 #schema_url = "https://data.dft.gov.uk/road-accidents-safety-data/dft-road-casualty-statistics-road-safety-open-dataset-data-guide-2024.xlsx"
 #schema_f = basename(schema_url)
 #schema_saved = file.path(get_data_directory(), schema_f)
 #download.file(schema_url, destfile = schema_saved)
 schema_dft = read.xlsx("https://data.dft.gov.uk/road-accidents-safety-data/dft-road-casualty-statistics-road-safety-open-dataset-data-guide-2024.xlsx") # use openxlsx to import directly
 names(schema_dft)
-# [1] "table"       "field.name"  "code/format" "label"       "note"       
+# [1] "table"       "field.name"  "code/format" "label"       "note"
 schema_dft
+
 stats19_schema_dft = schema_dft %>%
-  rename(variable = `field.name`, code = `code/format`) 
+  rename(variable = `field.name`, code = `code/format`)
 
 # Pre-prepared dataset:
 stats19_variables
@@ -49,30 +46,25 @@ stats19_variables_dft |>
 stats19_variables_dft$type[
   grepl(pattern = reg, x = stats19_variables_dft$variable)
 ] = "numeric"
-```
 
-```{r}
+
 # Save the updated variables
 stats_19_variables_old = read_csv("data-raw/stats19_variables.csv")
 stats19_variables = stats19_variables_dft
 waldo::compare(names(stats_19_variables_old), names(stats19_variables)) # Same names
 waldo::compare(stats_19_variables_old, stats19_variables) # Different values
 readr::write_csv(stats19_variables, "data-raw/stats19_variables.csv")
-```
+
 
 # Save the schema
-
-```{r}
 # Previous version of the dataset
 stats19_schema
 readr::write_csv(stats19_schema, "data-raw/stats19_schema.csv")
 table(stats19_schema_dft$variable)
-stats19_schema_joined = left_join(stats19_schema_dft, stats19_variables_dft %>% select(variable, type)) 
-```
+stats19_schema_joined = left_join(stats19_schema_dft, stats19_variables_dft %>% select(variable, type))
+
 
 # Update the schemas
-
-```{r}
 stats19_variables_old = stats19_variables
 stats19_schema_old = stats19::stats19_schema
 stats19_schema = stats19_schema_joined
@@ -83,6 +75,6 @@ table(stats19_schema$type)
 readr::write_csv(stats19_schema, "data-raw/stats19_schema.csv")
 usethis::use_data(stats19_variables, overwrite = TRUE)
 usethis::use_data(stats19_schema, overwrite = TRUE)
-```
+
 
 
