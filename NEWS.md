@@ -1,6 +1,8 @@
 # stats19 (development version)
 
 * Fixed issue where `year = 1979` now correctly returns data for 1979 only, rather than all years from 1979 onwards (#282)
+* Added function `match_tag` to match government TAG cost estimates to collisions (#287, #288, #289, #290)
+* `schema_new.Rmd` updated the lookup tables for the package based on the DfT variables xlsx file. This file has been changed to `schema_new.R` which should make updates easier to perform (#291)
 
 # stats19 3.4.0 2025-10
 
