@@ -35,6 +35,16 @@ test_that("clean_make works", {
   expect_equal(clean_make("MAN", extract_make = FALSE), "MAN")
   expect_equal(clean_make("VDL", extract_make = FALSE), "VDL")
   expect_equal(clean_make("LEVC", extract_make = FALSE), "LEVC")
+  expect_equal(clean_make("ERF", extract_make = FALSE), "ERF")
+  expect_equal(clean_make("LDV", extract_make = FALSE), "LDV")
+  expect_equal(clean_make("JCB", extract_make = FALSE), "JCB")
+  
+  # Test merges/fixes
+  expect_equal(clean_make("Iveco-Ford", extract_make = FALSE), "Iveco")
+  expect_equal(clean_make("Enfield", extract_make = FALSE), "Royal Enfield")
+  expect_equal(clean_make("Man/Vw", extract_make = FALSE), "MAN")
+  expect_equal(clean_make("Freight", extract_make = FALSE), "Freight Rover")
+  expect_equal(clean_make("Int.", extract_make = FALSE), "International")
 
   # Test specific ambiguous or stylized fixes
   expect_equal(clean_make("Dennis", extract_make = FALSE), "Alexander Dennis")

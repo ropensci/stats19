@@ -51,12 +51,12 @@ clean_make = function(make, extract_make = TRUE) {
 
   # Standardize casing for specific brands
   make = dplyr::case_when(
-    make %in% c("GM", "BYD", "VW", "NIO", "ORA", "IM", "MG", "MINI", "EV", "EV6", "EV9", "EQC", "EQB", "EQA", "EQE", "XPENG", "CUPRA", "DS", "GEELY", "SAIC", "BMW", "DAF", "KTM", "MAN", "VDL", "LEVC") ~ make,
+    make %in% c("GM", "BYD", "VW", "NIO", "ORA", "IM", "MG", "MINI", "EV", "EV6", "EV9", "EQC", "EQB", "EQA", "EQE", "XPENG", "CUPRA", "DS", "GEELY", "SAIC", "BMW", "DAF", "KTM", "MAN", "VDL", "LEVC", "ERF", "LDV", "MCW", "JCB", "MZ", "MCC", "BSA", "TVR", "CZ", "MBK", "AJS", "CPI", "PGO") ~ make,
     TRUE ~ stringr::str_to_title(make)
   )
   # Clean up synonyms and multi-word standardizations
   make = dplyr::case_when(
-    make %in% c("-1", "Make", "Other", "Generic", "All") ~ NA_character_,
+    make %in% c("-1", "Make", "Other", "Generic", "All", "Better", "Easy", "David", "White") ~ NA_character_,
     stringr::str_detect(make, "Volksw|VW") ~ "Volkswagen",
     stringr::str_detect(make, "Citro") ~ "Citroen",
     # Mercs are Mercedes
@@ -77,6 +77,16 @@ clean_make = function(make, extract_make = TRUE) {
     make == "Ssangyong" ~ "SsangYong",
     make %in% c("Smart", "smart") ~ "smart",
     make == "Mini" ~ "MINI",
+    
+    # Merges
+    make == "Iveco-Ford" ~ "Iveco",
+    make == "Enfield" ~ "Royal Enfield",
+    stringr::str_detect(make, "Man/Vw") ~ "MAN", # Handle Man/Vw
+    
+    # Ambiguous/Fixes
+    make == "Int." ~ "International",
+    make == "Freight" ~ "Freight Rover",
+    
     TRUE ~ make
   )
   make
