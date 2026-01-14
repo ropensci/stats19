@@ -56,7 +56,7 @@ clean_make = function(make, extract_make = TRUE) {
   )
   # Clean up synonyms and multi-word standardizations
   make = dplyr::case_when(
-    make %in% c("-1", "Make", "Other", "Generic", "All", "Better", "Easy", "David", "White") ~ NA_character_,
+    make %in% c("-1", "Make", "Other", "Generic", "All", "Better", "Easy", "David", "White", "Int.") ~ NA_character_,
     stringr::str_detect(make, "Volksw|VW") ~ "Volkswagen",
     stringr::str_detect(make, "Citro") ~ "Citroen",
     # Mercs are Mercedes
@@ -84,7 +84,6 @@ clean_make = function(make, extract_make = TRUE) {
     stringr::str_detect(make, "Man/Vw") ~ "MAN", # Handle Man/Vw
     
     # Ambiguous/Fixes
-    make == "Int." ~ "International",
     make == "Freight" ~ "Freight Rover",
     
     TRUE ~ make
