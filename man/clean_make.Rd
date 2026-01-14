@@ -4,14 +4,17 @@
 \alias{clean_make}
 \title{Clean vehicle make}
 \usage{
-clean_make(make)
+clean_make(make, extract_make = TRUE)
 }
 \arguments{
-\item{make}{A character vector of vehicle makes}
+\item{make}{A character vector of vehicle makes. Can be raw generic make/model strings if extract_make is TRUE.}
+
+\item{extract_make}{Logical, whether to extract the make from the input string using extract_make_stats19 first. Default is TRUE.}
 }
 \description{
 This function cleans the make of the vehicle.
 }
 \examples{
 clean_make(c("VW", "Mercedez"))
+clean_make(c("FORD FIESTA", "LAND ROVER DISCOVERY"), extract_make = TRUE)
 }

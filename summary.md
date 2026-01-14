@@ -1,23 +1,31 @@
 # Summary of Changes
 
-Added two new functions to clean vehicle make and model data: `clean_make()` and `clean_model()`.
+Added functionality to extract and clean vehicle make and model data.
 
-## clean_make()
+## New Functions
 
-Cleans vehicle make names, standardizing common abbreviations and correcting misspellings.
+### `extract_make_stats19(generic_make_model)`
+
+Extracts the make from a generic make/model string, handling multi-word makes (e.g., "LAND ROVER", "ALFA ROMEO").
+
+### `clean_make(make, extract_make = TRUE)`
+
+Cleans vehicle make names. 
+- By default (`extract_make = TRUE`), it first calls `extract_make_stats19()` on the input.
+- Standardizes common abbreviations (e.g., "VW" -> "Volkswagen").
+- Corrects misspellings and synonyms.
+- Handles case sensitivity (keeps "GM", "BMW" etc. uppercase, others Title Case).
 
 **Examples:**
 
 | Input | Output |
 |-------|--------|
-| "VW" | "Volkswagen" |
-| "Volksw" | "Volkswagen" |
-| "Merc" | "Mercedes" |
-| "oda" | "Skoda" |
+| "FORD FIESTA" | "Ford" |
+| "LAND ROVER DISCOVERY" | "Land Rover" |
+| "VW GOLF" | "Volkswagen" |
 | "unknown" | "Unknown" |
-| "GM" | "GM" |
 
-## clean_model()
+### `clean_model(model)`
 
 Standardizes vehicle model names to title case.
 
@@ -26,8 +34,11 @@ Standardizes vehicle model names to title case.
 | Input | Output |
 |-------|--------|
 | "FIESTA" | "Fiesta" |
-| "ka" | "Ka" |
 
 ## Testing
 
-New tests added in `tests/testthat/test-clean.R` cover these cases and pass.
+Tests in `tests/testthat/test-clean.R` cover:
+- Basic cleaning (VW -> Volkswagen).
+- Multi-word extraction (LAND ROVER DISCOVERY -> LAND ROVER).
+- Integrated extraction and cleaning.
+- Case preservation for acronyms.
