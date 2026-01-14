@@ -3,6 +3,7 @@
 export(clean_make)
 export(clean_model)
 export(dl_stats19)
+export(extract_make_stats19)
 export(find_file_name)
 export(format_casualties)
 export(format_collisions)
