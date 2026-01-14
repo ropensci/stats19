@@ -29,6 +29,7 @@ test_that("clean_make works", {
   # Check preserved upper case
   expect_equal(clean_make("GM", extract_make = FALSE), "GM")
   expect_equal(clean_make("MG", extract_make = FALSE), "MG")
+  expect_equal(clean_make("BMW", extract_make = FALSE), "BMW")
   
   # Test with extract_make = TRUE (default)
   expect_equal(clean_make("FORD FIESTA"), "Ford")
