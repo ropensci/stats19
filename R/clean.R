@@ -51,7 +51,7 @@ clean_make = function(make, extract_make = TRUE) {
 
   # Standardize casing for specific brands
   make = dplyr::case_when(
-    make %in% c("GM", "BYD", "VW", "NIO", "ORA", "IM", "MG", "MINI", "EV", "EV6", "EV9", "EQC", "EQB", "EQA", "EQE", "XPENG", "CUPRA", "DS", "GEELY", "SAIC") ~ make,
+    make %in% c("GM", "BYD", "VW", "NIO", "ORA", "IM", "MG", "MINI", "EV", "EV6", "EV9", "EQC", "EQB", "EQA", "EQE", "XPENG", "CUPRA", "DS", "GEELY", "SAIC", "BMW") ~ make,
     TRUE ~ stringr::str_to_title(make)
   )
   # Clean up synonyms and multi-word standardizations
