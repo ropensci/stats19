@@ -17,7 +17,7 @@ extract_make_stats19 = function(generic_make_model) {
     stringr::str_starts(generic_make_model, "ASTON MARTIN") ~ "ASTON MARTIN",
     stringr::str_starts(generic_make_model, "LAND ROVER") ~ "LAND ROVER",
     stringr::str_starts(generic_make_model, "RANGE ROVER") ~ "LAND ROVER",
-    stringr::str_starts(generic_make_model, "LONDON TAXIS") ~ "LONDON TAXIS INT",
+    stringr::str_starts(generic_make_model, "LONDON TAXIS") ~ "LONDON TAXIS INTERNATIONAL",
     stringr::str_starts(generic_make_model, "JOHN DEERE") ~ "JOHN DEERE",
     stringr::str_starts(generic_make_model, "NEW HOLLAND") ~ "NEW HOLLAND",
     stringr::str_starts(generic_make_model, "ALEXANDER DENNIS") ~ "ALEXANDER DENNIS",
@@ -51,7 +51,7 @@ clean_make = function(make, extract_make = TRUE) {
 
   # Standardize casing for specific brands
   make = dplyr::case_when(
-    make %in% c("GM", "BYD", "VW", "NIO", "ORA", "IM", "MG", "MINI", "EV", "EV6", "EV9", "EQC", "EQB", "EQA", "EQE", "XPENG", "CUPRA", "DS", "GEELY", "SAIC", "BMW") ~ make,
+    make %in% c("GM", "BYD", "VW", "NIO", "ORA", "IM", "MG", "MINI", "EV", "EV6", "EV9", "EQC", "EQB", "EQA", "EQE", "XPENG", "CUPRA", "DS", "GEELY", "SAIC", "BMW", "DAF", "KTM", "MAN", "VDL", "LEVC") ~ make,
     TRUE ~ stringr::str_to_title(make)
   )
   # Clean up synonyms and multi-word standardizations
@@ -67,6 +67,13 @@ clean_make = function(make, extract_make = TRUE) {
     # *oda is Skoda
     stringr::str_detect(make, "oda|Oda") ~ "Skoda",
     stringr::str_detect(make, "Opel") ~ "Vauxhall",
+    # Specific ambiguous or stylized fixes
+    make == "Dennis" ~ "Alexander Dennis",
+    make == "Case" ~ "Case IH",
+    make == "London Taxis Int" ~ "London Taxis International",
+    make == "Ssangyong" ~ "SsangYong",
+    make %in% c("Smart", "smart") ~ "smart",
+    make == "Mini" ~ "MINI",
     TRUE ~ make
   )
   make
