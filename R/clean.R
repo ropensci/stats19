@@ -67,17 +67,6 @@ clean_make = function(make, extract_make = TRUE) {
     # *oda is Skoda
     stringr::str_detect(make, "oda|Oda") ~ "Skoda",
     stringr::str_detect(make, "Opel") ~ "Vauxhall",
-    # Title cases for multi-word makes
-    make == "Land" ~ "Land Rover",
-    make == "Alfa" ~ "Alfa Romeo",
-    make == "London" ~ "London Taxis Int",
-    make == "John" ~ "John Deere",
-    make == "New" ~ "New Holland",
-    make == "Alexander" ~ "Alexander Dennis",
-    make == "Royal" ~ "Royal Enfield",
-    make == "Rolls" ~ "Rolls Royce",
-    make == "Massey" ~ "Massey Ferguson",
-    make == "Aston" ~ "Aston Martin",
     TRUE ~ make
   )
   make
