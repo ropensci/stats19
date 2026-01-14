@@ -59,6 +59,17 @@ test_that("clean_make works", {
   
   # Test Opel -> Vauxhall
   expect_equal(clean_make("Opel Corsa"), "Vauxhall")
+  
+  # Test missing values
+  expect_true(is.na(clean_make("-1")))
+  expect_true(is.na(clean_make("-1", extract_make = FALSE)))
+  expect_true(is.na(clean_make("Make")))
+  expect_true(is.na(clean_make("Other")))
+  expect_true(is.na(clean_make("Generic")))
+  expect_true(is.na(clean_make("All")))
+  
+  # Test DAF
+  expect_equal(clean_make("Daf", extract_make = FALSE), "DAF")
 })
 
 test_that("clean_model works", {
