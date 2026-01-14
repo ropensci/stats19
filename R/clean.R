@@ -94,14 +94,58 @@ clean_make = function(make, extract_make = TRUE) {
 #' Clean vehicle model
 #'
 #' This function cleans the model of the vehicle.
+#' It extracts the make using \code{extract_make_stats19} and removes it from the string,
+#' returning the remaining text as the model in title case.
 #'
-#' @param model A character vector of vehicle models
+#' @param model A character vector of generic make/model strings
 #' @export
 #' @examples
-#' clean_model(c("FIESTA", "ka"))
+#' clean_model(c("FORD FIESTA", "BMW 3 SERIES"))
 clean_model = function(model) {
   if (!requireNamespace("stringr", quietly = TRUE)) {
     stop("package stringr required, please install it first")
   }
-  stringr::str_to_title(model)
+  
+  # Extract the make part
+  make_part = extract_make_stats19(model)
+  
+  # Remove the make part from the start of the string
+  # We use nchar to know how much to chop off, plus 1 for the space
+  # If make_part is same as model (e.g. just "FORD"), result is empty
+  
+  model_only = stringr::str_sub(model, start = nchar(make_part) + 2)
+  
+  # Handle cases where model is empty or just whitespace
+  model_only = stringr::str_trim(model_only)
+  model_only = dplyr::na_if(model_only, "")
+  
+  stringr::str_to_title(model_only)
+}
+
+#' Clean vehicle make and model
+#'
+#' This function returns a combined cleaned make and model string.
+#' It uses \code{clean_make} and \code{clean_model} to standardize both parts.
+#'
+#' @param generic_make_model A character vector of generic make/model strings
+#' @export
+#' @examples
+#' clean_make_model(c("FORD FIESTA", "BMW 3 SERIES"))
+clean_make_model = function(generic_make_model) {
+  make = clean_make(generic_make_model)
+  model = clean_model(generic_make_model)
+  
+  # Combine, handling NAs
+  # If model is NA, just return make. If make is NA, return NA? 
+  # Usually make is key.
+  
+  res = paste(make, model)
+  res = stringr::str_remove(res, " NA") # If model is NA
+  res = stringr::str_remove(res, "NA ") # If make is NA (unlikely if model exists?)
+  
+  # If both NA -> "NA" -> NA
+  dplyr::case_when(
+    res == "NA" ~ NA_character_,
+    TRUE ~ res
+  )
 }

@@ -84,6 +84,18 @@ test_that("clean_make works", {
 
 test_that("clean_model works", {
   skip_if_not_installed("stringr")
-  expect_equal(clean_model("FIESTA"), "Fiesta")
-  expect_equal(clean_model("ka"), "Ka")
+  expect_equal(clean_model("FORD FIESTA"), "Fiesta")
+  expect_equal(clean_model("LAND ROVER DISCOVERY"), "Discovery")
+  expect_equal(clean_model("BMW 3 SERIES"), "3 Series")
+  # Test with only make
+  expect_true(is.na(clean_model("FORD")))
+})
+
+test_that("clean_make_model works", {
+  skip_if_not_installed("stringr")
+  expect_equal(clean_make_model("FORD FIESTA"), "Ford Fiesta")
+  expect_equal(clean_make_model("LAND ROVER DISCOVERY"), "Land Rover Discovery")
+  expect_equal(clean_make_model("BMW 3 SERIES"), "BMW 3 Series")
+  expect_equal(clean_make_model("DAF TRUCKS"), "DAF Trucks")
+  expect_equal(clean_make_model("FORD"), "Ford")
 })
