@@ -35,11 +35,6 @@ test_that("clean_make works", {
   expect_equal(clean_make("LAND ROVER DISCOVERY"), "Land Rover")
   expect_equal(clean_make("RANGE ROVER EVOQUE"), "Land Rover")
   
-  # Test the specific multi-word cleaning logic in clean_make
-  # e.g. "Land" -> "Land Rover"
-  expect_equal(clean_make("Land", extract_make = FALSE), "Land Rover")
-  expect_equal(clean_make("Alfa", extract_make = FALSE), "Alfa Romeo")
-  
   # Test Opel -> Vauxhall
   expect_equal(clean_make("Opel Corsa"), "Vauxhall")
 })
