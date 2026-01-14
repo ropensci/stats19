@@ -7,11 +7,13 @@
 clean_model(model)
 }
 \arguments{
-\item{model}{A character vector of vehicle models}
+\item{model}{A character vector of generic make/model strings}
 }
 \description{
 This function cleans the model of the vehicle.
+It extracts the make using \code{extract_make_stats19} and removes it from the string,
+returning the remaining text as the model in title case.
 }
 \examples{
-clean_model(c("FIESTA", "ka"))
+clean_model(c("FORD FIESTA", "BMW 3 SERIES"))
 }
