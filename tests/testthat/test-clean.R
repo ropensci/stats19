@@ -44,7 +44,6 @@ test_that("clean_make works", {
   expect_equal(clean_make("Enfield", extract_make = FALSE), "Royal Enfield")
   expect_equal(clean_make("Man/Vw", extract_make = FALSE), "MAN")
   expect_equal(clean_make("Freight", extract_make = FALSE), "Freight Rover")
-  expect_equal(clean_make("Int.", extract_make = FALSE), "International")
 
   # Test specific ambiguous or stylized fixes
   expect_equal(clean_make("Dennis", extract_make = FALSE), "Alexander Dennis")
@@ -77,6 +76,7 @@ test_that("clean_make works", {
   expect_true(is.na(clean_make("Other")))
   expect_true(is.na(clean_make("Generic")))
   expect_true(is.na(clean_make("All")))
+  expect_true(is.na(clean_make("Int.")))
   
   # Test DAF
   expect_equal(clean_make("Daf", extract_make = FALSE), "DAF")
