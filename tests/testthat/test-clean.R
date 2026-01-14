@@ -30,6 +30,27 @@ test_that("clean_make works", {
   expect_equal(clean_make("GM", extract_make = FALSE), "GM")
   expect_equal(clean_make("MG", extract_make = FALSE), "MG")
   expect_equal(clean_make("BMW", extract_make = FALSE), "BMW")
+  expect_equal(clean_make("DAF", extract_make = FALSE), "DAF")
+  expect_equal(clean_make("KTM", extract_make = FALSE), "KTM")
+  expect_equal(clean_make("MAN", extract_make = FALSE), "MAN")
+  expect_equal(clean_make("VDL", extract_make = FALSE), "VDL")
+  expect_equal(clean_make("LEVC", extract_make = FALSE), "LEVC")
+
+  # Test specific ambiguous or stylized fixes
+  expect_equal(clean_make("Dennis", extract_make = FALSE), "Alexander Dennis")
+  expect_equal(clean_make("Case", extract_make = FALSE), "Case IH")
+  expect_equal(clean_make("London Taxis Int", extract_make = FALSE), "London Taxis International")
+  # Test with extraction for London Taxis (which sets it to INTERNATIONAL)
+  expect_equal(clean_make("LONDON TAXIS INTERNATIONAL TX4"), "London Taxis International")
+  
+  expect_equal(clean_make("Ssangyong", extract_make = FALSE), "SsangYong")
+  expect_equal(clean_make("SSANGYONG KORANDO"), "SsangYong")
+  
+  expect_equal(clean_make("Smart", extract_make = FALSE), "smart")
+  expect_equal(clean_make("SMART FORTWO"), "smart")
+  
+  expect_equal(clean_make("Mini", extract_make = FALSE), "MINI")
+  expect_equal(clean_make("MINI COOPER"), "MINI")
   
   # Test with extract_make = TRUE (default)
   expect_equal(clean_make("FORD FIESTA"), "Ford")
