@@ -10,7 +10,7 @@ extract_make_stats19 = function(generic_make_model) {
   if (!requireNamespace("stringr", quietly = TRUE)) {
     stop("package stringr required, please install it first")
   }
-  
+
   # Handle multi-word makes first
   make = dplyr::case_when(
     stringr::str_starts(generic_make_model, "ALFA ROMEO") ~ "ALFA ROMEO",
@@ -56,7 +56,7 @@ clean_make = function(make, extract_make = TRUE) {
   )
   # Clean up synonyms and multi-word standardizations
   make = dplyr::case_when(
-    make %in% c("-1", "Make", "Other", "Generic", "All", "Better", "Easy", "David", "White", "Int.") ~ NA_character_,
+    make %in% c("-1", "Make", "Other", "Generic", "All", "Better", "Easy", "David", "White", "Int.", "Data") ~ NA_character_,
     stringr::str_detect(make, "Volksw|VW") ~ "Volkswagen",
     stringr::str_detect(make, "Citro") ~ "Citroen",
     # Mercs are Mercedes
@@ -77,15 +77,15 @@ clean_make = function(make, extract_make = TRUE) {
     make == "Ssangyong" ~ "SsangYong",
     make %in% c("Smart", "smart") ~ "smart",
     make == "Mini" ~ "MINI",
-    
+
     # Merges
     make == "Iveco-Ford" ~ "Iveco",
     make == "Enfield" ~ "Royal Enfield",
     stringr::str_detect(make, "Man/Vw") ~ "MAN", # Handle Man/Vw
-    
+
     # Ambiguous/Fixes
     make == "Freight" ~ "Freight Rover",
-    
+
     TRUE ~ make
   )
   make
@@ -105,20 +105,22 @@ clean_model = function(model) {
   if (!requireNamespace("stringr", quietly = TRUE)) {
     stop("package stringr required, please install it first")
   }
-  
+
   # Extract the make part
   make_part = extract_make_stats19(model)
-  
+
   # Remove the make part from the start of the string
   # We use nchar to know how much to chop off, plus 1 for the space
   # If make_part is same as model (e.g. just "FORD"), result is empty
-  
+
   model_only = stringr::str_sub(model, start = nchar(make_part) + 2)
-  
+
   # Handle cases where model is empty or just whitespace
   model_only = stringr::str_trim(model_only)
   model_only = dplyr::na_if(model_only, "")
-  
+
+  model_only[model_only %in% c("missing or out of range","AND MODEL REDACTED")] = NA_character_
+
   stringr::str_to_title(model_only)
 }
 
@@ -134,15 +136,15 @@ clean_model = function(model) {
 clean_make_model = function(generic_make_model) {
   make = clean_make(generic_make_model)
   model = clean_model(generic_make_model)
-  
+
   # Combine, handling NAs
-  # If model is NA, just return make. If make is NA, return NA? 
+  # If model is NA, just return make. If make is NA, return NA?
   # Usually make is key.
-  
+
   res = paste(make, model)
   res = stringr::str_remove(res, " NA") # If model is NA
   res = stringr::str_remove(res, "NA ") # If make is NA (unlikely if model exists?)
-  
+
   # If both NA -> "NA" -> NA
   dplyr::case_when(
     res == "NA" ~ NA_character_,
