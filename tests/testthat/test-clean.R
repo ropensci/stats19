@@ -89,6 +89,16 @@ test_that("clean_model works", {
   expect_equal(clean_model("BMW 3 SERIES"), "3 Series")
   # Test with only make
   expect_true(is.na(clean_model("FORD")))
+  
+  # Test Missing/Redacted
+  expect_true(is.na(clean_model("VOLVO MODEL MISSING")))
+  expect_true(is.na(clean_model("MAKE AND MODEL REDACTED")))
+  
+  # Test Parentheses stripping
+  expect_equal(clean_model("VESPA (DOUGLAS) 150"), "150")
+  
+  # Test DAF Trucks
+  expect_equal(clean_model("DAF TRUCKS CF"), "Cf")
 })
 
 test_that("clean_make_model works", {
@@ -96,6 +106,31 @@ test_that("clean_make_model works", {
   expect_equal(clean_make_model("FORD FIESTA"), "Ford Fiesta")
   expect_equal(clean_make_model("LAND ROVER DISCOVERY"), "Land Rover Discovery")
   expect_equal(clean_make_model("BMW 3 SERIES"), "BMW 3 Series")
-  expect_equal(clean_make_model("DAF TRUCKS"), "DAF Trucks")
+  expect_equal(clean_make_model("DAF TRUCKS"), "DAF")
   expect_equal(clean_make_model("FORD"), "Ford")
+})
+
+test_that("Advanced clean_make rules work", {
+  # Model Missing -> Make preserved
+  expect_equal(clean_make("VOLVO MODEL MISSING"), "Volvo")
+  
+  # Redacted -> NA
+  expect_true(is.na(clean_make("MAKE AND MODEL REDACTED")))
+  
+  # Parentheses
+  expect_equal(clean_make("VESPA (DOUGLAS)"), "Vespa")
+  expect_equal(clean_make("BRISTOL (BLMC)"), "Bristol")
+  
+  # Brand Hierarchy
+  expect_equal(clean_make("IVECO-FORD"), "Iveco") # Should match IVECO FORD rule in extract?
+  expect_equal(clean_make("IVECO FORD CARGO"), "Iveco")
+  expect_equal(clean_make("LEYLAND DAF 45"), "DAF")
+  expect_equal(clean_make("LEYLAND CARS MINI"), "MINI")
+  expect_equal(clean_make("DAF TRUCKS CF"), "DAF")
+  
+  # Case sensitivity / Duplicates
+  expect_equal(clean_make("Alexander Dennis"), "Alexander Dennis")
+  expect_equal(clean_make("ALEXANDER DENNIS"), "Alexander Dennis")
+  expect_equal(clean_make("Daf Trucks"), "DAF")
+  expect_equal(clean_make("DAF TRUCKS"), "DAF")
 })
