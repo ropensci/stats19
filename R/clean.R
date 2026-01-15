@@ -11,6 +11,11 @@ extract_make_stats19 = function(generic_make_model) {
     stop("package stringr required, please install it first")
   }
   
+  # Force uppercase and remove parentheses for consistent matching
+  generic_make_model = toupper(generic_make_model)
+  generic_make_model = stringr::str_remove_all(generic_make_model, "\\s*\\([^\\)]+\\)")
+  generic_make_model = stringr::str_trim(generic_make_model)
+  
   # Handle multi-word makes first
   make = dplyr::case_when(
     stringr::str_starts(generic_make_model, "ALFA ROMEO") ~ "ALFA ROMEO",
@@ -24,6 +29,10 @@ extract_make_stats19 = function(generic_make_model) {
     stringr::str_starts(generic_make_model, "ROYAL ENFIELD") ~ "ROYAL ENFIELD",
     stringr::str_starts(generic_make_model, "ROLLS ROYCE") ~ "ROLLS ROYCE",
     stringr::str_starts(generic_make_model, "MASSEY FERGUSON") ~ "MASSEY FERGUSON",
+    stringr::str_starts(generic_make_model, "LEYLAND DAF") ~ "LEYLAND DAF",
+    stringr::str_starts(generic_make_model, "DAF TRUCKS") ~ "DAF",
+    stringr::str_starts(generic_make_model, "LEYLAND CARS MINI") ~ "MINI",
+    stringr::str_starts(generic_make_model, "IVECO FORD") ~ "IVECO",
     # Default to first word
     TRUE ~ stringr::str_split(generic_make_model, " ", n = 2, simplify = TRUE)[,1]
   )
@@ -70,10 +79,13 @@ clean_make = function(make, extract_make = TRUE) {
     stringr::str_detect(make, "Opel") ~ "Vauxhall",
     # DAF
     make == "Daf" ~ "DAF",
+    make == "Leyland Daf" ~ "DAF",
+    
     # Specific ambiguous or stylized fixes
     make == "Dennis" ~ "Alexander Dennis",
     make == "Case" ~ "Case IH",
     make == "London Taxis Int" ~ "London Taxis International",
+    make == "London Taxis International" ~ "London Taxis International",
     make == "Ssangyong" ~ "SsangYong",
     make %in% c("Smart", "smart") ~ "smart",
     make == "Mini" ~ "MINI",
@@ -84,7 +96,9 @@ clean_make = function(make, extract_make = TRUE) {
     stringr::str_detect(make, "Man/Vw") ~ "MAN", # Handle Man/Vw
     
     # Ambiguous/Fixes
+    make == "Int." ~ "International",
     make == "Freight" ~ "Freight Rover",
+    stringr::str_detect(make, "Redacted") ~ NA_character_,
     
     TRUE ~ make
   )
@@ -106,17 +120,32 @@ clean_model = function(model) {
     stop("package stringr required, please install it first")
   }
   
-  # Extract the make part
-  make_part = extract_make_stats19(model)
+  # Pre-process: Uppercase, remove parentheses
+  model_upper = toupper(model)
+  model_clean = stringr::str_remove_all(model_upper, "\\s*\\([^\\)]+\\)")
+  model_clean = stringr::str_trim(model_clean)
+  
+  # Check for Redacted in the full string
+  if (stringr::str_detect(model_clean, "REDACTED")) {
+    return(NA_character_)
+  }
+  
+  # Extract the make part (using the same logic as extract_make)
+  make_part = extract_make_stats19(model_clean)
   
   # Remove the make part from the start of the string
   # We use nchar to know how much to chop off, plus 1 for the space
-  # If make_part is same as model (e.g. just "FORD"), result is empty
-  
-  model_only = stringr::str_sub(model, start = nchar(make_part) + 2)
-  
-  # Handle cases where model is empty or just whitespace
+  model_only = stringr::str_sub(model_clean, start = nchar(make_part) + 2)
   model_only = stringr::str_trim(model_only)
+  
+  # Strip "TRUCKS" if present (often part of DAF TRUCKS but make is DAF)
+  model_only = stringr::str_remove(model_only, "^TRUCKS\\s*")
+  
+  # Check for "Missing"
+  if (stringr::str_detect(model_only, "MISSING")) {
+    return(NA_character_)
+  }
+  
   model_only = dplyr::na_if(model_only, "")
   
   stringr::str_to_title(model_only)
