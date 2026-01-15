@@ -93,6 +93,7 @@ test_that("clean_model works", {
   # Test Missing/Redacted
   expect_true(is.na(clean_model("VOLVO MODEL MISSING")))
   expect_true(is.na(clean_model("MAKE AND MODEL REDACTED")))
+  expect_true(is.na(clean_model("TALBOT Model Unknown")))
   
   # Test Parentheses stripping
   expect_equal(clean_model("VESPA (DOUGLAS) 150"), "150")
