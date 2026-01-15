@@ -15,7 +15,7 @@ devtools::load_all()
 #download.file(schema_url, destfile = schema_saved)
 #schema_dft = read.xlsx("https://data.dft.gov.uk/road-accidents-safety-data/dft-road-casualty-statistics-road-safety-open-dataset-data-guide-2024.xlsx") # use openxlsx to import directly
 # TODO: TEMPORARY - switch back to online source when updated
-schema_dft = read.xlsx("dft-road-casualty-statistics-road-safety-open-dataset-data-guide-2024.xlsx") # TEMP: import from local manually modified version
+schema_dft = read.xlsx("https://github.com/ropensci/stats19/releases/download/v3.4.0/dft-road-casualty-statistics-road-safety-open-dataset-data-guide-2024.xlsx") # TEMP: import from local manually modified version
 names(schema_dft)
 # [1] "table"       "field.name"  "code/format" "label"       "note"
 schema_dft
