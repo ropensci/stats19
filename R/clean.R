@@ -65,7 +65,7 @@ clean_make = function(make, extract_make = TRUE) {
   )
   # Clean up synonyms and multi-word standardizations
   make = dplyr::case_when(
-    make %in% c("-1", "Make", "Other", "Generic", "All", "Better", "Easy", "David", "White", "Int.") ~ NA_character_,
+    make %in% c("-1", "Make", "Other", "Generic", "All", "Better", "Easy", "David", "White", "Int.", "Data") ~ NA_character_,
     stringr::str_detect(make, "Volksw|VW") ~ "Volkswagen",
     stringr::str_detect(make, "Citro") ~ "Citroen",
     # Mercs are Mercedes
@@ -148,6 +148,9 @@ clean_model = function(model) {
   
   model_only = dplyr::na_if(model_only, "")
   
+  # Remote changes included "missing or out of range" check, keeping it along with broader checks
+  model_only[model_only %in% c("missing or out of range", "AND MODEL REDACTED")] = NA_character_
+  
   stringr::str_to_title(model_only)
 }
 
@@ -171,7 +174,7 @@ clean_make_model = function(generic_make_model) {
   res = paste(make, model)
   res = stringr::str_remove(res, " NA") # If model is NA
   res = stringr::str_remove(res, "NA ") # If make is NA (unlikely if model exists?)
-  
+
   # If both NA -> "NA" -> NA
   dplyr::case_when(
     res == "NA" ~ NA_character_,
