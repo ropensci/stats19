@@ -125,11 +125,6 @@ clean_model = function(model) {
   model_clean = stringr::str_remove_all(model_upper, "\\s*\\([^\\)]+\\)")
   model_clean = stringr::str_trim(model_clean)
   
-  # Check for Redacted in the full string
-  if (stringr::str_detect(model_clean, "REDACTED")) {
-    return(NA_character_)
-  }
-  
   # Extract the make part (using the same logic as extract_make)
   make_part = extract_make_stats19(model_clean)
   
@@ -141,15 +136,17 @@ clean_model = function(model) {
   # Strip "TRUCKS" if present (often part of DAF TRUCKS but make is DAF)
   model_only = stringr::str_remove(model_only, "^TRUCKS\\s*")
   
-  # Check for "Missing"
-  if (stringr::str_detect(model_only, "MISSING")) {
-    return(NA_character_)
-  }
-  
   model_only = dplyr::na_if(model_only, "")
   
-  # Remote changes included "missing or out of range" check, keeping it along with broader checks
-  model_only[model_only %in% c("missing or out of range", "AND MODEL REDACTED")] = NA_character_
+  # Vectorized check for invalid strings
+  is_invalid = stringr::str_detect(model_clean, "REDACTED") | 
+               stringr::str_detect(model_only, "MISSING") |
+               model_only %in% c("AND MODEL REDACTED", "MISSING OR OUT OF RANGE", "MODEL UNKNOWN")
+               
+  # Handle NAs properly in condition
+  is_invalid[is.na(is_invalid)] = FALSE
+  
+  model_only = dplyr::if_else(is_invalid, NA_character_, model_only)
   
   stringr::str_to_title(model_only)
 }
