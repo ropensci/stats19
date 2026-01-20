@@ -3,6 +3,9 @@
 * Fixed issue where `year = 1979` now correctly returns data for 1979 only, rather than all years from 1979 onwards (#282)
 * Added function `match_tag` to match government TAG cost estimates to collisions (#287, #288, #289, #290)
 * `schema_new.Rmd` updated the lookup tables for the package based on the DfT variables xlsx file. This file has been changed to `schema_new.R` which should make updates easier to perform (#291)
+* New functions `clean_make`,`clean_model` and `clean_make_model` added to clean make/model data from vehicle data (#294)
+* Complete mapping of all 2456 unique raw make/model strings from the 1979-present dataset to their cleaned equivalents available to download as make-models.csv (#294)
+* schema table updated to include 'Other Junction', which was missing from the DfT schema (#271).
 
 # stats19 3.4.0 2025-10
 
