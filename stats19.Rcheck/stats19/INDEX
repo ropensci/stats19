@@ -1,0 +1,47 @@
+accidents_sample        Sample of stats19 data (2022 collisions)
+casualties_sample       Sample of stats19 data (2022 casualties)
+check_input_file        Local helper to be reused.
+clean_make              Clean vehicle make
+clean_make_model        Clean vehicle make and model
+clean_model             Clean vehicle model
+dl_stats19              Download STATS19 data for a year
+extract_make_stats19    Extract vehicle make from generic make/model
+                        string
+file_names              stats19 file names for easy access
+find_file_name          Find file names within stats19::file_names.
+format_casualties       Format STATS19 casualties
+format_collisions       Format STATS19 'collisions' data
+format_column_names     Format column names of raw STATS19 data
+format_ppp              Convert STATS19 data into ppp (spatstat)
+                        format.
+format_sf               Format convert STATS19 data into spatial (sf)
+                        object
+format_vehicles         Format STATS19 vehicles data
+get_MOT                 Download vehicle data from the DVSA MOT API
+                        using VRM.
+get_ULEZ                Download DVLA-based vehicle data from the TfL
+                        API using VRM.
+get_data_directory      Get data download dir
+get_stats19             Download, read and format STATS19 data in one
+                        function.
+get_stats19_adjustments
+                        Download and read-in severity adjustment
+                        factors
+get_url                 Convert file names to urls
+locate_files            Locate a file on disk
+locate_one_file         Pin down a file on disk from four parameters.
+match_tag               Match STATS19 collisions with TAG (RAS4001)
+                        cost estimates
+phrase                  Generate a phrase for data download purposes
+police_boundaries       Police force boundaries in England (2016)
+read_casualties         Read in STATS19 road safety data from .csv
+                        files downloaded.
+read_collisions         Read in STATS19 road safety data from .csv
+                        files downloaded.
+read_vehicles           Read in stats19 road safety data from .csv
+                        files downloaded.
+schema_original         Schema for stats19 data (UKDS)
+select_file             Interactively select from options
+set_data_directory      Set data download dir
+stats19_schema          Stats19 schema and variables
+vehicles_sample         Sample of stats19 data (2022 vehicles)

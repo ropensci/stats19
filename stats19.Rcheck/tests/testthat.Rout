@@ -1,0 +1,34 @@
+
+R version 4.3.3 (2024-02-29) -- "Angel Food Cake"
+Copyright (C) 2024 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> library(testthat)
+> library(stats19)
+Data provided under OGL v3.0. Cite the source and link to:
+www.nationalarchives.gov.uk/doc/open-government-licence/version/3/
+> 
+> test_check("stats19")
+[1] "Data not downloaded. Adjustment table is now merged into casualty table. Use get_stats19 function with 'casualty'. Adjusted data is under the column headings 'casualty_adjusted_severity_serious' and 'casualty_adjusted_severity_slight'"
+[ FAIL 0 | WARN 2 | SKIP 3 | PASS 255 ]
+
+══ Skipped tests (3) ═══════════════════════════════════════════════════════════
+• On CRAN (3): 'test-dl.R:19:3', 'test-match.R:25:3', 'test-ulez.R:24:3'
+
+[ FAIL 0 | WARN 2 | SKIP 3 | PASS 255 ]
+> 
+> proc.time()
+   user  system elapsed 
+  4.571   0.165   4.726 

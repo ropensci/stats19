@@ -1,0 +1,30 @@
+citHeader(
+  "Data provided under OGL v3.0. Cite the source and link to:\n",
+  "www.nationalarchives.gov.uk/doc/open-government-licence/version/3/\n",
+  "To cite stats19 in publications, please use:"
+)
+bibentry(
+  bibtype = "Article",
+  author = c(
+    person("Robin", "Lovelace", email = "rob00x@gmail.com", role = c("aut", "cre"),
+      comment = c(ORCID = "0000-0001-5679-6536")),
+    person("Malcolm", "Morgan", email = "m.morgan1@leeds.ac.uk", role = c("aut")),
+    person("Layik", "Hama", email = "layik.hama@gmail.com", role = c("aut"),
+      comment = c(ORCID = "0000-0003-1912-4890")),
+    person("Mark", "Padgham", role=c("aut"),
+     comment = c(ORCID = "0000-0003-2172-5265")),
+    person("David", "Ranzolin", role=c("rev")),
+    person("Adam", "Sparks", role = c("rev", "ctb"),
+      comment = c(ORCID = "0000-0002-0061-8359"))),
+  title = "stats 19: A package for working with open road crash data",
+  doi = "10.21105/joss.01181",
+  year = 2019,
+  month = "jan",
+  publisher = "The Open Journal",
+  volume = 4,
+  number = 33,
+  pages = 1181,
+  journal = "The Journal of Open Source Software",
+
+  textVersion = paste("Lovelace, R., Morgan, M., Hama, L., Padgham, M., 2019. stats19: A package for working with open road crash data. Journal of Open Source Software. https://doi.org/10.21105/joss.01181")
+)

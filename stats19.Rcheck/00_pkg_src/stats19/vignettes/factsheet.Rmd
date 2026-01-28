@@ -1,0 +1,1039 @@
+---
+title: "Reproducing Reported road casualties in Great Britain: pedestrian factsheet"
+author: "Blaise Kelly"
+date: "`r Sys.Date()`"
+output:
+  rmarkdown::html_document:
+    toc: true
+    toc_float: true
+vignette: >
+  %\VignetteIndexEntry{Reproducing Reported road casualties in Great Britain: pedestrian factsheet}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  eval = FALSE,
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+<style>
+/* Remove border and background from floating TOC */
+#TOC {
+  border: none !important;
+  background: none !important;
+  box-shadow: none !important;
+}
+/* remove borders from plots */
+img { border: none !important; box-shadow: none !important; }
+/* better replicate the fonts used in the dft document */
+body {
+  font-family: "GDS Transport", -apple-system, BlinkMacSystemFont,
+               "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+</style>
+
+> **Note:** This vignette is not evaluated during package checks to reduce build time and dependencies. 
+> 
+> **See rendered results online:**
+> 
+> - [2024 Pedestrian Factsheet](https://rpubs.com/Blaise/stats19_pfs_2024)
+> - [2023 Pedestrian Factsheet](https://rpubs.com/Blaise/stats19_pfs_2023)
+>
+> To reproduce the results yourself, download the source code of this vignette and set `eval=TRUE` in the knitr options, or view the discussion in [GitHub issue #240](https://github.com/ropensci/stats19/issues/240).
+
+```{r setup, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE}
+
+# https://www.gov.uk/government/statistics/reported-road-casualties-great-britain-pedestrian-factsheet-2023/reported-road-casualties-in-great-britain-pedestrian-factsheet-2023
+
+#library(stats19)
+library(stats19)
+library(sf)
+library(dplyr)
+library(lubridate)
+library(reshape2)
+library(ggplot2)
+library(knitr)
+library(readODS)
+library(gt)
+library(clock)
+library(stringr)
+library(tidyr)
+
+# define plot dimensions
+knitr::opts_chunk$set(
+  out.width = "100%"  # scale relative to text width
+)
+
+  # what casualty is the report for? options Pedestrian, Cyclist, escooters
+  report_casualty <- "Pedestrian"
+
+  # stats19 usually updated in September, so if it is October last years data should be there
+  yr2calc <- 2024
+
+  # request collision data (entering 2004 results in a table with all years)
+  crashes = get_stats19(year = "2004", type = "collision", ask = FALSE, format = TRUE, output_format = "data.frame") |>
+    filter(collision_year >= 2004)
+
+  # import the adjusted casualty data ready to join to the original
+  #adj <- get_stats19_adjustments()
+
+
+  ## request casualty
+  casualties = get_stats19(year = "2004", type = "casualty", ask = FALSE, format = TRUE, output_format = "data.frame") |>
+    filter(collision_year >= 2004) |>
+    mutate(fatal_count = if_else(casualty_severity == "Fatal", 1, 0)) # add a column for fatal tally to enable same method to be used for serious and slight
+
+  ## request vehicle
+  vehicles = get_stats19(year = "2004", type = "vehicle", ask = FALSE, format = TRUE, output_format = "data.frame") |>
+    filter(collision_year >= 2004)
+
+
+# get population data from https://www.ons.gov.uk/peoplepopulationandcommunity/populationandmigration/populationestimates
+  uk_pop <- read.csv("https://www.ons.gov.uk/file?uri=/peoplepopulationandcommunity/populationandmigration/populationestimates/datasets/populationestimatestimeseriesdataset/current/pop.csv", skip = 7)
+  uk_pop <- uk_pop[,c(1,6)]
+  names(uk_pop) <- c("Year", "Population")
+
+
+  # get trip data NTS0303 https://www.gov.uk/government/statistical-data-sets/nts03-modal-comparisons
+  download.file("https://assets.publishing.service.gov.uk/media/66ce0f118e33f28aae7e1f75/nts0303.ods", destfile = "nts0303.ods", mode = "wb")
+  # dataset links to this sheet, but it is total distance and not dissagregated by travel mode
+  #download.file("https://assets.publishing.service.gov.uk/media/66ce0e818e33f28aae7e1f71/nts0101.ods", destfile = "nts0101.ods", mode = "wb")
+
+
+  # read in trip data
+  trips <- read_ods("nts0303.ods", sheet = "NTS0303c_miles", skip = 5) |>
+    left_join(uk_pop, by = "Year") |>
+    mutate(tot_dist_billion_miles = (`Walk [notes 2, 3]`*Population)/10^9)
+
+  # speed up debugging by saving these key dfs locally
+#   save(casualties,crashes,vehicles, trips, file = "all_years.RData")
+  
+  #load("all_years.RData")
+
+    # # most of the data is based on the last 5 years, speed up calcs by creating df for this
+#crashes$number_of_casualties <- as.numeric(crashes$number_of_casualties)
+  cra_L5Y <- filter(crashes, collision_year <= yr2calc & collision_year >= yr2calc-4)
+  cas_L5Y <- filter(casualties, collision_year <= yr2calc & collision_year >= yr2calc-4)
+  veh_L5Y <- filter(vehicles, collision_year <= yr2calc & collision_year >= yr2calc-4)
+#   
+# 
+
+```
+
+
+```{r, echo = FALSE, warning=FALSE, message=FALSE}
+
+# pick out data only for 2004
+fat_cas_2004 <- casualties |> filter(collision_year == "2004" & casualty_severity == "Fatal" & casualty_class == report_casualty)
+#casualties this year (TY)
+fat_cas_TY <- casualties |> filter(collision_year == yr2calc & casualty_severity == "Fatal" & casualty_class == report_casualty)
+
+if(NROW(fat_cas_2004)>NROW(fat_cas_TY)){
+  ud <- "down"
+  fat_cas_diff <- round((1-NROW(fat_cas_TY)/NROW(fat_cas_2004))*100)
+} else {
+  ud <- "up"
+  fat_cas_diff <- round((1-NROW(fat_cas_2004)/NROW(fat_cas_TY))*100)
+}
+
+ser_cas_2004 <- casualties |> filter(collision_year == "2004" & casualty_class == report_casualty)
+#casualties this year (TY)
+ser_cas_TY <- casualties |> filter(collision_year == yr2calc & casualty_class == report_casualty)
+
+if(NROW(ser_cas_2004)>NROW(ser_cas_TY)){
+  id <- "decreased"
+  ser_cas_diff <-(((sum(ser_cas_2004$casualty_adjusted_severity_serious, na.rm = TRUE)-sum(ser_cas_TY$casualty_adjusted_severity_serious,na.rm = TRUE))/sum(ser_cas_2004$casualty_adjusted_severity_serious, na.rm = TRUE))*100)
+} else {
+  id <- "increased"
+  ser_cas_diff <- round((1-sum(ser_cas_2004$casualties,na.rm = TRUE)/sum(ser_cas_TY$casualties))*100)
+}
+
+dist_walked_2004 <- filter(trips, Year == "2004")
+dist_walked_TY <- filter(trips, Year == yr2calc)
+
+if(dist_walked_TY$tot_dist_billion_miles<dist_walked_2004$tot_dist_billion_miles){
+  ped_miles_id <- "decreased"
+  ped_traf <- (dist_walked_2004$tot_dist_billion_miles/dist_walked_TY$tot_dist_billion_miles)-1
+} else {
+  ped_miles_id <- "increased"
+  ped_traf <- (dist_walked_TY$tot_dist_billion_miles/dist_walked_2004$tot_dist_billion_miles)-1
+}
+
+
+```
+# 1. Main findings
+Between 2004 and 2024:
+<!-- `r # yr2calc` -->
+
+ - fatalities were down 39% from 677 to 409
+ <!-- `r # ud` -->
+ <!-- `r # fat_cas_diff` -->
+ <!-- `r # NROW(fat_cas_2004)` -->
+ <!-- `r # NROW(fat_cas_TY)` -->
+ - serious injuries (adjusted) decreased by 48%  
+ <!-- `r # round(ser_cas_diff)` -->
+ - pedestrian traffic (distance walked) decreased by 13%
+ <!-- `r # ped_miles_id` -->
+ <!-- `r # round(ped_traf*100)` -->
+
+Averaged over the period 2020 to 2024:
+<!-- `r # yr2calc-4` -->
+<!-- `r # yr2calc` -->
+
+```{r, echo = FALSE, warning=FALSE, message=FALSE}
+
+crash_cas <- inner_join(cas_L5Y,cra_L5Y) |> 
+  filter(casualty_type == report_casualty) 
+  
+# create column for weeks
+dths_per_wk_fat <- crash_cas |> 
+  filter(casualty_severity == "Fatal" & casualty_class == report_casualty) |>  ## pick out casualty the stats will focus on
+  mutate(wk = isoweek(date),## determine the week number of each date
+         yr = year(date)) |>  ## add year so we can include all weeks over the 5 years
+  group_by(wk,yr) |> 
+  summarise(casualties = sum(fatal_count)) 
+
+# create column for weeks
+dths_per_wk_ser <- crash_cas %>%
+  mutate(wk = isoweek(date),# determine the week number of each date
+         yr = year(date)) %>% ## add year so all weeks over the 5 years are included
+  filter(casualty_class == report_casualty) |>  ## pick out casualty the stats will focus on
+  group_by(wk,yr) %>%
+  summarise(casualties = sum(casualty_adjusted_severity_serious,na.rm = TRUE)) 
+
+
+```
+
+ - an average of 8 pedestrians died and 115 were seriously injured (adjusted) per week in reported road collisions
+ <!-- `r # round(mean(dths_per_wk_fat$casualties))` -->
+ <!-- `r # round(mean(dths_per_wk_ser$casualties, na.rm = TRUE))` -->
+ 
+```{r, echo = FALSE, warning=FALSE, message=FALSE}
+
+cas_summary <- cas_L5Y |> 
+  select(collision_index, casualty_class, fatal_count, casualty_adjusted_severity_serious, casualty_adjusted_severity_slight) |> 
+  filter(casualty_class == report_casualty) |> 
+  group_by(collision_index, casualty_class) |> 
+   summarise(Fatal = sum(fatal_count),
+            Serious = sum(casualty_adjusted_severity_serious,na.rm = TRUE),
+            Slight = sum(casualty_adjusted_severity_slight,na.rm = TRUE)) |> 
+  tidyr::pivot_wider(names_from = "casualty_class", values_from = c("Fatal","Serious","Slight"))
+
+if(yr2calc > 2023){
+
+junction_pc <- cas_summary |> 
+  left_join(cra_L5Y) |> 
+  group_by(junction_detail) |> 
+  summarise(fatal_casualties = sum(Fatal_Pedestrian),
+            serious_casualties = sum(Serious_Pedestrian,na.rm = TRUE),
+            slight_casualties = sum(Slight_Pedestrian,na.rm = TRUE)) |> 
+  rowwise() |> 
+  mutate(All = sum(fatal_casualties, serious_casualties, slight_casualties)) |> 
+  ungroup() |> 
+  transmute(Junction = junction_detail,
+            Fatalities = fatal_casualties/sum(fatal_casualties)*100,
+         Serious = serious_casualties/sum(serious_casualties)*100,
+         Slight = slight_casualties/sum(slight_casualties)*100,
+         All = All/sum(All)*100) |> 
+  mutate_if(is.numeric, round,1) |> 
+  arrange(desc(All))
+} else {
+  junction_pc <- cas_summary |> 
+  left_join(cra_L5Y) |> 
+  group_by(junction_detail_historic) |> 
+  summarise(fatal_casualties = sum(Fatal_Pedestrian),
+            serious_casualties = sum(Serious_Pedestrian,na.rm = TRUE),
+            slight_casualties = sum(Slight_Pedestrian,na.rm = TRUE)) |> 
+  rowwise() |> 
+  mutate(All = sum(fatal_casualties, serious_casualties, slight_casualties)) |> 
+  ungroup() |> 
+  transmute(Junction = junction_detail_historic,
+            Fatalities = fatal_casualties/sum(fatal_casualties)*100,
+         Serious = serious_casualties/sum(serious_casualties)*100,
+         Slight = slight_casualties/sum(slight_casualties)*100,
+         All = All/sum(All)*100) |> 
+  mutate_if(is.numeric, round,1) |> 
+  arrange(desc(All))
+}
+
+## stats for within 20m of junctions
+not_within_20 <- junction_pc %>% 
+  filter(Junction == "Not at junction or within 20 metres")
+
+
+```
+
+ - a majority of pedestrian fatalities (58%) do not occur at or within 20m of a junction compared to 42% of all seriously injured (adjusted) casualties
+ <!-- `r # round(not_within_20$Fatalities)` -->
+ <!-- `r # round(not_within_20$Serious)` -->
+
+```{r, echo = FALSE, warning=FALSE, message=FALSE}
+
+
+## create some approximate groups
+vehicle_groups <- data.frame(summary_group = c("pedal cycle", "motorcycle", "motorcycle", "motorcycle", "motorcycle", "motorcycle",
+                                               "motorcycle", "car", "other vehicle", "other vehicle", "car", "bus or coach", "car", "light goods vehicle", "heavy goods vehicle", "heavy goods vehicle", 
+                                               "other vehicle", "other vehicle", "other vehicle", "other vehicle", "other vehicle", "other vehicle"),
+                             vehicle_type =  c("Pedal cycle","Motorcycle - unknown cc", "Electric motorcycle" , "Motorcycle 125cc and under",
+                                                 "Motorcycle 50cc and under","Motorcycle over 125cc and up to 500cc", "Motorcycle over 500cc",
+                                                 "Car", "Agricultural vehicle", "Tram","Taxi/Private hire car",
+                                                 "Bus or coach (17 or more pass seats)", "Minibus (8 - 16 passenger seats)", "Van / Goods 3.5 tonnes mgw or under",
+                                                 "Goods over 3.5t. and under 7.5t", "Goods 7.5 tonnes mgw and over", "Other vehicle", "Unknown vehicle type (self rep only)",
+                                               "Goods vehicle - unknown weight", "Mobility scooter", "Ridden horse", "Data missing or out of range"))
+
+
+# join the casualty summary table with crashes and vehicles
+veh_cas_sum <- cas_summary |> 
+  left_join(veh_L5Y, by = "collision_index") |> # join the vehicles to get data on type of vehicle
+  left_join(cra_L5Y, by = "collision_index") |> # join crashes as number of vehicles is included, quicker than calculating from veh table
+  select(collision_index, vehicle_type, number_of_vehicles, Fatal_Pedestrian, Serious_Pedestrian, Slight_Pedestrian) |> 
+  left_join(vehicle_groups, by = "vehicle_type") |> 
+  distinct(collision_index, .keep_all = TRUE) # there is a row for each vehicle in a collision, get rid of duplicates
+
+
+all_vehicles <- veh_cas_sum |> 
+  group_by(number_of_vehicles, summary_group) |> 
+   summarise(Fatal = round(sum(Fatal_Pedestrian)),
+            Serious = round(sum(Serious_Pedestrian,na.rm = TRUE)),
+            Slight = round(sum(Slight_Pedestrian,na.rm = TRUE))) |> 
+  rowwise() |> 
+  mutate(All = sum(Fatal,Serious,Slight)) |> 
+  ungroup() |> 
+  mutate(pc_fat = round(Fatal/sum(Fatal)*100,1)) |> 
+  arrange(desc(Fatal))
+
+single_car <- filter(all_vehicles, number_of_vehicles == 1 & summary_group == "car")
+
+
+```
+
+ - 66% of pedestrian fatalities were in collisions involving a single car
+ <!-- `r # round(single_car$pc_fat)` -->
+
+
+```{r, echo = FALSE, warning=FALSE, message=FALSE}
+
+road_type <- cas_summary |> 
+  left_join(cra_L5Y, by = "collision_index") |> 
+  #select(collision_severity, casualty_type, datetime, first_road_class, urban_or_rural_area, number_of_casualties,collision_reference) %>%
+  mutate(first_road_class = case_when(first_road_class == "A" ~ "Other",first_road_class == "B" ~ "Other",first_road_class == "C" ~ "Other",
+                         first_road_class == "Unclassified" ~ "Other",first_road_class == "A(M)" ~ "Other",first_road_class == "Motorway" ~ "Motorway")) |>
+  group_by(first_road_class, urban_or_rural_area) %>%
+   summarise(Fatal = round(sum(Fatal_Pedestrian)),
+            Serious = round(sum(Serious_Pedestrian,na.rm = TRUE)),
+            Slight = round(sum(Slight_Pedestrian,na.rm = TRUE))) |> 
+  filter(!urban_or_rural_area == "Unallocated") 
+
+m_way <- road_type %>%
+  filter(first_road_class == "Motorway") |> 
+  select(road_class = first_road_class,
+         Fatal,
+         Serious,
+         Slight)
+
+rural_urban <- road_type %>%
+  filter(first_road_class == "Other") |> 
+  ungroup() |> 
+  select(road_class = urban_or_rural_area,
+         Fatal,
+         Serious,
+         Slight)
+
+
+road_types <- rbind(m_way, rural_urban)|> 
+  group_by(road_class) |> 
+  summarise(Fatal = round(sum(Fatal)),
+            Serious = round(sum(Serious,na.rm = TRUE)),
+            Slight = round(sum(Slight,na.rm = TRUE))) |> 
+  tidyr::pivot_longer(cols =  c("Fatal", "Serious", "Slight")) |> 
+  group_by(road_class, name) %>%
+  summarise(value = sum(value)) |> 
+  group_by(name) %>%
+  mutate(pc = value/sum(value)*100)
+
+road_type_all <- rbind(m_way, rural_urban)|> 
+  group_by(road_class) |> 
+  summarise(Fatal = round(sum(Fatal)),
+            Serious = round(sum(Serious,na.rm = TRUE)),
+            Slight = round(sum(Slight,na.rm = TRUE))) |> 
+  tidyr::pivot_longer(cols =  c("Fatal", "Serious", "Slight")) |> 
+  group_by(road_class) %>%
+  summarise(value = sum(value)) %>%
+  mutate(pc = value/sum(value)*100) |> 
+  mutate(name = "All casualties")
+
+rural_all <-  filter(road_type_all, road_class == "Rural")
+
+fatal_rural <- filter(road_types,road_class == "Rural" & name == "Fatal")
+
+```
+
+ - 33% of pedestrian fatalities occurred on rural roads compared to 14% of all pedestrian casualties
+ <!-- `r # round(fatal_rural$pc)` -->
+ <!-- `r # round(rural_all$pc)` -->
+
+```{r, echo = FALSE, warning=FALSE, message=FALSE}
+
+## male female
+sex_casualty <- cas_L5Y %>% 
+  filter(casualty_type == "Pedestrian") %>% 
+  group_by(sex_of_casualty) %>% 
+  summarise(fatal_casualties = sum(fatal_count),
+            serious_casualties = sum(casualty_adjusted_severity_serious,na.rm = TRUE),
+            slight_casualties = sum(casualty_adjusted_severity_slight, na.rm = TRUE)) 
+
+serious_fatal_male <- sex_casualty %>% 
+  rowwise() |> 
+  #filter(sex_of_casualty == "Male") |> 
+  mutate(KSI = sum(fatal_casualties, serious_casualties)) |>
+  ungroup() |> 
+  mutate(pc_ksi = KSI/sum(KSI))
+
+pc_fatal_serious_male <- filter(serious_fatal_male, sex_of_casualty == "Male")
+
+```
+
+ - 65% of pedestrian killed or seriously injured (KSI) (adjusted) casualties were male
+ <!-- `r # round(pc_fatal_serious_male$pc_ksi*100)` -->
+
+The most common contributory factor allocated to pedestrians *no contributory factors included in the public data*
+
+# 2. Pedestrian traffic and reported casualties
+```{r, echo = FALSE, warning=FALSE, message=FALSE}
+
+## only latest year (TY) in report
+fatal_TY <- filter(casualties, collision_year == yr2calc, casualty_type == report_casualty, casualty_severity == "Fatal")
+
+serious_TY <- filter(casualties, collision_year == yr2calc, casualty_type == report_casualty)
+
+slight_TY <- filter(casualties, collision_year == yr2calc, casualty_type == report_casualty)
+
+```
+
+In 2024, 409 pedestrians were killed in Great Britain, whilst 5965 were reported to be seriously injured and 13381 slightly injured.
+<!-- `r # yr2calc` -->
+<!-- `r # NROW(fatal_TY)` -->
+<!-- `r # round(sum(serious_TY$casualty_adjusted_severity_serious,na.rm = TRUE))` -->
+<!-- `r # as.character(round(sum(slight_TY$casualty_adjusted_severity_slight, na.rm = TRUE)))` -->
+
+```{r, echo = FALSE, warning=FALSE, message=FALSE}
+
+trips <- select(trips, Year, Traffic = tot_dist_billion_miles)
+
+table_1 <- casualties |> 
+  filter(casualty_type == report_casualty & collision_year >= 2004 & collision_year <= yr2calc) |> # add in filter for calculating past years when later data is available
+  group_by(collision_year) |> 
+  summarise(Fatal = sum(fatal_count),
+            Serious = sum(casualty_adjusted_severity_serious,na.rm = TRUE),
+            Slight = sum(casualty_adjusted_severity_slight,na.rm = TRUE)) |> 
+  select(collision_year,Fatal, Serious, Slight) |> 
+  #tidyr::pivot_wider(names_from = "casualty_severity", values_from = "casualties") |> 
+  rowwise() |> 
+  mutate(All = sum(c(Fatal, Serious, Slight))) |> 
+  left_join(trips, by = c("collision_year" = "Year"))
+
+dist_walked_2004 <- filter(trips, Year == 2004)
+dist_walked_TY <- filter(trips, Year == yr2calc)
+
+if(dist_walked_2004$Traffic > dist_walked_TY$Traffic){
+  dw <- "decreased"
+} else {
+  dw <- "increased"
+}
+
+```
+
+Table 1 and Chart 1 show that pedestrian traffic (measured by distance walked) has decreased between 2004 and 2024 whilst fatalities, serious and slight injuries have fallen.
+<!-- `r # dw` -->
+<!-- `r # yr2calc` -->
+
+```{r, echo = FALSE, warning=FALSE, message=FALSE}
+## change between this year (TY) and last year (LY)
+
+diff_fatal <- (table_1$Fatal[NROW(table_1)]-table_1$Fatal[NROW(table_1)-1])/table_1$Fatal[NROW(table_1)-1]
+
+diff_trips <- abs(table_1$Traffic[NROW(table_1)]-table_1$Traffic[NROW(table_1)-1])/table_1$Traffic[NROW(table_1)-1]
+
+# pedestrian fatalities increased or decreased
+if(table_1$Fatal[NROW(table_1)]>table_1$Fatal[NROW(table_1)-1]){
+  pf <- "increased"
+} else {
+  pf <- "decreased"
+}
+
+# pedestrian casualties all severities increased or decreased
+if(table_1$All[NROW(table_1)]>table_1$All[NROW(table_1)-1]){
+  pcr <- "increased"
+} else {
+  pcr <- "fallen"
+}
+
+```
+
+Between 2023 and 2024, pedestrian fatalities decreased by 3% while pedestrian traffic (distance walked) increased by 1%.
+<!-- `r # yr2calc-1` -->
+<!-- `r # yr2calc` -->
+<!-- `r # pf` -->
+<!-- `r # round(diff_fatal*100)` -->
+<!-- `r # dw` -->
+<!-- `r # round(diff_trips*100)` -->
+
+```{r, echo = FALSE, warning=FALSE, message=FALSE}
+
+bm_vals <- table_1 %>% filter(collision_year == 2004) %>% select(collision_year,Fatal, Serious, Slight, Traffic)
+
+rates <- table_1 %>%
+  select(collision_year,Fatal, Serious,Slight,Traffic) |> 
+  mutate(Fatal = Fatal/bm_vals$Fatal*100,
+         Serious = Serious/bm_vals$Serious*100,
+         Slight = Slight/bm_vals$Slight*100,
+         Traffic = Traffic/bm_vals$Traffic*100)
+
+chart_1 <- rates |> melt("collision_year")
+
+cols <- rev(c("#001a70", "#ff7733", "#1de9b6","#006853"))
+cust_theme <- theme(panel.grid.major = element_line(size = 2))
+# put the elements in a list
+dft_theme <- list(cust_theme, scale_color_manual(values = cols))
+
+chart_1 %>% 
+  ggplot(aes(collision_year, value, color = variable)) +
+  geom_line(size = 2, alpha = .8) +
+  dft_theme+
+  theme(panel.background = element_blank(),
+        legend.position = "top",
+    legend.title = element_blank()) +
+  scale_x_continuous(expand = c(0, 0)) +
+  geom_hline(yintercept=100, linetype='dotted', col = 'black')+
+  ggtitle(paste0("Chart 1: Index of casualties by severity, GB: 2004 to ", yr2calc," (Index 2004=100)")) +
+  scale_x_continuous(name = NULL,
+    breaks = seq(2004, 2023, by = 2)  # Add more tick marks
+  ) +
+  labs(caption = "Source: Stats19")+
+  theme(panel.border = element_blank())
+
+
+# round all the values for the table print
+table_1_out <- table_1  |> 
+   mutate(Fatal = round(Fatal),
+          Serious = round(Serious),
+          Slight = round(Slight),
+          All = round(All),
+          Traffic = round(Traffic,2))
+
+
+gt(table_1_out,auto_align = TRUE) |> 
+  cols_width(collision_year ~px(60)) |> 
+  cols_label(collision_year = md("**Year**"),
+             Fatal = md("**Killed**"),
+             Serious = md("**Serious**"),
+             Slight = md("**Slight**"),
+             All = md("**All**"),
+             Traffic = md("**Traffic**")) |> 
+  tab_footnote(md("**Source: DfT STATS19, National Travel Survey and Office for National\nStatistics population data**")) |> 
+  tab_header(
+    title = md(paste0("**Table 1: Number of reported pedestrian casualties by severity and traffic\n(pedestrian billion miles walked), GB: 2004 to ", yr2calc,"**"))) |> 
+  tab_options(heading.align = "left",
+              column_labels.border.top.style = "none",
+              table.border.top.style = "none",
+              column_labels.border.bottom.style = "none",
+              column_labels.border.bottom.width = 1,
+              column_labels.border.bottom.color = "black",
+              table_body.border.top.style = "none",
+              table_body.border.bottom.color = "white",
+              heading.border.bottom.style = "none",
+              table.border.bottom.style = "none",) |> 
+  tab_style(
+    style = cell_text(weight = "bold"),
+    locations = list(
+      cells_column_labels(columns = c(collision_year)),
+      cells_body(columns = c(collision_year))
+    )) |> 
+  tab_style(
+    style = cell_fill(color = "white"),
+    locations = cells_body(columns = everything())
+  )
+
+table_2 <- table_1 |> 
+  transmute(collision_year,
+            Fatal = round(Fatal/Traffic),
+         Serious = round(Serious/Traffic),
+         Slight = round(Slight/Traffic),
+         All = round(All/Traffic))
+
+bm_vals_2 <- table_2 %>% filter(collision_year == 2004) %>% select(collision_year,Fatal, Serious, Slight,All)
+
+rates_2 <- table_2 %>%
+  mutate(Fatal = Fatal/bm_vals_2$Fatal*100,
+         Serious = Serious/bm_vals_2$Serious*100,
+         Slight = Slight/bm_vals_2$Slight*100,
+         All = All/bm_vals_2$All*100)
+
+
+```
+
+# 3. How far do pedestrians travel?
+The National Travel Survey (NTS) which provides the [number of trips and average distance travelled](https://www.gov.uk/government/statistical-data-sets/nts03-modal-comparisons) (NTS0303) by person per year for English residents. This is used to derive casualty rates per mile travelled for pedestrians, which also use the Great Britain [population figure](https://www.ons.gov.uk/file?uri=/peoplepopulationandcommunity/populationandmigration/populationestimates/datasets/populationestimatestimeseriesdataset/current/pop.csv) to estimate total distance walked each year.
+
+# 4. Casualty rates per mile travelled
+The pedestrian casualty rate has fallen for all severities in 2024 compared to 2004.
+<!-- `r # pcr` -->
+<!-- `r # yr2calc` -->
+
+```{r, echo = FALSE, warning=FALSE, message=FALSE}
+
+# compare the last year to 2004 for all stats
+diff_all_2004 <- (1-(rates_2$All[NROW(rates_2)]/rates_2$All[1]))*100
+diff_fat_2004 <- (1-(rates_2$Fatal[NROW(rates_2)]/rates_2$Fatal[1]))*100
+diff_sev_2004 <- (1-(rates_2$Serious[NROW(rates_2)]/rates_2$Serious[1]))*100
+diff_sli_2004 <- (1-(rates_2$Slight[NROW(rates_2)]/rates_2$Slight[1]))*100
+
+```
+
+The overall casualty rate decreased by 53%. The fatality rate decreased by 30% compared to a 41% reduction for serious injuries and a 57% reduction for slight injuries.
+<!-- `r # round(diff_all_2004)` -->
+<!-- `r # round(diff_fat_2004)` -->
+<!-- `r # round(diff_sev_2004)` -->
+<!-- `r # round(diff_sli_2004)` -->
+
+```{r, echo = FALSE, warning=FALSE, message=FALSE}
+
+
+
+# pick out traffic
+chart_2 <- rates_2 |> 
+  melt("collision_year") |> 
+  filter(!variable == "All")
+
+# define the colour palette
+cols <- rev(c("#ff7733", "#1de9b6","#006853"))
+cust_theme <- theme(panel.grid.major = element_line(size = 2))
+# put the elements in a list
+dft_theme <- list(cust_theme, scale_color_manual(values = cols))
+
+
+
+chart_2 %>% 
+  ggplot(aes(collision_year, value, color = variable)) +
+  geom_line(size = 2, alpha = .8) +
+  dft_theme+
+  theme(panel.background = element_blank(),
+        legend.position = "top",
+    legend.title = element_blank()) +
+  scale_x_continuous(expand = c(0, 0)) +
+  geom_hline(yintercept=100, linetype='dotted', col = 'black')+
+  ggtitle(paste0("Chart 2: Index of casualties by severity, GB: 2004 to ", yr2calc," (Index 2004=100)")) +
+  scale_x_continuous(name = NULL,
+    breaks = seq(2004, 2023, by = 2)  # Add more tick marks
+  ) +
+  labs(caption = "Source: Stats19")
+
+
+
+gt(table_2,auto_align = FALSE) |> 
+  cols_label(collision_year = md("**Year**"),
+             Fatal = md("**Killed**"),
+             Serious = md("**Serious**"),
+             Slight = md("**Slight**"),
+             All = md("**All**")) |>  
+  tab_header(
+    title = md(paste0("**Table 2: Casualty rates of pedestrian casualties by severity per billion miles walked, GB: 2004 to ",yr2calc,"**"))) |> 
+  tab_options(heading.align = "left",
+              column_labels.border.top.style = "none",
+              table.border.top.style = "none",
+              column_labels.border.bottom.style = "none",
+              column_labels.border.bottom.width = 1,
+              column_labels.border.bottom.color = "#334422",
+              table_body.border.top.style = "none",
+              table_body.border.bottom.color = "white",
+              heading.border.bottom.style = "none",
+              table.border.bottom.style = "none") |> 
+  tab_style(
+    style = cell_text(weight = "bold"),
+    locations = list(
+      cells_column_labels(columns = c(collision_year)),
+      cells_body(columns = c(collision_year))
+    ))
+  
+```
+
+
+# 5. Sex and age comparisons
+
+```{r, echo = FALSE, warning=FALSE, message=FALSE}
+
+# by sex and age
+# use raw casualty df as there are multiple rows per collision. Bin the ages into custom bins that match the document
+sac_all <- cas_L5Y %>% 
+  filter(casualty_type == report_casualty) |> 
+  mutate(age_band = cut(as.numeric(age_of_casualty), breaks=c(0,11,15,19,24,29,39,49,59,69,100),labels=c("0-11","12-15","16-19","20-24","25-29","30-39","40-49","50-59","60-69","70+"))) |> 
+  group_by(sex_of_casualty, age_band) %>% 
+  summarise(Fatal = sum(fatal_count),
+            Serious = sum(casualty_adjusted_severity_serious,na.rm = TRUE),
+            Slight = sum(casualty_adjusted_severity_slight,na.rm = TRUE)) |> 
+    filter(!is.na(age_band)) |> 
+  rowwise() |> 
+  mutate(All = sum(Fatal,Serious))
+
+mf <- sac_all |> group_by(sex_of_casualty) |> summarise(all = sum(All)) |> ungroup() |> mutate(pc = all/sum(all))
+
+male_tot <- filter(mf, sex_of_casualty == "Male")
+female_tot <- filter(mf, sex_of_casualty == "Female")
+
+male_times <- male_tot$all/female_tot$all
+
+# age band 1
+ab1 <- "30-39"
+
+# male female casualties for this age band
+sac_ab1 <- sac_all |>  filter(age_band == ab1)
+
+
+
+ab2 <- "0-11"
+
+# male female casualties for this age band
+sac_ab2 <- sac_all |>  filter(age_band == ab2)
+
+ab3 <- "70+"
+
+# male female casualties for this age band
+sac_ab3 <- sac_all |>  filter(age_band == ab3)
+
+# add pc_ksi for only Male and Female
+sac_all <- sac_all |> ungroup() |> mutate(pc_ksi = (All/sum(All))*100) |> filter(sex_of_casualty %in% c("Male", "Female"))
+
+```
+Between 2020 and 2024, 65% of pedestrian casualties were male and 35% female.
+<!-- `r # yr2calc-4` -->
+<!-- `r # yr2calc` -->
+<!-- `r # round(male_tot$pc*100)` -->
+<!-- `r # round(female_tot$pc*100)` -->
+
+There are 1.9 times more male than female pedestrian casualties overall. This compares to 2.3 more for 30-39,  1.5 more for 0-11 and 0.9 more for 70+ - the only age group in which female casualties outnumber males.
+<!-- `r # round(male_times, 1)` -->
+<!-- `r # round(sac_ab1$All[3]/sac_ab1$All[2],1)` -->
+<!-- `r # ab1` -->
+<!-- `r # round(sac_ab2$All[3]/sac_ab2$All[2],1)` -->
+<!-- `r # ab2` -->
+<!-- `r # round(sac_ab3$All[3]/sac_ab3$All[2],1)` -->
+<!-- `r # ab3` -->
+
+```{r, echo = FALSE, warning=FALSE, message=FALSE}
+
+# Define colours and theme
+cols <- rev(c("#1de9b6", "#006853"))
+cust_theme <- theme(panel.grid.major = element_line(size = 2))
+dft_theme <- list(cust_theme, scale_fill_manual(values = cols))  # use fill, not color
+
+ggplot(sac_all, aes(x = age_band, y = pc_ksi, fill = sex_of_casualty)) + 
+  geom_bar(stat = "identity", position = position_dodge(width = 0.7), width = 0.7) +
+  geom_text(
+    aes(label = paste0(round(pc_ksi),"%")),  # Round values to 1 decimal place
+    position = position_dodge(width = 0.7),
+    vjust = -0.5,
+    size = 3
+  ) +
+  ggtitle(paste0("Chart 3: Percentage of ", tolower(report_casualty), " KSI casualties, by sex and age, GB: ", yr2calc-4, " to ", yr2calc)) +
+  dft_theme +
+  theme(
+    panel.background = element_blank(),
+    legend.position = "top",
+    legend.title = element_blank()
+  ) +
+  ylab(NULL)+
+  xlab(NULL)+
+  labs(caption = "Source: Stats19")
+
+
+```
+
+# 6. Which vehicles are involved in collisions with pedestrians?
+```{r, echo = FALSE, warning=FALSE, message=FALSE}
+
+
+# split up different vehicle numbers into individual dfs and join later for the table
+single_vehicles <- veh_cas_sum |> 
+  filter(number_of_vehicles == 1) |> 
+  group_by(summary_group) |> 
+   summarise(Fatal = round(sum(Fatal_Pedestrian)),
+            Serious = round(sum(Serious_Pedestrian,na.rm = TRUE)),
+            Slight = round(sum(Slight_Pedestrian,na.rm = TRUE))) |> 
+  rowwise() |> 
+  mutate(All = sum(Fatal,Serious,Slight)) |> 
+  ungroup() |> 
+  mutate(pc_fat = round(Fatal/All*100,1)) |> 
+  mutate(summary_group = factor(summary_group, levels = c("pedal cycle","motorcycle",  "car","bus or coach","light goods vehicle",  "heavy goods vehicle", "other vehicle"))) |> 
+  arrange(summary_group) |> 
+  mutate(summary_group = paste(1,summary_group))
+
+
+two_vehicles <- veh_cas_sum |> 
+  filter(number_of_vehicles == 2) |> 
+  mutate(summary_group = "2 vehicles involved") |> 
+  group_by(summary_group) |> 
+   summarise(Fatal = round(sum(Fatal_Pedestrian)),
+            Serious = round(sum(Serious_Pedestrian,na.rm = TRUE)),
+            Slight = round(sum(Slight_Pedestrian,na.rm = TRUE))) |> 
+  rowwise() |> 
+  mutate(All = sum(Fatal,Serious,Slight)) |> 
+  ungroup() |> 
+  mutate(pc_fat = round(Fatal/All*100,1))
+
+GT_two_vehicles <- veh_cas_sum |> 
+  filter(number_of_vehicles > 2) |> 
+  mutate(summary_group = "3 or more other vehicles involved") |> 
+  group_by(summary_group) |> 
+   summarise(Fatal = round(sum(Fatal_Pedestrian)),
+            Serious = round(sum(Serious_Pedestrian,na.rm = TRUE)),
+            Slight = round(sum(Slight_Pedestrian,na.rm = TRUE))) |> 
+  rowwise() |> 
+  mutate(All = round(sum(Fatal,Serious,Slight))) |> 
+  ungroup() |> 
+  mutate(pc_fat = round(Fatal/All*100,1))
+
+# sort by percentage fatal for the text
+most_fat <- rbind(single_vehicles,two_vehicles,GT_two_vehicles) |> 
+  arrange(desc(pc_fat))
+
+# create a totals row
+totals <- rbind(single_vehicles,two_vehicles,GT_two_vehicles) |> 
+  summarise(across(where(is.numeric), sum), group = "Total") |> 
+   mutate(pc_fat = round(Fatal/All*100,1),
+          summary_group = group) |> 
+  select(-group)
+
+```
+
+Between 2020 and 2024, most pedestrian fatalities occurred in  1 vehicle collisions involving  a car (275).
+<!-- `r # yr2calc-4` -->
+<!-- `r # yr2calc` -->
+<!-- `r # all_vehicles$number_of_vehicles[1]` -->
+<!-- `r # all_vehicles$summary_group[1]` -->
+<!-- `r # all_vehicles$Fatal[1]` -->
+
+However, the highest proportion of casualties from single vehicle collisions involve 1 heavy goods vehicle (4.8%). The second highest proportion (3.3%) occurred in collisions when 3 or more other vehicles involved.
+<!-- `r # most_fat$summary_group[1]` -->
+<!-- `r # most_fat$pc_fat[1]` -->
+<!-- `r # most_fat$pc_fat[2]` -->
+<!-- `r # most_fat$summary_group[2]` -->
+
+```{r, echo = FALSE, warning=FALSE, message=FALSE}
+
+# bind them all together for table 3
+table_3 <- rbind(single_vehicles,two_vehicles,GT_two_vehicles, totals)
+
+# create table 3
+gt(table_3,auto_align = FALSE) |> 
+  cols_label(summary_group = md("**Vehicles**"),
+             Fatal = md("**Fatalities**"),
+             Serious = md("**Serious injuries**"),
+             Slight = md("**Slight injuries**"),
+             All = md("**All casualties**"),
+             pc_fat = md("**% Fatalities**")) |>  
+  tab_header(
+    title = md(paste0("**Table 3: Pedestrian casualties in reported road collisions by severity showing other vehicles involved GB: ", yr2calc-4, " to ",yr2calc,"**"))) |> 
+  tab_options(heading.align = "left",
+              column_labels.border.top.style = "none",
+              table.border.top.style = "none",
+              column_labels.border.bottom.style = "none",
+              column_labels.border.bottom.width = 1,
+              column_labels.border.bottom.color = "#334422",
+              table_body.border.top.style = "none",
+              table_body.border.bottom.color = "white",
+              heading.border.bottom.style = "none",
+              table.border.bottom.style = "none") |> 
+  tab_style(
+    style = cell_text(weight = "bold"),
+    locations = list(
+      cells_column_labels(columns = c(summary_group)),
+      cells_body(columns = c(summary_group))
+    ))
+
+
+
+
+```
+
+
+# 7. Time of day of collisions
+```{r, echo = FALSE, warning=FALSE, message=FALSE}
+## create a table of severity by year
+# used clock as much faster than lubridate
+crash_time <- cas_summary |> 
+  left_join(cra_L5Y, by = "collision_index") |> # join crashes as number of vehicles is included, quicker than calculating from veh table
+  select(datetime, Fatal_Pedestrian, Serious_Pedestrian) |> 
+  mutate(#collision_hr = lubridate::hour(datetime),
+         dow = clock::date_weekday_factor(datetime, abbreviate = FALSE),
+        collision_hr = get_hour(datetime),
+        KSI = sum(Fatal_Pedestrian, Serious_Pedestrian)) |> 
+  mutate(dow = case_when(dow == "Monday" ~  "Monday to Friday", 
+         dow == "Tuesday" ~  "Monday to Friday",
+         dow == "Wednesday" ~  "Monday to Friday",
+         dow == "Thursday" ~  "Monday to Friday",
+         dow == "Friday" ~  "Monday to Friday",
+         dow == "Saturday" ~  "Saturday",
+         dow == "Sunday" ~  "Sunday")) |> 
+  #mutate(dow = case_when(dow > 1 & dow < 7 ~  "Monday to Friday", dow == 7 ~ "Saturday", dow == 1 ~ "Sunday")) |> 
+  group_by(collision_hr, dow) |> 
+    summarise(KSI = sum(KSI)) |> 
+  mutate(KSI = if_else(dow == "Monday to Friday", KSI/5, KSI))
+
+MF_peak <- crash_time |> filter(dow == "Monday to Friday") |> arrange(desc(KSI)) |> mutate(hr = str_sub(gsub(" ","", tolower(format(strptime(collision_hr, format = "%H"), "%I %p"))),2))
+
+SS_peak <- crash_time |> filter(dow %in% c("Saturday", "Sunday")) |> group_by(collision_hr) |> summarise(KSI = sum(KSI)) |> arrange(desc(KSI)) |> mutate(hr = str_sub(gsub(" ","", tolower(format(strptime(collision_hr, format = "%H"), "%I %p"))),2))
+
+# define the colour palette
+cols <- rev(c("#ff7733", "#1de9b6","#006853"))
+cust_theme <- theme(panel.grid.major = element_line(size = 2))
+# put the elements in a list
+dft_theme <- list(cust_theme, scale_color_manual(values = cols))
+
+crash_time %>% 
+  ggplot(aes(collision_hr, KSI, color = dow)) +
+  geom_line(size = 2, alpha = .8) +
+  dft_theme+
+  theme(panel.background = element_blank(),
+        legend.position = "top", legend.title = element_blank()) +
+  scale_x_continuous(expand = c(0, 0)) +
+  ggtitle(paste0("Chart 4: Reported ", tolower(report_casualty), " KSIs by hour of day and day of week, GB: ", yr2calc-4, " to ", yr2calc)) +
+   ylab(NULL)+
+  labs(x = "Hour starting", caption = "Source: Stats19")
+
+```
+
+The weekday peak time for pedestrian KSIs is from 3pm to 6pm. By contrast, the peak is from 1am to 9pm at weekends.
+<!-- `r # min(MF_peak$hr[1:4])` -->
+<!-- `r # max(MF_peak$hr[1:4])` -->
+<!-- `r # min(SS_peak$hr[1:4])` -->
+<!-- `r # max(SS_peak$hr[1:4])` -->
+
+
+# 8. What type of road?
+```{r, echo = FALSE, warning=FALSE, message=FALSE}
+
+# see section 1 for original table
+  
+road_type_bar <- rbind(road_types, road_type_all) |> 
+  filter(!road_class == "Data missing or out of range")
+
+fatal_urban <- filter(road_type_bar, name == "Fatal" & road_class == "Urban")
+
+all_cas <- filter(road_type_bar, name == "All casualties" & road_class == "Urban")
+
+fatal_mway <- filter(road_type_bar, name == "Fatal" & road_class == "Motorway")
+
+```
+
+Chart 5 shows that between 2020 and 2024, 63% of pedestrian fatalities occurred on urban roads compared to 85% of all pedestrian casualties. 4% of pedestrian fatalities occurred on motorways. This would be people outside their vehicles whether they are moving at the time or not.
+<!-- `r # yr2calc-4` -->
+<!-- `r # yr2calc` -->
+<!-- `r # round(fatal_urban$pc)` -->
+<!-- `r # round(all_cas$pc)` -->
+<!-- `r # round(fatal_mway$pc)` -->
+
+```{r, echo = FALSE, warning=FALSE, message=FALSE}
+
+# define the colour palette
+cols <- rev(c("#ff7733", "#1de9b6","#006853"))
+cust_theme <- theme(panel.grid.major = element_line(size = 2))
+dft_theme <- list(cust_theme, scale_fill_manual(values = cols))  # use fill, not co
+
+# Grouped bar
+ggplot(road_type_bar, aes(fill=road_class, y=pc, x=name, label = paste0(round(pc),"%"))) +
+  geom_bar(position="dodge", stat="identity") +
+  dft_theme +
+  theme(
+    panel.background = element_blank(),
+    legend.position = "top",
+    legend.title = element_blank()
+  ) +
+  theme(panel.background = element_blank()) +
+  geom_text(position = position_dodge2(width = 0.9, preserve = "single"), angle = 0, vjust=-0.5, hjust=0.5) +
+  xlab(NULL)+
+  ylab(NULL)+
+  ggtitle(paste0("Chart 5: Percentage of pedestrian casualties, by urban or rural classification and severity, GB: ", yr2calc-4, " to ", yr2calc)) +
+  labs(caption = "Source: Stats19")
+
+```
+
+In this report, urban roads are defined as those within an area of population of 10,000 or more in England and Wales or more than 3,000 in Scotland - roads outside of these areas are classified as rural [https://www.gov.uk/government/publications/road-length-statistics-information/road-lengths-in-great-britain-statistics-notes-and-definitions](https://www.gov.uk/government/publications/road-length-statistics-information/road-lengths-in-great-britain-statistics-notes-and-definitions).
+
+# 9. Vehicle movement on the road
+```{r, echo = FALSE, warning=FALSE, message=FALSE}
+
+# see section one
+
+highest_fat <- junction_pc |> arrange(desc(Fatalities)) 
+highest_sev <- junction_pc |> arrange(desc(Serious))
+
+if(yr2calc > 2023){
+
+junc <- junction_pc |> filter(Junction %in% c("T or staggered junction", "Crossroads", "More than 4 arms (not roundabout)"))
+
+} else {
+  
+  junc <- junction_pc |> filter(Junction %in% c("T or staggered junction", "Other junction", "Crossroads", "More than 4 arms (not roundabout)"))
+
+roundabouts <- junction_pc |> filter(Junction %in% c("roundabout", "Mini-roundabout"))
+  
+}
+
+  
+
+```
+
+A majority of pedestrian fatalities( 58 %) occur  not at junction or within 20 metres  compared to  42 % of serious injuries (adjusted). However,  29 % of fatalities occur at a junction compared to  43 % of serious injuries (adjusted).
+<!-- `r # highest_fat$Fatalities[1]` -->
+<!-- `r # tolower(highest_fat$Junction[1])` -->
+<!-- `r # highest_sev$Serious[1]` -->
+<!-- `r # round(sum(junc$Fatalities))` -->
+<!-- `r # round(sum(junc$Serious))` -->
+<!-- `r # round(sum(roundabouts$Fatalities))` -->
+<!-- `r # round(sum(roundabouts$Serious))` -->
+
+
+```{r, echo = FALSE, warning=FALSE, message=FALSE}
+
+table_4 <- junction_pc |> 
+  arrange(desc(All)) |> 
+  mutate_if(is.numeric, round,1) |> # round all values to 1 dp
+  mutate_if(is.numeric, ~ paste0(.x, "%")) # add a % sign after each value
+
+# create table 3
+gt(table_4,auto_align = FALSE) |> 
+  cols_label(Junction = md("**Junction**"),
+             Fatalities = md("**Fatalities**"),
+             Serious = md("**Serious**"),
+             Slight = md("**Slight**"),
+             All = md("**All casualties**")) |>  
+  tab_header(
+    title = md(paste0("**Table 4: Percentage of pedestrian KSI casualties by severity and junction detail where the collision occurred, GB: ", yr2calc-4, " to ",yr2calc,"**"))) |> 
+  tab_options(heading.align = "left",
+              column_labels.border.top.style = "none",
+              table.border.top.style = "none",
+              column_labels.border.bottom.style = "none",
+              column_labels.border.bottom.width = 1,
+              column_labels.border.bottom.color = "#334422",
+              table_body.border.top.style = "none",
+              table_body.border.bottom.color = "white",
+              heading.border.bottom.style = "none",
+              table.border.bottom.style = "none") |> 
+  tab_style(
+    style = cell_text(weight = "bold"),
+    locations = list(
+      cells_column_labels(columns = c(Junction)),
+      cells_body(columns = c(Junction))
+    ))
+
+
+```
+
+Sections 10 not reproducible as data is not public and sections 11 and 14 are simply explanatory text.
+
+This document is also useful for understanding the methodology behind the categories https://assets.publishing.service.gov.uk/media/68373a464115cfe5bfaa2cd4/STATS20_2024_specification.pdf
+

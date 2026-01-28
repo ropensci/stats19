@@ -1,0 +1,153 @@
+---
+title: "An introduction to road safety analysis with R: setup notes"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{An introduction to road safety analysis with R: setup notes}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  out.width = "50%"
+)
+```
+
+If you are not experienced with R, it is strongly advised that you read-up on and more importantly **test out** R and RStudio before attempting analyse road crash data with R.
+
+To read up on R, we recommend reading Chapter 1 Getting Started with Data in R of the online book Statistical Inference via Data Science, which can be found here: https://moderndive.netlify.app/1-getting-started.html
+
+Reading sections 1.1 to 1.3 of that book and trying a few of the examples are considered **essential prerequisites**, unless you are already experienced with R.
+
+Optionally, if you want a more interactive learning environment, you can try getting started with online resources, such as those found at [education.rstudio.com/learn](https://education.rstudio.com/learn/beginner/).
+
+And for more information on how R can be used for transport research, the Transportation chapter of Geocomputation with R is a good place to start: https://r.geocompx.org/transport.html
+
+**Your computer should also have the necessary software installed.**
+
+To ensure your computer is ready for the course, you should have a recent (3.6.0 or later) version of R or RStudio installed. You should have installed packages stats19, tidyverse and a few others shown below.
+To check you have the necessary packages installed, try running the following line of code:
+
+```{r, eval=FALSE}
+source("https://git.io/JeaZH")
+```
+
+That does some basic checks.
+For more comprehensive checkes, and to get used to typing in R code, you can also test your setup by typing and executing the following lines in the RStudio console (this will install the packages you need if they are not already installed):
+
+```{r, eval=FALSE}
+install.packages("remotes")
+pkgs = c(
+  "pct",         # package for getting travel data in the UK
+  "sf",          # spatial data package
+  "stats19",     # downloads and formats open stats19 crash data
+  "stplanr",     # for working with origin-destination and route data
+  "tidyverse",   # a package for user friendly data science
+  "tmap"         # for making maps
+)
+remotes::install_cran(pkgs)
+# remotes::install_github("ITSLeeds/pct")
+```
+
+To test your computer is ready to work with road crash data in R, try running the following commands from RStudio (which should result in the map below):
+
+ <!-- method for helping people set up their computers. Type this single line into the console and follow the instructions.  -->
+
+```{r message=FALSE, eval=FALSE}
+library(stats19)
+library(tidyverse)
+library(tmap) # installed alongside mapview
+crashes = get_stats19(year = 2022, type = "ac")
+crashes_iow = crashes %>% 
+  filter(local_authority_district == "Isle of Wight") %>% 
+  format_sf()
+  
+# basic plot
+plot(crashes_iow)
+```
+
+You should see results like those shown in the map here: https://github.com/ropensci/stats19/issues/105
+
+If you cannot create that map by running the code above before the course, get in touch with us, e.g. by writing a comment under that github issue page (Note: You will need a github account). 
+
+# Time
+
+Perhaps the most important pre-requisite is time.
+You'll need to find time to work-through these materials, either in one go (see suggested agenda below) or in chunks of perhaps 1 hour per week over a 2 month period.
+I think ~8 hours is a good amount of time to spend on this course but it can be done in small pieces, e.g.:
+
+- If you're totally new to R a 3 hour session with a one hour break to do sections 1 to 4
+- If you're an intermediant user, you could skim through sections 1:3 and focus on sections 4:6 to gain understanding of the temporal and spatial aspects of the data in a few hourse
+- If you're an advanced user, feel free to skip ahead and work through the sections you find most interesting.
+
+# 2 day course agenda
+
+For the more structured 2 day course for R beginners, a preliminary agenda is as follows:
+
+## Day 1: An introduction to R and RStudio for spatial and temporal data
+
+09:00-09:30 Arrival and set-up
+
+09:30-11:00 Introduction to the course and software
+
+- Introduction to R + coding [video](https://youtu.be/7oyiPBjLAWY?t=357)/[links](https://github.com/jennybc/code-smells-and-feels)
+- R installation questions/debugging
+- How to use RStudio (practical in groups of 2)
+- R classes and working with data frames (CC)
+
+**Break**
+
+11:15-12:30 Working with temporal data
+
+- Time classes
+- Filtering by time of crash
+- Aggregating over time
+- Forecasting crashes over time
+
+**Lunch**
+
+13:30-15:00 Working with spatial data
+
+- Spatial data in R
+- Context: spatial ecosystem (see section [1.4 of Geocomputation with R - package ecosystem](https://r.geocompx.org/intro.html))
+- [Exercises](https://r.geocompx.org/attr.html): Section 6 of the handout
+
+- Further reading: [Section 3.2 to 3.2.2](https://r.geocompx.org/attr.html) of handouts
+
+**Break**
+  
+15:15-15:30 Talk on Road Safety 1
+
+15:30-16:15 Practical - Applying the methods to stats19 data - a taster
+
+- How to access data with **stats19**
+- Key **stats19** functions
+- Excercises: analysing road crash data on the Isle of Wight
+
+16:15-16:30 Talk on Road Safety 2
+
+## Day 2 road safety analysis with R
+
+09:30-11:00 Point pattern analysis
+
+- Visualising data with tmap
+- Spatial and temporal subsetting
+- Aggregation
+
+11:15-12:30 Road network data
+
+- Desire lines: using origin-destination data
+- Downloading road network data from OSM
+- Buffers on road networks
+
+**Lunch**
+
+13:30-15:00 Analysing crash data on road network
+
+**Break**
+  
+15:15-15:30: Talk on Road Safety 3
+
+15:30-16:30 Applying the methods to your own data

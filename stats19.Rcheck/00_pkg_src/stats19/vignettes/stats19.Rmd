@@ -1,0 +1,576 @@
+---
+title: "Introducing stats19"
+author: 
+  - "R Lovelace, M Morgan, L Hama and M Padgham"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{stats19-intro}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+bibliography: references.bib
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  out.width = "100%",
+  eval = curl::has_internet()
+)
+```
+
+## Introduction
+
+**stats19** enables access to and processing of Great Britain's official road traffic casualty database, [STATS19](https://www.data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-accidents-safety-data). 
+A description of variables in the database can be found in a [guidance](https://www.gov.uk/guidance/road-accident-and-safety-statistics-guidance) provided by the UK's Department for Transport (DfT).
+The datasets are collectively called STATS19 after the form used to report them, which can be found [here](https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/995422/stats19.pdf).
+This vignette focuses on how to use the **stats19** package to work with STATS19 data.
+
+**Note**: The Department for Transport used to refer to 'accidents', but "crashes" may be a more appropriate term, as emphasised in the "crash not accident" arguments of road safety advocacy groups such as [RoadPeace](https://www.roadpeace.org/working-for-change/crash-not-accident/).
+We use the term collision only in reference to nomenclature within the data as provided.
+
+The development version is hosted on [GitHub](https://github.com/ITSLeeds/stats19) and can be installed and loaded as follows:
+
+```{r, eval=FALSE}
+# from CRAN
+install.packages("stats19")
+# you can install the latest development (discoraged) using:
+remotes::install_github("ITSLeeds/stats19")
+```
+
+```{r}
+library(stats19)
+```
+
+## Functions
+
+The easiest way to get STATS19 data is with `get_stats19()`.
+This function takes 2 main arguments, `year` and `type`.
+The year can be any year between 1979 and 202x where x is the current year minus one or two due to the delay in publishing STATS19 statistics.
+The type can be one of `accidents`, `casualties` and `vehicles`, described below.
+`get_stats19()` performs 3 jobs, corresponding to three main types of functions:
+
+- **Download**: A `dl_stats19()` function accepts `year`, `type` and `filename` arguments to make it easy to find the right file to download only.
+
+- **Read**: STATS19 data is provided in a particular format that benefits from being read-in with pre-specified column types. This is taken care of with `read_*()` functions providing access to the 3 main tables in STATS19 data:
+
+    - `read_collisions()` reads-in the crash data (which has one row per incident)
+    - `read_casualties()` reads-in the casualty data (which has one row per person injured or killed)
+    - `read_vehicles()` reads-in the vehicles table, which contains information on the vehicles involved in the crashes (and has one row per vehicle)
+
+- **Format**: There are corresponding `format_*()` functions for each of the `read_*()` functions. These have been exported for convenience, as the two sets of functions are closely related, there is also a `format` parameter for the `read_*()` functions, which by default is `TRUE`, adds labels to the tables. 
+The raw data provided by the DfT contains only integers. Running `read_*(..., format = TRUE)` converts these integer values to the corresponding character variables for each of the three tables.
+For example, `read_collisions(format = TRUE)` converts values in the `collision_severity` column from `1`, `2` and `3` to `Slight`, `Serious` and `Fatal` using `fromat_collisions()` function.
+To read-in raw data without formatting, set `format = FALSE`.
+
+Multiple functions (`read_*` and `format_*`) are needed for each step because of the structure of STATS19 data, which are divided into 3 tables:
+
+1. "accident circumstances, with details about location, severity, weather, etc.; 
+2. casualties, referencing knowledge about the victims; and
+3. vehicles, which contains more information about the vehicle type and manoeuvres, as well the some information about the driver."
+
+Data files containing multiple years worth of data can be downloaded.
+Datasets since 1979 are broadly consistent, meaning that STATS19 data represents a rich historic geographic record of road casualties at a national level.
+
+## Download STATS19 data
+
+**stats19** enables download of raw STATS19 data with `dl_*` functions.
+The following code chunk, for example, downloads a file containing STATS19 data from 2022:
+
+```{r dl2022-accidents}
+dl_stats19(year = 2022, type = "collision", ask = FALSE)
+```
+
+Note that in the previous command, `ask = FALSE`, meaning you will not be asked.
+By default you are asked to confirm, before downloading large files.
+Currently, these files are downloaded to a default location of `tempdir` which is a platform independent "safe" but temporary location to download the data in.
+The `dl_stats19()` function prints out the location and final file name(s) of files(s) as shown above.
+
+`dl_stats19()` takes three parameters.
+Supplying a `file_name` is interpreted to mean that the user is aware of what to download and the other two parameters will be ignored.
+You can also use `year` and `type` to "search" through the file names, which are stored in a lazy-loaded dataset called `stats19::file_names`.
+
+<!-- In versions above `1.3.0`, function `dl_stats19()` behaves more like `get_stats19()`, that is parameter `type` is by default `accidents` and it can also download multiple years more efficiently. -->
+
+To see how `file_names` was created, see `?file_names`.
+Data files from other years can be selected interactively.
+Just providing a year, for example, presents the user with multiple options (from `file_names`), illustrated below:
+
+```{r dl2022-all, eval=FALSE}
+dl_stats19(year = 2022)
+```
+
+```
+Multiple matches. Which do you want to download?
+
+1: dft-road-casualty-statistics-casualty-2022.csv
+2: dft-road-casualty-statistics-vehicle-2022.csv
+3: dft-road-casualty-statistics-accident-2022.csv
+
+Selection: 
+Enter an item from the menu, or 0 to exit
+```
+
+When R is running interactively, you can select which of the 3 matching files to download:
+those relating to vehicles, casualties or accidents in 2022.
+
+## Read STATS19 data
+
+In a similar approach to the download section before, we can read files downloaded using a `data_dir` location of the file and the `filename` to read.
+The code below downloads and reads-in the 2022 crash data:
+
+```{r dl2022-read}
+crashes_2022_raw = get_stats19(year = 2022, type = "collision", format = FALSE)
+```
+
+```{r, echo=FALSE}
+# skip vignettes if resource unavailable
+if(object.size(crashes_2022_raw) < 1000) {
+  knitr::opts_chunk$set(eval = FALSE)
+}
+```
+
+
+**stats19** imports data with `readr::read_csv()` which results in a 'tibble' object: a data frame with more user-friendly printing and a few other features.
+
+```{r crashes2022-class}
+class(crashes_2022_raw)
+dim(crashes_2022_raw)
+```
+
+There are three `read_*()` functions, corresponding to the three different classes of data provided by the DfT:
+1. `read_collisions()`
+2. `read_casualties()`
+3. `read_vehicles()`
+
+In all cases, a default parameter `read_*(format = TRUE)` returns the data in formatted form, as described above. Data can also be imported in the form directly provided by the DfT by passing `format = FALSE`, and then subsequently formatted with additional `format_*()` functions, as described in a final section of this vignette. Each of these `read_*()` functions is now described in more detail.
+
+
+### Crash data
+
+After raw data files have been downloaded as described in the previous section, they can then be read-in as follows:
+
+```{r read2022-raw-format}
+crashes_2022_raw = read_collisions(year = 2022, format = FALSE)
+crashes_2022 = format_collisions(crashes_2022_raw)
+nrow(crashes_2022_raw)
+ncol(crashes_2022_raw)
+nrow(crashes_2022)
+ncol(crashes_2022)
+```
+
+What just happened?
+We read-in data on all road crashes recorded by the police in 2022 across Great Britain.
+
+This work was done by `read_collisions(format = FALSE)`, which imported the "raw" STATS19 data without cleaning messy column names or re-categorising the outputs.
+`format_collisions()` function automates the process of matching column names with variable names provided by the DfT.
+This means `crashes_2022` is much more usable than `crashes_2022_raw`, as shown below, which shows some key variables in the messy and clean datasets:
+
+```{r crashes2022-columns}
+names(crashes_2022_raw)
+crashes_2022_raw[c(8, 18, 23, 25)]
+crashes_2022[c(8, 18, 23, 25)]
+```
+
+By default, `format = TRUE`, meaning that the two stages of `read_collisions(format = FALSE)` and `format_collisions()` yield the same result as `read_collisions(format = TRUE)`.
+For the full list of columns, run `names(crashes_2022)`.
+
+<!-- This means `crashes_2022` is much more usable than `crashes_2022_raw`, as shown below, which shows three records and some key variables in the messy and clean datasets: -->
+
+```{r, echo=FALSE, eval=FALSE}
+# commented out as confusing...
+key_patt = "severity|speed|light|human"
+key_vars = grep(key_patt, x = names(crashes_2022_raw), ignore.case = TRUE)
+random_n = sample(x = nrow(crashes_2022_raw), size = 3)
+crashes_2022_raw[random_n, key_vars]
+crashes_2022[random_n, key_vars]
+```
+
+**Note**: As indicated above, the term collision is only used as directly provided by the DfT; "crashes" is a more appropriate term, hence we call our resultant datasets `crashes_*`.
+
+## Format STATS19 data
+
+It is also possible to import the "raw" data as provided by the DfT.
+The packaged datasets `stats19_variables` and `stats19_schema` provide summary information about the contents of this data guide.
+These contain the full variable names in the guide (`stats19_variables`) and a complete look up table relating integer values to the `.csv` files provided by the DfT and their labels (`stats19_schema`).
+The first rows of each dataset are shown below:
+
+```{r variables-and-schema}
+stats19_variables
+stats19_schema
+```
+
+The code that generated these small datasets can be found in their help pages (accessed with `?stats19_variables` and `?stats19_schema` respectively).
+`stats19_schema` is used internally to automate the process of formatting the downloaded `.csv` files.
+Column names are formatted by the function `format_column_names()`, as illustrated below:
+
+```{r format-col-names}
+format_column_names(stats19_variables$variable[1:3])
+```
+
+Previous approaches to data formatting `STATS19` data involved hard-coding results. This more automated approach to data cleaning is more consistent and fail-safe.
+The three functions: `format_collisions()`, `format_vehicles()` and
+`format_casualties()` do the data formatting on the respective data frames, as illustrated below:
+
+```{r format-main}
+crashes_2022 = format_collisions(crashes_2022_raw)
+# vehicle data for 2022
+dl_stats19(year = 2022, type = "vehicle", ask = FALSE)
+vehicles_2022_raw = read_vehicles(year = 2022, format = FALSE)
+vehicles_2022 = format_vehicles(vehicles_2022_raw)
+
+# casualties data for 2022
+dl_stats19(year = 2022, type = "casualty", ask = FALSE)
+casualties_2022 = read_casualties(year = 2022)
+```
+
+The package automates this two-step `read_*` and `format_*`
+process by defaulting in all cases to `data_year = read_*(year, format = TRUE)`.
+`read_*` functions return, by default, formatted data.
+The two-step process may nevertheless be important for reference to the official nomenclature and values as provided by the DfT.
+
+A summary of the outputs for each of the three tables is shown below.
+
+```{r summarise-stats19}
+summarise_stats19 = function(x) {
+  data.frame(row.names = 1:length(x),
+    name = substr(names(x), 1, 19),
+    class = sapply(x, function(v) class(v)[1]),
+    n_unique = sapply(x, function(v) length(unique(v))),
+    first_label = sapply(x, function(v) substr(unique(v)[1], 1, 16)),
+    most_common_value = sapply(x, function(v) 
+      substr(names(sort(table(v), decreasing = TRUE)[1]), 1, 16)[1])
+  )
+}
+```
+
+```{r summarise-crashes}
+knitr::kable(summarise_stats19(crashes_2022), 
+             caption = "Summary of formatted crash data.")
+```
+
+```{r summarise-vehicles}
+knitr::kable(summarise_stats19(vehicles_2022), 
+             caption = "Summary of formatted vehicles data.")
+```
+
+```{r summarise-casualties}
+knitr::kable(summarise_stats19(casualties_2022), 
+             caption = "Summary of formatted casualty data.")
+```
+
+For testing and other purposes, a sample from the accidents table is provided in the package.
+A few columns from the two-row sample is shown below:
+
+```{r, echo=FALSE, results='asis'}
+key_patt = "severity|speed|light|human"
+key_vars = grep(key_patt, x = names(stats19::accidents_sample_raw), ignore.case = TRUE)
+knitr::kable(stats19::accidents_sample_raw[, key_vars])
+```
+
+## Casualties data
+
+As with `crashes_2022`, casualty data for 2022 can be downloaded, read-in and formatted as follows:
+
+```{r 2022-cas}
+dl_stats19(year = 2022, type = "casualty", ask = FALSE)
+casualties_2022 = read_casualties(year = 2022)
+nrow(casualties_2022)
+ncol(casualties_2022)
+```
+
+The results show that there were 
+`r # format(nrow(casualties_2022), big.mark=",")`
+170,993
+casualties reported by the police in the STATS19 dataset in 2022, and 
+`r # ncol(casualties_2022)`
+16
+columns (variables).
+Values for a sample of these columns are shown below:
+
+```{r 2022-cas-columns}
+casualties_2022[c(4, 5, 6, 14)]
+```
+
+The full list of column names in the `casualties` dataset is:
+
+```{r 2022-cas-columns-all}
+names(casualties_2022)
+```
+
+## Vehicles data
+
+Data for vehicles involved in crashes in 2022 can be downloaded, read-in and formatted as follows:
+
+```{r dl2022-vehicles}
+dl_stats19(year = 2022, type = "vehicle", ask = FALSE)
+vehicles_2022 = read_vehicles(year = 2022)
+nrow(vehicles_2022)
+ncol(vehicles_2022)
+```
+
+The results show that there were 
+`r # format(nrow(vehicles_2022), big.mark=",")`
+238,926
+vehicles involved in crashes reported by the police in the STATS19 dataset in 2022, with 
+`r # ncol(vehicles_2022)`
+23
+columns (variables).
+Values for a sample of these columns are shown below:
+
+```{r 2022-veh-columns}
+vehicles_2022[c(3, 14:16)]
+```
+
+The full list of column names in the `vehicles` dataset is:
+
+```{r 2022-veh-columns-all}
+names(vehicles_2022)
+```
+
+<!-- More data can be read-in as follows: -->
+
+```{r, eval=FALSE, echo=FALSE}
+# old code to be up-dated
+d14 = "Stats19_Data_2005-2014"
+crashes_2005_2014 = read_collisions(data_dir = d14)
+crashes_2005_2014_f = format_stats19_2005_2014_ac(crashes_2005_2014)
+d15 = "RoadSafetyData_2015"
+crashes_2015 = read_collisions(data_dir = d15, filename = "Accidents_2015.csv")
+crashes_2015_f = format_stats19_2015_ac(crashes_2015)
+d16 = "dftRoadSafety_Accidents_2016"
+crashes_2016 = read_collisions(data_dir = d16, filename = "dftRoadSafety_Accidents_2016.csv")
+crashes_2016_f = format_stats19_2016_ac(crashes_2016)
+all_crashes = rbind(crashes_2015_f, crashes_2016_f, crashes_2022_f)
+table(ac$collision_Severity)
+```
+
+## Creating geographic crash data
+
+An important feature of STATS19 data is that the collision table contains geographic coordinates.
+These are provided at ~10m resolution in the UK's official coordinate reference system (the Ordnance Survey National Grid, EPSG code 27700).
+**stats19** converts the non-geographic tables created by `format_collisions()` into the geographic data form of the [`sf` package](https://cran.r-project.org/package=sf) with the function `format_sf()` as follows:
+
+```{r format-crashes-sf}
+crashes_sf = format_sf(crashes_2022)
+```
+
+The note arises because `NA` values are not permitted in `sf` coordinates, and so rows containing no coordinates are automatically removed.
+Having the data in a standard geographic form allows various geographic operations to be performed on it.
+Spatial operations, such as spatial subsetting and spatial aggregation, can be performed, to show the relationship between STATS19 data and other geographic objects, such as roads, schools and administrative zones.
+
+An example of an administrative zone dataset of relevance to STATS19 data is the boundaries of police forces in England, which is provided in the packaged dataset `police_boundaries`.
+The following code chunk demonstrates the kind of spatial operations that can be performed on geographic STATS19 data, by counting and plotting the number of fatalities per police force:
+
+```{r nfatalities}
+
+library(sf)
+library(dplyr)
+# crashes_sf %>% 
+#   filter(collision_severity == "Fatal") |> 
+#   select(n_fatalities = collision_index) |> 
+#   aggregate(by = stats19::police_boundaries, FUN = length)
+#   plot()
+```
+
+Of course, one should not draw conclusions from such analyses without care.
+In this case, denominators are needed to infer anything about road safety in any of the police regions.
+After suitable denominators have been included, performance metrics such as 'health risk' (fatalities per 100,000 people), 'traffic risk' (fatalities per billion km, f/bkm) and 'exposure risk' (fatalities per million hours, f/mh) can be calculated [@feleke_comparative_2018; @elvik_handbook_2009].
+
+The following code chunk, for example, returns all crashes within the jurisdiction of [West Yorkshire Police](https://en.wikipedia.org/wiki/West_Yorkshire_Police):
+
+```{r ukboundaries}
+west_yorkshire =
+  police_boundaries[police_boundaries$pfa16nm == "West Yorkshire", ]
+```
+
+
+```{r crashes-west_yorkshire}
+crashes_wy = crashes_sf[west_yorkshire, ]
+nrow(crashes_sf)
+nrow(crashes_wy)
+```
+
+This subsetting has selected the 
+`r # format(nrow(crashes_wy), big.mark = ",")`
+4,371
+crashes which occurred in West Yorkshire.
+
+
+## Joining tables
+
+The three main tables we have just read-in can be joined by shared key variables.
+This is demonstrated in the code chunk below, which subsets all casualties that took place in West Yorkshire, and counts the number of casualties by severity for each crash:
+
+```{r table-join, message = FALSE}
+library(tidyr)
+library(dplyr)
+sel = casualties_2022$collision_index %in% crashes_wy$collision_index
+casualties_wy = casualties_2022[sel, ]
+table(casualties_wy$casualty_type)
+cas_types = casualties_wy %>% 
+  select(collision_index, casualty_type) %>% 
+  group_by(collision_index) %>% 
+  summarise(
+    Total = n(),
+    walking = sum(casualty_type == "Pedestrian"),
+    cycling = sum(casualty_type == "Cyclist"),
+    passenger = sum(casualty_type == "Car occupant")
+    ) 
+cj = left_join(crashes_wy, cas_types)
+summary(cj)
+```
+
+What just happened? We found the subset of casualties that took place in West Yorkshire with reference to the `collision_index` variable.
+Then we used the **dplyr** function `summarise()`, to find the number of people who were in a car, cycling, and walking when they were injured.
+This new casualty dataset is joined onto the `crashes_wy` dataset.
+The result is a spatial (`sf`) data frame of crashes in West Yorkshire, with columns counting how many road users of different types were hurt.
+The joined data has additional variables:
+
+```{r table-join-examples}
+base::setdiff(names(cj), names(crashes_wy))
+```
+
+As a simple spatial plot, we can map all the crashes that have happened in West Yorkshire in 2022, with the colour related to the total number of people hurt in each crash.
+Placing this plot next to a map of West Yorkshire provides context:
+
+```{r, out.width="90%", fig.show='hold'}
+plot(
+  cj[cj$cycling > 0, "speed_limit", ],
+  cex = cj$Total[cj$cycling > 0] / 3,
+  main = "Speed limit (cycling)"
+  )
+plot(
+  cj[cj$passenger > 0, "speed_limit", ],
+  cex = cj$Total[cj$passenger > 0] / 3,
+  main = "Speed limit (passenger)"
+  )
+```
+
+The spatial distribution of crashes in West Yorkshire clearly relates to the region's geography.
+Car crashes tend to happen on fast roads, including busy Motorway roads, displayed in yellow above.
+Cycling is as an urban activity, and the most bike crashes can be found in near Leeds city centre, which has a comparatively high level of cycling (compared with the low baseline of 3%).
+This can be seen by comparing the previous map with an overview of the area, from an academic paper on the social, spatial and temporal distribution of bike crashes [@lovelace_who_2016]:
+
+```{r, echo=FALSE}
+knitr::include_graphics("wy-overview.jpg")
+```
+
+In addition to the `Total` number of people hurt/killed, `cj` contains a column for each type of casualty (cyclist, car occupant, etc.), and a number corresponding to the number of each type hurt in each crash.
+It also contains the `geometry` column from `crashes_sf`.
+In other words, joins allow the casualties and vehicles tables to be geo-referenced.
+We can then explore the spatial distribution of different casualty types.
+The following figure, for example, shows the spatial distribution of pedestrians and car passengers hurt in car crashes across West Yorkshire in 2022:
+
+```{r sfplot, fig.show='hold', out.width="100%", fig.cap="Spatial distribution of serious and fatal crashes in West Yorkshire, for cycling, walking, being a car passenger and other modes of travel. Colour is related to the speed limit where the crash happened (red is faster) and size is proportional to the total number of people hurt in each crash (legend not shown).", fig.width=9, fig.height=7}
+library(ggplot2)
+crashes_types = cj %>% 
+  filter(collision_severity != "Slight") %>% 
+  mutate(type = case_when(
+    walking > 0 ~ "Walking",
+    cycling > 0 ~ "Cycling",
+    passenger > 0 ~ "Passenger",
+    TRUE ~ "Other"
+  ))
+crashes_types$speed_limit = as.integer(crashes_types$speed_limit)
+table(crashes_types$speed_limit)
+ggplot(crashes_types, aes(size = Total, colour = speed_limit)) +
+  geom_sf(show.legend = "point", alpha = 0.3) +
+  facet_grid(vars(type), vars(collision_severity)) +
+  scale_size(
+    breaks = c(1:3, 12),
+    labels = c(1:2, "3+", 12)
+    ) +
+  scale_color_gradientn(colours = c("blue", "yellow", "red")) +
+  theme(axis.text = element_blank(), axis.ticks = element_blank())
+```
+
+It is clear that different types of road users tend to get hurt in different places.
+Car occupant casualties (labelled 'passengers' in the map above), for example, are comparatively common on the outskirts of cities such as Leeds, where speed limits tend to be higher and where there are comparatively higher volumes of motor traffic.
+Casualties to people on foot tend to happen in the city centres.
+That is not to say that cities centres are more dangerous per unit distance (typically casualties per billion kilometres, bkm, is the unit used) walked:
+there is more walking in city centres (you need a denominator to estimate risk).
+
+To drill down further, we can find the spatial distribution of all pedestrian casualties, broken-down by seriousness of casualty, and light conditions.
+This can be done with **tidyvers** functions follows:
+
+```{r ggplot-ped-severity, fig.height=5, fig.width=6}
+table(cj$light_conditions)
+cj$speed_limit = as.integer(cj$speed_limit)
+cj %>% 
+  filter(walking > 0) %>% 
+  mutate(light = case_when(
+    light_conditions == "Daylight" ~ "Daylight",
+    light_conditions == "Darkness - lights lit" ~ "Lit",
+    TRUE ~ "Other/Unlit"
+  )) %>% 
+  ggplot(aes(colour = speed_limit)) +
+  geom_sf() +
+  facet_grid(vars(light), vars(collision_severity)) +
+  scale_color_continuous(low = "blue", high = "red") +
+  theme(axis.text = element_blank(), axis.ticks = element_blank())
+```
+
+<!-- These figures show the issue of pedestrian casualties in Leeds and Bradford city centres, which both have busy roads going through or around popular shopping and other destinations. -->
+
+## Time series analysis
+
+We can also explore seasonal and daily trends in crashes by aggregating crashes by day of the year:
+
+```{r crash-date-plot, fig.width=5, fig.height=5}
+crashes_dates = cj %>% 
+  st_set_geometry(NULL) %>% 
+  group_by(date) %>% 
+  summarise(
+    walking = sum(walking),
+    cycling = sum(cycling),
+    passenger = sum(passenger)
+    ) %>% 
+  gather(mode, casualties, -date)
+ggplot(crashes_dates, aes(date, casualties)) +
+  geom_smooth(aes(colour = mode), method = "loess") +
+  ylab("Casualties per day")
+```
+
+
+Different types of crashes also tend to happen at different times of day.
+This is illustrated in the plot below, which shows the times of day when people who were travelling by different modes were most commonly injured.
+
+```{r crash-time-plot, fig.width=5, fig.height=5}
+library(stringr)
+
+crash_times = cj %>% 
+  st_set_geometry(NULL) %>% 
+  group_by(hour = as.numeric(str_sub(time, 1, 2))) %>% 
+  summarise(
+    walking = sum(walking),
+    cycling = sum(cycling),
+    passenger = sum(passenger)
+    ) %>% 
+  gather(mode, casualties, -hour)
+
+ggplot(crash_times, aes(hour, casualties)) +
+  geom_line(aes(colour = mode))
+```
+
+Note that bike crashes tend to have distinct morning and afternoon peaks, in-line with previous research [@lovelace_who_2016].
+A disproportionate number of car crashes appear to happen in the afternoon.
+
+## Further work
+
+There is much potential to extend the package beyond downloading, reading and formatting STATS19 data.
+The greatest potential is to provide functions that will help with analysis of STATS19 data, to help with road safety research.
+Much academic research has been done using the data, a few examples of which are highlighted below to demonstrate the wide potential for further work.
+
+- Research exploring the effectiveness of road safety policies such as speed limits. An example in this area is this [paper on 20 mph zones](https://pubmed.ncbi.nlm.nih.gov/20007666/) who found that areas with 20mph speed limits were safer. This raises the question: can the same result be repeated using reproducible methods? Does the finding hold for more recent 20 mph zones? Is the recent finding of the Department for Transport's ([2018](https://www.gov.uk/government/publications/20-mph-speed-limits-on-roads)) research, that 20 mph zones alone do not reduce crash rates, supported by reproducible analysis? What are the factors that make speed limits more or less effective [see @sarkar_street_2018 for example]?
+- Research into weather as a contributing factor to road traffic casualties [e.g. @edwards_relationship_1998]. This raises the question: could matching crash data from the STATS19 data with historic weather data from other R packages help advance knowledge in this area?
+- Assessment of crash rates normalised by estimated exposure rates (risk). An example of this type of research by an author of the package found substantial spatial variation in the number of cyclist casualties across West Yorkshire [@lovelace_who_2016]. This raises the questions: are similar spatial differences found in other regions? What are the factors leading to relatively high and low rates of different types of crash? 
+
+The broader point is that the **stats19** package could help road safety research, by making open access data on road crashes more accessible to researchers worldwide.
+By easing the data download and cleaning stages of research, it could also encourage reproducible analysis in the field.
+
+There is great potential to add value to and gain insight from the data by joining the datasets with open data, for example from the Consumer Data Research Centre ([CDRC](https://www.cdrc.ac.uk/), which funded this research), OpenStreetMap and the UK's Ordnance Survey.
+If you have any suggestions on priorities for these future directions of (hopefully safe) travel, please get in touch on at [github.com/ITSLeeds/stats19/issues](https://github.com/ITSLeeds/stats19/issues).
+
+## References

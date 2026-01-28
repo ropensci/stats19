@@ -1,0 +1,1048 @@
+---
+title: "Introduction to R for road safety: an introduction to R and practical exercises"
+subtitle: "Practical exercises based on UK data from the stats19 package, developed by the Institute for Transport Studies, University of Leeds"
+# output: pagedown::html_paged
+# output: bookdown::html_document2
+   # github_document
+output:
+  pdf_document: 
+    highlight: tango
+    number_sections: yes
+# output: rmarkdown::html_vignette
+# vignette: >
+#   %\VignetteIndexEntry{R for road safety: exercises}
+#   %\VignetteEngine{knitr::rmarkdown}
+author: Robin Lovelace, Malcolm Morgan & Andrea Gilardi
+bibliography: ../vignettes/references.bib
+---
+
+```{r cache, include=FALSE}
+knitr::opts_chunk$set(cache = TRUE)
+```
+
+```{r upload, eval=FALSE, echo=FALSE}
+# Upload exercises
+file.copy("inst/stats-19-exercises.pdf", ".", overwrite = TRUE)
+piggyback::pb_upload("stats-19-exercises.pdf")
+piggyback::pb_download_url("stats-19-exercises.pdf")
+# to run this for the first time:
+download.file("https://github.com/ITSLeeds/TDS/archive/master.zip", "tds-master.zip")
+unzip("tds-master.zip")
+file.rename("TDS-master/courses/2day/images/", "inst/images")
+```
+
+
+# Introduction
+
+This document provides information, code and, vitally, exercises to test and improve your R skills.
+It starts with introductory R skills that will be of use in any domain but the focus is on R for Road Safety, in support of a [2 day course](https://www.racfoundation.org/introduction-to-r-for-road-safety).
+The course is based on open road crash records from the **stats19** package [@lovelace_stats19_2019].
+Code and data supporting the content can be found in the package's GitHub repo at [github.com/ropensci/stats19](https://github.com/ropensci/stats19/).
+The '[issue tracker](https://github.com/ropensci/stats19/issues)' associated with that repo is a good place to ask questions about the course. 
+
+Course pre-requisites are outlined in the [stats19-training-setup](https://docs.ropensci.org/stats19/articles/stats19-training-setup.html) hosted at [docs.ropensci.org/stats19](https://docs.ropensci.org/stats19).
+It makes use of a number of packages which can be installed with `install.packages()` and loaded as follows:
+
+```{r, message=FALSE, warning=FALSE, eval=FALSE}
+library(pct)      # access travel data from DfT-funded PCT project 
+library(sf)       # spatial vector data classes
+library(stats19)  # get stats19 data
+library(stplanr)  # transport planning tools
+library(tidyverse)# packages for 'data science'
+library(tmap)     # interactive maps
+```
+
+You should type, run and ensure you understand each line of code in this document.
+
+# R and RStudio
+
+The learning outcomes of this first session are to learn: 
+RStudio main features and scripts,
+R objects and functions,
+subsetting,
+basic plotting, and
+getting help.
+
+The first exercise is to open up RStudio and take a look around and identify the main components, shown in the figure below.
+**Explore each of the main components of RStudio.**
+Try changing the Global Settings (in the Tools menu) and see RStudio's short cuts by pressing `Alt-Shift-K` (or `Option+Shift+K` on Mac).
+
+```{r rstudioui, echo=FALSE, out.width="70%"}
+knitr::include_graphics("images/rstudio-ui.png")
+```
+
+## Projects and scripts
+
+Projects are a way to organise related work together. Each project has its own folder and Rproj file. **Advice: always working from projects will make your life easier!** Start a new project with:
+
+> File > New Project
+You can choose to create a new directory (folder) or associate a project with an existing directory. Make a new project called stats1-course and save it in a sensible place on your computer. Notice that stats1-course now appears in the top right of RStudio.
+
+Scripts are the files where R code is stored.
+**Keeping your code in sensibly named, well organised and reproducible scripts will make your life easier:**
+you could simply type all our code into the console, but that require retyping commands each time you run it.
+Instead, code that you want to keep and share should be saved script files, plain text files that have the `.R` extension.
+
+Make a new script with Flie > New File > Rscript or Ctrl+Shift+N
+
+Save the script and give it a sensible name like `stats19-lesson-1.R` with File > Save, the save button on the toolbar, or Ctrl+S.
+
+**Pro tip:** You can also create new R scripts by typing and running this command in the R console:
+
+```{r edit, eval=FALSE}
+file.edit("stats19-lesson-1.R")
+```
+
+Keeping scripts and other files associated with a project in a single folder per project (in an RStudio project) will help you find things you need and develop an efficient workflow.
+
+## Writing and running code
+
+Let's start with some basic R operations.
+Write this code into your new `stats19-lesson-1.R` R script and execute the result line-by-line by pressing Ctrl+Enter
+
+```{r, eval=FALSE}
+x = 1:5
+y = c(0, 1, 3, 9, 18)
+plot(x, y)
+```
+
+This code creates two objects, both are vectors of 5 elements, and then plots them (bonus: check their length using the `length()` function).
+Save the script by pressing Ctrl+S.
+
+There are several ways to run code within a script and it is worth becoming familiar with each.
+Try running the the code you saved in the previous section using each of these methods:
+
+1. Place the cursor in different places on each line of code and press `Ctrl+Enter` to run that line of code.
+1. Highlight a block of code or part of a line of code and press `Ctrl+Enter` to run the highlighted code.
+1. Press `Ctrl+Shift+Enter` to run all the code in a script.
+1. Press the Run button on the toolbar to run all the code in a script.
+1. Use the function `source()` to run all the code in a script e.g. `source("stats19-lesson-1.R")`
+<!-- (but don't create an infinite loop!) -->
+
+**Pro tip:** Try jumping between the console and the source editor by pressing Ctl+1 and Ctl+2.
+
+## Viewing Objects
+
+Create new objects by typing and running the following code chunk in a new script, e.g. called `objects.R`.
+
+```{r}
+vehicle_type = c("car", "bus", "tank")
+casualty_type = c("pedestrian", "cyclist", "cat")
+casualty_age = seq(from = 20, to = 60, by = 20)
+set.seed(1)
+dark = sample(x = c(TRUE, FALSE), size = 3, replace = TRUE)
+small_matrix = matrix(1:24, nrow = 12)
+crashes = data.frame(vehicle_type, casualty_type, casualty_age, dark)
+```
+
+We can view the objects in a range of ways:
+
+1. Type the name of the object into the console e.g. `crashes` and `small_matrix`. Scroll up to see the numbers that didn't fit on the screen.
+1. Use the `head()` function to view just the first 6 rows e.g. `head(small_matrix)`
+1. Bonus: use the `n` argument in the previous function call to show only the first 2 rows of `small_matrix`
+1. Click on the `crashes` object in the environment tab to View it in a spreadsheet.
+1. Run the command `View(vehicle_type)`. What just happened?
+
+We can also get an overview of an object using a range of functions, including 
+`summary()`,
+`class()`,
+`typeof()`,
+`dim()`, and
+`length()`.
+
+You can, for example, view a summary of the `casualty_age` variable by running the following line of code:
+
+```{r summary}
+summary(casualty_age)
+```
+
+**Exercise** try these functions on each of the objects, what results do they give?
+
+```{r summary-answers, echo=FALSE, eval=FALSE}
+summary(vehicle_type)
+class(vehicle_type)
+typeof(vehicle_type)
+dim(vehicle_type)
+length(vehicle_type)
+```
+
+**Bonus**: Find out the class of the column `vehicle_type` in the data frame `crashes` with the command `class(crashes$vehicle_type)`.
+Why has it changed? 
+Create a new object called `crashes_char` that keeps the class of the character vectors intact by using the function `tibble::tibble()` (see [tibble.tidyverse.org](https://tibble.tidyverse.org/) and Section 4 for details).
+
+```{r tibble1, echo=FALSE, eval=FALSE}
+tibble::tibble(
+  vehicle_type,
+  casualty_type,
+  casualty_age,
+  dark
+)
+```
+
+## Autocompletion
+
+RStudio can help you write code by autocompleting it. RStudio will look for similar objects and functions after typing the first three letters of a name.
+
+```{r autocomp, echo=FALSE}
+knitr::include_graphics("images/autocomplete.jpg")
+```
+
+When there is more than one option you can select from the list using the mouse or arrow keys.
+Within a function, you can get a list of arguments by pressing Tab.
+
+```{r help, echo=FALSE}
+knitr::include_graphics("images/fucntionhelp.jpg")
+```
+
+## Getting help
+
+Every function in R has a help page. You can view the help using `?` for example `?sum`. Many packages also contain vignettes, these are long form help documents containing examples and guides. `vignette()` will show a list of all the vignettes available, or you can show a specific vignette for example `vignette(topic = "sf1", package = "sf")`.
+
+## Commenting Code
+
+It is good practice to use comments in your code to explain what it does. You can comment code using `#`
+
+For example:
+
+```{r}
+# Create vector objects (a whole line comment)
+x = 1:5 # a seqence of consecutive integers (inline comment)
+y = c(0, 1, 3, 9, 18.1) 
+```
+
+You can comment/uncomment a whole block of text by selecting it and using `Ctrl+Shift+C`.
+<!-- not sure about the next statement so commenting out (RL) -->
+<!-- and you can reformat a block of code using `Ctrl+Shift  + /`.  -->
+
+**Pro tip:** You can add a comment section using Ctrl + Shift + R
+
+
+## The global environment
+
+The Environment tab shows all the objects in your environment, this includes datasets, parameters, and any functions you have created.
+By default, new objects appear in the Global Environment but you can see other environments with the drop-down menu.
+For example, each package has its own environment.
+
+Sometimes you wish to remove things from your environment, perhaps because you no longer need them or things are getting cluttered.
+
+You can remove an object with the `rm()` function e.g. `rm(x)` or `rm(x, y)` or you can clear your whole environment with the broom button on the Environment Tab.
+
+1. Remove the object `x` that was created in a previous section.
+1. What happens when you try to print the `x` by entering it into the console?
+1. Try running the following commands in order: `save.image(); rm(list = ls()); load(".RData")`. What happened?
+1. How big (how many bytes) is the `.RData` file in your project's folder?
+1. Tidy up by removing the `.Rdata` file with `file.remove(".Rdata")`.
+
+## Debugging Code
+
+All the code shown so far is reproducible.
+To test RStudio's debugging features, let's write some code that fails, as illustrated in the figure below.
+
+```{r debug, echo=FALSE, out.width="60%"}
+knitr::include_graphics("rstudio-autocomplete.png")
+```
+
+1. What is the problem with the code shown in the figure?
+1. Create other types of error in the code you have run (e.g. no symetrical brackets and other typos)
+1. Does RStudio pick up on the errors? And what happens when you try to run buggy code?
+
+**Always address debugging prompts to ensure your code is reproducible**
+
+## Saving R objects
+
+We have already seen that you can save R scripts.
+You can also save individual R objects in the RDS format.
+
+```{r}
+saveRDS(crashes, "crashes.Rds")
+```
+
+We can also read back in our data.
+
+```{r}
+crashes2 = readRDS("crashes.Rds")
+identical(crashes, crashes2)
+```
+
+R also supports many other formats, including CSV files, which can be created and imported with the functions `readr::read_csv()` and `readr::write_csv()` (see also the [readr](https://readr.tidyverse.org/) package).
+
+```{r readr-write, eval=FALSE}
+readr::write_csv(crashes, "crashes.csv")
+crashes3 = readr::read_csv("crashes.csv")
+identical(crashes3, crashes) 
+```
+
+Notice that `crashes3` and `crashes` are not identical, what has changed? Hint: read the help page associated with `?readr::write_csv`.
+
+# Manipulating R objects
+
+## Subsetting by index or name
+
+Subsetting returns part of an R object. 
+It can be done by providing numbers representing the positions of the elements we want (e.g. the 2^nd^ element) or with a logical vector, with values associated with `TRUE` returned. 
+Two dimension object such as matrices and data frames can be subset by rows and columns.
+Subsetting in base R is done with square brackets `[]` after the name of an object. **Run the following commands to practice subsetting.**
+
+```{r, eval=FALSE}
+casualty_age[2:3] # second and third casualty_age
+crashes[c(1, 2), ] # first and second row of crashes
+crashes$vehicle_type # returns just one column
+crashes[, c("casualty_type", "casualty_age")] # first and third columns
+```
+
+```{r, eval=FALSE, echo=FALSE}
+crashes[, c(1, 3)] # first and third column of crashes by positional numbers
+crashes[c(2), c(3)]
+crashes[c(2), c(2, 3)]
+class(crashes[, c(1, 3)])
+class(crashes[c(2), c(3)])
+```
+
+1. Use the `$` operator to print the `dark` column of `crashes`.
+1. Subset the crashes with the `[,]` syntax so that only the first and third columns of `crashes` are returned.
+1. Return the 2^nd^ row and the 3^rd^ column of the `crashes` dataset. 
+1. Return the 2^nd^ row and the columns 2:3 of the `crashes` dataset. 
+1. **Bonus**: what class resulted from each of the previous exercises?
+
+## Subsetting by values
+
+It is also possible to subset objects by the values of their elements.
+This works because the `[` operator accepts logical vectors returned by queries such as 'is it less than 3?' (`x < 3` in R) and 'was it light?' (`crashes$dark == FALSE`), as demonstrated below:
+
+```{r, eval=FALSE}
+x[c(TRUE, FALSE, TRUE, FALSE, TRUE)] # 1st, 3rd, and 5th element in x
+x[x == 5] # only when x == 5 (notice the use of double equals)
+x[x < 3] # less than 3
+x[x < 3] = 0 # assign specific elements
+casualty_age[casualty_age %% 6 == 0] # just the ages that are a multiple of 6
+crashes[crashes$dark == FALSE, ]
+```
+
+1. Subset the `casualty_age` object using the inequality (`<`) so that only elements less than 50 are returned.
+1. Subset the `crashes` data frame so that only tanks are returned using the `==` operator.
+1. **Bonus**: assign the age of all all tanks to 61.
+
+```{r, eval=FALSE, echo=FALSE}
+casualty_age[casualty_age < 50] # the  casualty_age less than 50
+crashes[crashes$vehicle_type == "tank", ] # rows where the name is tank
+crashes$casualty_age[crashes$vehicle_type == "tank"] = 61
+```
+
+## Dealing with NAs and recoding
+
+R objects can have a value of NA. This is how R represents missing data.
+
+```{r, eval=FALSE}
+z = c(4, 5, NA, 7)
+```
+
+NA values are common in real-world data but can cause trouble, for example
+
+```{r, eval=FALSE}
+sum(z) # result is NA
+```
+
+Some functions can be told to ignore NA values.
+
+```{r, eval=FALSE}
+sum(z, na.rm = TRUE) # result is equal to 4 + 5 + 7
+```
+
+You can find NAs using the `is.na()` function, and then remove them
+
+```{r, eval=FALSE}
+is.na(z)
+z_nona = z[!is.na(z)] # note the use of the not operator !
+sum(z)
+```
+
+If you remove records with NAs be warned: the average of a value excluding NAs may not be representative.
+
+## Changing class
+
+Sometimes you may want to change the class of an object.
+This is called class coercion, and can be done with functions such as `as.logical()`, `as.numeric()` and `as.matrix()`.
+
+1. Coerce the `vehicle_type` column of `crashes` to the class `character`.
+1. Coerce the `crashes` object into a matrix. What happened to the values?
+1. **Bonus:** What is the difference between the output of `summary()` on `character` and `factor` variables?
+
+```{r, echo=FALSE, eval=FALSE}
+crashes$vehicle_type = as.character(crashes$vehicle_type)
+as.matrix(crashes)
+```
+
+## Recoding values
+
+Often it is useful to 'recode' values.
+In the raw STATS19 files, for example, -1 means NA.
+There are many ways to recode values in R, the simplest and most mature of which is the use of factors, as shown below:
+
+```{r}
+z = c(1, 2, -1, 1, 3)
+l = c(NA, "a", "b", "c") # labels in ascending order
+z_factor = factor(z, labels = l)
+z_charcter = as.character(z_factor)
+z_charcter
+```
+
+1. Recode `z` to Slight, Serious and Fatal for 1:3 respectively.
+1. Bonus: read the help file at `?dplyr::case_when` and try to recode the values using this function.
+
+## Now you are ready to use R
+
+**Bonus: reproduce the following plot**
+
+```{r smile, out.width="30%", fig.align="center"}
+eyes = c(2.3, 4, 3.7, 4)
+eyes = matrix(eyes, ncol = 2, byrow = T)
+mouth = c(2, 2, 2.5, 1.3, 3, 1, 3.5, 1.3, 4, 2)
+mouth = matrix(mouth, ncol = 2, byrow = T)
+plot(eyes, type = "p", main = "RRR!", cex = 2, xlim = c(1, 5), ylim = c(0, 5))
+lines(mouth, type = "l", col = "red")
+```
+
+\newpage
+
+# R Packages
+
+## What are packages?
+
+R has over 15,000 packages (effectively plugins for base R), extending it in almost every direction of statistics and computing.
+Packages provide additional functions, data and documentation. They are very often written by subject-matter experts and therefore tend to fit well with the workflow of the analyst in that particular specialism.
+There are two main stages to using a package: installing it and loading it.
+A third stage is updating it, this is also important.
+
+<!-- installing it... -->
+Install new packages from [The Comprehensive R Archive Network](https://cran.r-project.org/) with the command `install.packages()` (or `remotes::install_github()` to install from GitHub).
+Update packages with the command `update.package()` or in Tools > Check for Package Updates in RStudio.
+You only need to install a package once.
+<!-- **Note: avoid `install.packages()` within a script** -->
+<!-- Packages only need to be installed once. -->
+<!-- You can use `remotes::install_cran()` or `remotes::install_github()` to only install a package if it is not yet installed and up-to-date (note: you only need to use one of these): -->
+
+```{r, eval=FALSE}
+install.packages("sf")
+# remotes::install_github("r-spatial/sf")
+```
+
+<!-- now talk about loading packages -->
+Installed packages are loaded with the command `library()`.
+Usually, the package will load silently.
+In some cases the package will provide a message, as illustrated below.
+
+```{r}
+library(sf)
+```
+
+To use a function in a package without first loading the package, use double colons, as shown below (this calls the `tibble()` function from the `tibble` package).
+
+```{r tibble2, eval=FALSE}
+crashes_tibble = tibble::tibble(
+  vehicle_type,
+  casualty_type,
+  casualty_age,
+  dark
+)
+```
+
+1. Take a look in the Packages tab in the Files pane in RStudio (bottom right by default).
+1. What version of the `stats19` package is installed on your computer?
+1. Run the command `update.packages()`. What happens? Why?
+
+## ggplot2
+
+Let's take a look at a particular package.
+`ggplot2` is a generic plotting package that is part of the ['tidyverse'](https://www.tidyverse.org/) meta-package, which is an "opinionated collection of R packages designed for data science". 
+All packages in the tidyverse "share an underlying design philosophy, grammar, and data structures". 
+`ggplot2` is flexible, popular, and has dozens of add-on packages which build on it, such as `gganimate`.
+To plot non-spatial data, it works as follows (see figure below, left for result):
+
+```{r, message=FALSE, out.width="40%", eval=FALSE}
+library(ggplot2)
+ggplot(crashes) + geom_point(aes(x = casualty_type, y = casualty_age))
+```
+
+Note that the `+` operator adds layers onto one another.
+
+1. Install a package that build on `ggplot2` that begins with with `gg`. Hint: enter `install.packages(gg)` and hit Tab when your cursor is between the `g` and the `)`.
+1. Open a help page in the newly installed package with the `?package_name::function()` syntax.
+1. Attach the package.
+1. **Bonus:** try using functionality from the new 'gg' package building on the example above (hint: the right plot below uses the economist theme from the `ggthemes` package, try other themes).
+
+```{r gg-extend, echo=FALSE, message=FALSE, eval=FALSE}
+library(ggplot2)
+g1 = ggplot(crashes) + geom_point(aes(x = casualty_type, y = casualty_age)) ] th
+# install.packages("ggthemes")
+g2 = ggplot(crashes) + geom_point(aes(x = casualty_type, y = casualty_age)) +
+  ggthemes::theme_economist()
+g3 = cowplot::plot_grid(g1, g2)
+ggsave(filename = "inst/ggtheme-plot.png", width = 8, height = 2, dpi = 80)
+```
+
+```{r gg2, echo=FALSE, out.width="80%", fig.align="center"}
+library(ggplot2)
+knitr::include_graphics("ggtheme-plot.png")
+```
+
+## dplyr and pipes
+
+Another useful package in the tidyverse is `dplyr`.
+It provides functions for manipulating data frames and using the pipe operator ` %>% `. 
+The pipe puts the output of one command into the first argument of the next, as shown below (note the results are the same):
+
+```{r}
+library(dplyr)
+class(crashes)       
+crashes %>% class()
+```
+
+Useful `dplyr` functions are demonstrated below.
+
+```{r, eval=FALSE}
+crashes %>%
+  filter(casualty_age > 50) # filter rows
+crashes %>%
+  select(casualty_type) # select just one column
+crashes %>%
+  group_by(dark) %>% 
+  summarise(mean_age = mean(casualty_age))
+```
+
+1. Use `dplyr` to filter row in which `casualty_age` is less than 18, and then 28.
+1. Use the `arrange` function to sort the `crashes` object in descending order of age (hint: see the `?arrange` help page).
+1. Read the help page of `dplyr::mutate()`. What does the function do?
+1. Use the mutate function to create a new variable, `birth_year`, the current year minus their age.
+1. **Bonus:** Use the ` %>% ` operator to filter the output from the previous exercise so that only observations with `birth_year` after 1969 are returned.
+
+```{r dplyr, eval=FALSE, echo=FALSE}
+# answers
+crashes %>% 
+  arrange(desc(casualty_age))
+crashes %>% filter(casualty_age > 21)
+crashes %>% 
+  mutate(birth_year = 2019 - casualty_age) %>% 
+  filter(birth_year > 1969)
+```
+
+# Temporal data
+
+For the analysis and manipulation of temporal data we will first load the R package `lubridate`:
+
+```{r, message=FALSE}
+library(lubridate)
+```
+
+The simplest example of a Date object that we can analyze is just the current date, i.e.
+
+```{r}
+today()
+```
+
+We can manipulate this object using several `lubridate` functions to extract the current day, month, year, weekday and so on...
+
+```{r, eval=FALSE}
+x = today()
+day(x)
+month(x)
+year(x)
+weekdays(x)
+```
+
+Exercises: 
+
+1. Look at the help page of the function `month` to see how it is possible to extract the current month as character vector 
+1. Look at other functions in lubridate to extract the current weekday as a number, the week of year and the day of the year
+
+Date variables are often stored simply as a character vectors.
+This is a problem, since R is not always smart enough to distinguish between character vectors representing Dates.
+`lubridate` provides functions that can translate a wide range of date encodings such as `ymd()`, which extracts the Year Month and Day from a character string, as demonstrated below.
+
+```{r, eval=FALSE}
+as.Date("2019-10-17") # works
+as.Date("2019 10 17") # fails
+ymd("2019 10 17") # works
+dmy("17/10/2019") # works
+```
+
+Import function such as `read_csv` try to recognize the Date variables.
+Sometimes this fails.
+You can manually create Date objects, as shown below.
+
+```{r}
+x = c("2009-01-01", "2009-02-02", "2009-03-03")
+x_date = ymd(x)
+x_date
+```
+
+Exercises: 
+
+1. Extract the day, the year-day, the month and the weekday (as a non-abbreviated character vector) of each element of `x_date`. 
+1. Convert `"09/09/93"` into a date object and extract its weekday. 
+1. **Bonus:** Read the help page of `as.Date` and `strptime` for further details on the format argument in base R. 
+
+```{r, echo=FALSE, eval=FALSE}
+# 1. Extract the day, the year-day, the month and the weekday (as a non-abbreviated character vector) of each element of `x_date`. 
+day(x_date)
+yday(x_date)
+month(x_date)
+weekdays(x_date, abbreviate = FALSE)
+# 1. Modify the previous example to parse the following character string: `"09/09/1993"` and extract its weekday. 
+weekdays(dmy("09/09/93"))
+wday(dmy("09/09/93"))
+```
+
+We can use Dates also for subsetting events in a dataframe. For example, if we define `x_date` as before and add it to the `crash` dataset, i.e.
+
+```{r}
+crashes$casualty_day = x_date
+```
+
+then we can subset events using Dates. For example
+
+```{r}
+filter(crashes, day(casualty_day) < 7) # the events that ocurred in the first week of the month
+filter(crashes, weekdays(casualty_day) == "Monday") # the events occurred on monday
+```
+
+Exercises: 
+
+1. Select only the events (rows in `crashes`) that occurred in January
+1. Select only the events that ocurred in an odd year-day 
+1. Select only the events that ocurred in a leap-year (HINT: check the function `leap_year`)
+1. Select only the events that ocurred during the weekend or in June
+1. Select only the events that ocurred during the weekend and in June
+1. Count how many events that ocurred during each day of the week. 
+
+Now we'll take a look at the time components of a Date. Using the function `hms` (acronym for Hour Minutes Seconds) and its subfunctions such as `hm` or `ms`, we can parse a character vector representing several times as an Hour object (which is tecnically called a Period object). 
+
+```{r}
+x = c("18:23:35", "00:00:01", "12:34:56")
+x_hour = hms(x)
+x_hour
+```
+
+We can manipulate these objects using several `lubridate` functions to extract the hour component, the minutes and so on:
+
+```{r}
+hour(x_hour)
+minute(x_hour)
+second(x_hour)
+```
+
+If the Hour data do not specify the seconds, then we just have to use a subfunction of `hms`, namely `hm`, and everything works as before. 
+
+```{r}
+x = c("18:23", "00:00", "12:34")
+(x_hour = hm(x))
+```
+
+We can use Hour data also for subsetting events, like we did for Dates. Let's add a new column to crashes data, 
+
+```{r}
+crashes$casualty_hms = hms(c("18:23:35", "00:00:01", "12:34:56"))
+crashes$casualty_hour = hour(crashes$casualty_hms)
+```
+
+Exercises: 
+
+1. Filter only the events that ocurred after midday (i.e. the PM events). Hint: your answer may include `>= 12`.
+1. Filter only the events that ocurred between 15:00 and 19:00
+<!-- 1. Round all hours to the next hour. Hint: Look at the help page of the `round_date` function.  -->
+1. **Bonus:** (difficult): run the following code, which downloades data for car crashes occurred during 2022.
+
+```{r, eval=FALSE}
+library(stats19)
+crashes_2022 = stats19::get_stats19(year = 2022, type = "ac")
+crashes_2022
+```
+
+Extract the weekday from the variable called `date`.
+How many crashes happened on Monday?
+
+**Advanced challenge:** calculate how many crashes occurred for each day of the week. Then plot it with ggplot2. Repeat the same exercises extracting the hour of the car accident from the variable called time. How would you combine the two informations in a single plot? 
+
+```{r, eval=FALSE, echo=FALSE}
+# solutions
+crashes %>% filter(casualty_hour >= 12)
+crashes %>% filter(casualty_hour > 15 & casualty_hour < 19)
+
+crashes_2022 %>% 
+  mutate(my_weekdays = weekdays(date)) %>%
+  filter(my_weekdays == "Monday") %>% 
+  nrow()
+crashes_2022 %>% 
+  mutate(my_weekdays = weekdays(date)) %>%
+  filter(my_weekdays == "Friday") %>% 
+  nrow()
+
+crashes_2022 %>% 
+  mutate(my_weekdays = weekdays(date)) %>% 
+  group_by(my_weekdays) %>% 
+  summarize(n = n()) %>% 
+  ggplot() + 
+  geom_col(aes(x = my_weekdays, y = n))
+
+crashes_2022 %>% 
+  mutate(my_hours = hour(hm(time))) %>% 
+  group_by(my_hours) %>% 
+  summarize(n = n()) %>% 
+  ggplot() + 
+  geom_col(aes(x = my_hours, y = n))
+
+crashes_2022 %>% 
+  mutate(my_weekdays = weekdays(date), my_hours = hour(hm(time))) %>% 
+  group_by(my_weekdays, my_hours) %>% 
+  summarise(n = n()) %>% 
+  ggplot() + 
+  geom_line(aes(x = my_hours, y = n, col = my_weekdays), size = 1.05)
+# the legend needs some reordering
+```
+
+# Spatial data
+
+## sf objects
+
+All road crashes happen somewhere and, in the UK at least, all collisions recorded by the police are given geographic coordinates, something that can help prioritise interventions to save lives by intervening in and around 'crash hotspots'.
+R has strong geographic data capabilities, with the `sf` package provides a generic class for spatial vector data: points, lines and polygons, are represented in `sf` objects as a special 'geometry column', typically called 'geom' or 'geometry', extending the data frame class we've already seen in `crashes`.
+
+Create an `sf` data frame called `crashes_sf` as follows:
+
+```{r crashes-sf, fig.height=2, fig.width=3}
+library(sf) # load the sf package for working with spatial data
+crashes_sf = crashes # create copy of crashes dataset
+crashes_sf$longitude = c(-1.3, -1.2, -1.1)
+crashes_sf$latitude = c(50.7, 50.7, 50.68)
+crashes_sf = st_as_sf(crashes_sf, coords = c("longitude", "latitude"), crs = 4326)
+# plot(crashes_sf[1:4]) # basic plot
+# mapview::mapview(crashes_sf) # for interactive map
+```
+
+1. Plot only the geometry of `crashes_sf` (hint: the solution may contain `$geometry`). If the result is like the figure below, congratulations, it worked!).
+1. Plot `crashes_sf`, only showing the age variable.
+1. Plot the 2^nd^ and 3^rd^ crashes, showing which happened in the dark.
+1. **Bonus**: How far are the points apart (hint: `sf` functions begin with `st_`)?
+1. **Bonus**: Near which settlement did the tank runover the cat?
+
+```{r crashes-sf-ex, echo=FALSE, out.width="30%", fig.show='hold'}
+plot(crashes_sf$geometry)
+plot(crashes_sf["casualty_age"])
+plot(crashes_sf[2:3, "dark"])
+# st_distance(crashes_sf)
+# Bembridge
+
+# # updload geographic crash data
+# write_sf(crashes_sf, "crashes_sf.geojson")
+# piggyback::pb_upload("crashes_sf.geojson")
+```
+
+## Reading and writing spatial data
+
+You can read and write spatial data with `read_sf()` and `write_sf()`, as shown below (see `?read_sf`).
+
+```{r, eval=FALSE}
+write_sf(zones, "zones.geojson") # save geojson file
+write_sf(zones, "zmapinfo", driver = "MapInfo file")
+read_sf("zmapinfo") # read in mapinfo file
+```
+
+See [Chapter 6](https://geocompr.robinlovelace.net/read-write.html) of Geocomputation with R for further information.
+
+## sf polygons
+
+`sf` objects can also represent administrative zones.
+This is illustrated below with reference to `zones`, a spatial object representing the Isle of Wight, that we will download using the `pct` package (note: the `[1:9]` appended to the function selects only the first 9 columns).
+
+```{r}
+zones = pct::get_pct_zones("isle-of-wight")[1:9]
+```
+
+1. What is the class of the `zones` object?
+1. What are its column names?
+1. Print its first 2 rows and columns 6:8 (the result is below).
+
+```{r, echo=FALSE}
+# class(zones)
+# names(zones)
+zones[1:2, c(1, 5, 6, 7, 8)]
+```
+
+## Spatial subsetting and sf plotting
+
+Like index and value subsetting, spatial subsetting can be done with the `[` notation.
+Subset the `zones` that contain features in `crashes_sf` as follows:
+
+```{r, message=FALSE}
+zones_containing_crashes = zones[crashes_sf, ]
+```
+
+To plot a new layer on top of an existing `sf` plot, use the `add = TRUE` argument.
+Remember to plot only the `geometry` column of objects to avoid multiple maps.
+Colours can be set with the `col` argument.
+
+1. Plot the geometry of the zones, with the zones containing crashes overlaid on top in red.
+1. Plot the zone containing the 2^nd^ crash in blue.
+1. **Bonus:** plot all zones that intersect with a zone containing crashes, with the actual crash points plotted in black.
+
+```{r sp-ex, echo=FALSE, out.width="33%", fig.show='hold', message=FALSE, warning=FALSE}
+plot(zones$geometry)
+plot(zones_containing_crashes$geometry, col = "red", add = TRUE)
+plot(zones$geometry)
+plot(zones[crashes_sf[2, ], ], col = "blue", add = TRUE)
+plot(zones$geometry)
+plot(zones[zones_containing_crashes, ], col = "yellow", add = TRUE)
+plot(crashes_sf$geometry, pch = 20, add = TRUE)
+```
+
+## Geographic joins
+
+Geographic joins involve assigning values from one object to a new column in another, based on the geographic relationship between them.
+With `sf` objects it works as follows:
+
+```{r, message=FALSE}
+zones_joined = st_join(zones[NULL], crashes_sf)
+```
+
+1. Plot the `casualty_age` variable of the new `zones_joined` object (see the figure below to verify the result).
+1. How many zones are returned in the previous command? 
+1. Select only the `geo_code` column from the `zones` and the `dark` column from `crashes_sf` and use the `left = FALSE` argument to return only zones in which crashes occured. Plot the result.
+
+See [Chapter 4](https://geocompr.robinlovelace.net/spatial-operations.html#spatial-joining) of Geocomputation with R [@lovelace_geocomputation_2019] for further information on geographic joins.
+
+```{r joinf, echo=FALSE, out.width="40%", fig.show='hold', message=FALSE}
+plot(zones_joined["casualty_age"])
+zjd = st_join(zones[1], crashes_sf["dark"], left = FALSE)
+plot(zjd)
+```
+
+
+## CRSs
+
+Get and set Coordinate Reference Systems (CRSs) with the command `st_crs()`.
+Transform CRSs with the command `st_transform()`, as demonstrated in the code chunk below, which converts the 'lon/lat' geographic CRS of `crashes_sf` into the projected CRS of the British National Grid:
+
+```{r crs1}
+crashes_osgb = st_transform(crashes_sf, 27700)
+```
+
+1. Try to subset the zones with the `crashes_osgb`. What does the error message say?
+1. Create `zones_osgb` by transforming the `zones` object.
+1. **Bonus:** use `st_crs()` to find out the units measurement of the British National Grid?
+
+For more information on CRSs see [Chapter 6](https://geocompr.robinlovelace.net/reproj-geo-data.html) of Geocompuation with R.
+
+## Buffers
+
+Buffers are polygons surrounding geometries of a (usually) fixed distance.
+Currently buffer operations in R only work on objects with projected CRSs.
+
+1. Find out and read the help page of `sf`'s buffer function.
+1. Create an object called `crashes_1km_buffer` representing the area within 1 km of the crashes.
+1. **Bonus:** try creating buffers on the geographic version of the `crashes_sf` object. What happens?
+
+## Attribute operations on sf objects
+
+Because `sf` objects are `data.frame`s, we can do non-spatial operations on them.
+Try the following attribute operations on the `zones` data.
+
+```{r, eval=TRUE}
+# load example dataset if it doesn't already exist
+zones = pct::get_pct_zones("isle-of-wight")
+sel = zones$all > 3000  # create a subsetting object
+zones_large = zones[sel, ] # subset areas with a popualtion over 100,000
+zones_2 = zones[zones$geo_name == "Isle of Wight 002",] # subset based on 'equality' query
+zones_first_and_third_column = zones[c(1, 3)]
+zones_just_all = zones["all"]
+```
+
+
+1. Practice subsetting techniques you have learned on the `sf data.frame` object `zones`:
+     1. Create an object called `zones_small` which contains only regions with less than 3000 people in the `all` column
+     1. Create a selection object called `sel_high_car` which is `TRUE` for regions with above median numbers of people who travel by car and `FALSE` otherwise
+     1. Create an object called `zones_foot` which contains only the foot attribute from `zones`
+     1. Bonus: plot `zones_foot` using the function `plot` to show where walking is a popular mode of travel to work
+     1. Bonus: bulding on your answers to previous questions, use `filter()` from the `dplyr` package to subset small regions where car use is high. 
+1. Bonus: What is the population density of each region (hint: you may need to use the functions `st_area()`, `as.numeric()` and use the 'all' column)?
+1. Bonus: Which zone has the highest percentage of people who cycle?
+
+```{r, echo=FALSE, eval=FALSE}
+# 1. Practice subsetting techniques you have learned on the `sf data.frame` object `zones`:
+#      1. Create an object called `zones_small` which contains only regions with less than 3000 people in the `all` column
+# in base R
+zones_small = zones[zones$all < 3000, ]
+# with dplyr
+zones_small = zones %>% 
+  filter(all < 3000)
+#      1. Create a selection object called `sel_high_car` which is `TRUE` for regions with above median numbers of people who travel by car and `FALSE` otherwise
+median_car = median(zones$car_driver)
+sel_high_car = zones$car_driver > median_car 
+#      1. How many regions have the number '1' in the column 'geo_name'? What percentage of the regions in the Isle of Wight is this?
+sel_region_name_contains_1 = grepl("1", x = zones$geo_name)
+sum(sel_region_name_contains_1) / nrow(zones)
+#      1. Create an object called `zones_foot` which contains only the foot attribute from `zones`
+# using base R
+zones_foot = zones["foot"]
+# dplyr
+zones_foot = zones %>% 
+  select(foot)
+#      1. Bonus: plot the result to show where walking is a popular mode of travel to work
+plot(zones_foot)
+#      1. Bonus: bulding on your answers to previous questions, use `filter()` from the `dplyr` package to subset small regions where high car use is high
+zones_small_car_high = zones %>% 
+  filter(all < 3000, car_driver > median_car)
+# 1. Bonus: What is the population density of each region (hint: you may need to use the functions `st_area()`, `as.numeric()` and use the 'all' column)?
+zones$area_km2 = as.numeric(st_area(zones)) /1000000
+zones$population_density = zones$all / zones$area_km2
+plot(zones["population_density"])
+# in dplyr
+zones_density = zones %>% 
+  mutate(area_km2 = as.numeric(st_area(geometry)) / 1000000) %>% 
+  mutate(population_density = all / area_km2)
+plot(zones_density %>% select(population_density))
+# 1. Bonus: Which zone has the highest percentage who cycle?
+zones %>% 
+  mutate(pcycle = bicycle / all) %>% 
+  top_n(n = 1, wt = pcycle)
+# 1. Bonus: Find the proportion of people who drive to work (`car_driver`) in areas in which more than 500 people walk to work
+zones %>% 
+  group_by(foot > 500) %>% 
+  summarise(mean_car = sum(car_driver) / sum(all) )
+```
+
+## Matching roads to crashes
+
+
+
+# Visualising spatial datasets
+
+So far we have used the `plot()` function to make maps.
+That's fine for basic visualisation, but for publication-quality maps, we recommend using `tmap` (see Chapter 8 of Geocomputation with R for reasons and alternatives).
+Load the package as follows:
+
+```{r}
+library(tmap)
+tmap_mode("plot")
+```
+
+1. Create the following plots using `plot()` and `tm_shape() + tm_polygons()` functions (note: the third figure relies on setting `tmap_mode("view")`.
+1. Add an additional layer to the interactive map showing the location of crashes, using marker and dot symbols.
+1. Bonus: Change the default basemap (hint: you may need to search in the package documentation or online for the solution).
+
+```{r plot3, fig.show='hold', out.width="33%", echo=FALSE}
+plot(zones[c("all", "bicycle")])
+tm_shape(zones) + 
+  tm_polygons(c("all", "bicycle"))
+tmap_mode("view")
+m = tm_shape(zones_joined) + 
+  tm_polygons(c("casualty_type")) +
+  tm_scale_bar()
+knitr::include_graphics("tmap-zones-interactive.png")
+```
+
+# Analysing point data from stats19
+
+Based on the saying "don't run before you can walk", we've learned the vital foundations of R before tackling a real dataset.
+Temporal and spatial attributes are key to road crash data, hence the emphasis on `lubridate` and `sf`.
+Visualisation is key to understanding and policy influence, which is where `tmap` comes in.
+With these solid foundations, plus knowledge of how to ask for help (ask R's internal help, colleagues, online forums/GitHub, generally in that order of priority), you are ready to test the methods on some real data.
+
+Before doing so, take a read of the `stats19` vignette, which can be launched as follows:
+
+```{r, eval=FALSE}
+vignette(package = "stats19") # view all vignettes available on stats19
+vignette("stats19") # view the introductory vignette
+```
+
+This should now be sufficient to tackle the following exercises:
+
+1. Download and plot all crashes reported in Great Britain in 2018 (hint: see [the stats19 vignette](https://cran.r-project.org/web/packages/stats19/vignettes/stats19.html))
+1. Find the function in the `stats19` package that converts a `data.frame` object into an `sf` data frame. Use this function to convert the road crashes into an `sf` object, called `crashes_sf`, for example.
+1. Filter crashes that happened in the Isle of Wight based on attribute data (hint: the relevant column contains the word `local`)
+1. Filter crashes happened in the Isle of Wight using geographic subsetting (hint: remember `st_crs()`?)
+1. Bonus: Which type of subsetting yielded more results and why? 
+1. Bonus: how many crashes happened in each zone?
+1. Create a new column called `month` in the crash data using the function `lubridate::month()` and the `date` column.
+1. Create an object called `a_zones_may` representing all the crashes that happened in the Isle of Wight in the month of May
+1. Bonus: Calculate the average (`mean`) speed limit associated with each crash that happened in May across the zones of the Isle of Wight (the result is shown in the map)
+
+
+```{r, echo=FALSE, results='hide', message=FALSE, eval=FALSE}
+library(stats19)
+library(dplyr)
+library(sf)
+a = get_stats19(2018, "ac")
+asf = format_sf(a)
+a_zones = asf %>% 
+  filter(local_authority_district == "Isle of Wight")
+nrow(a_zones)
+zones = pct::get_pct_zones(region = "isle-of-wight")
+zones_osbg = st_transform(zones, 27700)
+a_zones_sf = a_zones[zones_osbg, ]
+nrow(a_zones_sf)
+# mapview::mapview(zones) +
+#   mapview::mapview(a_zones)
+class(a$date)
+class(a$time)
+a_zones$month = lubridate::month(a_zones$date)
+a_zones_may = a_zones %>% 
+  filter(month == 5)
+a_agg = aggregate(a_zones_may["speed_limit"], zones_osbg, mean)
+plot(a_agg)
+class(a$date)
+```
+
+# Analysing crash data on road networks
+
+Road network data can be accessed from a range of sources, including OpenStreetMap (OSM) and Ordnance Survey.
+We will use some OSM data from the Ilse of Wight, which can be loaded as follows:
+
+```{r}
+u = "https://github.com/ropensci/stats19/releases/download/1.1.0/roads_key.Rds"
+roads_wgs = readRDS(url(u))
+roads = roads_wgs %>% st_transform(crs = 27700)
+```
+
+You should already have road crashes for the Isle of Wight from the previous stage.
+If not, load crash data as follows:
+
+```{r}
+u = "https://github.com/ropensci/stats19/releases/download/1.1.0/car_collisions_2022_iow.Rds"
+crashes_iow = readRDS(url(u))
+```
+
+1. Plot the roads with the crashes overlaid.
+2. Create a buffer around the roads with a distance of 200 m.
+3. How many crashes fall outside the buffered roads?
+3. Bonus: Use the `aggregate()` function to identify how many crashes happened per segment and plot the result (hint: see `?aggregate.sf` and take a read of Section [4.2.5](https://geocompr.robinlovelace.net/spatial-operations.html#spatial-aggr) of Geocomputation with R) with `tmap` and plot the crashes that happened outside the road buffers on top.
+
+```{r, echo=FALSE, out.width="49%", fig.show='hold', message=FALSE}
+plot(roads$geometry)
+plot(crashes_iow["accident_severity"], add = TRUE)
+roads_buffer = st_buffer(roads, 200, endCapStyle = "FLAT")
+crashes_outside_roads = crashes_iow[roads_buffer, , op = sf::st_disjoint]
+roads_agg = aggregate(crashes_iow[1], by = roads_buffer, FUN = length)
+# plot(roads_agg, border = NA, main = "")
+names(roads_agg)[1] = "N. Crashes"
+tmap_mode("plot")
+tm_shape(roads_agg) + tm_fill("N. Crashes") +
+  tm_shape(crashes_outside_roads) + tm_dots(col = "blue")
+```
+
+\newpage
+
+# Bonus exercises
+
+Identify a region and zonal units of interest from http://geoportal.statistics.gov.uk/ or from the object `police_boundaries` in the `stats19` package.
+
+1. Read them into R as an `sf` object
+1. Create a map showing the number of crashes in each zone
+1. Identify the average speed limit associated with crashes in each zone
+1. Identify an interesting question you can ask of the data and use exploratory data analysis to find answers
+1. Take a look at the code in [the file iow_example.R in the inst directory in the stats19 repo](https://github.com/ropensci/stats19/blob/master/inst/iow_example.R). Run it to reproduce the figure below.
+
+```{r final-plot, echo=FALSE, out.width="100%"}
+# knitr::include_graphics("final-figure.png")
+```
+
+
+# References

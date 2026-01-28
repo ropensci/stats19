@@ -1,0 +1,120 @@
+* using log directory ‘/home/runner/work/stats19/stats19/stats19.Rcheck’
+* using R version 4.3.3 (2024-02-29)
+* using platform: x86_64-pc-linux-gnu (64-bit)
+* R was compiled by
+    gcc (Ubuntu 13.2.0-23ubuntu3) 13.2.0
+    GNU Fortran (Ubuntu 13.2.0-23ubuntu3) 13.2.0
+* running under: Ubuntu 24.04.3 LTS
+* using session charset: UTF-8
+* using options ‘--no-manual --no-build-vignettes’
+* checking for file ‘stats19/DESCRIPTION’ ... OK
+* this is package ‘stats19’ version ‘3.4.0.9000’
+* package encoding: UTF-8
+* checking package namespace information ... OK
+* checking package dependencies ... NOTE
+Packages suggested but not available for checking:
+  'leaflet', 'geojsonsf', 'tmap', 'osmdata', 'readODS', 'gt'
+* checking if this is a source package ... OK
+* checking if there is a namespace ... OK
+* checking for executable files ... OK
+* checking for hidden files and directories ... OK
+* checking for portable file names ... OK
+* checking for sufficient/correct file permissions ... OK
+* checking whether package ‘stats19’ can be installed ... OK
+* checking installed package size ... OK
+* checking package directory ... OK
+* checking DESCRIPTION meta-information ... OK
+* checking top-level files ... OK
+* checking for left-over files ... OK
+* checking index information ... OK
+* checking package subdirectories ... OK
+* checking R files for non-ASCII characters ... OK
+* checking R files for syntax errors ... OK
+* checking whether the package can be loaded ... OK
+* checking whether the package can be loaded with stated dependencies ... OK
+* checking whether the package can be unloaded cleanly ... OK
+* checking whether the namespace can be loaded with stated dependencies ... OK
+* checking whether the namespace can be unloaded cleanly ... OK
+* checking loading without being on the library search path ... OK
+* checking startup messages can be suppressed ... OK
+* checking dependencies in R code ... OK
+* checking S3 generic/method consistency ... OK
+* checking replacement functions ... OK
+* checking foreign function calls ... OK
+* checking R code for possible problems ... NOTE
+match_tag: no visible binding for global variable ‘...1’
+match_tag: no visible binding for global variable ‘...3’
+match_tag: no visible binding for global variable ‘...4’
+match_tag: no visible binding for global variable ‘...5’
+match_tag: no visible binding for global variable ‘collision_severity’
+match_tag: no visible binding for global variable ‘cost_per_casualty’
+match_tag: no visible binding for global variable ‘cost_per_collision’
+match_tag: no visible binding for global variable ‘Collision data year’
+match_tag: no visible binding for global variable ‘Severity’
+match_tag: no visible binding for global variable ‘built_up1’
+match_tag: no visible binding for global variable ‘not_built_up’
+match_tag: no visible binding for global variable ‘Motorway’
+match_tag: no visible binding for global variable ‘collision_year’
+match_tag: no visible binding for global variable ‘speed_limit’
+match_tag: no visible binding for global variable ‘first_road_class’
+match_tag: no visible binding for global variable ‘urban_or_rural_area’
+match_tag: no visible binding for global variable ‘ons_road’
+match_tag: no visible binding for global variable ‘cost’
+match_tag: no visible binding for global variable ‘costs_millions’
+match_tag: no visible binding for global variable ‘BUA22CD’
+match_tag: no visible binding for global variable ‘BUA22NM’
+match_tag: no visible binding for global variable ‘SHAPE’
+Undefined global functions or variables:
+  ...1 ...3 ...4 ...5 BUA22CD BUA22NM Collision data year Motorway
+  SHAPE Severity built_up1 collision_severity collision_year cost
+  cost_per_casualty cost_per_collision costs_millions first_road_class
+  not_built_up ons_road speed_limit urban_or_rural_area
+Consider adding
+  importFrom("utils", "data")
+to your NAMESPACE file.
+* checking Rd files ... OK
+* checking Rd metadata ... OK
+* checking Rd cross-references ... OK
+* checking for missing documentation entries ... OK
+* checking for code/documentation mismatches ... OK
+* checking Rd \usage sections ... OK
+* checking Rd contents ... OK
+* checking for unstated dependencies in examples ... OK
+* checking contents of ‘data’ directory ... OK
+* checking data for non-ASCII characters ... OK
+* checking LazyData ... OK
+* checking data for ASCII and uncompressed saves ... OK
+* checking files in ‘vignettes’ ... WARNING
+Files in the 'vignettes' directory but no files in 'inst/doc':
+  ‘blog.Rmd’ ‘blog_files/figure-markdown_github/crashes-map-1.png’
+  ‘blog_files/figure-markdown_github/nfatalities-1.png’
+  ‘blog_files/figure-markdown_github/sfplot-1.png’ ‘factsheet.Rmd’
+  ‘make.Rmd’ ‘packages.bib’ ‘references.bib’
+  ‘stats19-training-setup.Rmd’ ‘stats19-training.Rmd’
+  ‘stats19-vehicles.Rmd’ ‘stats19.Rmd’ ‘wy-overview.jpg’
+* checking examples ... OK
+* checking for unstated dependencies in ‘tests’ ... OK
+* checking tests ... OK
+  Running ‘testthat.R’
+* checking for unstated dependencies in vignettes ... OK
+* checking package vignettes in ‘inst/doc’ ... WARNING
+Directory 'inst/doc' does not exist.
+Package vignettes without corresponding single PDF/HTML:
+  ‘blog.Rmd’
+  ‘factsheet.Rmd’
+  ‘make.Rmd’
+  ‘stats19-training-setup.Rmd’
+  ‘stats19-training.Rmd’
+  ‘stats19-vehicles.Rmd’
+  ‘stats19.Rmd’
+* checking running R code from vignettes ... NONE
+  ‘blog.Rmd’ using ‘UTF-8’... OK
+  ‘factsheet.Rmd’ using ‘UTF-8’... OK
+  ‘make.Rmd’ using ‘UTF-8’... OK
+  ‘stats19-training-setup.Rmd’ using ‘UTF-8’... OK
+  ‘stats19-training.Rmd’ using ‘UTF-8’... OK
+  ‘stats19-vehicles.Rmd’ using ‘UTF-8’... OK
+  ‘stats19.Rmd’ using ‘UTF-8’... OK
+* checking re-building of vignette outputs ... SKIPPED
+* DONE
+Status: 2 WARNINGs, 2 NOTEs
