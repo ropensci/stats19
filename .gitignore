@@ -19,3 +19,4 @@ docs/
 README.html
 .DS_Store
 vignettes/crashes.Rds
+..Rcheck/

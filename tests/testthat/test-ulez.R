@@ -10,17 +10,20 @@ test_that("get_ULEZ has correct parameters", {
 })
 
 test_that("get_ULEZ validates VRM input correctly", {
-  # Test non-vector input
-  expect_error(get_ULEZ(vrm = list("ABC123")), "vrm must be a vector")
-  
   # Test VRM with spaces
   expect_error(get_ULEZ(vrm = c("ABC 123")), "Please remove spaces from VRMs")
   
   # Test VRM with non-alphanumeric characters
   expect_error(get_ULEZ(vrm = c("ABC-123")), "VRMs must be alphanumeric")
+  
+  # Test non-character VRM elements
+  expect_error(get_ULEZ(vrm = c(123)), "All VRMs must be character")
 })
 
 test_that("get_ULEZ shows rate limiting message", {
+  skip_if_offline()
+  skip_on_cran()
+  
   # The function should display a message about rate limiting
   expect_message(get_ULEZ(vrm = c("INVALID")), "50 vrms per minute")
 })

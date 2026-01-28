@@ -10,9 +10,6 @@ test_that("get_MOT has correct parameters", {
 })
 
 test_that("get_MOT validates VRM input correctly", {
-  # Test non-vector input
-  expect_error(get_MOT(vrm = list("ABC123"), apikey = "test"), "vrm must be a vector")
-  
   # Test VRM with spaces
   expect_error(get_MOT(vrm = c("ABC 123"), apikey = "test"), "Please remove spaces from VRMs")
   
@@ -25,6 +22,9 @@ test_that("get_MOT validates VRM input correctly", {
   # Test large number of VRMs
   expect_error(get_MOT(vrm = rep("ABC123", 150000), apikey = "test"), 
                "Don't do more than 150,000 VRMs per day")
+  
+  # Test non-character VRM elements
+  expect_error(get_MOT(vrm = c(123), apikey = "test"), "All VRMs must be character")
 })
 
 test_that("get_MOT validates apikey input", {

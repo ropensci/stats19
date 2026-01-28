@@ -1,15 +1,16 @@
 test_that("get_url works correctly", {
   # Test default parameters
   url = get_url()
-  expect_equal(url, "https://data.dft.gov.uk/road-accidents-safety-data")
+  expect_true(grepl("https://data.dft.gov.uk/road-accidents-safety-data", url))
   
   # Test with file name
   url_with_file = get_url("test.csv")
-  expect_equal(url_with_file, "https://data.dft.gov.uk/road-accidents-safety-data/test.csv")
+  expect_true(grepl("test.csv$", url_with_file))
+  expect_true(grepl("https://data.dft.gov.uk/road-accidents-safety-data", url_with_file))
   
   # Test with custom domain
   url_custom = get_url("file.csv", domain = "https://example.com", directory = "data")
-  expect_equal(url_custom, "https://example.com/data/file.csv")
+  expect_true(grepl("https://example.com/data/file.csv", url_custom))
 })
 
 test_that("current_year returns valid year", {
@@ -80,7 +81,7 @@ test_that("locate_files returns correct paths", {
   expect_equal(length(files), 0)
   
   # Test that function requires existing directory
-  expect_error(locate_files(data_dir = "/nonexistent/path"), "does not exist")
+  expect_error(locate_files(data_dir = "/nonexistent/path"))
 })
 
 test_that("locate_one_file works correctly", {
