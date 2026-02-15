@@ -115,6 +115,11 @@ dl_stats19 = function(year = NULL,
       message("Failed to download file: ", file_url)
       return(NULL)
     })
+    
+    if (!file.exists(destfile)) {
+      return(NULL)
+    }
+
     if (isFALSE(silent)) {
       message("Data saved at ", destfile)
     }
