@@ -20,6 +20,7 @@ extract_make_stats19 = function(generic_make_model) {
   make = dplyr::case_when(
     stringr::str_starts(generic_make_model, "ALFA ROMEO") ~ "ALFA ROMEO",
     stringr::str_starts(generic_make_model, "ASTON MARTIN") ~ "ASTON MARTIN",
+    stringr::str_starts(generic_make_model, "AUSTIN MORRIS") ~ "AUSTIN MORRIS",
     stringr::str_starts(generic_make_model, "LAND ROVER") ~ "LAND ROVER",
     stringr::str_starts(generic_make_model, "RANGE ROVER") ~ "LAND ROVER",
     stringr::str_starts(generic_make_model, "LONDON TAXIS") ~ "LONDON TAXIS INTERNATIONAL",
@@ -65,7 +66,7 @@ clean_make = function(make, extract_make = TRUE) {
   )
   # Clean up synonyms and multi-word standardizations
   make = dplyr::case_when(
-    make %in% c("-1", "Make", "Other", "Generic", "All", "Better", "Easy", "David", "White", "Int.", "Data") ~ NA_character_,
+    make %in% c("-1", "Make", "Other", "All", "Better", "Easy", "David", "White", "Int.", "Data") ~ NA_character_,
     stringr::str_detect(make, "Volksw|VW") ~ "Volkswagen",
     stringr::str_detect(make, "Citro") ~ "Citroen",
     # Mercs are Mercedes
@@ -147,6 +148,13 @@ clean_model = function(model) {
   is_invalid[is.na(is_invalid)] = FALSE
   
   model_only = dplyr::if_else(is_invalid, NA_character_, model_only)
+  
+  # Convert numeric-looking strings to proper format (e.g., "1.0" -> "1")
+  # Only if it looks like a decimal number with trailing .0
+  is_whole_number = stringr::str_detect(model_only, "^[0-9]+\\.0$")
+  model_only = dplyr::if_else(is_whole_number, 
+                               stringr::str_remove(model_only, "\\.0$"),
+                               model_only)
   
   stringr::str_to_title(model_only)
 }
