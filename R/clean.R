@@ -20,6 +20,7 @@ extract_make_stats19 = function(generic_make_model) {
   make = dplyr::case_when(
     stringr::str_starts(generic_make_model, "ALFA ROMEO") ~ "ALFA ROMEO",
     stringr::str_starts(generic_make_model, "ASTON MARTIN") ~ "ASTON MARTIN",
+    stringr::str_starts(generic_make_model, "AUSTIN MORRIS") ~ "AUSTIN MORRIS",
     stringr::str_starts(generic_make_model, "LAND ROVER") ~ "LAND ROVER",
     stringr::str_starts(generic_make_model, "RANGE ROVER") ~ "LAND ROVER",
     stringr::str_starts(generic_make_model, "LONDON TAXIS") ~ "LONDON TAXIS INTERNATIONAL",
@@ -65,7 +66,7 @@ clean_make = function(make, extract_make = TRUE) {
   )
   # Clean up synonyms and multi-word standardizations
   make = dplyr::case_when(
-    make %in% c("-1", "Make", "Other", "Generic", "All", "Better", "Easy", "David", "White", "Int.", "Data") ~ NA_character_,
+    make %in% c("-1", "Make", "Other", "All", "Better", "Easy", "David", "White", "Int.", "Data") ~ NA_character_,
     stringr::str_detect(make, "Volksw|VW") ~ "Volkswagen",
     stringr::str_detect(make, "Citro") ~ "Citroen",
     # Mercs are Mercedes
@@ -76,7 +77,9 @@ clean_make = function(make, extract_make = TRUE) {
     stringr::str_detect(make, "Geely") ~ "Geely",
     # *oda is Skoda
     stringr::str_detect(make, "oda|Oda") ~ "Skoda",
-    stringr::str_detect(make, "Opel") ~ "Vauxhall",
+    # Keep Opel separate from Vauxhall (per discussion on #296)
+    # stringr::str_detect(make, "Opel") ~ "Vauxhall",
+    
     # DAF
     make == "Daf" ~ "DAF",
     make == "Leyland Daf" ~ "DAF",
@@ -148,7 +151,34 @@ clean_model = function(model) {
   
   model_only = dplyr::if_else(is_invalid, NA_character_, model_only)
   
-  stringr::str_to_title(model_only)
+  # Convert numeric-looking strings to proper format (e.g., "1.0" -> "1")
+  # Only if it looks like a decimal number with trailing .0
+  is_whole_number = stringr::str_detect(model_only, "^[0-9]+\\.0$")
+  model_only = dplyr::if_else(is_whole_number, 
+                               stringr::str_remove(model_only, "\\.0$"),
+                               model_only)
+  
+  # Keep certain model names uppercase (CBR, RS, SQ, GS, bZ4X, etc.)
+  uppercase_models = c("CBR", "RS", "SQ", "GS", "BZ4X", "BZ2X", "BZ1X")
+  model_only = dplyr::if_else(
+    model_only %in% uppercase_models,
+    model_only,
+    stringr::str_to_title(model_only)
+  )
+  
+  # Handle Mercedes "Class" models - keep "Class" as "Class" not "Class"
+  # But model names like CLA, GLA should have "Class" suffix properly capitalized
+  is_merc_class = stringr::str_detect(model_only, "^(Cla|Gla|Clk|Cls|Cle|Eqa|Eqb|Eqc|Eqe|Sl[ck]|Amg)\\s*Class$")
+  model_only = dplyr::if_else(
+    is_merc_class,
+    stringr::str_to_lower(model_only),
+    model_only
+  )
+  
+  # Handle Toyota LandCruiser - keep "Cruiser" capitalized
+  model_only = stringr::str_replace(model_only, "Landcruiser", "LandCruiser")
+  
+  model_only
 }
 
 #' Clean vehicle make and model
