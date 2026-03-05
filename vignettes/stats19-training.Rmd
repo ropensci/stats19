@@ -503,7 +503,8 @@ library(ggplot2)
 g1 = ggplot(crashes) + geom_point(aes(x = casualty_type, y = casualty_age)) 
 g2 = ggplot(crashes) + geom_point(aes(x = casualty_type, y = casualty_age)) +
   ggthemes::theme_economist()
-g3 = cowplot::plot_grid(g1, g2)
+library(patchwork)
+g3 = g1 + g2
 ggsave(filename = "inst/ggtheme-plot.png", width = 8, height = 2, dpi = 80)
 ```
 
