@@ -93,13 +93,20 @@ format_stats19 = function(x, type) {
     }
   }
 
-  # Global standardization of missing labels across ALL columns
+  # Standardize missing labels across ALL columns
   x[] = lapply(x, function(col) {
     if (is.character(col)) {
       col[col %in% missing_labels] = NA_character_
     }
     col
   })
+
+  # Smart Unification for E-scooters
+  if ("escooter_flag" %in% names(x) && "vehicle_type" %in% names(x)) {
+    is_escooter = !is.na(x$escooter_flag) & x$escooter_flag == "Vehicle was an e-scooter"
+    # If it's an e-scooter and vehicle_type is NA, set it
+    x$vehicle_type[is_escooter & is.na(x$vehicle_type)] = "E-scooter"
+  }
 
   # Unify historic columns
   historic_cols = names(x)[grepl("_historic$", names(x))]
