@@ -51,7 +51,7 @@ read_collisions = function(year = NULL,
     return(NULL)
   }
   suppressWarnings({
-    ac = readr::read_csv(path, col_types = col_spec())
+    ac = readr::read_csv(path, col_types = col_spec(), na = c("", "NA", "-1"))
   })
 
   if(format)
@@ -175,7 +175,7 @@ read_null = function(path, ...) {
   if (is.null(path)) {
     return(NULL)
   }
-  readr::read_csv(path, col_types = col_spec(), ...)
+  readr::read_csv(path, col_types = col_spec(), na = c("", "NA", "-1"), ...)
 }
 
 # possibly in utils
