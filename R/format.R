@@ -59,13 +59,11 @@ format_stats19 = function(x, type) {
   names(x) = format_column_names(names(x))
 
   # create lookup table
-  # vars_to_change = intersect(names(x), stats19::stats19_schema$variable)
-  # Actually we should only change variables that are in the relevant table
   lkp_vars = stats19::stats19_variables$variable[stats19::stats19_variables$table == tolower(type)]
   vars_to_change = intersect(names(x), lkp_vars)
   vars_to_change = intersect(vars_to_change, stats19::stats19_schema$variable)
   
-  missing_labels = c("Data missing or out of range", "Unknown", "Undefined")
+  missing_labels = c("Data missing or out of range", "Unknown", "Undefined", "Code deprecated", "Not known")
 
   for(v in vars_to_change) {
     lookup = stats19::stats19_schema[stats19::stats19_schema$variable == v, c("code", "label")]
@@ -79,8 +77,33 @@ format_stats19 = function(x, type) {
       labels[labels %in% missing_labels] = NA_character_
       x[[v]][has_match] = labels
     }
-    # Also handle if labels were already present in the data
-    x[[v]][x[[v]] %in% missing_labels] = NA
+  }
+
+  # Global standardization of missing labels across ALL columns
+  x[] = lapply(x, function(col) {
+    if (is.character(col)) {
+      col[col %in% missing_labels] = NA_character_
+    }
+    col
+  })
+
+  # Unify historic columns
+  historic_cols = names(x)[grepl("_historic$", names(x))]
+  for (hcol in historic_cols) {
+    # Try exact match first
+    primary_col = gsub("_historic$", "", hcol)
+    
+    # Special cases for non-exact matches
+    if (primary_col == "pedestrian_crossing_human_control") {
+      primary_col = "pedestrian_crossing" # Merge into the newer unified field if present
+    }
+    
+    if (primary_col %in% names(x)) {
+      # Use primary if available, otherwise use historic
+      x[[primary_col]] = ifelse(is.na(x[[primary_col]]), x[[hcol]], x[[primary_col]])
+      # Remove the historic column
+      x[[hcol]] = NULL
+    }
   }
 
   if("date" %in% names(x)) {
