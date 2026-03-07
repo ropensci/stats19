@@ -19,9 +19,6 @@
 #' if(curl::has_internet()) {
 #' dl_stats19(year = 2024, type = "collision")
 #' ac = read_collisions(year = 2024)
-#'
-#' dl_stats19(year = 2024, type = "collision")
-#' ac_2019 = read_collisions(year = 2024)
 #' }
 #' }
 read_collisions = function(year = NULL,
@@ -29,110 +26,93 @@ read_collisions = function(year = NULL,
                           data_dir = get_data_directory(),
                           format = TRUE,
                           silent = FALSE) {
-  # Set the local edition for readr.
-  # See https://github.com/ropensci/stats19/issues/205
-  if (.Platform$OS.type == "windows" && utils::packageVersion("readr") >= "2.0.0") {
-    readr::local_edition(1)
-  }
-
-  path = check_input_file(
-    filename = filename,
-    type = "collision",
-    data_dir = data_dir,
-    year = year
-  )
-  if (isFALSE(silent)) {
-    message("Reading in: ")
-    message(path)
-  }
-  # read the data in
-  if (is.null(path)) {
-    message("File not found.")
-    return(NULL)
-  }
-  ac = readr::read_csv(path, col_types = col_spec(path), na = c("", "NA", "-1"))
-
-  if(format)
-    return(format_collisions(ac))
-  ac
+  read_stats19(year = year, filename = filename, data_dir = data_dir, 
+               format = format, silent = silent, type = "collision")
 }
 
 #' Read in stats19 road safety data from .csv files downloaded.
 #'
-#' @section Details:
-#' The function returns a data frame, in which each record is a reported vehicle in the
-#' STATS19 dataset for the data_dir and filename provided.
-#'
 #' @inheritParams read_collisions
-#'
 #' @export
-#' @examples
-#' \donttest{
-#' if(curl::has_internet()) {
-#' dl_stats19(year = 2024, type = "vehicle")
-#' ve = read_vehicles(year = 2024)
-#' }
-#' }
 read_vehicles = function(year = NULL,
                          filename = "",
                          data_dir = get_data_directory(),
                          format = TRUE) {
-  # check inputs
-  path = check_input_file(
-    filename = filename,
-    type = "vehicle",
-    data_dir = data_dir,
-    year = year
-  )
-  ve = read_ve_ca(path = path)
-  if(format) {
-    return(format_vehicles(ve))
-  } else {
-    ve
-  }
+  read_stats19(year = year, filename = filename, data_dir = data_dir, 
+               format = format, type = "vehicle")
 }
 
 #' Read in STATS19 road safety data from .csv files downloaded.
 #'
-#' @section Details:
-#' The function returns a data frame, in which each record is a reported casualty
-#' in the STATS19 dataset.
-#'
 #' @inheritParams read_collisions
-#'
 #' @export
-#' @examples
-#' \donttest{
-#' if(curl::has_internet()) {
-#' dl_stats19(year = 2022, type = "casualty")
-#' casualties = read_casualties(year = 2022)
-#' }
-#' }
 read_casualties = function(year = NULL,
                            filename = "",
                            data_dir = get_data_directory(),
                            format = TRUE) {
-  path = check_input_file(
-    filename = filename,
-    type = "cas",
-    data_dir = data_dir,
-    year = year
-  )
-  ca = read_ve_ca(path = path)
-  if(format)
-    return(format_casualties(ca))
-  ca
+  read_stats19(year = year, filename = filename, data_dir = data_dir, 
+               format = format, type = "cas")
+}
+
+# Internal helper to handle all stats19 reading
+read_stats19 = function(year = NULL,
+                        filename = "",
+                        data_dir = get_data_directory(),
+                        format = TRUE,
+                        silent = TRUE,
+                        type = "collision") {
+  # Set the local edition for readr.
+  if (.Platform$OS.type == "windows" && utils::packageVersion("readr") >= "2.0.0") {
+    readr::local_edition(1)
+  }
+
+  fnames = filename
+  if (filename == "" || is.null(filename)) {
+    fnames = find_file_name(years = year, type = type)
+  }
+  
+  if (length(fnames) == 0) {
+    message("No files found.")
+    return(NULL)
+  }
+
+  paths = file.path(data_dir, fnames)
+  existing_paths = paths[file.exists(paths)]
+  
+  if (length(existing_paths) == 0) {
+    message("Files not found on disk.")
+    return(NULL)
+  }
+
+  read_one = function(p) {
+    if (isFALSE(silent)) message("Reading in: ", p)
+    readr::read_csv(p, col_types = col_spec(p), na = c("", "NA", "-1"), show_col_types = FALSE)
+  }
+  
+  # Read and bind
+  x_list = lapply(existing_paths, read_one)
+  x = dplyr::bind_rows(x_list)
+  
+  if(format) {
+    format_fun = switch(tolower(substr(type, 1, 3)),
+                        "col" = format_collisions,
+                        "veh" = format_vehicles,
+                        "cas" = format_casualties)
+    x = format_fun(x)
+  }
+  
+  # Filter by year if requested
+  if (!is.null(year) && !identical(year, 5) && !identical(year, "5 years")) {
+    year_col = intersect(names(x), c("accident_year", "collision_year"))
+    if (length(year_col) > 0) {
+      x = x[x[[year_col[1]]] %in% year, ]
+    }
+  }
+  
+  x
 }
 
 #' Local helper to be reused.
-#'
-#' @param filename Character string of the filename of the .csv to read, if this is given, type and
-#' years determine whether there is a target to read, otherwise disk scan would be needed.
-#' @param data_dir Where sets of downloaded data would be found.
-#' @param year Single year for which data are to be read
-#' @param type  The type of file to be downloaded (e.g. 'collisions', 'casualty' or
-#' 'vehicles'). Not case sensitive and searches using regular expressions ('acc' will work).
-#'
 check_input_file = function(filename = NULL,
                             type = NULL,
                             data_dir = NULL,
@@ -145,35 +125,13 @@ check_input_file = function(filename = NULL,
   )
   if(identical(path, "More than one csv file found."))
     stop("Multiple files with the same name found.", call. = FALSE)
-  # have we NOT found a csv to read?
-  if (is.null(path) || length(path) == 0 || !endsWith(path, ".csv")
-      || !file.exists(path)) {
-    # locate_files malfunctioned or just path returned with no filename
+  
+  if (is.null(path) || length(path) == 0 || !endsWith(path, ".csv") || !file.exists(path)) {
     message(path, " not found")
-    message(
-      "Try running dl_stats19(), change arguments or try later.",
-      call. = FALSE
-      )
+    message("Try running dl_stats19(), change arguments or try later.")
     return(NULL)
   }
   return(path)
-}
-
-read_ve_ca = function(path) {
-  # Set the local edition for readr.
-  # See https://github.com/ropensci/stats19/issues/205
-  if (.Platform$OS.type == "windows" && utils::packageVersion("readr") >= "2.0.0") {
-    readr::local_edition(1)
-  }
-  x = read_null(path)
-  x
-}
-
-read_null = function(path, ...) {
-  if (is.null(path)) {
-    return(NULL)
-  }
-  readr::read_csv(path, col_types = col_spec(path), na = c("", "NA", "-1"), ...)
 }
 
 # possibly in utils
