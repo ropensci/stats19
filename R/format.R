@@ -57,6 +57,20 @@ format_vehicles = function(x) {
 format_stats19 = function(x, type) {
   # Rename columns
   names(x) = format_column_names(names(x))
+  
+  # Standardize index names: accident_index -> collision_index
+  if ("accident_index" %in% names(x)) {
+    names(x)[names(x) == "accident_index"] = "collision_index"
+  }
+  if ("accident_year" %in% names(x)) {
+    names(x)[names(x) == "accident_year"] = "collision_year"
+  }
+  if ("accident_reference" %in% names(x)) {
+    names(x)[names(x) == "accident_reference"] = "collision_reference"
+  }
+  if ("accident_severity" %in% names(x)) {
+    names(x)[names(x) == "accident_severity"] = "collision_severity"
+  }
 
   # create lookup table
   lkp_vars = stats19::stats19_variables$variable[stats19::stats19_variables$table == tolower(type)]
