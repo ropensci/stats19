@@ -82,7 +82,12 @@ format_stats19 = function(x, type) {
     # Use lookup to replace codes with labels, but keep original values for non-matches
     # See https://github.com/ropensci/stats19/issues/235#issuecomment-2254257770
     matched_labels = lookup$label[match(x[[i]], lookup$code)]
+    # Handle labels that represent missing data
+    missing_labels = c("Data missing or out of range", "Unknown", "Undefined")
+    matched_labels[matched_labels %in% missing_labels] = NA_character_
     x[[i]] = ifelse(is.na(matched_labels), x[[i]], matched_labels)
+    # Also handle if labels were already present in the data
+    x[[i]][x[[i]] %in% missing_labels] = NA
     x[[i]] = methods::as(x[[i]], original_class)
   }
   # waldo::compare(x_old, x)
