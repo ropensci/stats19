@@ -85,7 +85,11 @@ locate_one_file = function(filename = NULL, data_dir = get_data_directory(), yea
 utils::globalVariables(
   c("stats19_variables", "stats19_schema", "skip", "accidents_sample",
     "accidents_sample_raw", "casualties_sample", "casualties_sample_raw",
-    "vehicles_sample", "vehicles_sample_raw"))
+    "vehicles_sample", "vehicles_sample_raw",
+    "...1", "...3", "...4", "...5", "BUA22CD", "BUA22NM", "Collision data year", "Motorway",
+    "SHAPE", "Severity", "built_up1", "collision_severity", "collision_year", "cost",
+    "cost_per_casualty", "cost_per_collision", "costs_millions", "first_road_class",
+    "not_built_up", "ons_road", "speed_limit", "urban_or_rural_area"))
 
 #' Generate a phrase for data download purposes
 phrase = function() {
