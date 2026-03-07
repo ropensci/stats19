@@ -50,9 +50,7 @@ read_collisions = function(year = NULL,
     message("File not found.")
     return(NULL)
   }
-  suppressWarnings({
-    ac = readr::read_csv(path, col_types = col_spec(), na = c("", "NA", "-1"))
-  })
+  ac = readr::read_csv(path, col_types = col_spec(path), na = c("", "NA", "-1"))
 
   if(format)
     return(format_collisions(ac))
@@ -175,7 +173,7 @@ read_null = function(path, ...) {
   if (is.null(path)) {
     return(NULL)
   }
-  readr::read_csv(path, col_types = col_spec(), na = c("", "NA", "-1"), ...)
+  readr::read_csv(path, col_types = col_spec(path), na = c("", "NA", "-1"), ...)
 }
 
 # possibly in utils
@@ -191,9 +189,17 @@ convert_to_col_type = function(type) {
          readr::col_guess())
 }
 
-col_spec = function() {
-    # Create a named list of column types
+col_spec = function(path = NULL) {
+  # Create a named list of column types
   unique_vars = unique(stats19::stats19_variables$variable)
+
+  if (!is.null(path)) {
+    # Read only the first row to get column names
+    header = names(readr::read_csv(path, n_max = 0, show_col_types = FALSE))
+    header = format_column_names(header)
+    unique_vars = unique_vars[unique_vars %in% header]
+  }
+
   unique_types = sapply(unique_vars, function(v) {
     type = stats19::stats19_variables$type[stats19::stats19_variables$variable == v][1]
     convert_to_col_type(type)

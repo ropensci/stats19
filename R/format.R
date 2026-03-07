@@ -56,61 +56,44 @@ format_vehicles = function(x) {
 
 format_stats19 = function(x, type) {
   # Rename columns
-  old_names = names(x)
-  new_names = format_column_names(old_names)
-  # waldo::compare(old_names, new_names) They are the same for 2023 date
-  # TODO: remove format_column_names() and use stats19::stats19_schema$variable
-  names(x) = new_names
+  names(x) = format_column_names(names(x))
 
   # create lookup table
-  lkp = stats19::stats19_variables[stats19::stats19_variables$table == tolower(type),]
+  # vars_to_change = intersect(names(x), stats19::stats19_schema$variable)
+  # Actually we should only change variables that are in the relevant table
+  lkp_vars = stats19::stats19_variables$variable[stats19::stats19_variables$table == tolower(type)]
+  vars_to_change = intersect(names(x), lkp_vars)
+  vars_to_change = intersect(vars_to_change, stats19::stats19_schema$variable)
+  
+  missing_labels = c("Data missing or out of range", "Unknown", "Undefined")
 
-  vkeep = new_names %in% stats19::stats19_schema$variable
-  vars_to_change = which(vkeep)
-
-  # # for testing
-  # browser()
-  # i = 1
-  # x_old = x
-  for(i in vars_to_change) {
-    lkp_name = unique(lkp$variable[lkp$variable %in% new_names[i]])
-    lookup = stats19::stats19_schema[
-      stats19::stats19_schema$variable %in% lkp_name,
-      c("code", "label")
-      ]
-    original_class = class(x[[i]])
-    # Use lookup to replace codes with labels, but keep original values for non-matches
-    # See https://github.com/ropensci/stats19/issues/235#issuecomment-2254257770
-    matched_labels = lookup$label[match(x[[i]], lookup$code)]
-    # Handle labels that represent missing data
-    missing_labels = c("Data missing or out of range", "Unknown", "Undefined")
-    matched_labels[matched_labels %in% missing_labels] = NA_character_
-    x[[i]] = ifelse(is.na(matched_labels), x[[i]], matched_labels)
+  for(v in vars_to_change) {
+    lookup = stats19::stats19_schema[stats19::stats19_schema$variable == v, c("code", "label")]
+    # Vectorized match
+    matched_idx = match(x[[v]], lookup$code)
+    has_match = !is.na(matched_idx)
+    
+    if (any(has_match)) {
+      labels = lookup$label[matched_idx[has_match]]
+      # Mask missing labels at replacement time
+      labels[labels %in% missing_labels] = NA_character_
+      x[[v]][has_match] = labels
+    }
     # Also handle if labels were already present in the data
-    x[[i]][x[[i]] %in% missing_labels] = NA
-    x[[i]] = methods::as(x[[i]], original_class)
+    x[[v]][x[[v]] %in% missing_labels] = NA
   }
-  # waldo::compare(x_old, x)
 
-  date_in_names = "date" %in% names(x)
-  if(date_in_names) {
-    date_char = x$date
-    x$date = as.Date(date_char, format = "%d/%m/%Y")
+  if("date" %in% names(x)) {
+    x$date = as.Date(x$date, format = "%d/%m/%Y")
   }
-  if(date_in_names && "time" %in% names(x)) {
-    # Add formated datetime column, tell people about this new feature
-    # (message could be removed in future versions)
+  
+  if("date" %in% names(x) && "time" %in% names(x)) {
     message("date and time columns present, creating formatted datetime column")
-    # names(x)
-    # class(x$time) # it's a character string
-    # head(x$time) # just the time (not date)
-
-    x$datetime = as.POSIXct(paste(date_char, x$time), tz = 'Europe/London', format = "%d/%m/%Y %H:%M")
-    # summary(x$datetime)
+    x$datetime = as.POSIXct(paste(as.character(x$date), x$time), tz = 'Europe/London', format = "%Y-%m-%d %H:%M")
   }
+
   cregex = "easting|northing|latitude|longitude"
   names_coordinates = names(x)[grepl(pattern = cregex, x = names(x), ignore.case = TRUE)]
-  # convert them to numeric if not already:
   for(i in names_coordinates) {
     if(!is.numeric(x[[i]])) {
       x[[i]] = as.numeric(x[[i]])
