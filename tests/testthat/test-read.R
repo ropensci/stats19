@@ -10,7 +10,7 @@ test_that("readr::read_csv with stats19 settings handles -1 as NA", {
   readr::write_csv(df, tmp_csv)
   
   # Test the logic we added to read_collisions/read_null
-  ac = readr::read_csv(tmp_csv, col_types = col_spec(), na = c("", "NA", "-1"))
+  ac = readr::read_csv(tmp_csv, col_types = col_spec(tmp_csv), na = c("", "NA", "-1"))
   
   expect_true(is.na(ac$speed_limit[1]))
   expect_equal(as.character(ac$weather_conditions[1]), "1")
