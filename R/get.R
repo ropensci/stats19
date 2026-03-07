@@ -122,6 +122,29 @@ get_stats19 = function(year = NULL,
                          data_dir = data_dir, format = format, 
                          silent = silent, type = type)
 
+  # Smart Unification for E-scooter Casualties
+  # If type is casualty, we check vehicles to find e-scooter riders
+  if (grepl("cas", type, ignore.case = TRUE) && !is.null(read_in) && format) {
+    ve_escooter = tryCatch({
+      ve_temp = read_stats19(year = year, filename = "", data_dir = data_dir, 
+                             format = TRUE, silent = TRUE, type = "vehicle")
+      if (!is.null(ve_temp) && "escooter_flag" %in% names(ve_temp)) {
+        ve_temp[ve_temp$escooter_flag == "Vehicle was an e-scooter", 
+                c("collision_index", "vehicle_reference")]
+      } else {
+        NULL
+      }
+    }, error = function(e) NULL)
+    
+    if (!is.null(ve_escooter) && nrow(ve_escooter) > 0) {
+      # Identify casualties associated with e-scooter vehicles
+      is_escooter_rider = paste(read_in$collision_index, read_in$vehicle_reference) %in% 
+                          paste(ve_escooter$collision_index, ve_escooter$vehicle_reference)
+      # If they are linked to an e-scooter and their type is NA, they are the rider
+      read_in$casualty_type[is_escooter_rider & is.na(read_in$casualty_type)] = "E-scooter rider"
+    }
+  }
+
   # transform read_in into the desired format
   if (output_format != "tibble" && !is.null(read_in)) {
     read_in = switch(
