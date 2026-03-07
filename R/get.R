@@ -82,23 +82,6 @@
 #'
 #' leeds_ppp = get_stats19(2022, silent = TRUE, output_format = "ppp", window = leeds_window)
 #' spatstat.geom::plot.ppp(leeds_ppp, use.marks = FALSE, clipwin = leeds_window)
-#'
-#' # or even more fancy examples where we subset all the events occurred in a
-#' # pre-defined polygon area
-#'
-#' # The following example requires osmdata package
-#' # greater_london_sf_polygon = osmdata::getbb(
-#' # "Greater London, UK",
-#' # format_out = "sf_polygon"
-#' # )
-#' # spatstat works only with planar coordinates
-#' # greater_london_sf_polygon = sf::st_transform(greater_london_sf_polygon, 27700)
-#' # then we extract the coordinates and create the window object.
-#' # greater_london_polygon = sf::st_coordinates(greater_london_sf_polygon)[, c(1, 2)]
-#' # greater_london_window = spatstat.geom::owin(poly = greater_london_polygon)
-#'
-#' # greater_london_ppp = get_stats19(2022, output_format = "ppp", window = greater_london_window)
-#' # spatstat.geom::plot.ppp(greater_london_ppp, use.marks = FALSE, clipwin = greater_london_window)
 #' }
 #' }
 #' }
@@ -116,56 +99,31 @@ get_stats19 = function(year = NULL,
   if (grepl("acc", x = type, ignore.case = TRUE)) {
     type = "collision"
   }
-  if (!output_format %in% c("tibble", "data.frame", "sf", "ppp")) {
-    warning(
-      "output_format parameter should be one of c('tibble', 'data.frame', 'sf', 'ppp').\n",
-      "You entered ", output_format, ".\n",
-      "Defaulting to tibble.",
-      call. = FALSE,
-      immediate. = TRUE
-    )
+  
+  valid_formats = c("tibble", "data.frame", "sf", "ppp")
+  if (!output_format %in% valid_formats) {
+    warning("output_format should be one of ", paste(valid_formats, collapse = ", "), 
+            ". Defaulting to tibble.", call. = FALSE, immediate. = TRUE)
     output_format = "tibble"
   }
-  if (grepl(type, "casualties", ignore.case = TRUE) && output_format %in% c("sf", "ppp")) {
-    warning(
-      "You cannot select output_format = 'sf' or output_format = 'ppp' when type = 'casualties'.\n",
-      "Casualties do not have a spatial dimension.\n",
-      "Defaulting to tibble output_format",
-      call. = FALSE,
-      immediate. = TRUE
-    )
+  
+  if (grepl("cas", type, ignore.case = TRUE) && output_format %in% c("sf", "ppp")) {
+    warning("Casualties do not have a spatial dimension. Defaulting to tibble.",
+            call. = FALSE, immediate. = TRUE)
     output_format = "tibble"
   }
 
   # download what the user wanted
-  dl_stats19(year = year,
-             type = type,
-             data_dir = data_dir,
-             file_name = file_name,
-             ask = ask,
-             silent = silent)
-  read_in = NULL
+  dl_stats19(year = year, type = type, data_dir = data_dir, 
+             file_name = file_name, ask = ask, silent = silent)
+  
   # read in
-  if(grepl("veh", x = type, ignore.case = TRUE)){
-    read_in = read_vehicles(
-      year = year,
-      data_dir = data_dir,
-      format = format)
-  } else if(grepl("cas", x = type, ignore.case = TRUE)) {
-    read_in = read_casualties(
-      year = year,
-      data_dir = data_dir,
-      format = format)
-  } else { # inline with type = "collision" by default
-    read_in = read_collisions(
-      year = year,
-      data_dir = data_dir,
-      format = format,
-      silent = silent)
-  }
+  read_in = read_stats19(year = year, filename = file_name %||% "", 
+                         data_dir = data_dir, format = format, 
+                         silent = silent, type = type)
 
   # transform read_in into the desired format
-  if (output_format != "tibble") {
+  if (output_format != "tibble" && !is.null(read_in)) {
     read_in = switch(
       output_format,
       "data.frame" = as.data.frame(read_in, ...),
@@ -177,3 +135,5 @@ get_stats19 = function(year = NULL,
   read_in
 }
 
+# Helper to handle NULL with default
+`%||%` = function(a, b) if (!is.null(a)) a else b
