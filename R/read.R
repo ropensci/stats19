@@ -101,6 +101,18 @@ read_stats19 = function(year = NULL,
     x = format_fun(x)
   }
   
+  # Ensure -1 is NA across all columns (safety net for Option 1)
+  # Done AFTER formatting to allow schema to map -1 to labels first if needed
+  x[] = lapply(x, function(col) {
+    if(is.character(col)) {
+      col[col == "-1"] = NA_character_
+    } else if(is.numeric(col)) {
+      col[col == -1] = NA
+    }
+    col
+  })
+  x = tibble::as_tibble(x)
+  
   # Filter by year if requested
   if (!is.null(year) && !identical(year, 5) && !identical(year, "5 years")) {
     year_col = intersect(names(x), c("accident_year", "collision_year"))
@@ -139,7 +151,7 @@ check_input_file = function(filename = NULL,
 convert_to_col_type = function(type) {
   switch(type,
          character = readr::col_character(),
-         numeric = readr::col_integer(),
+         numeric = readr::col_double(),
          integer = readr::col_integer(),
          logical = readr::col_logical(),
          date = readr::col_date(),
@@ -148,21 +160,30 @@ convert_to_col_type = function(type) {
 }
 
 col_spec = function(path = NULL) {
-  # Create a named list of column types
-  unique_vars = unique(stats19::stats19_variables$variable)
-
-  if (!is.null(path)) {
-    # Read only the first row to get column names
-    header = names(readr::read_csv(path, n_max = 0, show_col_types = FALSE))
-    header = format_column_names(header)
-    unique_vars = unique_vars[unique_vars %in% header]
+  if (is.null(path)) {
+    # Fallback to all known variables if no path
+    unique_vars = unique(stats19::stats19_variables$variable)
+    unique_types = sapply(unique_vars, function(v) {
+      type = stats19::stats19_variables$type[stats19::stats19_variables$variable == v][1]
+      convert_to_col_type(type)
+    })
+    return(do.call(readr::cols, stats::setNames(unique_types, unique_vars)))
   }
 
-  unique_types = sapply(unique_vars, function(v) {
-    type = stats19::stats19_variables$type[stats19::stats19_variables$variable == v][1]
-    convert_to_col_type(type)
+  # Read only the header to get column names and ORDER
+  header = names(readr::read_csv(path, n_max = 0, show_col_types = FALSE))
+  header_clean = format_column_names(header)
+  
+  # Map cleaned header names to their types from the schema
+  col_types_list = lapply(header_clean, function(v) {
+    type_info = stats19::stats19_variables$type[stats19::stats19_variables$variable == v]
+    if (length(type_info) > 0) {
+      convert_to_col_type(type_info[1])
+    } else {
+      readr::col_guess()
+    }
   })
-
-  col_types = stats::setNames(unique_types, unique_vars)
-  do.call(readr::cols, col_types)
+  
+  # Create the cols object with the correct NAMES and ORDER matching the file
+  do.call(readr::cols, stats::setNames(col_types_list, header))
 }
