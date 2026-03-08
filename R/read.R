@@ -61,11 +61,6 @@ read_stats19 = function(year = NULL,
                         format = TRUE,
                         silent = TRUE,
                         type = "collision") {
-  # Set the local edition for readr.
-  if (utils::packageVersion("readr") >= "2.0.0") {
-    readr::local_edition(2)
-  }
-
   fnames = filename
   if (filename == "" || is.null(filename)) {
     fnames = find_file_name(years = year, type = type)
