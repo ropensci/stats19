@@ -157,6 +157,3 @@ get_stats19 = function(year = NULL,
 
   read_in
 }
-
-# Helper to handle NULL with default
-`%||%` = function(a, b) if (!is.null(a)) a else b

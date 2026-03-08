@@ -135,3 +135,6 @@ set_data_directory = function(data_path) {
     set_it()
   }
 }
+
+# Helper to handle NULL with default
+`%||%` = function(a, b) if (!is.null(a)) a else b

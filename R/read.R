@@ -62,8 +62,8 @@ read_stats19 = function(year = NULL,
                         silent = TRUE,
                         type = "collision") {
   # Set the local edition for readr.
-  if (.Platform$OS.type == "windows" && utils::packageVersion("readr") >= "2.0.0") {
-    readr::local_edition(1)
+  if (utils::packageVersion("readr") >= "2.0.0") {
+    readr::local_edition(2)
   }
 
   fnames = filename
@@ -114,7 +114,8 @@ read_stats19 = function(year = NULL,
   x = tibble::as_tibble(x)
   
   # Filter by year if requested
-  if (!is.null(year) && !identical(year, 5) && !identical(year, "5 years")) {
+  # Note: we don't filter if year is 1979 to maintain compatibility with full history fetching
+  if (!is.null(year) && !identical(year, 5) && !identical(year, "5 years") && !identical(year, 1979) && !identical(year, 1979L)) {
     year_col = intersect(names(x), c("accident_year", "collision_year"))
     if (length(year_col) > 0) {
       x = x[x[[year_col[1]]] %in% year, ]
