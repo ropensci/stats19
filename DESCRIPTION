@@ -48,6 +48,7 @@ Imports:
     sf,
     curl (>= 3.2),
     readr,
+    tibble,
     dplyr,
     lubridate,
     jsonlite
