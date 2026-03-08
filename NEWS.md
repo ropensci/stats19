@@ -1,11 +1,26 @@
-# stats19 (development version)
+# stats19 4.0.0 (development version)
 
-* Fixed issue where `year = 1979` now correctly returns data for 1979 only, rather than all years from 1979 onwards (#282)
-* Added function `match_tag` to match government TAG cost estimates to collisions (#287, #288, #289, #290)
-* `schema_new.Rmd` updated the lookup tables for the package based on the DfT variables xlsx file. This file has been changed to `schema_new.R` which should make updates easier to perform (#291)
-* New functions `clean_make`,`clean_model` and `clean_make_model` added to clean make/model data from vehicle data (#294)
-* Complete mapping of all 2456 unique raw make/model strings from the 1979-present dataset to their cleaned equivalents available to download as make-models.csv (#294)
-* schema table updated to include 'Other Junction', which was missing from the DfT schema (#271).
+## Major Refactor and Performance Improvements
+*   **Zero-Warning Data Loading**: The `read_stats19()` function now intelligently filters column parsers based on the actual CSV header, eliminating extensive warnings about unmatched parsers (#302).
+*   **Modernized `readr` Engine**: The package now defaults to `readr` Edition 2 globally for faster, multi-threaded parsing, while removing legacy platform-specific overrides (#302).
+*   **Code Simplification**: Removed ~300 lines of redundant code from the `R/` directory while expanding overall functionality (#302).
+
+## Data Quality and Schema Unification
+*   **Unified Longitudinal Schema**: Historic columns (e.g., `*_historic`) are now automatically merged into their modern counterparts and dropped, providing a consistent interface across different data years (#302).
+*   **Fixed Coordinate Precision**: Corrected a bug where 2024 Latitude/Longitude were parsed as integers, restoring full floating-point precision (#302).
+*   **Aggressive Label Standardization**: Global standardization of missing value codes (e.g., `-1`, `Code deprecated`, `Data missing`) to `NA` after formatting (#302).
+*   **Smart E-scooter Unification**: Added logic to automatically identify and flag e-scooter riders in casualty data by cross-referencing vehicle information (#302, #299).
+
+## New Features
+*   **Intelligent Multi-Year Support**: Requesting year ranges (e.g., `year = 2011:2012`) now automatically identifies the bulk historic files, downloads them once, and filters requested years efficiently (#302).
+*   **Cost Estimation**: Added `match_tag()` function to join government TAG (Transport Analysis Guidance) cost estimates (RAS4001) to collision data (#287, #288, #289, #290).
+*   **Vehicle Cleaning**: New functions `clean_make()`, `clean_model()`, and `clean_make_model()` for standardizing vehicle data, supported by a mapping of over 2,400 unique raw strings (#294).
+
+## Minor Changes and Fixes
+*   Fixed issue where `year = 1979` incorrectly returned all years; it now correctly returns 1979 data only (#282).
+*   Updated lookup tables using a new reproducible `schema_new.R` workflow (#291).
+*   Included 'Other Junction' in the schema table (#271).
+*   Moved the `%||%` operator to `utils.R` for package-wide availability (#302).
 
 # stats19 3.4.0 2025-10
 

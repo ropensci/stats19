@@ -1,0 +1,47 @@
+---
+title: "Stats19 v4.0.0: Unified, Cleaned, and Faster Road Safety Data"
+author: "Robin Lovelace"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Stats19 v4.0.0: Unified, Cleaned, and Faster Road Safety Data}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+Road safety research in the UK relies heavily on the "STATS19" dataset—the official record of every reported road traffic collision. As the Department for Transport (DfT) has modernized its data delivery, the `stats19` R package has evolved alongside it. 
+
+Today, we are excited to announce **stats19 v4.0.0**, a major milestone that refactors the package from the ground up to be faster, cleaner, and more robust for longitudinal research.
+
+## Why v4.0.0? The "Breaking" Changes
+In the past, users often had to deal with shifting schemas. For example, columns like `carriageway_hazards` might appear as `carriageway_hazards_historic` in older files. In v4.0.0, we’ve adopted a **Unified Longitudinal Schema**. The package now automatically detects these "historic" variants, merges them into their modern counterparts, and drops the redundant columns. 
+
+While this "breaks" scripts that explicitly looked for those `*_historic` names, it significantly simplifies research: you can now analyze 45 years of data (1979–2024) using a single, consistent set of column names.
+
+## Key Improvements
+
+### 1. Zero-Warning, High-Precision Loading
+If you've used previous versions, you might have been greeted by a wall of red warnings about unmatched column parsers. No more! 
+- **Intelligent Parsing**: `read_stats19()` now scans the actual CSV header first and builds a custom parser on the fly. 
+- **Fixed Coordinates**: We caught and fixed a critical bug where 2024 Latitude/Longitude data was being truncated to integers. v4.0.0 restores full floating-point precision.
+
+### 2. Standardized Missing Values
+Real-world data is messy. DfT files use a mix of `-1`, "Code deprecated", and "Data missing or out of range". We now aggressively standardize these to `NA` globally during the formatting phase, so your `is.na()` calls actually work as expected across all variables.
+
+### 3. Faster Performance with readr Edition 2
+By defaulting to the `readr` Edition 2 engine, the package now utilizes multi-threaded parsing. Large files that used to take minutes now load in seconds, making the exploration of the full 1979–latest dataset much more practical.
+
+### 4. New Research Tools: Costs and Cleaning
+Beyond the refactor, we've added powerful new functions:
+- **`match_tag()`**: Directly join government TAG (Transport Analysis Guidance) cost estimates to your collision data. This allows you to estimate the economic impact of collisions based on severity and road type.
+- **Vehicle Cleaning**: With `clean_make()` and `clean_model()`, you can standardize the 2,400+ unique raw strings in the vehicle dataset, making it easier to study trends in vehicle safety and composition.
+
+## Getting Started
+You can install the latest version from GitHub to try these features today:
+
+```r
+# install.packages("pak")
+pak::pak("ropensci/stats19")
+```
+
+We look forward to seeing how the community uses these new tools to generate actionable evidence for safer roads!
