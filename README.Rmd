@@ -111,7 +111,7 @@ Multiple matches. Which do you want to download?
 Selection: 
 Enter an item from the menu, or 0 to exit
 ```
-To download other years it is worth being aware of the file structure of [the files, hosted by the DfT](https://www.gov.uk/government/statistical-data-sets/road-safety-open-data), this package imports. The last 5 years of data (usually released September for the previous year) are duplicated 3 times and available as individual years, or 1 file covering all 5 years. The data goes all the way back to 1979 (one of (if not the) the longest running collision statistics databases in the world). This data is stored in one very large file (~1GB) and also covers the last 5 years.
+To download other years it is worth being aware of the file structure of [the files, hosted by the DfT](https://www.gov.uk/government/statistical-data-sets/road-safety-open-data), this package imports. The last 5 years of data (usually released September for the previous year's full data) are available as individual years, or 1 file covering all 5 years. The data goes all the way back to 1979, the the longest running large national road traffic casualty datasets in the world, to the best of our knowledge (if you know of any other similar datasets please let us know in a new GitHub issue)! This data is stored in one very large file (~1GB) and also covers the last 5 years.
 
 To request years using get_stats19 the following call structure can be used:
 ```{r requesting_years1, eval=FALSE}
