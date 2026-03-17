@@ -23,23 +23,25 @@ get_url = function(file_name = "",
 #' find_file_name(2016)
 #' @export
 find_file_name = function(years = NULL, type = NULL) {
+
   all_files = unlist(stats19::file_names, use.names = FALSE)
   if(is.null(years)) {
     result = all_files
   } else {
     result = character(0)
     # Handle pre-2020 (all in one file)
-    if(any(years < 2020 & years >= 1979)) {
+    if(min(years) < 2020) {
       result = c(result, all_files[grepl("1979-latest", all_files)])
-    }
-    # Handle individual years 2020-2050
-    indiv_years = years[years >= 2020 & years <= 2050]
-    for(y in indiv_years) {
-      result = c(result, all_files[grepl(as.character(y), all_files) & !grepl("1979|adjust", all_files)])
-    }
-    # Handle "5 years"
-    if(any(years == 5 | years == "5 years")) {
-      result = c(result, all_files[grepl("last-5-years", all_files) & !grepl("adjust", all_files)])
+    } else {
+      # Handle individual years 2020-2050
+      indiv_years = years[years >= 2020 & years <= 2050]
+      for(y in indiv_years) {
+        result = c(result, all_files[grepl(as.character(y), all_files) & !grepl("1979|adjust", all_files)])
+      }
+      # Handle "5 years"
+      if(any(years == 5 | years == "5 years")) {
+        result = c(result, all_files[grepl("last-5-years", all_files) & !grepl("adjust", all_files)])
+      }
     }
   }
 
@@ -116,7 +118,7 @@ get_data_directory = function() {
 #' @export
 set_data_directory = function(data_path) {
   if(!dir.exists(data_path)) stop("Directory does not exist, please create it first.")
-  
+
   set_it = function() {
     Sys.setenv(STATS19_DOWNLOAD_DIRECTORY = data_path)
     message("STATS19_DOWNLOAD_DIRECTORY is set, undo with Sys.unsetenv")
