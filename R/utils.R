@@ -30,7 +30,7 @@ find_file_name = function(years = NULL, type = NULL) {
   } else {
     result = character(0)
     # Handle pre-2020 (all in one file)
-    if(min(years) < 2020 & min(years) >= 1979) {
+    if(min(years) < 2020) {
       result = c(result, all_files[grepl("1979-latest", all_files)])
     } else {
       # Handle individual years 2020-2050
