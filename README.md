@@ -94,8 +94,8 @@ in naming crashes, and also adopted by the DfT since 2025):
 ``` r
 crashes = get_stats19(year = 2023, type = "collision")
 #> Files identified: dft-road-casualty-statistics-collision-2023.csv
-#> Data saved at C:\Users\xxx\AppData\Local\Temp\RtmpisbAkG/dft-road-casualty-statistics-collision-2023.csv
-#> Reading in: C:\Users\xxx\AppData\Local\Temp\RtmpisbAkG/dft-road-casualty-statistics-collision-2023.csv
+#> Data saved at <tempdir>/dft-road-casualty-statistics-collision-2023.csv
+#> Reading in: <tempdir>/dft-road-casualty-statistics-collision-2023.csv
 #> date and time columns present, creating formatted datetime column
 ```
 
