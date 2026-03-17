@@ -124,7 +124,7 @@ This will return a dataframe of just 2024.
 
 ```{r requesting_years2, eval=FALSE}
 # all of the last 5 years
-cas_last_5_years = get_stats19(year = "5 years",type = "casualty")
+cas_last_5_years = get_stats19(year = 5,type = "casualty")
 ```
 
 This will return a dataframe with all of the last 5 years.
