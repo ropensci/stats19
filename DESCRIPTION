@@ -53,6 +53,8 @@ Imports:
     lubridate,
     jsonlite
 Suggests: 
+    duckdb,
+    DBI,
     ggplot2,
     knitr,
     rmarkdown,
