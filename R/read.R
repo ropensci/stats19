@@ -60,7 +60,8 @@ read_stats19 = function(year = NULL,
                         data_dir = get_data_directory(),
                         format = TRUE,
                         silent = TRUE,
-                        type = "collision") {
+                        type = "collision",
+                        engine = "readr") {
   fnames = filename
   if (filename == "" || is.null(filename)) {
     fnames = find_file_name(years = year, type = type)
@@ -79,14 +80,58 @@ read_stats19 = function(year = NULL,
     return(NULL)
   }
 
-  read_one = function(p) {
-    if (isFALSE(silent)) message("Reading in: ", p)
-    readr::read_csv(p, col_types = col_spec(p), na = c("", "NA", "-1"), show_col_types = FALSE)
+  if (engine == "duckdb") {
+    if (!requireNamespace("duckdb", quietly = TRUE) || !requireNamespace("DBI", quietly = TRUE)) {
+      warning("duckdb and DBI packages are required for engine = 'duckdb'. Falling back to readr.")
+      engine = "readr"
+    }
   }
-  
-  # Read and bind
-  x_list = lapply(existing_paths, read_one)
-  x = dplyr::bind_rows(x_list)
+
+  if (engine == "duckdb") {
+    con = DBI::dbConnect(duckdb::duckdb(), dbdir = ":memory:")
+    on.exit(DBI::dbDisconnect(con, shutdown = TRUE))
+    
+    # Create views for each file and union them
+    view_names = paste0("v", seq_along(existing_paths))
+    for (i in seq_along(existing_paths)) {
+      p = existing_paths[i]
+      v = view_names[i]
+      
+      # Determine which columns to select to minimize memory usage
+      # Use the same logic as col_spec to get relevant columns
+      needed_cols = names(col_spec(p)$cols)
+      cols_str = paste0('"', needed_cols, '"', collapse = ", ")
+      
+      # Using read_csv_auto which is very fast and handles many edge cases
+      # We read as VARCHAR initially to be safe with STATS19's weird types and -1 for NA
+      query = glue::glue("CREATE VIEW {v} AS SELECT {cols_str} FROM read_csv_auto('{p}', all_varchar=TRUE)")
+      DBI::dbExecute(con, query)
+    }
+    
+    union_query = paste0("SELECT * FROM ", paste(view_names, collapse = " UNION ALL SELECT * FROM "))
+    
+    # Filter by year in SQL if requested and if columns exist
+    if (!is.null(year) && !identical(year, 5) && !identical(year, "5 years") && !identical(year, 1979) && !identical(year, 1979L)) {
+      all_cols = DBI::dbListFields(con, view_names[1])
+      year_col = intersect(all_cols, c("accident_year", "collision_year", "Accident_Year", "Collision_Year"))
+      if (length(year_col) > 0) {
+        year_str = paste0("'", year, "'", collapse = ", ")
+        union_query = paste0("SELECT * FROM (", union_query, ") WHERE ", year_col[1], " IN (", year_str, ")")
+      }
+    }
+    
+    x = DBI::dbGetQuery(con, union_query)
+    x = tibble::as_tibble(x)
+  } else {
+    read_one = function(p) {
+      if (isFALSE(silent)) message("Reading in: ", p)
+      readr::read_csv(p, col_types = col_spec(p), na = c("", "NA", "-1"), show_col_types = FALSE)
+    }
+    
+    # Read and bind
+    x_list = lapply(existing_paths, read_one)
+    x = dplyr::bind_rows(x_list)
+  }
   
   if(format) {
     format_fun = switch(tolower(substr(type, 1, 3)),
