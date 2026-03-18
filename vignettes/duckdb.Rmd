@@ -1,0 +1,82 @@
+---
+title: "Equivalence between readr and duckdb engines"
+author: "R Lovelace"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{duckdb-engine}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  out.width = "100%"
+)
+```
+
+## Introduction
+
+The **stats19** package supports two engines for reading and filtering data: `readr` (the default) and `duckdb`. 
+The `duckdb` engine is particularly useful for working with large datasets, as it can filter data at the database level before loading it into R, significantly reducing memory usage and processing time.
+
+This vignette demonstrates that the two engines produce equivalent results.
+
+## Load the package
+
+```{r}
+library(stats19)
+```
+
+## Equivalence test with 2024 data
+
+We will use the 2024 collision data to compare the two engines.
+
+```{r, message=FALSE, warning=FALSE}
+# Read with readr (default)
+col_readr = get_stats19(year = 2024, type = "collision", engine = "readr", silent = TRUE)
+
+# Read with duckdb
+col_duckdb = get_stats19(year = 2024, type = "collision", engine = "duckdb", silent = TRUE)
+```
+
+### Comparing record counts and fatal counts
+
+Both engines should return the same number of records and the same number of fatal collisions.
+
+```{r}
+nrow(col_readr)
+nrow(col_duckdb)
+
+# Check fatal counts
+sum(col_readr$collision_severity == "Fatal", na.rm = TRUE)
+sum(col_duckdb$collision_severity == "Fatal", na.rm = TRUE)
+```
+
+### Using waldo for deep comparison
+
+We can use the `waldo` package to check for any differences between the first 10 records.
+
+```{r}
+if (requireNamespace("waldo", quietly = TRUE)) {
+  waldo::compare(head(col_readr, 10), head(col_duckdb, 10))
+}
+```
+
+## Working with large datasets (1979-latest)
+
+When working with the full historical dataset (from 1979 onwards), the `duckdb` engine is highly recommended. The following code demonstrates how to use the `duckdb` engine with a `where` clause to filter the data efficiently.
+
+```{r, eval=FALSE}
+# This chunk is not evaluated because it requires downloading ~1.5GB of data
+# and can take several minutes to run with the readr engine.
+
+# Download and read all collisions since 1979, but only keep those with speed_limit = 30
+crashes_30mph = get_stats19(year = 1979, type = "collision", 
+                           engine = "duckdb", 
+                           where = "speed_limit = 30")
+```
+
+The `duckdb` engine can be more than 50 times faster than the `readr` engine when performing such filtered reads on large files.

@@ -20,14 +20,6 @@ get_url(
 \description{
 Convert file names to urls
 }
-\details{
-This function returns urls that allow data to be downloaded from the pages:
-
-https://www.gov.uk/government/collections/road-accidents-and-safety-statistics
-
-Last updated: October 2020.
-Files available from the s3 url in the default \code{domain} argument.
-}
 \examples{
 # get_url(find_file_name(1985))
 }

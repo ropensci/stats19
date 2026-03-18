@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils.R
 \name{locate_one_file}
 \alias{locate_one_file}
-\title{Pin down a file on disk from four parameters.}
+\title{Pin down a file on disk from parameters.}
 \usage{
 locate_one_file(
   filename = NULL,
@@ -12,25 +12,19 @@ locate_one_file(
 )
 }
 \arguments{
-\item{filename}{Character string of the filename of the .csv to read, if this
-is given, type and years determine whether there is a target to read,
-otherwise disk scan would be needed.}
+\item{filename}{Character string of the filename of the .csv to read.}
 
 \item{data_dir}{Where sets of downloaded data would be found.}
 
-\item{year}{Single year for which file is to be found.}
+\item{year}{Single year for which data are to be read.}
 
-\item{type}{One of: 'Collision', 'Casualties', 'Vehicles'; ignores case.}
-}
-\value{
-One of: path for one file, a message \verb{More than one file found} or error if none found.
+\item{type}{One of 'collision', 'casualty', 'Vehicle'; defaults to 'collision'.}
 }
 \description{
-Pin down a file on disk from four parameters.
+Pin down a file on disk from parameters.
 }
 \examples{
 \donttest{
 locate_one_file()
-locate_one_file(filename = "Cas.csv")
 }
 }
