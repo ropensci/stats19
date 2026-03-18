@@ -98,11 +98,10 @@ read_stats19 = function(year = NULL,
       p = existing_paths[i]
       v = view_names[i]
       
-      # Determine which columns to select to minimize memory usage
-      needed_cols = names(col_spec(p)$cols)
-      cols_str = paste0('"', needed_cols, '"', collapse = ", ")
-      
-      query = glue::glue("CREATE VIEW {v} AS SELECT {cols_str} FROM read_csv_auto('{p}', all_varchar=TRUE)")
+      # Using read_csv_auto which is very fast and handles many edge cases
+      # We read as VARCHAR initially to be safe with STATS19's weird types and -1 for NA
+      # We use SELECT * to ensure we get all columns (indices, coordinates, etc.)
+      query = glue::glue("CREATE VIEW {v} AS SELECT * FROM read_csv_auto('{p}', all_varchar=TRUE)")
       DBI::dbExecute(con, query)
     }
     
