@@ -24,17 +24,3 @@ years determine whether there is a target to read, otherwise disk scan would be 
 \description{
 Read in STATS19 road safety data from .csv files downloaded.
 }
-\section{Details}{
-
-The function returns a data frame, in which each record is a reported casualty
-in the STATS19 dataset.
-}
-
-\examples{
-\donttest{
-if(curl::has_internet()) {
-dl_stats19(year = 2022, type = "casualty")
-casualties = read_casualties(year = 2022)
-}
-}
-}

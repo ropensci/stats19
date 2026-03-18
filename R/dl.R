@@ -2,6 +2,8 @@
 #'
 #' @inheritParams read_collisions
 #' @param type One of 'collision', 'casualty', 'Vehicle'; defaults to 'collision'.
+#' @param file_name Character string of a specific STATS19 CSV filename to
+#'   download/read. If `NULL`, filenames are inferred from `year` and `type`.
 #' @param ask Should you be asked whether or not to download the files? `TRUE` by default.
 #' @param timeout Timeout in seconds for the download if current option is less than
 #'   this value. Defaults to 600 (10 minutes).

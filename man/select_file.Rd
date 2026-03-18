@@ -7,12 +7,8 @@
 select_file(fnames)
 }
 \arguments{
-\item{fnames}{File names to select from}
+\item{fnames}{Character vector of filenames to select from.}
 }
 \description{
 Interactively select from options
-}
-\examples{
-# fnames = c("f1", "f2")
-# stats19:::select_file(fnames)
 }

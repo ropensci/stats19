@@ -13,12 +13,8 @@ find_file_name(years = NULL, type = NULL)
 'vehicles' ignores case.}
 }
 \description{
-Currently, there are 52 file names to download/read data from.
+Find file names within stats19::file_names.
 }
 \examples{
 find_file_name(2016)
-find_file_name(2016, type = "collision")
-find_file_name(1985, type = "collision")
-find_file_name(type = "cas")
-find_file_name(type = "collision")
 }
