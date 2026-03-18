@@ -42,6 +42,9 @@
 #'   query files via DuckDB before loading into R.
 #' @param where Optional SQL predicate appended to the `WHERE` clause when
 #'   `engine = "duckdb"`, e.g. `"longitude > -1.9 AND longitude < -1.2"`.
+#'   For OSGR coordinate predicates on `location_easting_osgr` and
+#'   `location_northing_osgr`, values are safely `TRY_CAST` to `DOUBLE` to avoid
+#'   type issues when source CSV columns are loaded as text.
 #'   Ignored when `engine = "readr"`.
 #' @param ... Other arguments be passed to [format_sf()] or
 #'   [format_ppp()] functions. Read and run the examples.
