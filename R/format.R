@@ -58,18 +58,27 @@ format_stats19 = function(x, type) {
   # Rename columns
   names(x) = format_column_names(names(x))
   
-  # Standardize index names: accident_index -> collision_index
-  if ("accident_index" %in% names(x)) {
-    names(x)[names(x) == "accident_index"] = "collision_index"
-  }
-  if ("accident_year" %in% names(x)) {
-    names(x)[names(x) == "accident_year"] = "collision_year"
-  }
-  if ("accident_reference" %in% names(x)) {
-    names(x)[names(x) == "accident_reference"] = "collision_reference"
-  }
-  if ("accident_severity" %in% names(x)) {
-    names(x)[names(x) == "accident_severity"] = "collision_severity"
+  # Unify column names for multi-year joins
+  unify_cols = list(
+    collision_index = c("accident_index"),
+    collision_year = c("accident_year"),
+    collision_reference = c("accident_reference", "collision_ref_no"),
+    collision_severity = c("accident_severity")
+  )
+  
+  for (new_name in names(unify_cols)) {
+    old_names = unify_cols[[new_name]]
+    for (old_name in old_names) {
+      if (old_name %in% names(x)) {
+        if (new_name %in% names(x)) {
+          # Coalesce: use new_name if not NA, else use old_name
+          x[[new_name]] = ifelse(is.na(x[[new_name]]), x[[old_name]], x[[new_name]])
+          x[[old_name]] = NULL
+        } else {
+          names(x)[names(x) == old_name] = new_name
+        }
+      }
+    }
   }
 
   # create lookup table
@@ -134,6 +143,15 @@ format_stats19 = function(x, type) {
   if("date" %in% names(x) && "time" %in% names(x)) {
     message("date and time columns present, creating formatted datetime column")
     x$datetime = as.POSIXct(paste(as.character(x$date), x$time), tz = 'Europe/London', format = "%Y-%m-%d %H:%M")
+  }
+
+  # Convert columns to numeric if defined as such in the schema
+  num_vars = stats19::stats19_variables$variable[stats19::stats19_variables$type %in% c("numeric", "integer")]
+  vars_to_numeric = intersect(names(x), num_vars)
+  for (v in vars_to_numeric) {
+    if (!is.numeric(x[[v]])) {
+      x[[v]] = suppressWarnings(as.numeric(x[[v]]))
+    }
   }
 
   cregex = "easting|northing|latitude|longitude"

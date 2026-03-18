@@ -3,9 +3,11 @@
 ## Major Refactor and Performance Improvements
 *   **Zero-Warning Data Loading**: The `read_stats19()` function now intelligently filters column parsers based on the actual CSV header, eliminating extensive warnings about unmatched parsers (#302).
 *   **Modernized `readr` Engine**: The package now defaults to `readr` Edition 2 globally for faster, multi-threaded parsing, while removing legacy platform-specific overrides (#302).
+*   **Optional `duckdb` Engine**: Added a new `engine = "duckdb"` option to `get_stats19()`. This allows for extremely fast, database-level filtering before loading data into R, yielding up to a **75x speed-up** when querying the full historical (1.5GB) dataset.
 *   **Code Simplification**: Removed ~300 lines of redundant code from the `R/` directory while expanding overall functionality (#302).
 
 ## Data Quality and Schema Unification
+*   **Unified Longitudinal Schema**: Columns like `accident_*` and `collision_*` are now automatically unified during formatting. This ensures multi-year joins (e.g., 2023 vs 2024) work seamlessly without duplicate columns.
 *   **Unified Longitudinal Schema**: Historic columns (e.g., `*_historic`) are now automatically merged into their modern counterparts and dropped, providing a consistent interface across different data years (#302).
 *   **Fixed Coordinate Precision**: Corrected a bug where 2024 Latitude/Longitude were parsed as integers, restoring full floating-point precision (#302).
 *   **Aggressive Label Standardization**: Global standardization of missing value codes (e.g., `-1`, `Code deprecated`, `Data missing`) to `NA` after formatting (#302).
