@@ -54,6 +54,37 @@ read_casualties = function(year = NULL,
                format = format, type = "cas")
 }
 
+# Internal helper to make numeric DuckDB predicates work with all_varchar=TRUE
+sanitize_duckdb_where = function(where) {
+  if (is.null(where) || !nzchar(where)) {
+    return(where)
+  }
+  
+  wrap_try_cast = function(sql, column) {
+    already_cast = grepl(
+      paste0("TRY_CAST\\s*\\(\\s*", column, "\\s+AS\\s+DOUBLE\\s*\\)"),
+      sql,
+      ignore.case = TRUE,
+      perl = TRUE
+    )
+    if (already_cast) {
+      return(sql)
+    }
+    
+    gsub(
+      pattern = paste0("\\b", column, "\\b"),
+      replacement = paste0("TRY_CAST(", column, " AS DOUBLE)"),
+      x = sql,
+      ignore.case = TRUE,
+      perl = TRUE
+    )
+  }
+  
+  where = wrap_try_cast(where, "location_easting_osgr")
+  where = wrap_try_cast(where, "location_northing_osgr")
+  where
+}
+
 # Internal helper to handle all stats19 reading
 read_stats19 = function(year = NULL,
                         filename = "",
@@ -125,6 +156,7 @@ read_stats19 = function(year = NULL,
     
     # 2. Add arbitrary WHERE clause (e.g. spatial bounding box)
     if (!is.null(where)) {
+      where = sanitize_duckdb_where(where)
       where_clauses = c(where_clauses, where)
     }
     
