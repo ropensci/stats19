@@ -30,5 +30,6 @@ data-raw/
 makefile
 ^docs$
 ^\.github$
+^\.git$
 ^codecov\.yml$
 ^CRAN-SUBMISSION$

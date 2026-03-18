@@ -30,12 +30,22 @@
 #' @seealso [read_collisions()]
 #'
 #' @inheritParams dl_stats19
+#' @param file_name Character string of a specific STATS19 CSV filename to
+#'   download/read. If `NULL`, filenames are inferred from `year` and `type`.
 #' @param format Switch to return raw read from file, default is `TRUE`.
 #' @param output_format A string that specifies the desired output format. The
 #'   default value is `"tibble"`. Other possible values are `"data.frame"`, `"sf"`
 #'   and `"ppp"`, that, respectively, returns objects of class [`data.frame`],
 #'   [`sf::sf`] and [`spatstat.geom::ppp`]. Any other string is ignored and a tibble
 #'   output is returned. See details and examples.
+#' @param engine CSV reader backend. Defaults to `"readr"`. Set to `"duckdb"` to
+#'   query files via DuckDB before loading into R.
+#' @param where Optional SQL predicate appended to the `WHERE` clause when
+#'   `engine = "duckdb"`, e.g. `"longitude > -1.9 AND longitude < -1.2"`.
+#'   For OSGR coordinate predicates on `location_easting_osgr` and
+#'   `location_northing_osgr`, values are safely `TRY_CAST` to `DOUBLE` to avoid
+#'   type issues when source CSV columns are loaded as text.
+#'   Ignored when `engine = "readr"`.
 #' @param ... Other arguments be passed to [format_sf()] or
 #'   [format_ppp()] functions. Read and run the examples.
 #'
@@ -59,6 +69,13 @@
 #'
 #' # Run tests only if endpoint is alive:
 #' if(nrow(x) > 0) {
+#'
+#' # use duckdb engine
+#' col_duck = get_stats19(year = 2022, type = "collision", engine = "duckdb")
+#'
+#' # use duckdb with where clause
+#' col_where = get_stats19(year = 2022, type = "collision", engine = "duckdb",
+#'                        where = "speed_limit = 30")
 #'
 #' # sf output
 #' x_sf = get_stats19(2022, silent = TRUE, output_format = "sf")
@@ -94,6 +111,8 @@ get_stats19 = function(year = NULL,
                       ask = FALSE,
                       silent = FALSE,
                       output_format = "tibble",
+                      engine = "readr",
+                      where = NULL,
                       ...) {
   # Set type to "collision" if it's "accident" or similar:
   if (grepl("acc", x = type, ignore.case = TRUE)) {
@@ -120,14 +139,16 @@ get_stats19 = function(year = NULL,
   # read in
   read_in = read_stats19(year = year, filename = file_name %||% "", 
                          data_dir = data_dir, format = format, 
-                         silent = silent, type = type)
+                         silent = silent, type = type, engine = engine,
+                         where = where)
 
   # Smart Unification for E-scooter Casualties
   # If type is casualty, we check vehicles to find e-scooter riders
   if (grepl("cas", type, ignore.case = TRUE) && !is.null(read_in) && format) {
     ve_escooter = tryCatch({
       ve_temp = read_stats19(year = year, filename = "", data_dir = data_dir, 
-                             format = TRUE, silent = TRUE, type = "vehicle")
+                             format = TRUE, silent = TRUE, type = "vehicle",
+                             engine = engine, where = where)
       if (!is.null(ve_temp) && "escooter_flag" %in% names(ve_temp)) {
         ve_temp[ve_temp$escooter_flag == "Vehicle was an e-scooter", 
                 c("collision_index", "vehicle_reference")]

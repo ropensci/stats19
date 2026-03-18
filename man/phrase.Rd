@@ -9,6 +9,3 @@ phrase()
 \description{
 Generate a phrase for data download purposes
 }
-\examples{
-stats19:::phrase()
-}

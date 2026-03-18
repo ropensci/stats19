@@ -13,20 +13,20 @@ get_stats19(
   ask = FALSE,
   silent = FALSE,
   output_format = "tibble",
+  engine = "readr",
+  where = NULL,
   ...
 )
 }
 \arguments{
-\item{year}{A year matching file names on the STATS19
-\href{https://www.data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-accidents-safety-data}{data release page}
-e.g. \code{2020}}
+\item{year}{Single year for which data are to be read}
 
-\item{type}{One of 'collision', 'casualty', 'Vehicle'; defaults to 'collision'.
-This text string is used to match the file names released by the DfT.}
+\item{type}{One of 'collision', 'casualty', 'Vehicle'; defaults to 'collision'.}
 
-\item{data_dir}{Parent directory for all downloaded files. See \code{\link[=get_data_directory]{get_data_directory()}} for details.}
+\item{data_dir}{Where sets of downloaded data would be found.}
 
-\item{file_name}{The file name (DfT named) to download.}
+\item{file_name}{Character string of a specific STATS19 CSV filename to
+download/read. If \code{NULL}, filenames are inferred from \code{year} and \code{type}.}
 
 \item{format}{Switch to return raw read from file, default is \code{TRUE}.}
 
@@ -40,6 +40,13 @@ default value is \code{"tibble"}. Other possible values are \code{"data.frame"},
 and \code{"ppp"}, that, respectively, returns objects of class \code{\link{data.frame}},
 \code{\link[sf:sf]{sf::sf}} and \code{\link[spatstat.geom:ppp]{spatstat.geom::ppp}}. Any other string is ignored and a tibble
 output is returned. See details and examples.}
+
+\item{engine}{CSV reader backend. Defaults to \code{"readr"}. Set to \code{"duckdb"} to
+query files via DuckDB before loading into R.}
+
+\item{where}{Optional SQL predicate appended to the \code{WHERE} clause when
+\code{engine = "duckdb"}, e.g. \code{"longitude > -1.9 AND longitude < -1.2"}.
+Ignored when \code{engine = "readr"}.}
 
 \item{...}{Other arguments be passed to \code{\link[=format_sf]{format_sf()}} or
 \code{\link[=format_ppp]{format_ppp()}} functions. Read and run the examples.}
@@ -94,6 +101,13 @@ class(x)
 # Run tests only if endpoint is alive:
 if(nrow(x) > 0) {
 
+# use duckdb engine
+col_duck = get_stats19(year = 2022, type = "collision", engine = "duckdb")
+
+# use duckdb with where clause
+col_where = get_stats19(year = 2022, type = "collision", engine = "duckdb",
+                       where = "speed_limit = 30")
+
 # sf output
 x_sf = get_stats19(2022, silent = TRUE, output_format = "sf")
 
@@ -116,23 +130,6 @@ yrange = c(428577.2, 438577.2)
 
 leeds_ppp = get_stats19(2022, silent = TRUE, output_format = "ppp", window = leeds_window)
 spatstat.geom::plot.ppp(leeds_ppp, use.marks = FALSE, clipwin = leeds_window)
-
-# or even more fancy examples where we subset all the events occurred in a
-# pre-defined polygon area
-
-# The following example requires osmdata package
-# greater_london_sf_polygon = osmdata::getbb(
-# "Greater London, UK",
-# format_out = "sf_polygon"
-# )
-# spatstat works only with planar coordinates
-# greater_london_sf_polygon = sf::st_transform(greater_london_sf_polygon, 27700)
-# then we extract the coordinates and create the window object.
-# greater_london_polygon = sf::st_coordinates(greater_london_sf_polygon)[, c(1, 2)]
-# greater_london_window = spatstat.geom::owin(poly = greater_london_polygon)
-
-# greater_london_ppp = get_stats19(2022, output_format = "ppp", window = greater_london_window)
-# spatstat.geom::plot.ppp(greater_london_ppp, use.marks = FALSE, clipwin = greater_london_window)
 }
 }
 }
