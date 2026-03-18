@@ -30,12 +30,19 @@
 #' @seealso [read_collisions()]
 #'
 #' @inheritParams dl_stats19
+#' @param file_name Character string of a specific STATS19 CSV filename to
+#'   download/read. If `NULL`, filenames are inferred from `year` and `type`.
 #' @param format Switch to return raw read from file, default is `TRUE`.
 #' @param output_format A string that specifies the desired output format. The
 #'   default value is `"tibble"`. Other possible values are `"data.frame"`, `"sf"`
 #'   and `"ppp"`, that, respectively, returns objects of class [`data.frame`],
 #'   [`sf::sf`] and [`spatstat.geom::ppp`]. Any other string is ignored and a tibble
 #'   output is returned. See details and examples.
+#' @param engine CSV reader backend. Defaults to `"readr"`. Set to `"duckdb"` to
+#'   query files via DuckDB before loading into R.
+#' @param where Optional SQL predicate appended to the `WHERE` clause when
+#'   `engine = "duckdb"`, e.g. `"longitude > -1.9 AND longitude < -1.2"`.
+#'   Ignored when `engine = "readr"`.
 #' @param ... Other arguments be passed to [format_sf()] or
 #'   [format_ppp()] functions. Read and run the examples.
 #'
