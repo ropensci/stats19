@@ -61,7 +61,8 @@ read_stats19 = function(year = NULL,
                         format = TRUE,
                         silent = TRUE,
                         type = "collision",
-                        engine = "readr") {
+                        engine = "readr",
+                        where = NULL) {
   fnames = filename
   if (filename == "" || is.null(filename)) {
     fnames = find_file_name(years = year, type = type)
@@ -98,26 +99,35 @@ read_stats19 = function(year = NULL,
       v = view_names[i]
       
       # Determine which columns to select to minimize memory usage
-      # Use the same logic as col_spec to get relevant columns
       needed_cols = names(col_spec(p)$cols)
       cols_str = paste0('"', needed_cols, '"', collapse = ", ")
       
-      # Using read_csv_auto which is very fast and handles many edge cases
-      # We read as VARCHAR initially to be safe with STATS19's weird types and -1 for NA
       query = glue::glue("CREATE VIEW {v} AS SELECT {cols_str} FROM read_csv_auto('{p}', all_varchar=TRUE)")
       DBI::dbExecute(con, query)
     }
     
     union_query = paste0("SELECT * FROM ", paste(view_names, collapse = " UNION ALL SELECT * FROM "))
     
-    # Filter by year in SQL if requested and if columns exist
+    # Build WHERE clauses
+    where_clauses = character(0)
+    
+    # 1. Filter by year in SQL if requested
     if (!is.null(year) && !identical(year, 5) && !identical(year, "5 years") && !identical(year, 1979) && !identical(year, 1979L)) {
       all_cols = DBI::dbListFields(con, view_names[1])
       year_col = intersect(all_cols, c("accident_year", "collision_year", "Accident_Year", "Collision_Year"))
       if (length(year_col) > 0) {
         year_str = paste0("'", year, "'", collapse = ", ")
-        union_query = paste0("SELECT * FROM (", union_query, ") WHERE ", year_col[1], " IN (", year_str, ")")
+        where_clauses = c(where_clauses, paste0(year_col[1], " IN (", year_str, ")"))
       }
+    }
+    
+    # 2. Add arbitrary WHERE clause (e.g. spatial bounding box)
+    if (!is.null(where)) {
+      where_clauses = c(where_clauses, where)
+    }
+    
+    if (length(where_clauses) > 0) {
+      union_query = paste0("SELECT * FROM (", union_query, ") WHERE ", paste(where_clauses, collapse = " AND "))
     }
     
     x = DBI::dbGetQuery(con, union_query)
