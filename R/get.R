@@ -95,6 +95,7 @@ get_stats19 = function(year = NULL,
                       silent = FALSE,
                       output_format = "tibble",
                       engine = "readr",
+                      where = NULL,
                       ...) {
   # Set type to "collision" if it's "accident" or similar:
   if (grepl("acc", x = type, ignore.case = TRUE)) {
@@ -121,7 +122,8 @@ get_stats19 = function(year = NULL,
   # read in
   read_in = read_stats19(year = year, filename = file_name %||% "", 
                          data_dir = data_dir, format = format, 
-                         silent = silent, type = type, engine = engine)
+                         silent = silent, type = type, engine = engine,
+                         where = where)
 
   # Smart Unification for E-scooter Casualties
   # If type is casualty, we check vehicles to find e-scooter riders
@@ -129,7 +131,7 @@ get_stats19 = function(year = NULL,
     ve_escooter = tryCatch({
       ve_temp = read_stats19(year = year, filename = "", data_dir = data_dir, 
                              format = TRUE, silent = TRUE, type = "vehicle",
-                             engine = engine)
+                             engine = engine, where = where)
       if (!is.null(ve_temp) && "escooter_flag" %in% names(ve_temp)) {
         ve_temp[ve_temp$escooter_flag == "Vehicle was an e-scooter", 
                 c("collision_index", "vehicle_reference")]
