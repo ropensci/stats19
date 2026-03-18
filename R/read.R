@@ -105,18 +105,21 @@ read_stats19 = function(year = NULL,
       DBI::dbExecute(con, query)
     }
     
-    union_query = paste0("SELECT * FROM ", paste(view_names, collapse = " UNION ALL SELECT * FROM "))
+    union_query = paste0("SELECT * FROM ", paste(view_names, collapse = " UNION ALL BY NAME SELECT * FROM "))
     
     # Build WHERE clauses
     where_clauses = character(0)
     
     # 1. Filter by year in SQL if requested
     if (!is.null(year) && !identical(year, 5) && !identical(year, "5 years") && !identical(year, 1979) && !identical(year, 1979L)) {
-      all_cols = DBI::dbListFields(con, view_names[1])
-      year_col = intersect(all_cols, c("accident_year", "collision_year", "Accident_Year", "Collision_Year"))
-      if (length(year_col) > 0) {
+      # Get all columns from all views to find all potential year columns
+      all_cols = unique(unlist(lapply(view_names, function(v) DBI::dbListFields(con, v))))
+      year_cols = intersect(all_cols, c("accident_year", "collision_year", "Accident_Year", "Collision_Year"))
+      if (length(year_cols) > 0) {
         year_str = paste0("'", year, "'", collapse = ", ")
-        where_clauses = c(where_clauses, paste0(year_col[1], " IN (", year_str, ")"))
+        # Build OR condition for all found year columns
+        year_cond = paste0("(", paste0(year_cols, " IN (", year_str, ")", collapse = " OR "), ")")
+        where_clauses = c(where_clauses, year_cond)
       }
     }
     
@@ -132,6 +135,9 @@ read_stats19 = function(year = NULL,
     x = DBI::dbGetQuery(con, union_query)
     x = tibble::as_tibble(x)
   } else {
+    if (any(grepl("1979-latest", existing_paths))) {
+      warning("Reading the large 1979-latest file with 'readr' can be slow. Consider using engine = 'duckdb' for better performance.", call. = FALSE)
+    }
     read_one = function(p) {
       if (isFALSE(silent)) message("Reading in: ", p)
       readr::read_csv(p, col_types = col_spec(p), na = c("", "NA", "-1"), show_col_types = FALSE)
@@ -175,6 +181,10 @@ read_stats19 = function(year = NULL,
 }
 
 #' Local helper to be reused.
+#' @param filename Character string of the filename of the .csv to read.
+#' @param type One of 'collision', 'casualty', 'Vehicle'.
+#' @param data_dir Where sets of downloaded data would be found.
+#' @param year Single year for which data are to be read.
 check_input_file = function(filename = NULL,
                             type = NULL,
                             data_dir = NULL,

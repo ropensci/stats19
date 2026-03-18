@@ -101,6 +101,13 @@ class(x)
 # Run tests only if endpoint is alive:
 if(nrow(x) > 0) {
 
+# use duckdb engine
+col_duck = get_stats19(year = 2022, type = "collision", engine = "duckdb")
+
+# use duckdb with where clause
+col_where = get_stats19(year = 2022, type = "collision", engine = "duckdb",
+                       where = "speed_limit = 30")
+
 # sf output
 x_sf = get_stats19(2022, silent = TRUE, output_format = "sf")
 

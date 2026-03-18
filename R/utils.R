@@ -61,6 +61,7 @@ find_file_name = function(years = NULL, type = NULL) {
 #' Locate a file on disk
 #' @inheritParams dl_stats19
 #' @param quiet Print out messages (files found)
+#' @param years Single year or vector of years for which data are to be read.
 #' @export
 locate_files = function(data_dir = get_data_directory(), type = NULL, years = NULL, quiet = FALSE) {
   stopifnot(dir.exists(data_dir))
@@ -71,6 +72,8 @@ locate_files = function(data_dir = get_data_directory(), type = NULL, years = NU
 
 #' Pin down a file on disk from parameters.
 #' @inheritParams locate_files
+#' @param filename Character string of the filename of the .csv to read.
+#' @param year Single year for which data are to be read.
 #' @export
 #' @examples
 #' \donttest{
@@ -100,6 +103,8 @@ phrase = function() {
 }
 
 #' Interactively select from options
+#' @param fnames Character vector of filenames to select from.
+#' @export
 select_file = function(fnames) {
   message("Multiple matches. Which do you want to download?")
   fnames[utils::menu(choices = fnames)]

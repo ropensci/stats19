@@ -453,7 +453,7 @@ crashes_tibble = tibble::tibble(
 ## ggplot2
 
 Let's take a look at a particular package.
-`ggplot2` is a generic plotting package that is part of the ['tidyverse'](https://www.tidyverse.org/) meta-package, which is an "opinionated collection of R packages designed for data science". 
+`ggplot2` is a generic plotting package that is part of the ['tidyverse'](https://tidyverse.org/) meta-package, which is an "opinionated collection of R packages designed for data science". 
 All packages in the tidyverse "share an underlying design philosophy, grammar, and data structures". 
 `ggplot2` is flexible, popular, and has dozens of add-on packages which build on it, such as `gganimate`.
 To plot non-spatial data, it works as follows (see figure below, left for result):
