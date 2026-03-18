@@ -73,7 +73,8 @@ Suggests:
     covr,
     readODS,
     gt,
-    clock
+    clock,
+    waldo
 VignetteBuilder: knitr
 RoxygenNote: 7.3.3
 Roxygen: list(markdown = TRUE)
