@@ -85,6 +85,28 @@ sanitize_duckdb_where = function(where) {
   where
 }
 
+# Internal helper to normalize legacy collision reference fields early.
+normalize_collision_reference = function(x) {
+  reference_aliases = c("collision_ref_no", "accident_reference", "accident_ref_no")
+  
+  if (!"collision_reference" %in% names(x)) {
+    src = reference_aliases[reference_aliases %in% names(x)]
+    if (length(src) > 0) {
+      names(x)[names(x) == src[[1]]] = "collision_reference"
+    }
+    return(x)
+  }
+  
+  for (old_name in reference_aliases) {
+    if (old_name %in% names(x)) {
+      missing_idx = is.na(x$collision_reference) | x$collision_reference == ""
+      x$collision_reference[missing_idx] = x[[old_name]][missing_idx]
+      x[[old_name]] = NULL
+    }
+  }
+  x
+}
+
 # Internal helper to handle all stats19 reading
 read_stats19 = function(year = NULL,
                         filename = "",
@@ -179,6 +201,8 @@ read_stats19 = function(year = NULL,
     x_list = lapply(existing_paths, read_one)
     x = dplyr::bind_rows(x_list)
   }
+  
+  x = normalize_collision_reference(x)
   
   if(format) {
     format_fun = switch(tolower(substr(type, 1, 3)),
