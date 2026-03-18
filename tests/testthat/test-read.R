@@ -72,3 +72,33 @@ test_that("duckdb where handles OSGR BETWEEN predicates on text columns", {
   expect_equal(nrow(res), 1)
   expect_equal(res$collision_index[1], "A")
 })
+
+test_that("read_stats19 normalizes collision_ref_no to collision_reference early", {
+  skip_if_not_installed("readr")
+  
+  tmp_csv = tempfile(fileext = ".csv")
+  df = data.frame(
+    collision_index = c("A", "B"),
+    collision_ref_no = c("0001", "0002"),
+    accident_year = c("2024", "2024"),
+    stringsAsFactors = FALSE
+  )
+  readr::write_csv(df, tmp_csv)
+  
+  data_dir = tempfile("stats19-read-test-")
+  dir.create(data_dir)
+  fname = basename(tmp_csv)
+  file.copy(tmp_csv, file.path(data_dir, fname), overwrite = TRUE)
+  
+  res = read_stats19(
+    year = NULL,
+    filename = fname,
+    data_dir = data_dir,
+    format = FALSE,
+    silent = TRUE
+  )
+  
+  expect_true("collision_reference" %in% names(res))
+  expect_false("collision_ref_no" %in% names(res))
+  expect_equal(res$collision_reference, c("0001", "0002"))
+})
