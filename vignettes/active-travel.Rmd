@@ -1,0 +1,183 @@
+---
+title: "Classifying active travel collision types"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Classifying active travel collision types}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup, message=FALSE}
+library(stats19)
+library(dplyr)
+```
+
+# Introduction
+
+The standard STATS19 data does not have a single column called "Left Hook." Instead, these active travel categories are derived by combining data from the Vehicles table (specifically the vehicle's maneuver) and the Collisions table (junction location).
+
+This vignette demonstrates how to classify STATS19 collisions involving pedal cycles into common active travel categories using the new classification functions.
+
+# Key columns
+
+To identify these categories, we use:
+
+- `vehicle_manoeuvre`: Describes what the vehicle was doing (turning, overtaking, etc.)
+- `junction_location`: Describes where the vehicle was relative to a junction
+- `first_point_of_impact`: Helps distinguish between being hit from the side vs. the front
+- `hit_object_in_carriageway`: Used for dooring (Vehicle door)
+- `generic_make_model` (optional): Used to identify HGVs, which are often culprits in left hook fatalities
+
+# Getting the data
+
+We start by downloading 2024 vehicle data:
+
+```{r}
+v = get_stats19(year = 2024, type = "vehicle")
+```
+
+# Using the classification functions
+
+The package provides several functions to classify and filter active travel collisions.
+
+## Filter functions
+
+Use individual filter functions to get specific collision types:
+
+```{r, eval=FALSE}
+# Left hook collisions
+left_hooks = filter_left_hook(v)
+nrow(left_hooks)
+```
+
+```{r, echo=FALSE}
+left_hooks = filter_left_hook(v)
+cat("Left hooks:", nrow(left_hooks), "\n")
+```
+
+```{r, eval=FALSE}
+# Right hook collisions
+right_hooks = filter_right_hook(v)
+nrow(right_hooks)
+```
+
+```{r, echo=FALSE}
+right_hooks = filter_right_hook(v)
+cat("Right hooks:", nrow(right_hooks), "\n")
+```
+
+```{r, eval=FALSE}
+# Dooring incidents
+dooring = filter_dooring(v)
+nrow(dooring)
+```
+
+```{r, echo=FALSE}
+dooring = filter_dooring(v)
+cat("Dooring:", nrow(dooring), "\n")
+```
+
+```{r, eval=FALSE}
+# Alongside (sideswipe) collisions
+alongside = filter_alongside(v)
+nrow(alongside)
+```
+
+```{r, echo=FALSE}
+alongside = filter_alongside(v)
+cat("Alongside:", nrow(alongside), "\n")
+```
+
+```{r, eval=FALSE}
+# Failed to give way
+failed_give_way = filter_failed_give_way(v)
+nrow(failed_give_way)
+```
+
+```{r, echo=FALSE}
+failed_give_way = filter_failed_give_way(v)
+cat("Failed to give way:", nrow(failed_give_way), "\n")
+```
+
+## Combined classification
+
+Use `classify_active_travel()` to add a category column to all vehicle records:
+
+```{r, eval=FALSE}
+v_classified = classify_active_travel(v)
+```
+
+Get counts by category:
+
+```{r, eval=FALSE}
+count_active_travel(v_classified)
+```
+
+# 2024 England results
+
+Based on 2024 STATS19 data for England:
+
+```{r}
+# Left Hooks: Pedal cycles where vehicle was turning left
+left_hooks = v |> filter(vehicle_type == "Pedal cycle", vehicle_manoeuvre == "Turning left")
+cat("Left Hooks:", nrow(left_hooks), "vehicle records\n")
+
+# Dooring: Pedal cycles where vehicle was parked/parking
+dooring = v |> filter(vehicle_type == "Pedal cycle", tolower(vehicle_manoeuvre) %in% c("parked", "parking"))
+cat("Dooring:", nrow(dooring), "vehicle records\n")
+```
+
+# Severity analysis
+
+Let's examine the severity of these collision types by linking to casualty data:
+
+```{r, eval=FALSE}
+ca = get_stats19(year = 2024, type = "casualty")
+
+# Left hook casualties
+lh_collisions = left_hooks$collision_index
+lh_casualties = ca |> filter(collision_index %in% lh_collisions, casualty_type == "Cyclist")
+lh_severe = lh_casualties |> group_by(casualty_severity) |> summarise(n = n())
+print(lh_severe)
+```
+
+```{r, echo=FALSE}
+ca = get_stats19(year = 2024, type = "casualty")
+
+lh_collisions = left_hooks$collision_index
+lh_casualties = ca |> filter(collision_index %in% lh_collisions, casualty_type == "Cyclist")
+lh_severe = lh_casualties |> group_by(casualty_severity) |> summarise(n = n())
+cat("Left hook casualties by severity:\n")
+print(lh_severe)
+
+cat("\n")
+
+d_collisions = dooring$collision_index
+d_casualties = ca |> filter(collision_index %in% d_collisions, casualty_type == "Cyclist")
+d_severe = d_casualties |> group_by(casualty_severity) |> summarise(n = n())
+cat("Dooring casualties by severity:\n")
+print(d_severe)
+```
+
+# Limitations
+
+These classifications are based on the STATS19 `vehicle_manoeuvre` field, which describes what the recorded vehicle (often the motorized vehicle, not the pedal cycle) was doing. The classification logic follows common practice used in London (TfL) and by tools like the Junction Assessment Tool (JAT), but:
+
+1. **Left Hook**: Currently identifies "Turning left" maneuvers - in practice, these often involve HGVs turning left across a cyclist's path
+2. **Dooring**: Based on "Parked" or "Parking" vehicle manoeuvre - may miss some door-related incidents captured differently
+3. **Right Hook**: May include some cases where the cyclist was also turning right (not a true hook scenario)
+
+For more accurate classification, additional context like the relative positions and directions of both vehicles would be needed.
+
+# See also
+
+- The [STATS19 data schema](https://www.roadsafetydata.gov.uk/data-downloads/) for official column definitions
+- London Transport for Work (TfL) collision classification methodology
+- Junction Assessment Tool (JAT) documentation
