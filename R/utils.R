@@ -23,8 +23,24 @@ get_url = function(file_name = "",
 #' find_file_name(2016)
 #' @export
 find_file_name = function(years = NULL, type = NULL) {
-
-  all_files = unlist(stats19::file_names, use.names = FALSE)
+  file_names_env <- new.env(parent = emptyenv())
+  data_path <- system.file("data", "file_names.rda", package = "stats19")
+  if (identical(data_path, "")) {
+    candidates <- c(
+      file.path("stats19_pkg", "data", "file_names.rda"),
+      file.path("data", "file_names.rda")
+    )
+    data_path <- candidates[file.exists(candidates)][1]
+  }
+  if (!is.na(data_path) && nzchar(data_path) && file.exists(data_path)) {
+    load(data_path, envir = file_names_env)
+  } else {
+    utils::data("file_names", package = "stats19", envir = file_names_env)
+  }
+  if (!exists("file_names", envir = file_names_env, inherits = FALSE)) {
+    stop("Could not load `file_names` data from package stats19.", call. = FALSE)
+  }
+  all_files = unlist(get("file_names", envir = file_names_env, inherits = FALSE), use.names = FALSE)
   if(is.null(years)) {
     result = all_files
   } else {
