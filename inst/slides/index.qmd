@@ -22,11 +22,11 @@ execute:
 
 **Session Duration:** 60 Minutes
 
-- **00:00 – 00:10** | **Introduction to STATS19 & `{stats19}`**
+- **00:00 – 00:15** | **Introduction to STATS19 & `{stats19}`**
   - Canonical UK road crash dataset architecture (3 tables).
   - Package overview & rapid data download tour.
-- **00:10 – 00:30** | **Research & Methodological Challenges**
-  - Denominator neglect, aggregation scale / low frequency, and avoiding wonky science.
+- **00:15 – 00:30** | **Research & Methodological Challenges (TBC)**
+  - Content To Be Confirmed (TBC).
 - **00:30 – 01:00** | **Interactive Breakout Groups**
   - **Group 1 (Robin)**: Hands-on code & vignette walkthrough (Laptops out!).
   - **Group 2 (Roger)**: Research design & analysis ideas discussion.
@@ -91,10 +91,15 @@ vehicles_2022   <- get_stats19(year = 2022, type = "vehicle")
 
 ---
 
-# Part 2: Key Research & Methodological Challenges {background-color="#003366"}
+# Part 2: Research & Methodological Challenges (TBC) {background-color="#003366"}
 
 ---
 
+## Part 2: Content TBC (15–30 Mins)
+
+This section is currently To Be Confirmed (TBC).
+
+<!--
 ## Challenge 1: Denominator Neglect
 
 - **The Problem:** Counting crashes or casualties in isolation without accounting for exposure (traffic volume, pedestrian flow, vehicle-km).
@@ -129,6 +134,8 @@ A corridor with 10 pedestrian casualties and 100,000 daily pedestrians is safer 
 Check out our recent research on methodological integrity and road safety metrics:
 - Lovelace et al. *Geographical Analysis* paper on spatial data quality and road safety inference.
 :::
+-->
+
 
 ---
 
