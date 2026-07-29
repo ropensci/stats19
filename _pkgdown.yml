@@ -1,0 +1,13 @@
+url: https://docs.ropensci.org/stats19/
+
+template:
+  bootstrap: 5
+
+navbar:
+  structure:
+    left: [intro, reference, articles, slides, news]
+    right: [github]
+  components:
+    slides:
+      text: "Slides"
+      href: slides/index.html
