@@ -19,5 +19,4 @@ docs/
 README.html
 .DS_Store
 vignettes/crashes.Rds
-inst/slides/*.html
 
