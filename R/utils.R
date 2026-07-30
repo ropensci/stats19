@@ -29,12 +29,12 @@ find_file_name = function(years = NULL, type = NULL) {
     result = all_files
   } else {
     result = character(0)
-    # Handle pre-2020 (all in one file)
-    if(any(years < 2020)) {
+    # Handle pre-2021 (all in one file)
+    if(any(years < 2021)) {
       result = c(result, all_files[grepl("1979-latest", all_files)])
     }
-    # Handle individual years 2020-2050
-    indiv_years = years[years >= 2020 & years <= 2050]
+    # Handle individual years 2021-2050
+    indiv_years = years[years >= 2021 & years <= 2050]
     for(y in indiv_years) {
       result = c(result, all_files[grepl(as.character(y), all_files) & !grepl("1979|adjust", all_files)])
     }

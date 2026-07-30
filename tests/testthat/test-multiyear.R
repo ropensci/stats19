@@ -1,10 +1,10 @@
 test_that("find_file_name handles multiple years", {
-  # Pre-2020 should include the 1979 file
-  f1 = find_file_name(years = 2018:2020, type = "collision")
+  # Pre-2021 should include the 1979 file
+  f1 = find_file_name(years = 2018:2021, type = "collision")
   expect_true(any(grepl("1979", f1)))
-  expect_true(any(grepl("2020", f1)))
+  expect_true(any(grepl("2021", f1)))
   
-  # Only post-2020 should only include individual files
+  # Only post-2020 (2021+) should only include individual files
   f2 = find_file_name(years = 2021:2022, type = "collision")
   expect_false(any(grepl("1979", f2)))
   expect_true(all(grepl("2021|2022", f2)))
