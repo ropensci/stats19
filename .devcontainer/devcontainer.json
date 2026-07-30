@@ -3,6 +3,11 @@
 	"image": "ghcr.io/itsleeds/tds",
 	"customizations": {
 		"vscode": {
+			"settings": {
+				"r.sessionWatcher": true,
+				"r.plot.useHttpgd": true,
+				"r.bracketedPaste": true
+			},
 			"extensions": [
 				"reditorsupport.r",
 				"GitHub.copilot-chat",
