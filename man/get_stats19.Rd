@@ -46,6 +46,9 @@ query files via DuckDB before loading into R.}
 
 \item{where}{Optional SQL predicate appended to the \code{WHERE} clause when
 \code{engine = "duckdb"}, e.g. \code{"longitude > -1.9 AND longitude < -1.2"}.
+For OSGR coordinate predicates on \code{location_easting_osgr} and
+\code{location_northing_osgr}, values are safely \code{TRY_CAST} to \code{DOUBLE} to avoid
+type issues when source CSV columns are loaded as text.
 Ignored when \code{engine = "readr"}.}
 
 \item{...}{Other arguments be passed to \code{\link[=format_sf]{format_sf()}} or

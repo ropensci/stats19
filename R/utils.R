@@ -30,18 +30,17 @@ find_file_name = function(years = NULL, type = NULL) {
   } else {
     result = character(0)
     # Handle pre-2020 (all in one file)
-    if(min(years) < 2020) {
+    if(any(years < 2020)) {
       result = c(result, all_files[grepl("1979-latest", all_files)])
-    } else {
-      # Handle individual years 2020-2050
-      indiv_years = years[years >= 2020 & years <= 2050]
-      for(y in indiv_years) {
-        result = c(result, all_files[grepl(as.character(y), all_files) & !grepl("1979|adjust", all_files)])
-      }
-      # Handle "5 years"
-      if(any(years == 5 | years == "5 years")) {
-        result = c(result, all_files[grepl("last-5-years", all_files) & !grepl("adjust", all_files)])
-      }
+    }
+    # Handle individual years 2020-2050
+    indiv_years = years[years >= 2020 & years <= 2050]
+    for(y in indiv_years) {
+      result = c(result, all_files[grepl(as.character(y), all_files) & !grepl("1979|adjust", all_files)])
+    }
+    # Handle "5 years"
+    if(any(years == 5 | years == "5 years")) {
+      result = c(result, all_files[grepl("last-5-years", all_files) & !grepl("adjust", all_files)])
     }
   }
 

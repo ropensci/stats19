@@ -1,4 +1,9 @@
-# stats19 4.0.0 (development version)
+# stats19 4.1.0
+
+*   **Support for 2025 Data**: Full support for the newly published 2025 STATS19 casualty, vehicle, and collision dataset from the Department for Transport (#315).
+*   **Documentation and Dataset Updates**: Updated dataset list, documentation, examples, and metadata for 1979-2025 coverage (#315).
+
+# stats19 4.0.0
 
 ## Major Refactor and Performance Improvements
 *   **Zero-Warning Data Loading**: The `read_stats19()` function now intelligently filters column parsers based on the actual CSV header, eliminating extensive warnings about unmatched parsers (#302).
