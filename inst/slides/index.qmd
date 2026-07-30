@@ -173,7 +173,7 @@ Check out our recent research on methodological integrity and road safety metric
 
 ---
 
-## Resources & Links
+## Resources & Link
 
 - **Documentation & Package Website:** [docs.ropensci.org/stats19/](https://docs.ropensci.org/stats19/)
 - **GitHub Repository:** [github.com/ropensci/stats19](https://github.com/ropensci/stats19)
