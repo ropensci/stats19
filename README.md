@@ -153,10 +153,10 @@ used:
 ``` r
 
 # one year (only available for years within last 5 years of data)
-cas_2024 = get_stats19(year = 2024,type = "casualty")
+cas_2025 = get_stats19(year = 2025,type = "casualty")
 ```
 
-This will return a dataframe of just 2024.
+This will return a dataframe of just 2025.
 
 ``` r
 # all of the last 5 years
@@ -170,8 +170,8 @@ To request specific year ranges use start_year:end_year:
 ``` r
 
 # a year or so longer than last 5 years
-cas_last_6_years = get_stats19(year = 2019:2024,type = "casualty")
-cas_since_day_one = get_stats19(year = 1979:2024,type = "casualty")
+cas_last_6_years = get_stats19(year = 2020:2025,type = "casualty")
+cas_since_day_one = get_stats19(year = 1979:2025,type = "casualty")
 ```
 
 But be aware, even though the two calls above are very different ranges,

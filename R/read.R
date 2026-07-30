@@ -8,7 +8,9 @@
 #' @param filename Character string of the filename of the .csv to read, if this is given, type and
 #' years determine whether there is a target to read, otherwise disk scan would be needed.
 #' @param data_dir Where sets of downloaded data would be found.
-#' @param year Single year for which data are to be read
+#' @param year Single year, or vector of years, for which data are to be
+#' read. Use `"all"` (or any year before 2021) to read the full 1979-latest
+#' dataset in one file; see [find_file_name()] for details.
 #' @param format Switch to return raw read from file, default is `TRUE`.
 #' @param silent Boolean. If `FALSE` (default value), display useful progress
 #'   messages on the screen.
@@ -17,8 +19,8 @@
 #' @examples
 #' \donttest{
 #' if(curl::has_internet()) {
-#' dl_stats19(year = 2024, type = "collision")
-#' ac = read_collisions(year = 2024)
+#' dl_stats19(year = 2025, type = "collision")
+#' ac = read_collisions(year = 2025)
 #' }
 #' }
 read_collisions = function(year = NULL,
@@ -164,7 +166,7 @@ read_stats19 = function(year = NULL,
     where_clauses = character(0)
     
     # 1. Filter by year in SQL if requested
-    if (!is.null(year) && !identical(year, 5) && !identical(year, "5 years") && !identical(year, 1979) && !identical(year, 1979L)) {
+    if (!is.null(year) && !identical(year, 5) && !identical(year, "5 years") && !identical(year, "all") && !identical(year, 1979) && !identical(year, 1979L)) {
       # Get all columns from all views to find all potential year columns
       all_cols = unique(unlist(lapply(view_names, function(v) DBI::dbListFields(con, v))))
       year_cols = intersect(all_cols, c("accident_year", "collision_year", "Accident_Year", "Collision_Year"))
@@ -225,8 +227,8 @@ read_stats19 = function(year = NULL,
   x = tibble::as_tibble(x)
   
   # Filter by year if requested
-  # Note: we don't filter if year is 1979 to maintain compatibility with full history fetching
-  if (!is.null(year) && !identical(year, 5) && !identical(year, "5 years") && !identical(year, 1979) && !identical(year, 1979L)) {
+  # Note: we don't filter if year is 1979 or "all" to maintain compatibility with full history fetching
+  if (!is.null(year) && !identical(year, 5) && !identical(year, "5 years") && !identical(year, "all") && !identical(year, 1979) && !identical(year, 1979L)) {
     year_col = intersect(names(x), c("accident_year", "collision_year"))
     if (length(year_col) > 0) {
       x = x[x[[year_col[1]]] %in% year, ]

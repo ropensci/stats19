@@ -7,7 +7,9 @@
 find_file_name(years = NULL, type = NULL)
 }
 \arguments{
-\item{years}{Year for which data are to be found}
+\item{years}{Year, or vector of years, for which data are to be found.
+The special value \code{"all"} returns the single file covering the full
+1979-latest series (see Details).}
 
 \item{type}{One of 'collisions', 'casualty' or
 'vehicles' ignores case.}
@@ -15,6 +17,16 @@ find_file_name(years = NULL, type = NULL)
 \description{
 Find file names within stats19::file_names.
 }
+\details{
+The \code{"1979-latest"} file published by DfT is cumulative: it already
+contains every year of data up to the latest release, including recent
+years that also have their own individual-year files. Because of this,
+any request that includes a year before 2021 is satisfied entirely by
+that one file; individual-year files are only added when \emph{all} requested
+years are 2021 or later, to avoid downloading and duplicating rows that
+are already present in the 1979-latest file.
+}
 \examples{
 find_file_name(2016)
+find_file_name("all")
 }

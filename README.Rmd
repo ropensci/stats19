@@ -117,10 +117,10 @@ To request years using get_stats19 the following call structure can be used:
 ```{r requesting_years1, eval=FALSE}
 
 # one year (only available for years within last 5 years of data)
-cas_2024 = get_stats19(year = 2024,type = "casualty")
+cas_2025 = get_stats19(year = 2025,type = "casualty")
 ```
 
-This will return a dataframe of just 2024.
+This will return a dataframe of just 2025.
 
 ```{r requesting_years2, eval=FALSE}
 # all of the last 5 years
@@ -134,8 +134,8 @@ To request specific year ranges use start_year:end_year:
 ```{r requesting_years3, eval=FALSE}
 
 # a year or so longer than last 5 years
-cas_last_6_years = get_stats19(year = 2019:2024,type = "casualty")
-cas_since_day_one = get_stats19(year = 1979:2024,type = "casualty")
+cas_last_6_years = get_stats19(year = 2020:2025,type = "casualty")
+cas_since_day_one = get_stats19(year = 1979:2025,type = "casualty")
 
 ```
 But be aware, even though the two calls above are very different ranges, because they are both earlier than the last 5 years, the full raw file will be downloaded to your temporary directory, which can take sometime. Future calls should use this same file, but get_stats19 also formats this local file, which can still take some time. So think carefully about how you intend to work with the data.

@@ -1,6 +1,6 @@
-dft-road-casualty-statistics-vehicle-provisional-mid-year-unvalidated-2025.csv
-dft-road-casualty-statistics-casualty-provisional-mid-year-unvalidated-2025.csv
-dft-road-casualty-statistics-collision-provisional-mid-year-unvalidated-2025.csv
+dft-road-casualty-statistics-casualty-2025.csv
+dft-road-casualty-statistics-vehicle-2025.csv
+dft-road-casualty-statistics-collision-2025.csv
 dft-road-casualty-statistics-casualty-2024.csv
 dft-road-casualty-statistics-vehicle-2024.csv
 dft-road-casualty-statistics-collision-2024.csv
@@ -13,12 +13,6 @@ dft-road-casualty-statistics-collision-2022.csv
 dft-road-casualty-statistics-casualty-2021.csv
 dft-road-casualty-statistics-vehicle-2021.csv
 dft-road-casualty-statistics-collision-2021.csv
-dft-road-casualty-statistics-casualty-2020.csv
-dft-road-casualty-statistics-vehicle-2020.csv
-dft-road-casualty-statistics-collision-2020.csv
-dft-road-casualty-statistics-casualty-2019.csv
-dft-road-casualty-statistics-vehicle-2019.csv
-dft-road-casualty-statistics-collision-2019.csv
 dft-road-casualty-statistics-casualties-adjustment-last-5-years.csv
 dft-road-casualty-statistics-collision-adjustment-last-5-years.csv
 dft-road-casualty-statistics-casualty-adjustment-lookup_2004-latest-published-year.csv

@@ -13,7 +13,9 @@ read_collisions(
 )
 }
 \arguments{
-\item{year}{Single year for which data are to be read}
+\item{year}{Single year, or vector of years, for which data are to be
+read. Use \code{"all"} (or any year before 2021) to read the full 1979-latest
+dataset in one file; see \code{\link[=find_file_name]{find_file_name()}} for details.}
 
 \item{filename}{Character string of the filename of the .csv to read, if this is given, type and
 years determine whether there is a target to read, otherwise disk scan would be needed.}
@@ -38,8 +40,8 @@ STATS19 data.
 \examples{
 \donttest{
 if(curl::has_internet()) {
-dl_stats19(year = 2024, type = "collision")
-ac = read_collisions(year = 2024)
+dl_stats19(year = 2025, type = "collision")
+ac = read_collisions(year = 2025)
 }
 }
 }

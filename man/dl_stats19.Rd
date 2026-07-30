@@ -15,7 +15,9 @@ dl_stats19(
 )
 }
 \arguments{
-\item{year}{Single year for which data are to be read}
+\item{year}{Single year, or vector of years, for which data are to be
+read. Use \code{"all"} (or any year before 2021) to read the full 1979-latest
+dataset in one file; see \code{\link[=find_file_name]{find_file_name()}} for details.}
 
 \item{type}{One of 'collision', 'casualty', 'Vehicle'; defaults to 'collision'.}
 

@@ -19,7 +19,9 @@ get_stats19(
 )
 }
 \arguments{
-\item{year}{Single year for which data are to be read}
+\item{year}{Single year, or vector of years, for which data are to be
+read. Use \code{"all"} (or any year before 2021) to read the full 1979-latest
+dataset in one file; see \code{\link[=find_file_name]{find_file_name()}} for details.}
 
 \item{type}{One of 'collision', 'casualty', 'Vehicle'; defaults to 'collision'.}
 
@@ -46,6 +48,9 @@ query files via DuckDB before loading into R.}
 
 \item{where}{Optional SQL predicate appended to the \code{WHERE} clause when
 \code{engine = "duckdb"}, e.g. \code{"longitude > -1.9 AND longitude < -1.2"}.
+For OSGR coordinate predicates on \code{location_easting_osgr} and
+\code{location_northing_osgr}, values are safely \code{TRY_CAST} to \code{DOUBLE} to avoid
+type issues when source CSV columns are loaded as text.
 Ignored when \code{engine = "readr"}.}
 
 \item{...}{Other arguments be passed to \code{\link[=format_sf]{format_sf()}} or

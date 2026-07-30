@@ -34,6 +34,7 @@ extract_make_stats19 = function(generic_make_model) {
     stringr::str_starts(generic_make_model, "DAF TRUCKS") ~ "DAF",
     stringr::str_starts(generic_make_model, "LEYLAND CARS MINI") ~ "MINI",
     stringr::str_starts(generic_make_model, "IVECO FORD") ~ "IVECO",
+    stringr::str_starts(generic_make_model, "FREIGHT ROVER") ~ "FREIGHT ROVER",
     # Default to first word
     TRUE ~ stringr::str_split(generic_make_model, " ", n = 2, simplify = TRUE)[,1]
   )
@@ -100,7 +101,8 @@ clean_make = function(make, extract_make = TRUE) {
     
     # Ambiguous/Fixes
     make == "Int." ~ "International",
-    make == "Freight" ~ "Freight Rover",
+    make %in% c("Freight", "Freight Rover") ~ "Freight Rover",
+    make == "Austin Morris" ~ "Austin Morris",
     stringr::str_detect(make, "Redacted") ~ NA_character_,
     
     TRUE ~ make
