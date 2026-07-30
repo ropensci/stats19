@@ -1,8 +1,8 @@
 
 <!-- badges: start -->
 
-<!-- [![Travis build status](https://travis-ci.org/ropensci/stats19.svg?branch=master)](https://travis-ci.org/ropensci/stats19) -->
-
+[![Open in GitHub
+Codespaces](https://img.shields.io/badge/Open%20in-GitHub%20Codespaces-blue?logo=github.png)](https://github.com/codespaces/new/ropensci/stats19?quickstart=1)
 [![](http://www.r-pkg.org/badges/version/stats19)](https://www.r-pkg.org/pkg/stats19)
 [![R-CMD-check](https://github.com/ropensci/stats19/workflows/R-CMD-check/badge.svg)](https://github.com/ropensci/stats19/actions)
 [![CRAN RStudio mirror
@@ -94,8 +94,8 @@ in naming crashes, and also adopted by the DfT since 2025):
 ``` r
 crashes = get_stats19(year = 2023, type = "collision")
 #> Files identified: dft-road-casualty-statistics-collision-2023.csv
-#> Data saved at <tempdir>/dft-road-casualty-statistics-collision-2023.csv
-#> Reading in: <tempdir>/dft-road-casualty-statistics-collision-2023.csv
+#> Data saved at /tmp/RtmpEujQjs/dft-road-casualty-statistics-collision-2023.csv
+#> Reading in: /tmp/RtmpEujQjs/dft-road-casualty-statistics-collision-2023.csv
 #> date and time columns present, creating formatted datetime column
 ```
 
@@ -139,11 +139,13 @@ To download other years it is worth being aware of the file structure of
 [the files, hosted by the
 DfT](https://www.gov.uk/government/statistical-data-sets/road-safety-open-data),
 this package imports. The last 5 years of data (usually released
-September for the previous year) are duplicated 3 times and available as
-individual years, or 1 file covering all 5 years. The data goes all the
-way back to 1979 (one of (if not the) the longest running collision
-statistics databases in the world). This data is stored in one very
-large file (~1GB) and also covers the last 5 years.
+September for the previous year’s full data) are available as individual
+years, or 1 file covering all 5 years. The data goes all the way back to
+1979, the the longest running large national road traffic casualty
+datasets in the world, to the best of our knowledge (if you know of any
+other similar datasets please let us know in a new GitHub issue)! This
+data is stored in one very large file (~1GB) and also covers the last 5
+years.
 
 To request years using get_stats19 the following call structure can be
 used:
@@ -158,7 +160,7 @@ This will return a dataframe of just 2024.
 
 ``` r
 # all of the last 5 years
-cas_last_5_years = get_stats19(year = 5, type = "casualty")
+cas_last_5_years = get_stats19(year = 5,type = "casualty")
 ```
 
 This will return a dataframe with all of the last 5 years.
@@ -243,8 +245,9 @@ formatted as follows:
 ``` r
 casualties = get_stats19(year = 2023, type = "casualty", ask = FALSE, format = TRUE)
 #> Files identified: dft-road-casualty-statistics-casualty-2023.csv
-#> Data saved at C:\Users\xxx\AppData\Local\Temp\RtmpisbAkG/dft-road-casualty-statistics-casualty-2023.csv
-#> Reading in: C:\Users\xxx\AppData\Local\Temp\RtmpisbAkG/dft-road-casualty-statistics-casualty-2023.csv
+#> Data saved at /tmp/RtmpEujQjs/dft-road-casualty-statistics-casualty-2023.csv
+#> Reading in: /tmp/RtmpEujQjs/dft-road-casualty-statistics-casualty-2023.csv
+#> Files not found on disk.
 nrow(casualties)
 #> [1] 132977
 ncol(casualties)
@@ -278,7 +281,7 @@ The full list of column names in the `casualties` dataset is:
 ``` r
 names(casualties)
 #>  [1] "collision_index"                    "collision_year"                    
-#>  [3] "collision_ref_no"                   "vehicle_reference"                 
+#>  [3] "collision_reference"                "vehicle_reference"                 
 #>  [5] "casualty_reference"                 "casualty_class"                    
 #>  [7] "sex_of_casualty"                    "age_of_casualty"                   
 #>  [9] "age_band_of_casualty"               "casualty_severity"                 
@@ -299,8 +302,8 @@ and formatted as follows:
 ``` r
 vehicles = get_stats19(year = 2023, type = "vehicle", ask = FALSE, format = TRUE)
 #> Files identified: dft-road-casualty-statistics-vehicle-2023.csv
-#> Data saved at C:\Users\xxx\AppData\Local\Temp\RtmpisbAkG/dft-road-casualty-statistics-vehicle-2023.csv
-#> Reading in: C:\Users\xxx\AppData\Local\Temp\RtmpisbAkG/dft-road-casualty-statistics-vehicle-2023.csv
+#> Data saved at /tmp/RtmpEujQjs/dft-road-casualty-statistics-vehicle-2023.csv
+#> Reading in: /tmp/RtmpEujQjs/dft-road-casualty-statistics-vehicle-2023.csv
 nrow(vehicles)
 #> [1] 189815
 ncol(vehicles)
@@ -314,18 +317,18 @@ reported by the police in the STATS19 dataset in 2023, with 29 columns
 ``` r
 vehicles[c(3, 14:16)]
 #> # A tibble: 189,815 × 4
-#>    collision_ref_no vehicle_leaving_carriageway hit_object_off_carriageway
-#>    <chr>            <chr>                       <chr>                     
-#>  1 481356437        Did not leave carriageway   None                      
-#>  2 440059930        Did not leave carriageway   None                      
-#>  3 401356150        Did not leave carriageway   None                      
-#>  4 131392428        Nearside                    Tree                      
-#>  5 041363996        Did not leave carriageway   None                      
-#>  6 231388706        Did not leave carriageway   None                      
-#>  7 010427100        Did not leave carriageway   None                      
-#>  8 461304428        Did not leave carriageway   None                      
-#>  9 471348135        Did not leave carriageway   None                      
-#> 10 041288045        Nearside                    Lamp post                 
+#>    collision_reference vehicle_leaving_carriageway hit_object_off_carriageway
+#>    <chr>               <chr>                       <chr>                     
+#>  1 481356437           Did not leave carriageway   None                      
+#>  2 440059930           Did not leave carriageway   None                      
+#>  3 401356150           Did not leave carriageway   None                      
+#>  4 131392428           Nearside                    Tree                      
+#>  5 041363996           Did not leave carriageway   None                      
+#>  6 231388706           Did not leave carriageway   None                      
+#>  7 010427100           Did not leave carriageway   None                      
+#>  8 461304428           Did not leave carriageway   None                      
+#>  9 471348135           Did not leave carriageway   None                      
+#> 10 041288045           Nearside                    Lamp post                 
 #> # ℹ 189,805 more rows
 #> # ℹ 1 more variable: first_point_of_impact <chr>
 ```
@@ -335,7 +338,7 @@ The full list of column names in the `vehicles` dataset is:
 ``` r
 names(vehicles)
 #>  [1] "collision_index"                  "collision_year"                  
-#>  [3] "collision_ref_no"                 "vehicle_reference"               
+#>  [3] "collision_reference"              "vehicle_reference"               
 #>  [5] "vehicle_type"                     "towing_and_articulation"         
 #>  [7] "vehicle_manoeuvre"                "vehicle_direction_from"          
 #>  [9] "vehicle_direction_to"             "vehicle_location_restricted_lane"
@@ -378,7 +381,7 @@ Wales).
 
 ``` r
 library(sf)
-#> Linking to GEOS 3.13.1, GDAL 3.11.4, PROJ 9.7.0; sf_use_s2() is TRUE
+#> Linking to GEOS 3.14.1, GDAL 3.12.2, PROJ 9.7.1; sf_use_s2() is TRUE
 library(dplyr)
 #> 
 #> Attaching package: 'dplyr'
@@ -412,7 +415,7 @@ sel = casualties$collision_index %in% crashes_wy$collision_index
 casualties_wy = casualties[sel, ]
 names(casualties_wy)
 #>  [1] "collision_index"                    "collision_year"                    
-#>  [3] "collision_ref_no"                   "vehicle_reference"                 
+#>  [3] "collision_reference"                "vehicle_reference"                 
 #>  [5] "casualty_reference"                 "casualty_class"                    
 #>  [7] "sex_of_casualty"                    "age_of_casualty"                   
 #>  [9] "age_band_of_casualty"               "casualty_severity"                 
@@ -501,7 +504,7 @@ social, spatial and temporal distribution of bike crashes in West
 Yorkshire, which estimated the number of crashes per billion km cycled
 based on commuter cycling as a proxy for cycling levels overall (more
 sophisticated measures of cycling levels are now possible thanks to new
-data sources) (Lovelace, Roberts, and Kellar 2016):
+data sources) (Lovelace et al. 2016):
 
 <img src="https://ars.els-cdn.com/content/image/1-s2.0-S136984781500039X-gr9.jpg" alt="" width="100%" />
 
@@ -559,7 +562,7 @@ ggplot(crash_times, aes(hour, casualties)) +
 <img src="man/figures/README-crash-time-plot-1.png" alt="" width="100%" />
 
 Note that cycling manifests distinct morning and afternoon peaks (see
-Lovelace, Roberts, and Kellar 2016 for more on this).
+Lovelace et al. 2016 for more on this).
 
 ## Usage in research and policy contexts
 
@@ -616,8 +619,7 @@ The **stats19** package builds on previous work, including:
 
 ## References
 
-<div id="refs" class="references csl-bib-body hanging-indent"
-entry-spacing="0">
+<div id="refs" class="references csl-bib-body hanging-indent">
 
 <div id="ref-lovelace_stats19_2019" class="csl-entry">
 
