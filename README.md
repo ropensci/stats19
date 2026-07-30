@@ -614,6 +614,7 @@ The **stats19** package builds on previous work, including:
   downloading Stats19 data
 - updated functions related to the
   [CyIPT](https://github.com/cyipt/stats19) project
+- presentation slides and workshop materials available at [robinlovelace.net/carscrime](https://robinlovelace.net/carscrime/) (source code on GitHub at [robinlovelace/carscrime](https://github.com/robinlovelace/carscrime))
 
 [![ropensci_footer](https://ropensci.org/public_images/ropensci_footer.png)](https://ropensci.org)
 

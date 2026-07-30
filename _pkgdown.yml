@@ -10,4 +10,4 @@ navbar:
   components:
     slides:
       text: "Slides"
-      href: slides/index.html
+      href: https://robinlovelace.net/carscrime/
