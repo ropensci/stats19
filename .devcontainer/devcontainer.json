@@ -1,0 +1,15 @@
+{
+	"name": "Transport data science container",
+	"image": "ghcr.io/itsleeds/tds",
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"reditorsupport.r",
+				"GitHub.copilot-chat",
+				"quarto.quarto",
+				"ms-python.python",
+				"ms-toolsai.jupyter"
+			]
+		}
+	}
+}
