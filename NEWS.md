@@ -2,6 +2,7 @@
 
 *   **Support for 2025 Data**: Full support for the newly published 2025 STATS19 casualty, vehicle, and collision dataset from the Department for Transport (#315).
 *   **Documentation and Dataset Updates**: Updated dataset list, documentation, examples, and metadata for 1979-2025 coverage (#315).
+*   **Citation Prompt on Attach**: Added package citation details (Lovelace et al. 2019) and `citation("stats19")` instructions to the package startup message.
 
 # stats19 4.0.0
 
