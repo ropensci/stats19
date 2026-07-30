@@ -15,32 +15,49 @@ get_url = function(file_name = "",
 
 #' Find file names within stats19::file_names.
 #'
-#' @param years Year for which data are to be found
+#' @param years Year, or vector of years, for which data are to be found.
+#' The special value `"all"` returns the single file covering the full
+#' 1979-latest series (see Details).
 #' @param type One of 'collisions', 'casualty' or
 #' 'vehicles' ignores case.
 #'
+#' @details
+#' The `"1979-latest"` file published by DfT is cumulative: it already
+#' contains every year of data up to the latest release, including recent
+#' years that also have their own individual-year files. Because of this,
+#' any request that includes a year before 2021 is satisfied entirely by
+#' that one file; individual-year files are only added when *all* requested
+#' years are 2021 or later, to avoid downloading and duplicating rows that
+#' are already present in the 1979-latest file.
+#'
 #' @examples
 #' find_file_name(2016)
+#' find_file_name("all")
 #' @export
 find_file_name = function(years = NULL, type = NULL) {
 
   all_files = unlist(stats19::file_names, use.names = FALSE)
   if(is.null(years)) {
     result = all_files
+  } else if(identical(years, "all")) {
+    # 1979-latest already contains every year, so it's the only file needed
+    result = all_files[grepl("1979-latest", all_files)]
   } else {
     result = character(0)
-    # Handle pre-2021 (all in one file)
     if(any(years < 2021)) {
+      # 1979-latest already contains all years, so no individual files are
+      # needed here (and adding them would duplicate rows for years >= 2021)
       result = c(result, all_files[grepl("1979-latest", all_files)])
-    }
-    # Handle individual years 2021-2050
-    indiv_years = years[years >= 2021 & years <= 2050]
-    for(y in indiv_years) {
-      result = c(result, all_files[grepl(as.character(y), all_files) & !grepl("1979|adjust", all_files)])
-    }
-    # Handle "5 years"
-    if(any(years == 5 | years == "5 years")) {
-      result = c(result, all_files[grepl("last-5-years", all_files) & !grepl("adjust", all_files)])
+    } else {
+      # Handle individual years 2021-2050
+      indiv_years = years[years >= 2021 & years <= 2050]
+      for(y in indiv_years) {
+        result = c(result, all_files[grepl(as.character(y), all_files) & !grepl("1979|adjust", all_files)])
+      }
+      # Handle "5 years"
+      if(any(years == 5 | years == "5 years")) {
+        result = c(result, all_files[grepl("last-5-years", all_files) & !grepl("adjust", all_files)])
+      }
     }
   }
 
