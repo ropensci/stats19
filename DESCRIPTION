@@ -16,8 +16,11 @@ Authors@R: c(
     person("Ivo", "Wengraf", role = c("ctb")),
     person(given = "RAC Foundation", role = c("fnd")),
     person("Blaise", "Kelly", email = "blaise@kello.co.uk", role = c("aut"),
-      comment = c(ORCID = "0000-0003-2623-1598"))
+      comment = c(ORCID = "0000-0003-2623-1598")),
+    person("Roger", "Beecham", email = "r.j.beecham@leeds.ac.uk", role = c("aut"),
+      comment = c(ORCID = "0000-0001-8149-1428"))
   )
+
 Description: Work with and download road traffic casualty data from Great
     Britain. Enables access to the UK's official road safety statistics,
     'STATS19'. Enables users to specify a download directory for the data,
