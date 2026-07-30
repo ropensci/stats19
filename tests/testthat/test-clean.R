@@ -44,6 +44,8 @@ test_that("clean_make works", {
   expect_equal(clean_make("Enfield", extract_make = FALSE), "Royal Enfield")
   expect_equal(clean_make("Man/Vw", extract_make = FALSE), "MAN")
   expect_equal(clean_make("Freight", extract_make = FALSE), "Freight Rover")
+  expect_equal(clean_make("FREIGHT ROVER SHERPA"), "Freight Rover")
+  expect_equal(clean_make("AUSTIN MORRIS MINI"), "Austin Morris")
 
   # Test specific ambiguous or stylized fixes
   expect_equal(clean_make("Dennis", extract_make = FALSE), "Alexander Dennis")

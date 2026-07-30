@@ -1,8 +1,13 @@
 # stats19 4.1.0
 
-*   **Support for 2025 Data**: Full support for the newly published 2025 STATS19 casualty, vehicle, and collision dataset from the Department for Transport (#315).
-*   **Documentation and Dataset Updates**: Updated dataset list, documentation, examples, and metadata for 1979-2025 coverage (#315).
+*   **Support for 2025 Data**: Full support for the newly published 2025 STATS19 casualty, vehicle, and collision dataset from the Department for Transport (fixes #315).
+*   **Documentation and Dataset Updates**: Updated dataset list, documentation, examples, and metadata for 1979-2025 coverage (fixes #315).
 *   **Citation Prompt on Attach**: Added package citation details (Lovelace et al. 2019) and `citation("stats19")` instructions to the package startup message.
+*   **Bug Fixes & Data Quality Improvements**:
+    *   Preserved character class for alphanumeric collision indices, avoiding `NA` coercions (fixes #231).
+    *   Eliminated unmatched parser warnings during dataset loading (fixes #257).
+    *   Ensured valid POSIXct `datetime` creation for midnight `00:00` timestamps (fixes #236).
+    *   Enhanced vehicle make cleaning rules for `Freight Rover` and `Austin Morris` (fixes #296).
 
 # stats19 4.0.0
 

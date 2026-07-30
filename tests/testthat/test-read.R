@@ -102,3 +102,45 @@ test_that("read_stats19 normalizes collision_ref_no to collision_reference early
   expect_false("collision_ref_no" %in% names(res))
   expect_equal(res$collision_reference, c("0001", "0002"))
 })
+
+test_that("read_stats19 preserves alphanumeric collision/accident_index as character (fixes #231)", {
+  skip_if_not_installed("readr")
+  
+  tmp_csv = tempfile(fileext = ".csv")
+  df = data.frame(
+    accident_index = c("201801T266389", "201801T271905"),
+    accident_year = c(2018, 2018),
+    stringsAsFactors = FALSE
+  )
+  readr::write_csv(df, tmp_csv)
+  
+  data_dir = tempfile("stats19-read-test-")
+  dir.create(data_dir)
+  fname = basename(tmp_csv)
+  file.copy(tmp_csv, file.path(data_dir, fname), overwrite = TRUE)
+  
+  res = read_stats19(
+    year = NULL,
+    filename = fname,
+    data_dir = data_dir,
+    format = FALSE,
+    silent = TRUE
+  )
+  
+  expect_type(res$accident_index, "character")
+  expect_equal(res$accident_index, c("201801T266389", "201801T271905"))
+})
+
+test_that("format_collisions creates valid POSIXct datetime at midnight 00:00 (fixes #236)", {
+  df = data.frame(
+    collision_index = "A",
+    date = "10/05/2024",
+    time = "00:00",
+    stringsAsFactors = FALSE
+  )
+  
+  formatted = format_collisions(df)
+  
+  expect_s3_class(formatted$datetime, "POSIXct")
+  expect_equal(format(formatted$datetime, "%H:%M"), "00:00")
+})
