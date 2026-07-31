@@ -1292,6 +1292,7 @@ collision,junction_detail,13,T or staggered junction,New field added with the 20
 collision,junction_detail,16,Crossroads,New field added with the 2024 data - data collected in or converted to the 2024 STATS19 specification,character
 collision,junction_detail,17,Junction with more than four arms (not roundabout),New field added with the 2024 data - data collected in or converted to the 2024 STATS19 specification,character
 collision,junction_detail,18,Using private drive or entrance,New field added with the 2024 data - data collected in or converted to the 2024 STATS19 specification,character
+collision,junction_detail,19,Other junction,New field added with the 2024 data - data collected in or converted to the 2024 STATS19 specification,character
 collision,junction_detail,99,unknown (self reported),New field added with the 2024 data - data collected in or converted to the 2024 STATS19 specification,character
 collision,junction_detail,-1,Data missing or out of range,New field added with the 2024 data - data collected in or converted to the 2024 STATS19 specification,character
 collision,junction_control,0,Not at junction or within 20 metres,NA,character
