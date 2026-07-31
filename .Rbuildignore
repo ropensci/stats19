@@ -33,3 +33,8 @@ makefile
 ^\.git$
 ^codecov\.yml$
 ^CRAN-SUBMISSION$
+^\.claude$
+^\.devcontainer$
+^README\.html$
+^_pkgdown\.yml$
+^pkgdown$

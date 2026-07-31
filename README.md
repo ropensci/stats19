@@ -88,7 +88,7 @@ provision of STATS19 data files, which are categorised by year (from
 vehicles, as outlined below). The following command, for example, gets
 crash data from 2023 (**note**: we follow the “crash not accident”
 campaign of
-[RoadPeace](https://www.roadpeace.org/working-for-change/crash-not-accident/)
+[RoadPeace](https://www.roadpeace.org/working-for-change/)
 in naming crashes, and also adopted by the DfT since 2025):
 
 ``` r

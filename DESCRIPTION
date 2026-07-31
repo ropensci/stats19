@@ -18,7 +18,7 @@ Authors@R: c(
     person("Blaise", "Kelly", email = "blaise@kello.co.uk", role = c("aut"),
       comment = c(ORCID = "0000-0003-2623-1598")),
     person("Roger", "Beecham", email = "r.j.beecham@leeds.ac.uk", role = c("aut"),
-      comment = c(ORCID = "0000-0001-8149-1428"))
+      comment = c(ORCID = "0000-0001-8563-7251"))
   )
 Description: Work with and download road traffic casualty data from Great
     Britain. Enables access to the UK's official road safety statistics,
