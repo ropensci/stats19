@@ -178,3 +178,70 @@ get_stats19 = function(year = NULL,
 
   read_in
 }
+
+#' Download, read and format STATS19 collision data in one function
+#'
+#' Convenience wrappers around [get_stats19()] with the `type` argument
+#' pre-filled, mirroring the `read_*()` family. Use `get_collisions()`,
+#' `get_casualties()` and `get_vehicles()` when you want the whole
+#' download-read-format pipeline for a single table type.
+#'
+#' @inheritParams get_stats19
+#' @export
+#' @examples
+#' \donttest{
+#' if(curl::has_internet()) {
+#' ac = get_collisions(year = 2025)
+#' }
+#' }
+get_collisions = function(year = NULL,
+                          data_dir = get_data_directory(),
+                          file_name = NULL,
+                          format = TRUE,
+                          ask = FALSE,
+                          silent = FALSE,
+                          output_format = "tibble",
+                          engine = "readr",
+                          where = NULL,
+                          ...) {
+  get_stats19(year = year, type = "collision", data_dir = data_dir,
+              file_name = file_name, format = format, ask = ask,
+              silent = silent, output_format = output_format,
+              engine = engine, where = where, ...)
+}
+
+#' @rdname get_collisions
+#' @export
+get_casualties = function(year = NULL,
+                          data_dir = get_data_directory(),
+                          file_name = NULL,
+                          format = TRUE,
+                          ask = FALSE,
+                          silent = FALSE,
+                          output_format = "tibble",
+                          engine = "readr",
+                          where = NULL,
+                          ...) {
+  get_stats19(year = year, type = "casualty", data_dir = data_dir,
+              file_name = file_name, format = format, ask = ask,
+              silent = silent, output_format = output_format,
+              engine = engine, where = where, ...)
+}
+
+#' @rdname get_collisions
+#' @export
+get_vehicles = function(year = NULL,
+                        data_dir = get_data_directory(),
+                        file_name = NULL,
+                        format = TRUE,
+                        ask = FALSE,
+                        silent = FALSE,
+                        output_format = "tibble",
+                        engine = "readr",
+                        where = NULL,
+                        ...) {
+  get_stats19(year = year, type = "vehicle", data_dir = data_dir,
+              file_name = file_name, format = format, ask = ask,
+              silent = silent, output_format = output_format,
+              engine = engine, where = where, ...)
+}
