@@ -1,3 +1,8 @@
+# stats19 4.1.1
+
+## Minor Changes and Fixes
+*   **DfT schema updated**: in 4.0.0 DfT schema was manually amended due to a missing row in the official version (#291) schema_new.R has been updated to use the DfT version again (fixes #319).
+
 # stats19 4.1.0
 
 *   **Support for 2025 Data**: Full support for the newly published 2025 STATS19 casualty, vehicle, and collision dataset from the Department for Transport (fixes #315).
