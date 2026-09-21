@@ -21,11 +21,9 @@
 ^dftRoadSafety_Accidents_2016.zip$
 ^dftRoadSafetyData_Accidents_2017$
 ^dftRoadSafetyData_Accidents_2017.zip$
-responses*
 ^paper\.md$
 ^paper\.bib$
 ^contributing\.md$
-^azure-pipelines.yml$
 data-raw/
 makefile
 ^docs$

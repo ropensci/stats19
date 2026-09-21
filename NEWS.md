@@ -9,8 +9,16 @@
 *   **Intelligent Parquet Year Coverage Check**: Reading functions inspect Parquet metadata to verify requested years are covered, warning or falling back gracefully to CSV if data is missing (#325).
 *   **Parquet Directory Management**: Added `STATS19_PARQUET_DIRECTORY` environment variable support alongside `get_parquet_directory()` and `set_parquet_directory()` (#325).
 
-## Minor Changes and Fixes
+## Minor Changes, Codebase Simplification and Cleanup
 *   **DfT schema updated**: `schema_new.R` updated to use the official DfT version (fixes #319).
+*   **Documentation Streamlined**:
+    *   Updated `blog.Rmd` as a live reference document integrating recent architectural updates (v4.0–v4.2), DuckDB/Parquet documentation, and links to external articles. Removed redundant `blog-v4.Rmd`.
+    *   Pruned `stats19-training.Rmd` to focus on core external resources (such as [Geocomputation with R](https://r.geocompx.org/) and the RAC Foundation workbook), and removed obsolete `stats19-training-setup.Rmd`.
+*   **Codebase and Repo Cleanup**:
+    *   Consolidated `get_stats19_adjustments()` into `R/get.R`, removing redundant `R/adjustments.R`.
+    *   Vectorized VRM validation in `get_ULEZ()` and `get_MOT()`.
+    *   Removed legacy unreferenced datasets (`schema_original.rda`, `file_names_old.rda`).
+    *   Removed historical review responses (`responses1.Rmd`, `responses2.Rmd`) and deprecated `azure-pipelines.yml`.
 
 # stats19 4.1.0
 

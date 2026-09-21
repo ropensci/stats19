@@ -3,7 +3,6 @@
 \docType{data}
 \name{file_names}
 \alias{file_names}
-\alias{file_names_old}
 \title{stats19 file names for easy access}
 \format{
 A named list

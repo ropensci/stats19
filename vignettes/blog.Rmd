@@ -12,15 +12,68 @@ bibliography: references.bib
 always_allow_html: yes
 ---
 
-#### Introduction
+#### Live Documentation & External Posts
 
-`stats19` is a new R package that enables access to and processing of
+> **Note**: This is a live document documenting recent updates, package evolution, and links to published external blog posts.
+>
+> - The original rOpenSci guest blog post introducing the package (April 2019) is published at [ropensci.org/blog/2019/04/16/stats19](https://ropensci.org/blog/2019/04/16/stats19/).
+> - A forthcoming post covering stats19 v4.0.0+ (unified schema, DuckDB integration, and Parquet caching) will be published separately and linked here.
+
+#### Recent Developments: Modernised Architecture (v4.0.0 - v4.2.0)
+
+Road safety research in the UK relies heavily on STATS19—the official record of every reported road traffic collision. As the Department for Transport (DfT) modernized its data delivery, `stats19` has evolved alongside it to provide faster, cleaner, and more robust workflows for longitudinal research across 1979–2025.
+
+##### 1. Unified Longitudinal Schema
+Historical DfT releases varied substantially across years (e.g. `carriageway_hazards` vs `carriageway_hazards_historic`, `accident_reference` vs `collision_ref_no`, `accident_index` vs `collision_index`). In recent versions, `stats19` adopts a **Unified Longitudinal Schema**:
+- "Historic" columns are automatically detected and merged into their modern equivalents.
+- Reference numbers and indices are unified across tables.
+- Researchers can analyze almost 50 years of data (1979–2025) using a single, consistent schema.
+
+##### 2. Zero-Warning, High-Precision Parsing
+- `read_stats19()` builds custom column parsers dynamically based on the exact CSV header of each file, eliminating unmatched parser warnings.
+- Full floating-point precision is preserved for coordinates across all releases.
+- Missing values (`-1`, "Code deprecated", "Data missing") are standardized to `NA` globally.
+
+##### 3. Native DuckDB and Parquet Support
+To handle multi-gigabyte historical data efficiently without memory bottlenecks, `stats19` now supports DuckDB and Parquet:
+
+```r
+library(stats19)
+
+# 1. Query raw CSVs with DuckDB and SQL filters (e.g. 50x-75x faster on large files):
+crashes_30mph = get_stats19(
+  year = 2024,
+  type = "collision",
+  engine = "duckdb",
+  where = "speed_limit = 30"
+)
+
+# 2. Convert downloaded CSV archives into compressed, typed Parquet files:
+# stats19_to_parquet(type = "all")
+
+# 3. Read directly from local Parquet cache:
+crashes_pq = get_stats19(year = 2024, type = "collision", engine = "parquet")
+
+# 4. Return lazy DuckDB connection for out-of-core aggregation with dbplyr:
+crashes_db = get_stats19(year = 2024, type = "collision", output_format = "duckdb")
+# crashes_db |> dplyr::count(collision_severity) |> dplyr::collect()
+```
+
+##### 4. Research Tools: Costs and Vehicle Cleaning
+- `match_tag()`: Directly joins government TAG (Transport Analysis Guidance) economic cost estimates to collision data by severity and road category.
+- `clean_make()`, `clean_model()`: Standardizes over 2,400 raw vehicle make/model strings.
+
+---
+
+#### Introduction & Package History
+
+`stats19` is an R package that enables access to and processing of
 Great Britain’s official road traffic casualty database,
 [STATS19](https://www.data.gov.uk/dataset/cb7ae6f0-4be6-4935-9277-47e5ce24a11f/road-accidents-safety-data).
 
 We started the package in late 2018 following three main motivations:
 
-1.  The release of the 2022 road crash statistics, which showed
+1.  The release of the road crash statistics, which showed
     worsening road safety in some areas, increasing the importance of
     making the data more accessible.
 2.  The realisation that many researchers were writing add-hoc code to
@@ -46,9 +99,7 @@ Journal of Open Source Software
 ([JOSS](https://joss.theoj.org/papers/10.21105/joss.01181)) (Lovelace et
 al. 2019). For installation and the code, see its home in rOpenSci:
 <https://github.com/ropensci/stats19>, and the package documentation at
-<https://itsleeds.github.io/stats19/>.
-
-In this post, we’ll provide a bit of context, show how the package works, and provide ideas for future work building on the experience. Now is a good time to report on the package: version [`0.2.0`](https://cran.r-project.org/package=stats19) has just been release on CRAN, which contains a few improvements, some of which are used in this blog post (`ask = FALSE` in `get_stats19()`, for example, which makes it even quicker to get data with this package).
+<https://docs.ropensci.org/stats19/>.
 
 #### Short history and affiliations
 

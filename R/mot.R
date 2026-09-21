@@ -24,17 +24,18 @@
 #' }
 get_MOT = function(vrm, apikey) {
   # Check arguments
-  if (!is.vector(vrm)) stop("vrm must be a vector.")
-  for(i in 1:length(vrm)){
-    if (!is.character(vrm[i])) stop("All VRMs must be character.")
+  if (!is.character(vrm)) stop("vrm must be a character vector.", call. = FALSE)
+  has_spaces = grepl(" ", vrm)
+  if (any(has_spaces)) {
+    bad_idx = which(has_spaces)[1]
+    stop("Please remove spaces from VRMs. Check VRM number ", bad_idx, " in your list (", vrm[bad_idx], ").", call. = FALSE)
   }
-  for(i in 1:length(vrm)){
-    if (grepl(" ", vrm[[i]])) stop("Please remove spaces from VRMs.  Check VRM number ", i, " in your list (", vrm[i], ").")
+  non_alnum = grepl("[^[:alnum:]]", vrm)
+  if (any(non_alnum)) {
+    bad_idx = which(non_alnum)[1]
+    stop("VRMs must be alphanumeric. Check VRM number ", bad_idx, " in your list (", vrm[bad_idx], ").", call. = FALSE)
   }
-  for(i in 1:length(vrm)){
-    if (grepl('[^[:alnum:]]', vrm[i])) stop("VRMs must be alphanumeric.  Check VRM number ", i, " in your list (", vrm[i], ").")
-  }
-  if (!is.character(apikey)) stop("The api key must be a character string.")
+  if (!is.character(apikey) || length(apikey) != 1) stop("The api key must be a character string.", call. = FALSE)
   if (length(vrm) >= 150000) stop("Don't do more than 150,000 VRMs per day.")
 
   # Set up API key
