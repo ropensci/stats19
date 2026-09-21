@@ -9,7 +9,9 @@
 #' @param type Type of data to convert: `"collision"` (or `"accident"`),
 #'   `"casualty"`, `"vehicle"`, or `"all"`.
 #' @param years Optional vector of years to convert. If `NULL` (default), all
-#'   available files for the requested type in `data_dir` are converted.
+#'   available files for the requested type in `data_dir` are converted. Years
+#'   are matched as a token in the DfT filename, so `years = 2024` matches both
+#'   `...-collision-2024.csv` and `...-collision-2024-corrected.csv`.
 #' @param data_dir Directory containing raw downloaded CSV files.
 #'   Defaults to `get_data_directory()`.
 #' @param output_dir Directory where the Parquet file(s) will be written.
@@ -17,7 +19,9 @@
 #' @param filename Optional output filename. If `NULL` (default), the file is
 #'   named `{type}s.parquet` (e.g. `collisions.parquet`).
 #' @param partition_by Optional column name(s) to partition by, e.g. `"collision_year"`.
-#'   If supplied, a Hive-partitioned directory will be written.
+#'   If supplied, a Hive-partitioned directory will be written. Names are checked
+#'   against the columns of the converted output, so a typo fails early rather
+#'   than producing an unpartitioned or broken file.
 #' @param compression Parquet compression codec: `"zstd"` (default) or `"snappy"`.
 #' @param max_mem_gb Maximum memory limit in GB for DuckDB during conversion (default: 4).
 #' @param temp_dir Path to DuckDB temporary spilling directory (default: `tempdir()`).
@@ -114,7 +118,10 @@ stats19_to_parquet = function(type = "collision",
 
   # Filter by years if requested
   if (!is.null(years)) {
-    year_pats = paste0("-", years, "\\.csv")
+    # Match each year as a filename token so that suffixed DfT releases
+    # (...-2024-corrected.csv) are converted too, without matching a year that
+    # only appears as part of another number.
+    year_pats = paste0("(^|[-_])", years, "([-_.]|$)")
     type_csvs = type_csvs[grepl(paste(year_pats, collapse = "|"), basename(type_csvs))]
     if (length(type_csvs) == 0) {
       message("No CSV files found matching requested years.")
@@ -196,11 +203,35 @@ stats19_to_parquet = function(type = "collision",
   # Build SELECT query dynamically based on columns present in input
   sql_select = build_stats19_select_query(con, view_name, schema_defs)
 
+  # Report schema columns the source files do not contain at all: they are
+  # written as all-NULL, which is easy to miss further down the line.
+  unmatched_cols = attr(sql_select, "unmatched_columns")
+  if (!silent && length(unmatched_cols) > 0) {
+    shown = utils::head(unmatched_cols, 8)
+    message("Columns absent from the source files, written as all-NULL (",
+            length(unmatched_cols), "): ", paste(shown, collapse = ", "),
+            if (length(unmatched_cols) > length(shown)) ", ..." else "")
+  }
+
   # Build COPY statement
-  partition_sql = ""
   if (!is.null(partition_by)) {
+    if (!is.character(partition_by)) {
+      stop("partition_by must be a character vector of column names.", call. = FALSE)
+    }
+    valid_partition_cols = unique(c(
+      vapply(schema_defs, function(item) item$name, character(1)),
+      DBI::dbListFields(con, view_name)
+    ))
+    unknown = setdiff(partition_by, valid_partition_cols)
+    if (length(unknown) > 0) {
+      stop("Unknown partition_by column(s): ", paste(unknown, collapse = ", "),
+           ". Use a column of the converted output, for example 'collision_year'.",
+           call. = FALSE)
+    }
     part_cols = paste(partition_by, collapse = ", ")
     partition_sql = glue::glue(", PARTITION_BY ({part_cols})")
+  } else {
+    partition_sql = ""
   }
 
   escaped_out = gsub("'", "''", out_path)
@@ -212,8 +243,27 @@ stats19_to_parquet = function(type = "collision",
 
   DBI::dbExecute(con, copy_sql)
 
+  # Verify what was written rather than trusting COPY: a silently truncated
+  # cache is worse than a failed conversion, because later reads trust it.
+  written_glob = if (is.null(partition_by)) out_path else file.path(out_path, "**", "*.parquet")
+  escaped_glob = gsub("'", "''", written_glob)
+  rows_out = tryCatch(
+    DBI::dbGetQuery(con, glue::glue("SELECT count(*) AS n FROM read_parquet('{escaped_glob}')"))$n,
+    error = function(e) NA_real_
+  )
+  rows_in = tryCatch(
+    DBI::dbGetQuery(con, glue::glue("SELECT count(*) AS n FROM {view_name}"))$n,
+    error = function(e) NA_real_
+  )
+  if (!is.na(rows_in) && !is.na(rows_out) && rows_in != rows_out) {
+    warning("Row count mismatch after conversion: ", rows_in,
+            " rows read from CSV, ", rows_out, " rows written to ", out_path,
+            ".", call. = FALSE)
+  }
+
   if (!silent) {
-    message("Saved Parquet file at: ", out_path)
+    message("Saved Parquet file at: ", out_path,
+            if (!is.na(rows_out)) paste0(" (", format(rows_out, big.mark = ","), " rows)") else "")
   }
 
   invisible(out_path)
@@ -227,6 +277,7 @@ build_stats19_select_query = function(con, view_name, schema_defs) {
 
   select_clauses = character(0)
   used_cols = character(0)
+  unmatched_cols = character(0)
 
   for (item in schema_defs) {
     target_name = item$name
@@ -238,6 +289,7 @@ build_stats19_select_query = function(con, view_name, schema_defs) {
     matched_actual = actual_cols[match(tolower(matched_candidates), actual_lower)]
 
     if (length(matched_actual) == 0) {
+      unmatched_cols = c(unmatched_cols, target_name)
       select_clauses = c(select_clauses, glue::glue("  NULL::{target_type} AS {target_name}"))
     } else {
       used_cols = union(used_cols, matched_actual)
@@ -277,7 +329,10 @@ build_stats19_select_query = function(con, view_name, schema_defs) {
     select_clauses = c(select_clauses, glue::glue("  TRY_CAST({col_ref} AS VARCHAR) AS \"{col}\""))
   }
 
-  paste0("SELECT\n", paste(select_clauses, collapse = ",\n"), "\nFROM ", view_name)
+  sql = paste0("SELECT\n", paste(select_clauses, collapse = ",\n"), "\nFROM ", view_name)
+  # Callers use this to report schema columns the source files did not provide
+  attr(sql, "unmatched_columns") = unmatched_cols
+  sql
 }
 
 # Internal helper to check if a Parquet file covers requested years

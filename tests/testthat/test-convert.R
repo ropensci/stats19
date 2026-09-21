@@ -34,6 +34,14 @@ write_stats19_fixture = function(data_dir, type, year, n = 2) {
   file.path(data_dir, name)
 }
 
+# Rows in a Parquet file or Hive-partitioned directory, read back with DuckDB
+parquet_row_count = function(path) {
+  con = DBI::dbConnect(duckdb::duckdb(), dbdir = ":memory:")
+  on.exit(DBI::dbDisconnect(con, shutdown = TRUE), add = TRUE)
+  glob = if (dir.exists(path)) file.path(path, "**", "*.parquet") else path
+  DBI::dbGetQuery(con, sprintf("SELECT count(*) AS n FROM read_parquet('%s')", glob))$n
+}
+
 test_that("get_parquet_directory and set_parquet_directory work", {
   withr::local_envvar(STATS19_PARQUET_DIRECTORY = NA)
 
@@ -156,6 +164,71 @@ test_that("stats19_to_parquet converts casualty and vehicle data", {
 
   expect_true(file.exists(p_cas))
   expect_true(file.exists(p_veh))
+})
+
+test_that("stats19_to_parquet rejects unknown partition_by columns", {
+  skip_if_not_installed("duckdb")
+  skip_if_not_installed("DBI")
+
+  data_dir = withr::local_tempdir()
+  output_dir = withr::local_tempdir()
+  write_stats19_fixture(data_dir, "collision", 2024)
+
+  expect_error(
+    stats19_to_parquet(type = "collision", data_dir = data_dir,
+                       output_dir = output_dir, partition_by = "not_a_column",
+                       silent = TRUE),
+    "Unknown partition_by column"
+  )
+
+  out = stats19_to_parquet(type = "collision", data_dir = data_dir,
+                           output_dir = output_dir, partition_by = "collision_year",
+                           silent = TRUE)
+  expect_true(dir.exists(out))
+  expect_length(list.files(out, pattern = "\\.parquet$", recursive = TRUE), 1)
+})
+
+test_that("stats19_to_parquet matches years as filename tokens", {
+  skip_if_not_installed("duckdb")
+  skip_if_not_installed("DBI")
+
+  data_dir = withr::local_tempdir()
+  output_dir = withr::local_tempdir()
+  f = write_stats19_fixture(data_dir, "collision", 2024)
+  # A suffixed release name still counts as 2024
+  file.rename(f, file.path(data_dir, "dft-road-casualty-statistics-collision-2024-corrected.csv"))
+
+  out = stats19_to_parquet(type = "collision", years = 2024, data_dir = data_dir,
+                           output_dir = output_dir, silent = TRUE)
+  expect_true(file.exists(out))
+  expect_equal(parquet_row_count(out), 2)
+
+  # 2024 inside a longer number is not a year token
+  other_dir = withr::local_tempdir()
+  write_stats19_fixture(other_dir, "collision", 20240)
+  expect_message(
+    stats19_to_parquet(type = "collision", years = 2024, data_dir = other_dir,
+                       output_dir = withr::local_tempdir()),
+    "No CSV files found matching requested years"
+  )
+})
+
+test_that("stats19_to_parquet reports columns missing from the source files", {
+  skip_if_not_installed("duckdb")
+  skip_if_not_installed("DBI")
+
+  data_dir = withr::local_tempdir()
+  output_dir = withr::local_tempdir()
+  write_stats19_fixture(data_dir, "collision", 2024)
+
+  # The fixture has a handful of columns out of the full DfT schema, so the
+  # converter should say so rather than leaving the user to find all-NULL
+  # columns later.
+  expect_message(
+    stats19_to_parquet(type = "collision", data_dir = data_dir,
+                       output_dir = output_dir),
+    "written as all-NULL"
+  )
 })
 
 test_that("get_stats19 with output_format = 'duckdb' returns a lazy tbl from the Parquet cache", {

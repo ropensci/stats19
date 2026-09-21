@@ -23,7 +23,9 @@ stats19_to_parquet(
 \code{"casualty"}, \code{"vehicle"}, or \code{"all"}.}
 
 \item{years}{Optional vector of years to convert. If \code{NULL} (default), all
-available files for the requested type in \code{data_dir} are converted.}
+available files for the requested type in \code{data_dir} are converted. Years
+are matched as a token in the DfT filename, so \code{years = 2024} matches both
+\verb{...-collision-2024.csv} and \code{...-collision-2024-corrected.csv}.}
 
 \item{data_dir}{Directory containing raw downloaded CSV files.
 Defaults to \code{get_data_directory()}.}
@@ -35,7 +37,9 @@ Defaults to \code{get_parquet_directory()}.}
 named \verb{\{type\}s.parquet} (e.g. \code{collisions.parquet}).}
 
 \item{partition_by}{Optional column name(s) to partition by, e.g. \code{"collision_year"}.
-If supplied, a Hive-partitioned directory will be written.}
+If supplied, a Hive-partitioned directory will be written. Names are checked
+against the columns of the converted output, so a typo fails early rather
+than producing an unpartitioned or broken file.}
 
 \item{compression}{Parquet compression codec: \code{"zstd"} (default) or \code{"snappy"}.}
 
