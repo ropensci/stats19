@@ -119,13 +119,17 @@ get_stats19 = function(year = NULL,
     type = "collision"
   }
   
-  valid_formats = c("tibble", "data.frame", "sf", "ppp")
+  valid_formats = c("tibble", "data.frame", "sf", "ppp", "duckdb")
   if (!output_format %in% valid_formats) {
     warning("output_format should be one of ", paste(valid_formats, collapse = ", "), 
             ". Defaulting to tibble.", call. = FALSE, immediate. = TRUE)
     output_format = "tibble"
   }
   
+  if (output_format == "duckdb") {
+    engine = "duckdb"
+  }
+
   if (grepl("cas", type, ignore.case = TRUE) && output_format %in% c("sf", "ppp")) {
     warning("Casualties do not have a spatial dimension. Defaulting to tibble.",
             call. = FALSE, immediate. = TRUE)
@@ -140,7 +144,11 @@ get_stats19 = function(year = NULL,
   read_in = read_stats19(year = year, filename = file_name %||% "", 
                          data_dir = data_dir, format = format, 
                          silent = silent, type = type, engine = engine,
-                         where = where)
+                         where = where, output_format = output_format)
+
+  if (output_format == "duckdb") {
+    return(read_in)
+  }
 
   # Smart Unification for E-scooter Casualties
   # If type is casualty, we check vehicles to find e-scooter riders
@@ -175,6 +183,7 @@ get_stats19 = function(year = NULL,
       "ppp" = format_ppp(read_in, ...)
     )
   }
+
 
   read_in
 }

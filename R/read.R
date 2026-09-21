@@ -117,80 +117,135 @@ read_stats19 = function(year = NULL,
                         silent = TRUE,
                         type = "collision",
                         engine = "readr",
-                        where = NULL) {
-  fnames = filename
-  if (filename == "" || is.null(filename)) {
-    fnames = find_file_name(years = year, type = type)
-  }
-  
-  if (length(fnames) == 0) {
-    message("No files found.")
-    return(NULL)
+                        where = NULL,
+                        output_format = "tibble") {
+
+  type_clean = tolower(type)
+  plural_name = if (grepl("acc|col", type_clean)) {
+    "collisions"
+  } else if (grepl("cas", type_clean)) {
+    "casualties"
+  } else {
+    "vehicles"
   }
 
-  paths = file.path(data_dir, fnames)
-  existing_paths = paths[file.exists(paths)]
+  parquet_dir = get_parquet_directory()
+  parquet_file = file.path(parquet_dir, paste0(plural_name, ".parquet"))
   
-  if (length(existing_paths) == 0) {
-    message("Files not found on disk.")
-    return(NULL)
+  # Only use Parquet if a specific CSV filename was not explicitly requested
+  has_specific_csv = !is.null(filename) && nzchar(filename) && grepl("\\.csv$", filename, ignore.case = TRUE)
+  use_parquet = !has_specific_csv && 
+                (engine == "parquet" || output_format == "duckdb" || (engine == "duckdb" && file.exists(parquet_file))) &&
+                file.exists(parquet_file)
+
+
+  if (output_format == "duckdb" || engine == "parquet") {
+    engine = "duckdb"
   }
 
   if (engine == "duckdb") {
     if (!requireNamespace("duckdb", quietly = TRUE) || !requireNamespace("DBI", quietly = TRUE)) {
       warning("duckdb and DBI packages are required for engine = 'duckdb'. Falling back to readr.")
       engine = "readr"
+      output_format = "tibble"
     }
   }
 
   if (engine == "duckdb") {
     con = DBI::dbConnect(duckdb::duckdb(), dbdir = ":memory:")
-    on.exit(DBI::dbDisconnect(con, shutdown = TRUE))
-    
-    # Create views for each file and union them
-    view_names = paste0("v", seq_along(existing_paths))
-    for (i in seq_along(existing_paths)) {
-      p = existing_paths[i]
-      v = view_names[i]
-      
-      # Using read_csv_auto which is very fast and handles many edge cases
-      # We read as VARCHAR initially to be safe with STATS19's weird types and -1 for NA
-      # We use SELECT * to ensure we get all columns (indices, coordinates, etc.)
-      query = glue::glue("CREATE VIEW {v} AS SELECT * FROM read_csv_auto('{p}', all_varchar=TRUE)")
-      DBI::dbExecute(con, query)
+    # Only close connection on exit if we are NOT returning a lazy tbl connection
+    if (output_format != "duckdb") {
+      on.exit(DBI::dbDisconnect(con, shutdown = TRUE))
     }
-    
-    union_query = paste0("SELECT * FROM ", paste(view_names, collapse = " UNION ALL BY NAME SELECT * FROM "))
-    
+
+    if (use_parquet) {
+      escaped_parquet = gsub("'", "''", parquet_file)
+      union_query = glue::glue("SELECT * FROM read_parquet('{escaped_parquet}')")
+      year_col = if (plural_name == "collisions") "collision_year" else "collision_year"
+    } else {
+      fnames = filename
+      if (filename == "" || is.null(filename)) {
+        fnames = find_file_name(years = year, type = type)
+      }
+      if (length(fnames) == 0) {
+        message("No files found.")
+        return(NULL)
+      }
+      paths = file.path(data_dir, fnames)
+      existing_paths = paths[file.exists(paths)]
+      if (length(existing_paths) == 0) {
+        message("Files not found on disk.")
+        return(NULL)
+      }
+
+      view_names = paste0("v", seq_along(existing_paths))
+      for (i in seq_along(existing_paths)) {
+        p = existing_paths[i]
+        v = view_names[i]
+        query = glue::glue("CREATE VIEW {v} AS SELECT * FROM read_csv_auto('{p}', all_varchar=TRUE)")
+        DBI::dbExecute(con, query)
+      }
+      union_query = paste0("SELECT * FROM ", paste(view_names, collapse = " UNION ALL BY NAME SELECT * FROM "))
+    }
+
     # Build WHERE clauses
     where_clauses = character(0)
-    
+
     # 1. Filter by year in SQL if requested
     if (!is.null(year) && !identical(year, 5) && !identical(year, "5 years") && !identical(year, "all") && !identical(year, 1979) && !identical(year, 1979L)) {
-      # Get all columns from all views to find all potential year columns
-      all_cols = unique(unlist(lapply(view_names, function(v) DBI::dbListFields(con, v))))
-      year_cols = intersect(all_cols, c("accident_year", "collision_year", "Accident_Year", "Collision_Year"))
-      if (length(year_cols) > 0) {
-        year_str = paste0("'", year, "'", collapse = ", ")
-        # Build OR condition for all found year columns
-        year_cond = paste0("(", paste0(year_cols, " IN (", year_str, ")", collapse = " OR "), ")")
-        where_clauses = c(where_clauses, year_cond)
+      if (use_parquet) {
+        year_str = paste0(year, collapse = ", ")
+        where_clauses = c(where_clauses, paste0("collision_year IN (", year_str, ")"))
+      } else {
+        all_cols = unique(unlist(lapply(view_names, function(v) DBI::dbListFields(con, v))))
+        year_cols = intersect(all_cols, c("accident_year", "collision_year", "Accident_Year", "Collision_Year"))
+        if (length(year_cols) > 0) {
+          year_str = paste0("'", year, "'", collapse = ", ")
+          year_cond = paste0("(", paste0(year_cols, " IN (", year_str, ")", collapse = " OR "), ")")
+          where_clauses = c(where_clauses, year_cond)
+        }
       }
     }
-    
+
     # 2. Add arbitrary WHERE clause (e.g. spatial bounding box)
     if (!is.null(where)) {
       where = sanitize_duckdb_where(where)
       where_clauses = c(where_clauses, where)
     }
-    
+
     if (length(where_clauses) > 0) {
       union_query = paste0("SELECT * FROM (", union_query, ") WHERE ", paste(where_clauses, collapse = " AND "))
     }
-    
-    x = DBI::dbGetQuery(con, union_query)
-    x = tibble::as_tibble(x)
+
+    if (output_format == "duckdb") {
+      if (!requireNamespace("dbplyr", quietly = TRUE)) {
+        warning("dbplyr package is required for output_format = 'duckdb'. Falling back to tibble.")
+        x = DBI::dbGetQuery(con, union_query)
+        DBI::dbDisconnect(con, shutdown = TRUE)
+        x = tibble::as_tibble(x)
+      } else {
+        return(dplyr::tbl(con, dbplyr::sql(union_query)))
+      }
+    } else {
+      x = DBI::dbGetQuery(con, union_query)
+      x = tibble::as_tibble(x)
+    }
   } else {
+    fnames = filename
+    if (filename == "" || is.null(filename)) {
+      fnames = find_file_name(years = year, type = type)
+    }
+    if (length(fnames) == 0) {
+      message("No files found.")
+      return(NULL)
+    }
+    paths = file.path(data_dir, fnames)
+    existing_paths = paths[file.exists(paths)]
+    if (length(existing_paths) == 0) {
+      message("Files not found on disk.")
+      return(NULL)
+    }
+
     if (any(grepl("1979-latest", existing_paths))) {
       warning("Reading the large 1979-latest file with 'readr' can be slow. Consider using engine = 'duckdb' for better performance.", call. = FALSE)
     }
@@ -198,21 +253,22 @@ read_stats19 = function(year = NULL,
       if (isFALSE(silent)) message("Reading in: ", p)
       readr::read_csv(p, col_types = col_spec(p), na = c("", "NA", "-1"), show_col_types = FALSE)
     }
-    
+
     # Read and bind
     x_list = lapply(existing_paths, read_one)
     x = dplyr::bind_rows(x_list)
   }
-  
+
   x = normalize_collision_reference(x)
-  
-  if(format) {
+
+  if (format) {
     format_fun = switch(tolower(substr(type, 1, 3)),
                         "col" = format_collisions,
                         "veh" = format_vehicles,
                         "cas" = format_casualties)
     x = format_fun(x)
   }
+
   
   # Ensure -1 is NA across all columns (safety net for Option 1)
   # Done AFTER formatting to allow schema to map -1 to labels first if needed
