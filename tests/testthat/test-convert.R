@@ -187,6 +187,70 @@ test_that("stats19_to_parquet reports columns missing from the source files", {
   )
 })
 
+test_that("stats19_to_parquet handles type = 'all', compression and overwrite", {
+  skip_if_not_installed("duckdb")
+  skip_if_not_installed("DBI")
+
+  data_dir = withr::local_tempdir()
+  output_dir = withr::local_tempdir()
+  for (t in c("collision", "casualty", "vehicle")) {
+    write_stats19_fixture(data_dir, t, 2024)
+  }
+
+  paths = stats19_to_parquet(type = "all", data_dir = data_dir,
+                             output_dir = output_dir, compression = "snappy",
+                             silent = TRUE)
+  expect_length(paths, 3)
+  expect_true(all(file.exists(paths)))
+  expect_setequal(basename(paths), c("collisions.parquet", "casualties.parquet", "vehicles.parquet"))
+  for (p in paths) {
+    expect_equal(parquet_row_count(p), 2)
+  }
+
+  # overwrite = FALSE keeps what is on disk and says so
+  expect_message(
+    again <- stats19_to_parquet(type = "collision", data_dir = data_dir,
+                                output_dir = output_dir, overwrite = FALSE),
+    "overwrite is FALSE"
+  )
+  expect_equal(again, file.path(output_dir, "collisions.parquet"))
+})
+
+test_that("stats19_to_parquet stops on an unknown type", {
+  expect_error(
+    stats19_to_parquet(type = "not_a_type", data_dir = tempdir(), silent = TRUE),
+    "Unrecognised type"
+  )
+})
+
+test_that("stats19_to_parquet reports an empty data directory", {
+  skip_if_not_installed("duckdb")
+  skip_if_not_installed("DBI")
+
+  data_dir = withr::local_tempdir()
+  expect_message(
+    res <- stats19_to_parquet(type = "collision", data_dir = data_dir,
+                              output_dir = withr::local_tempdir(), silent = TRUE),
+    "No CSV files found in"
+  )
+  expect_null(res)
+})
+
+test_that("get_stats19 warns and falls back on an unknown output_format", {
+  skip_if_not_installed("duckdb")
+  skip_if_not_installed("DBI")
+
+  # A covering cache means no download is attempted for the CSV path either
+  fixture = local_parquet_fixture(type = "collision", year = 2024, cache_n = 2)
+
+  expect_warning(
+    res <- get_stats19(year = 2024, type = "collision", output_format = "nonsense",
+                       engine = "duckdb", format = FALSE, silent = TRUE),
+    "output_format should be one of"
+  )
+  expect_equal(nrow(res), 2)
+})
+
 test_that("get_stats19 with output_format = 'duckdb' returns a lazy tbl from the Parquet cache", {
   skip_if_not_installed("duckdb")
   skip_if_not_installed("DBI")
