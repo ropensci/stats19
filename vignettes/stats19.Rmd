@@ -557,6 +557,26 @@ ggplot(crash_times, aes(hour, casualties)) +
 Note that bike crashes tend to have distinct morning and afternoon peaks, in-line with previous research [@lovelace_who_2016].
 A disproportionate number of car crashes appear to happen in the afternoon.
 
+### Longitudinal trends and severity adjustments
+
+When conducting long-term trend analysis (2004–2025), changes in police injury recording systems (notably the transition of English and Welsh forces to CRASH and COPA between 2016 and 2019) caused an artificial upward shift in recorded "Serious" casualties relative to "Slight" casualties.
+
+To allow consistent longitudinal comparison over time, the Department for Transport provides modeled adjustment probabilities. We can use [`summarise_adjusted_severities()`](file:///home/robin/github/ropensci/stats19/R/adjustments.R) to compute and plot both unadjusted and adjusted time-series:
+
+```{r time-series-adjustments, eval=FALSE}
+# Fetch historical casualty data and calculate yearly adjusted severities
+cas_historical = get_stats19(year = 2004:2025, type = "casualty")
+cas_adj = summarise_adjusted_severities(cas_historical, by = "collision_year")
+
+# Compare unadjusted vs DfT adjusted serious casualties
+ggplot(cas_adj, aes(x = collision_year)) +
+  geom_line(aes(y = serious_unadjusted, colour = "Unadjusted"), linetype = "dashed") +
+  geom_line(aes(y = serious_adjusted, colour = "DfT Adjusted"), linewidth = 1) +
+  labs(x = "Year", y = "Serious Casualties", colour = "Series",
+       title = "GB Serious Casualties (2004–2025): Unadjusted vs DfT Adjusted") +
+  theme_minimal()
+```
+
 ## Further work
 
 There is much potential to extend the package beyond downloading, reading and formatting STATS19 data.

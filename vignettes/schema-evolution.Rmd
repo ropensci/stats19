@@ -1,0 +1,111 @@
+---
+title: "Longitudinal Schema and Filename Evolution (1979–2025)"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Longitudinal Schema and Filename Evolution (1979–2025)}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+author: "Robin Lovelace, Malcolm Morgan & Andrea Gilardi"
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Overview
+
+Great Britain's STATS19 road casualty data spans nearly half a century (1979 to 2025). Over this time, data hosting infrastructure, file naming conventions, column definitions, and reporting methodologies have changed substantially.
+
+This article documents how STATS19 has evolved, and how the `stats19` R package normalizes these differences to provide a consistent longitudinal dataset.
+
+---
+
+## 1. Hosting and File Naming Evolution
+
+| Era | Primary Format | Host / Provider | Typical File Names |
+| :--- | :--- | :--- | :--- |
+| **Pre-2016** | Bundled `.zip` archives | UK Data Service (UKDS) & early data.gov.uk | `Stats19_Data_2005-2014.zip`<br>`RoadSafetyData_2015.zip` (containing `Accidents0514.csv`, `Casualties0514.csv`, `Vehicles0514.csv`) |
+| **2016–2023** | Direct `.csv` downloads | Department for Transport (AWS S3) | `dft-road-casualty-statistics-collision-1979-latest-published-year.csv`<br>`dft-road-casualty-statistics-casualty-2021.csv` |
+| **2024–Present** | HTTPS streaming CSV & Parquet cache | Department for Transport (`data.dft.gov.uk`) | `dft-road-casualty-statistics-collision-2025.csv`<br>`collisions.parquet` (via `stats19_to_parquet()`) |
+
+### Package Handling
+Early versions of `stats19` unzipped local temporary archives. Modern versions download CSVs directly via `curl::curl_download()`, and v4.2.0 adds out-of-core caching with DuckDB and Parquet (`stats19_to_parquet()`).
+
+---
+
+## 2. Nomenclature: "Accident" to "Collision"
+
+In 2024, the Department for Transport formally modernized its terminology from "Accident" to "Collision" to reflect that road incidents are preventable collisions rather than unavoidable accidents:
+
+| Legacy Field (Pre-2024) | Modern Field (2024+) | Unified Name in `stats19` |
+| :--- | :--- | :--- |
+| `accident_index` | `collision_index` | `collision_index` |
+| `accident_year` | `collision_year` | `collision_year` |
+| `accident_reference` / `accident_ref_no` | `collision_ref_no` | `collision_reference` |
+| `accident_severity` | `collision_severity` | `collision_severity` |
+| `date` / `accident_date` | `collision_date` / `date` | `date` |
+| `time` / `accident_time` | `collision_time` / `time` | `time` |
+
+In `stats19` v4.0.0+, `read_stats19()` and `stats19_to_parquet()` automatically normalize these identifiers across all historical files.
+
+---
+
+## 3. The `*_historic` Column Split
+
+Starting in 2024, the DfT separated several categorical variables that had changed coding categories over time into modern and `_historic` counterparts:
+
+- `carriageway_hazards` vs `carriageway_hazards_historic`
+- `junction_detail` vs `junction_detail_historic`
+- `pedestrian_crossing_human_control` vs `pedestrian_crossing_human_control_historic`
+- `pedestrian_crossing_physical_facilities` vs `pedestrian_crossing_physical_facilities_historic`
+- `vehicle_manoeuvre` vs `vehicle_manoeuvre_historic`
+- `journey_purpose_of_driver` vs `journey_purpose_of_driver_historic`
+
+### Longitudinal Harmonization
+In raw files, combining 2023 and 2024 data created fragmented columns with extensive missing values. `stats19` automatically coalesces each `*_historic` column into its canonical variable, allowing continuous longitudinal modeling across decades without data loss.
+
+---
+
+## 4. Severity Adjustments (CRASH System Introduction)
+
+Between 2016 and 2019, police forces in England and Wales progressively adopted injury-based reporting systems (CRASH and COPA). Under CRASH, officers record specific injuries rather than subjectively classifying severity, resulting in an artificial upward step-change in recorded "Serious" casualties.
+
+- **Pre-2019**: No adjustment factors were published; raw trends showed an artificial spike in serious injuries.
+- **2019–2021**: DfT released separate lookup CSVs (`...adjustment-lookup_2004-latest-published-year.csv`).
+- **2022–Present**: DfT **directly embedded** the adjustment probabilities into the main casualty and collision files (`casualty_adjusted_severity_serious`, `casualty_adjusted_severity_slight`).
+
+### Practical Usage
+To compute continuous serious and slight casualty counts from 2004 onwards:
+
+```r
+library(stats19)
+
+# Read casualty data
+cas = get_stats19(year = 2004:2025, type = "casualty")
+
+# Calculate both raw and DfT-adjusted counts:
+cas_summary = summarise_adjusted_severities(cas, by = "collision_year")
+head(cas_summary)
+```
+
+---
+
+## 5. Emerging Vehicles and Variable Additions
+
+As mobility patterns evolve, new variables have been added to the DfT schema:
+
+- **E-scooters**: An `escooter_flag` column was introduced in the vehicle dataset. `stats19` includes smart cross-referencing to flag e-scooter casualties even when the raw casualty records lack explicit mode tags.
+- **Adjusted Severities**: Integrated into both collision and casualty tables for 2004–present.
+- **Geographic Codes**: Transition from local authority district codes to modern ONS 9-character codes (`local_authority_ons_district`, `lsoa_of_accident_location`).
+
+---
+
+## 6. Schema Generation Pipeline
+
+The package metadata has evolved across three stages:
+1. `schema_original` (static data frames from UKDS documentation).
+2. Manually curated CSVs (`stats19_schema.csv`, `stats19_variables.csv`).
+3. Fully automated extraction via `data-raw/schema_new.R`, which downloads the official DfT data release guide and generates reproducible lookup tables directly into `data/stats19_schema.rda`.
