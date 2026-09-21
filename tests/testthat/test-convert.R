@@ -1,47 +1,3 @@
-# Minimal DfT-shaped CSV fixture. Small enough to keep the suite fast, complete
-# enough for the converter's schema mapping (missing columns become NULL).
-write_stats19_fixture = function(data_dir, type, year, n = 2) {
-  ids = sprintf("%s%02dA", year, seq_len(n))
-  df = switch(
-    type,
-    collision = data.frame(
-      collision_index = ids,
-      collision_year = year,
-      collision_severity = rep(3, n),
-      number_of_vehicles = rep(1, n),
-      number_of_casualties = rep(1, n),
-      date = rep(sprintf("01/01/%d", year), n),
-      stringsAsFactors = FALSE
-    ),
-    casualty = data.frame(
-      collision_index = ids,
-      collision_year = year,
-      vehicle_reference = rep(1, n),
-      casualty_reference = seq_len(n),
-      casualty_severity = rep(3, n),
-      stringsAsFactors = FALSE
-    ),
-    vehicle = data.frame(
-      collision_index = ids,
-      collision_year = year,
-      vehicle_reference = seq_len(n),
-      vehicle_type = rep(9, n),
-      stringsAsFactors = FALSE
-    )
-  )
-  name = sprintf("dft-road-casualty-statistics-%s-%d.csv", type, year)
-  utils::write.csv(df, file.path(data_dir, name), row.names = FALSE)
-  file.path(data_dir, name)
-}
-
-# Rows in a Parquet file or Hive-partitioned directory, read back with DuckDB
-parquet_row_count = function(path) {
-  con = DBI::dbConnect(duckdb::duckdb(), dbdir = ":memory:")
-  on.exit(DBI::dbDisconnect(con, shutdown = TRUE), add = TRUE)
-  glob = if (dir.exists(path)) file.path(path, "**", "*.parquet") else path
-  DBI::dbGetQuery(con, sprintf("SELECT count(*) AS n FROM read_parquet('%s')", glob))$n
-}
-
 test_that("get_parquet_directory and set_parquet_directory work", {
   withr::local_envvar(STATS19_PARQUET_DIRECTORY = NA)
 
@@ -241,16 +197,7 @@ test_that("get_stats19 with output_format = 'duckdb' returns a lazy tbl from the
   # the cache from the CSV fallback. The previous version keyed off whatever
   # happened to be in STATS19_PARQUET_DIRECTORY and skipped silently when it
   # was absent, which it always is on CI.
-  source_dir = withr::local_tempdir()
-  parquet_dir = withr::local_tempdir()
-  data_dir = withr::local_tempdir()
-  withr::local_envvar(STATS19_PARQUET_DIRECTORY = parquet_dir,
-                      STATS19_DOWNLOAD_DIRECTORY = data_dir)
-
-  write_stats19_fixture(source_dir, "collision", 2024, n = 2)
-  write_stats19_fixture(data_dir, "collision", 2024, n = 5)
-  stats19_to_parquet(type = "collision", data_dir = source_dir,
-                     output_dir = parquet_dir, silent = TRUE)
+  fixture = local_parquet_fixture(type = "collision", year = 2024, cache_n = 2, csv_n = 5)
 
   tbl_col = get_stats19(year = 2024, type = "collision",
                         output_format = "duckdb", silent = TRUE)

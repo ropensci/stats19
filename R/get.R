@@ -145,10 +145,15 @@ get_stats19 = function(year = NULL,
   }
   parquet_dir = get_parquet_directory()
   parquet_file = file.path(parquet_dir, paste0(plural_name, ".parquet"))
+  has_specific_csv = !is.null(file_name) && nzchar(file_name) &&
+    grepl("\\.csv$", file_name, ignore.case = TRUE)
   parquet_ok = file.exists(parquet_file) && parquet_has_years(parquet_file, year)
-  skip_dl = (output_format == "duckdb" || engine == "parquet") && 
-            parquet_ok && 
-            (is.null(file_name) || !nzchar(file_name))
+  # read_stats19() serves from the cache whenever it covers the requested years
+  # and no CSV was named, so skip the download on exactly that condition. This
+  # includes engine = "duckdb", which previously downloaded files it never read.
+  # engine = "readr" still needs the CSV, so it is deliberately excluded.
+  skip_dl = parquet_ok && !has_specific_csv &&
+    (engine %in% c("parquet", "duckdb") || output_format == "duckdb")
 
   # download what the user wanted if not already satisfied by Parquet
   if (!skip_dl) {
@@ -162,8 +167,16 @@ get_stats19 = function(year = NULL,
                          silent = silent, type = type, engine = engine,
                          where = where, output_format = output_format)
 
+  # A lazy DuckDB table is returned as-is: stats19 hands the connection to the
+  # caller, who closes it with DBI::dbDisconnect(dbplyr::remote_con(x)). If
+  # duckdb or dbplyr were unavailable, read_stats19() fell back to a tibble, in
+  # which case fall through to the post-processing below instead of claiming a
+  # lazy table was returned.
   if (output_format == "duckdb") {
-    return(read_in)
+    if (inherits(read_in, "tbl_lazy")) {
+      return(read_in)
+    }
+    output_format = "tibble"
   }
 
   # Smart Unification for E-scooter Casualties

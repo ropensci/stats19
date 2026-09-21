@@ -80,6 +80,27 @@ read_casualties = function(year = NULL,
                engine = engine, where = where, output_format = output_format, ...)
 }
 
+# Internal helper: resolve the CSV files for a request, or NULL if none of the
+# expected files are on disk. Used by both the DuckDB and the readr code paths
+# so they cannot drift apart.
+resolve_stats19_paths = function(filename, year, type, data_dir) {
+  fnames = filename
+  if (is.null(filename) || !nzchar(filename)) {
+    fnames = find_file_name(years = year, type = type)
+  }
+  if (length(fnames) == 0) {
+    message("No files found.")
+    return(NULL)
+  }
+  paths = file.path(data_dir, fnames)
+  existing_paths = paths[file.exists(paths)]
+  if (length(existing_paths) == 0) {
+    message("Files not found on disk.")
+    return(NULL)
+  }
+  existing_paths
+}
+
 # Internal helper to make numeric DuckDB predicates work with all_varchar=TRUE
 sanitize_duckdb_where = function(where) {
   if (is.null(where) || !nzchar(where)) {
@@ -162,11 +183,13 @@ read_stats19 = function(year = NULL,
 
   if (engine == "parquet" && file.exists(parquet_file) && !parquet_ok) {
     warning("Requested year(s) may not be fully covered in Parquet file: ", parquet_file,
-            ". Consider updating it with stats19_to_parquet().", call. = FALSE)
+            ". Consider updating it with stats19_to_parquet()", call. = FALSE)
   }
 
-  use_parquet = !has_specific_csv && file.exists(parquet_file) &&
-                (engine == "parquet" || (output_format == "duckdb" && parquet_ok) || (engine == "duckdb" && parquet_ok))
+  # A cache that does not cover the requested years must never be read: the
+  # caller asked for data the file does not contain. Fall back to the CSV files
+  # in that case, which is why this requires parquet_ok for every engine.
+  use_parquet = !has_specific_csv && parquet_ok
 
   if (output_format == "duckdb" || engine == "parquet") {
     engine = "duckdb"
@@ -191,18 +214,8 @@ read_stats19 = function(year = NULL,
       escaped_parquet = gsub("'", "''", parquet_file)
       union_query = glue::glue("SELECT * FROM read_parquet('{escaped_parquet}')")
     } else {
-      fnames = filename
-      if (filename == "" || is.null(filename)) {
-        fnames = find_file_name(years = year, type = type)
-      }
-      if (length(fnames) == 0) {
-        message("No files found.")
-        return(NULL)
-      }
-      paths = file.path(data_dir, fnames)
-      existing_paths = paths[file.exists(paths)]
-      if (length(existing_paths) == 0) {
-        message("Files not found on disk.")
+      existing_paths = resolve_stats19_paths(filename, year, type, data_dir)
+      if (is.null(existing_paths)) {
         return(NULL)
       }
 
@@ -259,18 +272,8 @@ read_stats19 = function(year = NULL,
       x = tibble::as_tibble(x)
     }
   } else {
-    fnames = filename
-    if (filename == "" || is.null(filename)) {
-      fnames = find_file_name(years = year, type = type)
-    }
-    if (length(fnames) == 0) {
-      message("No files found.")
-      return(NULL)
-    }
-    paths = file.path(data_dir, fnames)
-    existing_paths = paths[file.exists(paths)]
-    if (length(existing_paths) == 0) {
-      message("Files not found on disk.")
+    existing_paths = resolve_stats19_paths(filename, year, type, data_dir)
+    if (is.null(existing_paths)) {
       return(NULL)
     }
 
