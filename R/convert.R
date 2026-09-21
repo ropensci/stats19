@@ -47,6 +47,9 @@ stats19_to_parquet = function(type = "collision",
                               temp_dir = tempdir(),
                               overwrite = TRUE,
                               silent = FALSE) {
+  compression = match.arg(tolower(compression), c("zstd", "snappy"))
+  stopifnot(is.numeric(max_mem_gb), length(max_mem_gb) == 1, max_mem_gb > 0)
+
   if (!requireNamespace("duckdb", quietly = TRUE) || !requireNamespace("DBI", quietly = TRUE)) {
     stop("Packages 'duckdb' and 'DBI' are required to convert STATS19 data to Parquet.", call. = FALSE)
   }
@@ -147,10 +150,6 @@ stats19_to_parquet = function(type = "collision",
     return(invisible(NULL))
   }
 
-  if (!silent) {
-    message("Converting ", length(type_csvs), " file(s) for '", type_clean, "' to Parquet...")
-  }
-
   # Establish output file path
   target_file = filename %||% paste0(plural_name, ".parquet")
   out_path = file.path(output_dir, target_file)
@@ -158,6 +157,10 @@ stats19_to_parquet = function(type = "collision",
   if (file.exists(out_path) && !overwrite) {
     message("Output file already exists and overwrite is FALSE: ", out_path)
     return(invisible(out_path))
+  }
+
+  if (!silent) {
+    message("Converting ", length(type_csvs), " file(s) for '", type_clean, "' to Parquet...")
   }
 
   # Connect DuckDB
@@ -275,6 +278,55 @@ build_stats19_select_query = function(con, view_name, schema_defs) {
   }
 
   paste0("SELECT\n", paste(select_clauses, collapse = ",\n"), "\nFROM ", view_name)
+}
+
+# Internal helper to check if a Parquet file covers requested years
+parquet_has_years = function(parquet_file, years = NULL) {
+  if (!file.exists(parquet_file)) return(FALSE)
+  if (!requireNamespace("duckdb", quietly = TRUE) || !requireNamespace("DBI", quietly = TRUE)) {
+    return(FALSE)
+  }
+
+  con = tryCatch(suppressMessages(DBI::dbConnect(duckdb::duckdb(), dbdir = ":memory:")), error = function(e) NULL)
+  if (is.null(con)) return(FALSE)
+  on.exit(DBI::dbDisconnect(con, shutdown = TRUE), add = TRUE)
+
+  escaped_pq = gsub("'", "''", parquet_file)
+  range_df = tryCatch({
+    DBI::dbGetQuery(con, glue::glue("SELECT min(collision_year) AS min_y, max(collision_year) AS max_y FROM read_parquet('{escaped_pq}')"))
+  }, error = function(e) NULL)
+
+  if (is.null(range_df) || is.null(range_df$min_y) || is.na(range_df$min_y) || is.na(range_df$max_y)) {
+    return(FALSE)
+  }
+
+  fn = unlist(stats19::file_names)
+  m = regmatches(fn, regexpr("20[0-9]{2}", fn))
+  latest = if (length(m) > 0) max(as.integer(m), na.rm = TRUE) else 2024
+
+  if (is.null(years) || identical(years, "all") || identical(years, 1979) || identical(years, 1979L)) {
+    return(range_df$min_y <= 1979 && range_df$max_y >= latest)
+  }
+
+  if (identical(years, 5) || identical(years, "5 years")) {
+    return(range_df$max_y >= latest && range_df$min_y <= (latest - 4))
+  }
+
+  if (is.numeric(years)) {
+    int_years = as.integer(years)
+    if (min(int_years) < range_df$min_y || max(int_years) > range_df$max_y) {
+      return(FALSE)
+    }
+    yr_str = paste0(int_years, collapse = ", ")
+    q = glue::glue("SELECT count(DISTINCT collision_year) AS cnt FROM read_parquet('{escaped_pq}') WHERE collision_year IN ({yr_str})")
+    cnt_df = tryCatch(DBI::dbGetQuery(con, q), error = function(e) NULL)
+    if (!is.null(cnt_df) && !is.null(cnt_df$cnt) && !is.na(cnt_df$cnt)) {
+      return(cnt_df$cnt == length(unique(int_years)))
+    }
+    return(FALSE)
+  }
+
+  TRUE
 }
 
 stats19_schema_collision = list(

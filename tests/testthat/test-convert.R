@@ -143,3 +143,40 @@ test_that("get_stats19 with output_format = 'duckdb' returns a lazy tbl", {
   expect_true(inherits(tbl_col, "tbl_lazy"))
 })
 
+test_that("stats19_to_parquet validates compression and max_mem_gb arguments", {
+  skip_if_not_installed("duckdb")
+  skip_if_not_installed("DBI")
+
+  expect_error(stats19_to_parquet(compression = "invalid_codec"), "should be one of")
+  expect_error(stats19_to_parquet(max_mem_gb = -1))
+  expect_error(stats19_to_parquet(max_mem_gb = "large"))
+})
+
+test_that("parquet_has_years correctly detects covered and missing years", {
+  skip_if_not_installed("duckdb")
+  skip_if_not_installed("DBI")
+
+  tmp_dir = tempfile("pq_test_years")
+  dir.create(tmp_dir, recursive = TRUE)
+  on.exit(unlink(tmp_dir, recursive = TRUE), add = TRUE)
+
+  # Create small test parquet covering 2023 and 2024
+  df = data.frame(
+    collision_index = c("1", "2"),
+    collision_year = c(2023L, 2024L),
+    stringsAsFactors = FALSE
+  )
+  pq_path = file.path(tmp_dir, "collisions.parquet")
+  con = DBI::dbConnect(duckdb::duckdb(), dbdir = ":memory:")
+  DBI::dbWriteTable(con, "t", df)
+  DBI::dbExecute(con, glue::glue("COPY t TO '{pq_path}' (FORMAT PARQUET)"))
+  DBI::dbDisconnect(con, shutdown = TRUE)
+
+  expect_true(parquet_has_years(pq_path, 2024))
+  expect_true(parquet_has_years(pq_path, 2023:2024))
+  expect_false(parquet_has_years(pq_path, 2025))
+  expect_false(parquet_has_years(pq_path, 2022))
+  expect_false(parquet_has_years(pq_path, "all"))
+  expect_false(parquet_has_years("non_existent.parquet", 2024))
+})
+

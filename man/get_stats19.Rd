@@ -38,16 +38,16 @@ download/read. If \code{NULL}, filenames are inferred from \code{year} and \code
 messages on the screen.}
 
 \item{output_format}{A string that specifies the desired output format. The
-default value is \code{"tibble"}. Other possible values are \code{"data.frame"}, \code{"sf"}
-and \code{"ppp"}, that, respectively, returns objects of class \code{\link{data.frame}},
-\code{\link[sf:sf]{sf::sf}} and \code{\link[spatstat.geom:ppp]{spatstat.geom::ppp}}. Any other string is ignored and a tibble
-output is returned. See details and examples.}
+default value is \code{"tibble"}. Other possible values are \code{"data.frame"}, \code{"sf"},
+\code{"ppp"}, and \code{"duckdb"} (which returns a lazy \code{tbl} connection to DuckDB via \code{dbplyr}).
+Any other string is ignored and a tibble output is returned. See details and examples.}
 
-\item{engine}{CSV reader backend. Defaults to \code{"readr"}. Set to \code{"duckdb"} to
-query files via DuckDB before loading into R.}
+\item{engine}{CSV/Parquet reader backend. Defaults to \code{"readr"}. Set to \code{"duckdb"} to
+query files via DuckDB before loading into R, or \code{"parquet"} to query from a
+local Parquet cache (\code{STATS19_PARQUET_DIRECTORY}).}
 
 \item{where}{Optional SQL predicate appended to the \code{WHERE} clause when
-\code{engine = "duckdb"}, e.g. \code{"longitude > -1.9 AND longitude < -1.2"}.
+\code{engine = "duckdb"} or \code{engine = "parquet"}, e.g. \code{"longitude > -1.9 AND longitude < -1.2"}.
 For OSGR coordinate predicates on \code{location_easting_osgr} and
 \code{location_northing_osgr}, values are safely \code{TRY_CAST} to \code{DOUBLE} to avoid
 type issues when source CSV columns are loaded as text.

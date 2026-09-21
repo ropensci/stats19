@@ -34,14 +34,14 @@
 #'   download/read. If `NULL`, filenames are inferred from `year` and `type`.
 #' @param format Switch to return raw read from file, default is `TRUE`.
 #' @param output_format A string that specifies the desired output format. The
-#'   default value is `"tibble"`. Other possible values are `"data.frame"`, `"sf"`
-#'   and `"ppp"`, that, respectively, returns objects of class [`data.frame`],
-#'   [`sf::sf`] and [`spatstat.geom::ppp`]. Any other string is ignored and a tibble
-#'   output is returned. See details and examples.
-#' @param engine CSV reader backend. Defaults to `"readr"`. Set to `"duckdb"` to
-#'   query files via DuckDB before loading into R.
+#'   default value is `"tibble"`. Other possible values are `"data.frame"`, `"sf"`,
+#'   `"ppp"`, and `"duckdb"` (which returns a lazy `tbl` connection to DuckDB via `dbplyr`).
+#'   Any other string is ignored and a tibble output is returned. See details and examples.
+#' @param engine CSV/Parquet reader backend. Defaults to `"readr"`. Set to `"duckdb"` to
+#'   query files via DuckDB before loading into R, or `"parquet"` to query from a
+#'   local Parquet cache (`STATS19_PARQUET_DIRECTORY`).
 #' @param where Optional SQL predicate appended to the `WHERE` clause when
-#'   `engine = "duckdb"`, e.g. `"longitude > -1.9 AND longitude < -1.2"`.
+#'   `engine = "duckdb"` or `engine = "parquet"`, e.g. `"longitude > -1.9 AND longitude < -1.2"`.
 #'   For OSGR coordinate predicates on `location_easting_osgr` and
 #'   `location_northing_osgr`, values are safely `TRY_CAST` to `DOUBLE` to avoid
 #'   type issues when source CSV columns are loaded as text.
@@ -145,8 +145,9 @@ get_stats19 = function(year = NULL,
   }
   parquet_dir = get_parquet_directory()
   parquet_file = file.path(parquet_dir, paste0(plural_name, ".parquet"))
+  parquet_ok = file.exists(parquet_file) && parquet_has_years(parquet_file, year)
   skip_dl = (output_format == "duckdb" || engine == "parquet") && 
-            file.exists(parquet_file) && 
+            parquet_ok && 
             (is.null(file_name) || !nzchar(file_name))
 
   # download what the user wanted if not already satisfied by Parquet

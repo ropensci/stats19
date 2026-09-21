@@ -1,7 +1,16 @@
-# stats19 4.1.1
+# stats19 4.2.0
+
+## Major Features and Improvements
+*   **Native Parquet Support**: Added `stats19_to_parquet()` to convert raw STATS19 CSV archives into compressed, typed, columnar Parquet files using DuckDB (#325).
+*   **Automatic Schema Normalization**: Longitudinal schema discrepancies across historical DfT releases (e.g. `collision_index` vs `accident_index`, legacy collision reference fields, varying date formats) are harmonized into a standardized schema during Parquet conversion (#325).
+*   **DuckDB and Parquet Query Engine**:
+    *   Added `engine = "parquet"` and `output_format = "duckdb"` to `get_stats19()`, `read_collisions()`, `read_casualties()`, and `read_vehicles()`.
+    *   `output_format = "duckdb"` returns a lazy `tbl` connection via `dbplyr`, enabling zero-memory out-of-core filtering and aggregation across millions of records (#325).
+*   **Intelligent Parquet Year Coverage Check**: Reading functions inspect Parquet metadata to verify requested years are covered, warning or falling back gracefully to CSV if data is missing (#325).
+*   **Parquet Directory Management**: Added `STATS19_PARQUET_DIRECTORY` environment variable support alongside `get_parquet_directory()` and `set_parquet_directory()` (#325).
 
 ## Minor Changes and Fixes
-*   **DfT schema updated**: in 4.0.0 DfT schema was manually amended due to a missing row in the official version (#291) schema_new.R has been updated to use the DfT version again (fixes #319).
+*   **DfT schema updated**: `schema_new.R` updated to use the official DfT version (fixes #319).
 
 # stats19 4.1.0
 

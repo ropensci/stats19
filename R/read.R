@@ -14,7 +14,14 @@
 #' @param format Switch to return raw read from file, default is `TRUE`.
 #' @param silent Boolean. If `FALSE` (default value), display useful progress
 #'   messages on the screen.
-#'
+#' @param engine CSV/Parquet reader backend. Defaults to `"readr"`. Set to `"duckdb"` to
+#'   query files via DuckDB before loading into R, or `"parquet"` to query from a
+#'   local Parquet cache (`STATS19_PARQUET_DIRECTORY`).
+#' @param where Optional SQL predicate appended to the `WHERE` clause when
+#'   `engine = "duckdb"` or `engine = "parquet"`, e.g. `"longitude > -1.9 AND longitude < -1.2"`.
+#' @param output_format A string specifying desired output format: `"tibble"` (default)
+#'   or `"duckdb"` (returning a lazy `tbl` connection via DuckDB and `dbplyr`).
+#' @param ... Additional arguments passed to `read_stats19()`.
 #' @export
 #' @examples
 #' \donttest{
@@ -28,9 +35,13 @@ read_collisions = function(year = NULL,
                           data_dir = get_data_directory(),
                           format = TRUE,
                           silent = FALSE,
+                          engine = "readr",
+                          where = NULL,
+                          output_format = "tibble",
                           ...) {
   read_stats19(year = year, filename = filename, data_dir = data_dir, 
-               format = format, silent = silent, type = "collision", ...)
+               format = format, silent = silent, type = "collision",
+               engine = engine, where = where, output_format = output_format, ...)
 }
 
 #' Read in stats19 road safety data from .csv files downloaded.
@@ -41,9 +52,14 @@ read_vehicles = function(year = NULL,
                          filename = "",
                          data_dir = get_data_directory(),
                          format = TRUE,
+                         silent = FALSE,
+                         engine = "readr",
+                         where = NULL,
+                         output_format = "tibble",
                          ...) {
   read_stats19(year = year, filename = filename, data_dir = data_dir, 
-               format = format, type = "vehicle", ...)
+               format = format, silent = silent, type = "vehicle",
+               engine = engine, where = where, output_format = output_format, ...)
 }
 
 #' Read in STATS19 road safety data from .csv files downloaded.
@@ -54,9 +70,14 @@ read_casualties = function(year = NULL,
                            filename = "",
                            data_dir = get_data_directory(),
                            format = TRUE,
+                           silent = FALSE,
+                           engine = "readr",
+                           where = NULL,
+                           output_format = "tibble",
                            ...) {
   read_stats19(year = year, filename = filename, data_dir = data_dir, 
-               format = format, type = "cas", ...)
+               format = format, silent = silent, type = "cas",
+               engine = engine, where = where, output_format = output_format, ...)
 }
 
 # Internal helper to make numeric DuckDB predicates work with all_varchar=TRUE
@@ -137,10 +158,15 @@ read_stats19 = function(year = NULL,
   
   # Only use Parquet if a specific CSV filename was not explicitly requested
   has_specific_csv = !is.null(filename) && nzchar(filename) && grepl("\\.csv$", filename, ignore.case = TRUE)
-  use_parquet = !has_specific_csv && 
-                (engine == "parquet" || output_format == "duckdb" || (engine == "duckdb" && file.exists(parquet_file))) &&
-                file.exists(parquet_file)
+  parquet_ok = file.exists(parquet_file) && parquet_has_years(parquet_file, year)
 
+  if (engine == "parquet" && file.exists(parquet_file) && !parquet_ok) {
+    warning("Requested year(s) may not be fully covered in Parquet file: ", parquet_file,
+            ". Consider updating it with stats19_to_parquet().", call. = FALSE)
+  }
+
+  use_parquet = !has_specific_csv && file.exists(parquet_file) &&
+                (engine == "parquet" || (output_format == "duckdb" && parquet_ok) || (engine == "duckdb" && parquet_ok))
 
   if (output_format == "duckdb" || engine == "parquet") {
     engine = "duckdb"
@@ -164,7 +190,6 @@ read_stats19 = function(year = NULL,
     if (use_parquet) {
       escaped_parquet = gsub("'", "''", parquet_file)
       union_query = glue::glue("SELECT * FROM read_parquet('{escaped_parquet}')")
-      year_col = if (plural_name == "collisions") "collision_year" else "collision_year"
     } else {
       fnames = filename
       if (filename == "" || is.null(filename)) {

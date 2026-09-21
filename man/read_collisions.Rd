@@ -9,7 +9,11 @@ read_collisions(
   filename = "",
   data_dir = get_data_directory(),
   format = TRUE,
-  silent = FALSE
+  silent = FALSE,
+  engine = "readr",
+  where = NULL,
+  output_format = "tibble",
+  ...
 )
 }
 \arguments{
@@ -26,6 +30,18 @@ years determine whether there is a target to read, otherwise disk scan would be 
 
 \item{silent}{Boolean. If \code{FALSE} (default value), display useful progress
 messages on the screen.}
+
+\item{engine}{CSV/Parquet reader backend. Defaults to \code{"readr"}. Set to \code{"duckdb"} to
+query files via DuckDB before loading into R, or \code{"parquet"} to query from a
+local Parquet cache (\code{STATS19_PARQUET_DIRECTORY}).}
+
+\item{where}{Optional SQL predicate appended to the \code{WHERE} clause when
+\code{engine = "duckdb"} or \code{engine = "parquet"}, e.g. \code{"longitude > -1.9 AND longitude < -1.2"}.}
+
+\item{output_format}{A string specifying desired output format: \code{"tibble"} (default)
+or \code{"duckdb"} (returning a lazy \code{tbl} connection via DuckDB and \code{dbplyr}).}
+
+\item{...}{Additional arguments passed to \code{read_stats19()}.}
 }
 \description{
 Read in STATS19 road safety data from .csv files downloaded.
