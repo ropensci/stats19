@@ -27,9 +27,10 @@ read_collisions = function(year = NULL,
                           filename = "",
                           data_dir = get_data_directory(),
                           format = TRUE,
-                          silent = FALSE) {
+                          silent = FALSE,
+                          ...) {
   read_stats19(year = year, filename = filename, data_dir = data_dir, 
-               format = format, silent = silent, type = "collision")
+               format = format, silent = silent, type = "collision", ...)
 }
 
 #' Read in stats19 road safety data from .csv files downloaded.
@@ -39,9 +40,10 @@ read_collisions = function(year = NULL,
 read_vehicles = function(year = NULL,
                          filename = "",
                          data_dir = get_data_directory(),
-                         format = TRUE) {
+                         format = TRUE,
+                         ...) {
   read_stats19(year = year, filename = filename, data_dir = data_dir, 
-               format = format, type = "vehicle")
+               format = format, type = "vehicle", ...)
 }
 
 #' Read in STATS19 road safety data from .csv files downloaded.
@@ -51,9 +53,10 @@ read_vehicles = function(year = NULL,
 read_casualties = function(year = NULL,
                            filename = "",
                            data_dir = get_data_directory(),
-                           format = TRUE) {
+                           format = TRUE,
+                           ...) {
   read_stats19(year = year, filename = filename, data_dir = data_dir, 
-               format = format, type = "cas")
+               format = format, type = "cas", ...)
 }
 
 # Internal helper to make numeric DuckDB predicates work with all_varchar=TRUE

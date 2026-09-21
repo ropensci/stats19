@@ -135,10 +135,25 @@ get_stats19 = function(year = NULL,
             call. = FALSE, immediate. = TRUE)
     output_format = "tibble"
   }
+  # Check if we can satisfy from local Parquet
+  plural_name = if (grepl("acc|col", type, ignore.case = TRUE)) {
+    "collisions"
+  } else if (grepl("cas", type, ignore.case = TRUE)) {
+    "casualties"
+  } else {
+    "vehicles"
+  }
+  parquet_dir = get_parquet_directory()
+  parquet_file = file.path(parquet_dir, paste0(plural_name, ".parquet"))
+  skip_dl = (output_format == "duckdb" || engine == "parquet") && 
+            file.exists(parquet_file) && 
+            (is.null(file_name) || !nzchar(file_name))
 
-  # download what the user wanted
-  dl_stats19(year = year, type = type, data_dir = data_dir, 
-             file_name = file_name, ask = ask, silent = silent)
+  # download what the user wanted if not already satisfied by Parquet
+  if (!skip_dl) {
+    dl_stats19(year = year, type = type, data_dir = data_dir, 
+               file_name = file_name, ask = ask, silent = silent)
+  }
   
   # read in
   read_in = read_stats19(year = year, filename = file_name %||% "", 
