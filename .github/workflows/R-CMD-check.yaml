@@ -41,9 +41,17 @@ jobs:
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          extra-packages: any::rcmdcheck
+          extra-packages: any::rcmdcheck any::covr
 
       - uses: r-lib/actions/check-r-package@v2
+
+      # Coverage used to be a separate workflow that installed the whole
+      # dependency closure a second time on every pull request. One leg
+      # reports it now, which is enough to notice a regression.
+      - name: Test coverage
+        if: matrix.config.os == 'ubuntu-latest' && matrix.config.r == 'release'
+        run: covr::codecov(type = "all", quiet = FALSE)
+        shell: Rscript {0}
 
       - name: Show testthat output
         if: always()
