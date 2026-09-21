@@ -1,12 +1,41 @@
+# Minimal DfT-shaped CSV fixture. Small enough to keep the suite fast, complete
+# enough for the converter's schema mapping (missing columns become NULL).
+write_stats19_fixture = function(data_dir, type, year, n = 2) {
+  ids = sprintf("%s%02dA", year, seq_len(n))
+  df = switch(
+    type,
+    collision = data.frame(
+      collision_index = ids,
+      collision_year = year,
+      collision_severity = rep(3, n),
+      number_of_vehicles = rep(1, n),
+      number_of_casualties = rep(1, n),
+      date = rep(sprintf("01/01/%d", year), n),
+      stringsAsFactors = FALSE
+    ),
+    casualty = data.frame(
+      collision_index = ids,
+      collision_year = year,
+      vehicle_reference = rep(1, n),
+      casualty_reference = seq_len(n),
+      casualty_severity = rep(3, n),
+      stringsAsFactors = FALSE
+    ),
+    vehicle = data.frame(
+      collision_index = ids,
+      collision_year = year,
+      vehicle_reference = seq_len(n),
+      vehicle_type = rep(9, n),
+      stringsAsFactors = FALSE
+    )
+  )
+  name = sprintf("dft-road-casualty-statistics-%s-%d.csv", type, year)
+  utils::write.csv(df, file.path(data_dir, name), row.names = FALSE)
+  file.path(data_dir, name)
+}
+
 test_that("get_parquet_directory and set_parquet_directory work", {
-  old_dir = Sys.getenv("STATS19_PARQUET_DIRECTORY", unset = "")
-  on.exit({
-    if (old_dir == "") {
-      Sys.unsetenv("STATS19_PARQUET_DIRECTORY")
-    } else {
-      Sys.setenv(STATS19_PARQUET_DIRECTORY = old_dir)
-    }
-  })
+  withr::local_envvar(STATS19_PARQUET_DIRECTORY = NA)
 
   tmp_d = tempfile()
   set_parquet_directory(tmp_d)
@@ -129,18 +158,35 @@ test_that("stats19_to_parquet converts casualty and vehicle data", {
   expect_true(file.exists(p_veh))
 })
 
-test_that("get_stats19 with output_format = 'duckdb' returns a lazy tbl", {
+test_that("get_stats19 with output_format = 'duckdb' returns a lazy tbl from the Parquet cache", {
   skip_if_not_installed("duckdb")
   skip_if_not_installed("DBI")
   skip_if_not_installed("dbplyr")
 
-  # Test on available data if present
-  p_dir = get_parquet_directory()
-  skip_if(!file.exists(file.path(p_dir, "collisions.parquet")))
+  # Self-contained: build the cache from a 2-row fixture and put a different
+  # 5-row CSV in the download directory, so the row count below distinguishes
+  # the cache from the CSV fallback. The previous version keyed off whatever
+  # happened to be in STATS19_PARQUET_DIRECTORY and skipped silently when it
+  # was absent, which it always is on CI.
+  source_dir = withr::local_tempdir()
+  parquet_dir = withr::local_tempdir()
+  data_dir = withr::local_tempdir()
+  withr::local_envvar(STATS19_PARQUET_DIRECTORY = parquet_dir,
+                      STATS19_DOWNLOAD_DIRECTORY = data_dir)
 
-  tbl_col = get_stats19(year = 2024, type = "collision", output_format = "duckdb", silent = TRUE)
+  write_stats19_fixture(source_dir, "collision", 2024, n = 2)
+  write_stats19_fixture(data_dir, "collision", 2024, n = 5)
+  stats19_to_parquet(type = "collision", data_dir = source_dir,
+                     output_dir = parquet_dir, silent = TRUE)
+
+  tbl_col = get_stats19(year = 2024, type = "collision",
+                        output_format = "duckdb", silent = TRUE)
+
   expect_s3_class(tbl_col, "tbl_duckdb_connection")
   expect_true(inherits(tbl_col, "tbl_lazy"))
+  expect_equal(nrow(dplyr::collect(tbl_col)), 2)
+  # stats19 deliberately leaves the connection open, so the caller closes it
+  DBI::dbDisconnect(dbplyr::remote_con(tbl_col), shutdown = TRUE)
 })
 
 test_that("stats19_to_parquet validates compression and max_mem_gb arguments", {
