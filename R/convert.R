@@ -75,15 +75,15 @@ stats19_to_parquet = function(type = "collision",
   if (grepl("acc|col", type_clean)) {
     type_clean = "collision"
     plural_name = "collisions"
-    file_pattern = "accident|collision"
+    file_pattern = "(^|[-_])(accident|collision)([-_]|$)"
   } else if (grepl("cas", type_clean)) {
     type_clean = "casualty"
     plural_name = "casualties"
-    file_pattern = "casualty"
+    file_pattern = "(^|[-_])(casualty|casualties)([-_]|$)"
   } else if (grepl("veh", type_clean)) {
     type_clean = "vehicle"
     plural_name = "vehicles"
-    file_pattern = "vehicle"
+    file_pattern = "(^|[-_])(vehicle|vehicles)([-_]|$)"
   } else {
     stop("Unrecognised type: ", type, ". Must be collision, casualty, vehicle, or all.", call. = FALSE)
   }
@@ -97,7 +97,9 @@ stats19_to_parquet = function(type = "collision",
 
   # Find available CSV files in data_dir
   all_csvs = list.files(data_dir, pattern = "\\.csv$", full.names = TRUE)
-  type_csvs = all_csvs[grepl(file_pattern, basename(all_csvs), ignore.case = TRUE)]
+  # Strip common DfT prefix so 'casualty' does not match collision and vehicle filenames
+  stripped_bnames = sub("^dft[-_]road[-_]casualty[-_]statistics[-_]", "", basename(all_csvs), ignore.case = TRUE)
+  type_csvs = all_csvs[grepl(file_pattern, stripped_bnames, ignore.case = TRUE)]
 
   # Exclude adjustment lookups
   type_csvs = type_csvs[!grepl("adjustment", basename(type_csvs), ignore.case = TRUE)]
