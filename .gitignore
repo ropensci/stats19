@@ -21,3 +21,7 @@ README.html
 vignettes/crashes.Rds
 vignettes/packages.bib
 
+
+# testthat failure dumps written by local runs
+tests/testthat/_problems/
+tests/testthat/testthat-problems.rds
