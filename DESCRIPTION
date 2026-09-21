@@ -70,7 +70,6 @@ Suggests:
     htmltools,
     tmap,
     spatstat.geom,
-    osmdata,
     covr,
     readODS,
     gt,

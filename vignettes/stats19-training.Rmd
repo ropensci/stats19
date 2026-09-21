@@ -266,7 +266,7 @@ All the code shown so far is reproducible.
 To test RStudio's debugging features, let's write some code that fails, as illustrated in the figure below.
 
 ```{r debug, echo=FALSE, out.width="60%"}
-knitr::include_graphics("https://raw.githubusercontent.com/ropensci/stats19/master/inst/rstudio-autocomplete.png")
+knitr::include_graphics("https://raw.githubusercontent.com/ropensci/stats19/87aff1494e09d34d9d2fcb55ca33b5a979dd17e5/inst/rstudio-autocomplete.png")
 ```
 
 1. What is the problem with the code shown in the figure?
