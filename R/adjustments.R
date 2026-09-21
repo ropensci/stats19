@@ -63,13 +63,16 @@ summarise_adjusted_severities = function(x, by = NULL) {
       .groups = "drop"
     )
   } else {
+    # No adjustment columns present (e.g. pre-2004 data): adjusted counts equal
+    # the unadjusted counts. Computed directly rather than by referring to the
+    # summary columns above, which would be flagged as undefined globals.
     res = dplyr::summarise(
       x,
       fatal = sum(is_fatal(.data[[sev_name]]), na.rm = TRUE),
       serious_unadjusted = sum(is_serious(.data[[sev_name]]), na.rm = TRUE),
-      serious_adjusted = serious_unadjusted,
+      serious_adjusted = sum(is_serious(.data[[sev_name]]), na.rm = TRUE),
       slight_unadjusted = sum(is_slight(.data[[sev_name]]), na.rm = TRUE),
-      slight_adjusted = slight_unadjusted,
+      slight_adjusted = sum(is_slight(.data[[sev_name]]), na.rm = TRUE),
       total = dplyr::n(),
       .groups = "drop"
     )

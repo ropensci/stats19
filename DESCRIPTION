@@ -52,7 +52,8 @@ Imports:
     dplyr,
     lubridate,
     jsonlite,
-    glue
+    glue,
+    rlang
 Suggests: 
     duckdb,
     DBI,
