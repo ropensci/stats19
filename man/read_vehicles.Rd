@@ -33,13 +33,19 @@ messages on the screen.}
 
 \item{engine}{CSV/Parquet reader backend. Defaults to \code{"readr"}. Set to \code{"duckdb"} to
 query files via DuckDB before loading into R, or \code{"parquet"} to query from a
-local Parquet cache (\code{STATS19_PARQUET_DIRECTORY}).}
+local Parquet cache (\code{STATS19_PARQUET_DIRECTORY}, see \code{\link[=stats19_to_parquet]{stats19_to_parquet()}}).
+The cache is used only when it covers the requested years, and it is never
+rebuilt automatically: run \code{\link[=stats19_to_parquet]{stats19_to_parquet()}} again after downloading new
+data. Otherwise the CSV files are read.}
 
 \item{where}{Optional SQL predicate appended to the \code{WHERE} clause when
 \code{engine = "duckdb"} or \code{engine = "parquet"}, e.g. \code{"longitude > -1.9 AND longitude < -1.2"}.}
 
 \item{output_format}{A string specifying desired output format: \code{"tibble"} (default)
-or \code{"duckdb"} (returning a lazy \code{tbl} connection via DuckDB and \code{dbplyr}).}
+or \code{"duckdb"}. With \code{"duckdb"} the work stays in the database: stats19 returns a
+lazy \code{tbl} and leaves the DuckDB connection open so you can keep querying it,
+which means you close it yourself when finished with
+\code{DBI::dbDisconnect(dbplyr::remote_con(x), shutdown = TRUE)}.}
 
 \item{...}{Additional arguments passed to \code{read_stats19()}.}
 }

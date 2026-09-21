@@ -16,11 +16,17 @@
 #'   messages on the screen.
 #' @param engine CSV/Parquet reader backend. Defaults to `"readr"`. Set to `"duckdb"` to
 #'   query files via DuckDB before loading into R, or `"parquet"` to query from a
-#'   local Parquet cache (`STATS19_PARQUET_DIRECTORY`).
+#'   local Parquet cache (`STATS19_PARQUET_DIRECTORY`, see [stats19_to_parquet()]).
+#'   The cache is used only when it covers the requested years, and it is never
+#'   rebuilt automatically: run [stats19_to_parquet()] again after downloading new
+#'   data. Otherwise the CSV files are read.
 #' @param where Optional SQL predicate appended to the `WHERE` clause when
 #'   `engine = "duckdb"` or `engine = "parquet"`, e.g. `"longitude > -1.9 AND longitude < -1.2"`.
 #' @param output_format A string specifying desired output format: `"tibble"` (default)
-#'   or `"duckdb"` (returning a lazy `tbl` connection via DuckDB and `dbplyr`).
+#'   or `"duckdb"`. With `"duckdb"` the work stays in the database: stats19 returns a
+#'   lazy `tbl` and leaves the DuckDB connection open so you can keep querying it,
+#'   which means you close it yourself when finished with
+#'   `DBI::dbDisconnect(dbplyr::remote_con(x), shutdown = TRUE)`.
 #' @param ... Additional arguments passed to `read_stats19()`.
 #' @export
 #' @examples

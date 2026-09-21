@@ -40,11 +40,17 @@ messages on the screen.}
 \item{output_format}{A string that specifies the desired output format. The
 default value is \code{"tibble"}. Other possible values are \code{"data.frame"}, \code{"sf"},
 \code{"ppp"}, and \code{"duckdb"} (which returns a lazy \code{tbl} connection to DuckDB via \code{dbplyr}).
-Any other string is ignored and a tibble output is returned. See details and examples.}
+Any other string is ignored and a tibble output is returned. See details and examples.
+With \code{"duckdb"} stats19 leaves the connection open for further queries, so
+close it yourself when finished with
+\code{DBI::dbDisconnect(dbplyr::remote_con(x), shutdown = TRUE)}.}
 
 \item{engine}{CSV/Parquet reader backend. Defaults to \code{"readr"}. Set to \code{"duckdb"} to
 query files via DuckDB before loading into R, or \code{"parquet"} to query from a
-local Parquet cache (\code{STATS19_PARQUET_DIRECTORY}).}
+local Parquet cache (\code{STATS19_PARQUET_DIRECTORY}, see \code{\link[=stats19_to_parquet]{stats19_to_parquet()}}).
+The cache is used only when it covers the requested years and is never rebuilt
+automatically; when it covers the request it also replaces the download, so no
+files are fetched. Otherwise the CSV files are downloaded and read.}
 
 \item{where}{Optional SQL predicate appended to the \code{WHERE} clause when
 \code{engine = "duckdb"} or \code{engine = "parquet"}, e.g. \code{"longitude > -1.9 AND longitude < -1.2"}.

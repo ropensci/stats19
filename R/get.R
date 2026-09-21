@@ -37,9 +37,15 @@
 #'   default value is `"tibble"`. Other possible values are `"data.frame"`, `"sf"`,
 #'   `"ppp"`, and `"duckdb"` (which returns a lazy `tbl` connection to DuckDB via `dbplyr`).
 #'   Any other string is ignored and a tibble output is returned. See details and examples.
+#'   With `"duckdb"` stats19 leaves the connection open for further queries, so
+#'   close it yourself when finished with
+#'   `DBI::dbDisconnect(dbplyr::remote_con(x), shutdown = TRUE)`.
 #' @param engine CSV/Parquet reader backend. Defaults to `"readr"`. Set to `"duckdb"` to
 #'   query files via DuckDB before loading into R, or `"parquet"` to query from a
-#'   local Parquet cache (`STATS19_PARQUET_DIRECTORY`).
+#'   local Parquet cache (`STATS19_PARQUET_DIRECTORY`, see [stats19_to_parquet()]).
+#'   The cache is used only when it covers the requested years and is never rebuilt
+#'   automatically; when it covers the request it also replaces the download, so no
+#'   files are fetched. Otherwise the CSV files are downloaded and read.
 #' @param where Optional SQL predicate appended to the `WHERE` clause when
 #'   `engine = "duckdb"` or `engine = "parquet"`, e.g. `"longitude > -1.9 AND longitude < -1.2"`.
 #'   For OSGR coordinate predicates on `location_easting_osgr` and
