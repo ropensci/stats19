@@ -1,10 +1,10 @@
 ---
-title: "Equivalence between readr and duckdb engines"
+title: "DuckDB and Parquet engines"
 author: "R Lovelace"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{duckdb-engine}
+  %\VignetteIndexEntry{DuckDB and Parquet engines}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -22,7 +22,8 @@ knitr::opts_chunk$set(
 The **stats19** package supports two engines for reading and filtering data: `readr` (the default) and `duckdb`. 
 The `duckdb` engine is particularly useful for working with large datasets, as it can filter data at the database level before loading it into R, significantly reducing memory usage and processing time.
 
-This vignette demonstrates that the two engines produce equivalent results.
+This vignette demonstrates that the two engines produce equivalent results, then
+shows how to cache the data as Parquet for faster repeated reads.
 
 ## Load the package
 
@@ -80,3 +81,105 @@ crashes_30mph = get_stats19(year = 1979, type = "collision",
 ```
 
 The `duckdb` engine can be more than 50 times faster than the `readr` engine when performing such filtered reads on large files.
+
+## Caching the data as Parquet
+
+The `duckdb` engine reads the `.csv` files directly. That is fast, but it still
+parses text every time you call `get_stats19()`. Converting the files once to
+Parquet makes repeated reads faster again: Parquet files are compressed, typed
+and columnar, so a query only touches the columns it needs.
+
+### Where Parquet files live
+
+Parquet files are written to the directory returned by `get_parquet_directory()`,
+which is inside your data directory by default. Set the
+`STATS19_PARQUET_DIRECTORY` environment variable, or call
+`set_parquet_directory()`, to keep them somewhere else:
+
+```{r, eval=FALSE}
+# Persist the setting by adding STATS19_PARQUET_DIRECTORY=/path/to/parquet to
+# your .Renviron file, which you can open with usethis::edit_r_environ()
+set_parquet_directory("/data/silver/dft/stats19")
+get_parquet_directory()
+```
+
+### Converting CSVs to Parquet
+
+`stats19_to_parquet()` converts the raw files already in your data directory.
+There is no need to download them first: `dl_stats19()` does that.
+
+```{r, eval=FALSE}
+library(stats19)
+
+# Convert every collisions CSV in the data directory into one Parquet file
+stats19_to_parquet(type = "collision")
+
+# Casualties, vehicles and collisions in one call
+stats19_to_parquet(type = "all")
+```
+
+Useful arguments:
+
+* `years` converts only the years you ask for, for example `years = 2021:2025`.
+* `partition_by` writes a Hive-partitioned directory instead of a single file,
+  for example `partition_by = "collision_year"`. Partitioning is worth it when
+  you usually query a single year.
+* `compression` is `"zstd"` by default. `"snappy"` is slightly faster to write
+  and larger on disk.
+* `max_mem_gb` caps DuckDB's memory use (4 GB by default) and `temp_dir` sets
+  where it spills to disk, which matters when converting the 1979-latest files.
+* `overwrite = FALSE` leaves an existing Parquet file alone.
+
+The function returns the path it wrote, invisibly.
+
+### Reading from the cache
+
+Set `engine = "parquet"` to read from the cache. If a Parquet file is missing,
+or does not cover the years you asked for, stats19 warns and falls back to the
+CSV files it has on disk.
+
+```{r, eval=FALSE}
+col = get_stats19(year = 2024, type = "collision", engine = "parquet", silent = TRUE)
+```
+
+To keep the data in DuckDB and only pull the results into R, use
+`output_format = "duckdb"`. This returns a lazy `dbplyr` table, so `dplyr` verbs
+are translated into SQL and no rows are transferred until you call `collect()`:
+
+```{r, eval=FALSE}
+library(dplyr)
+
+tbl = get_stats19(year = 2021:2025, type = "collision", output_format = "duckdb")
+
+tbl |>
+  filter(collision_severity == "Fatal") |>
+  count(collision_year) |>
+  collect()
+```
+
+Two things to know about `output_format = "duckdb"`:
+
+* It needs the `dbplyr` package, and it is only available for data that lives in
+  DuckDB, so a year covered by no CSV and no Parquet file will come back empty.
+* The DuckDB connection stays open so that the lazy table keeps working, and
+  stats19 will not close it for you. Close it when you are done, or you will
+  accumulate open connections:
+
+```{r, eval=FALSE}
+DBI::dbDisconnect(dbplyr::remote_con(tbl), shutdown = TRUE)
+```
+
+### Keep the cache up to date
+
+Parquet files are not rebuilt when new CSVs arrive. After downloading a new
+year, convert again, otherwise queries for that year find a cache that stops
+short of it and fall back to reading CSV:
+
+```{r, eval=FALSE}
+dl_stats19(year = 2026, type = "collision")
+# rebuild so the cache includes 2026
+stats19_to_parquet(type = "collision")
+```
+
+The same applies when DfT reissues an existing year: the cached copy keeps the
+old values until you rebuild it.

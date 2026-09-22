@@ -140,6 +140,28 @@ cas_since_day_one = get_stats19(year = 1979:2025,type = "casualty")
 ```
 But be aware, even though the two calls above are very different ranges, because they are both earlier than the last 5 years, the full raw file will be downloaded to your temporary directory, which can take sometime. Future calls should use this same file, but get_stats19 also formats this local file, which can still take some time. So think carefully about how you intend to work with the data.
 
+## Working with large datasets
+
+The full series, 1979 to 2025, is around 1.5 GB of CSV. Two options make it quicker to work with:
+
+- Set `engine = "duckdb"` to filter with SQL inside DuckDB before the data reaches R.
+- Convert the CSV files you have already downloaded into Parquet with `stats19_to_parquet()`, then read them back with `engine = "parquet"`. Parquet files are compressed and columnar, so repeated queries are faster and use less memory.
+
+```{r parquet_workflow, eval=FALSE}
+# Convert the files already in your data directory
+stats19_to_parquet(type = "all")
+
+# Query the Parquet cache and pull results into R only at collect()
+library(dplyr)
+crashes = get_stats19(year = 2021:2025, type = "collision", output_format = "duckdb")
+crashes |>
+  filter(collision_severity == "Fatal") |>
+  count(collision_year) |>
+  collect()
+```
+
+Parquet caches are not rebuilt automatically, so run `stats19_to_parquet()` again after downloading new years. See the [DuckDB and Parquet engines vignette](https://docs.ropensci.org/stats19/articles/duckdb.html) for the full workflow, including the `STATS19_PARQUET_DIRECTORY` environment variable.
+
 ## Using the data
 
 STATS19 data consists of 3 main tables:

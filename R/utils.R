@@ -159,5 +159,40 @@ set_data_directory = function(data_path) {
   }
 }
 
+#' Get Parquet directory
+#'
+#' Returns the directory where converted Parquet files are stored.
+#' Defaults to the value of the `STATS19_PARQUET_DIRECTORY` environment variable,
+#' or a "parquet" subdirectory within `get_data_directory()`.
+#'
+#' @export
+#' @examples
+#' get_parquet_directory()
+get_parquet_directory = function() {
+  d = Sys.getenv("STATS19_PARQUET_DIRECTORY")
+  if (d != "") return(d)
+  file.path(get_data_directory(), "parquet")
+}
+
+#' Set Parquet directory
+#'
+#' Sets the `STATS19_PARQUET_DIRECTORY` environment variable to specify where
+#' converted Parquet files should be saved and read from.
+#'
+#' @param parquet_path Valid path to save Parquet files in. Created if it does not exist.
+#' @export
+#' @examples
+#' \donttest{
+#' set_parquet_directory(tempdir())
+#' }
+set_parquet_directory = function(parquet_path) {
+  if (!dir.exists(parquet_path)) {
+    dir.create(parquet_path, recursive = TRUE)
+  }
+  Sys.setenv(STATS19_PARQUET_DIRECTORY = parquet_path)
+  message("STATS19_PARQUET_DIRECTORY is set to: ", parquet_path)
+}
+
 # Helper to handle NULL with default
 `%||%` = function(a, b) if (!is.null(a)) a else b
+

@@ -1,3 +1,6 @@
+#' @importFrom rlang .data
+NULL
+
 .onAttach = function(libname, pkgname) {
   msg = paste0(
     "Data provided under OGL v3.0.\n",

@@ -1,7 +1,27 @@
-# stats19 4.1.1
+# stats19 4.2.0
 
-## Minor Changes and Fixes
-*   **DfT schema updated**: in 4.0.0 DfT schema was manually amended due to a missing row in the official version (#291) schema_new.R has been updated to use the DfT version again (fixes #319).
+## Major Features and Improvements
+*   **Native Parquet Support**: Added `stats19_to_parquet()` to convert raw STATS19 CSV archives into compressed, typed, columnar Parquet files using DuckDB (#325).
+*   **Automatic Schema Normalization**: Longitudinal schema discrepancies across historical DfT releases (e.g. `collision_index` vs `accident_index`, legacy collision reference fields, varying date formats) are harmonized into a standardized schema during Parquet conversion (#325).
+*   **DuckDB and Parquet Query Engine**:
+    *   Added `engine = "parquet"` and `output_format = "duckdb"` to `get_stats19()`, `read_collisions()`, `read_casualties()`, and `read_vehicles()`.
+    *   `output_format = "duckdb"` returns a lazy `tbl` connection via `dbplyr`, enabling zero-memory out-of-core filtering and aggregation across millions of records (#325).
+*   **Intelligent Parquet Year Coverage Check**: Reading functions inspect Parquet metadata to verify requested years are covered, warning or falling back gracefully to CSV if data is missing (#325).
+*   **Severity Adjustments Helper**: Added `summarise_adjusted_severities()` to calculate both raw and DfT-recommended adjusted casualty and collision counts, handling police force transitions to CRASH/COPA seamlessly (#325).
+*   **Parquet Directory Management**: Added `STATS19_PARQUET_DIRECTORY` environment variable support alongside `get_parquet_directory()` and `set_parquet_directory()` (#325).
+
+## Minor Changes, Codebase Simplification and Cleanup
+*   **DfT schema updated**: `schema_new.R` updated to use the official DfT version (fixes #319).
+*   **Documentation Streamlined**:
+    *   Added dedicated `vignettes/schema-evolution.Rmd` documenting historical file naming, column changes, and reporting methodology from 1979 to 2025.
+    *   Added longitudinal time-series adjustment example to `vignettes/stats19.Rmd`.
+    *   Updated `blog.Rmd` as a live reference document integrating recent architectural updates (v4.0–v4.2), DuckDB/Parquet documentation, and links to external articles. Removed redundant `blog-v4.Rmd`.
+    *   Pruned `stats19-training.Rmd` to focus on core external resources (such as [Geocomputation with R](https://r.geocompx.org/) and the RAC Foundation workbook), and removed obsolete `stats19-training-setup.Rmd`.
+*   **Codebase and Repo Cleanup**:
+    *   Consolidated adjustments logic into `R/adjustments.R`.
+    *   Vectorized VRM validation in `get_ULEZ()` and `get_MOT()`.
+    *   Removed legacy unreferenced datasets (`schema_original.rda`, `file_names_old.rda`).
+    *   Removed historical review responses (`responses1.Rmd`, `responses2.Rmd`) and deprecated `azure-pipelines.yml`.
 
 # stats19 4.1.0
 
