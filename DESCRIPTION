@@ -1,6 +1,6 @@
 Package: stats19
 Title: Work with Open Road Traffic Casualty Data from Great Britain
-Version: 4.1.0
+Version: 4.2.0
 Authors@R: c(
     person("Robin", "Lovelace", email = "rob00x@gmail.com", role = c("aut", "cre"),
       comment = c(ORCID = "0000-0001-5679-6536")),
@@ -52,15 +52,18 @@ Imports:
     dplyr,
     lubridate,
     jsonlite,
-    glue
+    glue,
+    rlang
 Suggests: 
     duckdb,
     DBI,
+    dbplyr,
     ggplot2,
     knitr,
     rmarkdown,
     stringr,
     testthat (>= 2.1.0),
+    withr,
     tidyr,
     tidyselect,
     pkgdown,
@@ -80,4 +83,4 @@ VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)
 Language: en-US
 X-schema.org-keywords: stats19, road-safety, transport, car-crashes, ropensci, data
-Config/roxygen2/version: 8.0.0
+Config/roxygen2/version: 8.1.0

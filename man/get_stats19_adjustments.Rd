@@ -14,7 +14,7 @@ get_stats19_adjustments(
 \arguments{
 \item{data_dir}{Where sets of downloaded data would be found.}
 
-\item{u}{The URL of the zip file with adjustments to download}
+\item{u}{The URL of the adjustment file.}
 }
 \description{
 See the DfT's documentation on adjustment factors

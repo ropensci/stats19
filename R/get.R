@@ -34,14 +34,20 @@
 #'   download/read. If `NULL`, filenames are inferred from `year` and `type`.
 #' @param format Switch to return raw read from file, default is `TRUE`.
 #' @param output_format A string that specifies the desired output format. The
-#'   default value is `"tibble"`. Other possible values are `"data.frame"`, `"sf"`
-#'   and `"ppp"`, that, respectively, returns objects of class [`data.frame`],
-#'   [`sf::sf`] and [`spatstat.geom::ppp`]. Any other string is ignored and a tibble
-#'   output is returned. See details and examples.
-#' @param engine CSV reader backend. Defaults to `"readr"`. Set to `"duckdb"` to
-#'   query files via DuckDB before loading into R.
+#'   default value is `"tibble"`. Other possible values are `"data.frame"`, `"sf"`,
+#'   `"ppp"`, and `"duckdb"` (which returns a lazy `tbl` connection to DuckDB via `dbplyr`).
+#'   Any other string is ignored and a tibble output is returned. See details and examples.
+#'   With `"duckdb"` stats19 leaves the connection open for further queries, so
+#'   close it yourself when finished with
+#'   `DBI::dbDisconnect(dbplyr::remote_con(x), shutdown = TRUE)`.
+#' @param engine CSV/Parquet reader backend. Defaults to `"readr"`. Set to `"duckdb"` to
+#'   query files via DuckDB before loading into R, or `"parquet"` to query from a
+#'   local Parquet cache (`STATS19_PARQUET_DIRECTORY`, see [stats19_to_parquet()]).
+#'   The cache is used only when it covers the requested years and is never rebuilt
+#'   automatically; when it covers the request it also replaces the download, so no
+#'   files are fetched. Otherwise the CSV files are downloaded and read.
 #' @param where Optional SQL predicate appended to the `WHERE` clause when
-#'   `engine = "duckdb"`, e.g. `"longitude > -1.9 AND longitude < -1.2"`.
+#'   `engine = "duckdb"` or `engine = "parquet"`, e.g. `"longitude > -1.9 AND longitude < -1.2"`.
 #'   For OSGR coordinate predicates on `location_easting_osgr` and
 #'   `location_northing_osgr`, values are safely `TRY_CAST` to `DOUBLE` to avoid
 #'   type issues when source CSV columns are loaded as text.
@@ -119,28 +125,65 @@ get_stats19 = function(year = NULL,
     type = "collision"
   }
   
-  valid_formats = c("tibble", "data.frame", "sf", "ppp")
+  valid_formats = c("tibble", "data.frame", "sf", "ppp", "duckdb")
   if (!output_format %in% valid_formats) {
     warning("output_format should be one of ", paste(valid_formats, collapse = ", "), 
             ". Defaulting to tibble.", call. = FALSE, immediate. = TRUE)
     output_format = "tibble"
   }
   
+  if (output_format == "duckdb") {
+    engine = "duckdb"
+  }
+
   if (grepl("cas", type, ignore.case = TRUE) && output_format %in% c("sf", "ppp")) {
     warning("Casualties do not have a spatial dimension. Defaulting to tibble.",
             call. = FALSE, immediate. = TRUE)
     output_format = "tibble"
   }
+  # Check if we can satisfy from local Parquet
+  plural_name = if (grepl("acc|col", type, ignore.case = TRUE)) {
+    "collisions"
+  } else if (grepl("cas", type, ignore.case = TRUE)) {
+    "casualties"
+  } else {
+    "vehicles"
+  }
+  parquet_dir = get_parquet_directory()
+  parquet_file = file.path(parquet_dir, paste0(plural_name, ".parquet"))
+  has_specific_csv = !is.null(file_name) && nzchar(file_name) &&
+    grepl("\\.csv$", file_name, ignore.case = TRUE)
+  parquet_ok = file.exists(parquet_file) && parquet_has_years(parquet_file, year)
+  # read_stats19() serves from the cache whenever it covers the requested years
+  # and no CSV was named, so skip the download on exactly that condition. This
+  # includes engine = "duckdb", which previously downloaded files it never read.
+  # engine = "readr" still needs the CSV, so it is deliberately excluded.
+  skip_dl = parquet_ok && !has_specific_csv &&
+    (engine %in% c("parquet", "duckdb") || output_format == "duckdb")
 
-  # download what the user wanted
-  dl_stats19(year = year, type = type, data_dir = data_dir, 
-             file_name = file_name, ask = ask, silent = silent)
+  # download what the user wanted if not already satisfied by Parquet
+  if (!skip_dl) {
+    dl_stats19(year = year, type = type, data_dir = data_dir, 
+               file_name = file_name, ask = ask, silent = silent)
+  }
   
   # read in
   read_in = read_stats19(year = year, filename = file_name %||% "", 
                          data_dir = data_dir, format = format, 
                          silent = silent, type = type, engine = engine,
-                         where = where)
+                         where = where, output_format = output_format)
+
+  # A lazy DuckDB table is returned as-is: stats19 hands the connection to the
+  # caller, who closes it with DBI::dbDisconnect(dbplyr::remote_con(x)). If
+  # duckdb or dbplyr were unavailable, read_stats19() fell back to a tibble, in
+  # which case fall through to the post-processing below instead of claiming a
+  # lazy table was returned.
+  if (output_format == "duckdb") {
+    if (inherits(read_in, "tbl_lazy")) {
+      return(read_in)
+    }
+    output_format = "tibble"
+  }
 
   # Smart Unification for E-scooter Casualties
   # If type is casualty, we check vehicles to find e-scooter riders
@@ -175,6 +218,7 @@ get_stats19 = function(year = NULL,
       "ppp" = format_ppp(read_in, ...)
     )
   }
+
 
   read_in
 }

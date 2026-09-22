@@ -15,14 +15,6 @@
 #' @aliases stats19_variables
 NULL
 
-#' Schema for stats19 data (UKDS)
-#'
-#' @docType data
-#' @keywords datasets
-#' @name schema_original
-#' @format A data frame
-NULL
-
 #' stats19 file names for easy access
 #'
 #' URL decoded file names. Currently there are 52 file names
@@ -38,7 +30,6 @@ NULL
 #' @keywords datasets
 #' @name file_names
 #' @format A named list
-#' @aliases file_names_old
 NULL
 
 #' Sample of stats19 data (2022 collisions)

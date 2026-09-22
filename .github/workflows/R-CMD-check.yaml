@@ -42,6 +42,12 @@ jobs:
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
           extra-packages: any::rcmdcheck
+          # R-devel has no binary package repository, so pak compiles every
+          # dependency from source. Installing the full Suggests closure there
+          # (tmap, leaflet, gt, osmdata, ...) took over 25 minutes per run and
+          # left PR checks pending for hours. Hard dependencies only on that
+          # leg; the Suggests closure is still covered by the release legs.
+          dependencies: ${{ matrix.config.r == 'devel' && '"hard"' || '"all"' }}
 
       - uses: r-lib/actions/check-r-package@v2
 

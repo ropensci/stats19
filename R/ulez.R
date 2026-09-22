@@ -18,15 +18,16 @@
 #' }
 get_ULEZ = function(vrm) {
   # Check arguments
-  if (!is.vector(vrm)) stop("vrm must be a vector.")
-  for(i in 1:length(vrm)){
-    if (!is.character(vrm[i])) stop("All VRMs must be character.")
+  if (!is.character(vrm)) stop("vrm must be a character vector.", call. = FALSE)
+  has_spaces = grepl(" ", vrm)
+  if (any(has_spaces)) {
+    bad_idx = which(has_spaces)[1]
+    stop("Please remove spaces from VRMs. Check VRM number ", bad_idx, " in your list (", vrm[bad_idx], ").", call. = FALSE)
   }
-  for(i in 1:length(vrm)){
-    if (grepl(" ", vrm[[i]])) stop("Please remove spaces from VRMs.  Check VRM number ", i, " in your list (", vrm[i], ").")
-  }
-  for(i in 1:length(vrm)){
-    if (grepl('[^[:alnum:]]', vrm[i])) stop("VRMs must be alphanumeric.  Check VRM number ", i, " in your list (", vrm[i], ").")
+  non_alnum = grepl("[^[:alnum:]]", vrm)
+  if (any(non_alnum)) {
+    bad_idx = which(non_alnum)[1]
+    stop("VRMs must be alphanumeric. Check VRM number ", bad_idx, " in your list (", vrm[bad_idx], ").", call. = FALSE)
   }
   message("This script only does 50 vrms per minute at most")
   message("Warning: TfL ULEZ API is producing some strange results currently")
