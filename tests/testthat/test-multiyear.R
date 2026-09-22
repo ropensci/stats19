@@ -25,19 +25,14 @@ test_that("find_file_name handles multiple years", {
 
 test_that("read_stats19 filters by year correctly", {
   skip_if_not_installed("readr")
-  tmp_csv = tempfile(fileext = ".csv")
+  data_dir = withr::local_tempdir()
+  fname = "multiyear-fixture.csv"
   df = data.frame(
     accident_year = c(2011, 2012, 2013),
     accident_index = c("A", "B", "C"),
     stringsAsFactors = FALSE
   )
-  readr::write_csv(df, tmp_csv)
-  
-  # Manually set names to what read_stats19 expects for filtering
-  # (usually it uses find_file_name, but we can pass filename)
-  data_dir = tempdir()
-  fname = basename(tmp_csv)
-  file.copy(tmp_csv, file.path(data_dir, fname))
+  readr::write_csv(df, file.path(data_dir, fname))
   
   # Request only 2011 and 2012
   res = read_stats19(year = 2011:2012, filename = fname, data_dir = data_dir, format = FALSE)

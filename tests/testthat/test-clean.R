@@ -1,139 +1,139 @@
+# Table-driven tests. Each case is one row of input = expected, so a new DfT
+# spelling is a one-line change, duplicated cases are visible at a glance, and
+# failure messages name the input that broke.
+
+extract_make_cases = c(
+  "FORD FIESTA" = "FORD",
+  "LAND ROVER DISCOVERY" = "LAND ROVER",
+  "RANGE ROVER EVOQUE" = "LAND ROVER",
+  "ALFA ROMEO GIULIETTA" = "ALFA ROMEO",
+  "UNKNOWN MAKE" = "UNKNOWN"
+)
+
+clean_make_no_extract = c(
+  # Abbreviations and truncated names
+  "VW" = "Volkswagen",
+  "Volksw" = "Volkswagen",
+  "Citro" = "Citroen",
+  "Merc" = "Mercedes",
+  "Range Rover" = "Land Rover",
+  "Geely" = "Geely",
+  "Skoda" = "Skoda",
+  "oda" = "Skoda",
+  "FORD" = "Ford",
+  # Makes whose upper case is preserved
+  "GM" = "GM",
+  "MG" = "MG",
+  "BMW" = "BMW",
+  "DAF" = "DAF",
+  "Daf" = "DAF",
+  "KTM" = "KTM",
+  "MAN" = "MAN",
+  "VDL" = "VDL",
+  "LEVC" = "LEVC",
+  "ERF" = "ERF",
+  "LDV" = "LDV",
+  "JCB" = "JCB",
+  # Merges, splits and stylised names
+  "Iveco-Ford" = "Iveco",
+  "Enfield" = "Royal Enfield",
+  "Man/Vw" = "MAN",
+  "Freight" = "Freight Rover",
+  "Dennis" = "Alexander Dennis",
+  "Case" = "Case IH",
+  "London Taxis Int" = "London Taxis International",
+  "Ssangyong" = "SsangYong",
+  "Smart" = "smart",
+  "Mini" = "MINI",
+  # Missing value
+  "-1" = NA_character_
+)
+
+clean_make_extract = c(
+  # Make extracted from a full make and model string
+  "FREIGHT ROVER SHERPA" = "Freight Rover",
+  "AUSTIN MORRIS MINI" = "Austin Morris",
+  "LONDON TAXIS INTERNATIONAL TX4" = "London Taxis International",
+  "SSANGYONG KORANDO" = "SsangYong",
+  "SMART FORTWO" = "smart",
+  "MINI COOPER" = "MINI",
+  "FORD FIESTA" = "Ford",
+  "LAND ROVER DISCOVERY" = "Land Rover",
+  "RANGE ROVER EVOQUE" = "Land Rover",
+  # Advanced rules
+  "VOLVO MODEL MISSING" = "Volvo",
+  "MAKE AND MODEL REDACTED" = NA_character_,
+  "VESPA (DOUGLAS)" = "Vespa",
+  "BRISTOL (BLMC)" = "Bristol",
+  "IVECO-FORD" = "Iveco",
+  "IVECO FORD CARGO" = "Iveco",
+  "LEYLAND DAF 45" = "DAF",
+  "LEYLAND CARS MINI" = "MINI",
+  "DAF TRUCKS CF" = "DAF",
+  "Alexander Dennis" = "Alexander Dennis",
+  "ALEXANDER DENNIS" = "Alexander Dennis",
+  "Daf Trucks" = "DAF",
+  "DAF TRUCKS" = "DAF",
+  # Missing or uninformative values
+  "-1" = NA_character_,
+  "Make" = NA_character_,
+  "Other" = NA_character_,
+  "Generic" = NA_character_,
+  "All" = NA_character_,
+  "Int." = NA_character_
+)
+
+clean_model_cases = c(
+  "FORD FIESTA" = "Fiesta",
+  "LAND ROVER DISCOVERY" = "Discovery",
+  "BMW 3 SERIES" = "3 Series",
+  "VESPA (DOUGLAS) 150" = "150",
+  "DAF TRUCKS CF" = "Cf",
+  # Missing, redacted or make-only values
+  "FORD" = NA_character_,
+  "VOLVO MODEL MISSING" = NA_character_,
+  "MAKE AND MODEL REDACTED" = NA_character_,
+  "TALBOT Model Unknown" = NA_character_
+)
+
+clean_make_model_cases = c(
+  "FORD FIESTA" = "Ford Fiesta",
+  "LAND ROVER DISCOVERY" = "Land Rover Discovery",
+  "BMW 3 SERIES" = "BMW 3 Series",
+  "DAF TRUCKS" = "DAF",
+  "FORD" = "Ford"
+)
+
+# Check every input = expected pair, naming the input in any failure
+expect_lookup = function(cases, fun, ...) {
+  for (input in names(cases)) {
+    expected = cases[[input]]
+    actual = fun(input, ...)
+    if (is.na(expected)) {
+      expect_true(is.na(actual), info = input)
+    } else {
+      expect_equal(actual, expected, info = input)
+    }
+  }
+}
+
 test_that("extract_make_stats19 works", {
   skip_if_not_installed("stringr")
-  
-  expect_equal(extract_make_stats19("FORD FIESTA"), "FORD")
-  expect_equal(extract_make_stats19("LAND ROVER DISCOVERY"), "LAND ROVER")
-  expect_equal(extract_make_stats19("RANGE ROVER EVOQUE"), "LAND ROVER")
-  expect_equal(extract_make_stats19("ALFA ROMEO GIULIETTA"), "ALFA ROMEO")
-  expect_equal(extract_make_stats19("UNKNOWN MAKE"), "UNKNOWN")
+  expect_lookup(extract_make_cases, extract_make_stats19)
 })
 
 test_that("clean_make works", {
   skip_if_not_installed("stringr")
-  
-  # Previous tests (with extract_make = FALSE implicit or explicit if we passed cleaned makes)
-  # But now default is extract_make = TRUE.
-  # If we pass simple makes, extract_make should just return them if they are single words,
-  # or handle them if they are the multi-word ones.
-  
-  expect_equal(clean_make("VW", extract_make = FALSE), "Volkswagen")
-  expect_equal(clean_make("Volksw", extract_make = FALSE), "Volkswagen")
-  expect_equal(clean_make("Citro", extract_make = FALSE), "Citroen")
-  expect_equal(clean_make("Merc", extract_make = FALSE), "Mercedes")
-  expect_equal(clean_make("Range Rover", extract_make = FALSE), "Land Rover")
-  expect_equal(clean_make("Geely", extract_make = FALSE), "Geely")
-  expect_equal(clean_make("Skoda", extract_make = FALSE), "Skoda")
-  expect_equal(clean_make("oda", extract_make = FALSE), "Skoda")
-  expect_equal(clean_make("FORD", extract_make = FALSE), "Ford")
-  
-  # Check preserved upper case
-  expect_equal(clean_make("GM", extract_make = FALSE), "GM")
-  expect_equal(clean_make("MG", extract_make = FALSE), "MG")
-  expect_equal(clean_make("BMW", extract_make = FALSE), "BMW")
-  expect_equal(clean_make("DAF", extract_make = FALSE), "DAF")
-  expect_equal(clean_make("KTM", extract_make = FALSE), "KTM")
-  expect_equal(clean_make("MAN", extract_make = FALSE), "MAN")
-  expect_equal(clean_make("VDL", extract_make = FALSE), "VDL")
-  expect_equal(clean_make("LEVC", extract_make = FALSE), "LEVC")
-  expect_equal(clean_make("ERF", extract_make = FALSE), "ERF")
-  expect_equal(clean_make("LDV", extract_make = FALSE), "LDV")
-  expect_equal(clean_make("JCB", extract_make = FALSE), "JCB")
-  
-  # Test merges/fixes
-  expect_equal(clean_make("Iveco-Ford", extract_make = FALSE), "Iveco")
-  expect_equal(clean_make("Enfield", extract_make = FALSE), "Royal Enfield")
-  expect_equal(clean_make("Man/Vw", extract_make = FALSE), "MAN")
-  expect_equal(clean_make("Freight", extract_make = FALSE), "Freight Rover")
-  expect_equal(clean_make("FREIGHT ROVER SHERPA"), "Freight Rover")
-  expect_equal(clean_make("AUSTIN MORRIS MINI"), "Austin Morris")
-
-  # Test specific ambiguous or stylized fixes
-  expect_equal(clean_make("Dennis", extract_make = FALSE), "Alexander Dennis")
-  expect_equal(clean_make("Case", extract_make = FALSE), "Case IH")
-  expect_equal(clean_make("London Taxis Int", extract_make = FALSE), "London Taxis International")
-  # Test with extraction for London Taxis (which sets it to INTERNATIONAL)
-  expect_equal(clean_make("LONDON TAXIS INTERNATIONAL TX4"), "London Taxis International")
-  
-  expect_equal(clean_make("Ssangyong", extract_make = FALSE), "SsangYong")
-  expect_equal(clean_make("SSANGYONG KORANDO"), "SsangYong")
-  
-  expect_equal(clean_make("Smart", extract_make = FALSE), "smart")
-  expect_equal(clean_make("SMART FORTWO"), "smart")
-  
-  expect_equal(clean_make("Mini", extract_make = FALSE), "MINI")
-  expect_equal(clean_make("MINI COOPER"), "MINI")
-  
-  # Test with extract_make = TRUE (default)
-  expect_equal(clean_make("FORD FIESTA"), "Ford")
-  expect_equal(clean_make("LAND ROVER DISCOVERY"), "Land Rover")
-  expect_equal(clean_make("RANGE ROVER EVOQUE"), "Land Rover")
-  
-  # Test Opel -> Vauxhall
-  # expect_equal(clean_make("Opel Corsa"), "Vauxhall")
-  
-  # Test missing values
-  expect_true(is.na(clean_make("-1")))
-  expect_true(is.na(clean_make("-1", extract_make = FALSE)))
-  expect_true(is.na(clean_make("Make")))
-  expect_true(is.na(clean_make("Other")))
-  expect_true(is.na(clean_make("Generic")))
-  expect_true(is.na(clean_make("All")))
-  expect_true(is.na(clean_make("Int.")))
-  
-  # Test DAF
-  expect_equal(clean_make("Daf", extract_make = FALSE), "DAF")
+  expect_lookup(clean_make_no_extract, clean_make, extract_make = FALSE)
+  expect_lookup(clean_make_extract, clean_make)
 })
 
 test_that("clean_model works", {
   skip_if_not_installed("stringr")
-  expect_equal(clean_model("FORD FIESTA"), "Fiesta")
-  expect_equal(clean_model("LAND ROVER DISCOVERY"), "Discovery")
-  expect_equal(clean_model("BMW 3 SERIES"), "3 Series")
-  # Test with only make
-  expect_true(is.na(clean_model("FORD")))
-  
-  # Test Missing/Redacted
-  expect_true(is.na(clean_model("VOLVO MODEL MISSING")))
-  expect_true(is.na(clean_model("MAKE AND MODEL REDACTED")))
-  expect_true(is.na(clean_model("TALBOT Model Unknown")))
-  
-  # Test Parentheses stripping
-  expect_equal(clean_model("VESPA (DOUGLAS) 150"), "150")
-  
-  # Test DAF Trucks
-  expect_equal(clean_model("DAF TRUCKS CF"), "Cf")
+  expect_lookup(clean_model_cases, clean_model)
 })
 
 test_that("clean_make_model works", {
   skip_if_not_installed("stringr")
-  expect_equal(clean_make_model("FORD FIESTA"), "Ford Fiesta")
-  expect_equal(clean_make_model("LAND ROVER DISCOVERY"), "Land Rover Discovery")
-  expect_equal(clean_make_model("BMW 3 SERIES"), "BMW 3 Series")
-  expect_equal(clean_make_model("DAF TRUCKS"), "DAF")
-  expect_equal(clean_make_model("FORD"), "Ford")
-})
-
-test_that("Advanced clean_make rules work", {
-  # Model Missing -> Make preserved
-  expect_equal(clean_make("VOLVO MODEL MISSING"), "Volvo")
-  
-  # Redacted -> NA
-  expect_true(is.na(clean_make("MAKE AND MODEL REDACTED")))
-  
-  # Parentheses
-  expect_equal(clean_make("VESPA (DOUGLAS)"), "Vespa")
-  expect_equal(clean_make("BRISTOL (BLMC)"), "Bristol")
-  
-  # Brand Hierarchy
-  expect_equal(clean_make("IVECO-FORD"), "Iveco") # Should match IVECO FORD rule in extract?
-  expect_equal(clean_make("IVECO FORD CARGO"), "Iveco")
-  expect_equal(clean_make("LEYLAND DAF 45"), "DAF")
-  expect_equal(clean_make("LEYLAND CARS MINI"), "MINI")
-  expect_equal(clean_make("DAF TRUCKS CF"), "DAF")
-  
-  # Case sensitivity / Duplicates
-  expect_equal(clean_make("Alexander Dennis"), "Alexander Dennis")
-  expect_equal(clean_make("ALEXANDER DENNIS"), "Alexander Dennis")
-  expect_equal(clean_make("Daf Trucks"), "DAF")
-  expect_equal(clean_make("DAF TRUCKS"), "DAF")
+  expect_lookup(clean_make_model_cases, clean_make_model)
 })
