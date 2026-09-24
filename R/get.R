@@ -29,7 +29,6 @@
 #' which resolves this using `junction_detail_historic` and `road_type`
 #' (see <https://github.com/ropensci/stats19/issues/328>).
 #'
-
 #' If `output_format = "data.frame"` or `output_format = "sf"` or `output_format
 #' = "ppp"` then the output data is transformed into a data.frame, sf or ppp
 #' object using the [as.data.frame()] or [format_sf()] or [format_ppp()]
