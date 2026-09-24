@@ -226,10 +226,11 @@ clean_make_model = function(generic_make_model) {
 #' Works on both raw codes (`get_stats19(format = FALSE)`) and formatted
 #' labels (`get_stats19(format = TRUE)`, the default), since `format_stats19()`
 #' keeps `junction_detail_historic` as its own column rather than merging it
-#' into `junction_detail`.
+#' into `junction_detail`. Also works when raw codes come through as
+#' character rather than numeric, e.g. from an `all_varchar` CSV read.
 #'
-#' @param junction_detail Vector of `junction_detail` values (raw codes or
-#'   formatted labels).
+#' @param junction_detail Vector of `junction_detail` values (numeric codes,
+#'   codes read as character, or formatted labels).
 #' @param junction_detail_historic Vector of `junction_detail_historic`
 #'   values, the same length as `junction_detail`. Optional: if `NULL`,
 #'   every row falls back to `junction_detail` and `road_type`.

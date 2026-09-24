@@ -11,8 +11,8 @@ junction_status(
 )
 }
 \arguments{
-\item{junction_detail}{Vector of \code{junction_detail} values (raw codes or
-formatted labels).}
+\item{junction_detail}{Vector of \code{junction_detail} values (numeric codes,
+codes read as character, or formatted labels).}
 
 \item{junction_detail_historic}{Vector of \code{junction_detail_historic}
 values, the same length as \code{junction_detail}. Optional: if \code{NULL},
@@ -44,7 +44,8 @@ row). See \url{https://github.com/ropensci/stats19/issues/328}.
 Works on both raw codes (\code{get_stats19(format = FALSE)}) and formatted
 labels (\code{get_stats19(format = TRUE)}, the default), since \code{format_stats19()}
 keeps \code{junction_detail_historic} as its own column rather than merging it
-into \code{junction_detail}.
+into \code{junction_detail}. Also works when raw codes come through as
+character rather than numeric, e.g. from an \code{all_varchar} CSV read.
 }
 \examples{
 junction_status(

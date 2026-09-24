@@ -88,3 +88,21 @@ test_that("junction_status gives the same answer for raw codes and formatted lab
   expect_equal(from_formatted, from_raw)
   expect_equal(from_raw, junction_cases$expected)
 })
+
+test_that("junction_status works when raw codes are read as character", {
+  # e.g. DfT CSVs read with all_varchar = TRUE, or format = FALSE with
+  # engines that don't type the columns.
+  expect_equal(
+    junction_status(c("0", "0", "13"), c("0", "1", "3"), c("6", "6", "6")),
+    c("not junction", "junction", "junction")
+  )
+
+  expect_equal(
+    junction_status(
+      junction_detail = as.character(junction_cases$junction_detail),
+      junction_detail_historic = as.character(junction_cases$junction_detail_historic),
+      road_type = as.character(junction_cases$road_type)
+    ),
+    junction_cases$expected
+  )
+})
