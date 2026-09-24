@@ -196,3 +196,21 @@ set_parquet_directory = function(parquet_path) {
 # Helper to handle NULL with default
 `%||%` = function(a, b) if (!is.null(a)) a else b
 
+# Internal helper: TRUE where `values` matches one of `codes` for `variable`,
+# whether `values` holds raw numeric codes (format = FALSE) or the formatted
+# character labels (format = TRUE). Looks labels up in `stats19_schema` so
+# the mapping stays in sync with the DfT data guide. NA values return FALSE.
+match_stats19_code = function(values, variable, codes) {
+  if (is.factor(values)) {
+    values = as.character(values)
+  }
+  if (is.numeric(values)) {
+    return(values %in% codes)
+  }
+  schema = stats19::stats19_schema
+  labels = unique(schema$label[
+    schema$variable == variable & schema$code %in% as.character(codes)
+  ])
+  values %in% labels
+}
+

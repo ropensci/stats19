@@ -1,3 +1,8 @@
+# stats19 (development version)
+
+*   **`junction_status()` added**: `junction_detail` code 0 ("Not at junction or within 20 metres") also covers roundabouts, mini-roundabouts and slip roads, so filtering on `junction_detail` alone puts about 113,000 junction collisions (2015 to 2023) in the non-junction group. `junction_status()` gives a clean junction/not junction classification, using `junction_detail_historic` where it is known and falling back to `junction_detail` and `road_type` where it is not (fixes #328).
+*   `format_stats19()` no longer merges `junction_detail_historic` into `junction_detail` and drops it: it is kept as its own column so `junction_status()` can use it after formatting too.
+
 # stats19 4.2.0
 
 ## Major Features and Improvements

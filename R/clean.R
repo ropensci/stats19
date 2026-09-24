@@ -210,3 +210,68 @@ clean_make_model = function(generic_make_model) {
     TRUE ~ res
   )
 }
+
+#' Classify collisions as at a junction or not
+#'
+#' From 2015 to 2023, `junction_detail` code 0 ("Not at junction or within
+#' 20 metres") also covers roundabouts, mini-roundabouts and slip roads, so
+#' filtering on `junction_detail` alone puts junction collisions in the
+#' non-junction group. `junction_status()` gives a clean junction/not
+#' junction classification, using `junction_detail_historic` where it is
+#' known (2023 and earlier, where it still separates these out) and falling
+#' back to `junction_detail` together with `road_type` where it is not
+#' (2024 onwards, where `junction_detail_historic` is unknown for every
+#' row). See <https://github.com/ropensci/stats19/issues/328>.
+#'
+#' Works on both raw codes (`get_stats19(format = FALSE)`) and formatted
+#' labels (`get_stats19(format = TRUE)`, the default), since `format_stats19()`
+#' keeps `junction_detail_historic` as its own column rather than merging it
+#' into `junction_detail`.
+#'
+#' @param junction_detail Vector of `junction_detail` values (raw codes or
+#'   formatted labels).
+#' @param junction_detail_historic Vector of `junction_detail_historic`
+#'   values, the same length as `junction_detail`. Optional: if `NULL`,
+#'   every row falls back to `junction_detail` and `road_type`.
+#' @param road_type Vector of `road_type` values, the same length as
+#'   `junction_detail`. Optional: used to recover roundabouts and slip
+#'   roads hidden under `junction_detail` code 0 when historic is unknown.
+#'   Mini-roundabouts cannot be recovered this way, as `road_type` has no
+#'   separate mini-roundabout code.
+#'
+#' @return A character vector, the same length as `junction_detail`, of
+#'   `"junction"`, `"not junction"`, or `NA` where the status cannot be
+#'   determined.
+#' @export
+#' @examples
+#' junction_status(
+#'   junction_detail          = c(0, 0, 0, 13,  0,  0),
+#'   junction_detail_historic = c(0, 1, 2, 3,  -1, -1),
+#'   road_type                = c(6, 1, 6, 6,   1,  6)
+#' )
+junction_status = function(junction_detail,
+                            junction_detail_historic = NULL,
+                            road_type = NULL) {
+  n = length(junction_detail)
+  junction_detail_historic = junction_detail_historic %||% rep(NA, n)
+  road_type = road_type %||% rep(NA, n)
+
+  historic_not_junction = match_stats19_code(junction_detail_historic, "junction_detail_historic", 0)
+  historic_junction = match_stats19_code(
+    junction_detail_historic, "junction_detail_historic", c(1, 2, 3, 5, 6, 7, 8, 9)
+  )
+  historic_known = historic_not_junction | historic_junction
+
+  new_junction = match_stats19_code(junction_detail, "junction_detail", c(13, 16, 17, 18, 19))
+  new_zero = match_stats19_code(junction_detail, "junction_detail", 0)
+  roundabout_or_slip = match_stats19_code(road_type, "road_type", c(1, 7))
+
+  dplyr::case_when(
+    historic_not_junction ~ "not junction",
+    historic_junction ~ "junction",
+    !historic_known & new_junction ~ "junction",
+    !historic_known & new_zero & roundabout_or_slip ~ "junction",
+    !historic_known & new_zero & !roundabout_or_slip ~ "not junction",
+    TRUE ~ NA_character_
+  )
+}

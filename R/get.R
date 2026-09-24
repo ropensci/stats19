@@ -21,6 +21,15 @@
 #' As this function uses `dl_stats19` function, it can download many MB of data,
 #' so ensure you have a sufficient disk space.
 #'
+#' Note: `junction_detail` code 0 ("Not at junction or within 20 metres")
+#' also covers roundabouts, mini-roundabouts and slip roads, which the DfT
+#' data guide does not distinguish from genuine non-junction collisions.
+#' Filtering on `junction_detail` alone therefore puts these junction
+#' collisions in the non-junction group. Use [junction_status()] instead,
+#' which resolves this using `junction_detail_historic` and `road_type`
+#' (see <https://github.com/ropensci/stats19/issues/328>).
+#'
+
 #' If `output_format = "data.frame"` or `output_format = "sf"` or `output_format
 #' = "ppp"` then the output data is transformed into a data.frame, sf or ppp
 #' object using the [as.data.frame()] or [format_sf()] or [format_ppp()]
