@@ -46,14 +46,12 @@ test_that("stats19_to_parquet converts CSVs to Parquet using DuckDB", {
   expect_equal(res$n[1], 2)
 })
 
-test_that("stats19_to_parquet normalises legacy accident_index to collision_index", {
+test_that("stats19_to_parquet keeps legacy columns for format_stats19 to normalise", {
   skip_if_not_installed("duckdb")
   skip_if_not_installed("DBI")
 
-  tmp_data = file.path(tempdir(), "test_stats19_legacy_csv")
-  tmp_out = file.path(tempdir(), "test_stats19_legacy_parquet")
-  dir.create(tmp_data, recursive = TRUE, showWarnings = FALSE)
-  dir.create(tmp_out, recursive = TRUE, showWarnings = FALSE)
+  tmp_data = withr::local_tempdir()
+  tmp_out = withr::local_tempdir()
 
   # Legacy 2017 schema with accident_index
   sample_legacy = data.frame(
@@ -80,10 +78,11 @@ test_that("stats19_to_parquet normalises legacy accident_index to collision_inde
 
   con = DBI::dbConnect(duckdb::duckdb(), dbdir = ":memory:")
   on.exit(DBI::dbDisconnect(con, shutdown = TRUE), add = TRUE)
-  res = DBI::dbGetQuery(con, paste0("SELECT collision_index, collision_year, collision_reference, date, longitude FROM read_parquet('", p_path, "')"))
+  raw = DBI::dbGetQuery(con, paste0("SELECT * FROM read_parquet('", p_path, "')"))
+  res = format_collisions(raw)
   expect_equal(nrow(res), 2)
   expect_equal(res$collision_index, c("201701X", "201702Y"))
-  expect_equal(res$collision_year, c(2017L, 2017L))
+  expect_equal(res$collision_year, c(2017, 2017))
   expect_equal(res$collision_reference, c("REF1", "REF2"))
   expect_equal(as.character(res$date), c("2017-01-01", "2017-01-02"))
 })
@@ -166,24 +165,6 @@ test_that("stats19_to_parquet matches years as filename tokens", {
     stats19_to_parquet(type = "collision", years = 2024, data_dir = other_dir,
                        output_dir = withr::local_tempdir()),
     "No CSV files found matching requested years"
-  )
-})
-
-test_that("stats19_to_parquet reports columns missing from the source files", {
-  skip_if_not_installed("duckdb")
-  skip_if_not_installed("DBI")
-
-  data_dir = withr::local_tempdir()
-  output_dir = withr::local_tempdir()
-  write_stats19_fixture(data_dir, "collision", 2024)
-
-  # The fixture has a handful of columns out of the full DfT schema, so the
-  # converter should say so rather than leaving the user to find all-NULL
-  # columns later.
-  expect_message(
-    stats19_to_parquet(type = "collision", data_dir = data_dir,
-                       output_dir = output_dir),
-    "written as all-NULL"
   )
 })
 
@@ -300,6 +281,10 @@ test_that("parquet_has_years correctly detects covered and missing years", {
   con = DBI::dbConnect(duckdb::duckdb(), dbdir = ":memory:")
   DBI::dbWriteTable(con, "t", df)
   DBI::dbExecute(con, glue::glue("COPY t TO '{pq_path}' (FORMAT PARQUET)"))
+  expect_warning(expect_false(parquet_has_years(pq_path, 2024)), "another stats19 version")
+  DBI::dbExecute(con, glue::glue(
+    "COPY t TO '{pq_path}' (FORMAT PARQUET, KV_METADATA {{stats19_format: '{stats19_parquet_format}'}})"
+  ))
   DBI::dbDisconnect(con, shutdown = TRUE)
 
   expect_true(parquet_has_years(pq_path, 2024))
