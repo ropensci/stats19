@@ -185,9 +185,10 @@ read_stats19 = function(year = NULL,
   
   # Only use Parquet if a specific CSV filename was not explicitly requested
   has_specific_csv = !is.null(filename) && nzchar(filename) && grepl("\\.csv$", filename, ignore.case = TRUE)
-  parquet_ok = file.exists(parquet_file) && parquet_has_years(parquet_file, year)
+  wants_cache = !has_specific_csv && (engine %in% c("parquet", "duckdb") || output_format == "duckdb")
+  parquet_ok = wants_cache && file.exists(parquet_file) && parquet_has_years(parquet_file, year)
 
-  if (engine == "parquet" && file.exists(parquet_file) && !parquet_ok) {
+  if (engine == "parquet" && wants_cache && file.exists(parquet_file) && !parquet_ok) {
     warning("Requested year(s) may not be fully covered in Parquet file: ", parquet_file,
             ". Consider updating it with stats19_to_parquet()", call. = FALSE)
   }
@@ -195,7 +196,7 @@ read_stats19 = function(year = NULL,
   # A cache that does not cover the requested years must never be read: the
   # caller asked for data the file does not contain. Fall back to the CSV files
   # in that case, which is why this requires parquet_ok for every engine.
-  use_parquet = !has_specific_csv && parquet_ok
+  use_parquet = parquet_ok
 
   if (output_format == "duckdb" || engine == "parquet") {
     engine = "duckdb"
@@ -217,40 +218,28 @@ read_stats19 = function(year = NULL,
     }
 
     if (use_parquet) {
-      escaped_parquet = gsub("'", "''", parquet_file)
-      union_query = glue::glue("SELECT * FROM read_parquet('{escaped_parquet}')")
+      source_sql = glue::glue("SELECT * FROM read_parquet({DBI::dbQuoteString(con, parquet_file)})")
     } else {
       existing_paths = resolve_stats19_paths(filename, year, type, data_dir)
       if (is.null(existing_paths)) {
         return(NULL)
       }
-
-      view_names = paste0("v", seq_along(existing_paths))
-      for (i in seq_along(existing_paths)) {
-        p = existing_paths[i]
-        v = view_names[i]
-        query = glue::glue("CREATE VIEW {v} AS SELECT * FROM read_csv_auto('{p}', all_varchar=TRUE)")
-        DBI::dbExecute(con, query)
-      }
-      union_query = paste0("SELECT * FROM ", paste(view_names, collapse = " UNION ALL BY NAME SELECT * FROM "))
+      source_sql = stats19_csv_sql(con, existing_paths)
     }
+    DBI::dbExecute(con, paste("CREATE VIEW stats19_source AS", source_sql))
+    union_query = "SELECT * FROM stats19_source"
 
     # Build WHERE clauses
     where_clauses = character(0)
 
     # 1. Filter by year in SQL if requested
     if (!is.null(year) && !identical(year, 5) && !identical(year, "5 years") && !identical(year, "all") && !identical(year, 1979) && !identical(year, 1979L)) {
-      if (use_parquet) {
-        year_str = paste0(year, collapse = ", ")
-        where_clauses = c(where_clauses, paste0("collision_year IN (", year_str, ")"))
-      } else {
-        all_cols = unique(unlist(lapply(view_names, function(v) DBI::dbListFields(con, v))))
-        year_cols = intersect(all_cols, c("accident_year", "collision_year", "Accident_Year", "Collision_Year"))
-        if (length(year_cols) > 0) {
-          year_str = paste0("'", year, "'", collapse = ", ")
-          year_cond = paste0("(", paste0(year_cols, " IN (", year_str, ")", collapse = " OR "), ")")
-          where_clauses = c(where_clauses, year_cond)
-        }
+      year_cols = intersect(DBI::dbListFields(con, "stats19_source"),
+                            c("accident_year", "collision_year", "Accident_Year", "Collision_Year"))
+      if (length(year_cols) > 0) {
+        year_str = paste0(as.numeric(year), collapse = ", ")
+        year_cond = paste0("(", paste0(year_cols, " IN (", year_str, ")", collapse = " OR "), ")")
+        where_clauses = c(where_clauses, year_cond)
       }
     }
 
@@ -381,20 +370,32 @@ col_spec = function(path = NULL) {
     return(do.call(readr::cols, stats::setNames(unique_types, unique_vars)))
   }
 
-  # Read only the header to get column names and ORDER
   header = names(readr::read_csv(path, n_max = 0, show_col_types = FALSE))
-  header_clean = format_column_names(header)
-  
-  # Map cleaned header names to their types from the schema
-  col_types_list = lapply(header_clean, function(v) {
-    type_info = stats19::stats19_variables$type[stats19::stats19_variables$variable == v]
-    if (length(type_info) > 0) {
-      convert_to_col_type(type_info[1])
-    } else {
-      readr::col_guess()
-    }
-  })
-  
-  # Create the cols object with the correct NAMES and ORDER matching the file
+  col_types_list = lapply(stats19_col_types(header), convert_to_col_type)
   do.call(readr::cols, stats::setNames(col_types_list, header))
+}
+
+# Column types for raw CSV columns, shared by the readr and DuckDB engines so
+# they parse every column the same way. Columns missing from stats19_variables
+# hold numeric codes or values, apart from the legacy accident_reference.
+stats19_col_types = function(header) {
+  v = format_column_names(header)
+  type = stats19::stats19_variables$type[match(v, stats19::stats19_variables$variable)]
+  type[is.na(type)] = ifelse(grepl("reference$", v[is.na(type)]), "character", "numeric")
+  type
+}
+
+# DuckDB SQL reading CSV files as readr does in read_stats19(): whitespace
+# trimmed, "", "NA" and "-1" as NULL, and types from stats19_col_types().
+# Also used by stats19_to_parquet(), so the Parquet cache holds the same data.
+stats19_csv_sql = function(con, paths) {
+  selects = vapply(paths, function(p) {
+    src = glue::glue("read_csv({DBI::dbQuoteString(con, p)}, all_varchar = true)")
+    cols = DBI::dbGetQuery(con, glue::glue("DESCRIBE SELECT * FROM {src}"))$column_name
+    q = DBI::dbQuoteIdentifier(con, cols)
+    sql_type = ifelse(stats19_col_types(cols) == "numeric", "DOUBLE", "VARCHAR")
+    val = glue::glue("CASE WHEN trim({q}) IN ('', 'NA', '-1') THEN NULL ELSE trim({q}) END")
+    paste("SELECT", paste0("TRY_CAST(", val, " AS ", sql_type, ") AS ", q, collapse = ", "), "FROM", src)
+  }, character(1))
+  paste(selects, collapse = " UNION ALL BY NAME ")
 }

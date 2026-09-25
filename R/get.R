@@ -161,13 +161,14 @@ get_stats19 = function(year = NULL,
   parquet_file = file.path(parquet_dir, paste0(plural_name, ".parquet"))
   has_specific_csv = !is.null(file_name) && nzchar(file_name) &&
     grepl("\\.csv$", file_name, ignore.case = TRUE)
-  parquet_ok = file.exists(parquet_file) && parquet_has_years(parquet_file, year)
+  # engine = "readr" never reads the cache, so only check it for the others
+  wants_cache = engine %in% c("parquet", "duckdb") || output_format == "duckdb"
+  parquet_ok = wants_cache && file.exists(parquet_file) && parquet_has_years(parquet_file, year)
   # read_stats19() serves from the cache whenever it covers the requested years
   # and no CSV was named, so skip the download on exactly that condition. This
   # includes engine = "duckdb", which previously downloaded files it never read.
   # engine = "readr" still needs the CSV, so it is deliberately excluded.
-  skip_dl = parquet_ok && !has_specific_csv &&
-    (engine %in% c("parquet", "duckdb") || output_format == "duckdb")
+  skip_dl = parquet_ok && !has_specific_csv
 
   # download what the user wanted if not already satisfied by Parquet
   if (!skip_dl) {

@@ -84,12 +84,15 @@ format_stats19 = function(x, type) {
   # create lookup table
   lkp_vars = stats19::stats19_variables$variable[stats19::stats19_variables$table == tolower(type)]
   vars_to_change = intersect(names(x), lkp_vars)
-  vars_to_change = intersect(vars_to_change, stats19::stats19_schema$variable)
+  # Variables with codes only: matching free-text or numeric columns against
+  # empty code lists costs time and changes nothing.
+  coded = stats19::stats19_schema[!is.na(stats19::stats19_schema$code), ]
+  vars_to_change = intersect(vars_to_change, coded$variable)
   
   missing_labels = c("Data missing or out of range", "Unknown", "Undefined", "Code deprecated", "Not known")
 
   for(v in vars_to_change) {
-    lookup = stats19::stats19_schema[stats19::stats19_schema$variable == v, c("code", "label")]
+    lookup = coded[coded$variable == v, c("code", "label")]
     # Vectorized match
     matched_idx = match(x[[v]], lookup$code)
     has_match = !is.na(matched_idx)
