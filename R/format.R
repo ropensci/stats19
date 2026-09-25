@@ -118,7 +118,13 @@ format_stats19 = function(x, type) {
   }
 
   # Unify historic columns
-  historic_cols = names(x)[grepl("_historic$", names(x))]
+  # junction_detail_historic is kept as its own column rather than merged
+  # into junction_detail: unlike the other historic/new column pairs,
+  # junction_detail is populated (not NA) for years before 2024 too, so a
+  # coalesce-on-NA merge would silently discard it without ever being used.
+  # junction_status() relies on it staying separate to disambiguate
+  # junction_detail code 0 (see #328).
+  historic_cols = setdiff(names(x)[grepl("_historic$", names(x))], "junction_detail_historic")
   for (hcol in historic_cols) {
     # Try exact match first
     primary_col = gsub("_historic$", "", hcol)

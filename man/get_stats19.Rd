@@ -87,6 +87,14 @@ requested due to the nature of the files hosted at
 As this function uses \code{dl_stats19} function, it can download many MB of data,
 so ensure you have a sufficient disk space.
 
+Note: \code{junction_detail} code 0 ("Not at junction or within 20 metres")
+also covers roundabouts, mini-roundabouts and slip roads, which the DfT
+data guide does not distinguish from genuine non-junction collisions.
+Filtering on \code{junction_detail} alone therefore puts these junction
+collisions in the non-junction group. Use \code{\link[=junction_status]{junction_status()}} instead,
+which resolves this using \code{junction_detail_historic} and \code{road_type}
+(see \url{https://github.com/ropensci/stats19/issues/328}).
+
 If \code{output_format = "data.frame"} or \code{output_format = "sf"} or \code{output_format = "ppp"} then the output data is transformed into a data.frame, sf or ppp
 object using the \code{\link[=as.data.frame]{as.data.frame()}} or \code{\link[=format_sf]{format_sf()}} or \code{\link[=format_ppp]{format_ppp()}}
 functions, as shown in the examples.

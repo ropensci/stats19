@@ -9,6 +9,16 @@
 #' @note The schema data can be (re-)generated using the script in the
 #' `data-raw` directory.
 #'
+#' @section Known caveat - junction_detail code 0:
+#' `junction_detail` code 0 is labelled "Not at junction or within 20
+#' metres" in the DfT data guide, but from 2015 the same code also covers
+#' roundabouts, mini-roundabouts and slip roads: the guide does not split
+#' these out. `junction_detail_historic` still separates them for 2023 and
+#' earlier, but is unknown for every row from 2024 onwards. Use
+#' [junction_status()] to get a clean junction/not junction classification
+#' instead of filtering on `junction_detail` directly. See
+#' <https://github.com/ropensci/stats19/issues/328>.
+#'
 #' @docType data
 #' @keywords datasets
 #' @name stats19_schema
