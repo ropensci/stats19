@@ -41,7 +41,13 @@ jobs:
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          extra-packages: any::rcmdcheck
+          # knitr is the VignetteBuilder and testthat/withr run the tests,
+          # so the devel leg needs them even with hard dependencies only.
+          extra-packages: |
+            any::rcmdcheck
+            any::knitr
+            any::testthat
+            any::withr
           # R-devel has no binary package repository, so pak compiles every
           # dependency from source. Installing the full Suggests closure there
           # (tmap, leaflet, gt, osmdata, ...) took over 25 minutes per run and
@@ -49,7 +55,16 @@ jobs:
           # leg; the Suggests closure is still covered by the release legs.
           dependencies: ${{ matrix.config.r == 'devel' && '"hard"' || '"all"' }}
 
+      # With only hard dependencies installed on R-devel, the vignettes'
+      # Suggests (ggplot2, tmap, gt, ...) are missing, so skip building and
+      # checking vignettes there and don't force Suggests to be present.
+      # The release legs still build and check the vignettes in full.
       - uses: r-lib/actions/check-r-package@v2
+        env:
+          _R_CHECK_FORCE_SUGGESTS_: ${{ matrix.config.r != 'devel' }}
+        with:
+          build_args: ${{ matrix.config.r == 'devel' && 'c("--no-manual", "--no-build-vignettes")' || 'c("--no-manual", "--compact-vignettes=gs+qpdf")' }}
+          args: ${{ matrix.config.r == 'devel' && 'c("--no-manual", "--as-cran", "--ignore-vignettes")' || 'c("--no-manual", "--as-cran")' }}
 
       # Coverage used to be a separate workflow that installed the whole
       # dependency closure a second time on every pull request. One leg
