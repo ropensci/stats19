@@ -16,6 +16,7 @@ casualty,collision_index,unique value for each collision. The collision_index co
 casualty,collision_ref_no,"In year id used by the police to reference a collision. It is not unique outside of the year, use collision_index for linking to other years",character
 casualty,collision_year,NA,numeric
 casualty,enhanced_casualty_severity,category introduced where collected in 2023,character
+casualty,escooter_flag,field introduced in 2025,character
 casualty,lsoa_of_casualty,England and Wales only. See Office for National Statistics (ONS) guidance: https://www.ons.gov.uk/methodology/geography/ukgeographies/censusgeography,character
 casualty,pedestrian_location,NA,character
 casualty,pedestrian_movement,NA,character
