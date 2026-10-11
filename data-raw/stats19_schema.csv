@@ -1438,6 +1438,7 @@ vehicle,vehicle_type,20,Goods over 3.5t. and under 7.5t,category introduced in 1
 vehicle,vehicle_type,21,Goods 7.5 tonnes mgw and over,category introduced in 1999 specification,character
 vehicle,vehicle_type,22,Mobility scooter,cateogry introduced in 2011 specification,character
 vehicle,vehicle_type,23,Electric motorcycle,cateogry introduced in 2011 specification,character
+vehicle,vehicle_type,33,Personal powered transporter,cateogry introduced in 2024 specification,character
 vehicle,vehicle_type,90,Other vehicle,cateogry introduced in 2011 specification,character
 vehicle,vehicle_type,97,Motorcycle - unknown cc,cateogry introduced in 2011 specification,character
 vehicle,vehicle_type,98,Goods vehicle - unknown weight,cateogry introduced in 2011 specification,character
@@ -1775,6 +1776,7 @@ casualty,casualty_type,20,Goods vehicle (over 3.5t. and under 7.5t.) occupant,in
 casualty,casualty_type,21,Goods vehicle (7.5 tonnes mgw and over) occupant,introduced in 1999 specification,character
 casualty,casualty_type,22,Mobility scooter rider,introduced in 2011 specification,character
 casualty,casualty_type,23,Electric motorcycle rider or passenger,introduced in 2011 specification,character
+casualty,casualty_type,23,Personal Powered Transporter,introduced in 2024 specification,character
 casualty,casualty_type,90,Other vehicle occupant,introduced in 2011 specification,character
 casualty,casualty_type,97,Motorcycle - unknown cc rider or passenger,introduced in 2011 specification,character
 casualty,casualty_type,98,Goods vehicle (unknown weight) occupant,introduced in 2011 specification,character
@@ -1810,6 +1812,8 @@ casualty,casualty_distance_banding,3,Collision occurred between 10.001 and 20km 
 casualty,casualty_distance_banding,4,Collision occurred between 20.001 and 100km of casualties home postcode,field introduced in 2023,character
 casualty,casualty_distance_banding,5,Collision occurred over 100km of casualties home postcode,field introduced in 2023,character
 casualty,casualty_distance_banding,-1,Data missing or out of range,field introduced in 2023,character
+casualty,escooter_flag,1,Casualty was using an e-scooter,field introduced in 2025,character
+casualty,escooter_flag,0,Casualty was not using an e-scooter,field introduced in 2025,character
 historical_revisions,accident_index,NA,NA,unique value for each accident. The accident_index combines the accident_year and accident_ref_no to form a unique ID. It can be used to join to Vehicle and Casualty,character
 historical_revisions,accident_year,NA,NA,NA,numeric
 historical_revisions,accident_ref_no,NA,NA,"In year id used by the police to reference a collision. It is not unique outside of the year, use accident_index for linking to other years",character
