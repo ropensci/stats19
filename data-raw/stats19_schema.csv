@@ -1254,7 +1254,7 @@ collision,local_authority_highway,W06000022,Newport,NA,character
 collision,local_authority_highway,W06000023,Powys,NA,character
 collision,local_authority_highway,W06000024,Merthyr Tydfil,NA,character
 collision,local_authority_highway,-1,Record predates use of local_authority_highway codes,NA,character
-collision,local_authority_highway_current,See latest ONS code list,https://geoportal.statistics.gov.uk/search?q=NAC_CTYUA&sort=Date%20Created%7Ccreated%7Cdesc,Field introdcued with 2024 data and maps all collisions to the latest ONS boundaries (back to 2004) based on the recorded collision location,character
+collision,local_authority_highway_current,See latest ONS code list,https://geoportal.statistics.gov.uk/search?q=NAC_CTYUA&sort=Date%20Created%7Ccreated%7Cdesc,Field introduced with 2024 data and maps all collisions to the latest ONS boundaries (back to 2004) based on the recorded collision location,character
 collision,first_road_class,1,Motorway,NA,character
 collision,first_road_class,2,A(M),NA,character
 collision,first_road_class,3,A,NA,character
