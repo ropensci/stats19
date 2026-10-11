@@ -470,7 +470,7 @@ collision,local_authority_district,663,Meirionnydd,NA,character
 collision,local_authority_district,664,Ynys Mon - Isle of Anglesey ,NA,character
 collision,local_authority_district,665,Alyn-Deeside,NA,character
 collision,local_authority_district,666,Colwyn,NA,character
-collision,local_authority_district,667,Delwyn,NA,character
+collision,local_authority_district,667,Delyn,NA,character
 collision,local_authority_district,668,Glyndwr,NA,character
 collision,local_authority_district,669,Rhuddlan,NA,character
 collision,local_authority_district,670,Wrexham Maelor,NA,character
@@ -1254,7 +1254,7 @@ collision,local_authority_highway,W06000022,Newport,NA,character
 collision,local_authority_highway,W06000023,Powys,NA,character
 collision,local_authority_highway,W06000024,Merthyr Tydfil,NA,character
 collision,local_authority_highway,-1,Record predates use of local_authority_highway codes,NA,character
-collision,local_authority_highway_current,See latest ONS code list,https://geoportal.statistics.gov.uk/search?q=NAC_CTYUA&sort=Date%20Created%7Ccreated%7Cdesc,Field introdcued with 2024 data and maps all collisions to the lastest ONS boundaries (back to 2004) based on the recorded collision location,character
+collision,local_authority_highway_current,See latest ONS code list,https://geoportal.statistics.gov.uk/search?q=NAC_CTYUA&sort=Date%20Created%7Ccreated%7Cdesc,Field introduced with 2024 data and maps all collisions to the latest ONS boundaries (back to 2004) based on the recorded collision location,character
 collision,first_road_class,1,Motorway,NA,character
 collision,first_road_class,2,A(M),NA,character
 collision,first_road_class,3,A,NA,character
@@ -1436,21 +1436,21 @@ vehicle,vehicle_type,18,Tram,category introduced in 1999 specification,character
 vehicle,vehicle_type,19,Van / Goods 3.5 tonnes mgw or under,NA,character
 vehicle,vehicle_type,20,Goods over 3.5t. and under 7.5t,category introduced in 1999 specification,character
 vehicle,vehicle_type,21,Goods 7.5 tonnes mgw and over,category introduced in 1999 specification,character
-vehicle,vehicle_type,22,Mobility scooter,cateogry introduced in 2011 specification,character
-vehicle,vehicle_type,23,Electric motorcycle,cateogry introduced in 2011 specification,character
-vehicle,vehicle_type,33,Personal powered transporter,cateogry introduced in 2024 specification,character
-vehicle,vehicle_type,90,Other vehicle,cateogry introduced in 2011 specification,character
-vehicle,vehicle_type,97,Motorcycle - unknown cc,cateogry introduced in 2011 specification,character
-vehicle,vehicle_type,98,Goods vehicle - unknown weight,cateogry introduced in 2011 specification,character
-vehicle,vehicle_type,99,Unknown vehicle type (self rep only),cateogry introduced in 2011 specification,character
-vehicle,vehicle_type,103,Motorcycle - Scooter (1979-1998),cateogory discontinued in 1999 specification,character
-vehicle,vehicle_type,104,Motorcycle (1979-1998),cateogory discontinued in 1999 specification,character
-vehicle,vehicle_type,105,Motorcycle - Combination (1979-1998),cateogory discontinued in 1999 specification,character
-vehicle,vehicle_type,106,Motorcycle over 125cc (1999-2004),cateogory discontinued in 2005 specification,character
-vehicle,vehicle_type,108,Taxi (excluding private hire cars) (1979-2004),cateogory discontinued in 2005 specification,character
-vehicle,vehicle_type,109,Car (including private hire cars) (1979-2004),cateogory discontinued in 2005 specification,character
-vehicle,vehicle_type,110,Minibus/Motor caravan (1979-1998),cateogory discontinued in 1999 specification,character
-vehicle,vehicle_type,113,Goods over 3.5 tonnes (1979-1998),cateogory discontinued in 1999 specification,character
+vehicle,vehicle_type,22,Mobility scooter,category introduced in 2011 specification,character
+vehicle,vehicle_type,23,Electric motorcycle,category introduced in 2011 specification,character
+vehicle,vehicle_type,33,Personal powered transporter,category introduced in 2024 specification,character
+vehicle,vehicle_type,90,Other vehicle,category introduced in 2011 specification,character
+vehicle,vehicle_type,97,Motorcycle - unknown cc,category introduced in 2011 specification,character
+vehicle,vehicle_type,98,Goods vehicle - unknown weight,category introduced in 2011 specification,character
+vehicle,vehicle_type,99,Unknown vehicle type (self rep only),category introduced in 2011 specification,character
+vehicle,vehicle_type,103,Motorcycle - Scooter (1979-1998),category discontinued in 1999 specification,character
+vehicle,vehicle_type,104,Motorcycle (1979-1998),category discontinued in 1999 specification,character
+vehicle,vehicle_type,105,Motorcycle - Combination (1979-1998),category discontinued in 1999 specification,character
+vehicle,vehicle_type,106,Motorcycle over 125cc (1999-2004),category discontinued in 2005 specification,character
+vehicle,vehicle_type,108,Taxi (excluding private hire cars) (1979-2004),category discontinued in 2005 specification,character
+vehicle,vehicle_type,109,Car (including private hire cars) (1979-2004),category discontinued in 2005 specification,character
+vehicle,vehicle_type,110,Minibus/Motor caravan (1979-1998),category discontinued in 1999 specification,character
+vehicle,vehicle_type,113,Goods over 3.5 tonnes (1979-1998),category discontinued in 1999 specification,character
 vehicle,vehicle_type,-1,Data missing or out of range,NA,character
 vehicle,towing_and_articulation,0,No tow/articulation,NA,character
 vehicle,towing_and_articulation,1,Articulated vehicle,NA,character
@@ -1581,7 +1581,7 @@ vehicle,vehicle_leaving_carriageway,1,Nearside,NA,character
 vehicle,vehicle_leaving_carriageway,2,Nearside and rebounded,NA,character
 vehicle,vehicle_leaving_carriageway,3,Straight ahead at junction,NA,character
 vehicle,vehicle_leaving_carriageway,4,Offside on to central reservation,NA,character
-vehicle,vehicle_leaving_carriageway,5,Offside on to centrl res + rebounded,NA,character
+vehicle,vehicle_leaving_carriageway,5,Offside on to central res + rebounded,NA,character
 vehicle,vehicle_leaving_carriageway,6,Offside - crossed central reservation,NA,character
 vehicle,vehicle_leaving_carriageway,7,Offside,NA,character
 vehicle,vehicle_leaving_carriageway,8,Offside and rebounded,NA,character

@@ -46,7 +46,7 @@ collision,latitude,Null if not known,numeric
 collision,light_conditions,NA,character
 collision,local_authority_district,NA,character
 collision,local_authority_highway,NA,character
-collision,local_authority_highway_current,Field introdcued with 2024 data and maps all collisions to the lastest ONS boundaries (back to 2004) based on the recorded collision location,character
+collision,local_authority_highway_current,Field introduced with 2024 data and maps all collisions to the latest ONS boundaries (back to 2004) based on the recorded collision location,character
 collision,local_authority_ons_district,NA,character
 collision,location_easting_osgr,Null if not known,numeric
 collision,location_northing_osgr,Null if not known,numeric
