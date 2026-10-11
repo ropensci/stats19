@@ -23,6 +23,20 @@ schema_dft
 stats19_schema_dft = schema_dft %>%
   rename(variable = `field.name`, code = `code/format`)
 
+# Fix typos inherited from the DfT data guide (#335)
+typo_fixes = c(
+  "introdcued" = "introduced",
+  "lastest" = "latest",
+  "cateogory" = "category",
+  "cateogry" = "category",
+  "centrl res" = "central res",
+  "^Delwyn$" = "Delyn"
+)
+for (typo in names(typo_fixes)) {
+  stats19_schema_dft$label = gsub(typo, typo_fixes[[typo]], stats19_schema_dft$label)
+  stats19_schema_dft$note = gsub(typo, typo_fixes[[typo]], stats19_schema_dft$note)
+}
+
 # Pre-prepared dataset:
 stats19_variables
 stats19_variables_dft = stats19_schema_dft %>%
