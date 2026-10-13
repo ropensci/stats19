@@ -7,7 +7,7 @@
 
 ## Major Features and Improvements
 *   **Native Parquet Support**: Added `stats19_to_parquet()` to convert raw STATS19 CSV archives into compressed, typed, columnar Parquet files using DuckDB (#325).
-*   **Automatic Schema Normalization**: Longitudinal schema discrepancies across historical DfT releases (e.g. `collision_index` vs `accident_index`, legacy collision reference fields, varying date formats) are harmonized into a standardized schema during Parquet conversion (#325).
+*   **One schema for every engine**: `engine = "duckdb"`, the Parquet cache and `engine = "readr"` now parse CSV columns with the same types and missing values, then share `format_stats19()`, so they return identical data. Parquet caches written before this change are ignored with a warning: rebuild them with `stats19_to_parquet()`.
 *   **DuckDB and Parquet Query Engine**:
     *   Added `engine = "parquet"` and `output_format = "duckdb"` to `get_stats19()`, `read_collisions()`, `read_casualties()`, and `read_vehicles()`.
     *   `output_format = "duckdb"` returns a lazy `tbl` connection via `dbplyr`, enabling zero-memory out-of-core filtering and aggregation across millions of records (#325).

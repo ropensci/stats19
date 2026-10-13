@@ -57,8 +57,9 @@ The path to the created Parquet file or directory (invisibly).
 \description{
 Reads raw STATS19 CSV files from the data directory and converts them into
 highly compressed, typed, columnar Parquet files using DuckDB.
-Normalises schema variations across historical releases (such as
-\code{accident_index} vs \code{collision_index}, date string formats, and column renames).
+Columns are parsed exactly as \code{read_stats19()} parses the CSV files, so
+every engine returns the same data after \code{format_stats19()}. Caches written
+by other stats19 versions are ignored until rebuilt.
 }
 \examples{
 \donttest{
